@@ -1,0 +1,11 @@
+21sh
+.DS_Store
+*.swp
+*.swo
+*dSYM
+*.o
+*.a
+*.bak
+tags
+sandbox
+*.21sh_history

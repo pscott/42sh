@@ -68,10 +68,6 @@ int					lexer(char *cmdline, t_token **token_head, char **env);
 ** lexer_tools.c
 */
 
-t_bool				is_quotes(char c);
-t_bool				is_white_spaces(char c);
-t_bool				is_delimiter(char c);
-t_bool				is_metachar(char c);
 t_bool				is_logic_or_pipe(t_token *token);
 t_bool				is_two_ctrlop_or_redir_following(t_token *prev_token
 					, t_token *current_token);

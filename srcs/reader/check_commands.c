@@ -32,6 +32,22 @@ int		check_for_quit(const char *buf)
 		return (0);
 }
 
+
+int		check_for_tab(t_st_cmd *st_cmd, const char *buf)
+{
+	char	*tmp;
+
+	if (ft_strncmp(buf, "\t", 2) == 0)
+	{
+		tmp = st_cmd->st_txt->txt;
+		st_cmd->st_txt->txt = new_auto_completion(st_cmd->st_txt->txt, st_cmd->st_txt->data_size);
+		ft_strdel(&tmp);
+		return (1);
+	}
+	else
+		return (0);
+}
+
 int		check_for_signal(const char *buf)
 {
 	if (ft_strncmp(buf, CTRL_Z, CTRL_Z_LEN) == 0)

@@ -16,6 +16,7 @@ int				check_for_quit(const char *buf);
 int				check_for_enter(const char *buf);
 int				check_for_signal(const char *buf);
 int				check_for_delete(t_st_cmd *st_cmd, char *buf);
+int				check_for_tab(t_st_cmd *st_cmd, const char *buf);
 
 /*
 **	Arrow movement

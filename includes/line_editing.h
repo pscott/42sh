@@ -3,7 +3,7 @@
 
 # define INIT_TXT_SIZE 2 // change to 32(?) later but for debug purpose it's 2
 # define BUF_SIZE 4
-# define STD_PROMPT "psh $ "
+# define STD_PROMPT "42sh $ "
 # include "lexer.h"
 
 typedef struct				s_st_txt {

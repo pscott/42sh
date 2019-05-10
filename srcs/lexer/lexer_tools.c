@@ -1,4 +1,5 @@
 #include "tosh.h"
+#include "errors.h"
 
 //Control operators:
 //|| ! && & ; ;; | |& ( )

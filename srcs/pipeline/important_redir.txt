@@ -1,0 +1,53 @@
+>
+	- after: file
+	- fd_after = create file if no_exist (instant) (O_APPEND ?)
+	- before : colle, fd (only positive ints ? -> atoi) OR '&' (if not colle or not valid fd, arg)
+	- if no before : fd_before = 1
+	- if before '&' -> stdin and stderr redirection
+	- dup(after_file, fd_before) (inverse)
+	- no after: parse error
+
+>>
+	- after: file
+	- fd_after = create file if no_exist (instant) (O_APPEND ?)
+	- before : colle, fd (only positive ints ? -> atoi) OR '&' (if not colle or not valid fd, arg)
+	- if no before : fd_before = 1
+	- if before '&' -> stdin and stderr redirection
+	- dup(after_file, fd_before) (inverse)
+	- no after: parse error
+
+<
+	- after: file
+	- if no after: parse error
+	- before : colle, fd(only positive ints ? -> atoi)
+	- if no before : fd_before = 0
+	- new_fd = open AFTER (if fail: No such file or directory) (O_RDONLY)
+	- dup(new_fd, fd_before) (inverse)
+
+<<
+	- after: file
+	- if no after: parse error
+	- before : colle, fd(only positive ints ? -> atoi)
+	- if no before : fd_before = 0
+	- new_fd = open AFTER (if fail: No such file or directory) (O_RDONLY)
+	- dup(new_fd, fd_before) (inverse)
+
+
+>&
+	-
+	-
+
+
+Process:
+	- l 's' a | 
+	- Tilde expansion on quotes
+	- $ expand
+	- quote removal by taking token, appending to it, while freeing token i encounter and splitting on EAT and REDIR
+
+tableau de (void*) pointeurs sur tokens.
+Expansion des $ des tokens (sauf s_quote); en boucle ?
+On enleve les quotes.
+On cat les tokens (char*)str;
+On redirige nos pointeurs vers ces memes str;
+
+on envoie (en castant) l'argv a exec.

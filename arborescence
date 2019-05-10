@@ -1,0 +1,9 @@
+create_env
+setup_terminal (termcaps)
+signal_handler
+get_input_from_stdin -> validate_input
+send input to lexer (input: char*; output: token_list)
+-shall not expand and preserve all '"$\ (except \<new line>)
+parser (input token_list : output AST)	//no trim
+execute_ast
+loop

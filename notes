@@ -1,0 +1,28 @@
+everytime we press enter, new prompt node.
+node has : prompt_struct, start_pos, relative_pos, text struct, *window struct, *hist_lst, next and prev.
+
+prompt_struct : char * prompt and size_t size;
+txt struct : malloc_size, data_size, tracker;
+
+methods :
+	- get_nb_lines (relative_pos - start_pos)
+	- go_back_to_start (go up get_nb_lines, and go to start of line ?)
+
+on signal:
+	go to the top; (while prev : go back_to_start)
+	rewrite everything; (while next: write_everything)
+
+scroll :
+	- update all pos;
+
+history : rewrite switch st_cmd function
+
+Both functions need to update relative_pos matrix !
+
+===
+write_everything -> writes everything, updates positions
+write_from_here -> writes everything starting from here
+append_txt -> appends a string to txt, updating malloc, data_size and tracker
+
+need_to_scroll -> determines if we need to scroll.
+yes -> write_everything

@@ -1,0 +1,21 @@
+open in RD_ONLY the history file, located in ~/.21shhistory
+if there's an error, display an error msg, chained list will be NULL
+
+read the file and fill the corresponding doubly history linked_list with txt and number (each newline)
+
+when pressing up arrow, get linked_list->prev
+if linked_list->prev == NULL -> BELL
+else, switch fill_st_cmd with this line (function switch_st_cmd)
+
+when pressing down arrow, same as up but with get linked_list->next
+
+each time we call handle_input, append the st_cmd.
+
+if  we get to HIST_SIZE + HIST_MAX, free the first HIST_MAX - HIST_SIZE nodes;
+on exit:
+open hist_file in O_CREATE, RD_ONLY, O_TRUNC and write the history_linked_list, up until HIST_SIZE.
+when writing, if \n or '\0', go newline and increm_counter
+
+on crash, do not write history (?)
+
+history builtin that read the linked list and prints it

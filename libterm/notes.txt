@@ -1,0 +1,25 @@
+DOES NOT SUPPORT UNICODE OR TABS;
+
+Each lines has a struct corresponding to it.
+The input_cmd is a list of those structs.
+
+A chained list of cmd_line structs. Doubly linked (move up and down);
+Data we need :
+	window size;
+	starting position
+	char *txt;
+	current_malloc_size;
+	current_data_size;
+	line_pointer;
+	nb_lines;
+
+When writing on a cmd_line : normal rules, except when printing a
+newline (position == ws->columns)
+nb_lines = ft_strlen(cmd_line) / ws->columns
+current_cursor_pos.row = cmd_line.start_pos.row + (line_pointer / ws->columns)
+current_cursor_pos.columns = line_pointer % ws->columns;
+case where start pos is before terminal (negative)
+prompt_size
+
+
+util function to place cursor according to line_pointer

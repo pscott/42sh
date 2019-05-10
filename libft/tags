@@ -1,0 +1,282 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+BASE_16_LOW	includes/ft_printf.h	/^# define BASE_16_LOW /;"	d
+BASE_16_UP	includes/ft_printf.h	/^# define BASE_16_UP /;"	d
+BASE_8	includes/ft_printf.h	/^# define BASE_8 /;"	d
+BG_BLACK	includes/ft_printf.h	/^# define BG_BLACK /;"	d
+BG_BLUE	includes/ft_printf.h	/^# define BG_BLUE /;"	d
+BG_CYAN	includes/ft_printf.h	/^# define BG_CYAN /;"	d
+BG_DFL	includes/ft_printf.h	/^# define BG_DFL /;"	d
+BG_GREEN	includes/ft_printf.h	/^# define BG_GREEN /;"	d
+BG_MAGENTA	includes/ft_printf.h	/^# define BG_MAGENTA /;"	d
+BG_RED	includes/ft_printf.h	/^# define BG_RED /;"	d
+BG_WHITE	includes/ft_printf.h	/^# define BG_WHITE /;"	d
+BG_YELLOW	includes/ft_printf.h	/^# define BG_YELLOW /;"	d
+BLACK	includes/ft_printf.h	/^# define BLACK /;"	d
+BLUE	includes/ft_printf.h	/^# define BLUE /;"	d
+BOLD	includes/ft_printf.h	/^# define BOLD /;"	d
+BOLD_OFF	includes/ft_printf.h	/^# define BOLD_OFF /;"	d
+CC	Makefile	/^CC		:=	gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS	:=	-Wall -Wextra$/;"	m
+COLOR_SIZE	includes/ft_printf.h	/^# define COLOR_SIZE /;"	d
+CONTROL_SIZE	includes/ft_printf.h	/^# define CONTROL_SIZE /;"	d
+CONVERSION_DIR	Makefile	/^	CONVERSION_DIR		:= conversion$/;"	m
+CONVERSION_FILES	Makefile	/^	CONVERSION_FILES	:=	conv_helper.c converters.c$/;"	m
+CONVERSION_PATH	Makefile	/^CONVERSION_PATH		:=	$(addprefix $(CONVERSION_DIR)\/,$(CONVERSION_FILES))$/;"	m
+CYAN	includes/ft_printf.h	/^# define CYAN /;"	d
+C_FILES	Makefile	/^C_FILES	:=	$(SRC_FILES) $(STD_FUNC_FILES) $(CONVERSION_FILES) $(FORMATS_FILES)		\\$/;"	m
+DEBUG_FLAG	Makefile	/^DEBUG_FLAG	:=	-g$/;"	m
+FG_DFL	includes/ft_printf.h	/^# define FG_DFL /;"	d
+FORMATS_DIR	Makefile	/^	FORMATS_DIR			:= formats$/;"	m
+FORMATS_FILES	Makefile	/^	FORMATS_FILES		:=	format_int.c format_char.c format_unsigned.c		\\$/;"	m
+FORMATS_PATH	Makefile	/^FORMATS_PATH		:=	$(addprefix $(FORMATS_DIR)\/,$(FORMATS_FILES))$/;"	m
+FSA_FLAGS	Makefile	/^FSA_FLAGS	:=	$(DEBUG_FLAG) -fsanitize=address$/;"	m
+FT_ITOA_DIR	Makefile	/^	FT_ITOA_DIR			:= ft_itoa$/;"	m
+FT_ITOA_FILES	Makefile	/^	FT_ITOA_FILES		:=	ft_nitoa.c ft_litoa.c ft_llitoa.c ft_hitoa.c		\\$/;"	m
+FT_ITOA_PATH	Makefile	/^FT_ITOA_PATH		:=	$(addprefix $(FT_ITOA_DIR)\/,$(FT_ITOA_FILES))$/;"	m
+FT_PRINTF_H	includes/ft_printf.h	/^# define FT_PRINTF_H$/;"	d
+GET_LEN_DIR	Makefile	/^	GET_LEN_DIR			:= get_len$/;"	m
+GET_LEN_FILES	Makefile	/^	GET_LEN_FILES		:=	get_len.c get_ulen.c$/;"	m
+GET_LEN_PATH	Makefile	/^GET_LEN_PATH		:=	$(addprefix $(GET_LEN_DIR)\/,$(GET_LEN_FILES))$/;"	m
+GREEN	includes/ft_printf.h	/^# define GREEN /;"	d
+HELPERS_DIR	Makefile	/^	HELPERS_DIR			:= helpers$/;"	m
+HELPERS_FILES	Makefile	/^	HELPERS_FILES		:=	ft_atoi_move.c null_data.c ft_special_memset.c		\\$/;"	m
+HELPERS_PATH	Makefile	/^HELPERS_PATH		:=	$(addprefix $(HELPERS_DIR)\/,$(HELPERS_FILES))$/;"	m
+INCLS	Makefile	/^INCLS		:=	$(addprefix includes\/,$(INCL_FILES))$/;"	m
+INCL_CMD	Makefile	/^INCL_CMD	:=	$(addprefix -I,$(INCL_DIRS))$/;"	m
+INCL_DIRS	Makefile	/^INCL_DIRS	:=	includes$/;"	m
+INCL_FILES	Makefile	/^INCL_FILES	:=	libft.h ft_printf.h$/;"	m
+INCREMENTERS_DIR	Makefile	/^	INCREMENTERS_DIR	:= incrementers$/;"	m
+INCREMENTERS_FILES	Makefile	/^	INCREMENTERS_FILES	:=	increm_format.c increm_string.c $/;"	m
+INCREMENTERS_PATH	Makefile	/^INCREMENTERS_PATH	:=	$(addprefix $(INCREMENTERS_DIR)\/,$(INCREMENTERS_FILES))$/;"	m
+INIT_LEN	includes/ft_printf.h	/^# define INIT_LEN /;"	d
+L	includes/ft_printf.h	/^# define L /;"	d
+LIBFT_A	Makefile	/^LIBFT_A		:=	$/;"	m
+LIBFT_H	includes/libft.h	/^# define LIBFT_H$/;"	d
+LIBS	Makefile	/^LIBS		:= $/;"	m
+LIBTERM_A	Makefile	/^LIBTERM_A	:=	$/;"	m
+LIB_INCL	Makefile	/^LIB_INCL	:=	$/;"	m
+LL	includes/ft_printf.h	/^# define LL /;"	d
+MAGENTA	includes/ft_printf.h	/^# define MAGENTA /;"	d
+NAME	Makefile	/^NAME	:=	libft.a$/;"	m
+OBJS	Makefile	/^OBJS		:=	$(addprefix $(OBJ_DIR)\/,$(OBJ_FILES))$/;"	m
+OBJ_DIR	Makefile	/^OBJ_DIR		:=	objs$/;"	m
+OBJ_FILES	Makefile	/^OBJ_FILES	:=	$(C_FILES:.c=.o)$/;"	m
+OPT	Makefile	/^OPT		:=	$/;"	m
+REALLOC_FACTOR	includes/libft.h	/^# define REALLOC_FACTOR /;"	d
+RED	includes/ft_printf.h	/^# define RED /;"	d
+RESET	includes/ft_printf.h	/^# define RESET /;"	d
+SCRIPT_PATH	Makefile	/^SCRIPT_PATH	:= ..\/script$/;"	m
+SRCS	Makefile	/^SRCS	:=	$(addprefix $(SRC_DIR)\/,$(STD_FUNC_PATH))		\\$/;"	m
+SRC_DIR	Makefile	/^SRC_DIR	:=	srcs$/;"	m
+SRC_FILES	Makefile	/^SRC_FILES	:=	ft_printf.c getters.c isprint_special.c parse_struct.c			\\$/;"	m
+SRC_PATH	Makefile	/^SRC_PATH			:=	$(addprefix $(SRC_DIR)\/,$(SRC_FILES))$/;"	m
+SRC_SUBDIRS	Makefile	/^	SRC_SUBDIRS	:=	$(STD_FUNC_DIR) $(CONVERSION_DIR) $(FORMATS_DIR)			\\$/;"	m
+STD_FUNC_DIR	Makefile	/^	STD_FUNC_DIR		:= std_func$/;"	m
+STD_FUNC_FILES	Makefile	/^	STD_FUNC_FILES		:=	ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c	\\$/;"	m
+STD_FUNC_PATH	Makefile	/^STD_FUNC_PATH		:=	$(addprefix $(STD_FUNC_DIR)\/,$(STD_FUNC_FILES))$/;"	m
+UL	includes/ft_printf.h	/^# define UL /;"	d
+ULL	includes/ft_printf.h	/^# define ULL /;"	d
+VAL_FLAGS	Makefile	/^VAL_FLAGS	:=	--leak-check=full --track-origins=yes --show-leak-kinds=all		\\$/;"	m
+VPATH	Makefile	/^VPATH	:=	$(SRC_DIR) $(addprefix $(SRC_DIR)\/,$(SRC_SUBDIRS))$/;"	m
+WHITE	includes/ft_printf.h	/^# define WHITE /;"	d
+YELLOW	includes/ft_printf.h	/^# define YELLOW /;"	d
+check_conv_value	srcs/conversion/conv_helper.c	/^void			check_conv_value(t_arg *specs, char *value)$/;"	f
+check_if_flags	srcs/getters.c	/^void	check_if_flags(t_arg *specs, char c, char **format, va_list arg)$/;"	f
+choose_value	srcs/helpers/choose_value.c	/^LL	choose_value(t_arg *specs, LL value)$/;"	f
+content	includes/libft.h	/^	void			*content;$/;"	m	struct:s_list
+content_size	includes/libft.h	/^	size_t			content_size;$/;"	m	struct:s_list
+conv_val	includes/ft_printf.h	/^	char		*conv_val;$/;"	m	struct:s_arg
+convert	srcs/conversion/converters.c	/^char	*convert(ULL num, int base, char *rep)$/;"	f
+convert_p	srcs/conversion/converters.c	/^char	*convert_p(L num, int base, char *rep)$/;"	f
+create_specs	srcs/spec_init.c	/^t_arg	*create_specs(t_arg *specs)$/;"	f
+data_len	includes/ft_printf.h	/^	int			data_len;$/;"	m	struct:s_arg
+dbl	includes/ft_printf.h	/^	int			dbl;$/;"	m	struct:s_arg
+extra	includes/ft_printf.h	/^	int			extra;$/;"	m	struct:s_arg
+fill	includes/ft_printf.h	/^	char		fill;$/;"	m	struct:s_arg
+fill_char	srcs/formats/format_char.c	/^void	fill_char(int perc_len, t_arg *specs, char *value)$/;"	f
+fill_char_left	srcs/formats/format_char.c	/^void	fill_char_left(int perc_len, t_arg *specs, char *value)$/;"	f
+fill_int	srcs/formats/format_int.c	/^static void			fill_int(int perc_len, t_arg *specs, LL value)$/;"	f	file:
+fill_int_left	srcs/formats/format_int.c	/^static void			fill_int_left(int perc_len, t_arg *specs, LL value)$/;"	f	file:
+fill_itoa	srcs/std_func/ft_itoa.c	/^static void	fill_itoa(int n, char *src, int len)$/;"	f	file:
+fill_len	includes/ft_printf.h	/^	int			fill_len;$/;"	m	struct:s_arg
+fill_string	srcs/formats/format_conv.c	/^static void		fill_string(t_arg *specs, char *value)$/;"	f	file:
+fill_string	srcs/formats/format_p.c	/^static void		fill_string(t_arg *specs, L value)$/;"	f	file:
+fill_string	srcs/formats/format_string.c	/^static void	fill_string(t_arg *specs, char *value)$/;"	f	file:
+fill_string_left	srcs/formats/format_conv.c	/^static void		fill_string_left(t_arg *specs, char *value)$/;"	f	file:
+fill_string_left	srcs/formats/format_p.c	/^static void		fill_string_left(t_arg *specs, L value)$/;"	f	file:
+fill_string_left	srcs/formats/format_string.c	/^static void	fill_string_left(t_arg *specs, char *value)$/;"	f	file:
+fill_uint	srcs/formats/format_unsigned.c	/^static void	fill_uint(int perc_len, t_arg *specs, ULL value)$/;"	f	file:
+fill_uint_left	srcs/formats/format_unsigned.c	/^static void	fill_uint_left(int perc_len, t_arg *specs, ULL value)$/;"	f	file:
+float_to_string	srcs/formats/format_float.c	/^static void	float_to_string(t_arg *specs, double f)$/;"	f	file:
+format_char	srcs/formats/format_char.c	/^void	format_char(t_arg *specs, char value)$/;"	f
+format_conv	srcs/formats/format_conv.c	/^void			format_conv(t_arg *specs, LL value)$/;"	f
+format_float	srcs/formats/format_float.c	/^void		format_float(t_arg *specs, va_list arg)$/;"	f
+format_int	srcs/formats/format_int.c	/^void				format_int(t_arg *specs, LL value)$/;"	f
+format_p	srcs/formats/format_p.c	/^void			format_p(t_arg *specs, L value)$/;"	f
+format_string	srcs/formats/format_string.c	/^void		format_string(t_arg *specs, char *value)$/;"	f
+format_unsigned	srcs/formats/format_unsigned.c	/^void		format_unsigned(t_arg *specs, ULL value)$/;"	f
+front_back_split	srcs/std_func/ft_lstsort.c	/^static void		front_back_split(t_list *src, t_list **fref, t_list **bref)$/;"	f	file:
+ft_atoi	srcs/std_func/ft_atoi.c	/^int		ft_atoi(const char *str)$/;"	f
+ft_atoi_move	srcs/helpers/ft_atoi_move.c	/^int		ft_atoi_move(char **str)$/;"	f
+ft_bzero	srcs/std_func/ft_bzero.c	/^void	ft_bzero(void *s, size_t n)$/;"	f
+ft_dprintf	srcs/ft_printf.c	/^int				ft_dprintf(int fd, const char *format, ...)$/;"	f
+ft_free_null_tab	srcs/std_func/ft_free_null_tab.c	/^void		ft_free_null_tab(char **tab)$/;"	f
+ft_hhitoa	srcs/ft_itoa/ft_hhitoa.c	/^void			ft_hhitoa(t_arg *specs, signed char n)$/;"	f
+ft_hitoa	srcs/ft_itoa/ft_hitoa.c	/^void			ft_hitoa(t_arg *specs, short int n)$/;"	f
+ft_isalnum	srcs/std_func/ft_isalnum.c	/^int		ft_isalnum(int c)$/;"	f
+ft_isalpha	srcs/std_func/ft_isalpha.c	/^int		ft_isalpha(int c)$/;"	f
+ft_isascii	srcs/std_func/ft_isascii.c	/^int		ft_isascii(int c)$/;"	f
+ft_isdigit	srcs/std_func/ft_isdigit.c	/^int		ft_isdigit(int c)$/;"	f
+ft_isprint	srcs/std_func/ft_isprint.c	/^int		ft_isprint(int c)$/;"	f
+ft_itoa	srcs/std_func/ft_itoa.c	/^char		*ft_itoa(int n)$/;"	f
+ft_itoa_spec	srcs/parse_struct.c	/^void	ft_itoa_spec(t_arg *specs, LL value)$/;"	f
+ft_litoa	srcs/ft_itoa/ft_litoa.c	/^void			ft_litoa(t_arg *specs, L n)$/;"	f
+ft_llitoa	srcs/ft_itoa/ft_llitoa.c	/^void			ft_llitoa(t_arg *specs, LL n)$/;"	f
+ft_lstadd	srcs/std_func/ft_lstadd.c	/^void	ft_lstadd(t_list **alst, t_list *new)$/;"	f
+ft_lstappend	srcs/std_func/ft_lstappend.c	/^void	ft_lstappend(t_list **lst, t_list *new)$/;"	f
+ft_lstdel	srcs/std_func/ft_lstdel.c	/^void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))$/;"	f
+ft_lstdelone	srcs/std_func/ft_lstdelone.c	/^void	ft_lstdelone(t_list **alst, void (*del)(void *, size_t))$/;"	f
+ft_lstiter	srcs/std_func/ft_lstiter.c	/^void	ft_lstiter(t_list *lst, void (*f)(t_list *elem))$/;"	f
+ft_lstlen	srcs/std_func/ft_lstlen.c	/^size_t	ft_lstlen(t_list **head)$/;"	f
+ft_lstmap	srcs/std_func/ft_lstmap.c	/^t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))$/;"	f
+ft_lstnew	srcs/std_func/ft_lstnew.c	/^t_list	*ft_lstnew(void const *content, size_t content_size)$/;"	f
+ft_lstrmdup	srcs/std_func/ft_lstrmdup.c	/^void			ft_lstrmdup(t_list *lst)$/;"	f
+ft_lstsort	srcs/std_func/ft_lstsort.c	/^void			ft_lstsort(t_list **head)$/;"	f
+ft_memalloc	srcs/std_func/ft_memalloc.c	/^void	*ft_memalloc(size_t size)$/;"	f
+ft_memccpy	srcs/std_func/ft_memccpy.c	/^void	*ft_memccpy(void *restrict d, const void *restrict s, int c, size_t n)$/;"	f
+ft_memchr	srcs/std_func/ft_memchr.c	/^void	*ft_memchr(const void *s, int c, size_t n)$/;"	f
+ft_memcmp	srcs/std_func/ft_memcmp.c	/^int		ft_memcmp(const void *s1, const void *s2, size_t n)$/;"	f
+ft_memcpy	srcs/std_func/ft_memcpy.c	/^void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n)$/;"	f
+ft_memdel	srcs/std_func/ft_memdel.c	/^void	ft_memdel(void **ap)$/;"	f
+ft_memmove	srcs/std_func/ft_memmove.c	/^void	*ft_memmove(void *s1, const void *s2, size_t n)$/;"	f
+ft_memset	srcs/std_func/ft_memset.c	/^void	*ft_memset(void *b, int c, size_t len)$/;"	f
+ft_nitoa	srcs/ft_itoa/ft_nitoa.c	/^void			ft_nitoa(t_arg *specs, int n)$/;"	f
+ft_printf	srcs/ft_printf.c	/^int				ft_printf(const char *format, ...)$/;"	f
+ft_putchar	srcs/std_func/ft_putchar.c	/^int		ft_putchar(int c)$/;"	f
+ft_putchar_err	srcs/std_func/ft_putchar_err.c	/^int		ft_putchar_err(int c)$/;"	f
+ft_putchar_fd	srcs/std_func/ft_putchar_fd.c	/^void	ft_putchar_fd(char c, int fd)$/;"	f
+ft_putendl	srcs/std_func/ft_putendl.c	/^void	ft_putendl(char const *str)$/;"	f
+ft_putendl_fd	srcs/std_func/ft_putendl_fd.c	/^void	ft_putendl_fd(char const *s, int fd)$/;"	f
+ft_putnbr	srcs/std_func/ft_putnbr.c	/^void	ft_putnbr(int nb)$/;"	f
+ft_putnbr_fd	srcs/std_func/ft_putnbr_fd.c	/^void	ft_putnbr_fd(int n, int fd)$/;"	f
+ft_putstr	srcs/std_func/ft_putstr.c	/^void	ft_putstr(char const *str)$/;"	f
+ft_putstr_fd	srcs/std_func/ft_putstr_fd.c	/^void	ft_putstr_fd(char const *s, int fd)$/;"	f
+ft_realloc	srcs/std_func/ft_realloc.c	/^char	*ft_realloc(void *data, size_t current_data_size,$/;"	f
+ft_special_memset	srcs/helpers/ft_special_memset.c	/^void	ft_special_memset(t_arg *specs, char c, int len)$/;"	f
+ft_strcat	srcs/std_func/ft_strcat.c	/^char	*ft_strcat(char *restrict s1, const char *restrict s2)$/;"	f
+ft_strchr	srcs/std_func/ft_strchr.c	/^char	*ft_strchr(const char *s, int c)$/;"	f
+ft_strclr	srcs/std_func/ft_strclr.c	/^void	ft_strclr(char *s)$/;"	f
+ft_strcmp	srcs/std_func/ft_strcmp.c	/^int		ft_strcmp(const char *s1, const char *s2)$/;"	f
+ft_strcpy	srcs/std_func/ft_strcpy.c	/^char	*ft_strcpy(char *dst, const char *src)$/;"	f
+ft_strdel	srcs/std_func/ft_strdel.c	/^void	ft_strdel(char **as)$/;"	f
+ft_strdup	srcs/std_func/ft_strdup.c	/^char	*ft_strdup(const char *s1)$/;"	f
+ft_strequ	srcs/std_func/ft_strequ.c	/^int	ft_strequ(char const *s1, char const *s2)$/;"	f
+ft_striter	srcs/std_func/ft_striter.c	/^void	ft_striter(char *s, void (*f)(char *s))$/;"	f
+ft_striteri	srcs/std_func/ft_striteri.c	/^void	ft_striteri(char *s, void (*f)(unsigned int, char *))$/;"	f
+ft_strjoin	srcs/std_func/ft_strjoin.c	/^char	*ft_strjoin(char const *s1, char const *s2)$/;"	f
+ft_strlcat	srcs/std_func/ft_strlcat.c	/^size_t	ft_strlcat(char *restrict dst, const char *restrict src, size_t size)$/;"	f
+ft_strlen	srcs/std_func/ft_strlen.c	/^size_t	ft_strlen(const char *s)$/;"	f
+ft_strmap	srcs/std_func/ft_strmap.c	/^char	*ft_strmap(char const *s, char (*f)(char))$/;"	f
+ft_strmapi	srcs/std_func/ft_strmapi.c	/^char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))$/;"	f
+ft_strncat	srcs/std_func/ft_strncat.c	/^char	*ft_strncat(char *restrict s1, const char *restrict s2, size_t n)$/;"	f
+ft_strncat_move	srcs/helpers/ft_strncat_move.c	/^void	ft_strncat_move(char *src, int n, t_arg *specs)$/;"	f
+ft_strncmp	srcs/std_func/ft_strncmp.c	/^int		ft_strncmp(const char *s1, const char *s2, size_t n)$/;"	f
+ft_strncpy	srcs/std_func/ft_strncpy.c	/^char	*ft_strncpy(char *dst, const char *src, size_t len)$/;"	f
+ft_strndup	srcs/std_func/ft_strndup.c	/^char		*ft_strndup(const char *s1, size_t n)$/;"	f
+ft_strnequ	srcs/std_func/ft_strnequ.c	/^int		ft_strnequ(char const *s1, char const *s2, size_t n)$/;"	f
+ft_strnew	srcs/std_func/ft_strnew.c	/^char		*ft_strnew(size_t size)$/;"	f
+ft_strnstr	srcs/std_func/ft_strnstr.c	/^char	*ft_strnstr(const char *haystack, const char *needle, size_t len)$/;"	f
+ft_strrchr	srcs/std_func/ft_strrchr.c	/^char	*ft_strrchr(const char *s, int c)$/;"	f
+ft_strrev	srcs/std_func/ft_strrev.c	/^char	*ft_strrev(const char *s)$/;"	f
+ft_strsplit	srcs/std_func/ft_strsplit.c	/^char			**ft_strsplit(char const *s, char *c)$/;"	f
+ft_strstr	srcs/std_func/ft_strstr.c	/^char	*ft_strstr(const char *haystack, const char *needle)$/;"	f
+ft_strsub	srcs/std_func/ft_strsub.c	/^char	*ft_strsub(char const *s, unsigned int start, size_t len)$/;"	f
+ft_strtrim	srcs/std_func/ft_strtrim.c	/^char				*ft_strtrim(char const *s)$/;"	f
+ft_tolower	srcs/std_func/ft_tolower.c	/^int		ft_tolower(int c)$/;"	f
+ft_toupper	srcs/std_func/ft_toupper.c	/^int		ft_toupper(int c)$/;"	f
+ft_uitoa	srcs/ft_itoa/ft_uitoa.c	/^void		ft_uitoa(t_arg *specs, unsigned long long n)$/;"	f
+ft_uitoa_spec	srcs/helpers/unsigned_helper.c	/^void	ft_uitoa_spec(t_arg *specs, ULL value)$/;"	f
+ft_vdprintf	srcs/ft_printf.c	/^int				ft_vdprintf(int fd, const char *restrict f, va_list ap)$/;"	f
+ft_vprintf	srcs/ft_printf.c	/^int				ft_vprintf(const char *format, va_list ap)$/;"	f
+get_flags	srcs/getters.c	/^int		get_flags(t_arg *specs, char **format, va_list arg)$/;"	f
+get_hhlen	srcs/get_len/get_len.c	/^int		get_hhlen(signed char value)$/;"	f
+get_hlen	srcs/get_len/get_len.c	/^int		get_hlen(short int value)$/;"	f
+get_len	srcs/get_len/get_len.c	/^int		get_len(int value)$/;"	f
+get_lh	srcs/getters.c	/^void	get_lh(char **format, t_arg *specs)$/;"	f
+get_llen	srcs/get_len/get_len.c	/^int		get_llen(L value)$/;"	f
+get_lllen	srcs/get_len/get_len.c	/^int		get_lllen(LL value)$/;"	f
+get_my_len	srcs/std_func/ft_itoa.c	/^static int	get_my_len(int n)$/;"	f	file:
+get_ulen	srcs/get_len/get_ulen.c	/^int		get_ulen(unsigned int value)$/;"	f
+get_ullen	srcs/get_len/get_ulen.c	/^int		get_ullen(UL value)$/;"	f
+get_ulllen	srcs/get_len/get_ulen.c	/^int		get_ulllen(ULL value)$/;"	f
+h	includes/ft_printf.h	/^	int			h;$/;"	m	struct:s_arg
+h_min	srcs/ft_itoa/ft_hitoa.c	/^static void		h_min(t_arg *specs)$/;"	f	file:
+handle_perc	srcs/parse_struct.c	/^int		handle_perc(char **format, t_arg *specs, va_list arg)$/;"	f
+hash	includes/ft_printf.h	/^	int			hash;$/;"	m	struct:s_arg
+hh_min	srcs/ft_itoa/ft_hhitoa.c	/^static void		hh_min(t_arg *specs)$/;"	f	file:
+how_long	srcs/std_func/ft_strsplit.c	/^static	size_t	how_long(char const *s, char *c, size_t *j)$/;"	f	file:
+how_many	srcs/std_func/ft_strsplit.c	/^static size_t	how_many(char const *s, char *c)$/;"	f	file:
+i_min	srcs/ft_itoa/ft_nitoa.c	/^static void		i_min(t_arg *specs)$/;"	f	file:
+increm_format	srcs/incrementers/increm_format.c	/^void	increm_format(char **s1, int len)$/;"	f
+increm_string	srcs/incrementers/increm_string.c	/^void	increm_string(t_arg *specs, int len)$/;"	f
+init_specs	srcs/spec_init.c	/^void	init_specs(t_arg *specs)$/;"	f
+is_in	srcs/std_func/ft_strsplit.c	/^static int		is_in(char h, char *str)$/;"	f	file:
+is_spec_upper	srcs/getters.c	/^int		is_spec_upper(char c)$/;"	f
+is_type	srcs/getters.c	/^int		is_type(char **format, t_arg *specs)$/;"	f
+is_valid_type	srcs/helpers/utils.c	/^int		is_valid_type(char c)$/;"	f
+isprint_special	srcs/isprint_special.c	/^int		isprint_special(char c)$/;"	f
+l	includes/ft_printf.h	/^	int			l;$/;"	m	struct:s_arg
+l_min	srcs/ft_itoa/ft_litoa.c	/^static void		l_min(t_arg *specs)$/;"	f	file:
+ld_to_string	srcs/formats/format_float.c	/^static void	ld_to_string(t_arg *specs, long double f)$/;"	f	file:
+left	includes/ft_printf.h	/^	int			left;$/;"	m	struct:s_arg
+ll_min	srcs/ft_itoa/ft_llitoa.c	/^static void		ll_min(t_arg *specs)$/;"	f	file:
+mall_len	includes/ft_printf.h	/^	int			mall_len;$/;"	m	struct:s_arg
+malloc_string	srcs/spec_init.c	/^void	malloc_string(t_arg *specs, int len)$/;"	f
+max	srcs/helpers/utils.c	/^int		max(int a, int b)$/;"	f
+max_list	srcs/std_func/ft_lstrmdup.c	/^static size_t	max_list(t_list *a, t_list *b)$/;"	f	file:
+max_list	srcs/std_func/ft_lstsort.c	/^static	size_t	max_list(t_list *a, t_list *b)$/;"	f	file:
+min	srcs/helpers/utils.c	/^int		min(int a, int b)$/;"	f
+min_int	srcs/std_func/ft_itoa.c	/^static char	*min_int(char *res)$/;"	f	file:
+next	includes/libft.h	/^	struct s_list	*next;$/;"	m	struct:s_list	typeref:struct:s_list::s_list
+null_data	srcs/helpers/null_data.c	/^int		null_data(t_arg *specs, ULL value)$/;"	f
+origin	includes/ft_printf.h	/^	char		*origin;$/;"	m	struct:s_arg
+ox_helper	srcs/conversion/conv_helper.c	/^static char		*ox_helper(t_arg *specs)$/;"	f	file:
+ox_len	srcs/conversion/conv_helper.c	/^int				ox_len(t_arg *specs)$/;"	f
+parse_struct	srcs/parse_struct.c	/^int		parse_struct(t_arg *specs, va_list arg)$/;"	f
+plus	includes/ft_printf.h	/^	int			plus;$/;"	m	struct:s_arg
+precision	includes/ft_printf.h	/^	int			precision;$/;"	m	struct:s_arg
+precision_len	includes/ft_printf.h	/^	int			precision_len;$/;"	m	struct:s_arg
+print_perc	srcs/parse_struct.c	/^int		print_perc(t_arg *specs, char c)$/;"	f
+put_ox	srcs/conversion/conv_helper.c	/^void			put_ox(t_arg *specs, char *value, int *perc_len, int modif)$/;"	f
+realloc_if_necessary	srcs/spec_init.c	/^void	realloc_if_necessary(t_arg *specs, int len)$/;"	f
+reset_specs	srcs/spec_init.c	/^void	reset_specs(t_arg *specs)$/;"	f
+right_trim	srcs/std_func/ft_strtrim.c	/^static	size_t		right_trim(char const *s)$/;"	f	file:
+s_arg	includes/ft_printf.h	/^typedef struct	s_arg$/;"	s
+s_list	includes/libft.h	/^typedef	struct	s_list$/;"	s
+set_data_len	srcs/set_data_len.c	/^void	set_data_len(t_arg *specs, LL value)$/;"	f
+set_extra	srcs/helpers/utils.c	/^void	set_extra(char c, t_arg *specs)$/;"	f
+set_float_len	srcs/formats/format_float.c	/^static int	set_float_len(t_arg *specs, double f)$/;"	f	file:
+set_i	srcs/helpers/float_helper.c	/^int		set_i(t_arg *specs)$/;"	f
+set_ld_len	srcs/formats/format_float.c	/^static int	set_ld_len(t_arg *specs, long double f)$/;"	f	file:
+sign_len	srcs/formats/format_int.c	/^static char			sign_len(t_arg *specs, LL value)$/;"	f	file:
+sorted_merge	srcs/std_func/ft_lstsort.c	/^static	t_list	*sorted_merge(t_list *a, t_list *b)$/;"	f	file:
+string	includes/ft_printf.h	/^	char		*string;$/;"	m	struct:s_arg
+t_arg	includes/ft_printf.h	/^}				t_arg;$/;"	t	typeref:struct:s_arg
+t_list	includes/libft.h	/^}				t_list;$/;"	t	typeref:struct:s_list
+type	includes/ft_printf.h	/^	char		type;$/;"	m	struct:s_arg
+ulen	srcs/get_len/get_ulen.c	/^int		ulen(t_arg *specs, ULL n)$/;"	f
+valid_flags	srcs/helpers/utils.c	/^int		valid_flags(char **format)$/;"	f
+value_d	srcs/helpers/values.c	/^void	value_d(t_arg *specs, LL value)$/;"	f
+value_o	srcs/helpers/values.c	/^void	value_o(t_arg *specs, LL value)$/;"	f
+value_u	srcs/helpers/values.c	/^void	value_u(t_arg *specs, ULL value)$/;"	f
+value_x	srcs/helpers/values.c	/^void	value_x(t_arg *specs, LL value)$/;"	f
+value_xx	srcs/helpers/values.c	/^void	value_xx(t_arg *specs, LL value)$/;"	f
+width	includes/ft_printf.h	/^	int			width;$/;"	m	struct:s_arg
+width_len	includes/ft_printf.h	/^	int			width_len;$/;"	m	struct:s_arg
+wildcard	srcs/wildcard.c	/^void	wildcard(t_arg *specs, va_list arg, int modif)$/;"	f
+write_data	srcs/ft_printf.c	/^static	int		write_data(t_arg *specs, int total_len, int fd)$/;"	f	file:

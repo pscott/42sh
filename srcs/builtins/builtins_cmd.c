@@ -1,8 +1,10 @@
 #include "builtins.h"
+#include "libterm.h"
 #include "ast.h"
 
 int		exec_builtins(char **argv, int cmd_id)
 {
+	reset_terminal_settings(); //change
 	/*if (cmd_id == CMD_EXIT)
 		return (case_exit(argv));*/
 	if (cmd_id == CMD_ENV)

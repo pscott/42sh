@@ -91,4 +91,6 @@ t_bool			is_ctrl_op_token(t_token *token);
 void			print_ast(t_ast *root);//debug
 
 t_bool			exec_ast(t_ast *ast_root, char **env);
+
+char			*get_cmd_path(char **argv);
 #endif

@@ -43,10 +43,12 @@ SRC_DIR	:=	srcs
 	SIGNALS_DIR			:=	signals
 	L_E_DIR				:=	line_editing
 	BUILTINS_DIR		:=	builtins
+	REDIR_DIR			:=	redirections
+	EXEC_DIR			:=	execution
 	#list of all srcs subdirectories
 	SRC_SUBDIRS	:=	$(ENV_DIR) $(ERRORS_DIR) $(LEXER_DIR) $(PARSER_DIR) \
 					$(PIPELINE_DIR) $(READER_DIR) $(HISTORY_DIR) $(EXPANDS_DIR) \
-				   	$(SIGNALS_DIR) $(L_E_DIR) $(BUILTINS_DIR)
+				   	$(SIGNALS_DIR) $(L_E_DIR) $(BUILTINS_DIR) $(REDIR_DIR) $(EXEC_DIR)
 
 
 #VPATH specifies a list of directories that 'make' should search
@@ -61,9 +63,7 @@ SRC_FILES	:=	handle_input.c free.c main.c \
 						lexer_debug.c
 	PARSER_FILES	:=	token_parser.c token_parser_utils.c
 	PIPELINE_FILES	:=	parse_pipeline.c parse_redirections.c \
-						execute_commands.c \
-						redir_great.c redir_dgreat.c redir_less.c redir_dless.c \
-						check_token_type.c redir_fd_great.c
+						check_token_type.c
 	READER_FILES	:=	arrows.c check_commands.c clean_exit.c prompt.c \
 						input_loop.c cursor_position.c input_utils.c \
 						delete.c txt_cat.c
@@ -73,12 +73,14 @@ SRC_FILES	:=	handle_input.c free.c main.c \
 	SIGNALS_FILES	:=	signals.c
 	L_E_FILES		:=	st_cmd.c st_prompt.c st_txt.c writing.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c
+	REDIR_FILES		:=	redir_dgreat.c redir_dless.c redir_fd_great.c redir_great.c redir_less.c
+	EXEC_FILES		:=	cmd_path.c execute_commands.c
 
 
 #list of all .c files
 C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES)\
 			$(PARSER_FILES) $(PIPELINE_FILES) $(READER_FILES) $(HISTORY_FILES) \
-			$(EXPANDS_FILES) $(SIGNALS_FILES) $(L_E_FILES) $(BUILTINS_FILES)
+			$(EXPANDS_FILES) $(SIGNALS_FILES) $(L_E_FILES) $(BUILTINS_FILES) $(REDIR_FILES) $(EXEC_FILES)
 
 
 # Complete path of each .c files ###############################################
@@ -94,6 +96,8 @@ HISTORY_PATH		:=	$(addprefix $(HISTORY_DIR)/,$(HISTORY_FILES))
 SIGNALS_PATH		:=	$(addprefix $(SIGNALS_DIR)/,$(SIGNALS_FILES))
 L_E_PATH			:=	$(addprefix $(L_E_DIR)/,$(L_E_FILES))
 BUILTINS_PATH		:=	$(addprefix $(BUILTINS_DIR)/,$(BUILTINS_FILES))
+REDIR_PATH			:=	$(addprefix $(REDIR_DIR)/,$(REDIR_FILES))
+EXEC_PATH			:=	$(addprefix $(EXEC_DIR)/,$(EXEC_FILES))
 
 #list of all "path/*.c"
 SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
@@ -107,6 +111,8 @@ SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(SIGNALS_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(L_E_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(BUILTINS_PATH)) \
+			$(addprefix $(SRC_DIR)/,$(REDIR_PATH)) \
+			$(addprefix $(SRC_DIR)/,$(EXEC_PATH)) \
 			$(SRC_PATH)
 
 #Object ########################################################################

@@ -42,7 +42,7 @@ int			case_cd(char **t)
 	struct	stat	infos;
 	int				i;
 
-	if (t[1])
+	if (t && t[1])
 	{
 		i = ft_strlen(t[1]) - 1;
 		if (t[1][i] == '/')

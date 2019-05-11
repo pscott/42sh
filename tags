@@ -28,6 +28,10 @@ BLUE	libft/includes/ft_printf.h	/^# define BLUE /;"	d
 BOLD	libft/includes/ft_printf.h	/^# define BOLD /;"	d
 BOLD_OFF	libft/includes/ft_printf.h	/^# define BOLD_OFF /;"	d
 BUF_SIZE	includes/line_editing.h	/^# define BUF_SIZE /;"	d
+BUILTINS_DIR	Makefile	/^	BUILTINS_DIR		:=	builtins$/;"	m
+BUILTINS_FILES	Makefile	/^	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c$/;"	m
+BUILTINS_H	includes/builtins.h	/^# define BUILTINS_H$/;"	d
+BUILTINS_PATH	Makefile	/^BUILTINS_PATH		:=	$(addprefix $(BUILTINS_DIR)\/,$(BUILTINS_FILES))$/;"	m
 CC	Makefile	/^CC		:=	gcc$/;"	m
 CC	libft/Makefile	/^CC		:=	gcc$/;"	m
 CC	libterm/Makefile	/^CC		:=	gcc$/;"	m
@@ -36,6 +40,12 @@ CFLAGS	libft/Makefile	/^CFLAGS	:=	-Wall -Wextra -Werror$/;"	m
 CFLAGS	libterm/Makefile	/^CFLAGS	:=	-Wall -Wextra -Werror$/;"	m
 CLEAR	libterm/includes/cursor.h	/^# define CLEAR /;"	d
 CLEAR_BELOW	libterm/includes/cursor.h	/^# define CLEAR_BELOW /;"	d
+CMD_CD	includes/builtins.h	/^enum	{CMD_CD = 1, CMD_ECHO, CMD_ENV, CMD_EXIT, CMD_SETENV, CMD_UNSETENV};$/;"	e	enum:__anon1
+CMD_ECHO	includes/builtins.h	/^enum	{CMD_CD = 1, CMD_ECHO, CMD_ENV, CMD_EXIT, CMD_SETENV, CMD_UNSETENV};$/;"	e	enum:__anon1
+CMD_ENV	includes/builtins.h	/^enum	{CMD_CD = 1, CMD_ECHO, CMD_ENV, CMD_EXIT, CMD_SETENV, CMD_UNSETENV};$/;"	e	enum:__anon1
+CMD_EXIT	includes/builtins.h	/^enum	{CMD_CD = 1, CMD_ECHO, CMD_ENV, CMD_EXIT, CMD_SETENV, CMD_UNSETENV};$/;"	e	enum:__anon1
+CMD_SETENV	includes/builtins.h	/^enum	{CMD_CD = 1, CMD_ECHO, CMD_ENV, CMD_EXIT, CMD_SETENV, CMD_UNSETENV};$/;"	e	enum:__anon1
+CMD_UNSETENV	includes/builtins.h	/^enum	{CMD_CD = 1, CMD_ECHO, CMD_ENV, CMD_EXIT, CMD_SETENV, CMD_UNSETENV};$/;"	e	enum:__anon1
 COLOR_SIZE	libft/includes/ft_printf.h	/^# define COLOR_SIZE /;"	d
 CONTROL_SIZE	libft/includes/ft_printf.h	/^# define CONTROL_SIZE /;"	d
 CONVERSION_DIR	libft/Makefile	/^	CONVERSION_DIR		:= conversion$/;"	m
@@ -51,7 +61,7 @@ CYAN	libft/includes/ft_printf.h	/^# define CYAN /;"	d
 C_FILES	Makefile	/^C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES)\\$/;"	m
 C_FILES	libft/Makefile	/^C_FILES	:=	$(SRC_FILES) $(STD_FUNC_FILES) $(CONVERSION_FILES) $(FORMATS_FILES)		\\$/;"	m
 C_FILES	libterm/Makefile	/^C_FILES	:=	$(SRC_FILES) $(ERRORS_FILES)$/;"	m
-Close	srcs/pipeline/parse_pipeline.c	/^static void	Close(int fd)$/;"	f	file:
+Close	srcs/pipeline/parse_pipeline.c	/^static void	Close(int fd) \/\/remove me pls$/;"	f	file:
 DEBUG_FLAG	Makefile	/^DEBUG_FLAG	:=	-g$/;"	m
 DEBUG_FLAG	libft/Makefile	/^DEBUG_FLAG	:=	-g$/;"	m
 DEBUG_FLAG	libterm/Makefile	/^DEBUG_FLAG	:=	-g$/;"	m
@@ -69,15 +79,67 @@ ENV_PATH	Makefile	/^ENV_PATH			:=	$(addprefix $(ENV_DIR)\/,$(ENV_FILES))$/;"	m
 ERASE_ENDLINE	libterm/includes/cursor.h	/^# define ERASE_ENDLINE /;"	d
 ERRORS_DIR	Makefile	/^	ERRORS_DIR			:=	errors$/;"	m
 ERRORS_DIR	libterm/Makefile	/^	ERRORS_DIR		:=	errors$/;"	m
-ERRORS_FILES	Makefile	/^	ERRORS_FILES	:=	errors.c$/;"	m
+ERRORS_FILES	Makefile	/^	ERRORS_FILES	:=	errors.c print_errors.c error_exit.c$/;"	m
 ERRORS_FILES	libterm/Makefile	/^	ERRORS_FILES	:=	error_attr.c error_caps.c error_getenv.c \\$/;"	m
+ERRORS_H	includes/errors.h	/^# define ERRORS_H$/;"	d
 ERRORS_PATH	Makefile	/^ERRORS_PATH			:=	$(addprefix $(ERRORS_DIR)\/,$(ERRORS_FILES))$/;"	m
 ERRORS_PATH	libterm/Makefile	/^ERRORS_PATH		:=	$(addprefix $(ERRORS_DIR)\/,$(ERRORS_FILES))$/;"	m
 ERROR_MEM	includes/lexer.h	/^# define ERROR_MEM /;"	d
 ERROR_READ	includes/tosh.h	/^# define ERROR_READ /;"	d
+ERR_ACCESS	includes/errors.h	/^# define ERR_ACCESS /;"	d
+ERR_ACCESS_STR	includes/errors.h	/^# define ERR_ACCESS_STR /;"	d
+ERR_CHDIR	includes/errors.h	/^# define ERR_CHDIR /;"	d
+ERR_CHDIR_STR	includes/errors.h	/^# define ERR_CHDIR_STR /;"	d
+ERR_CLOSE	includes/errors.h	/^# define ERR_CLOSE /;"	d
+ERR_CLOSEDIR	includes/errors.h	/^# define ERR_CLOSEDIR /;"	d
+ERR_CLOSEDIR_STR	includes/errors.h	/^# define ERR_CLOSEDIR_STR /;"	d
+ERR_CLOSE_STR	includes/errors.h	/^# define ERR_CLOSE_STR /;"	d
+ERR_CMD	includes/errors.h	/^# define ERR_CMD /;"	d
+ERR_CMD_STR	includes/errors.h	/^# define ERR_CMD_STR /;"	d
+ERR_FORK	includes/errors.h	/^# define ERR_FORK /;"	d
+ERR_FORK_STR	includes/errors.h	/^# define ERR_FORK_STR /;"	d
+ERR_GETCWD	includes/errors.h	/^# define ERR_GETCWD /;"	d
+ERR_GETCWD_STR	includes/errors.h	/^# define ERR_GETCWD_STR /;"	d
+ERR_GETENV	includes/errors.h	/^# define ERR_GETENV /;"	d
+ERR_GETENV_STR	includes/errors.h	/^# define ERR_GETENV_STR /;"	d
+ERR_GNL	includes/errors.h	/^# define ERR_GNL /;"	d
+ERR_GNL_STR	includes/errors.h	/^# define ERR_GNL_STR /;"	d
+ERR_IOCTL	includes/errors.h	/^# define ERR_IOCTL /;"	d
+ERR_IOCTL_STR	includes/errors.h	/^# define ERR_IOCTL_STR /;"	d
+ERR_LSTAT	includes/errors.h	/^# define ERR_LSTAT /;"	d
+ERR_LSTAT_STR	includes/errors.h	/^# define ERR_LSTAT_STR /;"	d
+ERR_MALLOC	includes/errors.h	/^# define ERR_MALLOC /;"	d
+ERR_MALLOC_STR	includes/errors.h	/^# define ERR_MALLOC_STR /;"	d
+ERR_NOEXIST	includes/errors.h	/^# define ERR_NOEXIST /;"	d
+ERR_NOEXIST_STR	includes/errors.h	/^# define ERR_NOEXIST_STR /;"	d
+ERR_NOTDIR	includes/errors.h	/^# define ERR_NOTDIR /;"	d
+ERR_NOTDIR_STR	includes/errors.h	/^# define ERR_NOTDIR_STR /;"	d
+ERR_NO_OLDPWD	includes/errors.h	/^# define ERR_NO_OLDPWD /;"	d
+ERR_NO_OLDPWD_STR	includes/errors.h	/^# define ERR_NO_OLDPWD_STR /;"	d
+ERR_OPEN	includes/errors.h	/^# define ERR_OPEN /;"	d
+ERR_OPENDIR	includes/errors.h	/^# define ERR_OPENDIR /;"	d
+ERR_OPENDIR_STR	includes/errors.h	/^# define ERR_OPENDIR_STR /;"	d
+ERR_OPEN_STR	includes/errors.h	/^# define ERR_OPEN_STR /;"	d
+ERR_READ	includes/errors.h	/^# define ERR_READ /;"	d
+ERR_READ_STR	includes/errors.h	/^# define ERR_READ_STR /;"	d
+ERR_TCGET	includes/errors.h	/^# define ERR_TCGET /;"	d
+ERR_TCGET_STR	includes/errors.h	/^# define ERR_TCGET_STR /;"	d
+ERR_TCSET	includes/errors.h	/^# define ERR_TCSET /;"	d
+ERR_TCSET_STR	includes/errors.h	/^# define ERR_TCSET_STR /;"	d
+ERR_TERMDATA	includes/errors.h	/^# define ERR_TERMDATA /;"	d
+ERR_TERMDATA_STR	includes/errors.h	/^# define ERR_TERMDATA_STR /;"	d
+ERR_TERMENTR	includes/errors.h	/^# define ERR_TERMENTR /;"	d
+ERR_TERMENTR_STR	includes/errors.h	/^# define ERR_TERMENTR_STR /;"	d
+ERR_TERMNAME	includes/errors.h	/^# define ERR_TERMNAME /;"	d
+ERR_TERMNAME_STR	includes/errors.h	/^# define ERR_TERMNAME_STR /;"	d
+ERR_TERM_DEVICE	includes/errors.h	/^# define ERR_TERM_DEVICE /;"	d
+ERR_TERM_DEVICE_STR	includes/errors.h	/^# define ERR_TERM_DEVICE_STR /;"	d
 ESC	libterm/includes/libterm.h	/^# define ESC /;"	d
 ESCAPE	libterm/includes/libterm.h	/^# define ESCAPE /;"	d
 ESCAPE_LEN	libterm/includes/libterm.h	/^# define ESCAPE_LEN /;"	d
+EXEC_DIR	Makefile	/^	EXEC_DIR			:=	execution$/;"	m
+EXEC_FILES	Makefile	/^	EXEC_FILES		:=	cmd_path.c execute_commands.c$/;"	m
+EXEC_PATH	Makefile	/^EXEC_PATH			:=	$(addprefix $(EXEC_DIR)\/,$(EXEC_FILES))$/;"	m
 EXPANDS_DIR	Makefile	/^	EXPANDS_DIR			:=	expands$/;"	m
 EXPANDS_FILES	Makefile	/^	EXPANDS_FILES	:=	parse_expands.c parse_dollars.c parse_tildes.c \\$/;"	m
 EXPANDS_PATH	Makefile	/^EXPANDS_PATH		:=	$(addprefix $(EXPANDS_DIR)\/,$(EXPANDS_FILES))$/;"	m
@@ -109,7 +171,6 @@ HISTORY_FILES	Makefile	/^	HISTORY_FILES	:=	hist_file.c get_next_line.c hist_lst.
 HISTORY_H	includes/history.h	/^# define HISTORY_H$/;"	d
 HISTORY_PATH	Makefile	/^HISTORY_PATH		:=	$(addprefix $(HISTORY_DIR)\/,$(HISTORY_FILES))$/;"	m
 HIST_FILE	includes/history.h	/^# define HIST_FILE /;"	d
-HIST_MAX	includes/history.h	/^# define HIST_MAX /;"	d
 HIST_SIZE	includes/history.h	/^# define HIST_SIZE /;"	d
 HOME	libterm/includes/libterm.h	/^# define HOME /;"	d
 HOME_LEN	libterm/includes/libterm.h	/^# define HOME_LEN /;"	d
@@ -122,7 +183,7 @@ INCL_CMD	libterm/Makefile	/^INCL_CMD	:=	$(addprefix -I,$(INCL_DIR))$/;"	m
 INCL_DIR	Makefile	/^INCL_DIR	:=	includes libft\/includes libterm\/includes$/;"	m
 INCL_DIR	libterm/Makefile	/^INCL_DIR	:=	includes $(LIBFT_DIR)\/includes$/;"	m
 INCL_DIRS	libft/Makefile	/^INCL_DIRS	:=	includes$/;"	m
-INCL_FILES	Makefile	/^INCL_FILES	:=	tosh.h lexer.h ast.h reader.h history.h get_next_line.h line_editing.h$/;"	m
+INCL_FILES	Makefile	/^INCL_FILES	:=	tosh.h lexer.h ast.h reader.h history.h get_next_line.h line_editing.h builtins.h errors.h$/;"	m
 INCL_FILES	libft/Makefile	/^INCL_FILES	:=	libft.h ft_printf.h$/;"	m
 INCL_FILES	libterm/Makefile	/^INCL_FILES	:=	libterm.h cursor.h$/;"	m
 INCREMENTERS_DIR	libft/Makefile	/^	INCREMENTERS_DIR	:= incrementers$/;"	m
@@ -165,7 +226,7 @@ L_E_PATH	Makefile	/^L_E_PATH			:=	$(addprefix $(L_E_DIR)\/,$(L_E_FILES))$/;"	m
 MAGENTA	libft/includes/ft_printf.h	/^# define MAGENTA /;"	d
 MOVE_CURSOR	libterm/includes/cursor.h	/^# define MOVE_CURSOR /;"	d
 MOVE_UP	libterm/includes/cursor.h	/^# define MOVE_UP /;"	d
-NAME	Makefile	/^NAME	:=	21sh$/;"	m
+NAME	Makefile	/^NAME	:=	42sh$/;"	m
 NAME	libft/Makefile	/^NAME	:=	libft.a$/;"	m
 NAME	libterm/Makefile	/^NAME	:=	libterm.a$/;"	m
 NO_HIGHLIGHT	libterm/includes/cursor.h	/^# define NO_HIGHLIGHT /;"	d
@@ -197,6 +258,9 @@ READER_H	includes/reader.h	/^# define READER_H$/;"	d
 READER_PATH	Makefile	/^READER_PATH			:=	$(addprefix $(READER_DIR)\/,$(READER_FILES))$/;"	m
 REALLOC_FACTOR	libft/includes/libft.h	/^# define REALLOC_FACTOR /;"	d
 RED	libft/includes/ft_printf.h	/^# define RED /;"	d
+REDIR_DIR	Makefile	/^	REDIR_DIR			:=	redirections$/;"	m
+REDIR_FILES	Makefile	/^	REDIR_FILES		:=	redir_dgreat.c redir_dless.c redir_fd_great.c redir_great.c redir_less.c$/;"	m
+REDIR_PATH	Makefile	/^REDIR_PATH			:=	$(addprefix $(REDIR_DIR)\/,$(REDIR_FILES))$/;"	m
 RESET	libft/includes/ft_printf.h	/^# define RESET /;"	d
 RESTORE_CURSOR	libterm/includes/cursor.h	/^# define RESTORE_CURSOR /;"	d
 RIGHTARROW	libterm/includes/libterm.h	/^# define RIGHTARROW /;"	d
@@ -268,10 +332,16 @@ add_last_node_to_ast	srcs/token_parser/token_parser.c	/^static t_bool	add_last_n
 add_node_to_ast	srcs/token_parser/token_parser.c	/^static t_bool	add_node_to_ast(t_token **token_head, t_ast **ast_root)$/;"	f	file:
 add_to_cmdlst	srcs/cmd_lst_utils.c	/^int			add_to_cmdlst(char *cmdline, t_cmdlst **cmdlst_head)$/;"	f
 add_token_to_list	srcs/lexer/lexer.c	/^static t_bool	add_token_to_list(t_token *current_token, t_token *prev_token$/;"	f	file:
+adjust_history	srcs/handle_input.c	/^void	adjust_history(t_st_cmd *st_cmd, char *line)$/;"	f
 append_st_cmd	srcs/line_editing/st_cmd.c	/^t_st_cmd	*append_st_cmd(t_st_cmd *st_cmd, const char *txt, const char *prompt)$/;"	f
+apply_cd	srcs/builtins/cmd_cd.c	/^static int	apply_cd(char **t)$/;"	f	file:
 apply_redirections	srcs/pipeline/parse_redirections.c	/^t_bool	apply_redirections(t_token *redir, t_token *prev) \/\/static ?\/\/use redir_table ?$/;"	f
 bzero_env	srcs/environment/init_env.c	/^static void	bzero_env(char **env, int size)$/;"	f	file:
 c	includes/get_next_line.h	/^	char			*c;$/;"	m	struct:s_fdlist
+case_cd	srcs/builtins/cmd_cd.c	/^int			case_cd(char **t)$/;"	f
+change_environ	srcs/builtins/cmd_cd.c	/^static int	change_environ(char *buf)$/;"	f	file:
+check_access	srcs/execution/cmd_path.c	/^static int		check_access(const char *file)$/;"	f	file:
+check_builtins	srcs/builtins/builtins_cmd.c	/^int		check_builtins(char **argv)$/;"	f
 check_caps	libterm/srcs/termcap_settings.c	/^static int	check_caps(void)$/;"	f	file:
 check_conv_value	libft/srcs/conversion/conv_helper.c	/^void			check_conv_value(t_arg *specs, char *value)$/;"	f
 check_fd_prev	srcs/pipeline/parse_redirections.c	/^int		check_fd_prev(t_token *prev) \/\/should rename $/;"	f
@@ -285,7 +355,7 @@ choose_value	libft/srcs/helpers/choose_value.c	/^LL	choose_value(t_arg *specs, L
 clean_exit	srcs/reader/clean_exit.c	/^void	clean_exit(int exitno)$/;"	f
 cmd_table	includes/ast.h	/^	char			**cmd_table;$/;"	m	struct:s_simplecmd
 col	libterm/includes/cursor.h	/^	int	col;$/;"	m	struct:s_pos
-concatenate_strings	srcs/pipeline/execute_commands.c	/^static char	*concatenate_strings(t_token *token)$/;"	f	file:
+concatenate_strings	srcs/execution/execute_commands.c	/^static char	*concatenate_strings(t_token *token)$/;"	f	file:
 concatenate_txt	srcs/reader/txt_cat.c	/^char	*concatenate_txt(t_st_cmd *st_cmd)$/;"	f
 content	includes/lexer.h	/^	char			*content;$/;"	m	struct:s_token
 content	libft/includes/libft.h	/^	void			*content;$/;"	m	struct:s_list
@@ -294,7 +364,7 @@ conv_val	libft/includes/ft_printf.h	/^	char		*conv_val;$/;"	m	struct:s_arg
 convert	libft/srcs/conversion/converters.c	/^char	*convert(ULL num, int base, char *rep)$/;"	f
 convert_p	libft/srcs/conversion/converters.c	/^char	*convert_p(L num, int base, char *rep)$/;"	f
 cpy	includes/history.h	/^	char				*cpy;$/;"	m	struct:s_hist_lst
-create_argv	srcs/pipeline/execute_commands.c	/^static char	**create_argv(t_token *token_head, unsigned int argv_len)$/;"	f	file:
+create_argv	srcs/execution/execute_commands.c	/^static char	**create_argv(t_token *token_head, unsigned int argv_len)$/;"	f	file:
 create_ast	srcs/token_parser/token_parser.c	/^t_ast	*create_ast(t_token *token_head)$/;"	f
 create_ast_node	srcs/token_parser/token_parser_utils.c	/^t_ast	*create_ast_node(t_token *new_token, t_ast *left, t_ast *right)$/;"	f
 create_cap_array	libterm/srcs/termcap_settings.c	/^static char	**create_cap_array(void)$/;"	f	file:
@@ -320,11 +390,13 @@ err_not_terminal	libterm/srcs/errors/error_isatty.c	/^int		err_not_terminal(void
 err_resetattr	libterm/srcs/errors/error_attr.c	/^int		err_resetattr(void)$/;"	f
 err_setattr	libterm/srcs/errors/error_attr.c	/^int		err_setattr(void)$/;"	f
 err_tgoto	libterm/srcs/errors/error_tgoto.c	/^int		err_tgoto(char *cap)$/;"	f
+error_exit	srcs/errors/error_exit.c	/^void			error_exit(int errno, char *err_str, char *err_file)$/;"	f
 error_mem	srcs/errors/errors.c	/^void	error_mem(void)$/;"	f
 exec_ast	srcs/token_parser/token_parser_utils.c	/^t_bool	exec_ast(t_ast *root, char **env)$/;"	f
-execute_argv	srcs/pipeline/execute_commands.c	/^t_bool		execute_argv(char	**argv)$/;"	f
+exec_builtins	srcs/builtins/builtins_cmd.c	/^int		exec_builtins(char **argv, int cmd_id)$/;"	f
+execute_argv	srcs/execution/execute_commands.c	/^static t_bool		execute_argv(char	**argv)$/;"	f	file:
 execute_str	libterm/srcs/execute_cap.c	/^int		execute_str(char *cap)$/;"	f
-execute_tokens	srcs/pipeline/execute_commands.c	/^t_bool		execute_tokens(t_token *token_head)$/;"	f
+execute_tokens	srcs/execution/execute_commands.c	/^t_bool		execute_tokens(t_token *token_head)$/;"	f
 expand_dollars	srcs/expands/parse_dollars.c	/^static t_bool	expand_dollars(t_token *token, char **env)$/;"	f	file:
 expand_dquotes	srcs/expands/parse_quotes.c	/^static t_bool	expand_dquotes(t_token	*token_head)$/;"	f	file:
 expand_squotes	srcs/expands/parse_quotes.c	/^static t_bool	expand_squotes(t_token *token_head)$/;"	f	file:
@@ -398,6 +470,7 @@ ft_memmove	libft/srcs/std_func/ft_memmove.c	/^void	*ft_memmove(void *s1, const v
 ft_memset	libft/srcs/std_func/ft_memset.c	/^void	*ft_memset(void *b, int c, size_t len)$/;"	f
 ft_nitoa	libft/srcs/ft_itoa/ft_nitoa.c	/^void			ft_nitoa(t_arg *specs, int n)$/;"	f
 ft_ntab_len	libft/srcs/std_func/ft_ntab_len.c	/^int	ft_ntab_len(const char **tab)$/;"	f
+ft_print_ntab	libft/srcs/std_func/ft_print_ntab.c	/^void	ft_print_ntab(char **ntab)$/;"	f
 ft_printable_len	srcs/reader/input_utils.c	/^size_t	ft_printable_len(const char *s1)$/;"	f
 ft_printf	libft/srcs/ft_printf.c	/^int				ft_printf(const char *format, ...)$/;"	f
 ft_putchar	libft/srcs/std_func/ft_putchar.c	/^int		ft_putchar(int c)$/;"	f
@@ -424,7 +497,7 @@ ft_strequ	libft/srcs/std_func/ft_strequ.c	/^int	ft_strequ(char const *s1, char c
 ft_striter	libft/srcs/std_func/ft_striter.c	/^void	ft_striter(char *s, void (*f)(char *s))$/;"	f
 ft_striteri	libft/srcs/std_func/ft_striteri.c	/^void	ft_striteri(char *s, void (*f)(unsigned int, char *))$/;"	f
 ft_strjoin	libft/srcs/std_func/ft_strjoin.c	/^char	*ft_strjoin(char const *s1, char const *s2)$/;"	f
-ft_strjoin_free	srcs/pipeline/execute_commands.c	/^static char	*ft_strjoin_free(char *s1, char *s2)$/;"	f	file:
+ft_strjoin_free	srcs/execution/execute_commands.c	/^static char	*ft_strjoin_free(char *s1, char *s2)$/;"	f	file:
 ft_strjoinfree	srcs/history/get_next_line.c	/^static char		*ft_strjoinfree(char *s1, char *s2)$/;"	f	file:
 ft_strlcat	libft/srcs/std_func/ft_strlcat.c	/^size_t	ft_strlcat(char *restrict dst, const char *restrict src, size_t size)$/;"	f
 ft_strlen	libft/srcs/std_func/ft_strlen.c	/^size_t	ft_strlen(const char *s)$/;"	f
@@ -450,9 +523,11 @@ ft_uitoa	libft/srcs/ft_itoa/ft_uitoa.c	/^void		ft_uitoa(t_arg *specs, unsigned l
 ft_uitoa_spec	libft/srcs/helpers/unsigned_helper.c	/^void	ft_uitoa_spec(t_arg *specs, ULL value)$/;"	f
 ft_vdprintf	libft/srcs/ft_printf.c	/^int				ft_vdprintf(int fd, const char *restrict f, va_list ap)$/;"	f
 ft_vprintf	libft/srcs/ft_printf.c	/^int				ft_vprintf(const char *format, va_list ap)$/;"	f
+g_env	includes/ast.h	/^char **g_env;$/;"	v
 g_saved_attr	libterm/includes/libterm.h	/^struct termios	g_saved_attr;$/;"	v	typeref:struct:termios
 g_tty	libterm/includes/libterm.h	/^int				g_tty;$/;"	v
 get_begin_lst	srcs/history/hist_lst.c	/^t_hist_lst	*get_begin_lst(t_hist_lst *hist_lst)$/;"	f
+get_cmd_path	srcs/execution/cmd_path.c	/^char	*get_cmd_path(const char **argv)$/;"	f
 get_dquot_token	srcs/lexer/get_token.c	/^static t_token	*get_dquot_token(char **cmdline)$/;"	f	file:
 get_eat_token	srcs/lexer/get_token.c	/^static t_token	*get_eat_token(char **cmdline)$/;"	f	file:
 get_end_lst	srcs/history/hist_lst.c	/^t_hist_lst	*get_end_lst(t_hist_lst *hist_lst)$/;"	f
@@ -462,9 +537,11 @@ get_envline_value	srcs/environment/environ_utils.c	/^char	*get_envline_value(cha
 get_first_st_cmd	srcs/line_editing/st_cmd.c	/^t_st_cmd	*get_first_st_cmd(t_st_cmd *st_cmd)$/;"	f
 get_flags	libft/srcs/getters.c	/^int		get_flags(t_arg *specs, char **format, va_list arg)$/;"	f
 get_hhlen	libft/srcs/get_len/get_len.c	/^int		get_hhlen(signed char value)$/;"	f
+get_hist_size_start	srcs/history/hist_file.c	/^t_hist_lst	*get_hist_size_start(t_hist_lst *hist_lst)$/;"	f
 get_history	srcs/history/hist_file.c	/^t_hist_lst	*get_history(const char **env)$/;"	f
 get_hlen	libft/srcs/get_len/get_len.c	/^int		get_hlen(short int value)$/;"	f
 get_keep	srcs/handle_input.c	/^t_hist_lst	*get_keep(t_hist_lst *hist_lst)$/;"	f
+get_last_st_cmd	srcs/line_editing/st_cmd.c	/^t_st_cmd	*get_last_st_cmd(t_st_cmd *st_cmd)$/;"	f
 get_len	libft/srcs/get_len/get_len.c	/^int		get_len(int value)$/;"	f
 get_lh	libft/srcs/getters.c	/^void	get_lh(char **format, t_arg *specs)$/;"	f
 get_llen	libft/srcs/get_len/get_len.c	/^int		get_llen(L value)$/;"	f
@@ -528,7 +605,7 @@ is_parenth	srcs/lexer/lexer_tools.c	/^t_bool	is_parenth(char c)$/;"	f
 is_quote_token	srcs/pipeline/check_token_type.c	/^t_bool	is_quote_token(t_token *token)$/;"	f
 is_quotes	srcs/lexer/lexer_tools.c	/^t_bool	is_quotes(char c)$/;"	f
 is_redir_token	srcs/lexer/lexer_tools.c	/^t_bool	is_redir_token(t_token *token)$/;"	f
-is_simple_cmd_token	srcs/pipeline/check_token_type.c	/^t_bool	is_simple_cmd_token(t_token *probe) \/\/static ?$/;"	f
+is_simple_cmd_token	srcs/pipeline/check_token_type.c	/^t_bool	is_simple_cmd_token(t_token *probe)$/;"	f
 is_spec_upper	libft/srcs/getters.c	/^int		is_spec_upper(char c)$/;"	f
 is_tklst_full_eat	srcs/token_parser/token_parser_utils.c	/^t_bool	is_tklst_full_eat(t_token *token_head)$/;"	f
 is_two_ctrlop_or_redir_following	srcs/lexer/lexer_tools.c	/^t_bool	is_two_ctrlop_or_redir_following(t_token *prev_token, t_token *current_token)$/;"	f
@@ -590,6 +667,7 @@ prev	includes/history.h	/^	struct s_hist_lst *prev;$/;"	m	struct:s_hist_lst	type
 prev	includes/line_editing.h	/^	struct s_st_cmd			*prev;$/;"	m	struct:s_st_cmd	typeref:struct:s_st_cmd::s_st_cmd
 print_ast	srcs/token_parser/token_parser_utils.c	/^void	print_ast(t_ast *root)$/;"	f
 print_cmdlst	srcs/cmd_lst_utils.c	/^void		print_cmdlst(t_cmdlst *head)\/\/for debug$/;"	f
+print_errors	srcs/errors/print_errors.c	/^int				print_errors(int errno, char *err_str, char *err_file)$/;"	f
 print_hist_lst	srcs/history/hist_lst.c	/^void		print_hist_lst(t_hist_lst *hist_lst)$/;"	f
 print_line	libterm/srcs/print_line.c	/^int		print_line(void)$/;"	f
 print_op_table	srcs/lexer/lexer_op_chart.c	/^void		print_op_table(t_operation *op_chart)\/\/for debug$/;"	f
@@ -600,10 +678,11 @@ print_token_list	srcs/lexer/lexer_debug.c	/^void	print_token_list(t_token *token
 prompt	includes/line_editing.h	/^	char					*prompt;$/;"	m	struct:s_st_prompt
 put_ox	libft/srcs/conversion/conv_helper.c	/^void			put_ox(t_arg *specs, char *value, int *perc_len, int modif)$/;"	f
 realloc_if_necessary	libft/srcs/spec_init.c	/^void	realloc_if_necessary(t_arg *specs, int len)$/;"	f
-redir_dgreat	srcs/pipeline/redir_dgreat.c	/^t_bool		redir_dgreat(t_token *redir, t_token *prev)$/;"	f
-redir_dless	srcs/pipeline/redir_dless.c	/^t_bool		redir_dless(t_token *redir, t_token *prev)$/;"	f
-redir_great	srcs/pipeline/redir_great.c	/^t_bool		redir_great(t_token *redir, t_token *prev)$/;"	f
-redir_less	srcs/pipeline/redir_less.c	/^t_bool		redir_less(t_token *redir, t_token *prev)$/;"	f
+redir_dgreat	srcs/redirections/redir_dgreat.c	/^t_bool		redir_dgreat(t_token *redir, t_token *prev)$/;"	f
+redir_dless	srcs/redirections/redir_dless.c	/^t_bool		redir_dless(t_token *redir, t_token *prev)$/;"	f
+redir_fd_great	srcs/redirections/redir_fd_great.c	/^t_bool		redir_fd_great(t_token *redir, t_token *prev)$/;"	f
+redir_great	srcs/redirections/redir_great.c	/^t_bool		redir_great(t_token *redir, t_token *prev)$/;"	f
+redir_less	srcs/redirections/redir_less.c	/^t_bool		redir_less(t_token *redir, t_token *prev)$/;"	f
 redir_table	includes/ast.h	/^	int				redir_table[4];$/;"	m	struct:s_simplecmd
 redirect	srcs/pipeline/parse_redirections.c	/^void	redirect(int old_fd, int new_fd)$/;"	f
 relative_pos	includes/line_editing.h	/^	t_pos					relative_pos;$/;"	m	struct:s_st_cmd
@@ -611,6 +690,7 @@ replace_env_var	srcs/environment/environ_set.c	/^static void	replace_env_var(cha
 replace_tilde	srcs/expands/parse_tildes.c	/^t_bool	replace_tilde(char **str, const char **env)$/;"	f
 reposition_cursor	srcs/reader/cursor_position.c	/^void		reposition_cursor(t_st_cmd *st_cmd)$/;"	f
 reset_dfl	srcs/signals/signals.c	/^void		reset_dfl(void)$/;"	f
+reset_ign	srcs/signals/signals.c	/^void		reset_ign(void)$/;"	f
 reset_specs	libft/srcs/spec_init.c	/^void	reset_specs(t_arg *specs)$/;"	f
 reset_st_cmd	srcs/line_editing/st_cmd.c	/^t_st_cmd	*reset_st_cmd(t_st_cmd *old_st_cmd)$/;"	f
 reset_terminal_settings	libterm/srcs/termcap_settings.c	/^int			reset_terminal_settings(void)$/;"	f

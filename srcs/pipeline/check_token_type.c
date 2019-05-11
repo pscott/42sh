@@ -19,7 +19,7 @@ t_bool		is_argv_token(t_token *probe)
 	return (0);
 }
 
-t_bool	is_simple_cmd_token(t_token *probe) //static ?
+t_bool	is_simple_cmd_token(t_token *probe)
 {
 	if (!probe)
 		return (0);

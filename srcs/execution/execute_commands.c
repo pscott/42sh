@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include "errors.h"
 #include "builtins.h"
 #include "ast.h"
 
@@ -65,22 +66,18 @@ static char	**create_argv(t_token *token_head, unsigned int argv_len)
 	return (res);
 }
 
-t_bool		execute_argv(char	**argv)
+static t_bool		execute_argv(char	**argv)
 {
-	int	ret;
+	int		ret;
+	char	*cmd_path;
 
 	if (!argv)
 		return (0);
-	if (reset_terminal_settings() == 0)
-		clean_exit(1); // ?
-//	reset_dfl();
 	if ((ret = check_builtins(argv)))
 		return (exec_builtins(argv, ret));
-	else if (execve(argv[0], (char * const*)argv, (char* const*)g_env))
-	{
-		ft_dprintf(2, "----- Failed to execute ! -----\n");
-		clean_exit(1);
-	}
+	if ((cmd_path = get_cmd_path(argv)) && reset_terminal_settings())
+		execve(cmd_path, (char * const*)argv, (char* const*)g_env);
+	clean_exit(1);
 	return (1);
 }
 

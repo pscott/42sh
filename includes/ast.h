@@ -74,10 +74,10 @@ t_bool			parse_redirections(t_token *token_head);
 t_bool			is_quote_token(t_token *probe);
 t_bool			parse_tildes(t_token *token_head, const char **env);
 t_bool			replace_tilde(char **str, const char **env);
-t_bool			parse_expands(t_token *token_head, int in, int out, char **env);
+t_bool			parse_expands(t_token *token_head, char **env);
 t_bool			parse_dollars(t_token *token_head, char **env);
 t_bool			parse_quotes(t_token *token_head);
-t_bool			execute_tokens(t_token *token_head);
+char			**get_argv_from_token_lst(t_token *token_head);
 
 t_bool			redir_great(t_token *redir, t_token *prev);
 t_bool			redir_fd_great(t_token *redir, t_token *prev);

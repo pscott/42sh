@@ -88,5 +88,5 @@ t_bool	parse_redirections(t_token *token_head)
 		prev = current;
 		current = current->next;
 	}
-	return (execute_tokens(token_head));
+	return (1);
 }

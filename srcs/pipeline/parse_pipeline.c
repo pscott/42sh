@@ -1,5 +1,6 @@
 #include "lexer.h"
 #include "ast.h"
+#include "execution.h"
 
 /*
 **	Returns the next simple_command (the one after the next pipe), if there
@@ -29,7 +30,7 @@ static void	Close(int fd) //remove me pls
 	}
 }
 
-/*
+/*	OUTDATED
 **	Manages all pipes and fds, while handing the simple command to parse_redir
 **	for redirection parsing and execution. Note that i < n - 1, because piping \
 **	the last command is never needed.
@@ -46,6 +47,11 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, char **env)
 
 	in = STDIN_FILENO;
 	i = 0;
+	if (num_simple_commands == 1)
+	{
+		if (execute_builtin_no_fork(begin, env) == 0)
+			return (setup_terminal_settings());
+	}
 	while (i < num_simple_commands - 1)
 	{
 		if (pipe(fd))
@@ -58,7 +64,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, char **env)
 		else if (pid == 0)
 		{
 			Close(fd[0]);//check return value
-			parse_expands(begin, in, fd[1], env);
+			execute_in_fork(begin, in, fd[1], env);
 			clean_exit(1);
 		}
 		else if (pid > 0)
@@ -79,13 +85,13 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, char **env)
 	}
 	else if (pid == 0)
 	{
-		parse_expands(begin, in, STDOUT_FILENO, env);
+		execute_in_fork(begin, in, STDOUT_FILENO, env);
 		clean_exit(1);
 		return (0);
 	}
 	else
 	{
-		if (num_simple_commands -1 != 0)
+		if (num_simple_commands != 1)
 			close(fd[0]);
 		reset_ign();
 		while ((wpid = wait(&status)) > 0) //not sure if it's proper

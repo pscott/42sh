@@ -1,109 +1,47 @@
-#include "lexer.h"
-#include "errors.h"
 #include "builtins.h"
-#include "ast.h"
+#include "reader.h" // for clean_exit
+#include "ast.h" // for get_cmd_path
 
-static char	*ft_strjoin_free(char *s1, char *s2)
+static t_bool		execute_argv(char **argv)
 {
-	char			*res;
-	unsigned int	s1_len;
-
-	//dprintf(2, "Joining: {%s} with {%s}", s1, s2);
-	//print_line();
-	if (!s2)
-		return (s1);
-	if (!s1)
-		return (ft_strdup(s2));
-	s1_len = ft_strlen(s1);
-	if (!(res = ft_strnew(s1_len + ft_strlen(s2))))
-		ERROR_MEM;
-	ft_strcpy(res, s1);
-	ft_strcat(&res[s1_len], s2);
-	ft_strdel(&s1);
-	//dprintf(2, "RESULT: {%s}\n", res);
-	return (res);
-}
-
-static char	*concatenate_strings(t_token *token)
-{
-	char	*res;
-
-	if (!token)
-		return (NULL);
-	res = NULL;
-	while (is_argv_token(token))
-	{
-		res = ft_strjoin_free(res, token->content);
-		token->type = TK_EAT;
-		token = token->next;
-	}
-	return (res);
-}
-
-static char	**create_argv(t_token *token_head, unsigned int argv_len)
-{
-	char			**res;
-	unsigned int	i;
-
-	if (!(res = (char**)malloc(sizeof(*res) * (argv_len + 1))))
-		return (NULL);//ERROR_MEM;
-	i = 0;
-	res[argv_len] = NULL;
-	//ft_dprintf(2, "HEAD: %s, len: %u", token_head->content, argv_len);
-	//print_line();
-	while (i < argv_len)
-	{
-		if (is_argv_token(token_head))
-		{
-			res[i] = concatenate_strings(token_head); //protect ?
-			i++;
-		}
-		while (is_argv_token(token_head))
-			token_head = token_head->next;
-		while (token_head && token_head->type == TK_EAT)
-			token_head = token_head->next;
-	}
-	return (res);
-}
-
-static t_bool		execute_argv(char	**argv)
-{
-	int		ret;
+	int		cmd;
 	char	*cmd_path;
 
 	if (!argv)
 		return (0);
-	if ((ret = check_builtins(argv)))
-		return (exec_builtins(argv, ret));
+	if ((cmd = check_builtins(argv)))
+		return (exec_builtins(argv, cmd));
 	if ((cmd_path = get_cmd_path(argv)) && reset_terminal_settings())
 		execve(cmd_path, (char * const*)argv, (char* const*)g_env);
 	clean_exit(1);
 	return (1);
 }
 
-t_bool		execute_tokens(t_token *token_head)
+t_bool		execute_in_fork(t_token *token_head, int in, int out, char **env)
 {
-	unsigned int	argv_len;
-	t_token			*probe;
+	char		**argv;
 
-	if (!(probe = token_head))
-		return (0);
-	argv_len = 0;
-	while (probe)
+	redirect(in, STDIN_FILENO);
+	redirect(out, STDOUT_FILENO);
+	parse_expands(token_head, env);
+	parse_redirections(token_head);
+	argv = get_argv_from_token_lst(token_head);
+	return (execute_argv(argv));
+}
+
+t_bool		execute_builtin_no_fork(t_token *token_head, char **env)
+{
+	int		cmd;
+	char	**argv;
+
+	parse_expands(token_head, env);
+	parse_redirections(token_head);
+	argv = get_argv_from_token_lst(token_head);
+	if ((cmd = check_builtins(argv)))
 	{
-		if (is_argv_token(probe))
-			argv_len++;
-		while (is_argv_token(probe))
-			probe = probe->next;
-		while (probe && probe->type == TK_EAT)
-			probe = probe->next;
-		if (!probe || probe->type > TK_REDIRECTION)
-			break;
+		reset_terminal_settings();
+		return (exec_builtins(argv, cmd));
 	}
-	if (argv_len < 1)
-	{
-		ft_dprintf(2, "Something went wrong: nothing to execute..\n");
-		return (0);
-	}
-	return (execute_argv(create_argv(token_head, argv_len)));
+	else
+		return (1);
 }

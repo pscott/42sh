@@ -74,7 +74,7 @@ SRC_FILES	:=	handle_input.c free.c main.c \
 	L_E_FILES		:=	st_cmd.c st_prompt.c st_txt.c writing.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c
 	REDIR_FILES		:=	redir_dgreat.c redir_dless.c redir_fd_great.c redir_great.c redir_less.c parse_redirections.c
-	EXEC_FILES		:=	cmd_path.c execute_commands.c
+	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c
 
 
 #list of all .c files

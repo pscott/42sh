@@ -62,7 +62,7 @@ SRC_FILES	:=	handle_input.c free.c main.c \
 	LEXER_FILES		:=	lexer.c lexer_tools.c lexer_op_chart.c get_token.c\
 						lexer_debug.c
 	PARSER_FILES	:=	token_parser.c token_parser_utils.c
-	PIPELINE_FILES	:=	parse_pipeline.c parse_redirections.c \
+	PIPELINE_FILES	:=	parse_pipeline.c  \
 						check_token_type.c
 	READER_FILES	:=	arrows.c check_commands.c clean_exit.c prompt.c \
 						input_loop.c cursor_position.c input_utils.c \
@@ -73,7 +73,7 @@ SRC_FILES	:=	handle_input.c free.c main.c \
 	SIGNALS_FILES	:=	signals.c
 	L_E_FILES		:=	st_cmd.c st_prompt.c st_txt.c writing.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c
-	REDIR_FILES		:=	redir_dgreat.c redir_dless.c redir_fd_great.c redir_great.c redir_less.c
+	REDIR_FILES		:=	redir_dgreat.c redir_dless.c redir_fd_great.c redir_great.c redir_less.c parse_redirections.c
 	EXEC_FILES		:=	cmd_path.c execute_commands.c
 
 

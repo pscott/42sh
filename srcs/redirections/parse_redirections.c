@@ -79,11 +79,6 @@ t_bool	parse_redirections(t_token *token_head)
 	current = token_head;
 	if (!current)
 		return (0);
-	//if (current->type == TK_REDIRECTION) //set prev to NULL to avoid repeatition
-	//	if (apply_redirections(current, NULL) == 0)
-	//		return (0);
-	//prev = current;
-	//current = current->next;
 	prev = NULL;
 	while (is_simple_cmd_token(current))
 	{

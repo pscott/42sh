@@ -43,8 +43,8 @@ static char	*get_unique_match(t_auto_comp *match, char *to_find, unsigned int le
 
 static int	get_max_len(t_auto_comp *match)
 {
-		t_auto_comp		*tmp;
-	int				max;
+	t_auto_comp		*tmp;
+	unsigned int	max;
 
 	if (!match)
 		return (0);

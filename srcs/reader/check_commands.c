@@ -36,12 +36,21 @@ int		check_for_quit(const char *buf)
 int		check_for_tab(t_st_cmd *st_cmd, const char *buf)
 {
 	char	*tmp;
+	char	*old_txt;
 
 	if (ft_strncmp(buf, "\t", 2) == 0)
 	{
-		tmp = st_cmd->st_txt->txt;
-		st_cmd->st_txt->txt = new_auto_completion(st_cmd->st_txt->txt, st_cmd->st_txt->data_size);
+		old_txt = st_cmd->st_txt->txt;
+		if ((tmp = new_auto_completion(st_cmd->st_txt->txt, st_cmd->st_txt->tracker))) // alex: tracker ou tracker + 1 ?
+		{
+			ft_strlen(tmp);
+			st_cmd->st_txt->txt = ft_strjoin(tmp, st_cmd->st_txt->txt + st_cmd->st_txt->tracker);
+			ft_strdel(&old_txt);
+		}
 		ft_strdel(&tmp);
+		go_to_start(st_cmd);
+		st_cmd->st_txt->tracker = 0;
+		write_st_cmd(st_cmd);
 		return (1);
 	}
 	else

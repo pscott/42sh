@@ -2,7 +2,7 @@
 # define HISTORY_H
 
 # include "reader.h"
-# define HIST_FILE "~/.21sh_history"
+# define HIST_FILE "~/.42sh_history"
 # define HIST_SIZE 500
 
 typedef struct		s_hist_lst {
@@ -33,6 +33,8 @@ t_hist_lst	*get_begin_lst(t_hist_lst *hist_lst);
 
 void		get_previous_history(t_st_cmd *st_cmd);
 void		get_next_history(t_st_cmd *st_cmd);
+
+void		switch_st_cmd(t_st_cmd *st_cmd, char *newcmd);
 
 
 

@@ -12,12 +12,12 @@ static int	apply_cd(char **t)
 	if (!t[1])
 	{
 		if (!(ptr = get_envline("HOME", g_env)))
-			return (-2);
+			return (ERR_NOEXIST);
 	}
 	else if (ft_strncmp(t[1], "-", 2) == 0)
 	{
 		if (!(ptr = get_envline("OLDPWD", g_env)))
-			return (-3);
+			return (ERR_NO_OLDPWD);
 	}
 	else
 		ptr = t[1];
@@ -61,9 +61,9 @@ int			case_cd(char **t)
 		return (ERR_MALLOC);
 	else if (ret == -1)
 		return (print_errors(ERR_CHDIR, ERR_CHDIR_STR, NULL));
-	else if (ret == -2)
+	else if (ret == ERR_NOEXIST)
 		return (print_errors(ERR_NOEXIST, ERR_NOEXIST_STR, "HOME"));// ?
-	else if (ret == -3)
+	else if (ret == ERR_NO_OLDPWD)
 		return (print_errors(ERR_NO_OLDPWD, ERR_NO_OLDPWD_STR, t[1]));
 	return (0);
 }

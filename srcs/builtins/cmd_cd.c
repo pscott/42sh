@@ -1,7 +1,6 @@
 #include "builtins.h"
 #include "errors.h"
-#include "tosh.h"
-#include "ast.h"
+#include "42sh.h"
 #include <sys/stat.h>
 #include <limits.h>
 

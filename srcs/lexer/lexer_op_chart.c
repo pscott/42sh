@@ -1,4 +1,5 @@
-#include "tosh.h"
+#include "42sh.h"
+#include "lexer.h"
 
 static void	create_op_chart_elem(t_operation *op, char *str
 			, unsigned char size, t_token_type type)
@@ -69,7 +70,7 @@ void		print_op_table(t_operation *op_chart)//for debug
 	i = 0;
 	while (op_chart[i].size != 0)
 	{
-		printf("i: %d, str: {%s}, size: %d, type: %d\n",
+		ft_dprintf(2, "i: %d, str: {%s}, size: %d, type: %d\n",
 				i,
 				op_chart[i].str,
 				op_chart[i].size,

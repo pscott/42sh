@@ -1,4 +1,4 @@
-#include "tosh.h"
+#include "42sh.h"
 
 /*
 ** replace_env_var
@@ -61,7 +61,6 @@ void		set_env_var(char *var_name, char *var_value, char ***env)
 
 	if ((index = get_envline_index(var_name, *env)) != -1)
 	{
-	//	ft_printf("%s", g_env[index]);
 		replace_env_var(var_name, var_value, &(*env)[index]);
 	}
 	else

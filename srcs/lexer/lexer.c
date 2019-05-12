@@ -1,6 +1,7 @@
-#include "tosh.h"
+#include "42sh.h"
 #include "errors.h"
 #include "lexer.h"
+#include "libterm.h"
 
 /*
 ** create_token
@@ -16,8 +17,7 @@ t_token	*create_token(char *cmdline, size_t size, t_token_type type)
 
 	if (!(new_token = (t_token*)malloc(sizeof(t_token))))
 	{
-		ft_putendl_fd("malloc failed in create_token", STDERR_FILENO);
-		//ERROR_MEM;
+		ERROR_MEM;
 		return (NULL);
 	}
 	new_token->size = size;
@@ -26,8 +26,7 @@ t_token	*create_token(char *cmdline, size_t size, t_token_type type)
 	if (!(new_token->content = ft_strndup(cmdline, size)))
 	{
 		ft_memdel((void*)&new_token);
-		ft_putendl_fd("malloc failed in create_token", STDERR_FILENO);
-		//ERROR_MEM;
+		ERROR_MEM;
 		return (NULL);
 	}
 	return (new_token);
@@ -51,8 +50,7 @@ static t_bool	add_token_to_list(t_token *current_token, t_token *prev_token
 	if (prev_token && prev_token->type == TK_HEREDOC
 			&& current_token->type != TK_EAT)
 	{
-		printf("HEREDOC, enter READ_MODE, with EOF: {%s}\n", current_token->content);
-		//system("read -p \"press ENTER to continue\"");
+		ft_printf("HEREDOC, enter READ_MODE, with EOF: {%s}\n", current_token->content);
 	}
 	if (!(*token_head))
 	{
@@ -89,13 +87,12 @@ static void	init_lexer(t_operation **op_chart, t_token **token_head
 ** - return LEX_SUCCES otherwise, so handle_input can continue
 */
 
-int		lexer(char *cmdline, t_token **token_head, char **env)
+int		lexer(char *cmdline, t_token **token_head)
 {
 	t_token		*current_token;
 	t_operation	*op_chart;
 	t_token		*prev_token;
 
-	(void)env;//no need for env in lexer ?
 	init_lexer(&op_chart, token_head, &prev_token);
 	while (cmdline && *cmdline)
 	{
@@ -109,14 +106,13 @@ int		lexer(char *cmdline, t_token **token_head, char **env)
 	if (is_logic_or_pipe(current_token)
 			|| (is_logic_or_pipe(prev_token) && !current_token->type))
 	{
-		ft_printf("tmp, tklst end with '&&', '||' or '|': READ_MODE");
+		ft_printf("tmp, tklst end with '&&', '||' or '|': READ_MODE"); // debug
 		print_line();
 		return (LEX_CONT_READ);
 	}
 	else if (prev_token && is_redir_token(prev_token)
 			&& (!current_token->type || is_redir_token(current_token)))
 	{
-		ft_putstr("222 ");
 		syntax_error_near(current_token);
 		return (LEX_FAIL);
 	}

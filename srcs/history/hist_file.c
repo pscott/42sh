@@ -1,8 +1,6 @@
 #include "history.h"
-#include "tosh.h"
-#include "reader.h"
-#include "ast.h"
-#include "errno.h"
+#include "input.h"
+#include "cmd_parsing.h"
 #include "get_next_line.h"
 
 static int		open_history(const char **env, int options)

@@ -1,5 +1,6 @@
-#include "ast.h"
 #include "lexer.h"
+#include "cmd_parsing.h"
+#include <fcntl.h>
 
 t_bool		redir_dgreat(t_token *redir, t_token *prev)
 {
@@ -15,7 +16,7 @@ t_bool		redir_dgreat(t_token *redir, t_token *prev)
 	if ((new_fd = open(next->content, O_WRONLY | O_CREAT | O_APPEND,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) < 0)
 	{
-		dprintf(2, "error openening file\n");
+		ft_dprintf(2, "error openening file\n");
 		return (0);
 	}
 	redirect(new_fd, old_fd);

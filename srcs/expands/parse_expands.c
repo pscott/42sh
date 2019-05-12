@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include "cmd_parsing.h"
 #include "ast.h"
 
 /*

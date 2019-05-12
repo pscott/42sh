@@ -1,5 +1,5 @@
 #include "lexer.h"
-#include "ast.h"
+#include "signals.h"
 #include "execution.h"
 
 /*
@@ -16,7 +16,7 @@ static t_token *get_next_simple_command(t_token *begin)
 		return (begin->next);
 	else
 	{
-		printf("Error ???\n");
+		ft_dprintf(2, "Error ???\n"); // 
 		return (begin); //error ?
 	}
 }

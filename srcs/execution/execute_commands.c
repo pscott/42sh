@@ -1,6 +1,8 @@
+#include "42sh.h"
 #include "builtins.h"
-#include "reader.h" // for clean_exit
-#include "ast.h" // for get_cmd_path
+#include "execution.h"
+#include "libterm.h"
+#include "cmd_parsing.h"
 
 static t_bool		execute_argv(char **argv)
 {

@@ -1,4 +1,5 @@
 #include "history.h"
+#include "line_editing.h"
 
 /*
 **	Switches the content of the current st_cmd, updating it with the newcmd

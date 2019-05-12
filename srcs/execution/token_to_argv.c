@@ -1,7 +1,5 @@
-#include "libft.h"
-#include "lexer.h" // for ERROR_MEM
-#include "reader.h" // for clean_exit
-#include "ast.h" // for is_argv_token
+#include "42sh.h"
+#include "lexer.h"
 
 static char	*ft_strjoin_free(char *s1, char *s2)
 {

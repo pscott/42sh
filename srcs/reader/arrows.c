@@ -1,5 +1,5 @@
-#include "tosh.h"
-#include "reader.h"
+#include "input.h"
+#include "line_editing.h"
 
 void	get_pos(t_st_cmd *st_cmd, size_t tracker)
 {

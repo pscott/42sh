@@ -1,5 +1,5 @@
-#include "ast.h"
 #include "lexer.h"
+#include "cmd_parsing.h"
 
 /*
 **	Applies the redirection : example : redirect(2, 0) will make fd 2 become
@@ -13,7 +13,7 @@ void	redirect(int old_fd, int new_fd)
 		if (dup2(old_fd, new_fd) != -1)
 			close(old_fd); //check close return value ?
 		else
-			dprintf(2, "error with dup2: old_fd: %d, new_fd: %d\n", old_fd, new_fd);
+			ft_dprintf(2, "error with dup2: old_fd: %d, new_fd: %d\n", old_fd, new_fd);
 	}
 }
 

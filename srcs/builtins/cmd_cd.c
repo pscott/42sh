@@ -4,18 +4,18 @@
 #include <sys/stat.h>
 #include <limits.h>
 
-static int	apply_cd(char **t)
+static int	apply_cd(char **t, char ***env)
 {
 	char	*ptr;
 
 	if (!t[1])
 	{
-		if (!(ptr = get_envline("HOME", g_env)))
+		if (!(ptr = get_envline("HOME", *env)))
 			return (ERR_NOEXIST);
 	}
 	else if (ft_strncmp(t[1], "-", 2) == 0)
 	{
-		if (!(ptr = get_envline("OLDPWD", g_env)))
+		if (!(ptr = get_envline("OLDPWD", *env)))
 			return (ERR_NO_OLDPWD);
 	}
 	else
@@ -23,18 +23,18 @@ static int	apply_cd(char **t)
 	return (chdir(ptr));
 }
 
-static int	change_environ(char *buf)
+static int	change_environ(char *buf, char ***env)
 {
 	char	buf2[PATH_MAX + 1];
 
 	if (getcwd(buf2, PATH_MAX) == NULL)
 		return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
-	set_env_var("PWD", buf2, &g_env);
-	set_env_var("OLDPWD", buf, &g_env);
+	set_env_var("PWD", buf2, env);
+	set_env_var("OLDPWD", buf, env);
 	return (0);
 }
 
-int			case_cd(char **t)
+int			case_cd(char **t, char ***env)
 {
 	char			buf[PATH_MAX + 1];
 	int				ret;
@@ -55,8 +55,8 @@ int			case_cd(char **t)
 	}
 	if (getcwd(buf, PATH_MAX) == NULL)
 		return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
-	ret = apply_cd(t);
-	if (ret == 0 && change_environ(buf))
+	ret = apply_cd(t, env);
+	if (ret == 0 && change_environ(buf, env))
 		return (ERR_MALLOC);
 	else if (ret == -1)
 		return (print_errors(ERR_CHDIR, ERR_CHDIR_STR, NULL));

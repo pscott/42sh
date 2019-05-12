@@ -35,7 +35,7 @@ typedef struct				s_st_cmd {
 ** Handling input
 */
 
-t_bool				handle_input(t_st_cmd *st_cmd, char **env);
+t_bool				handle_input(t_st_cmd *st_cmd, t_vars *vars);
 
 /*
 **	Input checking

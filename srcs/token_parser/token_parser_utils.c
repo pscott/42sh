@@ -47,24 +47,24 @@ t_bool	is_ctrl_op_token(t_token *token)
 }
 
 //TODO move exec_ast to another file ?
-t_bool	exec_ast(t_ast *root, char **env)
+t_bool	exec_ast(t_ast *root, t_vars *vars)
 {
 	if (!root)
 		ft_dprintf(2, "Error: NULL node\n");
 	if (root->token->type == TK_SEMI)//TK_AMP
 	{
-		exec_ast(root->left, env);
+		exec_ast(root->left, vars);
 		if (root->right)//penzo added this
-			return (exec_ast(root->right, env)); // check if that's true
+			return (exec_ast(root->right, vars)); // check if that's true
 		else
 			return (1);//penzo test
 	}
 	else if (root->token->type == TK_AND)
-		return (exec_ast(root->left, env) || exec_ast(root->right, env));
+		return (exec_ast(root->left, vars) || exec_ast(root->right, vars));
 	else if (root->token->type == TK_OR)
-		return (exec_ast(root->left, env) && exec_ast(root->right, env));
+		return (exec_ast(root->left, vars) && exec_ast(root->right, vars));
 	else
-		return (parse_pipeline(root->token, env));
+		return (parse_pipeline(root->token, vars));
 }
 
 void	print_ast(t_ast *root)

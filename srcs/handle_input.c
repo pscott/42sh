@@ -14,7 +14,7 @@
 ** 5. free ast
 */
 
-t_bool	handle_input(t_st_cmd *st_cmd, char **env)
+t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 {
 	t_ast			*ast_root;
 	t_token			*token_head;
@@ -53,7 +53,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, char **env)
 		print_line();
 		return (0);
 	}
-	exec_ast(ast_root, env);
+	exec_ast(ast_root, vars);
 	free_ast(ast_root);
 	return (1);
 }

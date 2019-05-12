@@ -1,9 +1,10 @@
 #ifndef PIPELINE_H
 # define PIPELINE_H
 
+# include "42sh.h"
 # include "lexer.h"
 
-int				parse_pipeline(t_token *token, char **env);
+int				parse_pipeline(t_token *token, t_vars *vars);
 void			redirect(int old_fd, int new_fd);
 
 /*

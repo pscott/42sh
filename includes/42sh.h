@@ -5,11 +5,14 @@
 # include <stdlib.h>
 # include "libterm.h"
 
-# define FD_LIMITS 10 // needed ?
 # define ERROR_MEM clean_exit(1);
 
-char 					**g_env;
 typedef unsigned char	t_bool;
+
+typedef struct	s_vars {
+	char		**env_vars;
+	char		**shell_vars;
+}				t_vars;
 
 /*
 ** init_env.c

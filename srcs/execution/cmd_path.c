@@ -1,6 +1,4 @@
-#include "libft.h"
-#include "ast.h" // for g_env
-#include "42sh.h" // for envline utilities
+#include "42sh.h"
 #include "errors.h"
 
 static int		check_access(char *file)
@@ -36,7 +34,7 @@ static char		*find_path(char *file, char **paths)
 	return (NULL);
 }
 
-char	*get_cmd_path(char **argv)
+char	*get_cmd_path(char **argv, char **env)
 {
 	char	**paths;
 	char	*path_line;
@@ -46,7 +44,7 @@ char	*get_cmd_path(char **argv)
 	path = NULL;
 	if (ft_strchr(argv[0], '/'))
 		path = argv[0];
-	else if (!(path_line = get_envline_value("PATH", g_env)))
+	else if (!(path_line = get_envline_value("PATH", env)))
 		path = argv[0];
 	else
 	{

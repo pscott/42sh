@@ -36,7 +36,7 @@ static void	Close(int fd) //remove me pls
 **	the last command is never needed.
 */
 
-static int	fork_pipes(int num_simple_commands, t_token *begin, char **env)
+static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 {
 	int i; // num_simple_commands - 1 can decrement
 	int in;
@@ -49,7 +49,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, char **env)
 	i = 0;
 	if (num_simple_commands == 1)
 	{
-		if (execute_builtin_no_fork(begin, env) == 0)
+		if (execute_builtin_no_fork(begin, vars) == 0)
 			return (setup_terminal_settings());
 	}
 	while (i < num_simple_commands - 1)
@@ -64,7 +64,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, char **env)
 		else if (pid == 0)
 		{
 			Close(fd[0]);//check return value
-			execute_in_fork(begin, in, fd[1], env);
+			execute_in_fork(begin, in, fd[1], vars);
 			clean_exit(1);
 		}
 		else if (pid > 0)
@@ -85,7 +85,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, char **env)
 	}
 	else if (pid == 0)
 	{
-		execute_in_fork(begin, in, STDOUT_FILENO, env);
+		execute_in_fork(begin, in, STDOUT_FILENO, vars);
 		clean_exit(1);
 		return (0);
 	}
@@ -93,7 +93,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, char **env)
 	{
 		if (num_simple_commands != 1)
 			close(fd[0]);
-		reset_ign();
+//		reset_ign();
 		while ((wpid = wait(&status)) > 0) //not sure if it's proper
 		{
 			if (WIFSIGNALED(status))
@@ -116,7 +116,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, char **env)
 ** then hands the token list to fork_pipes to handle pipes.
 */
 
-int			parse_pipeline(t_token *token, char **env) // no need for t_pipelst ?
+int			parse_pipeline(t_token *token, t_vars *vars) // no need for t_pipelst ?
 {
 	int	num_simple_commands;
 	t_token *probe;
@@ -135,5 +135,5 @@ int			parse_pipeline(t_token *token, char **env) // no need for t_pipelst ?
 			num_simple_commands++;
 		}
 	}
-	return (fork_pipes(num_simple_commands, token, env));
+	return (fork_pipes(num_simple_commands, token, vars));
 }

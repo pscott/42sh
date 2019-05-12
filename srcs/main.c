@@ -21,6 +21,7 @@ t_bool	is_full_of_whitespaces(char *input)
 int		main(int argc, char **argv, char **env)
 {
 	t_st_cmd		*st_cmd;
+	t_vars			vars;
 	int				ret;
 
 	(void)argc;
@@ -28,22 +29,22 @@ int		main(int argc, char **argv, char **env)
 	if (setup_terminal_settings() == -1)
 		return (EXIT_FAILURE);
 	signal_setup();
-	if (!(g_env = init_env((const char **)env)))
+	if (!(vars.env_vars = init_env((const char **)env)))
 		return (EXIT_FAILURE);
 	st_cmd = NULL;
-	st_cmd = init_st_cmd((const char **)env);
+	st_cmd = init_st_cmd((const char **)vars.env_vars);
 	while (42)
 	{
 		if ((ret = input_loop(st_cmd)) == 0)
 			break ; // free env, free st_cmd
 		else if (ret > 0 && !is_full_of_whitespaces(st_cmd->st_txt->txt))
-			handle_input(st_cmd, g_env);
+			handle_input(st_cmd, &vars);
 		st_cmd = reset_st_cmd(st_cmd);
 		//free st_cmd
 	}
-	write_to_history(st_cmd, (const char **)env);
+	write_to_history(st_cmd, (const char **)vars.env_vars);
 	//free st_cmd
-	ft_free_ntab(g_env);
+	//free_vars(vars);
 	print_line();
 	if (reset_terminal_settings() == 0)
 		return (EXIT_FAILURE);

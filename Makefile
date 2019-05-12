@@ -59,8 +59,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c \
 	#srcs subfiles names
 	ENV_FILES		:=	environ_set.c environ_utils.c init_env.c shlvl.c
 	ERRORS_FILES	:=	errors.c print_errors.c error_exit.c
-	LEXER_FILES		:=	lexer.c lexer_tools.c lexer_op_chart.c get_token.c\
-						lexer_debug.c
+	LEXER_FILES		:=	lexer.c lexer_tools.c lexer_op_chart.c get_token.c \
+						lexer_debug.c copy_token_list.c
 	PARSER_FILES	:=	token_parser.c token_parser_utils.c
 	PIPELINE_FILES	:=	parse_pipeline.c  \
 						check_token_type.c

@@ -1,8 +1,7 @@
 #include "builtins.h"
-#include "libterm.h"
-#include "ast.h"
+#include "errors.h"
 
-int		exec_builtins(char **argv, t_vars *vars, int cmd_id)
+t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id)
 {
 	(void)vars;
 	reset_terminal_settings(); //change
@@ -24,7 +23,7 @@ int		exec_builtins(char **argv, t_vars *vars, int cmd_id)
 	return (0);
 }
 
-int		check_builtins(char **argv)
+t_bool	check_builtins(char **argv)
 {
 /*	if (ft_strcmp(argv[0], "exit") == 0)
 		return (CMD_EXIT);*/

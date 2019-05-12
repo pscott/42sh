@@ -16,7 +16,7 @@ static t_bool	expand_squotes(t_token *token_head)
 		if (!(token_head->content = ft_strndup((const char*)&(*(token_head->content + 1)), ft_strlen(token_head->content) - 2)))
 			ERROR_MEM;
 		//do stuff: rien a faire ?
-		free(old_content);
+		ft_strdel(&old_content);
 		return (1);
 	}
 	return (0);
@@ -35,7 +35,6 @@ static size_t	get_new_len(char *str, size_t old_len)
 
 	i = 1;
 	res = 0;
-	//while (str[i] < old_len - 1)
 	while (i < old_len - 1)
 	{
 		if (str[i] == '\\' && is_valid_dquotes_escape(str[i + 1]))
@@ -52,25 +51,22 @@ static t_bool	expand_dquotes(t_token	*token_head)
 	size_t	old_len;
 	size_t	new_len;
 	size_t	i;
+	size_t	j;
 
 	old_len = ft_strlen(token_head->content);
-//	printf("new_len will be: %zu\n", get_new_len(token_head->content, old_len));
 	new_len = get_new_len(token_head->content, old_len);
-	if (!(new_str = ft_strnew(get_new_len(token_head->content, old_len))))
+	if (!(new_str = ft_strnew(new_len)))
 		ERROR_MEM;
 	i = 1;
-	while (i < new_len + 1)
+	j = 0;
+	while (i + j < new_len + 1)
 	{
-		if (token_head->content[i] == '\\' && is_valid_dquotes_escape(token_head->content[i + 1]))
-		{
-			ft_putendl("ESCAPE");
-			token_head->content++;//degueu, can't free
-		}
-		new_str[i - 1] = token_head->content[i];
-		//printf("NEW_STR: {%s}\n", new_str);
+		if (token_head->content[i + j] == '\\' && is_valid_dquotes_escape(token_head->content[i + j + 1]))
+			j++;
+		new_str[i - 1] = token_head->content[i + j];
 		i++;
 	}
-	//ft_memdel((void*)&token_head->content);//can't cause i moved the pointer
+	free(token_head->content);
 	token_head->content = new_str;
 	return (1);//tmp
 }

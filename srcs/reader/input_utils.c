@@ -1,5 +1,5 @@
-#include "reader.h"
-#include "tosh.h"
+#include "input.h"
+#include "42sh.h"
 
 size_t	ft_printable_len(const char *s1)
 {

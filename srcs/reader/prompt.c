@@ -1,5 +1,5 @@
 #include "libterm.h"
-#include "reader.h"
+#include "input.h"
 
 void	print_prompt(t_st_prompt *st_prompt)
 {

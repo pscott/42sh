@@ -1,8 +1,9 @@
+#include "42sh.h"
 #include "lexer.h"
-#include "libterm.h"
-#include "reader.h"
-#include "ast.h"
+#include "input.h"
 #include "history.h"
+#include "signals.h"
+#include "line_editing.h"
 
 t_bool	is_full_of_whitespaces(char *input)
 {

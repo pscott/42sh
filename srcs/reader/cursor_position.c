@@ -1,5 +1,5 @@
-#include "tosh.h"
-#include "reader.h"
+#include "42sh.h"
+#include "input.h"
 #include "history.h"
 
 void		update_start_pos(t_st_cmd *st_cmd) // might be useless

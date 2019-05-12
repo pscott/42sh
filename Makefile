@@ -25,7 +25,7 @@ LIBS			:= $(LIBFT_A) $(LIBTERM_A)
 INCL_DIR	:=	includes libft/includes libterm/includes
 INCL_CMD	:=	$(addprefix -I,$(INCL_DIR))
 
-INCL_FILES	:=	tosh.h lexer.h ast.h reader.h history.h get_next_line.h line_editing.h builtins.h errors.h
+INCL_FILES	:=	42sh.h lexer.h ast.h input.h history.h get_next_line.h line_editing.h builtins.h errors.h cmd_parsing.h execution.g signals.h
 
 INCLS		:=	$(addprefix includes/,$(INCL_FILES))
 
@@ -55,7 +55,7 @@ SRC_DIR	:=	srcs
 VPATH	:=	$(SRC_DIR) $(addprefix $(SRC_DIR)/,$(SRC_SUBDIRS))
 
 # Srcs file names ##############################################################
-SRC_FILES	:=	handle_input.c free.c main.c \
+SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c \
 	#srcs subfiles names
 	ENV_FILES		:=	environ_set.c environ_utils.c init_env.c shlvl.c
 	ERRORS_FILES	:=	errors.c print_errors.c error_exit.c
@@ -64,17 +64,17 @@ SRC_FILES	:=	handle_input.c free.c main.c \
 	PARSER_FILES	:=	token_parser.c token_parser_utils.c
 	PIPELINE_FILES	:=	parse_pipeline.c  \
 						check_token_type.c
-	READER_FILES	:=	arrows.c check_commands.c clean_exit.c prompt.c \
+	READER_FILES	:=	arrows.c check_commands.c prompt.c \
 						input_loop.c cursor_position.c input_utils.c \
 						delete.c txt_cat.c
 	EXPANDS_FILES	:=	parse_expands.c parse_dollars.c parse_tildes.c \
 						parse_quotes.c 
-	HISTORY_FILES	:=	hist_file.c get_next_line.c hist_lst.c switch_history.c
+	HISTORY_FILES	:=	hist_file.c get_next_line.c hist_lst.c switch_history.c handle_input_hist.c
 	SIGNALS_FILES	:=	signals.c
 	L_E_FILES		:=	st_cmd.c st_prompt.c st_txt.c writing.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c
 	REDIR_FILES		:=	redir_dgreat.c redir_dless.c redir_fd_great.c redir_great.c redir_less.c parse_redirections.c
-	EXEC_FILES		:=	cmd_path.c execute_commands.c
+	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c
 
 
 #list of all .c files
@@ -159,7 +159,7 @@ $(NAME): $(OBJS) libft/libft.a libterm/libterm.a
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir $(OBJ_DIR) 2> /dev/null || true
-	$(CC) $(CFlAGS) $(INCL_CMD) -o $@ -c $<
+	$(CC) $(CFLAGS) $(INCL_CMD) -o $@ -c $<
 	echo Compiling $@
 
 tags:
@@ -179,7 +179,7 @@ fclean: clean
 re: fclean all
 
 d: all
-	$(OPT) ./$(NAME)
+	@$(OPT) ./$(NAME)
 
 
 norm: adh

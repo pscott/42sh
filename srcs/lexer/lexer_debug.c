@@ -1,4 +1,5 @@
-#include "tosh.h"
+#include "42sh.h"
+#include "lexer.h"
 
 void	print_token(t_token *token)//debug
 {

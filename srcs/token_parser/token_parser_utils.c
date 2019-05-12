@@ -1,5 +1,6 @@
-#include "tosh.h"
+#include "42sh.h"
 #include "lexer.h"
+#include "cmd_parsing.h"
 #include "ast.h"
 
 /*
@@ -49,7 +50,7 @@ t_bool	is_ctrl_op_token(t_token *token)
 t_bool	exec_ast(t_ast *root, char **env)
 {
 	if (!root)
-		dprintf(2, "Error: NULL node\n");
+		ft_dprintf(2, "Error: NULL node\n");
 	if (root->token->type == TK_SEMI)//TK_AMP
 	{
 		exec_ast(root->left, env);

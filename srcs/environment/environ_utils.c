@@ -1,5 +1,4 @@
-#include "tosh.h"
-#include "ast.h"
+#include "42sh.h"
 
 /*
 ** ft_strcmp_before_c

@@ -1,4 +1,5 @@
-#include "reader.h"
+#include "input.h"
+#include "line_editing.h"
 
 /*
 **	Moves every character in the string `shift_no' bytes to the left

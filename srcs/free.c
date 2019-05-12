@@ -1,4 +1,4 @@
-#include "tosh.h"
+#include "42sh.h"
 #include "lexer.h"
 #include "ast.h"
 
@@ -6,14 +6,10 @@ void	free_token_list(t_token *token_head)
 {
 	t_token	*probe;
 
-///	ft_printf("freeing token list !!!!!!!");
-// 	print_line();
 	probe = token_head;
 	while (probe)
 	{
 		probe = probe->next;
-//		print_token(token_head);
-		//free(token_head->content);
 		ft_memdel((void*)&token_head->content);
 		ft_memdel((void*)&token_head);
 		token_head = probe;

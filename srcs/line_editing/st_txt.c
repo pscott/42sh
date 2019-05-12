@@ -25,3 +25,15 @@ t_st_txt	*init_st_txt(const char *txt)
 	st_txt->tracker = 0;
 	return (st_txt);
 }
+
+/*
+**	Memdels st_txt and frees up the allocated memory
+*/
+
+void	free_st_txt(t_st_txt **st_txt)
+{
+	if (!st_txt || !(*st_txt))
+		return ;
+	ft_strdel(&(*st_txt)->txt);
+	ft_memdel((void*)st_txt); // works ?
+}

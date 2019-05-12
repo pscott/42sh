@@ -13,6 +13,10 @@ static t_bool	is_valid_tilde(t_token *curr_token, t_token *prev_token)
 	return (0);
 }
 
+/*
+**	Replaces the str with the '~' expanded.
+*/
+
 t_bool	replace_tilde(char **str, const char **env)
 {
 	char	*new_str;
@@ -27,7 +31,7 @@ t_bool	replace_tilde(char **str, const char **env)
 		ERROR_MEM;
 	ft_strcpy(new_str, home_str);
 	ft_strcat(new_str, *str + 1);
-	ft_memdel((void*)*(&str));
+	ft_memdel((void*)str);
 	*str = new_str;
 	return (1);
 }

@@ -18,6 +18,14 @@ t_bool	is_full_of_whitespaces(char *input)
 	return (1);
 }
 
+static void	free_vars(t_vars *vars)
+{
+	if (!vars)
+		return ;
+	ft_free_ntab(vars->env_vars);
+	ft_free_ntab(vars->shell_vars);
+}
+
 int		main(int argc, char **argv, char **env)
 {
 	t_st_cmd		*st_cmd;
@@ -26,6 +34,8 @@ int		main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
+	vars.env_vars = 0;
+	vars.shell_vars = 0;
 	if (setup_terminal_settings() == -1)
 		return (EXIT_FAILURE);
 	signal_setup();
@@ -40,11 +50,10 @@ int		main(int argc, char **argv, char **env)
 		else if (ret > 0 && !is_full_of_whitespaces(st_cmd->st_txt->txt))
 			handle_input(st_cmd, &vars);
 		st_cmd = reset_st_cmd(st_cmd);
-		//free st_cmd
 	}
 	write_to_history(st_cmd, (const char **)vars.env_vars);
-	//free st_cmd
-	//free_vars(vars);
+	free_all_st_cmds(&st_cmd);
+	free_vars(&vars);
 	print_line();
 	if (reset_terminal_settings() == 0)
 		return (EXIT_FAILURE);

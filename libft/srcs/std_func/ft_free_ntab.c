@@ -6,13 +6,13 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 15:47:00 by penzo             #+#    #+#             */
-/*   Updated: 2019/04/18 16:56:19 by pscott           ###   ########.fr       */
+/*   Updated: 2019/05/12 18:10:45 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free_ntab(char **tab)
+void	ft_free_ntab(char **tab) // need 3
 {
 	int		i;
 

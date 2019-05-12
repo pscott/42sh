@@ -86,6 +86,7 @@ t_bool				token_list_start_with_ctrl_op(t_token *prev_token
 					, t_token *current_token);
 t_bool				is_redir_token(t_token *token);
 t_bool				is_ctrl_op_token(t_token *token);
+t_token				*copy_tokens(t_token *token_head);
 
 /*
 ** Get_token.c

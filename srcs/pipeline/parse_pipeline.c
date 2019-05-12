@@ -48,10 +48,8 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 	in = STDIN_FILENO;
 	i = 0;
 	if (num_simple_commands == 1)
-	{
-		if (execute_builtin_no_fork(begin, vars) == 0)
-			return (setup_terminal_settings());
-	}
+		if (execute_only_one_cmd(begin, vars) == 0)
+			return (0);
 	while (i < num_simple_commands - 1)
 	{
 		if (pipe(fd))

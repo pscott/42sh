@@ -22,3 +22,15 @@ t_st_prompt	*init_st_prompt(const char *prompt)
 	st_prompt->size = ft_strlen(st_prompt->prompt);
 	return (st_prompt);
 }
+
+/*
+**	Memdels st_prompt and frees up the allocated memory
+*/
+
+void	free_st_prompt(t_st_prompt **st_prompt)
+{
+	if (!st_prompt || !(*st_prompt))
+		return ;
+	ft_strdel(&(*st_prompt)->prompt);
+	ft_memdel((void*)st_prompt); // works ?
+}

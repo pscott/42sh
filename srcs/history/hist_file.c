@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hist_file.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/12 18:18:39 by pscott            #+#    #+#             */
+/*   Updated: 2019/05/12 18:47:08 by pscott           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "history.h"
 #include "input.h"
 #include "cmd_parsing.h"
@@ -14,6 +26,7 @@ static int		open_history(const char **env, int options)
 	if ((fd = open(hist_file, options, 0640)) == -1)
 	{
 		//		ft_dprintf(2, "error: failed to open history file");
+		ft_memdel((void*)&hist_file);
 		return (-1);
 	}
 	ft_memdel((void*)&hist_file);
@@ -52,7 +65,7 @@ t_hist_lst	*get_history(const char **env)
 	hist_lst = NULL;
 	while ((get_next_line(fd, &line) > 0) && (ft_strlen(line) > 7))
 	{
-		append_with_newline = ft_strjoin(&line[6], "\n");
+		append_with_newline = ft_strjoin(&line[6], "\n"); // not secure !
 		hist_lst = insert_right(hist_lst, append_with_newline, 1);
 		ft_memdel((void*)&append_with_newline);
 		ft_memdel((void*)&line);

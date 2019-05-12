@@ -100,3 +100,21 @@ void		print_hist_lst(t_hist_lst *hist_lst)
 		probe = probe->next;
 	}
 }
+
+void		free_hist_lst(t_hist_lst *hist_lst)
+{
+	t_hist_lst *tmp;
+	t_hist_lst *probe;
+
+	if (!hist_lst)
+		return ;
+	probe = get_begin_lst(hist_lst);
+	while (probe)
+	{
+		tmp = probe;
+		probe = probe->next;
+		ft_strdel(&tmp->txt);
+		ft_strdel(&tmp->cpy);
+		ft_memdel((void*)&tmp);
+	}
+}

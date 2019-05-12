@@ -83,6 +83,7 @@ void			insert_str(t_st_cmd *st_cmd, const char *buf,
 */
 
 t_st_txt					*init_st_txt(const char *txt);
+void						free_st_txt(t_st_txt **st_txt);
 
 /*
 **	st_prompt functions
@@ -90,6 +91,7 @@ t_st_txt					*init_st_txt(const char *txt);
 
 t_st_prompt					*init_st_prompt(const char *prompt);
 void						print_prompt(t_st_prompt *st_prompt);
+void						free_st_prompt(t_st_prompt **st_prompt);
 
 /*
 **	st_cmd functions
@@ -105,6 +107,8 @@ t_st_cmd					*reset_st_cmd(t_st_cmd *old_st_cmd);
 t_st_cmd					*get_st_cmd(t_st_cmd **new_struct);
 t_st_cmd					*init_st_cmd(const char **env);
 char						*concatenate_txt(t_st_cmd *st_cmd);
+void						free_st_cmd(t_st_cmd *st_cmd);
+void						free_all_st_cmds(t_st_cmd **st_cmd);
 
 
 #endif

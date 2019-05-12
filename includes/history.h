@@ -40,5 +40,6 @@ void		get_next_history(t_st_cmd *st_cmd);
 
 void		adjust_history(t_st_cmd *st_cmd, char *line);
 t_hist_lst	*get_keep(t_hist_lst *hist_lst);
+void		free_hist_lst(t_hist_lst *hist_lst);
 
 #endif

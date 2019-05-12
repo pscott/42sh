@@ -4,6 +4,7 @@
 # include "libft.h"
 # include <stdlib.h>
 # include "libterm.h"
+# include "hashmap.h"
 
 # define ERROR_MEM clean_exit(1);
 
@@ -12,6 +13,7 @@ typedef unsigned char	t_bool;
 typedef struct	s_vars {
 	char		**env_vars;
 	char		**shell_vars;
+	t_hashmap	*hashmap;
 }				t_vars;
 
 /*

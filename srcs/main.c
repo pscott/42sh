@@ -36,6 +36,7 @@ int		main(int argc, char **argv, char **env)
 	(void)argv;
 	vars.env_vars = 0;
 	vars.shell_vars = 0;
+	vars.hashmap = init_hashmap(INIT_HASH_SIZE);
 	if (setup_terminal_settings() == -1)
 		return (EXIT_FAILURE);
 	signal_setup();

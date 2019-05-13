@@ -1,4 +1,5 @@
 #include "get_next_line.h"
+#include "42sh.h"
 
 static char		*ft_strjoinfree(char *s1, char *s2)
 {
@@ -8,7 +9,8 @@ static char		*ft_strjoinfree(char *s1, char *s2)
 		return (0);
 	if (!s1)
 		return (ft_strdup(s2));
-	s3 = ft_strnew(ft_strlen(s1) + ft_strlen(s2));
+	if (!(s3 = ft_strnew(ft_strlen(s1) + ft_strlen(s2))))
+		ERROR_MEM;
 	if (s3)
 	{
 		ft_strcpy(s3, s1);
@@ -23,7 +25,7 @@ static t_fdlist	*ft_dlistnew(int fd)
 	t_fdlist *i;
 
 	if (!(i = (t_fdlist*)malloc(sizeof(t_fdlist))))
-		return (NULL);
+		ERROR_MEM;
 	i->c = NULL;
 	i->fd = fd;
 	i->next = NULL;
@@ -41,15 +43,18 @@ static int		return_val(char **line, t_fdlist *save)
 	if (e != NULL)
 	{
 		*e = 0;
-		*line = ft_strdup(save->c);
-		tmp = ft_strdup(e + 1);
+		if (!(*line = ft_strdup(save->c)))
+			ERROR_MEM;
+		if (!(tmp = ft_strdup(e + 1)))
+			ERROR_MEM;
 		free(save->c);
 		save->c = tmp;
 		return (1);
 	}
 	if (ft_strlen(save->c) > 0)
 	{
-		*line = ft_strdup(save->c);
+		if (!(*line = ft_strdup(save->c)))
+			ERROR_MEM;
 		*(save)->c = 0;
 		return (1);
 	}
@@ -99,7 +104,7 @@ int				get_next_line(const int fd, char **line)
 		save = ft_dlistnew(fd);
 	*line = 0;
 	if (!(buf = (char *)malloc(sizeof(char) * (GNL_BUFF_SIZE + 1))))
-		return (-1);
+		ERROR_MEM;
 	while ((check = read(fd, buf, GNL_BUFF_SIZE)) > 0)
 	{
 		buf[check] = 0;

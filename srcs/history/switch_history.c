@@ -26,7 +26,7 @@ static void	switch_st_cmd(t_st_cmd *st_cmd, char *newcmd)
 	reposition_cursor(st_cmd);
 	execute_str(CLEAR_BELOW);
 	init_relative_pos(st_cmd);
-	//free st_txt
+	free_st_txt(&st_txt);
 	st_cmd->st_txt = init_st_txt(trunc_newcmd);
 	write_st_cmd(st_cmd);
 	st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;;

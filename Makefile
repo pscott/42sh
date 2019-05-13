@@ -25,7 +25,9 @@ LIBS			:= $(LIBFT_A) $(LIBTERM_A)
 INCL_DIR	:=	includes libft/includes libterm/includes
 INCL_CMD	:=	$(addprefix -I,$(INCL_DIR))
 
-INCL_FILES	:=	42sh.h lexer.h ast.h input.h history.h get_next_line.h line_editing.h builtins.h errors.h cmd_parsing.h execution.g signals.h
+INCL_FILES	:=	42sh.h lexer.h ast.h input.h history.h get_next_line.h \
+				line_editing.h builtins.h errors.h cmd_parsing.h execution.g \
+				signals.h hashmap.h
 
 INCLS		:=	$(addprefix includes/,$(INCL_FILES))
 
@@ -50,7 +52,8 @@ SRC_DIR	:=	srcs
 	SRC_SUBDIRS	:=	$(ENV_DIR) $(ERRORS_DIR) $(LEXER_DIR) $(PARSER_DIR) \
 					$(PIPELINE_DIR) $(READER_DIR) $(HISTORY_DIR) $(EXPANDS_DIR) \
 				   	$(SIGNALS_DIR) $(L_E_DIR) $(BUILTINS_DIR) $(REDIR_DIR) \
-					$(EXEC_DIR) $(HASHMAP_DIR)
+					$(EXEC_DIR) \
+					$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_DIR))
 
 
 #VPATH specifies a list of directories that 'make' should search
@@ -71,11 +74,13 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c \
 						delete.c txt_cat.c
 	EXPANDS_FILES	:=	parse_expands.c parse_dollars.c parse_tildes.c \
 						parse_quotes.c 
-	HISTORY_FILES	:=	hist_file.c get_next_line.c hist_lst.c switch_history.c handle_input_hist.c
+	HISTORY_FILES	:=	hist_file.c get_next_line.c hist_lst.c \
+						switch_history.c handle_input_hist.c
 	SIGNALS_FILES	:=	signals.c
 	L_E_FILES		:=	st_cmd.c st_prompt.c st_txt.c writing.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c
-	REDIR_FILES		:=	redir_dgreat.c redir_dless.c redir_fd_great.c redir_great.c redir_less.c parse_redirections.c
+	REDIR_FILES		:=	redir_dgreat.c redir_dless.c redir_fd_great.c \
+						redir_great.c redir_less.c parse_redirections.c
 	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c
 	HASHMAP_FILES	:=	find_next_prime.c hash_main.c hashfun.c hashmap.c\
 						hashmap_alloc.c hashmap_delete.c hashmap_print.c
@@ -84,7 +89,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c \
 #list of all .c files
 C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES)\
 			$(PARSER_FILES) $(PIPELINE_FILES) $(READER_FILES) $(HISTORY_FILES) \
-			$(EXPANDS_FILES) $(SIGNALS_FILES) $(L_E_FILES) $(BUILTINS_FILES) $(REDIR_FILES) $(EXEC_FILES) $(HASHMAP_FILES)
+			$(EXPANDS_FILES) $(SIGNALS_FILES) $(L_E_FILES) $(BUILTINS_FILES) \
+			$(REDIR_FILES) $(EXEC_FILES) $(HASHMAP_FILES)
 
 
 # Complete path of each .c files ###############################################
@@ -103,6 +109,10 @@ BUILTINS_PATH		:=	$(addprefix $(BUILTINS_DIR)/,$(BUILTINS_FILES))
 REDIR_PATH			:=	$(addprefix $(REDIR_DIR)/,$(REDIR_FILES))
 EXEC_PATH			:=	$(addprefix $(EXEC_DIR)/,$(EXEC_FILES))
 HASHMAP_PATH		:=	$(addprefix $(HASHMAP_DIR)/,$(HASHMAP_FILES))
+#	builtin/ + hashmap/*.c
+HASHMAP_PATH		:=	$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_PATH))
+
+print-%  : ; @echo $* = $($*)
 
 #list of all "path/*.c"
 SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \

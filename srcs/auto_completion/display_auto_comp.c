@@ -200,7 +200,7 @@ char		*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigned in
 	if (len_lst(match) == 1)//one only match 
 	{
 		ret_str = get_unique_match(match, to_find, len);//return match->name append d'un espace ou non selon milieu ou fin de mot
-		ft_printf("\n|| %s ||\n", ret_str);// test : OK
+	//	ft_printf("\n|| %s ||\n", ret_str);// test : OK
 	}
 	else if ((diff_len = lst_match_more_than_to_find(match, to_find)))//if all matches have a common pattern longer than to_find : diff_len = nb of char to add
 	{

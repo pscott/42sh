@@ -6,7 +6,7 @@ static int			get_path(char ***path, t_vars *vars)
 {
 	char			*tmpath;
 
-	if (!vars)
+	if (!vars || !vars->env_vars)
 		return (0);
 	if (!(tmpath = get_envline_value("PATH", vars->env_vars)))
 	{
@@ -134,5 +134,6 @@ char				*new_auto_completion(char *input, unsigned int len, t_vars *vars)// len 
 			return (ERR_MALLOC);
 	}
 */	ft_strdel(&str);
+//	sleep(1);
 	return (ret);
 }

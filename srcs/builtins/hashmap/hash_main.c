@@ -119,11 +119,10 @@ static void	pop_each_name(t_hashmap **hashmap, t_hash_args *hash_args, int argc,
 //L only matter when printing
 //make 'hash -l ls' same as 'hash -t ls'
 //p>d (if name)
-int			hash_builtin(t_hashmap **hashmap, int argc, char **argv, char **env)
+int			hash_builtin(t_hashmap **hashmap, int argc, char **argv)
 {
 	t_hash_args	hash_args;
 
-	(void)env;
 	if (argc == 1)
 	{
 		print_hashmap(*hashmap);

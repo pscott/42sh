@@ -27,7 +27,7 @@ INCL_DIR	:=	includes libft/includes libterm/includes
 INCL_CMD	:=	$(addprefix -I,$(INCL_DIR))
 
 INCL_FILES	:=	42sh.h lexer.h ast.h input.h history.h get_next_line.h \
-				line_editing.h builtins.h errors.h cmd_parsing.h execution.g \
+				line_editing.h builtins.h errors.h cmd_parsing.h execution.h \
 				signals.h hashmap.h
 
 INCLS		:=	$(addprefix includes/,$(INCL_FILES))
@@ -118,7 +118,6 @@ HASHMAP_PATH		:=	$(addprefix $(HASHMAP_DIR)/,$(HASHMAP_FILES))
 #	builtin/ + hashmap/*.c
 HASHMAP_PATH		:=	$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_PATH))
 
-print-%  : ; @echo $* = $($*)
 
 #list of all "path/*.c"
 SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
@@ -181,12 +180,14 @@ $(NAME): $(OBJS) libft/libft.a libterm/libterm.a
 	$(CC) $(CFLAGS) $(INCL_CMD) $^ -o $@ $(LIB_INCL)
 
 $(OBJ_DIR)/%.o: %.c
-	@mkdir $(OBJ_DIR) 2> /dev/null || true
+	mkdir $(OBJ_DIR) 2> /dev/null || true
 	$(CC) $(CFLAGS) $(INCL_CMD) -o $@ -c $<
 	echo Compiling $@
 
 tags:
 	ctags -R .
+
+print-%  : ; @echo $* = $($*)
 
 clean: 
 	$(MAKE) clean -C libft

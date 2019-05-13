@@ -46,6 +46,7 @@ int				check_for_quit(const char *buf);
 int				check_for_enter(const char *buf);
 int				check_for_signal(const char *buf);
 int				check_for_delete(t_st_cmd *st_cmd, char *buf);
+int				check_for_tab(t_st_cmd *st_cmd, const char *buf, t_vars *vars);
 
 /*
 **	Arrow movement
@@ -68,7 +69,7 @@ void			delete_left(t_st_cmd *st_cmd);
 ** Read input
 */
 
-int				input_loop(t_st_cmd *st_cmd);
+int				input_loop(t_st_cmd *st_cmd, t_vars *vars);
 
 /*
 **	Input string manipulation

@@ -10,37 +10,6 @@
 //	pipe operators
 //	| |&
 
-t_bool	is_quotes(char c)
-{
-	if (c == '\'' || c == '"')
-		return (1);
-	return (0);
-}
-
-t_bool	is_white_spaces(char c)
-{
-	//ft_printf("IN WH_SP: {%c}", c);print_line();
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\r')//test \r
-		return (1);
-	return (0);
-}
-
-t_bool	is_parenth(char c)
-{
-	if (c == '[' || c == ']' || c == '(' || c == ')')
-		return (1);
-	return (0);
-}
-
-t_bool	is_metachar(char c)
-{
-	if (is_white_spaces(c) || is_parenth(c) || is_quotes(c) || c  == '*'
-			|| c == '?' || c == '\\' || c == ';' || c == '&'
-			|| c == '|' || c == '^' || c == '<' || c == '>')
-		return (1);
-	return (0);
-}
-
 t_bool	is_logic_or_pipe(t_token *token)
 {
 	if (token->type == TK_OR

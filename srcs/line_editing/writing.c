@@ -1,7 +1,7 @@
 #include "line_editing.h"
 
 /*
-**	Function that scrolls down if need be and write the
+**	Function that scrolls down if need be and writes the
 **	remainder of the line.
 */
 

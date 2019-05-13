@@ -8,7 +8,7 @@
 **	Makes sure to free the previous string before updating.
 */
 
-static void	switch_st_cmd(t_st_cmd *st_cmd, char *newcmd)
+void	switch_st_cmd(t_st_cmd *st_cmd, char *newcmd)
 {
 	size_t		len;
 	t_st_txt	*st_txt;

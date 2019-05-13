@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:53:24 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/10 16:47:54 by pscott           ###   ########.fr       */
+/*   Updated: 2019/05/10 19:22:46 by aschoenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ typedef	struct	s_list
 
 void			ft_bzero(void *s, size_t n);
 int				ft_isalpha(int c);
+unsigned int	is_quotes(char c);
+unsigned int	is_white_spaces(char c);
+unsigned int	is_parenth(char c);
+unsigned int	is_metachar(char c);
 int				ft_isdigit(int c);
 int				ft_isalnum(int c);
 int				ft_isascii(int c);

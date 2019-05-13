@@ -1,9 +1,10 @@
 ################################################################################
+
 # Basics #######################################################################
 NAME	:=	42sh
 OPT		:=	
 CC		:=	gcc
-CFLAGS	:=	-Wall -Wextra -Werror
+CFLAGS	:=	-Wall -Wextra #-Werror
 
 DEBUG_FLAG	:=	-g
 FSA_FLAGS	:=	$(DEBUG_FLAG) -fsanitize=address
@@ -43,12 +44,14 @@ SRC_DIR	:=	srcs
 	SIGNALS_DIR			:=	signals
 	L_E_DIR				:=	line_editing
 	BUILTINS_DIR		:=	builtins
+	AUTO_COMP_DIR		:=	auto_completion
 	REDIR_DIR			:=	redirections
 	EXEC_DIR			:=	execution
 	#list of all srcs subdirectories
 	SRC_SUBDIRS	:=	$(ENV_DIR) $(ERRORS_DIR) $(LEXER_DIR) $(PARSER_DIR) \
 					$(PIPELINE_DIR) $(READER_DIR) $(HISTORY_DIR) $(EXPANDS_DIR) \
-				   	$(SIGNALS_DIR) $(L_E_DIR) $(BUILTINS_DIR) $(REDIR_DIR) $(EXEC_DIR)
+				   	$(SIGNALS_DIR) $(L_E_DIR) $(BUILTINS_DIR) $(REDIR_DIR) $(EXEC_DIR) \
+					$(AUTO_COMP_DIR)
 
 
 #VPATH specifies a list of directories that 'make' should search
@@ -73,6 +76,10 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c \
 	SIGNALS_FILES	:=	signals.c
 	L_E_FILES		:=	st_cmd.c st_prompt.c st_txt.c writing.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c
+	AUTO_COMP_FILES	:=	auto_completion.c compare_entry.c create_match_link.c del_match.c \
+						display_auto_comp.c find_exe_names.c find_file.c utils.c \
+						get_name_and_path.c get_path_file.c handler_sig_display.c \
+						utils2.c
 	REDIR_FILES		:=	redir_dgreat.c redir_dless.c redir_fd_great.c redir_great.c redir_less.c parse_redirections.c
 	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c
 
@@ -80,7 +87,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c \
 #list of all .c files
 C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES)\
 			$(PARSER_FILES) $(PIPELINE_FILES) $(READER_FILES) $(HISTORY_FILES) \
-			$(EXPANDS_FILES) $(SIGNALS_FILES) $(L_E_FILES) $(BUILTINS_FILES) $(REDIR_FILES) $(EXEC_FILES)
+			$(EXPANDS_FILES) $(SIGNALS_FILES) $(L_E_FILES) $(BUILTINS_FILES) $(REDIR_FILES) $(EXEC_FILES) \
+			$(AUTO_COMP_FILES)
 
 
 # Complete path of each .c files ###############################################
@@ -96,6 +104,7 @@ HISTORY_PATH		:=	$(addprefix $(HISTORY_DIR)/,$(HISTORY_FILES))
 SIGNALS_PATH		:=	$(addprefix $(SIGNALS_DIR)/,$(SIGNALS_FILES))
 L_E_PATH			:=	$(addprefix $(L_E_DIR)/,$(L_E_FILES))
 BUILTINS_PATH		:=	$(addprefix $(BUILTINS_DIR)/,$(BUILTINS_FILES))
+AUTO_COMP_PATH		:=	$(addprefix $(AUTO_COMP_DIR)/,$(AUTO_COMP_FILES))
 REDIR_PATH			:=	$(addprefix $(REDIR_DIR)/,$(REDIR_FILES))
 EXEC_PATH			:=	$(addprefix $(EXEC_DIR)/,$(EXEC_FILES))
 
@@ -111,6 +120,7 @@ SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(SIGNALS_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(L_E_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(BUILTINS_PATH)) \
+			$(addprefix $(SRC_DIR)/,$(AUTO_COMP_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(REDIR_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(EXEC_PATH)) \
 			$(SRC_PATH)

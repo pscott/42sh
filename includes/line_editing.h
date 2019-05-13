@@ -3,6 +3,7 @@
 
 # include "42sh.h"
 # include "input.h"
+# define MAX_DISPLAY 50
 
 /*
 **	Window struct
@@ -30,6 +31,16 @@ void						write_from_start(t_st_cmd *st_cmd);
 /*
 **	auto_completion functions
 */
+
+typedef struct				s_auto_comp
+{
+	unsigned int			len;
+	unsigned int			rank;
+	int						type;
+	char					*name;
+	struct s_auto_comp		*next;
+	struct s_auto_comp		*prev;
+}							t_auto_comp;
 
 char						*new_auto_completion(char *input, unsigned int len);
 char						*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigned int len);

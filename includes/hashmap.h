@@ -73,8 +73,8 @@ char			*check_hashmap(const char *key, t_hashmap *hashmap, t_hashopt opt);
 void			print_hashmap(t_hashmap *hashmap);
 void			print_hashmap_l(t_hashmap *hashmap);
 void			print_usage(void);
-void			print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args, int argc, char **argv);
-void			hash_builtin_print(t_hashmap *hashmap, t_hash_args *hash_args, int argc, char **argv);
+t_bool			print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args, int argc, char **argv);
+t_bool			hash_builtin_print(t_hashmap *hashmap, t_hash_args *hash_args, int argc, char **argv);
 
 /*
 ** hashmap_alloc.c

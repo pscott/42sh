@@ -117,22 +117,28 @@ static char	**get_paths(char **env)
 	return (paths);
 }
 
-static void	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc, char **argv)
+static t_bool	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc, char **argv)
 {
 	int		i;
+	t_bool	ret;
 	char	*value;
 	char	**paths;
 
+	ret = 0;
 	i = hash_args->name_index - 1;
 	if (!(paths = get_paths(vars->env_vars)))
 		ERROR_MEM;//ERROR_MEM??pas sure
 	while (++i < argc)
 	{
 		if (!(value = find_path(argv[i], paths)))
+		{
 			ft_dprintf(2, "hash: %s: not found\n", argv[i]);
+			ret = 1;
+		}
 		else
 			add_to_hashmap(argv[i], value, &vars->hashmap);
 	}
+	return (ret);
 }
 
 static void	add_each_name_with_path(t_hashmap **hashmap, t_hash_args *hash_args, int argc, char **argv)
@@ -169,7 +175,7 @@ int			hash_builtin(t_vars *vars, int argc, char **argv)
 		return (0);
 	}
 	if (!get_hash_args(argv, &hash_args))
-		return (0);
+		return (2);
 	if (hash_args.opt & O_R)//priority
 		reset_hashmap(&vars->hashmap);
 	if (hash_args.path && hash_args.name_index)
@@ -179,6 +185,6 @@ int			hash_builtin(t_vars *vars, int argc, char **argv)
 	else if ((!hash_args.opt || hash_args.opt & O_R) && hash_args.name_index)//test !opt, seems good
 		add_each_name(vars, &hash_args, argc, argv);
 	else if (!(hash_args.opt & O_R))//test, seems good
-		hash_builtin_print(vars->hashmap, &hash_args, argc, argv);
+		return(hash_builtin_print(vars->hashmap, &hash_args, argc, argv));
 	return (0);
 }

@@ -37,8 +37,8 @@ void	print_hashmap(t_hashmap *hashmap)
 	}
 }
 
-void	print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args
-		, int argc, char **argv)//need t_bool
+t_bool	print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args
+		, int argc, char **argv)
 {
 	int			i;
 	const char	*value;
@@ -49,8 +49,12 @@ void	print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args
 		if ((value = check_hashmap(argv[i], hashmap, HASH_CHECK)))
 			ft_printf("hash -p %s %s\n", value, argv[i]);
 		else
+		{
 			ft_dprintf(2, "hash: %s: not found\n", argv[i]);
+			return (1);
+		}
 	}
+	return (0);
 }
 
 void	print_hashmap_l(t_hashmap *hashmap)
@@ -72,7 +76,7 @@ void	print_hashmap_l(t_hashmap *hashmap)
 	}
 }
 
-void	hash_builtin_print(t_hashmap *hashmap, t_hash_args *hash_args
+t_bool	hash_builtin_print(t_hashmap *hashmap, t_hash_args *hash_args
 		, int argc, char **argv)
 {
 	if (hash_args->opt & O_L)
@@ -80,10 +84,11 @@ void	hash_builtin_print(t_hashmap *hashmap, t_hash_args *hash_args
 		if (!hash_args->name_index)
 			print_hashmap_l(hashmap);
 		else
-			print_hashmap_l_args(hashmap, hash_args, argc, argv);
+			return (print_hashmap_l_args(hashmap, hash_args, argc, argv));
 	}
 	else
 		print_hashmap(hashmap);
+	return (0);
 }
 
 void	print_usage(void)

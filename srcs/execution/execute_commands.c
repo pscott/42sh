@@ -90,6 +90,7 @@ t_bool		execute_only_one_cmd(t_token *token_head, t_vars *vars)
 			return (0);// if cmd_path is NULL  and error msg
 		}
 		add_to_hashmap(argv[0], cmd_path, &vars->hashmap);
+		check_hashmap(argv[0], vars->hashmap, HASH_EXEC);
 		ret = 1;
 		ft_free_ntab(argv);
 	}

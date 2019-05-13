@@ -12,7 +12,7 @@ t_bool	is_full_of_whitespaces(char *input)
 	i = -1;
 	while (input[++i])
 	{
-		if (!is_white_spaces(input[i]))
+		if (!ft_is_white_space(input[i]))
 			return (0);
 	}
 	return (1);

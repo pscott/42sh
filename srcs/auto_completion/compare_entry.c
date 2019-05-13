@@ -11,7 +11,7 @@ int		compare_entry(char *s, char *n)
 	j = 0;
 	if (!s)
 		return (1);
-	while (s && is_white_spaces(s[i]))
+	while (s && ft_is_white_space(s[i]))
 		i++;
 	len = ft_strlen(s - i + 1);
 	while (len-- && s && n[j] && s[i] == n[j])
@@ -33,7 +33,7 @@ int		compare_entry2(char *s, char *n)
 		return (1);
 	if (s[0] != '.' && (n[0] == '.' || (n[0] == '.' && n[1] == '.')))
 		return (0);
-	while (s[k] && is_white_spaces(s[k]))
+	while (s[k] && ft_is_white_space(s[k]))
 		k++;
 	while (s[k] && n[i] && is_same_char(s[k], n[i]))
 	{

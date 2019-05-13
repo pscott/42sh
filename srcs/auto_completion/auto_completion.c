@@ -23,11 +23,11 @@ static int			new_check_lst_args(char *str)
 	int				i;
 
 	i = 0;
-	while ((str[i]) && is_white_spaces(str[i]))
+	while ((str[i]) && ft_is_white_space(str[i]))
 		i++;
-	while (str[i] && !is_white_spaces(str[i]))
+	while (str[i] && !ft_is_white_space(str[i]))
 		i++;
-	if (str && is_white_spaces(str[i]))
+	if (str && ft_is_white_space(str[i]))
 		return (0);
 	return (1);
 }
@@ -37,7 +37,7 @@ static int			new_check_first_arg(char *str)
 	int				i;
 
 	i = 0;
-	while (str[i + 1] && is_white_spaces(str[i]))
+	while (str[i + 1] && ft_is_white_space(str[i]))
 		i++;
 	if (str && (str[i] == '/' || str[i] == '.' || str[i] == '~'))
 		return (1);

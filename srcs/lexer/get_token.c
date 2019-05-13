@@ -65,7 +65,7 @@ static t_token	*get_regular_token(char **cmdline)
 	size_t	i;
 
 	i = 0;
-	while ((*cmdline)[i] && !is_metachar((*cmdline)[i]))
+	while ((*cmdline)[i] && !ft_is_metachar((*cmdline)[i]))
 		i++;
 	if (!(token = create_token(*cmdline, i, TK_WORD)))
 		ERROR_MEM;
@@ -98,7 +98,7 @@ static t_token	*get_eat_token(char **cmdline)
 	size_t	i;
 
 	i = 0;
-	while (is_white_spaces((*cmdline)[i]))
+	while (ft_is_white_space((*cmdline)[i]))
 		i++;
 	if (!(token = create_token(*cmdline, i, TK_EAT)))
 		ERROR_MEM;
@@ -125,7 +125,7 @@ t_token			*get_token(char **cmdline, t_operation *op_chart)
 		return (get_squot_token(cmdline));
 	else if (**cmdline == '\\')
 		return (get_monochar(cmdline));
-	else if (is_white_spaces(**cmdline))
+	else if (ft_is_white_space(**cmdline))
 		return (get_eat_token(cmdline));
 	else if ((token = get_op_chart_token(cmdline, op_chart)))
 		return (token);

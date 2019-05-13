@@ -10,13 +10,13 @@ char				*get_to_find_file(char *str)
 	to_find = NULL;
 	len = ft_strlen(str) - 1;
 	count = len;
-	if (is_white_spaces(str[len]))
+	if (ft_is_white_space(str[len]))
 		return (NULL);
-	while (len >= 0 && (!is_white_spaces(str[len])
-				|| (len > 0 && is_white_spaces(str[len]) && str[len] == '\\')))
+	while (len >= 0 && (!ft_is_white_space(str[len])
+				|| (len > 0 && ft_is_white_space(str[len]) && str[len] == '\\')))
 		--len;
 	len++;
-	if (is_white_spaces(str[len - 1]))
+	if (ft_is_white_space(str[len - 1]))
 	{
 		if (!(to_find = ft_strsub(str, len, count - len + 1)))
 			return (NULL);

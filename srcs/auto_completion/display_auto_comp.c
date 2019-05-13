@@ -28,7 +28,7 @@ static char	*get_unique_match(t_auto_comp *match, char *to_find, unsigned int le
 
 //	ft_printf("\n%s\n", to_find);
 //	to_find_len = ft_strlen(to_find);
-	if (!to_find[len - 1] || is_white_spaces(to_find[len - 1]))//si !cursor_pos->next, alors curseur en fin de ligne, et si isspace cursor_pos->next, alors un espace apres le curseur : il faut donc join un espace a match->name. dans tous les cas ret est malloc
+	if (!to_find[len - 1] || ft_is_white_space(to_find[len - 1]))//si !cursor_pos->next, alors curseur en fin de ligne, et si isspace cursor_pos->next, alors un espace apres le curseur : il faut donc join un espace a match->name. dans tous les cas ret est malloc
 		ret_str = ft_strjoin(match->name, " ");
 	else//auto_completion au milieu d'un mot
 		ret_str = ft_strdup(match->name);

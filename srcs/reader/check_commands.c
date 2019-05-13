@@ -1,4 +1,6 @@
-#include "reader.h"
+#include "input.h"
+#include "signals.h"
+#include "history.h"
 
 /*
 **	Checks and calls the appropriated functions for UP, DOWN, LEFT, RIGHT, HOME

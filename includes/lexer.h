@@ -1,17 +1,11 @@
 #ifndef LEXER_H
 # define LEXER_H
 
-# include <stdio.h>//tejme
-
-# include <unistd.h>
 # include <stdlib.h>
-# include <limits.h>
-# include <sys/syslimits.h>
 # include "libft.h"
-# include "libterm.h"
 
-# define ERROR_MEM clean_exit(1);
 # define OP_CHART_SIZE 22
+# define DEBUG_PARSER 0
 
 typedef unsigned char	t_bool;
 
@@ -72,18 +66,47 @@ void	print_token_list(t_token *token_head);
 //
 
 /*
-** get_token.c
+** lexer.c
+*/
+
+t_token				*create_token(char *cmdline, size_t size
+					, t_token_type type);
+int					lexer(char *cmdline, t_token **token_head);
+
+/*
+** lexer utils
+*/
+
+t_bool				is_argv_token(t_token *probe);
+t_bool				is_simple_cmd_token(t_token *probe);
+t_bool				is_logic_or_pipe(t_token *token);
+t_bool				is_two_ctrlop_or_redir_following(t_token *prev_token
+					, t_token *current_token);
+t_bool				token_list_start_with_ctrl_op(t_token *prev_token
+					, t_token *current_token);
+t_bool				is_redir_token(t_token *token);
+t_bool				is_ctrl_op_token(t_token *token);
+t_token				*copy_tokens(t_token *token_head);
+
+/*
+** Get_token.c
 */
 
 t_token	*get_token(char **cmdline, t_operation *op_chart);
 t_token	*create_token(char *cmdline, size_t size, t_token_type type);
 
 /*
-** lexer_op_chart.c
+** Lexer_op_chart.c
 */
 
 t_token		*get_op_chart_token(char **cmdline, t_operation *op_chart);
 t_operation	*get_op_chart(void);
 void		print_op_table(t_operation *op_chart);//debug
+
+/*
+** Free functions
+*/
+
+void				free_token_list(t_token *token_head);
 
 #endif

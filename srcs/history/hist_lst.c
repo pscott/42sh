@@ -1,4 +1,4 @@
-#include "ast.h"
+#include "42sh.h"
 #include "history.h"
 
 t_hist_lst	*create_hist_lst(char *line, char keep)
@@ -43,6 +43,27 @@ t_hist_lst	*get_end_lst(t_hist_lst *hist_lst)
 	return (probe);
 }
 
+t_hist_lst		*insert_left(t_hist_lst *hist_lst, char *line, char keep)
+{
+	t_hist_lst	*probe;
+	t_hist_lst	*insert;
+
+	insert = create_hist_lst(line, keep);
+	if (!(probe = hist_lst))
+		return (insert);
+	else
+	{
+		if (probe->prev)
+		{
+			probe->prev->next = insert;
+			insert->prev = probe->prev;
+		}
+		insert->next = probe;
+		probe->prev = insert;
+	}
+	return (insert);
+}
+
 t_hist_lst	*insert_right(t_hist_lst *hist_lst, char *line, char keep)
 {
 	t_hist_lst	*probe;
@@ -64,6 +85,7 @@ t_hist_lst	*insert_right(t_hist_lst *hist_lst, char *line, char keep)
 	return (insert);
 }
 
+// debug
 void		print_hist_lst(t_hist_lst *hist_lst)
 {
 	t_hist_lst *probe;
@@ -76,5 +98,23 @@ void		print_hist_lst(t_hist_lst *hist_lst)
 		ft_printf("PROBE: TXT: {%s}", probe->txt);
 		print_line();
 		probe = probe->next;
+	}
+}
+
+void		free_hist_lst(t_hist_lst *hist_lst)
+{
+	t_hist_lst *tmp;
+	t_hist_lst *probe;
+
+	if (!hist_lst)
+		return ;
+	probe = get_begin_lst(hist_lst);
+	while (probe)
+	{
+		tmp = probe;
+		probe = probe->next;
+		ft_strdel(&tmp->txt);
+		ft_strdel(&tmp->cpy);
+		ft_memdel((void*)&tmp);
 	}
 }

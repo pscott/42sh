@@ -1,18 +1,20 @@
 #include "builtins.h"
-#include "ast.h"
+#include "errors.h"
 
-int		exec_builtins(char **argv, int cmd_id)
+t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id)
 {
+	(void)vars;
+	reset_terminal_settings(); //change
 	/*if (cmd_id == CMD_EXIT)
 		return (case_exit(argv));*/
 	if (cmd_id == CMD_ENV)
 	{
-		ft_print_ntab(g_env);
+		ft_print_ntab(vars->env_vars); // pls
 		return (0);
 	}
 	if (cmd_id == CMD_CD)
-	  	return (case_cd(argv));
-	/*if (cmd_id == CMD_SETENV)
+	  	return (case_cd(argv, &vars->env_vars));
+	/*if (cmd_id == CMD_SETENV) // will need vars
   	return (case_setenv(argv));
 	if (cmd_id == CMD_UNSETENV)
 		return (case_unsetenv(argv));
@@ -21,7 +23,7 @@ int		exec_builtins(char **argv, int cmd_id)
 	return (0);
 }
 
-int		check_builtins(char **argv)
+t_bool	check_builtins(char **argv)
 {
 /*	if (ft_strcmp(argv[0], "exit") == 0)
 		return (CMD_EXIT);*/

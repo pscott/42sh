@@ -1,4 +1,6 @@
 #include "line_editing.h"
+#include <sys/ioctl.h>
+#include "history.h"
 #include "ast.h"
 
 /*
@@ -81,7 +83,6 @@ t_st_cmd	*reset_st_cmd(t_st_cmd *old_st_cmd)
 {
 	t_st_cmd	*st_cmd;
 	
-	//free txt, free prompt;
 	if (!(st_cmd = (t_st_cmd*)malloc(sizeof(*st_cmd))))
 		ERROR_MEM;
 	st_cmd->st_txt = init_st_txt(NULL);
@@ -90,6 +91,7 @@ t_st_cmd	*reset_st_cmd(t_st_cmd *old_st_cmd)
 	st_cmd->window = old_st_cmd->window;
 	init_relative_pos(st_cmd);
 	st_cmd->hist_lst = old_st_cmd->hist_lst;
+	free_st_cmd(old_st_cmd);
 	//free old_st_cmd lst;
 	st_cmd->next = NULL;
 	st_cmd->prev = NULL;
@@ -117,4 +119,40 @@ t_st_cmd	*init_st_cmd(const char **env)
 	st_cmd->prev = NULL;
 	get_st_cmd(&st_cmd);
 	return (st_cmd);
+}
+
+
+/*
+**	Frees the st_cmd, WITHOUT freeing history.
+*/
+
+void	free_st_cmd(t_st_cmd *st_cmd)
+{
+	if (!st_cmd)
+		return ;
+	free_st_txt(&st_cmd->st_txt);
+	free_st_prompt(&st_cmd->st_prompt);
+	ft_memdel((void*)&st_cmd);
+}
+
+/*
+**	Goes back to the beginning of the st_cmd list and frees every node in there.
+**	Frees history.
+*/
+
+void		free_all_st_cmds(t_st_cmd **st_cmd)
+{
+	t_st_cmd *probe;
+	t_st_cmd *tmp;
+
+	if (!st_cmd || !(*st_cmd))
+		return ;
+	probe = get_first_st_cmd(*st_cmd);
+	free_hist_lst(probe->hist_lst);
+	while (probe)
+	{
+		tmp = probe;
+		probe = probe->next;
+		free_st_cmd(tmp);
+	}
 }

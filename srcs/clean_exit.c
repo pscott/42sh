@@ -1,4 +1,4 @@
-#include "reader.h"
+#include "input.h"
 
 /*
 ** Utility function to reset the terminal settings and exit

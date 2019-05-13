@@ -1,5 +1,6 @@
-#include "reader.h"
-#include <signal.h>
+#include "input.h"
+#include "line_editing.h"
+#include "signals.h"
 
 /*
 ** Handler function for terminating (aka dangerous) signals
@@ -7,12 +8,8 @@
 
 static void	sig_handler(int signo)
 {
-	//t_arg_list *lst;
-
-	//lst = lst_addr(NULL);
 	execute_str(CLEAR_BELOW);
 	reset_terminal_settings();
-	//free_list(lst);
 	ft_dprintf(STDERR, "Interrupted by signal: %d\n", signo);
 	exit(signo);
 }
@@ -26,22 +23,12 @@ void	sigint_handler(int signo)
 	go_to_end(st_cmd);
 	reposition_cursor(st_cmd);
 	print_line();
-/*	st_cmd->st_txt = init_st_txt(NULL);
-	st_cmd->st_prompt = init_st_prompt(NULL);
-	//free (st_cmd->st_prompt);
-	//free(st_cmd->st_txt);
-	init_relative_pos(st_cmd);
-	//execute_str(CLEAR_BELOW); not clear below but go to end of str and clear below
-	print_prompt(st_cmd->st_prompt);*/
+	//free (st_cmd->st_prompt); ?
+	//free(st_cmd->st_txt); ?
 }
 
 static void	sigcont_handler(int signo)
 {
-//	t_print_info	*info;
-//	t_arg_list		*lst;
-
-//	info = info_addr(NULL);
-//	lst = lst_addr(NULL);
 	if (setup_terminal_settings() == 0)
 	{
 		reset_terminal_settings();
@@ -49,8 +36,6 @@ static void	sigcont_handler(int signo)
 	}
 	execute_str(INVISIBLE);
 	execute_str(BEGIN_LINE);
-	//get_print_info(lst, info);
-	//print_list(lst, info);
 	signal_setup();
 	(void)signo;
 }
@@ -59,7 +44,7 @@ static void	sigwinch_handler(int signo)
 {
 	t_st_cmd	*st_cmd;
 
-//	signal(SIGWINCH, SIG_IGN);
+//	signal(SIGWINCH, SIG_IGN);  in case two occur at the same time
 	st_cmd = get_st_cmd(NULL);
 	update_window_struct(&st_cmd->window);
 	go_back_to_start(st_cmd);

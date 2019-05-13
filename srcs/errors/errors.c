@@ -1,16 +1,8 @@
-#include "tosh.h"
+#include "42sh.h"
+#include "lexer.h"
+#include "line_editing.h"
 
-/*
-void	error_mem(char *func_name)
-{
-	ft_putstr_fd("malloc failed in ", 2);
-	ft_putstr_fd(func_name, 2);
-	ft_putendl_fd(".", 2);
-	clean_exit(EXIT_FAILURE);
-}
-*/
-
-void	error_mem(void)
+void	error_mem(void) //unused but should use ?
 {
 	ft_putendl_fd("memory error.", STDERR_FILENO);
 	clean_exit(EXIT_FAILURE);
@@ -18,7 +10,7 @@ void	error_mem(void)
 
 void	syntax_error_near(t_token *token)
 {
-	ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
+	ft_putstr_fd(STD_PROMPT, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
 	if (ft_strcmp(token->content, "\n") == 0)

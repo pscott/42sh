@@ -1,5 +1,5 @@
-#include "ast.h"
 #include "lexer.h"
+#include "cmd_parsing.h"
 
 /*
 **	Applies the redirection : example : redirect(2, 0) will make fd 2 become
@@ -13,7 +13,7 @@ void	redirect(int old_fd, int new_fd)
 		if (dup2(old_fd, new_fd) != -1)
 			close(old_fd); //check close return value ?
 		else
-			dprintf(2, "error with dup2: old_fd: %d, new_fd: %d\n", old_fd, new_fd);
+			ft_dprintf(2, "error with dup2: old_fd: %d, new_fd: %d\n", old_fd, new_fd);
 	}
 }
 
@@ -79,11 +79,6 @@ t_bool	parse_redirections(t_token *token_head)
 	current = token_head;
 	if (!current)
 		return (0);
-	//if (current->type == TK_REDIRECTION) //set prev to NULL to avoid repeatition
-	//	if (apply_redirections(current, NULL) == 0)
-	//		return (0);
-	//prev = current;
-	//current = current->next;
 	prev = NULL;
 	while (is_simple_cmd_token(current))
 	{
@@ -93,5 +88,5 @@ t_bool	parse_redirections(t_token *token_head)
 		prev = current;
 		current = current->next;
 	}
-	return (execute_tokens(token_head));
+	return (1);
 }

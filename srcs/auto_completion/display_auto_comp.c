@@ -1,5 +1,6 @@
 #include "libft.h"
 #include "line_editing.h"
+#include "libterm.h"
 
 static int	len_lst(t_auto_comp *lst)
 {
@@ -199,11 +200,16 @@ char		*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigned in
 	if (len_lst(match) == 1)//one only match 
 	{
 		ret_str = get_unique_match(match, to_find, len);//return match->name append d'un espace ou non selon milieu ou fin de mot
+		ft_printf("\n|| %s ||\n", ret_str);// test : OK
 	}
 	else if ((diff_len = lst_match_more_than_to_find(match, to_find)))//if all matches have a common pattern longer than to_find : diff_len = nb of char to add
 	{
+		//ft_printf("\n|| {len to_find -2: %d}  {diff_len: %d} {match->name: %s} ||\n", ft_strlen(to_find - 2), diff_len, match->name);// test : OK
+		//sleep(3);
 		if (!(ret_str = ft_strndup(match->name, ft_strlen(to_find - 2) + diff_len)))
 			return (NULL);
+//		ft_printf("\n|| %s ||\n", ret_str);// test : OK
+//		sleep(4);
 			//error_exit(ERR_MALLOC);
 	}
 	else//display list of matches et ret_str est une copy de to_find car input pas modifie

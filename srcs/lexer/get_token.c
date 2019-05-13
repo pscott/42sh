@@ -1,5 +1,6 @@
-#include "tosh.h"
+#include "42sh.h"
 #include "lexer.h"
+#include "input.h"
 
 static t_token	*get_dquot_token(char **cmdline)
 {

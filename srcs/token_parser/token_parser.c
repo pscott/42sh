@@ -1,4 +1,4 @@
-#include "tosh.h"
+#include "42sh.h"
 #include "lexer.h"
 #include "ast.h"
 

@@ -1,7 +1,6 @@
 #ifndef HISTORY_H
 # define HISTORY_H
 
-# include "reader.h"
 # define HIST_FILE "~/.42sh_history"
 # define HIST_SIZE 500
 
@@ -13,6 +12,11 @@ typedef struct		s_hist_lst {
 	struct s_hist_lst *next;
 }					t_hist_lst;
 
+# include "input.h"
+
+/*
+**	Retrieving and writing history to/from a file
+*/
 t_hist_lst	*get_history(const char **env);
 int			write_to_history(t_st_cmd *st_cmd, const char **env);
 
@@ -34,8 +38,8 @@ t_hist_lst	*get_begin_lst(t_hist_lst *hist_lst);
 void		get_previous_history(t_st_cmd *st_cmd);
 void		get_next_history(t_st_cmd *st_cmd);
 
-void		switch_st_cmd(t_st_cmd *st_cmd, char *newcmd);
-
-
+void		adjust_history(t_st_cmd *st_cmd, char *line);
+t_hist_lst	*get_keep(t_hist_lst *hist_lst);
+void		free_hist_lst(t_hist_lst *hist_lst);
 
 #endif

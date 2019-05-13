@@ -1,5 +1,7 @@
-#include "ast.h"
 #include "lexer.h"
+#include "cmd_parsing.h"
+#include "libterm.h"
+#include <fcntl.h>
 
 t_bool		redir_less(t_token *redir, t_token *prev)
 {

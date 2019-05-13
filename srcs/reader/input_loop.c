@@ -1,8 +1,8 @@
-#include "reader.h"
-#include "tosh.h"
-#include "history.h"
+#include "42sh.h"
+#include "input.h"
+#include "line_editing.h"
 
-void	magic_print(char *buf)
+void	magic_print(char *buf) // debug
 {
 	int	i;
 

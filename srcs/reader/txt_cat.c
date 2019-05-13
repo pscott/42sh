@@ -1,4 +1,4 @@
-#include "reader.h"
+#include "input.h"
 
 char	*concatenate_txt(t_st_cmd *st_cmd)
 {

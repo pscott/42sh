@@ -45,7 +45,7 @@ void		delete_hashmap(t_hashmap *hashmap)
 void		replace_item(t_hash_item *item, const char *value)
 {
 	if (!ft_strcmp(value, item->value))
-		item->count++;
+		item->count = 0;
 	else
 	{
 		ft_memdel((void*)&item->value);

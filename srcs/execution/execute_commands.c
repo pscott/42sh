@@ -14,8 +14,11 @@ static t_bool		execute_argv(char **argv, t_vars *vars)
 	if (!argv)
 		return (0);
 	if ((cmd = check_builtins(argv)))
+	{
+		ft_printf("_in execute_argv\n");
 		return (exec_builtins(argv, vars, cmd));
-	if (!(cmd_path = check_hashmap(argv[0], vars->hashmap, HASH_EXEC)))
+	}
+	if (!(cmd_path = check_hashmap(argv[0], vars->hashmap, HASH_CHECK)))
 		if (!(cmd_path = get_cmd_path(argv, vars->env_vars)))
 			return (0); // error msg ? not found
 	if ((access = check_access(cmd_path)) == 0 && reset_terminal_settings())
@@ -94,9 +97,9 @@ t_bool		execute_only_one_cmd(t_token *token_head, t_vars *vars)
 		ft_free_ntab(argv);
 		setup_terminal_settings();
 	}
-	else if ((cmd_path = check_hashmap(argv[0], vars->hashmap, HASH_CHECK)))
+	else if ((cmd_path = check_hashmap(argv[0], vars->hashmap, HASH_EXEC)))
 	{
-		ft_strdel(&cmd_path);
+		//ft_strdel(&cmd_path);//check_hashmap doesn't alloc
 		ft_free_ntab(argv);
 		ret = 1;
 	}

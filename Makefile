@@ -143,10 +143,9 @@ OBJ_FILES	:=	$(C_FILES:.c=.o)
 OBJS		:=	$(addprefix $(OBJ_DIR)/,$(OBJ_FILES))
 
 # Rules ########################################################################
-.PHONY: all fsa val rmh adh tag clean fclean re d norm test ask_libft \
-	
+.PHONY: all fsa val rmh adh tag clean fclean re d norm test ask_libft
 
-all: Makefile ask_libs $(NAME)
+all: $(NAME) ask_libs
 
 ask_libs: ask_libft ask_libterm
 
@@ -162,11 +161,11 @@ ask_libterm:
 
 $(LIBS): ask_libs
 
-fsa: $(SRCS) $(LIBS)
+fsa: $(SRCS) $(LIBS) $(INCLS)
 	$(CC) $(CFLAGS) $(FSA_FLAGS) $(INCL_CMD) $(LIB_INCL) $(SRCS) -o $(NAME)
 	$(OPT) ./$(NAME)
 
-val: $(SRCS) $(LIBS)
+val: $(SRCS) $(LIBS) $(INCLS)
 	$(CC) $(DEBUG_FLAG) $(INCL_CMD) $(LIB_INCL) $^ -o $(NAME)
 	valgrind $(VAL_FLAGS) $(OPT) ./$(NAME)
 
@@ -179,9 +178,9 @@ adh: rmh
 $(NAME): $(OBJS) libft/libft.a libterm/libterm.a
 	$(CC) $(CFLAGS) $(INCL_CMD) $^ -o $@ $(LIB_INCL)
 
-$(OBJ_DIR)/%.o: %.c
-	mkdir $(OBJ_DIR) 2> /dev/null || true
-	$(CC) $(CFLAGS) $(INCL_CMD) -o $@ -c $<
+$(OBJ_DIR)/%.o: %.c $(INCLS) Makefile
+	@mkdir $(OBJ_DIR) 2> /dev/null || true
+	@$(CC) $(CFLAGS) $(INCL_CMD) -o $@ -c $<
 	echo Compiling $@
 
 tags:

@@ -55,6 +55,7 @@ int		main(int argc, char **argv, char **env)
 	write_to_history(st_cmd, (const char **)vars.env_vars);
 	free_all_st_cmds(&st_cmd);
 	free_vars(&vars);
+	delete_hashmap(vars.hashmap);
 	print_line();
 	if (reset_terminal_settings() == 0)
 		return (EXIT_FAILURE);

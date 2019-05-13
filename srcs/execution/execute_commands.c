@@ -91,6 +91,7 @@ t_bool		execute_only_one_cmd(t_token *token_head, t_vars *vars)
 		}
 		add_to_hashmap(argv[0], cmd_path, &vars->hashmap);
 		ret = 1;
+		ft_strdel(&cmd_path);
 		ft_free_ntab(argv);
 	}
 	free_token_list(cpy);

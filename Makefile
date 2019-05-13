@@ -80,7 +80,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c \
 						switch_history.c handle_input_hist.c
 	SIGNALS_FILES	:=	signals.c
 	L_E_FILES		:=	st_cmd.c st_prompt.c st_txt.c writing.c
-	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c
+	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c
 	REDIR_FILES		:=	redir_dgreat.c redir_dless.c redir_fd_great.c \
 						redir_great.c redir_less.c parse_redirections.c
 	AUTO_COMP_FILES	:=	auto_completion.c compare_entry.c create_match_link.c del_match.c \
@@ -181,7 +181,7 @@ $(NAME): $(OBJS) libft/libft.a libterm/libterm.a
 $(OBJ_DIR)/%.o: %.c $(INCLS) Makefile
 	@mkdir $(OBJ_DIR) 2> /dev/null || true
 	@$(CC) $(CFLAGS) $(INCL_CMD) -o $@ -c $<
-	echo Compiling $@
+	@echo Compiling $@
 
 tags:
 	ctags -R .

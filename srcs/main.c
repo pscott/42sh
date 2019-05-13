@@ -56,6 +56,7 @@ int		main(int argc, char **argv, char **env)
 	free_all_st_cmds(&st_cmd);
 	free_vars(&vars);
 	delete_hashmap(vars.hashmap);
+	ft_printf("exit");
 	print_line();
 	if (reset_terminal_settings() == 0)
 		return (EXIT_FAILURE);

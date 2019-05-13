@@ -5,9 +5,9 @@ t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id)
 {
 	(void)vars;
 	reset_terminal_settings(); //change
-	/*if (cmd_id == CMD_EXIT)
-		return (case_exit(argv));*/
-	if (cmd_id == CMD_ENV)
+	if (cmd_id == CMD_EXIT)
+		return (case_exit(argv, vars->previous_exit));
+	else if (cmd_id == CMD_ENV)
 	{
 		ft_print_ntab(vars->env_vars); // pls
 		return (0);
@@ -27,8 +27,8 @@ t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id)
 
 t_bool	check_builtins(char **argv)
 {
-/*	if (ft_strcmp(argv[0], "exit") == 0)
-		return (CMD_EXIT);*/
+	if (ft_strncmp(argv[0], "exit", 5) == 0)
+		return (CMD_EXIT);
 	if (ft_strncmp(argv[0], "env", 4) == 0)
 		return (CMD_ENV);
 	if (ft_strncmp(argv[0], "cd", 3) == 0)

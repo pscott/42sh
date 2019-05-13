@@ -15,6 +15,7 @@ typedef struct			s_vars
 	char				**env_vars;
 	char				**shell_vars;
 	struct s_hashmap	*hashmap;
+	int					*previous_exit;
 }						t_vars;
 
 /*

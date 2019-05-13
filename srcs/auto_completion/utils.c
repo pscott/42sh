@@ -1,5 +1,6 @@
 #include "libft.h"
 #include "line_editing.h"
+#include <sys/ioctl.h>
 
 int					get_cols_term(void)
 {

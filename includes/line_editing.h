@@ -32,6 +32,7 @@ void						write_from_start(t_st_cmd *st_cmd);
 **	auto_completion functions
 */
 
+enum						{DIRECTORY, REGULAR};
 typedef struct				s_auto_comp
 {
 	unsigned int			len;
@@ -42,7 +43,7 @@ typedef struct				s_auto_comp
 	struct s_auto_comp		*prev;
 }							t_auto_comp;
 
-char						*new_auto_completion(char *input, unsigned int len);
+char						*new_auto_completion(char *input, unsigned int len, t_vars *vars);
 char						*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigned int len);
 void						new_sort_list(t_auto_comp **match);
 int							del_match_unique(t_auto_comp *match);

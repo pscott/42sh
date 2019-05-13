@@ -30,7 +30,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		//free st_prompt
 		adjust_history(st_cmd, input);
 		st_cmd = append_st_cmd(st_cmd, "", "cont > ");
-	 	if ((ret = input_loop(st_cmd)) < 1)
+	 	if ((ret = input_loop(st_cmd, vars)) < 1)
 		{
 			if (ret == 0)
 				print_line();

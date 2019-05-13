@@ -45,7 +45,7 @@ int		main(int argc, char **argv, char **env)
 	st_cmd = init_st_cmd((const char **)vars.env_vars);
 	while (42)
 	{
-		if ((ret = input_loop(st_cmd)) == 0)
+		if ((ret = input_loop(st_cmd, &vars)) == 0)
 			break ; // free env, free st_cmd
 		else if (ret > 0 && !is_full_of_whitespaces(st_cmd->st_txt->txt))
 			handle_input(st_cmd, &vars);

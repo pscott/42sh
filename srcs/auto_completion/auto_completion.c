@@ -1,13 +1,14 @@
 #include "libft.h"
 #include "errors.h"
 #include "line_editing.h"
-#include "tosh.h"
 
-static int			get_path(char ***path)
+static int			get_path(char ***path, t_vars *vars)
 {
 	char			*tmpath;
 
-	if (!(tmpath = get_envline_value("PATH", g_env)))
+	if (!vars)
+		return (0);
+	if (!(tmpath = get_envline_value("PATH", vars->env_vars)))
 	{
 		*path = NULL;
 		return (0);
@@ -43,7 +44,7 @@ static int			new_check_first_arg(char *str)
 	return (0);
 }
 
-static char			*new_auto_completion_bin(char *str, unsigned int len)
+static char			*new_auto_completion_bin(char *str, unsigned int len, t_vars *vars)
 {
 	char			**path;
 	char			*to_find;
@@ -55,7 +56,7 @@ static char			*new_auto_completion_bin(char *str, unsigned int len)
 	ret_str = NULL;
 	i = -1;
 	path = NULL;
-	if (get_path(&path))//recup le path
+	if (get_path(&path, vars))//recup le path
 		return (NULL);
 //		return (ERR_MALLOC);
 	if (!(to_find = ft_strdup(str)))
@@ -109,20 +110,21 @@ static int			new_auto_completion_file(char *str, unsigned int len)
 	return (0);
 }
 
-char				*new_auto_completion(char *input, unsigned int len)// len +1
+char				*new_auto_completion(char *input, unsigned int len, t_vars *vars)// len +1
 {
 	char			*str;
 	char			*ret;
-
+//vars->env = **environment;
 	if (!input)
 		return (NULL);
 	if (!(str = ft_strndup(input, len)))
 		return (NULL);//MALLOC ERR
+	ret = NULL;
 //	ft_putchar('|');
 //	ft_putendl(str);
 	if (new_check_lst_args(str) && !new_check_first_arg(str))
 	{
-		if (!(ret = new_auto_completion_bin(str, len)))
+		if (!(ret = new_auto_completion_bin(str, len, vars)))
 			return (NULL);
 			//return (ERR_MALLOC);
 	}

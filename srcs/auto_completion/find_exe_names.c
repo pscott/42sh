@@ -91,26 +91,23 @@ static char			*rm_spaces_path(char *str)
 }
 
 
-int					find_matching_exe(char **path, t_auto_comp **match, char *to_find, int is_exe)
+int					find_matching_exe(char **path, t_auto_comp **match, char *to_find_real)
 {
 	char			*true_path;
-	char			*to_find_real;
 	int				i;
 
 	i = 0;
-	to_find_real = ft_strndup(to_find, ft_strlen(to_find) - 2);
-	//Proteciton malloc
 	while (path[i])
 		{
 			true_path = rm_spaces_path(path[i]);
-			if (check_command_folder(path[i++], match, to_find) ==  1 /*ERR_MALLOC*/)
+			if (check_command_folder(path[i++], match, to_find_real) ==  1 /*ERR_MALLOC*/)
 				return (1);
 		//		return (ERR_MALLOC); // leaks
 		}
-	if (is_exe == 1 && add_builtins(match, to_find))
+	if (add_builtins(match, to_find_real))
 		return (1);
 //		return (ERR//_MALLOC);
-	if (is_exe == 1 && add_alias(match, to_find))
+	if (add_alias(match, to_find_real))
 		return (1);	
 	//	return (ERR_MALLOC);
 	if (!(*match))
@@ -131,6 +128,5 @@ int					find_matching_exe(char **path, t_auto_comp **match, char *to_find, int i
 //	*match = ft_list_sort_ascii(*match);
 //	ft_putendl((*match)->name);
 //	sleep(1);
-	ft_strdel(&to_find_real);
 	return (0);
 }

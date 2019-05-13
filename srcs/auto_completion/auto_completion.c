@@ -48,6 +48,7 @@ static char			*new_auto_completion_bin(char *str, unsigned int len, t_vars *vars
 {
 	char			**path;
 	char			*to_find;
+	char			*to_find_real;
 	char			*ret_str;
 	t_auto_comp		*match;
 	int				i;
@@ -57,22 +58,25 @@ static char			*new_auto_completion_bin(char *str, unsigned int len, t_vars *vars
 	i = -1;
 	path = NULL;
 	if (get_path(&path, vars))//recup le path
-		return (NULL);
-//		return (ERR_MALLOC);
+		ERROR_MEM
 	if (!(to_find = ft_strdup(str)))
-		return (NULL);
-//		return (ERR_MALLOC);
-	//ft_putchar('\n');
-	if (find_matching_exe(path, &match, to_find, 1))//stock dans match les noms correspondants
+		ERROR_MEM
+	if (!(to_find_real = ft_strndup(to_find, len)))
+		ERROR_MEM
+	if (find_matching_exe(path, &match, to_find_real))//stock dans match les noms correspondants
 	{
 		ft_free_ntab(path);
-		//ERR_MALLOC
-		return (NULL);
+		ERROR_MEM
 	}
 	ft_free_ntab(path);
 	if (match)
-		ret_str = get_ret_or_display_matches(match, to_find, len);
+	{
+		ret_str = get_ret_or_display_matches(match, to_find, len, to_find_real);
+	}
+	if (!ret_str)
+		ret_str = ft_strdup(to_find_real);
 	ft_strdel(&to_find);
+	ft_strdel(&to_find_real);
 	return (ret_str);
 }
 
@@ -114,26 +118,24 @@ char				*new_auto_completion(char *input, unsigned int len, t_vars *vars)// len 
 {
 	char			*str;
 	char			*ret;
-//vars->env = **environment;
 	if (!input)
 		return (NULL);
-	if (!(str = ft_strndup(input, len)))
-		return (NULL);//MALLOC ERR
+	if (!(str = ft_strndup(input, len + 1)))// CAREFUL : str est to_find + 1 char !
+		ERROR_MEM
 	ret = NULL;
-//	ft_putchar('|');
-//	ft_putendl(str);
 	if (new_check_lst_args(str) && !new_check_first_arg(str))
 	{
 		if (!(ret = new_auto_completion_bin(str, len, vars)))
 			return (NULL);
-			//return (ERR_MALLOC);
 	}
 /*	else
 	{
 		if (new_auto_completion_file(str, len))
 			return (ERR_MALLOC);
 	}
-*/	ft_strdel(&str);
-//	sleep(1);
+*/	
+	if (!ret)
+		ret = ft_strndup(str, len);
+	ft_strdel(&str);
 	return (ret);
 }

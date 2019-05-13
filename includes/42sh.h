@@ -4,15 +4,18 @@
 # include "libft.h"
 # include <stdlib.h>
 # include "libterm.h"
+typedef unsigned char	t_bool;
+# include "hashmap.h"
 
 # define ERROR_MEM clean_exit(1);
 
-typedef unsigned char	t_bool;
 
-typedef struct	s_vars {
-	char		**env_vars;
-	char		**shell_vars;
-}				t_vars;
+typedef struct			s_vars
+{
+	char				**env_vars;
+	char				**shell_vars;
+	struct s_hashmap	*hashmap;
+}						t_vars;
 
 /*
 ** init_env.c

@@ -45,10 +45,12 @@ SRC_DIR	:=	srcs
 	BUILTINS_DIR		:=	builtins
 	REDIR_DIR			:=	redirections
 	EXEC_DIR			:=	execution
+	HASHMAP_DIR			:=	hashmap
 	#list of all srcs subdirectories
 	SRC_SUBDIRS	:=	$(ENV_DIR) $(ERRORS_DIR) $(LEXER_DIR) $(PARSER_DIR) \
 					$(PIPELINE_DIR) $(READER_DIR) $(HISTORY_DIR) $(EXPANDS_DIR) \
-				   	$(SIGNALS_DIR) $(L_E_DIR) $(BUILTINS_DIR) $(REDIR_DIR) $(EXEC_DIR)
+				   	$(SIGNALS_DIR) $(L_E_DIR) $(BUILTINS_DIR) $(REDIR_DIR) \
+					$(EXEC_DIR) $(HASHMAP_DIR)
 
 
 #VPATH specifies a list of directories that 'make' should search
@@ -75,12 +77,14 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c \
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c
 	REDIR_FILES		:=	redir_dgreat.c redir_dless.c redir_fd_great.c redir_great.c redir_less.c parse_redirections.c
 	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c
+	HASHMAP_FILES	:=	find_next_prime.c hash_main.c hashfun.c hashmap.c\
+						hashmap_alloc.c hashmap_delete.c hashmap_print.c
 
 
 #list of all .c files
 C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES)\
 			$(PARSER_FILES) $(PIPELINE_FILES) $(READER_FILES) $(HISTORY_FILES) \
-			$(EXPANDS_FILES) $(SIGNALS_FILES) $(L_E_FILES) $(BUILTINS_FILES) $(REDIR_FILES) $(EXEC_FILES)
+			$(EXPANDS_FILES) $(SIGNALS_FILES) $(L_E_FILES) $(BUILTINS_FILES) $(REDIR_FILES) $(EXEC_FILES) $(HASHMAP_FILES)
 
 
 # Complete path of each .c files ###############################################
@@ -98,6 +102,7 @@ L_E_PATH			:=	$(addprefix $(L_E_DIR)/,$(L_E_FILES))
 BUILTINS_PATH		:=	$(addprefix $(BUILTINS_DIR)/,$(BUILTINS_FILES))
 REDIR_PATH			:=	$(addprefix $(REDIR_DIR)/,$(REDIR_FILES))
 EXEC_PATH			:=	$(addprefix $(EXEC_DIR)/,$(EXEC_FILES))
+HASHMAP_PATH		:=	$(addprefix $(HASHMAP_DIR)/,$(HASHMAP_FILES))
 
 #list of all "path/*.c"
 SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
@@ -113,6 +118,7 @@ SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(BUILTINS_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(REDIR_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(EXEC_PATH)) \
+			$(addprefix $(SRC_DIR)/,$(HASHMAP_PATH)) \
 			$(SRC_PATH)
 
 #Object ########################################################################

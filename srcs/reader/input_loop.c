@@ -45,7 +45,7 @@ void	insert_txt(t_st_cmd *st_cmd, const char *buf)
 **	Returns 0 on quit, return -1 on ctrl + c
 */
 
-int		input_loop(t_st_cmd *st_cmd)
+int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 {
 	char	buf[BUF_SIZE + 1];
 	int		ret;
@@ -59,7 +59,8 @@ int		input_loop(t_st_cmd *st_cmd)
 		buf[ret] = 0;
 		if (check_for_signal(buf))
 			return (-1);
-		else if (check_for_arrows(st_cmd, buf) || check_for_delete(st_cmd, buf))
+		else if (check_for_arrows(st_cmd, buf) || check_for_delete(st_cmd, buf)
+				|| check_for_tab(st_cmd, buf, vars))
 			;
 		else if (check_for_enter(buf))
 		{

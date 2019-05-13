@@ -49,10 +49,7 @@ void				set_env_var(char *var_name, char *var_value, char ***env);
 ** lexer_tools.c
 */
 
-t_bool				is_quotes(char c);
-t_bool				is_white_spaces(char c);
 t_bool				is_delimiter(char c);
-t_bool				is_metachar(char c);
 
 t_bool				is_full_of_whitespaces(char *input);
 

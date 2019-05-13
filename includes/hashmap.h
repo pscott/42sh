@@ -103,5 +103,5 @@ unsigned int	find_prev_prime(unsigned int nb);
 /*
 ** hash_main.c
 */
-int				hash_builtin(t_hashmap **hashmap, int argc, char **argv, char **env);
+int				hash_builtin(t_hashmap **hashmap, int argc, char **argv);
 #endif

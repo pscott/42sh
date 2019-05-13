@@ -1,7 +1,7 @@
 #include "42sh.h"
 #include "errors.h"
 
-static int		check_access(char *file)
+int			check_access(char *file)
 {
 	if (access(file, F_OK) == 0)
 	{
@@ -12,7 +12,7 @@ static int		check_access(char *file)
 	return (ERR_NOEXIST);
 }
 
-static char		*find_path(char *file, char **paths)
+char		*find_path(char *file, char **paths)
 {
 	unsigned int	i;
 	char			*possible_path;
@@ -39,7 +39,7 @@ char	*get_cmd_path(char **argv, char **env)
 	char	**paths;
 	char	*path_line;
 	char	*path;
-	int		acc;
+	int		access;
 
 	path = NULL;
 	if (ft_strchr(argv[0], '/'))
@@ -53,14 +53,14 @@ char	*get_cmd_path(char **argv, char **env)
 	}
 	if (!path && !(path = find_path(argv[0], paths)))
 		path = argv[0];
-	acc = check_access(path);
-	if (acc == 0)
+	access = check_access(path);
+	if (access == 0)
 		return (path);
 	else 
 	{
-		if (acc == ERR_NOEXIST)
+		if (access == ERR_NOEXIST)
 			print_errors(ERR_NOEXIST, ERR_NOEXIST_STR, path);
-		else if (acc== ERR_ACCESS)
+		else if (access == ERR_ACCESS)
 			print_errors(ERR_ACCESS, ERR_ACCESS_STR, path);
 		return (NULL);
 	}

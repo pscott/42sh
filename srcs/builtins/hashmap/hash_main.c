@@ -1,4 +1,5 @@
 #include "hashmap.h"
+#include "execution.h"
 
 static void	init_hash_args(t_hash_args *hash_args)//should i malloc ?
 {
@@ -78,6 +79,7 @@ static t_bool	get_hash_args(char **argv, t_hash_args *hash_args)
 	return (1);//succes
 }
 
+/*
 static void	add_each_name(t_hashmap **hashmap, t_hash_args *hash_args, int argc, char **argv)
 {
 	int		i;
@@ -87,8 +89,41 @@ static void	add_each_name(t_hashmap **hashmap, t_hash_args *hash_args, int argc,
 	while (++i < argc)
 	{
 		//value = search in path;
+		value = get_cmd_path(argv[0], //ICICICICICI PATH
 		value = ft_strdup("tmp_path");//tmp
 		add_to_hashmap(argv[i], value, hashmap);
+	}
+}
+*/
+
+static char	**get_paths(char **env)
+{
+	char	**paths;
+	char	*path_line;
+
+	if (!(path_line = get_envline_value("PATH", env)))
+		printf("path not found tmp\n");
+	if (!(paths = ft_strsplit(path_line, ":")))
+		//ERROR_MEM;
+	return (paths);
+}
+
+static void	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc, char **argv)
+{
+	int		i;
+	char	*value;
+	char	**paths;
+
+	i = hash_args->name_index - 1;
+	if (!(paths = get_paths(vars->env_vars)))
+		//ERROR_MEM??
+	while (++i < argc)
+	{
+		//value = search in path;
+		//value = get_cmd_path(argv, vars->env_vars);
+		value = find_path(argv[i], paths);
+		//value = ft_strdup("tmp_path");//tmp
+		add_to_hashmap(argv[i], value, &vars->hashmap);
 	}
 }
 
@@ -119,31 +154,31 @@ static void	pop_each_name(t_hashmap **hashmap, t_hash_args *hash_args, int argc,
 //L only matter when printing
 //make 'hash -l ls' same as 'hash -t ls'
 //p>d (if name)
-int			hash_builtin(t_hashmap **hashmap, int argc, char **argv, char **env)
+int			hash_builtin(t_vars *vars, int argc, char **argv)
 {
 	t_hash_args	hash_args;
 
-	(void)env;
 	if (argc == 1)
 	{
-		print_hashmap(*hashmap);
+		print_hashmap(vars->hashmap);
 		return (0);
 	}
 	if (!get_hash_args(argv, &hash_args))
 		return (1);
 	if (hash_args.opt & O_R)//priority
-		reset_hashmap(hashmap);
+		reset_hashmap(&vars->hashmap);
 	if (hash_args.path && hash_args.name_index)
-		add_each_name_with_path(hashmap, &hash_args, argc, argv);
+		add_each_name_with_path(&vars->hashmap, &hash_args, argc, argv);
 	else if (hash_args.opt & O_D && hash_args.name_index)
 	{
-		pop_each_name(hashmap, &hash_args, argc, argv);
+		pop_each_name(&vars->hashmap, &hash_args, argc, argv);
 	}
 	else if ((!hash_args.opt || hash_args.opt & O_R) && hash_args.name_index)//test !opt
 	{
-		add_each_name(hashmap, &hash_args, argc, argv);
+		printf("KJSHDFKJHSDKFJH\n");
+		add_each_name(vars, &hash_args, argc, argv);
 	}
 	else
-		hash_builtin_print(*hashmap, &hash_args, argc, argv);//print
+		hash_builtin_print(vars->hashmap, &hash_args, argc, argv);//print
 	return (1);
 }

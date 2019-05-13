@@ -3,11 +3,13 @@
 #include "execution.h"
 #include "libterm.h"
 #include "cmd_parsing.h"
+#include "errors.h"
 
 static t_bool		execute_argv(char **argv, t_vars *vars)
 {
 	int		cmd;
 	char	*cmd_path;
+	int		access;
 
 	if (!argv)
 		return (0);
@@ -16,10 +18,21 @@ static t_bool		execute_argv(char **argv, t_vars *vars)
 	if (!(cmd_path = check_hashmap(argv[0], vars->hashmap, HASH_EXEC)))
 		if (!(cmd_path = get_cmd_path(argv, vars->env_vars)))
 			return (0); // error msg ? not found
-	if (reset_terminal_settings())
+	if ((access = check_access(cmd_path)) == 0 && reset_terminal_settings())
+	{
 		execve(cmd_path, (char * const*)argv, (char* const*)vars->env_vars);
-	clean_exit(1);
-	return (1);
+		clean_exit(1);
+		return (1);
+	}
+	else
+	{
+		if (access == ERR_NOEXIST)
+			print_errors(ERR_NOEXIST, ERR_NOEXIST_STR, cmd_path);
+		else if (access == ERR_ACCESS)
+			print_errors(ERR_ACCESS, ERR_ACCESS_STR, cmd_path);
+	}
+	//ft_strdel(&cmd_path);
+	return (0);
 }
 
 t_bool		execute_in_fork(t_token *token_head, int in, int out, t_vars *vars)
@@ -80,6 +93,12 @@ t_bool		execute_only_one_cmd(t_token *token_head, t_vars *vars)
 		ret = exec_builtins(argv, vars, cmd);
 		ft_free_ntab(argv);
 		setup_terminal_settings();
+	}
+	else if ((cmd_path = check_hashmap(argv[0], vars->hashmap, HASH_CHECK)))
+	{
+		ft_strdel(&cmd_path);
+		ft_free_ntab(argv);
+		ret = 1;
 	}
 	else
 	{

@@ -92,7 +92,7 @@ static void	print_spaces(char *s, int cols)
 
 }
 
-static int	display_various(t_auto_comp *match, char *to_find)
+static int	display_various(t_auto_comp *match)
 {
 	int				maxlen;
 	int				cols;
@@ -138,17 +138,18 @@ static int	display_various(t_auto_comp *match, char *to_find)
 	return (0);
 }
 
-int			lst_match_more_than_to_find(t_auto_comp *match, char *to_find, char *to_find_real, unsigned int len)
+int			lst_match_more_than_to_find(t_auto_comp *match, unsigned int len)
 {
 	int				ret;
 	int				len_to_find;
 	t_auto_comp		*curr;
 
 	ret = 0;
+	len_to_find = 0;
 
 	while (match->prev)
 		match = match->prev;
-	curr = match->next;
+	curr = match;
 	ret = len;
 	while (curr->name[ret] && curr->next)
 	{
@@ -157,16 +158,15 @@ int			lst_match_more_than_to_find(t_auto_comp *match, char *to_find, char *to_fi
 		curr = curr->next;
 		if (!curr->next)
 		{
-			curr = match->next;
+			curr = match;
 			ret++;
 		}
 	}
 	return (ret - len_to_find);
 }
 
-char		*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigned int len, char *to_find_real)
+char		*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigned int len, char *to_find_next_char)
 {
-	int				ret;
 	int				diff_len;
 	char			*ret_str;
 
@@ -175,17 +175,17 @@ char		*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigned in
 
 	if (len_lst(match) == 1)//one only match 
 	{
-		ret_str = get_unique_match(match, to_find, len);
+		ret_str = get_unique_match(match, to_find_next_char, len);
 	}
-	else if ((diff_len = lst_match_more_than_to_find(match, to_find, to_find_real, len)))//if all matches have a common pattern longer than to_find : diff_len = nb of char to add
+	else if ((diff_len = lst_match_more_than_to_find(match, len)))//if all matches have a common pattern longer than to_find : diff_len = nb of char to add
 	{
 		if (!(ret_str = ft_strndup(match->name, len + diff_len)))
 			ERROR_MEM
 	}
 	else//display list of matches et ret_str est une copy de to_find car input pas modifie
 	{
-		display_various(match, to_find);
-		ret_str = ft_strdup(to_find_real);
+		display_various(match);
+		ret_str = ft_strdup(to_find);
 	}
 	del_match(match);
 	return (ret_str);

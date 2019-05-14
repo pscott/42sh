@@ -97,7 +97,10 @@ int		lexer(char *cmdline, t_token **token_head)
 	while (cmdline && *cmdline)
 	{
 		if (!(current_token = get_token(&cmdline, op_chart)))
+		{
+			//ft_printf("get_tok returned CONT\n");
 			return (LEX_CONT_READ);
+		}
 		if (!(add_token_to_list(current_token, prev_token, token_head)))
 			return (LEX_FAIL);
 		if (current_token->type != TK_EAT)

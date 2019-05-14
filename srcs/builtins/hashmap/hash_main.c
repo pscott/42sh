@@ -141,7 +141,8 @@ static t_bool	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc, char
 	return (ret);
 }
 
-static void	add_each_name_with_path(t_hashmap **hashmap, t_hash_args *hash_args, int argc, char **argv)
+static void	add_each_name_with_path(t_hashmap **hashmap
+			, t_hash_args *hash_args, int argc, char **argv)
 {
 	int		i;
 
@@ -150,16 +151,23 @@ static void	add_each_name_with_path(t_hashmap **hashmap, t_hash_args *hash_args,
 		add_to_hashmap(argv[i], hash_args->path, hashmap);
 }
 
-static void	pop_each_name(t_hashmap **hashmap, t_hash_args *hash_args, int argc, char **argv)
+static t_bool	pop_each_name(t_hashmap **hashmap, t_hash_args *hash_args
+				, int argc, char **argv)
 {
-	int	i;
+	int		i;
+	t_bool	ret;
 
 	i = hash_args->name_index - 1;
+	ret = 0;
 	while (++i < argc)
 	{
 		if (!pop_hashmap_item(argv[i], *hashmap))
+		{
 			ft_dprintf(2, "hash: %s: not found\n", argv[i]);
+			ret = 1;
+		}
 	}
+	return (ret);
 }
 
 //L only matter when printing
@@ -181,9 +189,9 @@ int			hash_builtin(t_vars *vars, int argc, char **argv)
 	if (hash_args.path && hash_args.name_index)
 		add_each_name_with_path(&vars->hashmap, &hash_args, argc, argv);
 	else if (hash_args.opt & O_D && hash_args.name_index)
-		pop_each_name(&vars->hashmap, &hash_args, argc, argv);
+		return(pop_each_name(&vars->hashmap, &hash_args, argc, argv));
 	else if ((!hash_args.opt || hash_args.opt & O_R) && hash_args.name_index)//test !opt, seems good
-		add_each_name(vars, &hash_args, argc, argv);
+		return(add_each_name(vars, &hash_args, argc, argv));
 	else if (!(hash_args.opt & O_R))//test, seems good
 		return(hash_builtin_print(vars->hashmap, &hash_args, argc, argv));
 	return (0);

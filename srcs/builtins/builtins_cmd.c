@@ -3,6 +3,8 @@
 
 t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id)
 {
+	int		tmp_ret;
+
 	(void)vars;
 	reset_terminal_settings(); //change
 	/*if (cmd_id == CMD_EXIT)
@@ -15,7 +17,12 @@ t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id)
 	else if (cmd_id == CMD_CD)
 	  	return (case_cd(argv, &vars->env_vars));
 	else if (cmd_id == CMD_HASH)
-		return (case_hash(argv, vars));
+	{
+		tmp_ret = case_hash(argv, vars);
+		ft_printf("tmp_ret: %d\n", tmp_ret);
+		return (tmp_ret);
+		//return (case_hash(argv, vars));
+	}
 	/*if (cmd_id == CMD_SETENV) // will need vars
   	return (case_setenv(argv));
 	if (cmd_id == CMD_UNSETENV)

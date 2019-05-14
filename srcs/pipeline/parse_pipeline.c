@@ -91,14 +91,15 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 	{
 		if (num_simple_commands != 1)
 			close(fd[0]);
-//		reset_ign();
 		while ((wpid = wait(&status)) > 0) //not sure if it's proper
 		{
 			if (WIFSIGNALED(status))
 			{
-				if (WTERMSIG(status) != SIGINT)
+				if (WTERMSIG(status) != SIGINT && WTERMSIG(status) != SIGPIPE)
+				{
 					ft_printf("process terminated, received signal : %d", WTERMSIG(status));
-				print_line();
+					print_line();
+				}
 			}
 		}
 		signal_setup();

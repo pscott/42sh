@@ -24,6 +24,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 
 	token_head = NULL;
 	input = concatenate_txt(st_cmd);
+	ft_printf("pre input: {%s}\n", input);
 	while ((lexer_ret = lexer(input, &token_head)) == LEX_CONT_READ)
 	{
 		free_token_list(token_head);
@@ -37,6 +38,14 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 			return (0); // free stuff ?
 		}
 		input = concatenate_txt(st_cmd);
+		if (is_full_of_whitespaces(input))
+		{
+			ft_printf("FULL WP\n");
+			return (1);
+		}
+		else
+			ft_printf("NOP\n");
+		ft_printf("input: {%d}\n", *input);
 	}
 	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 	insert_left(st_cmd->hist_lst, input, 1);
@@ -47,12 +56,14 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		print_line();
 		return (0);
 	}
+	print_token_list(token_head);
 	if (!(ast_root = create_ast(token_head)))
 	{
 		//DEBUG_PARSER && ft_printf("\x1B[31m""### Parser FAILED""\x1B[0m""\n");
 		print_line();
 		return (0);
 	}
+	//print_ast(ast_root);
 	exec_ast(ast_root, vars);
 	free_ast(ast_root);
 	return (1);

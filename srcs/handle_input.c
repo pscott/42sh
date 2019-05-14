@@ -27,36 +27,40 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	while ((lexer_ret = lexer(input, &token_head)) == LEX_CONT_READ)
 	{
 		free_token_list(token_head);
-		//free st_prompt
 		adjust_history(st_cmd, input);
 		st_cmd = append_st_cmd(st_cmd, "", "cont > ");
+		get_st_cmd(&st_cmd);
 	 	if ((ret = input_loop(st_cmd, vars)) < 1)
 		{
 			if (ret == 0)
+			{
 				print_line();
-			return (0); // free stuff ?
+				ft_strdel(&input);
+			}
+			return (0);
 		}
 		input = concatenate_txt(st_cmd);
 		if (is_full_of_whitespaces(input))
+		{
+			ft_strdel(&input);
 			return (1);
+		}
 	}
-	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
+	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst); // useless ?
 	insert_left(st_cmd->hist_lst, input, 1);
-	ft_memdel((void*)&input);
+	ft_strdel(&input);
 	if (lexer_ret == LEX_FAIL)
 	{
 		free_token_list(token_head);
 		print_line();
 		return (0);
 	}
-	print_token_list(token_head);
 	if (!(ast_root = create_ast(token_head)))
 	{
 		//DEBUG_PARSER && ft_printf("\x1B[31m""### Parser FAILED""\x1B[0m""\n");
 		print_line();
 		return (0);
 	}
-	//print_ast(ast_root);
 	exec_ast(ast_root, vars);
 	free_ast(ast_root);
 	return (1);

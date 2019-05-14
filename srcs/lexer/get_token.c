@@ -82,7 +82,7 @@ static t_token	*get_monochar(char **cmdline)
 	{
 		st_cmd = get_st_cmd(NULL);//make func ?
 		st_cmd->st_txt->data_size -= 2;
-		ft_bzero(&st_cmd->st_txt[st_cmd->st_txt->data_size], 2);
+		ft_bzero(&st_cmd->st_txt->txt[st_cmd->st_txt->data_size], 2);
 		return (NULL);
 	}
 	(*cmdline)++;

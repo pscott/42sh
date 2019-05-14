@@ -93,6 +93,11 @@ t_bool		execute_only_one_cmd(t_token *token_head, t_vars *vars)
 		parse_redirections(token_head);
 		argv = get_argv_from_token_lst(token_head);
 		reset_terminal_settings();
+		if (cmd == CMD_EXIT)
+		{
+			ft_printf("exit");
+			print_line();
+		}
 		ret = exec_builtins(argv, vars, cmd);
 		ft_free_ntab(argv);
 		setup_terminal_settings();

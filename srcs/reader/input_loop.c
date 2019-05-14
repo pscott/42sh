@@ -60,18 +60,18 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 		if (check_for_signal(buf))
 			return (-1);
 		else if (check_for_arrows(st_cmd, buf) || check_for_delete(st_cmd, buf)
-				|| check_for_tab(st_cmd, buf, vars))
+				|| check_for_tab(st_cmd, buf, vars) || check_for_quit(st_cmd, buf))
 			;
 		else if (check_for_enter(buf))
 		{
 			ft_strncpy(buf, "\n", 1);
 			st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;
+			get_pos(st_cmd, st_cmd->st_txt->tracker);
+			reposition_cursor(st_cmd);
 			insert_txt(st_cmd, (const char*)buf);
 			print_line();
 			break ;
 		}
-		else if (check_for_quit(buf))
-			return (0);
 		else if (buf[0] < 0 || buf[0] == '\x1b') // checks for unicode and ANSI
 			continue ;
 		else

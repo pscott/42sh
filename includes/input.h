@@ -42,7 +42,7 @@ t_bool				handle_input(t_st_cmd *st_cmd, t_vars *vars);
 */
 
 int				check_for_arrows(t_st_cmd *st_cmd, const char *buf);
-int				check_for_quit(const char *buf);
+int				check_for_quit(t_st_cmd *st_cmd, const char *buf);
 int				check_for_enter(const char *buf);
 int				check_for_signal(const char *buf);
 int				check_for_delete(t_st_cmd *st_cmd, char *buf);

@@ -8,7 +8,7 @@ t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id)
 	(void)vars;
 	reset_terminal_settings(); //change
 	if (cmd_id == CMD_EXIT)
-		return (case_exit(argv, vars->previous_exit));
+		return (case_exit(argv));
 	else if (cmd_id == CMD_ENV)
 	{
 		ft_print_ntab(vars->env_vars); // pls

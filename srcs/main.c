@@ -52,12 +52,12 @@ int		main(int argc, char **argv, char **env)
 			handle_input(st_cmd, &vars);
 		st_cmd = reset_st_cmd(st_cmd);
 	}
+	ft_printf("exit");
+	print_line();
 	write_to_history(st_cmd, (const char **)vars.env_vars);
 	free_all_st_cmds(&st_cmd);
 	free_vars(&vars);
 	delete_hashmap(vars.hashmap);
-	ft_printf("exit");
-	print_line();
 	if (reset_terminal_settings() == 0)
 		return (EXIT_FAILURE);
 	else

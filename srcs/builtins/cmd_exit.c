@@ -15,7 +15,12 @@ int				builtin_exit_error(int errno, char *s)
 	return (EXIT_SUCCESS);
 }
 
-int				case_exit(char **arr, int *exit)
+static void		builtin_exit(int exitno)
+{
+	clean_exit(exitno);
+}
+
+int				case_exit(char **arr)
 {
 	int			i;
 	int			ret;
@@ -25,7 +30,7 @@ int				case_exit(char **arr, int *exit)
 	ret = 0;
 	count = 0;
 	if (!arr || !arr[1])
-		clean_exit(EXIT_SUCCESS);
+		builtin_exit(0);
 	if (arr[2])
 		return (builtin_exit_error(ARGS_NB, NULL));
 	if (arr[1][i] == '-')
@@ -36,12 +41,13 @@ int				case_exit(char **arr, int *exit)
 			return (builtin_exit_error(ARG_NOT_DIGIT, arr[1]));
 		if (arr[1][i] != 0)
 			++count;
+		i++;
 	}
 //	else
 //		*exit = ft_atoi(arr[1]);
 	if (count > 19)
 		return (builtin_exit_error(ARG_TOO_LONG, NULL));
 	ret = ft_atoi(arr[1]);
-	clean_exit(ret);
+	builtin_exit(ret);
 	return (EXIT_SUCCESS);
 }

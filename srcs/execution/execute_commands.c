@@ -95,7 +95,7 @@ t_bool		execute_only_one_cmd(t_token *token_head, t_vars *vars)
 		reset_terminal_settings();
 		if (cmd == CMD_EXIT)
 		{
-			ft_printf("exit builtin");
+			ft_printf("exit");
 			print_line();
 		}
 		ret = exec_builtins(argv, vars, cmd);

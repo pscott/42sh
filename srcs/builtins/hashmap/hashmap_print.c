@@ -1,23 +1,29 @@
 #include "hashmap.h"
 
-void	print_hashmap(t_hashmap *hashmap)//REAL
+static t_bool	is_hashmap_empty(t_hashmap *hashmap)
 {
-	int			i;
-	t_bool		is_empty;
-	t_hash_item	*item_probe;
+	t_bool	is_empty;
+	int		i;
 
-	i = -1;
 	is_empty = 1;
+	i = -1;
 	while (++i < (int)hashmap->size)
 	{
 		if (hashmap->items[i])
 			is_empty = 0;
 	}
 	if (is_empty)
-	{
 		ft_printf("hash: hash table empty\n");
+	return (is_empty);
+}
+
+void	print_hashmap(t_hashmap *hashmap)
+{
+	int			i;
+	t_hash_item	*item_probe;
+
+	if (is_hashmap_empty(hashmap))
 		return ;
-	}
 	ft_printf("hits\tcommand\n");
 	i = -1;
 	while (++i < (int)hashmap->size)
@@ -31,7 +37,8 @@ void	print_hashmap(t_hashmap *hashmap)//REAL
 	}
 }
 
-void	print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args, int argc, char **argv)
+t_bool	print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args
+		, int argc, char **argv)
 {
 	int			i;
 	const char	*value;
@@ -42,18 +49,21 @@ void	print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args, int argc, 
 		if ((value = check_hashmap(argv[i], hashmap, HASH_CHECK)))
 			ft_printf("hash -p %s %s\n", value, argv[i]);
 		else
-			ft_dprintf(2, "hash: %s wasn't found\n", argv[i]);
+		{
+			ft_dprintf(2, "hash: %s: not found\n", argv[i]);
+			return (1);
+		}
 	}
+	return (0);
 }
 
 void	print_hashmap_l(t_hashmap *hashmap)
-//void	print_hashmap_l(t_hashmap *hashmap, t_hash_args *hash_args, int argc,
-//		char ** argv);
 {
 	int			i;
 	t_hash_item	*item_probe;
-	//t_bool is_empty;//to print hash table empty
 
+	if (is_hashmap_empty(hashmap))
+		return ;
 	i = -1;
 	while (++i < (int)hashmap->size)
 	{
@@ -66,20 +76,22 @@ void	print_hashmap_l(t_hashmap *hashmap)
 	}
 }
 
-void	hash_builtin_print(t_hashmap *hashmap, t_hash_args *hash_args, int argc, char **argv)//TODO change so L print only args(starting @ name_index)
+t_bool	hash_builtin_print(t_hashmap *hashmap, t_hash_args *hash_args
+		, int argc, char **argv)
 {
 	if (hash_args->opt & O_L)
 	{
 		if (!hash_args->name_index)
-			print_hashmap_l(hashmap);//TODO:, hash_args);
+			print_hashmap_l(hashmap);
 		else
-			print_hashmap_l_args(hashmap, hash_args, argc, argv);
+			return (print_hashmap_l_args(hashmap, hash_args, argc, argv));
 	}
 	else
 		print_hashmap(hashmap);
+	return (0);
 }
 
 void	print_usage(void)
 {
-	ft_dprintf(2, "hash [-lr] [-p pathname] [-d] [name ...]\n");//no 't'
+	ft_dprintf(2, "hash [-lr] [-p pathname] [-d] [name ...]\n");
 }

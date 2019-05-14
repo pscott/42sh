@@ -29,7 +29,6 @@ t_bool		add_to_hashmap(char *key, char *value, t_hashmap **hashmap)
 	if (item_probe)//	item found
 	{
 		replace_item(item_probe, value);//	protect
-		//should i incr counter ? NOP, not here
 		return (1);
 	}
 	else//	item not found

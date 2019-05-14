@@ -11,7 +11,7 @@ char	*concatenate_txt(t_st_cmd *st_cmd)
 	input = NULL;
 	while (st_cmd)
 	{
-		input = ft_strjoin(input, st_cmd->st_txt->txt);
+		input = ft_strjoin(input, st_cmd->st_txt->txt);//protect ?
 		st_cmd = st_cmd->next;
 	}
 	return (input);

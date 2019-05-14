@@ -15,7 +15,7 @@ static t_bool		execute_argv(char **argv, t_vars *vars)
 		return (0);
 	if ((cmd = check_builtins(argv)))
 	{
-		ft_printf("_in execute_argv\n");
+		//ft_printf("_in execute_argv\n");
 		return (exec_builtins(argv, vars, cmd));
 	}
 	if (!(cmd_path = check_hashmap(argv[0], vars->hashmap, HASH_CHECK)))

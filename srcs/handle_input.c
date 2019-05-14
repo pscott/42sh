@@ -24,7 +24,6 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 
 	token_head = NULL;
 	input = concatenate_txt(st_cmd);
-	ft_printf("pre input: {%s}\n", input);
 	while ((lexer_ret = lexer(input, &token_head)) == LEX_CONT_READ)
 	{
 		free_token_list(token_head);
@@ -39,13 +38,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		}
 		input = concatenate_txt(st_cmd);
 		if (is_full_of_whitespaces(input))
-		{
-			ft_printf("FULL WP\n");
 			return (1);
-		}
-		else
-			ft_printf("NOP\n");
-		ft_printf("input: {%d}\n", *input);
 	}
 	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 	insert_left(st_cmd->hist_lst, input, 1);

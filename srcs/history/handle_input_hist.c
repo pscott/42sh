@@ -25,7 +25,11 @@ void	adjust_history(t_st_cmd *st_cmd, char *line)
 		insert_right(to_insert, line, 0);
 	else
 	{
-		ft_memdel((void*)&to_insert->txt);
-		to_insert->cpy = ft_strdup(line);
+		ft_strdel(&to_insert->txt);
+		ft_strdel(&to_insert->cpy);
+		if (!(to_insert->txt = ft_strdup(line)))
+			ERROR_MEM;
+		if (!(to_insert->cpy = ft_strdup(line)))
+			ERROR_MEM;
 	}
 }

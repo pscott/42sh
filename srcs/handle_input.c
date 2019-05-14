@@ -46,8 +46,11 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 			return (1);
 		}
 	}
-	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst); // useless ?
-	insert_left(st_cmd->hist_lst, input, 1);
+	adjust_history(st_cmd, input);
+	if (st_cmd->hist_lst->keep == 0)
+		st_cmd->hist_lst->keep = 1;
+	else
+		insert_left(st_cmd->hist_lst, input, 1);
 	ft_strdel(&input);
 	if (lexer_ret == LEX_FAIL)
 	{

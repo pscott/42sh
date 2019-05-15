@@ -17,7 +17,7 @@ char		*find_path(char *file, char **paths)
 	unsigned int	i;
 	char			*possible_path;
 	char			*path_w_slash;
-	
+
 	i = 0;
 	while (paths[i])
 	{

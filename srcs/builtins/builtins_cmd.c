@@ -3,9 +3,6 @@
 
 t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id)
 {
-	int					tmp_ret;
-
-	(void)vars;
 	if (cmd_id == cmd_exit)
 		return (case_exit(argv));
 	else if (cmd_id == cmd_env)
@@ -15,13 +12,10 @@ t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id)
 	}
 	else if (cmd_id == cmd_cd)
 	  	return (case_cd(argv, &vars->env_vars));
+	else if (cmd_id == cmd_type)
+	  	return (case_type(argv, vars));
 	else if (cmd_id == cmd_hash)
-	{
-		tmp_ret = case_hash(argv, vars);
-		//ft_printf("tmp_ret: %d\n", tmp_ret);
-		return (tmp_ret);
-		//return (case_hash(argv, vars));
-	}
+		return (case_hash(argv, vars));
 	/*if (cmd_id == cmd_setenv) // will need vars
   	return (case_setenv(argv));
 	if (cmd_id == cmd_unsetenv)
@@ -41,6 +35,8 @@ t_bool	check_builtins(char **argv)
 		return (cmd_cd);
 	if (ft_strncmp(argv[0], "hash", 5) == 0)
 		return (cmd_hash);
+	if (ft_strncmp(argv[0], "type", 5) == 0)
+		return (cmd_type);
 /*	if (ft_strcmp(argv[0], "setenv") == 0)
 		return (cmd_setenv);
 	if (ft_strncmp(argv[0], "unsetenv") == 0)

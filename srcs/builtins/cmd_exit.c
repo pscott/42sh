@@ -4,14 +4,17 @@
 int				builtin_exit_error(int errno, char *s)
 {
 	if (errno == ARGS_NB)
+	{
 		ft_dprintf(STDERR_FILENO,"exit: too many arguments");
+		print_line();
+		return (0);
+	}
 	else if (errno == ARG_NOT_DIGIT)
 	{
 		ft_dprintf(STDERR_FILENO, "exit: numeric argument required: %s", s);
 		print_line();
+		return (1);
 	}
-	if (errno == ARG_TOO_LONG)
-		ft_dprintf(STDERR_FILENO, "exit: numeric argument is too long");
 	return (EXIT_SUCCESS);
 }
 
@@ -43,11 +46,9 @@ int				case_exit(char **arr)
 			++count;
 		i++;
 	}
-//	else
-//		*exit = ft_atoi(arr[1]);
 	if (count > 19)
-		return (builtin_exit_error(ARG_TOO_LONG, NULL));
+		return (builtin_exit_error(ARG_NOT_DIGIT, NULL));
 	ret = ft_atoi(arr[1]);
 	builtin_exit(ret);
-	return (EXIT_SUCCESS);
+	return (1);
 }

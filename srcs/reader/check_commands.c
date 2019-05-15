@@ -40,6 +40,11 @@ int		check_for_quit(t_st_cmd *st_cmd, const char *buf)
 	{
 		if (st_cmd->st_txt->data_size == 0)
 		{
+			if (st_cmd->prev)
+			{
+				ft_printf("42sh: unexepected EOF");
+				print_line();
+			}
 			ft_printf("exit");
 			print_line();
 			case_exit(av);

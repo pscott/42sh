@@ -13,7 +13,7 @@
 t_bool	is_logic_or_pipe(t_token *token)
 {
 	if (token->type == tk_or
-			|| token->type == tk_and || token->type == tk_pipe)
+		|| token->type == tk_and || token->type == tk_pipe)
 		return (1);
 	return (0);
 }

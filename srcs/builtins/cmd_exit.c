@@ -29,7 +29,7 @@ static int	ft_atol(const char *str)
 	s = (char *)str;
 	i = 0;
 	while (s[i] == '\n' || s[i] == '\t' || s[i] == '\r' || s[i] == '\v'
-			|| s[i] == '\f' || s[i] == ' ')
+		|| s[i] == '\f' || s[i] == ' ')
 		i++;
 	neg = 1;
 	if (s[i] == '-' || s[i] == '+')

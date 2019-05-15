@@ -45,7 +45,7 @@ static t_bool	add_token_to_list(t_token *current_token, t_token *prev_token
 	t_token	*probe;
 
 	if (token_list_start_with_ctrl_op(prev_token, current_token)
-			|| is_two_ctrlop_or_redir_following(prev_token, current_token))
+		|| is_two_ctrlop_or_redir_following(prev_token, current_token))
 		return (0);
 	if (prev_token && prev_token->type == tk_heredoc
 		&& current_token->type != tk_eat)
@@ -104,7 +104,7 @@ int		lexer(char *cmdline, t_token **token_head)
 			prev_token = current_token;
 	}
 	if (is_logic_or_pipe(current_token)
-			|| (is_logic_or_pipe(prev_token) && !current_token->type))
+		|| (is_logic_or_pipe(prev_token) && !current_token->type))
 	{
 		ft_printf("tmp, tklst end with '&&', '||' or '|': READ_MODE"); // debug
 		print_line();

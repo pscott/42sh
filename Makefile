@@ -166,7 +166,7 @@ fsa: $(SRCS) $(LIBS) $(INCLS)
 	$(OPT) ./$(NAME)
 
 val: $(SRCS) $(LIBS) $(INCLS)
-	$(CC) $(DEBUG_FLAG) $(INCL_CMD) $(LIB_INCL) $^ -o $(NAME)
+	$(CC) $(DEBUG_FLAG) $(INCL_CMD) $(LIB_INCL) $(SRCS) -o $(NAME)
 	valgrind $(VAL_FLAGS) $(OPT) ./$(NAME)
 
 rmh:

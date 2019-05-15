@@ -3,7 +3,7 @@
 
 # include "42sh.h"
 
-enum {ARGS_NB, ARG_NOT_DIGIT, ARG_TOO_LONG};
+enum {ARGS_NB, ARG_NOT_DIGIT};
 enum	{CMD_CD = 1, CMD_ECHO, CMD_ENV, CMD_EXIT, CMD_SETENV, CMD_UNSETENV, CMD_HASH};
 t_bool	check_builtins(char **argv);
 t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id);

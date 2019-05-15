@@ -77,14 +77,14 @@ t_bool	parse_quotes(t_token *token_head)
 	t_bool	res;
 
 	res = 0;
-	while (token_head && token_head->type < TK_PIPE)
+	while (token_head && token_head->type < tk_pipe)
 	{
-		if (token_head->type == TK_SQ_STR)
+		if (token_head->type == tk_sq_str)
 		{
 			res = 1;
 			expand_squotes(token_head);
 		}
-		else if (token_head->type == TK_DQ_STR)
+		else if (token_head->type == tk_dq_str)
 		{
 			res = 1;
 			expand_dquotes(token_head);

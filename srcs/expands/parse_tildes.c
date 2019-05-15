@@ -6,7 +6,7 @@ static t_bool	is_valid_tilde(t_token *curr_token, t_token *prev_token)
 	if (!prev_token && (!ft_strncmp("~", curr_token->content, 2)
 				|| !ft_strncmp("~/", curr_token->content, 2)))
 		return (1);
-	else if (prev_token && prev_token->type == TK_EAT
+	else if (prev_token && prev_token->type == tk_eat
 			&& (!ft_strncmp("~", curr_token->content, 2)
 				|| !ft_strncmp("~/", curr_token->content, 2)))
 		return (1);
@@ -46,7 +46,7 @@ t_bool	parse_tildes(t_token *token_head, const char **env)
 	//ft_putendl("##########in Parse_tildes");
 	while (curr_token)
 	{
-		if (curr_token->type == TK_WORD && is_valid_tilde(curr_token, prev_token))//~ doesn't expand in ""
+		if (curr_token->type == tk_word && is_valid_tilde(curr_token, prev_token))//~ doesn't expand in ""
 		{
 			if (!replace_tilde(&curr_token->content, env))
 				return (0);

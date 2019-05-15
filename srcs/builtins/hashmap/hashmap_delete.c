@@ -67,7 +67,7 @@ t_bool		pop_hashmap_item(const char *key, t_hashmap *hashmap)//useless bool ?
 	t_hash_item	*item_probe;
 	t_hash_item	*prev_probe;
 
-	if (!check_hashmap(key, hashmap, HASH_CHECK))//dangerous to base on this ?
+	if (!check_hashmap(key, hashmap, hash_check))//dangerous to base on this ?
 		return (0);
 	index = hashfun(key) % hashmap->size;
 	item_probe = hashmap->items[index];

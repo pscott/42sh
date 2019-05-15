@@ -24,7 +24,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 
 	token_head = NULL;
 	input = concatenate_txt(st_cmd);
-	while ((lexer_ret = lexer(input, &token_head)) == LEX_CONT_READ)
+	while ((lexer_ret = lexer(input, &token_head)) == lex_cont_read)
 	{
 		free_token_list(token_head);
 		adjust_history(st_cmd, input);
@@ -52,7 +52,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	else
 		insert_left(st_cmd->hist_lst, input, 1);
 	ft_strdel(&input);
-	if (lexer_ret == LEX_FAIL)
+	if (lexer_ret == lex_fail)
 	{
 		free_token_list(token_head);
 		print_line();

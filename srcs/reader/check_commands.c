@@ -32,6 +32,7 @@ int		check_for_quit(t_st_cmd *st_cmd, const char *buf)
 {
 	char	exit[5];
 	char	*av[2];
+	int		exitno;
 
 	ft_strncpy(exit, "exit", 5);
 	av[0] = exit;
@@ -47,7 +48,8 @@ int		check_for_quit(t_st_cmd *st_cmd, const char *buf)
 			}
 			ft_printf("exit");
 			print_line();
-			case_exit(av);
+			exitno = case_exit(av);
+			clean_exit(exitno);
 		}
 		else if (st_cmd->st_txt->tracker >= st_cmd->st_txt->data_size)
 			return (0);

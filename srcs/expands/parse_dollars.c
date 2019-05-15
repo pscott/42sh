@@ -92,7 +92,7 @@ static t_bool	expand_dollars(t_token *token, char **env)
 		i++;
 	}
 	if (ft_strlen(token->content) == 0)
-		token->type = TK_EAT;
+		token->type = tk_eat;
 	return (0);
 }
 
@@ -102,9 +102,9 @@ t_bool			parse_dollars(t_token *token_head, char** env)
 	t_bool	res;
 
 	res = 0;
-	while (token_head && token_head->type < TK_PIPE)
+	while (token_head && token_head->type < tk_pipe)
 	{
-		if (token_head->type == TK_WORD || token_head->type == TK_DQ_STR)
+		if (token_head->type == tk_word || token_head->type == tk_dq_str)
 		{
 			res = 1;
 			expand_dollars(token_head, env);

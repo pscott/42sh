@@ -29,7 +29,7 @@ static char	*concatenate_strings(t_token *token)
 	while (is_argv_token(token))
 	{
 		res = ft_strjoin_free(res, token->content);
-		//token->type = TK_EAT; need to properly test before removing for sure
+		//token->type = tk_eat; need to properly test before removing for sure
 		token = token->next;
 	}
 	return (res);
@@ -53,7 +53,7 @@ static char	**create_argv(t_token *token_head, unsigned int argv_len)
 		}
 		while (is_argv_token(token_head))
 			token_head = token_head->next;
-		while (token_head && token_head->type == TK_EAT)
+		while (token_head && token_head->type == tk_eat)
 			token_head = token_head->next;
 	}
 	return (res);
@@ -73,9 +73,9 @@ char		**get_argv_from_token_lst(t_token *token_head)
 			argv_len++;
 		while (is_argv_token(probe))
 			probe = probe->next;
-		while (probe && probe->type == TK_EAT)
+		while (probe && probe->type == tk_eat)
 			probe = probe->next;
-		if (!probe || probe->type > TK_REDIRECTION)
+		if (!probe || probe->type > tk_redirection)
 			break;
 	}
 	if (argv_len < 1)

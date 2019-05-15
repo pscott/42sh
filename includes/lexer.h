@@ -22,19 +22,19 @@ typedef unsigned char	t_bool;
 
 typedef enum		e_token_type
 {
-	TK_EAT,
-	TK_WORD,//1
-	TK_MONOC,
-	TK_SQ_STR,
-	TK_DQ_STR,
-	TK_REDIRECTION,
-	TK_HEREDOC,
-	TK_PIPE,
-	TK_AND,//=OR
-	TK_OR,//=AND
-	TK_AMP,
-	TK_SEMI,
-	TK_42SH
+	tk_eat,
+	tk_word,//1
+	tk_monoc,
+	tk_sq_str,
+	tk_dq_str,
+	tk_redirection,
+	tk_heredoc,
+	tk_pipe,
+	tk_and,//=or
+	tk_or,//=and
+	tk_amp,
+	tk_semi,
+	tk_42sh
 }					t_token_type;
 
 typedef struct		s_token
@@ -55,9 +55,9 @@ typedef struct		s_operation
 
 typedef enum		s_lexer_state
 {
-	LEX_FAIL,
-	LEX_SUCCESS,
-	LEX_CONT_READ
+	lex_fail,
+	lex_success,
+	lex_cont_read
 }					t_lexer_state;
 
 //DEBUG TEJME

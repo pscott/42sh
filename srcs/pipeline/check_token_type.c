@@ -14,7 +14,7 @@ t_bool		is_argv_token(t_token *probe)
 {
 	if (!probe)
 		return (0);
-	if (probe->type > TK_EAT && probe->type < TK_PIPE)
+	if (probe->type > tk_eat && probe->type < tk_pipe)
 		return (1);
 	return (0);
 }
@@ -23,7 +23,7 @@ t_bool	is_simple_cmd_token(t_token *probe)
 {
 	if (!probe)
 		return (0);
-	if (probe->type < TK_PIPE)
+	if (probe->type < tk_pipe)
 		return (1);
 	else
 		return (0);

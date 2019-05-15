@@ -12,7 +12,7 @@ static t_token *get_next_simple_command(t_token *begin)
 {
 	while (is_simple_cmd_token(begin))
 		begin = begin->next;
-	if (begin && begin->type == TK_PIPE)
+	if (begin && begin->type == tk_pipe)
 		return (begin->next);
 	else
 	{
@@ -128,7 +128,7 @@ int			parse_pipeline(t_token *token, t_vars *vars) // no need for t_pipelst ?
 	{
 		while (probe && is_simple_cmd_token(probe)) //continue on simple_cmd tokens
 			probe = probe->next;
-		if (probe && probe->next && (probe->type == TK_PIPE)) // is a pipe and not empty after
+		if (probe && probe->next && (probe->type == tk_pipe)) // is a pipe and not empty after
 		{
 			probe = probe->next;
 			num_simple_commands++;

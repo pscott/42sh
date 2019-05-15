@@ -28,7 +28,7 @@ int		check_fd_prev(t_token *prev) //should rename
 
 	if (!prev)
 		return (-1);
-	if (prev->type == TK_WORD)
+	if (prev->type == tk_word)
 	{
 		i = 0;
 		while (prev->content[i])
@@ -37,7 +37,7 @@ int		check_fd_prev(t_token *prev) //should rename
 				return (-1);
 			i++;
 		}
-		prev->type = TK_EAT;
+		prev->type = tk_eat;
 		return (ft_atoi(prev->content));
 	}
 	else
@@ -82,7 +82,7 @@ t_bool	parse_redirections(t_token *token_head)
 	prev = NULL;
 	while (is_simple_cmd_token(current))
 	{
-		if (current->type == TK_REDIRECTION)
+		if (current->type == tk_redirection)
 			if (apply_redirections(current, prev) == 0)
 				return (0);
 		prev = current;

@@ -32,7 +32,7 @@ t_bool	is_tklst_full_eat(t_token *token_head)
 	probe = token_head;
 	while (probe)
 	{
-		if (probe->type > TK_EAT)
+		if (probe->type > tk_eat)
 			return (0);
 		probe = probe->next;
 	}
@@ -41,7 +41,7 @@ t_bool	is_tklst_full_eat(t_token *token_head)
 
 t_bool	is_ctrl_op_token(t_token *token)
 {
-	if (token->type >= TK_AND)
+	if (token->type >= tk_and)
 		return (1);
 	return (0);
 }
@@ -51,7 +51,7 @@ t_bool	exec_ast(t_ast *root, t_vars *vars)
 {
 	if (!root)
 		ft_dprintf(2, "Error: NULL node\n");
-	if (root->token->type == TK_SEMI)//TK_AMP
+	if (root->token->type == tk_semi)//TK_AMP
 	{
 		exec_ast(root->left, vars);
 		if (root->right)//penzo added this
@@ -59,9 +59,9 @@ t_bool	exec_ast(t_ast *root, t_vars *vars)
 		else
 			return (1);//penzo test
 	}
-	else if (root->token->type == TK_AND)
+	else if (root->token->type == tk_and)
 		return (exec_ast(root->left, vars) || exec_ast(root->right, vars));
-	else if (root->token->type == TK_OR)
+	else if (root->token->type == tk_or)
 		return (exec_ast(root->left, vars) && exec_ast(root->right, vars));
 	else
 		return (parse_pipeline(root->token, vars));

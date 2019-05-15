@@ -46,7 +46,7 @@ static void	sigwinch_handler(int signo)
 
 //	signal(SIGWINCH, SIG_IGN);  in case two occur at the same time
 	st_cmd = get_st_cmd(NULL);
-	update_window_struct(&st_cmd->window);
+	update_window_struct(st_cmd->window);
 	go_back_to_start(st_cmd);
 	st_cmd = get_first_st_cmd(st_cmd);
 	write_from_start(st_cmd);

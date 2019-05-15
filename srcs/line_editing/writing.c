@@ -7,9 +7,9 @@
 
 int		move_down(t_st_cmd *st_cmd)
 {
-	if (st_cmd->start_pos.row + st_cmd->relative_pos.row >= st_cmd->window.ws_row)
+	if (st_cmd->start_pos.row + st_cmd->relative_pos.row >= st_cmd->window->ws_row)
 	{
-		move_cursor(st_cmd->window.ws_col, st_cmd->window.ws_row);
+		move_cursor(st_cmd->window->ws_col, st_cmd->window->ws_row);
 		execute_str(SCROLL_DOWN);
 		update_start_pos(st_cmd);
 		return (1);
@@ -84,8 +84,8 @@ int		write_line(t_st_cmd *st_cmd)
 		write(STDIN_FILENO, &st_txt->txt[st_txt->tracker + i], 1);
 		i++;
 		get_pos(st_cmd, st_cmd->st_txt->data_size - 1);
-		if ((st_cmd->start_pos.row + st_cmd->relative_pos.row) > st_cmd->window.ws_row
-				|| st_cmd->relative_pos.col == st_cmd->window.ws_col - 1)
+		if ((st_cmd->start_pos.row + st_cmd->relative_pos.row) > st_cmd->window->ws_row
+				|| st_cmd->relative_pos.col == st_cmd->window->ws_col - 1)
 		{
 			move_down(st_cmd); // TODO
 			get_pos(st_cmd, st_txt->tracker + i);

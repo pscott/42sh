@@ -24,7 +24,7 @@ typedef struct				s_st_cmd {
 	struct s_st_txt			*st_txt;
 	t_pos					start_pos;
 	t_pos					relative_pos;
-	struct winsize			window;
+	struct winsize			*window;
 	struct s_st_prompt		*st_prompt;
 	struct s_hist_lst		*hist_lst;
 	struct s_st_cmd			*next;

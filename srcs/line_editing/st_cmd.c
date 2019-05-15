@@ -43,8 +43,8 @@ t_st_cmd	*get_last_st_cmd(t_st_cmd *st_cmd)
 
 void		init_relative_pos(t_st_cmd *st_cmd)
 {
-	st_cmd->relative_pos.col = st_cmd->st_prompt->size % st_cmd->window.ws_col;
-	st_cmd->relative_pos.row = st_cmd->st_prompt->size / st_cmd->window.ws_col;
+	st_cmd->relative_pos.col = st_cmd->st_prompt->size % st_cmd->window->ws_col;
+	st_cmd->relative_pos.row = st_cmd->st_prompt->size / st_cmd->window->ws_col;
 }
 
 void		update_window_struct(struct winsize *window)
@@ -72,6 +72,20 @@ t_st_cmd	*append_st_cmd(t_st_cmd *st_cmd, const char *txt, const char *prompt)
 	new->prev = st_cmd;
 	new->next = NULL;
 	return (new);
+}
+
+/*
+**	Allocates and updates a fresh window struct, containing information about
+**	the window size.
+*/
+
+static struct winsize	*init_window_struct(void)
+{
+	struct winsize	*window;
+	if (!(window = malloc(sizeof(*window))))
+		ERROR_MEM
+	update_window_struct(window);
+	return (window);
 }
 
 /*
@@ -111,7 +125,7 @@ t_st_cmd	*init_st_cmd(const char **env)
 		ERROR_MEM;
 	st_cmd->st_txt = init_st_txt(NULL);
 	st_cmd->st_prompt = init_st_prompt(NULL);
-	update_window_struct(&st_cmd->window);
+	st_cmd->window = init_window_struct();
 	init_relative_pos(st_cmd);
 	st_cmd->hist_lst = get_history(env);
 	st_cmd->hist_lst = insert_right(st_cmd->hist_lst, "", 0); // ? need to malloc "" ?

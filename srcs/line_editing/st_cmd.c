@@ -163,6 +163,7 @@ void		free_all_st_cmds(t_st_cmd **st_cmd)
 		return ;
 	probe = get_first_st_cmd(*st_cmd);
 	free_hist_lst(probe->hist_lst);
+	free((*st_cmd)->window);
 	while (probe)
 	{
 		tmp = probe;

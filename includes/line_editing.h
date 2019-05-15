@@ -44,7 +44,7 @@ typedef struct				s_auto_comp
 }							t_auto_comp;
 
 char						*new_auto_completion(char *input, unsigned int len, t_vars *vars);
-char						*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigned int len, char * to_find_real);
+char						*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigned int len);
 void						new_sort_list(t_auto_comp **match);
 int							del_match_unique(t_auto_comp *match);
 int							del_match(t_auto_comp *match);
@@ -64,6 +64,10 @@ char						*lst_to_string_auto_c(t_list *lst);
 int							lst_len_until_cursor_pos(t_list *lst);
 char						*lst_to_string_auto_c(t_list *lst);
 int							is_same_char(char a, char b);
-int							find_matching_exe(char **path, t_auto_comp **match, char *to_find);
+int							find_matching_exe(char **path, t_auto_comp **match, char *to_find, char *to_find_and_next_char);
+int							get_needed_values(char *input, unsigned int len, char **str
+								, char **to_find_full);
+int							get_path(char ***path, t_vars *vars);
+char						*rm_spaces_path(char *str);
 
 #endif

@@ -2,14 +2,13 @@
 #include "line_editing.h"
 #include <dirent.h>
 
-static int			check_command_folder(char *path, t_auto_comp **match, char *to_find)
+static int			check_command_folder(char *path, t_auto_comp **match, char *to_find, char *next)
 {
 	DIR				*dir;
 	struct dirent	*ent;
-	int				k;
 	unsigned char	t;
+	char			*tmp;
 
-	k = 0;
 	if ((dir = opendir(path)) == NULL)
 		return (1);
 	//	return (ERR_OPENDIR);
@@ -24,14 +23,25 @@ static int			check_command_folder(char *path, t_auto_comp **match, char *to_find
 			t = 0;
 			if (ent->d_type)
 				t = ent->d_type;
-			if (create_match_link(match, ent->d_name, t))
+			tmp = NULL;
+		//	ft_printf("to_find |%s| next|%s| nextlen %d \n", to_find, next, ft_strlen(next));
+		//	sleep(2);
+			if (ft_strlen(next) == ft_strlen(to_find) || is_white_spaces(next[ft_strlen(to_find)]))
+			{
+				tmp = ft_strjoin(ent->d_name, " ");
+		//	ft_printf("{%s}\n", tmp);
+		//	sleep(2);
+			}
+			else
+				tmp = ft_strdup(ent->d_name);
+			if (create_match_link(match, tmp, t))
 			{
 				closedir(dir);
 				return (1);
 			//	return (ERR_MALLOC);
 			}
+	//		ft_strdel(&tmp);
 		}
-		k++;
 	}
 	if (closedir(dir) == -1)
 		return (1);
@@ -68,7 +78,7 @@ static int			add_alias(t_auto_comp **match, char *to_find)
 	return (0);
 }
 
-static char			*rm_spaces_path(char *str)
+char				*rm_spaces_path(char *str)
 {
 	char			*ret;
 	int				i;
@@ -91,7 +101,7 @@ static char			*rm_spaces_path(char *str)
 }
 
 
-int					find_matching_exe(char **path, t_auto_comp **match, char *to_find_real)
+int					find_matching_exe(char **path, t_auto_comp **match, char *to_find_real, char *next)
 {
 	char			*true_path;
 	int				i;
@@ -100,7 +110,7 @@ int					find_matching_exe(char **path, t_auto_comp **match, char *to_find_real)
 	while (path[i])
 		{
 			true_path = rm_spaces_path(path[i]);
-			if (check_command_folder(path[i++], match, to_find_real) ==  1 /*ERR_MALLOC*/)
+			if (check_command_folder(path[i++], match, to_find_real, next) ==  1 /*ERR_MALLOC*/)
 				return (1);
 		//		return (ERR_MALLOC); // leaks
 		}
@@ -112,10 +122,11 @@ int					find_matching_exe(char **path, t_auto_comp **match, char *to_find_real)
 	//	return (ERR_MALLOC);
 	if (!(*match))
 		return (0);
-	while ((*match)->prev)
-	{
-		(*match) = (*match)->prev;
-	}
+/*	if (match)
+		while ((*match)->prev)
+		{
+			(*match) = (*match)->prev;
+		}*/// pas oublier de le remettre pour reset
 /*	while (*match)
 	{
 		ft_putendl((*match)->name);

@@ -19,17 +19,6 @@ static int	len_lst(t_auto_comp *lst)
 	return (i);
 }
 
-static char	*get_unique_match(t_auto_comp *match, char *to_find, unsigned int len)
-{
-	char			*ret_str;
-
-	if (!to_find[len] || is_white_spaces(to_find[len]))//si !cursor_pos->next, alors curseur en fin de ligne, et si isspace cursor_pos->next, alors un espace apres le curseur : il faut donc join un espace a match->name. dans tous les cas ret est malloc
-		ret_str = ft_strjoin(match->name, " ");
-	else//auto_completion au milieu d'un mot
-		ret_str = ft_strdup(match->name);
-	return (ret_str);
-}
-
 static int	get_max_len(t_auto_comp *match)
 {
 	t_auto_comp		*tmp;
@@ -153,39 +142,48 @@ int			lst_match_more_than_to_find(t_auto_comp *match, unsigned int len)
 	ret = len;
 	while (curr->name[ret] && curr->next)
 	{
+		curr = curr->next;
 		if (curr->name[ret]	!= match->name[ret])
 			return (ret - len);
-		curr = curr->next;
 		if (!curr->next)
 		{
 			curr = match;
 			ret++;
 		}
 	}
-	return (ret - len_to_find);
+	return (ret - len_to_find - 1);
 }
 
-char		*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigned int len, char *to_find_next_char)
+char		*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigned int len)
 {
 	int				diff_len;
 	char			*ret_str;
+	int				is_empty_last_c;
 
-	ft_list_sort_ascii(match);
+//	ft_list_sort_ascii(match); //TODO
 	ret_str = NULL;
+	is_empty_last_c = 0;
 
+	while (match->prev)
+		match = match->prev;
 	if (len_lst(match) == 1)//one only match 
-	{
-		ret_str = get_unique_match(match, to_find_next_char, len);
-	}
+		ret_str = ft_strdup(match->name);
 	else if ((diff_len = lst_match_more_than_to_find(match, len)))//if all matches have a common pattern longer than to_find : diff_len = nb of char to add
 	{
-		if (!(ret_str = ft_strndup(match->name, len + diff_len)))
+		ft_printf("diff_len %d, len %d, match->name %s", diff_len, len, match->name); 
+		sleep(5);
+		if (match->name[diff_len] && (match->name[diff_len] == ' ' || match->name[diff_len] == '/'))
+		{
+			is_empty_last_c = 1;
+		}
+		if (!(ret_str = ft_strndup(match->name, len + diff_len - is_empty_last_c)))
 			ERROR_MEM
 	}
 	else//display list of matches et ret_str est une copy de to_find car input pas modifie
 	{
 		display_various(match);
-		ret_str = ft_strdup(to_find);
+		if (to_find)
+			ret_str = ft_strdup(to_find);
 	}
 	del_match(match);
 	return (ret_str);

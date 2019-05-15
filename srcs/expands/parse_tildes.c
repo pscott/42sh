@@ -4,11 +4,11 @@
 static t_bool	is_valid_tilde(t_token *curr_token, t_token *prev_token)
 {
 	if (!prev_token && (!ft_strncmp("~", curr_token->content, 2)
-				|| !ft_strncmp("~/", curr_token->content, 2)))
+		|| !ft_strncmp("~/", curr_token->content, 2)))
 		return (1);
 	else if (prev_token && prev_token->type == tk_eat
-			&& (!ft_strncmp("~", curr_token->content, 2)
-				|| !ft_strncmp("~/", curr_token->content, 2)))
+		&& (!ft_strncmp("~", curr_token->content, 2)
+			|| !ft_strncmp("~/", curr_token->content, 2)))
 		return (1);
 	return (0);
 }

@@ -48,7 +48,7 @@ static t_bool	add_token_to_list(t_token *current_token, t_token *prev_token
 			|| is_two_ctrlop_or_redir_following(prev_token, current_token))
 		return (0);
 	if (prev_token && prev_token->type == tk_heredoc
-			&& current_token->type != tk_eat)
+		&& current_token->type != tk_eat)
 	{
 		ft_printf("HEREDOC, enter READ_MODE, with EOF: {%s}\n", current_token->content);
 	}
@@ -111,7 +111,7 @@ int		lexer(char *cmdline, t_token **token_head)
 		return (lex_cont_read);
 	}
 	else if (prev_token && is_redir_token(prev_token)
-			&& (!current_token->type || is_redir_token(current_token)))
+		&& (!current_token->type || is_redir_token(current_token)))
 	{
 		syntax_error_near(current_token);
 		return (lex_fail);

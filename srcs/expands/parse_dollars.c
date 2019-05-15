@@ -77,7 +77,7 @@ static t_bool	expand_dollars(t_token *token, char **env)
 	while (token->content[i])
 	{
 		if ((token->content[0] == '$') || (i > 0 && token->content[i] == '$'
-					&& token->content[i - 1] != '\\'))
+			&& token->content[i - 1] != '\\'))
 		{
 			if (!(var_name = get_var_name(token->content + i)))
 			{

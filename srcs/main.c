@@ -55,7 +55,7 @@ int		main(int argc, char **argv, char **env)
 	if (isatty(STDIN_FILENO))
 	{
 		ft_printf("exit");
-		print_line();
+		print_line(0);
 		write_to_history(st_cmd, (const char **)vars.env_vars);
 	}
 	free_all_st_cmds(&st_cmd);

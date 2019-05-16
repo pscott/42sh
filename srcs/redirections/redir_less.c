@@ -18,8 +18,8 @@ t_bool		redir_less(t_token *redir, t_token *prev)
 	next->type = tk_eat;
 	if ((new_fd = open(next->content, O_RDONLY)) < 0)
 	{
-		ft_dprintf(2, "psh: %s: No such file or directory", next->content);
-		print_line();
+		ft_dprintf(2, "42sh: %s: No such file or directory", next->content);
+		print_line(2);
 		return (0);
 	}
 	redirect(new_fd, old_fd);

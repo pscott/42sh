@@ -26,7 +26,7 @@ static void	Close(int fd) //remove me pls
 	if (close(fd) < 0)
 	{
 		ft_dprintf(2, "FAILED TO CLOSE :%d", fd);
-		print_line();
+		print_line(2);
 	}
 }
 
@@ -97,8 +97,8 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 			{
 				if (WTERMSIG(status) != SIGINT && WTERMSIG(status) != SIGPIPE)
 				{
-					ft_printf("process terminated, received signal : %d", WTERMSIG(status));
-					print_line();
+					ft_dprintf(2, "process terminated, received signal : %d", WTERMSIG(status));
+					print_line(2);
 				}
 			}
 		}

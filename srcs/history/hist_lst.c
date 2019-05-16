@@ -92,11 +92,11 @@ void		print_hist_lst(t_hist_lst *hist_lst)
 
 	probe = get_begin_lst(hist_lst);
 	ft_printf("--- PRINTING LST --- ");
-	print_line();
+	print_line(1);
 	while (probe)
 	{
 		ft_printf("PROBE: TXT: {%s}", probe->txt);
-		print_line();
+		print_line(1);
 		probe = probe->next;
 	}
 }

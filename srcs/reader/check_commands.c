@@ -44,10 +44,10 @@ int		check_for_quit(t_st_cmd *st_cmd, const char *buf)
 			if (st_cmd->prev)
 			{
 				ft_dprintf(STDERR_FILENO, "42sh: unexepected EOF");
-				print_line();
+				print_line(2);
 			}
-			ft_printf("exit");
-			print_line();
+			ft_printf("exit");// test
+			print_line(0); //test
 			exitno = case_exit(av);
 			clean_exit(exitno);
 		}
@@ -91,7 +91,7 @@ int		check_for_signal(const char *buf)
 	if (ft_strncmp(buf, CTRL_Z, CTRL_Z_LEN) == 0)
 	{
 		ft_dprintf(2, "SHOULD BE BACKGROUND");
-		print_line();
+		print_line(2);
 		return (1);
 	}
 	else if (ft_strncmp(buf, CTRL_C, CTRL_C_LEN) == 0)

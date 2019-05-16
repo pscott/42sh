@@ -22,7 +22,7 @@ void	sigint_handler(int signo)
 	st_cmd = get_st_cmd(NULL); //only modifies local copy ?
 	go_to_end(st_cmd);
 	reposition_cursor(st_cmd);
-	print_line();
+	print_line(0);
 	//free (st_cmd->st_prompt); ?
 	//free(st_cmd->st_txt); ?
 }

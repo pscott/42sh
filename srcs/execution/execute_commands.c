@@ -81,7 +81,7 @@ static void	execute_exit(char **argv)
 	if (isatty(STDIN_FILENO))
 	{
 		ft_printf("exit");
-		print_line();
+		print_line(0);
 	}
 	clean_exit(get_exit_value(argv));
 }

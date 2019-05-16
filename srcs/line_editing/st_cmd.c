@@ -56,7 +56,7 @@ void		update_window_struct(struct winsize *window)
 	if (ioctl(STDIN_FILENO, TIOCGWINSZ, window) == -1)
 	{
 		ft_dprintf(2, "error ioctl: exiting!");
-		print_line();
+		print_line(2);
 		clean_exit(1);
 	}
 }

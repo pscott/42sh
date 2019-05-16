@@ -106,8 +106,8 @@ int		lexer(char *cmdline, t_token **token_head)
 	if (is_logic_or_pipe(current_token)
 		|| (is_logic_or_pipe(prev_token) && !current_token->type))
 	{
-		ft_printf("tmp, tklst end with '&&', '||' or '|': READ_MODE"); // debug
-		print_line();
+//		ft_printf("tmp, tklst end with '&&', '||' or '|': READ_MODE"); // debug
+		print_line(0);
 		return (lex_cont_read);
 	}
 	else if (prev_token && is_redir_token(prev_token)

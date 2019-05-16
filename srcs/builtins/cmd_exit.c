@@ -6,13 +6,13 @@ static int		builtin_exit_error(int errno, char *s)
 	if (errno == args_nb)
 	{
 		ft_dprintf(STDERR_FILENO,"exit: too many arguments");
-		print_line();
+		print_line(2);
 		return (1);
 	}
 	else if (errno == arg_not_digit)
 	{
 		ft_dprintf(STDERR_FILENO, "exit: numeric argument required: %s", s);
-		print_line();
+		print_line(2);
 		return (0);
 	}
 	return (1);

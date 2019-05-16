@@ -69,7 +69,7 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 			get_pos(st_cmd, st_cmd->st_txt->tracker);
 			reposition_cursor(st_cmd);
 			insert_txt(st_cmd, (const char*)buf);
-			print_line();
+			print_line(0);
 			break ;
 		}
 		else if (buf[0] < 0 || buf[0] == '\x1b') // checks for unicode and ANSI

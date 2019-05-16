@@ -4,7 +4,7 @@
 void	print_token(t_token *token)//debug
 {
 	ft_printf("_TOKEN_ type:%d {%s}", token->type, token->content);
-	print_line();
+	print_line(0);
 }
 
 void	print_token_list(t_token *token_head)//debug
@@ -12,7 +12,7 @@ void	print_token_list(t_token *token_head)//debug
 	t_token	*probe;
 
 	ft_printf("--Printing token list--");
-	print_line();
+	print_line(1);
 	probe = token_head;
 	while (probe)
 	{

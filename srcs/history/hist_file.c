@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 18:18:39 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/16 16:35:29 by pscott           ###   ########.fr       */
+/*   Updated: 2019/05/16 20:56:11 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_hist_lst	*get_history(const char **env)
 	line = NULL;
 	id = 0;
 	hist_lst = NULL;
-	while ((get_next_line(fd, &line) > 0) && (ft_strlen(line) > 7))
+	while ((get_next_line(fd, &line) > 0) && (line && ft_strlen(line) > 7))
 	{
 		append_with_newline = ft_strjoin(&line[6], "\n"); // not secure !
 		hist_lst = insert_right(hist_lst, append_with_newline, 1);

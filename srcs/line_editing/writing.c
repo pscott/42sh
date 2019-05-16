@@ -7,7 +7,7 @@
 
 int		move_down(t_st_cmd *st_cmd)
 {
-	if (isatty(0) == 0)
+	if (isatty(STDIN_FILENO) == 0)
 		return (0);
 	if (st_cmd->start_pos.row + st_cmd->relative_pos.row >= st_cmd->window->ws_row)
 	{
@@ -28,7 +28,7 @@ void	go_back_to_start(t_st_cmd *st_cmd)
 {
 	int		row;
 
-	if (isatty(0) == 0)
+	if (isatty(STDIN_FILENO) == 0)
 		return ;
 	while (st_cmd)
 	{
@@ -49,7 +49,7 @@ void	write_from_start(t_st_cmd *st_cmd)
 {
 	size_t tmp;
 
-	if (isatty(0) == 0)
+	if (isatty(STDIN_FILENO) == 0)
 		return ;
 	while (st_cmd)
 	{
@@ -82,7 +82,7 @@ int		write_line(t_st_cmd *st_cmd)
 	t_pos		tmp_pos; //legacy ?
 	size_t		i;
 
-	if (isatty(0) == 0)
+	if (isatty(STDIN_FILENO) == 0)
 		return (0);
 	st_txt = st_cmd->st_txt;
 	i = 0;
@@ -127,7 +127,7 @@ void		write_st_cmd(t_st_cmd *st_cmd)
 {
 	size_t	step;
 
-	if (isatty(0) == 0)
+	if (isatty(STDIN_FILENO) == 0)
 		return ;
 	while ((step = write_line(st_cmd)))
 	{

@@ -78,7 +78,7 @@ static void	fake_redir_parser(t_token *token_head)
 
 static void	execute_exit(char **argv)
 {
-	if (isatty(0))
+	if (isatty(STDIN_FILENO))
 	{
 		ft_printf("exit");
 		print_line();

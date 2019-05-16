@@ -13,7 +13,7 @@ static t_bool	is_hashmap_empty(t_hashmap *hashmap)
 			is_empty = 0;
 	}
 	if (is_empty)
-		ft_printf("hash: hash table empty\n");
+		ft_dprintf(STDERR_FILENO, "hash: hash table empty\n");
 	return (is_empty);
 }
 
@@ -50,7 +50,7 @@ t_bool	print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args
 			ft_printf("hash -p %s %s\n", value, argv[i]);
 		else
 		{
-			ft_dprintf(2, "hash: %s: not found\n", argv[i]);
+			ft_dprintf(STDERR_FILENO, "hash: %s: not found\n", argv[i]);
 			return (1);
 		}
 	}
@@ -93,5 +93,5 @@ t_bool	hash_builtin_print(t_hashmap *hashmap, t_hash_args *hash_args
 
 void	print_usage(void)
 {
-	ft_dprintf(2, "hash [-lr] [-p pathname] [-d] [name ...]\n");
+	ft_dprintf(STDERR_FILENO, "hash [-lr] [-p pathname] [-d] [name ...]\n");
 }

@@ -78,7 +78,7 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 			insert_txt(st_cmd, (const char*)buf);
 		reposition_cursor(st_cmd);
 	}
-	if (ret > 0)
+	if (ret >= 0)
 		return (1);
 	return (0);
 }

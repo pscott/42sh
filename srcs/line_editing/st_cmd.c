@@ -43,15 +43,20 @@ t_st_cmd	*get_last_st_cmd(t_st_cmd *st_cmd)
 
 void		init_relative_pos(t_st_cmd *st_cmd)
 {
+	if (isatty(STDIN_FILENO) == 0)
+		return ;
 	st_cmd->relative_pos.col = st_cmd->st_prompt->size % st_cmd->window->ws_col;
 	st_cmd->relative_pos.row = st_cmd->st_prompt->size / st_cmd->window->ws_col;
 }
 
 void		update_window_struct(struct winsize *window)
 {
+	if (isatty(STDIN_FILENO) == 0)
+		return ;
 	if (ioctl(STDIN_FILENO, TIOCGWINSZ, window) == -1)
 	{
 		ft_dprintf(2, "error ioctl: exiting!");
+		print_line();
 		clean_exit(1);
 	}
 }
@@ -126,9 +131,12 @@ t_st_cmd	*init_st_cmd(const char **env)
 	st_cmd->st_txt = init_st_txt(NULL);
 	st_cmd->st_prompt = init_st_prompt(NULL);
 	st_cmd->window = init_window_struct();
-	init_relative_pos(st_cmd);
-	st_cmd->hist_lst = get_history(env);
-	st_cmd->hist_lst = insert_right(st_cmd->hist_lst, "", 0); // ? need to malloc "" ?
+	if (isatty(STDIN_FILENO))
+	{
+		init_relative_pos(st_cmd);
+		st_cmd->hist_lst = get_history(env);
+		st_cmd->hist_lst = insert_right(st_cmd->hist_lst, "", 0); // ? need to malloc "" ?
+	}
 	st_cmd->next = NULL;
 	st_cmd->prev = NULL;
 	get_st_cmd(&st_cmd);

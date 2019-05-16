@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 18:18:39 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/15 19:35:36 by pscott           ###   ########.fr       */
+/*   Updated: 2019/05/16 16:35:29 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ t_hist_lst	*get_history(const char **env)
 	char		*append_with_newline;
 	int			fd;
 
+	if (isatty(STDIN_FILENO) == 0)
+		return (NULL);
 	if ((fd = open_history(env, O_RDONLY)) < 0)
 		return (NULL); //error_msg ?
 	line = NULL;
@@ -84,7 +86,7 @@ int		write_to_history(t_st_cmd *st_cmd, const char **env)
 	size_t		i;
 	int			fd;
 
-	if (!(st_cmd->hist_lst))
+	if (!(st_cmd->hist_lst) || isatty(STDIN_FILENO) == 0)
 		return (0);
 	if ((fd = open_history(env, O_WRONLY | O_CREAT | O_TRUNC)) < 0)
 		return (0);

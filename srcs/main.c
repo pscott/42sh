@@ -44,7 +44,7 @@ int		main(int argc, char **argv, char **env)
 		return (EXIT_FAILURE);
 	//vars->interactive = interactive;
 	signal_setup();
-		st_cmd = NULL;
+	st_cmd = NULL;
 	st_cmd = init_st_cmd((const char **)vars.env_vars);
 	while (42)
 	{

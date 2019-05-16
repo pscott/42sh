@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/09 15:59:01 by pscott           ###   ########.fr       */
+/*   Updated: 2019/05/16 16:50:28 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void		retrieve_pos(t_pos *curr_pos)
 {
 	char	pos_str[50];
 
+	if (isatty(STDIN_FILENO) == 0)
+		return ;
 	ft_bzero(pos_str, 50);
 	get_pos(pos_str);
 	parse_pos(pos_str, curr_pos);
@@ -76,6 +78,8 @@ int			move_cursor(int col, int row)
 	char	*gotostr;
 	char	*ap;
 
+	if (isatty(STDIN_FILENO) == 0)
+		return (0);
 	sanitize_pos_values(&col, &row);
 	ft_bzero(buf, 50);
 	ap = buf;

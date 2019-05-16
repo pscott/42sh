@@ -13,10 +13,12 @@ t_hist_lst	*get_keep(t_hist_lst *hist_lst)
 	return (probe);
 }
 
-void	adjust_history(t_st_cmd *st_cmd, char *line)
+void	adjust_history(t_st_cmd *st_cmd, char *line) // what does it do ? when no hist ?
 {
 	t_hist_lst	*to_insert;
 
+	if (isatty(STDIN_FILENO) == 0)
+		return ;
 	if (st_cmd->hist_lst->prev)
 		to_insert = st_cmd->hist_lst->prev;
 	else

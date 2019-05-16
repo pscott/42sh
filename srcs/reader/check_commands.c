@@ -43,7 +43,7 @@ int		check_for_quit(t_st_cmd *st_cmd, const char *buf)
 		{
 			if (st_cmd->prev)
 			{
-				ft_printf("42sh: unexepected EOF");
+				ft_dprintf(STDERR_FILENO, "42sh: unexepected EOF");
 				print_line();
 			}
 			ft_printf("exit");

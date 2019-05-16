@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/08 13:22:34 by pscott           ###   ########.fr       */
+/*   Updated: 2019/05/16 16:55:56 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	term_putstr_endline(char *str, int fd)
 
 int		print_line(void)
 {
+	if (isatty(STDIN_FILENO) == 0)
+		return (0);
 	write(STDIN_FILENO, "\r", 1);
 	return (execute_str(PRINT_LINE));
 }

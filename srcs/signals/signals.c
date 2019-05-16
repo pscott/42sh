@@ -62,7 +62,7 @@ void		sigtstp_handler(int signo)
 	execute_str(CLEAR_BELOW);
 	reset_terminal_settings();
 	signal(SIGTSTP, SIG_DFL);
-	ioctl(STDIN, TIOCSTI, "\x1a");
+	ioctl(STDIN, TIOCSTI, "\x1a"); // non-interactive ?
 }
 
 /*
@@ -89,7 +89,7 @@ void		reset_dfl(void)
 	signal(SIGBUS, SIG_DFL);
 	signal(SIGSEGV, SIG_DFL);
 	signal(SIGSYS, SIG_DFL);
-	signal(SIGPIPE, SIG_DFL);
+//	signal(SIGPIPE, SIG_DFL);
 	signal(SIGALRM, SIG_DFL);
 	signal(SIGTERM, SIG_DFL);
 	signal(SIGTTOU, SIG_DFL);
@@ -118,7 +118,7 @@ void		reset_ign(void)
 	signal(SIGBUS, SIG_IGN);
 	signal(SIGSEGV, SIG_IGN);
 	signal(SIGSYS, SIG_IGN);
-	signal(SIGPIPE, SIG_IGN);
+//	signal(SIGPIPE, SIG_IGN);
 	signal(SIGALRM, SIG_IGN);
 	signal(SIGTERM, SIG_IGN);
 	signal(SIGTTOU, SIG_IGN);

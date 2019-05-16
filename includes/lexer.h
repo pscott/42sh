@@ -45,6 +45,7 @@ typedef struct		s_token
 	struct s_token	*next;
 }					t_token;
 
+t_bool	save_heredoc(t_token **prev_token, t_token **current_token, struct s_vars *vars);
 
 typedef struct		s_operation
 {
@@ -71,7 +72,7 @@ void	print_token_list(t_token *token_head);
 
 t_token				*create_token(char *cmdline, size_t size
 					, t_token_type type);
-int					lexer(char *cmdline, t_token **token_head);
+int					lexer(char *cmdline, t_token **token_head, struct s_vars *vars);
 
 /*
 ** lexer utils

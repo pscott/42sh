@@ -8,7 +8,6 @@ typedef unsigned char	t_bool;
 
 # define ERROR_MEM clean_exit(1);
 
-
 typedef struct			s_vars
 {
 	char				**env_vars;
@@ -16,6 +15,7 @@ typedef struct			s_vars
 	struct s_hashmap	*hashmap;
 	int					*previous_exit;
 }						t_vars;
+
 # include "hashmap.h"
 
 /*

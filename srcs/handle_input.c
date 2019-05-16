@@ -24,7 +24,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 
 	token_head = NULL;
 	input = concatenate_txt(st_cmd);
-	while ((lexer_ret = lexer(input, &token_head)) == lex_cont_read)
+	while ((lexer_ret = lexer(input, &token_head, vars)) == lex_cont_read)
 	{
 		free_token_list(token_head);
 		adjust_history(st_cmd, input);
@@ -58,6 +58,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		print_line();
 		return (0);
 	}
+	print_token_list(token_head);
 	if (!(ast_root = create_ast(token_head)))
 	{
 		//DEBUG_PARSER && ft_printf("\x1B[31m""### Parser FAILED""\x1B[0m""\n");

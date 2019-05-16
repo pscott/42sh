@@ -40,7 +40,7 @@ t_token	*create_token(char *cmdline, size_t size, t_token_type type)
 */
 
 static t_bool	add_token_to_list(t_token *current_token, t_token *prev_token
-				, t_token **token_head)
+				, t_token **token_head, t_vars *vars)
 {
 	t_token	*probe;
 
@@ -51,6 +51,8 @@ static t_bool	add_token_to_list(t_token *current_token, t_token *prev_token
 		&& current_token->type != tk_eat)
 	{
 		ft_printf("HEREDOC, enter READ_MODE, with EOF: {%s}\n", current_token->content);
+		save_heredoc(&prev_token, &current_token, vars);
+		//return (1);//test
 	}
 	if (!(*token_head))
 	{
@@ -87,7 +89,7 @@ static void	init_lexer(t_operation **op_chart, t_token **token_head
 ** - return LEX_SUCCES otherwise, so handle_input can continue
 */
 
-int		lexer(char *cmdline, t_token **token_head)
+int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 {
 	t_token		*current_token;
 	t_operation	*op_chart;
@@ -98,7 +100,7 @@ int		lexer(char *cmdline, t_token **token_head)
 	{
 		if (!(current_token = get_token(&cmdline, op_chart)))
 			return (lex_cont_read);
-		if (!(add_token_to_list(current_token, prev_token, token_head)))
+		if (!(add_token_to_list(current_token, prev_token, token_head, vars)))
 			return (lex_fail);
 		if (current_token->type != tk_eat)
 			prev_token = current_token;
@@ -116,5 +118,6 @@ int		lexer(char *cmdline, t_token **token_head)
 		syntax_error_near(current_token);
 		return (lex_fail);
 	}
+	ft_printf("END LEXER\n");
 	return (lex_success);
 }

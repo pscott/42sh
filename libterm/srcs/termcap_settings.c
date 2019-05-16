@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/16 16:06:37 by pscott           ###   ########.fr       */
+/*   Updated: 2019/05/16 16:23:08 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int			setup_terminal_settings(void)
 	if ((new_tty = open(ttyname(STDIN_FILENO), O_WRONLY)) < 0) // need non interactive
 		return (0);
 	dup2(STDIN_FILENO, new_tty); // protect
-	if ((tcgetattr(0, &g_saved_attr) == -1))
+	if ((tcgetattr(STDIN_FILENO, &g_saved_attr) == -1))
 		return (err_getattr() - 1);
 	if ((termtype = getenv("TERM")) == NULL)
 		return (err_no_env() - 1);
@@ -111,7 +111,7 @@ int			setup_terminal_settings(void)
 		return (err_noentry() - 1);
 	else if (res == -1)
 		return (err_no_database() - 1);
-	if ((tcgetattr(0, &tattr) == -1))
+	if ((tcgetattr(STDIN_FILENO, &tattr) == -1))
 		return (err_getattr() - 1);
 	if (check_caps() == 0)
 		return (err_caps() - 1);

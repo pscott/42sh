@@ -90,7 +90,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 	else
 	{
 		if (num_simple_commands != 1)
-			close(fd[0]);
+			Close(fd[0]);
 		while ((wpid = wait(&status)) > 0) //not sure if it's proper
 		{
 			if (WIFSIGNALED(status))
@@ -103,7 +103,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 			}
 		}
 		signal_setup();
-		Close(g_tty); // for fd leaks
+		//Close(STDIN_FILENO); // for fd leaks
 		if (setup_terminal_settings() == 0)
 			clean_exit(1); // ? 
 		return (WEXITSTATUS(status));

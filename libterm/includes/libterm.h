@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/08 18:04:29 by pscott           ###   ########.fr       */
+/*   Updated: 2019/05/16 15:43:17 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@
 */
 
 struct termios	g_saved_attr;
-int				g_tty;
 
 /*
 ** Settings-related functions

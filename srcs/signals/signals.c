@@ -148,7 +148,7 @@ void		signal_setup(void)
 	signal(SIGBUS, sig_handler);
 	signal(SIGSEGV, sig_handler);
 	signal(SIGSYS, sig_handler);
-	signal(SIGPIPE, sig_handler);
+//	signal(SIGPIPE, sig_handler);
 	signal(SIGALRM, sig_handler);
 	signal(SIGTERM, sig_handler);
 	signal(SIGTTOU, sig_handler);

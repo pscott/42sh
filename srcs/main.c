@@ -31,18 +31,20 @@ int		main(int argc, char **argv, char **env)
 	t_st_cmd		*st_cmd;
 	t_vars			vars;
 	int				ret;
+	int				interactive;
 
 	(void)argc;
 	(void)argv;
 	vars.env_vars = 0;
 	vars.shell_vars = 0;
 	vars.hashmap = init_hashmap(INIT_HASH_SIZE);
-	if (setup_terminal_settings() == -1)
+	if ((interactive = setup_terminal_settings()) == -1)
 		return (EXIT_FAILURE);
-	signal_setup();
 	if (!(vars.env_vars = init_env((const char **)env)))
 		return (EXIT_FAILURE);
-	st_cmd = NULL;
+	//vars->interactive = interactive;
+	signal_setup();
+		st_cmd = NULL;
 	st_cmd = init_st_cmd((const char **)vars.env_vars);
 	while (42)
 	{

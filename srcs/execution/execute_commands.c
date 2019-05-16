@@ -96,8 +96,11 @@ t_bool		execute_only_one_cmd(t_token *token_head, t_vars *vars)
 		ret = exec_builtins(argv, vars, cmd);
 		if (ret)
 		{
-			ft_printf("exit");
-			print_line();
+			if (isatty(0))
+			{
+				ft_printf("exit");
+				print_line();
+			}
 		}
 		ft_free_ntab(argv);
 		setup_terminal_settings();

@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 18:18:39 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/12 18:47:08 by pscott           ###   ########.fr       */
+/*   Updated: 2019/05/15 19:35:36 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ t_hist_lst	*get_history(const char **env)
 		ft_memdel((void*)&line);
 		id++;
 	}
+	if (line)
+		ft_memdel((void*)&line);
 	close(fd);
 	return (hist_lst);
 }

@@ -13,12 +13,14 @@ static t_bool		execute_argv(char **argv, t_vars *vars)
 
 	if (!argv)
 		return (0);
-	if ((cmd = check_builtins(argv)))
+	else if (ft_strchr(argv[0], '/'))
+		cmd_path = argv[0];
+	else if ((cmd = check_builtins(argv)))
 	{
 		//ft_printf("_in execute_argv\n");
 		return (exec_builtins(argv, vars, cmd));
 	}
-	if (!(cmd_path = check_hashmap(argv[0], vars->hashmap, HASH_CHECK)))
+	else if (!(cmd_path = check_hashmap(argv[0], vars->hashmap, hash_check)))
 		if (!(cmd_path = get_cmd_path(argv, vars->env_vars)))
 			return (0); // error msg ? not found
 	if ((access = check_access(cmd_path)) == 0 && reset_terminal_settings())
@@ -62,16 +64,26 @@ static void	fake_redir_parser(t_token *token_head)
 	prev = NULL;
 	while (is_simple_cmd_token(current))
 	{
-		if (current->type == TK_REDIRECTION)
+		if (current->type == tk_redirection)
 		{
 			next = current->next;
-			while (next->type == TK_EAT)
+			while (next->type == tk_eat)
 				next = next->next;
-			current->type = TK_EAT;
-			next->type = TK_EAT;
+			current->type = tk_eat;
+			next->type = tk_eat;
 		}
 		current = current->next;
 	}
+}
+
+static void	execute_exit(char **argv)
+{
+	if (isatty(0))
+	{
+		ft_printf("exit");
+		print_line();
+	}
+	clean_exit(get_exit_value(argv));
 }
 
 t_bool		execute_only_one_cmd(t_token *token_head, t_vars *vars)
@@ -86,6 +98,12 @@ t_bool		execute_only_one_cmd(t_token *token_head, t_vars *vars)
 	parse_expands(cpy, vars->env_vars);
 	fake_redir_parser(cpy);
 	argv = get_argv_from_token_lst(cpy);
+	if (ft_strchr(argv[0], '/'))
+	{
+		ft_free_ntab(argv);
+		free_token_list(cpy);
+		return (1);
+	}
 	if ((cmd = check_builtins(argv)))
 	{
 		ft_free_ntab(argv);
@@ -94,18 +112,16 @@ t_bool		execute_only_one_cmd(t_token *token_head, t_vars *vars)
 		argv = get_argv_from_token_lst(token_head);
 		reset_terminal_settings();
 		ret = exec_builtins(argv, vars, cmd);
-		if (ret)
+		if (cmd == cmd_exit)
 		{
-			if (isatty(0))
-			{
-				ft_printf("exit");
-				print_line();
-			}
+			if (ret == 0)
+				execute_exit(argv);
+			ret = 0;
 		}
 		ft_free_ntab(argv);
 		setup_terminal_settings();
 	}
-	else if ((cmd_path = check_hashmap(argv[0], vars->hashmap, HASH_EXEC)))
+	else if ((cmd_path = check_hashmap(argv[0], vars->hashmap, hash_exec)))
 	{
 		//ft_strdel(&cmd_path);//check_hashmap doesn't alloc
 		ft_free_ntab(argv);
@@ -120,7 +136,7 @@ t_bool		execute_only_one_cmd(t_token *token_head, t_vars *vars)
 			return (0);// if cmd_path is NULL  and error msg
 		}
 		add_to_hashmap(argv[0], cmd_path, &vars->hashmap);
-		check_hashmap(argv[0], vars->hashmap, HASH_EXEC);
+		check_hashmap(argv[0], vars->hashmap, hash_exec);
 		ret = 1;
 		ft_strdel(&cmd_path);
 		ft_free_ntab(argv);

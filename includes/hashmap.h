@@ -35,19 +35,19 @@ typedef struct		s_hash_args
 
 typedef enum	e_hash_opt
 {
-	//O_P = 0b1,
-	O_L = 0b1,
-	O_D = 0b10,
-	//O_T = 0b100,
-	O_R = 0b100
-}				t_hash_opt;
+	//o_p = 0B1,
+	o_l = 0B1,
+	o_d = 0B10,
+	//o_t = 0B100,
+	o_r = 0B100
+}				T_HASH_OPT;
 
 typedef enum	e_hash_state
 {
-	GET_OPT,
-	GET_PATH,
-	GET_NAME,
-	GET_DONE
+	get_opt,
+	get_hash_path,
+	get_name,
+	get_done
 }				t_hash_state;
 
 /*
@@ -57,9 +57,9 @@ typedef enum	e_hash_state
 
 typedef enum	e_hashopt
 {
-	HASH_CHECK,
-	HASH_EXEC,
-	HASH_RESET
+	hash_check,
+	hash_exec,
+	hash_reset
 }				t_hashopt;
 
 void			delete_hashmap(t_hashmap *hashmap);

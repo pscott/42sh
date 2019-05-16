@@ -3,31 +3,24 @@
 
 t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id)
 {
-	int		tmp_ret;
-
-	(void)vars;
-	reset_terminal_settings(); //change
-	if (cmd_id == CMD_EXIT)
+	if (cmd_id == cmd_exit)
 		return (case_exit(argv));
-	else if (cmd_id == CMD_ENV)
+	else if (cmd_id == cmd_env)
 	{
 		ft_print_ntab(vars->env_vars); // pls
 		return (0);
 	}
-	else if (cmd_id == CMD_CD)
+	else if (cmd_id == cmd_cd)
 	  	return (case_cd(argv, &vars->env_vars));
-	else if (cmd_id == CMD_HASH)
-	{
-		tmp_ret = case_hash(argv, vars);
-		//ft_printf("tmp_ret: %d\n", tmp_ret);
-		return (tmp_ret);
-		//return (case_hash(argv, vars));
-	}
-	/*if (cmd_id == CMD_SETENV) // will need vars
+	else if (cmd_id == cmd_type)
+	  	return (case_type(argv, vars));
+	else if (cmd_id == cmd_hash)
+		return (case_hash(argv, vars));
+	/*if (cmd_id == cmd_setenv) // will need vars
   	return (case_setenv(argv));
-	if (cmd_id == CMD_UNSETENV)
+	if (cmd_id == cmd_unsetenv)
 		return (case_unsetenv(argv));
-	if (cmd_id == CMD_ECHO)
+	if (cmd_id == cmd_echo)
 		return (case_echo(argv));*/
 	return (0);
 }
@@ -35,18 +28,20 @@ t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id)
 t_bool	check_builtins(char **argv)
 {
 	if (ft_strncmp(argv[0], "exit", 5) == 0)
-		return (CMD_EXIT);
+		return (cmd_exit);
 	if (ft_strncmp(argv[0], "env", 4) == 0)
-		return (CMD_ENV);
+		return (cmd_env);
 	if (ft_strncmp(argv[0], "cd", 3) == 0)
-		return (CMD_CD);
+		return (cmd_cd);
 	if (ft_strncmp(argv[0], "hash", 5) == 0)
-		return (CMD_HASH);
+		return (cmd_hash);
+	if (ft_strncmp(argv[0], "type", 5) == 0)
+		return (cmd_type);
 /*	if (ft_strcmp(argv[0], "setenv") == 0)
-		return (CMD_SETENV);
+		return (cmd_setenv);
 	if (ft_strncmp(argv[0], "unsetenv") == 0)
-		return (CMD_UNSETENV);
+		return (cmd_unsetenv);
 	if (ft_strncmp(argv[0], "echo") == 0)
-		return (CMD_ECHO);*/
+		return (cmd_echo);*/
 	return (0);
 }

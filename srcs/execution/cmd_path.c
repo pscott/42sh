@@ -17,7 +17,7 @@ char		*find_path(char *file, char **paths)
 	unsigned int	i;
 	char			*possible_path;
 	char			*path_w_slash;
-	
+
 	i = 0;
 	while (paths[i])
 	{
@@ -34,6 +34,13 @@ char		*find_path(char *file, char **paths)
 	return (NULL);
 }
 
+/*
+**	Returns a freshly allocated string containing the path corresponding
+**	to argv[0]. If no path is found in the PATH variable, or the file is not
+**	accessible, or not executable, returns NULL, and prints the corresponding
+**	error msg.
+*/
+
 char	*get_cmd_path(char **argv, char **env)
 {
 	char	**paths;
@@ -42,6 +49,7 @@ char	*get_cmd_path(char **argv, char **env)
 	int		access;
 
 	path = NULL;
+	paths = NULL;
 	if (ft_strchr(argv[0], '/'))
 		path = argv[0];
 	else if (!(path_line = get_envline_value("PATH", env)))
@@ -53,6 +61,7 @@ char	*get_cmd_path(char **argv, char **env)
 	}
 	if (!path && !(path = find_path(argv[0], paths)))
 		path = argv[0];
+	ft_free_ntab(paths);
 	access = check_access(path);
 	if (access == 0)
 		return (path);

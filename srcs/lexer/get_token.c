@@ -33,7 +33,7 @@ static t_token	*get_dquot_token(char **cmdline)
 //		ft_printf("Unmatched \". READ_MODE PLZ");
 		return (NULL);
 	}
-	if (!(token = create_token(*cmdline, ++i, TK_DQ_STR)))
+	if (!(token = create_token(*cmdline, ++i, tk_dq_str)))
 		ERROR_MEM;
 	*cmdline = *cmdline + i;
 	return (token);
@@ -53,7 +53,7 @@ static t_token	*get_squot_token(char **cmdline)
 		//(*cmdline)[i] = '\n';// this don't change anything ??
 		return (NULL);
 	}
-	if (!(token = create_token(*cmdline, ++i, TK_SQ_STR)))
+	if (!(token = create_token(*cmdline, ++i, tk_sq_str)))
 		ERROR_MEM;
 	*cmdline = *cmdline + i;
 	return (token);
@@ -67,7 +67,7 @@ static t_token	*get_regular_token(char **cmdline)
 	i = 0;
 	while ((*cmdline)[i] && !ft_is_metachar((*cmdline)[i]))
 		i++;
-	if (!(token = create_token(*cmdline, i, TK_WORD)))
+	if (!(token = create_token(*cmdline, i, tk_word)))
 		ERROR_MEM;
 	*cmdline = *cmdline + i;
 	return (token);
@@ -86,7 +86,7 @@ static t_token	*get_monochar(char **cmdline)
 		return (NULL);
 	}
 	(*cmdline)++;
-	if (!(token = create_token(*cmdline, 1, TK_MONOC)))
+	if (!(token = create_token(*cmdline, 1, tk_monoc)))
 		ERROR_MEM;
 	(*cmdline)++;
 	return (token);
@@ -100,7 +100,7 @@ static t_token	*get_eat_token(char **cmdline)
 	i = 0;
 	while (ft_is_white_space((*cmdline)[i]))
 		i++;
-	if (!(token = create_token(*cmdline, i, TK_EAT)))
+	if (!(token = create_token(*cmdline, i, tk_eat)))
 		ERROR_MEM;
 	*cmdline = *cmdline + i;
 	return (token);

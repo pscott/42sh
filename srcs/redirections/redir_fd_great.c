@@ -11,7 +11,7 @@ t_bool		redir_fd_great(t_token *redir, t_token *prev)
 	if ((old_fd = check_fd_prev(prev)) < 0)
 		old_fd = 1;//FILENO ??
 	next = redir->next;
-	while (next->type == TK_EAT) // need functions that does this
+	while (next->type == tk_eat) // need functions that does this
 		next = next->next;
 	if ((new_fd = open(next->content, O_WRONLY | O_CREAT | O_TRUNC,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) < 0)
@@ -20,7 +20,7 @@ t_bool		redir_fd_great(t_token *redir, t_token *prev)
 		return (0);
 	}
 	redirect(new_fd, old_fd);
-	redir->type = TK_EAT;
-	next->type = TK_EAT; // if I dont check is_argv i will segfault on deference
+	redir->type = tk_eat;
+	next->type = tk_eat; // if I dont check is_argv i will segfault on deference
 	return (1);
 }

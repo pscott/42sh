@@ -1,9 +1,9 @@
 #include "line_editing.h"
 
 /*
-**	Function that scrolls down if need be and writes the
-**	remainder of the line.
-*/
+ **	Function that scrolls down if need be and writes the
+ **	remainder of the line.
+ */
 
 int		move_down(t_st_cmd *st_cmd)
 {
@@ -93,7 +93,7 @@ int		write_line(t_st_cmd *st_cmd)
 		i++;
 		get_pos(st_cmd, st_cmd->st_txt->data_size - 1);
 		if ((st_cmd->start_pos.row + st_cmd->relative_pos.row) > st_cmd->window->ws_row
-				|| st_cmd->relative_pos.col == st_cmd->window->ws_col - 1)
+			|| st_cmd->relative_pos.col == st_cmd->window->ws_col - 1)
 		{
 			move_down(st_cmd); // TODO
 			get_pos(st_cmd, st_txt->tracker + i);

@@ -46,7 +46,7 @@ t_bool	print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args
 	i = hash_args->name_index - 1;
 	while (++i < argc)
 	{
-		if ((value = check_hashmap(argv[i], hashmap, HASH_CHECK)))
+		if ((value = check_hashmap(argv[i], hashmap, hash_check)))
 			ft_printf("hash -p %s %s\n", value, argv[i]);
 		else
 		{
@@ -79,7 +79,7 @@ void	print_hashmap_l(t_hashmap *hashmap)
 t_bool	hash_builtin_print(t_hashmap *hashmap, t_hash_args *hash_args
 		, int argc, char **argv)
 {
-	if (hash_args->opt & O_L)
+	if (hash_args->opt & o_l)
 	{
 		if (!hash_args->name_index)
 			print_hashmap_l(hashmap);

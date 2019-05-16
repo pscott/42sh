@@ -45,10 +45,10 @@ static t_bool	add_token_to_list(t_token *current_token, t_token *prev_token
 	t_token	*probe;
 
 	if (token_list_start_with_ctrl_op(prev_token, current_token)
-			|| is_two_ctrlop_or_redir_following(prev_token, current_token))
+		|| is_two_ctrlop_or_redir_following(prev_token, current_token))
 		return (0);
-	if (prev_token && prev_token->type == TK_HEREDOC
-			&& current_token->type != TK_EAT)
+	if (prev_token && prev_token->type == tk_heredoc
+		&& current_token->type != tk_eat)
 	{
 		ft_printf("HEREDOC, enter READ_MODE, with EOF: {%s}\n", current_token->content);
 	}
@@ -97,24 +97,24 @@ int		lexer(char *cmdline, t_token **token_head)
 	while (cmdline && *cmdline)
 	{
 		if (!(current_token = get_token(&cmdline, op_chart)))
-			return (LEX_CONT_READ);
+			return (lex_cont_read);
 		if (!(add_token_to_list(current_token, prev_token, token_head)))
-			return (LEX_FAIL);
-		if (current_token->type != TK_EAT)
+			return (lex_fail);
+		if (current_token->type != tk_eat)
 			prev_token = current_token;
 	}
 	if (is_logic_or_pipe(current_token)
-			|| (is_logic_or_pipe(prev_token) && !current_token->type))
+		|| (is_logic_or_pipe(prev_token) && !current_token->type))
 	{
 		ft_printf("tmp, tklst end with '&&', '||' or '|': READ_MODE"); // debug
 		print_line();
-		return (LEX_CONT_READ);
+		return (lex_cont_read);
 	}
 	else if (prev_token && is_redir_token(prev_token)
-			&& (!current_token->type || is_redir_token(current_token)))
+		&& (!current_token->type || is_redir_token(current_token)))
 	{
 		syntax_error_near(current_token);
-		return (LEX_FAIL);
+		return (lex_fail);
 	}
-	return (LEX_SUCCESS);
+	return (lex_success);
 }

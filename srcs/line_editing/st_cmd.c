@@ -96,7 +96,7 @@ static struct winsize	*init_window_struct(void)
 t_st_cmd	*reset_st_cmd(t_st_cmd *old_st_cmd)
 {
 	t_st_cmd	*st_cmd;
-	
+
 	if (!(st_cmd = (t_st_cmd*)malloc(sizeof(*st_cmd))))
 		ERROR_MEM;
 	st_cmd->st_txt = init_st_txt(NULL);

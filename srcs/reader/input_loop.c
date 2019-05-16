@@ -60,7 +60,7 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 		if (check_for_signal(buf))
 			return (-1);
 		else if (check_for_arrows(st_cmd, buf) || check_for_delete(st_cmd, buf)
-				|| check_for_tab(st_cmd, buf, vars) || check_for_quit(st_cmd, buf))
+			|| check_for_tab(st_cmd, buf, vars) || check_for_quit(st_cmd, buf))
 			;
 		else if (check_for_enter(buf))
 		{

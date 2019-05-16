@@ -65,9 +65,9 @@ char	*check_hashmap(const char *key, t_hashmap *hashmap, t_hashopt opt)
 	{
 		if (!ft_strcmp(key, item_probe->key))
 		{
-			if (opt == HASH_EXEC)
+			if (opt == hash_exec)
 				item_probe->count++;
-			else if (opt == HASH_RESET)
+			else if (opt == hash_reset)
 				item_probe->count = 0;
 			return (item_probe->value);
 		}

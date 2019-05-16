@@ -6,7 +6,7 @@ static void	init_hash_args(t_hash_args *hash_args)
 	hash_args->opt = 0;
 	hash_args->path = NULL;
 	hash_args->name_index = 0;
-	hash_args->state = GET_OPT;
+	hash_args->state = get_opt;
 }
 
 /*
@@ -31,18 +31,18 @@ static t_bool	get_hash_opt(char *arg, t_hash_args *hash_args)
 			if (arg[i + 1])
 			{
 				hash_args->path = &arg[i + 1];
-				hash_args->state = GET_NAME;
+				hash_args->state = get_name;
 				return (1);
 			}
 			else
-				hash_args->state = GET_PATH;
+				hash_args->state = get_hash_path;
 		}
 		else if (arg[i] == 'l')
-			hash_args->opt = hash_args->opt | O_L;
+			hash_args->opt = hash_args->opt | o_l;
 		else if (arg[i] == 'd')
-			hash_args->opt = hash_args->opt | O_D;
+			hash_args->opt = hash_args->opt | o_d;
 		else if (arg[i] == 'r')
-			hash_args->opt = hash_args->opt | O_R;
+			hash_args->opt = hash_args->opt | o_r;
 		else
 		{
 			ft_dprintf(2, "-%c: invalid option\n", arg[i]);
@@ -61,25 +61,25 @@ static t_bool	get_hash_args(char **argv, t_hash_args *hash_args)
 	i = 0;
 	while (argv[++i])
 	{
-		if ((argv[i][0] != '-' || (argv[i][0] == '-' && !argv[i][1])) && hash_args->state == GET_OPT)
-			hash_args->state = GET_NAME;
-		if (hash_args->state == GET_NAME && !hash_args->name_index)
+		if ((argv[i][0] != '-' || (argv[i][0] == '-' && !argv[i][1])) && hash_args->state == get_opt)
+			hash_args->state = get_name;
+		if (hash_args->state == get_name && !hash_args->name_index)
 		{
 			hash_args->name_index = i;
-			hash_args->state = GET_DONE;
+			hash_args->state = get_done;
 		}
-		else if (hash_args->state == GET_PATH)
+		else if (hash_args->state == get_hash_path)
 		{
 			hash_args->path = argv[i];
-			hash_args->state = GET_NAME;
+			hash_args->state = get_name;
 		}
-		else if (argv[i][0] == '-' && hash_args->state == GET_OPT)
+		else if (argv[i][0] == '-' && hash_args->state == get_opt)
 		{
 			if (!get_hash_opt(argv[i], hash_args))
 				return (0);//error
 		}
 	}
-	if (hash_args->state == GET_PATH)
+	if (hash_args->state == get_hash_path)
 	{
 		ft_dprintf(2, "hash: -p: option requires an argument\n");//test
 		print_usage();
@@ -105,7 +105,7 @@ static void	add_each_name(t_hashmap **hashmap, t_hash_args *hash_args, int argc,
 }
 */
 
-static char	**get_paths(char **env)
+static char	**get_hash_paths(char **env)
 {
 	char	**paths;
 	char	*path_line;
@@ -126,7 +126,7 @@ static t_bool	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc, char
 
 	ret = 0;
 	i = hash_args->name_index - 1;
-	if (!(paths = get_paths(vars->env_vars)))
+	if (!(paths = get_hash_paths(vars->env_vars)))
 		ERROR_MEM;//ERROR_MEM??pas sure
 	while (++i < argc)
 	{
@@ -184,15 +184,15 @@ int			hash_builtin(t_vars *vars, int argc, char **argv)
 	}
 	if (!get_hash_args(argv, &hash_args))
 		return (2);
-	if (hash_args.opt & O_R)//priority
+	if (hash_args.opt & o_r)//priority
 		reset_hashmap(&vars->hashmap);
 	if (hash_args.path && hash_args.name_index)
 		add_each_name_with_path(&vars->hashmap, &hash_args, argc, argv);
-	else if (hash_args.opt & O_D && hash_args.name_index)
+	else if (hash_args.opt & o_d && hash_args.name_index)
 		return(pop_each_name(&vars->hashmap, &hash_args, argc, argv));
-	else if ((!hash_args.opt || hash_args.opt & O_R) && hash_args.name_index)//test !opt, seems good
+	else if ((!hash_args.opt || hash_args.opt & o_r) && hash_args.name_index)//test !opt, seems good
 		return(add_each_name(vars, &hash_args, argc, argv));
-	else if (!(hash_args.opt & O_R))//test, seems good
+	else if (!(hash_args.opt & o_r))//test, seems good
 		return(hash_builtin_print(vars->hashmap, &hash_args, argc, argv));
 	return (0);
 }

@@ -94,7 +94,7 @@ int		write_line(t_st_cmd *st_cmd)
 		}
 	}
 	get_pos(st_cmd, st_cmd->st_txt->tracker);
-	if (st_txt->txt[st_txt->tracker + i] == '\n' && st_txt->txt[st_txt->tracker + i + 1])
+	if (st_txt && st_txt->txt && st_txt->txt[st_txt->tracker + i] == '\n' && st_txt->txt[st_txt->tracker + i + 1])//check of st_txt && st_txt->txt addes, avoid SEGV
 	{
 		i++;
 		move_down(st_cmd);

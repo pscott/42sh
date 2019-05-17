@@ -1,5 +1,6 @@
 #include "libft.h"
 #include "line_editing.h"
+#include "errors.h"
 #include <dirent.h>
 
 static int			check_command_folder(char *path, t_auto_comp **match, char *to_find, char *next)
@@ -10,8 +11,7 @@ static int			check_command_folder(char *path, t_auto_comp **match, char *to_find
 	char			*tmp;
 
 	if ((dir = opendir(path)) == NULL)
-		return (1);
-	//	return (ERR_OPENDIR);
+		return (print_errors(ERR_OPENDIR, ERR_OPENDIR_STR, path));
 	while ((ent = readdir(dir)))
 	{
 		if (!compare_entry2("..", ent->d_name)
@@ -28,24 +28,24 @@ static int			check_command_folder(char *path, t_auto_comp **match, char *to_find
 		//	sleep(2);
 			if (ft_strlen(next) == ft_strlen(to_find) || is_white_spaces(next[ft_strlen(to_find)]))
 			{
-				tmp = ft_strjoin(ent->d_name, " ");
+				if (!(tmp = ft_strjoin(ent->d_name, " ")))
+					ERROR_MEM
 		//	ft_printf("{%s}\n", tmp);
 		//	sleep(2);
 			}
 			else
-				tmp = ft_strdup(ent->d_name);
+				if (!(tmp = ft_strdup(ent->d_name)))
+					ERROR_MEM
 			if (create_match_link(match, tmp, t))
 			{
 				closedir(dir);
-				return (1);
-			//	return (ERR_MALLOC);
+				ERROR_MEM
 			}
-	//		ft_strdel(&tmp);
+			ft_strdel(&tmp);
 		}
 	}
 	if (closedir(dir) == -1)
-		return (1);
-	//	return (ERR_CLOSEDIR);
+		return (print_errors(ERR_CLOSEDIR, ERR_CLOSEDIR_STR, NULL));
 	return (0);
 }
 
@@ -54,20 +54,17 @@ static int			add_builtins(t_auto_comp **match, char *to_find)
 	if (!compare_entry(to_find, "exit"))
 	{
 		if (create_match_link(match, "exit", REGULAR))
-			return (1);
-			//return (ERR_MALLOC);
+			ERROR_MEM
 	}
 	else if (!compare_entry(to_find, "setenv"))
 	{
 		if (create_match_link(match, "setenv", REGULAR))
-			return (1);
-	//		return (ERR_MALLOC);
+			ERROR_MEM
 	}
 	else if (!compare_entry(to_find, "unsetenv"))
 	{
 		if (create_match_link(match, "unsetenv", REGULAR))
-			return (1);
-	//		return (ERR_MALLOC);
+			ERROR_MEM
 	}
 	return (0);
 }
@@ -110,16 +107,12 @@ int					find_matching_exe(char **path, t_auto_comp **match, char *to_find_real, 
 	while (path[i])
 		{
 			true_path = rm_spaces_path(path[i]);
-			if (check_command_folder(path[i++], match, to_find_real, next) ==  1 /*ERR_MALLOC*/)
-				return (1);
-		//		return (ERR_MALLOC); // leaks
+			check_command_folder(path[i++], match, to_find_real, next);
 		}
 	if (add_builtins(match, to_find_real))
 		return (1);
-//		return (ERR//_MALLOC);
 	if (add_alias(match, to_find_real))
-		return (1);	
-	//	return (ERR_MALLOC);
+		return (1);
 	if (!(*match))
 		return (0);
 /*	if (match)
@@ -136,8 +129,5 @@ int					find_matching_exe(char **path, t_auto_comp **match, char *to_find_real, 
 		else
 			sleep(10);
 	}*/
-//	*match = ft_list_sort_ascii(*match);
-//	ft_putendl((*match)->name);
-//	sleep(1);
 	return (0);
 }

@@ -1,6 +1,6 @@
 #include "libft.h"
 #include "line_editing.h"
-/*
+
 static char			*get_path_user(int index, char **find)
 {
 	char			*home;
@@ -9,14 +9,14 @@ static char			*get_path_user(int index, char **find)
 	char			*ret;
 
 	ret = NULL;
-	if (!check_env("HOME"))
+	if (!getenv("HOME"))
 	{
 		if (!(home = ft_strdup("/Users")))
 			return (NULL);
 	}
 	else
 	{
-		if (!(home = ft_strdup(check_env("HOME"))))
+		if (!(home = ft_strdup(getenv("HOME"))))
 			return (NULL);
 	}
 	tmp = ft_strsub(*find, index + 1, ft_strlen(*find) - index);
@@ -92,8 +92,9 @@ static char			*get_path_reg(int index, char *pwd, char **find)
 	tmp_find = ft_strsub(*find, index + 1, ft_strlen(*find) - index);
 	tmp_ret = ft_strsub(*find, 0, index + 1);
 	if (!(pwd_slash = ft_strjoin(pwd, "/")))
-		return (NULL);
-	ret = ft_strjoin(pwd_slash, tmp_ret);
+		ERROR_MEM
+	if (!(ret = ft_strjoin(pwd_slash, tmp_ret)))
+		ERROR_MEM
 	ft_strdel(&tmp_ret);
 	ft_strdel(&pwd_slash);
 	ft_strdel(find);
@@ -101,7 +102,7 @@ static char			*get_path_reg(int index, char *pwd, char **find)
 	return (ret);
 }
 
-char				*get_path_file(char *str, char **find)
+char				*get_path_file(char **find)
 {
 	char			*pwd;
 	char			*ret;
@@ -112,7 +113,7 @@ char				*get_path_file(char *str, char **find)
 	i = 0;
 	if (!(pwd = getcwd(pwd, PATH_MAX)))
 		return (NULL);
-	i = get_index_rev(*find, '/');
+	i = ft_strlen(*find) - ft_strlen(ft_strrchr(*find, '/'));
 	if ((*find)[0] == '~' && (*find)[1] == '/')
 		ret = get_path_user(i, find);
 	else if (!i)
@@ -125,4 +126,4 @@ char				*get_path_file(char *str, char **find)
 		ret = ft_strdup(pwd);
 	ft_strdel(&pwd);
 	return (ret);
-}*/
+}

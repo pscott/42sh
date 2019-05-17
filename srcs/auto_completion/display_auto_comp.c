@@ -170,8 +170,6 @@ char		*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigned in
 		ret_str = ft_strdup(match->name);
 	else if ((diff_len = lst_match_more_than_to_find(match, len)))//if all matches have a common pattern longer than to_find : diff_len = nb of char to add
 	{
-		ft_printf("diff_len %d, len %d, match->name %s", diff_len, len, match->name); 
-		sleep(5);
 		if (match->name[diff_len] && (match->name[diff_len] == ' ' || match->name[diff_len] == '/'))
 		{
 			is_empty_last_c = 1;

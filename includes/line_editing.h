@@ -4,6 +4,8 @@
 # include "42sh.h"
 # include "input.h"
 # define MAX_DISPLAY 50
+# define PATH_MAX 4096
+# include <dirent.h>
 
 /*
 **	Window struct
@@ -56,7 +58,7 @@ int							compare_entry(char *s, char *n);
 int							compare_entry2(char *s, char *n);
 void						handler_is_display(int signo);
 char						*get_to_find_file(char *s);
-char						*get_path_file(char *s, char **find);
+char						*get_path_file(char **find);
 void						handler_is_display(int signo);
 t_auto_comp					*ft_list_sort_ascii(t_auto_comp *lst);
 t_auto_comp					*ft_lst_swap(t_auto_comp *file1, t_auto_comp *file2);
@@ -69,5 +71,9 @@ int							get_needed_values(char *input, unsigned int len, char **str
 								, char **to_find_full);
 int							get_path(char ***path, t_vars *vars);
 char						*rm_spaces_path(char *str);
-
+char						*new_auto_completion_space(t_vars *vars);
+char						*search_dirs_first_arg(char *directory, char *str, int len);
+char                       *new_auto_completion_bin(t_vars *vars, char *str, char *to_find_and_next_char, unsigned int len);
+int							new_auto_completion_file(char *str, unsigned int len);
+char						*search_dirs_and_exe(char *str, int len);
 #endif

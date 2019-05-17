@@ -24,7 +24,7 @@ static t_bool		execute_argv(char **argv, t_vars *vars)
 	}
 	else
 	{
-		print_errors(ERR_CMD_STR, ERR_CMD_STR, argv[0]);
+		print_errors(ERR_CMD, ERR_CMD_STR, argv[0]);
 		return (0);
 	}
 	if ((access = check_access(cmd_path)) == 0 && reset_terminal_settings())

@@ -18,6 +18,8 @@ int		execute_str(char *cap)
 	char	*cap_str;
 	char	*ap;
 
+	if (isatty(STDIN_FILENO) == 0)
+		return (0);
 	ap = buf;
 	if (cap && (cap_str = tgetstr(cap, &ap)))
 	{

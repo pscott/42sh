@@ -1,0 +1,18 @@
+Script started on Fri May 17 07:52:11 2019
+segv
+segv.c
+srcs
+test.c
+tmp
+^D[1m[7m%[27m[1m[0m                                                                                ]2;scott@Scotts-MacBook-Pro: ~/42sh]1;~/42sh[0m[27m[24m[J[01;32m➜  [36m42sh[00m [01;34mgit:([31mnon-interactive[34m) [33m✗[00m [K[?1h=[?2004hssegv[?1l>[?2004l
+]2;segv]1;segvzsh: command not found: segv
+[1m[7m%[27m[1m[0m                                                                                ]2;scott@Scotts-MacBook-Pro: ~/42sh]1;~/42sh[0m[27m[24m[J[01;31m➜  [36m42sh[00m [01;34mgit:([31mnon-interactive[34m) [33m✗[00m [K[?1h=[?2004hssegv.c[?1l>[?2004l
+]2;segv.c]1;segv.czsh: command not found: segv.c
+[1m[7m%[27m[1m[0m                                                                                ]2;scott@Scotts-MacBook-Pro: ~/42sh]1;~/42sh[0m[27m[24m[J[01;31m➜  [36m42sh[00m [01;34mgit:([31mnon-interactive[34m) [33m✗[00m [K[?1h=[?2004hssrcs[?1l>[?2004l
+]2;srcs]1;srcs[1m[7m%[27m[1m[0m                                                                                ]2;scott@Scotts-MacBook-Pro: ~/42sh/srcs]1;~/42sh/srcs[0m[27m[24m[J[01;32m➜  [36msrcs[00m [01;34mgit:([31mnon-interactive[34m) [33m✗[00m [K[?1h=[?2004httest.c[?1l>[?2004l
+]2;test.c]1;test.czsh: command not found: test.c
+[1m[7m%[27m[1m[0m                                                                                ]2;scott@Scotts-MacBook-Pro: ~/42sh/srcs]1;~/42sh/srcs[0m[27m[24m[J[01;31m➜  [36msrcs[00m [01;34mgit:([31mnon-interactive[34m) [33m✗[00m [K[?1h=[?2004httmp[?1l>[?2004l
+]2;tmp]1;tmpzsh: command not found: tmp
+[1m[7m%[27m[1m[0m                                                                                ]2;scott@Scotts-MacBook-Pro: ~/42sh/srcs]1;~/42sh/srcs[0m[27m[24m[J[01;31m➜  [36msrcs[00m [01;34mgit:([31mnon-interactive[34m) [33m✗[00m [K[?1h=[?2004h[?2004l
+
+Script done on Fri May 17 07:52:12 2019

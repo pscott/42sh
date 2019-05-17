@@ -51,16 +51,16 @@ char	*get_cmd_path(char **argv, char **env)
 	path = NULL;
 	paths = NULL;
 	if (ft_strchr(argv[0], '/'))
-		path = argv[0];
+		path = ft_strdup(argv[0]);
 	else if (!(path_line = get_envline_value("PATH", env)))
-		path = argv[0];
+		path = ft_strdup(argv[0]);
 	else
 	{
 		if (!(paths = ft_strsplit(path_line, ":")))
 			ERROR_MEM;
 	}
 	if (!path && !(path = find_path(argv[0], paths)))
-		path = argv[0];
+		path = ft_strdup(argv[0]);
 	ft_free_ntab(paths);
 	access = check_access(path);
 	if (access == 0)

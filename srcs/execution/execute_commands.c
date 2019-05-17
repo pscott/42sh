@@ -14,15 +14,19 @@ static t_bool		execute_argv(char **argv, t_vars *vars)
 	if (!argv)
 		return (0);
 	else if (ft_strchr(argv[0], '/'))
-		cmd_path = argv[0];
+		cmd_path = ft_strdup(argv[0]);
 	else if ((cmd = check_builtins(argv)))
-	{
-		//ft_printf("_in execute_argv\n");
 		return (exec_builtins(argv, vars, cmd));
-	}
 	else if (!(cmd_path = check_hashmap(argv[0], vars->hashmap, hash_check)))
+	{
 		if (!(cmd_path = get_cmd_path(argv, vars->env_vars)))
 			return (0); // error msg ? not found
+	}
+	else
+	{
+		print_errors(ERR_CMD_STR, ERR_CMD_STR, argv[0]);
+		return (0);
+	}
 	if ((access = check_access(cmd_path)) == 0 && reset_terminal_settings())
 	{
 		execve(cmd_path, (char * const*)argv, (char* const*)vars->env_vars);
@@ -36,7 +40,7 @@ static t_bool		execute_argv(char **argv, t_vars *vars)
 		else if (access == ERR_ACCESS)
 			print_errors(ERR_ACCESS, ERR_ACCESS_STR, cmd_path);
 	}
-	//ft_strdel(&cmd_path);
+	ft_strdel(&cmd_path);
 	return (0);
 }
 

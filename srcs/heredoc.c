@@ -16,6 +16,70 @@ static char	*add_quot(char *str)
 	return (new);
 }
 
+///////////////////////////////////////////////////////////////////////////////
+//-read and save input in a file
+//	check if default filename exist ('/tmp/tmp_heredoc0000'):
+//		if not: create it
+//		else: increment number at the end of filename
+//-replace '<<' by '<'
+//-replace 'EOF' by 'path to file'
+
+//later, at exec:
+//rm all used file
+
+#define	HEREDOC_FILENAME "/tmp/.tmp_heredoc"
+#define	MAX_INT_LEN 10
+
+static char	*get_heredoc_filename(unsigned int file_key)
+{
+	char			*path;
+	char			*file_key_str;
+
+	if (!(path = ft_strnew(ft_strlen(HEREDOC_FILENAME) + MAX_INT_LEN)))
+		ERROR_MEM;
+	ft_strcpy(path, HEREDOC_FILENAME);
+	if (!(file_key_str = ft_itoa(file_key)))
+		ERROR_MEM;
+	ft_strcpy(&path[ft_strlen(HEREDOC_FILENAME)], file_key_str);
+	ft_memdel((void*)&file_key_str);
+	return (path);
+}
+
+static char	*get_uniq_filename(void)
+{
+	char			*path;
+	unsigned int	file_key;
+
+	file_key = 0;//protect max value
+	path = get_heredoc_filename(file_key);
+	while (access(path, F_OK) == 0)//pas sure
+	{
+		ft_memdel((void*)&path);
+		file_key++;
+		path = get_heredoc_filename(file_key);
+	}
+	return (path);
+}
+
+char	*heredoc(const char *txt)
+{
+	char	*path;
+	int		fd;
+
+	path = get_uniq_filename();
+	ft_printf("UNIQ: {%s}\n", path);
+	if ((fd = open(path, O_CREAT | O_RDWR | O_APPEND, 0666)) == -1)
+	{
+		ft_dprintf(2, "tmp: open error\n");
+		return (NULL);//error
+	}
+	ft_printf("NEW FD: %d\n", fd);
+	if (write(fd, txt, ft_strlen(txt)) == -1)
+		ft_dprintf(2, "tmp: write error\n");
+	return (path);//free
+}
+///////////////////////////////////////////////////////////////////////////////
+
 //i need to write the content of heredoc in a file, then replace EOF with the path of the file
 t_bool	save_heredoc(t_token **prev_token, t_token **current_token, t_vars *vars)
 {
@@ -24,39 +88,26 @@ t_bool	save_heredoc(t_token **prev_token, t_token **current_token, t_vars *vars)
 	char		*txt;
 	char		*txt_tmp;
 	t_st_cmd	*st_cmd;
+	char		*path;
 
 	st_cmd = init_st_cmd((const char**)vars->env_vars);
 	//read input
-	ft_printf("cmp{%d}\n", ft_strncmp((*current_token)->content, txt_tmp, ft_strlen((*current_token)->content) + 1));
-	ft_printf("curr: {%s}\n", (*current_token)->content);
-	ft_printf("st_cmd: {%s}\n", st_cmd->st_txt->txt);
-
-
-
 
 	txt_tmp = ft_strdup("");
 	while (ft_strncmp((*current_token)->content, txt_tmp, ft_strlen((*current_token)->content) + 1))
 	{
-		ft_printf("IN WHILE\n");
 		txt = concatenate_txt(st_cmd);
 		input_loop(st_cmd, vars);
 		txt_tmp = ft_strndup(st_cmd->st_txt->txt, ft_strlen(st_cmd->st_txt->txt) - 1);
-		ft_printf("{%s}\n", txt_tmp);
 		st_cmd = append_st_cmd(st_cmd, "", "cont > ");
-		//st_cmd = reset_st_cmd(st_cmd);
 	}
-	ft_printf("IN HEREDOC 3\n");
-	ft_printf("{%s}curr type: %d\n", (*current_token)->content, (*current_token)->type);
-	//(*current_token)->content = ft_strdup(txt_tmp);
 	(*current_token)->content = add_quot(txt);
-	//(*current_token)->content = ft_strdup(st_cmd->st_txt->txt);
-	//(*current_token)->content = ft_strdup("\"bonsoir\"");
 	(*current_token)->type = tk_dq_str;
-	ft_printf("{%s}postcurr type: %d\n", (*current_token)->content, (*current_token)->type);
-	ft_printf("{%s}prev type: %d\n", (*prev_token)->content, (*prev_token)->type);
 	(*prev_token)->content = ft_strdup("<");
 	(*prev_token)->type = tk_redirection;
-	ft_printf("{%s}postprev type: %d\n", (*prev_token)->content, (*prev_token)->type);
 	heredoc_count++;
+	ft_printf("END TXT: {%s}\n", txt);
+	path = heredoc(txt);
+	ft_printf("END HEREDOC; path:{%s}\n", path);
 	return (1);
 }

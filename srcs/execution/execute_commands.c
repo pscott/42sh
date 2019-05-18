@@ -50,7 +50,7 @@ t_bool		execute_in_fork(t_token *token_head, int in, int out, t_vars *vars)
 
 	redirect(in, STDIN_FILENO);
 	redirect(out, STDOUT_FILENO);
-	parse_expands(token_head, vars->env_vars);
+	parse_expands(token_head, vars);
 	parse_redirections(token_head);
 	argv = get_argv_from_token_lst(token_head);
 	return (execute_argv(argv, vars));
@@ -99,7 +99,7 @@ t_bool		execute_only_one_cmd(t_token *token_head, t_vars *vars)
 	char					*cmd_path;
 
 	cpy = copy_tokens(token_head);
-	parse_expands(cpy, vars->env_vars);
+	parse_expands(cpy, vars);
 	fake_redir_parser(cpy);
 	argv = get_argv_from_token_lst(cpy);
 	if (ft_strchr(argv[0], '/'))
@@ -111,7 +111,7 @@ t_bool		execute_only_one_cmd(t_token *token_head, t_vars *vars)
 	if ((cmd_id = check_builtins(argv)))
 	{
 		ft_free_ntab(argv);
-		parse_expands(token_head, vars->env_vars);
+		parse_expands(token_head, vars);
 		parse_redirections(token_head);
 		argv = get_argv_from_token_lst(token_head);
 		reset_terminal_settings();

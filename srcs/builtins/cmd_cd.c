@@ -46,8 +46,9 @@ static int	print_cd_errors(int ret, char *str)
 }
 
 /*
- **	
- */
+**	Returns 0 if it succesfully managed to change directory ; else returns
+**	the corresponding error value.
+*/
 
 int			case_cd(char **t, char ***env)
 {

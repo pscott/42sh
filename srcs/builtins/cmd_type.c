@@ -1,8 +1,10 @@
 #include "42sh.h"
 #include "execution.h"
 #include "builtins.h"
-#include "execution.h"
-#include "errors.h"
+
+/*
+**	Returns 0 if it succesfully executed. Else returns 1.
+*/
 
 int		case_type(char **argv, t_vars *vars)
 {
@@ -11,7 +13,7 @@ int		case_type(char **argv, t_vars *vars)
 	int				ret;
 
 	if (!argv[1])//if (argc < 2);
-		return (EXIT_SUCCESS);
+		return (0);
 	ret = 0;
 	i = 0;
 	while (argv[++i])//while (++i < argc)

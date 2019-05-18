@@ -52,7 +52,7 @@ int					find_all_except_dots(char *directory, t_auto_comp **match)
 				closedir(dir);
 				return (1);//ERR MALL
 			}
-			ft_strdel(&tmp);
+		//	ft_strdel(&tmp);
 		}
 	}
 	if (closedir(dir) == -1)
@@ -104,56 +104,79 @@ int					slash_counter(const char *s)
 	while (s && s[i])
 	{
 		if (s[i] == '/')
+		{
 			count++;
-		while (s[i] == '/')
+			while (s[i] == '/')
+				i++;
+		}
+		else
 			i++;
-		i++;
 	}
 	return (count);
 }
 
-static char			*handle_x_arg(t_vars *vars, char *to_find, char *to_find_and_next_char, unsigned int len)
+static char			*handle_x_arg(t_vars *vars, char *input, char *to_find_and_next_char, unsigned int len)
 {
-	char			*path_file;
-	char			*str;
+	char			*path;
+	char			*to_find;
+	char			*tmp;
+	char			*tmp2;
 	char			*ret_str;
 	t_auto_comp		*match;
+	int				i;
 
-	str = NULL;
-	path_file = NULL;
+	to_find = NULL;
+	path = NULL;
+	ret_str = NULL;
 	match = NULL;
-	if (!(str = ft_strdup(to_find)))
-		ERROR_MEM
-	if (str[0])
-		path_file = get_path_file(&str);
-	else
-		if (!(path_file = ft_strdup(".")))
-			ERROR_MEM
-/*	ft_putendl(to_find);
-	ft_putendl(path_file);
-	ft_putnbr(len);
-	sleep(1);*/
-	if (!strchr(to_find, '/'))
-	{
+	tmp = NULL;
+	tmp2 = NULL;
+
+	/*
+	ft_printf("input |%s|", input);
+	sleep(1);
+*/
+	if (input && input[0] && ft_strchr(input, '/'))
+		tmp = ft_strndup(input, ft_strlen(input) - ft_strlen(ft_strrchr(input, '/') + 1));
+	get_path_file_and_to_find(input, &path, &to_find);
+	
+			ft_putendl(input);
+			ft_putendl(path);
+			ft_putendl(to_find);
+			sleep(1);
 		if (!to_find[0] || is_white_spaces(to_find[0]))
-			find_all_except_dots(path_file, &match); 
+			find_all_except_dots(path, &match); 
+		
 		else
-			find_all_match(path_file, &match, to_find, to_find_and_next_char);
-	}
-	else
+		{
+			find_all_match(path, &match, to_find, to_find_and_next_char);
+		}
+			
+	//	ft_printf("|%s|", to_find);
+	//	sleep(1);
+		
+
+		ret_str = get_ret_or_display_matches(match, to_find, len);
+		ft_printf("{{%s}}\n", ret_str);
+		sleep(1);
+		tmp2 = ft_strjoin(tmp, ret_str);
+		
+/*		while (match->prev)
+			match = match->prev;
+		ft_putendl(match->name);
+		sleep(2);
+*/
+/*	else
 	{
 		if (slash_counter(to_find) == 1)
-			find_all_except_dots(path_file, &match);
+			find_all_except_dots(path, &match);
 		else
-			find_all_match(path_file, &match, to_find, to_find_and_next_char);
+			find_all_match(path,, &match, to_find, to_find_and_next_char);
 	}
 	if (match)
 	{
-		while (match->prev)
-			match = match->prev;
-	//	ret_str = get_ret_or_display_matches(match, to_find, len - ft_strlen(path_file));
 	}
-	 return (ret_str);
+*/	 return (tmp2);
 }
 
 char				*new_auto_completion(char *input, unsigned int len, t_vars *vars)
@@ -173,6 +196,10 @@ char				*new_auto_completion(char *input, unsigned int len, t_vars *vars)
 	start_actual_word = get_needed_values(input, len, &str, &to_find_full);
 	if (!(str_save_begin = ft_strndup(input, start_actual_word)))
 		ERROR_MEM
+			/*
+			ft_printf("save:|%s|", str_save_begin);
+	sleep(2);
+*/
 	if (is_first_arg_and_exec(input, start_actual_word) == 3)
 	{
 		if (!(ret = new_auto_completion_bin(vars, to_find_full + start_actual_word, str + start_actual_word, len - start_actual_word)))
@@ -200,7 +227,9 @@ char				*new_auto_completion(char *input, unsigned int len, t_vars *vars)
 		new_auto_completion_space(vars);//jsute display tous les execs et variables, on returne une dup de input
 	
 	else if (!is_first_arg_and_exec(input, len))
+	{
 		ret = handle_x_arg(vars, to_find_full + start_actual_word, str + start_actual_word, len - start_actual_word);
+	}
 
 /*
 	else if (is_first_arg_and_exec(input, len) == 6)//case file en xx arg. si dossier non specifie, alors tout dans repertoire courrant (sauf . et ..), en appendant / a la fin des dossiers. 
@@ -221,8 +250,10 @@ char				*new_auto_completion(char *input, unsigned int len, t_vars *vars)
 		ret = ft_strdup(tmp);
 		ft_strdel(&tmp);
 	}
-//ft_printf("ret : |%s|\n", ret);
-//sleep(2);
+	
+ft_printf("\nret : |%s|\n", ret);
+sleep(1);
+
 //	ft_strdel(&to_find_full);
 	return (ret);
 }

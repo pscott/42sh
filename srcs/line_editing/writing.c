@@ -94,14 +94,14 @@ int		write_line(t_st_cmd *st_cmd)
 		}
 	}
 	get_pos(st_cmd, st_cmd->st_txt->tracker);
-	if (st_txt && st_txt->txt && st_txt->txt[st_txt->tracker + i] == '\n' && st_txt->txt[st_txt->tracker + i + 1])//check of st_txt && st_txt->txt addes, avoid SEGV
+/*	if (st_txt && st_txt->txt && st_txt->txt[st_txt->tracker + i] == '\n' && st_txt->txt[st_txt->tracker + i + 1])//check of st_txt && st_txt->txt addes, avoid SEGV
 	{
 		i++;
 		move_down(st_cmd);
 		tmp_pos.col = 1;
 		tmp_pos.row++;
 		return (i);
-	}
+	}*/
 	execute_str(ERASE_ENDLINE);
 	return (0);
 	//	write until \n

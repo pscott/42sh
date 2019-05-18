@@ -54,7 +54,8 @@ char					*search_dirs_and_exe(char *str, int len)
 	if ((to_find = ft_strrchr(str, '/') + 1))
 	{
 		if (!(path = ft_strndup(str, ft_strlen(str) - ft_strlen(to_find))))
-			ERROR_MEM
+			return (NULL);
+			//ERROR_MEM
 	}
 	else
 		if (!(path = ft_strdup(str)))

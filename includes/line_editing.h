@@ -58,7 +58,7 @@ int							compare_entry(char *s, char *n);
 int							compare_entry2(char *s, char *n);
 void						handler_is_display(int signo);
 char						*get_to_find_file(char *s);
-char						*get_path_file(char **find);
+int							get_path_file_and_to_find(char *arg, char **path, char **to_find);
 void						handler_is_display(int signo);
 t_auto_comp					*ft_list_sort_ascii(t_auto_comp *lst);
 t_auto_comp					*ft_lst_swap(t_auto_comp *file1, t_auto_comp *file2);

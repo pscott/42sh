@@ -11,17 +11,17 @@ static t_bool		execute_argv(char **argv, t_vars *vars)
 	char	*cmd_path;
 	int		access;
 
+	
 	if (!argv)
 		return (0);
 	else if (ft_strchr(argv[0], '/'))
 		cmd_path = ft_strdup(argv[0]);
 	else if ((cmd = check_builtins(argv)))
 		return (exec_builtins(argv, vars, cmd));
-	else if (!(cmd_path = check_hashmap(argv[0], vars->hashmap, hash_check)))
-	{
-		if (!(cmd_path = get_cmd_path(argv, vars->env_vars)))
-			return (0); // error msg ? not found
-	}
+	else if ((cmd_path = check_hashmap(argv[0], vars->hashmap, hash_check)))
+		;
+	else if ((cmd_path = get_cmd_path(argv, vars->env_vars)))
+		;
 	else
 	{
 		print_errors(ERR_CMD, ERR_CMD_STR, argv[0]);

@@ -1,5 +1,5 @@
-#ifndef PIPELINE_H
-# define PIPELINE_H
+#ifndef CMD_PARSING_H
+# define CMD_PARSING_H
 
 # include "42sh.h"
 # include "lexer.h"

@@ -50,9 +50,9 @@ static t_bool	add_token_to_list(t_token *current_token, t_token *prev_token
 	if (prev_token && prev_token->type == tk_heredoc
 		&& current_token->type != tk_eat)
 	{
-		ft_printf("HEREDOC, enter READ_MODE, with EOF: {%s}\n", current_token->content);
-		save_heredoc(&prev_token, &current_token, vars);
-		//return (1);//test
+		ft_printf("HEREDOC, enter READ_MODE, with EOF: {%s}\n", current_token->content);//NOT HERE: 'cat << EOF && &&'
+		//if (!(save_heredoc(&prev_token, &current_token, vars)))
+		//	return (0);//pas sure
 	}
 	if (!(*token_head))
 	{
@@ -89,6 +89,9 @@ static void	init_lexer(t_operation **op_chart, t_token **token_head
 ** - return LEX_SUCCES otherwise, so handle_input can continue
 */
 
+
+t_bool	parse_heredoc(t_token *token_head, t_vars *vars);//proto
+
 int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 {
 	t_token		*current_token;
@@ -105,6 +108,8 @@ int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 		if (current_token->type != tk_eat)
 			prev_token = current_token;
 	}
+	//maybe get heredocs here ?? 'cat << EOF &&'
+	parse_heredoc(*token_head, vars);
 	if (is_logic_or_pipe(current_token)
 		|| (is_logic_or_pipe(prev_token) && !current_token->type))
 	{

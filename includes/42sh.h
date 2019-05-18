@@ -7,6 +7,7 @@
 typedef unsigned char	t_bool;
 
 # define ERROR_MEM clean_exit(1);
+# define SHELL_NAME "42sh"//for error messages
 
 typedef struct			s_vars
 {

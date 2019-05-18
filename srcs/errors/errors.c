@@ -10,7 +10,8 @@ void	error_mem(void) //unused but should use ?
 
 void	syntax_error_near(t_token *token)
 {
-	ft_putstr_fd(STD_PROMPT, STDERR_FILENO);
+	//ft_putstr_fd(STD_PROMPT, STDERR_FILENO);
+	ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
 	if (ft_strcmp(token->content, "\n") == 0)

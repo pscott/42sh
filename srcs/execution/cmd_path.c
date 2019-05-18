@@ -3,6 +3,8 @@
 
 int			check_access(char *file)
 {
+	if (!file)
+		return (ERR_CMD);
 	if (access(file, F_OK) == 0)
 	{
 		if (access(file, X_OK) == 0)
@@ -34,7 +36,7 @@ char		*find_path(char *file, char **paths)
 	return (NULL);
 }
 
-/*
+/* outdated
 **	Returns a freshly allocated string containing the path corresponding
 **	to argv[0]. If no path is found in the PATH variable, or the file is not
 **	accessible, or not executable, returns NULL, and prints the corresponding
@@ -60,17 +62,19 @@ char	*get_cmd_path(char **argv, char **env)
 			ERROR_MEM;
 	}
 	if (!path && !(path = find_path(argv[0], paths)))
-		path = ft_strdup(argv[0]);
+		;
 	ft_free_ntab(paths);
 	access = check_access(path);
 	if (access == 0)
 		return (path);
 	else 
 	{
-		if (access == ERR_NOEXIST)
-			print_errors(ERR_NOEXIST, ERR_NOEXIST_STR, path);
+		if (access == ERR_CMD)
+			print_errors(ERR_CMD, ERR_CMD_STR, argv[0]);
+		else if (access == ERR_NOEXIST)
+			print_errors(ERR_NOEXIST, ERR_NOEXIST_STR, argv[0]);
 		else if (access == ERR_ACCESS)
-			print_errors(ERR_ACCESS, ERR_ACCESS_STR, path);
+			print_errors(ERR_ACCESS, ERR_ACCESS_STR, argv[0]);
 		return (NULL);
 	}
 }

@@ -10,12 +10,13 @@ void	error_mem(void) //unused but should use ?
 
 void	syntax_error_near(t_token *token)
 {
-	ft_putstr_fd(STD_PROMPT, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
-	if (ft_strcmp(token->content, "\n") == 0)
-		ft_putstr_fd("newline", STDERR_FILENO);
+	char *str;
+
+	if (ft_strncmp(token->content, "\n", 2))
+		str = ft_strdup(newline);
 	else
-		ft_putstr_fd(token->content, STDERR_FILENO);
-	ft_putendl_fd("'", STDERR_FILENO);
+		str = ft_strdup(token->content);
+	ft_dprintf(STDERR_FILENO, "42sh: syntax error near unexpected token `%s'", str);
+	print_line(2);
+	ft_strdel(&str);
 }

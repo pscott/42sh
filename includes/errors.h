@@ -74,7 +74,7 @@
 # define ERR_NO_OLDPWD 24
 # define ERR_NO_OLDPWD_STR "error: old pwd not set"
 
-void	error_exit(int errno, char *str_err, char *err_file);
-int		print_errors(int errno, char *err_str, char *err_file);
+void	error_exit(int errno, const char *str_err, const char *err_file);
+int		print_errors(int errno, const char *err_str, const char *err_file);
 void	syntax_error_near(t_token *token);
 #endif

@@ -2,7 +2,7 @@
 #include "libterm.h"
 #include "errors.h"
 
-int				print_errors(int errno, char *err_str, char *err_file)
+int		print_errors(int errno, const char *err_str, const char *err_file)
 {
 	if (err_file)
 		ft_dprintf(STDERR_FILENO, "%s: %s", err_str, err_file);

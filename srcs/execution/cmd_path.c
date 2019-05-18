@@ -21,6 +21,13 @@ int			check_access(char *file)
 	return (ERR_NOEXIST);
 }
 
+/*
+**	For each paths in paths, tries to append file and check if the new path is
+**	accessible.
+**	Returns a freshly allocated string of the corresponding path, else returns
+**	NULL.
+*/
+
 char		*find_path(char *file, char **paths)
 {
 	unsigned int	i;
@@ -43,7 +50,21 @@ char		*find_path(char *file, char **paths)
 	return (NULL);
 }
 
-/* outdated
+/*
+**	Utility function to print the correpsonding error messages for 
+*/
+
+static void	print_error_message(int access, const char *str)
+{
+	if (access == ERR_CMD)
+		print_errors(ERR_CMD, ERR_CMD_STR, str);
+	else if (access == ERR_NOEXIST)
+		print_errors(ERR_NOEXIST, ERR_NOEXIST_STR, str);
+	else if (access == ERR_PERM)
+		print_errors(ERR_PERM, ERR_PERM_STR, str);
+}
+
+/*
 **	Returns a freshly allocated string containing the path corresponding
 **	to argv[0]. If no path is found in the PATH variable, or the file is not
 **	accessible, or not executable, returns NULL, and prints the corresponding
@@ -74,14 +95,7 @@ char	*get_cmd_path(char **argv, char **env)
 	access = check_access(path);
 	if (access == 0)
 		return (path);
-	else 
-	{
-		if (access == ERR_CMD)
-			print_errors(ERR_CMD, ERR_CMD_STR, argv[0]);
-		else if (access == ERR_NOEXIST)
-			print_errors(ERR_NOEXIST, ERR_NOEXIST_STR, argv[0]);
-		else if (access == ERR_PERM)
-			print_errors(ERR_PERM, ERR_PERM_STR, argv[0]);
+	else
+		print_error_message(access, argv[0]);
 		return (NULL);
-	}
 }

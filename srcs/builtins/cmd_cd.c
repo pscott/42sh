@@ -73,7 +73,7 @@ int			case_cd(char **t, char ***env)
 		}
 		else if (access(t[1], F_OK) == 0 && access(t[1], X_OK) == -1)
 		{
-			print_errors(ERR_ACCESS, ERR_ACCESS_STR, t[1]);
+			print_errors(ERR_PERM, ERR_PERM_STR, t[1]);
 			ret = 1;
 		}
 		else

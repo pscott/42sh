@@ -37,8 +37,8 @@ static t_bool		execute_argv(char **argv, t_vars *vars)
 	{
 		if (access == ERR_NOEXIST)
 			print_errors(ERR_NOEXIST, ERR_NOEXIST_STR, cmd_path);
-		else if (access == ERR_ACCESS)
-			print_errors(ERR_ACCESS, ERR_ACCESS_STR, cmd_path);
+		else if (access == ERR_PERM)
+			print_errors(ERR_PERM, ERR_PERM_STR, cmd_path);
 	}
 	ft_strdel(&cmd_path);
 	return (0);

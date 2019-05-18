@@ -15,8 +15,8 @@
 # define ERR_FORK 5
 # define ERR_FORK_STR "error: fork() failed"
 
-# define ERR_ACCESS 6
-# define ERR_ACCESS_STR "error: permission denied"
+# define ERR_PERM 6
+# define ERR_PERM_STR "error: permission denied"
 
 # define ERR_OPEN 7
 # define ERR_OPEN_STR "error: could not open"

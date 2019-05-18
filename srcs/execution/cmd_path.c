@@ -1,6 +1,13 @@
 #include "42sh.h"
 #include "errors.h"
 
+/*
+**	Checks access for the corresponding file.
+**	Returns ERR_CMD is file is NULL
+**	Returns ERR_NOEXIST if file does not exist
+**	Returns ERR_PERM if file exists but not executable
+*/
+
 int			check_access(char *file)
 {
 	if (!file)
@@ -9,7 +16,7 @@ int			check_access(char *file)
 	{
 		if (access(file, X_OK) == 0)
 			return (0);
-		return (ERR_ACCESS);
+		return (ERR_PERM);
 	}
 	return (ERR_NOEXIST);
 }
@@ -73,8 +80,8 @@ char	*get_cmd_path(char **argv, char **env)
 			print_errors(ERR_CMD, ERR_CMD_STR, argv[0]);
 		else if (access == ERR_NOEXIST)
 			print_errors(ERR_NOEXIST, ERR_NOEXIST_STR, argv[0]);
-		else if (access == ERR_ACCESS)
-			print_errors(ERR_ACCESS, ERR_ACCESS_STR, argv[0]);
+		else if (access == ERR_PERM)
+			print_errors(ERR_PERM, ERR_PERM_STR, argv[0]);
 		return (NULL);
 	}
 }

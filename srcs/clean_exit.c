@@ -1,4 +1,4 @@
-#include "input.h"
+#include "42sh.h"
 
 /*
 ** Utility function to reset the terminal settings and exit

@@ -2,6 +2,10 @@
 #include "libterm.h"
 #include "errors.h"
 
+/*
+**	Prints the error_str, and err_file if provided. Exits with errno value.
+*/
+
 void			error_exit(int errno, char *err_str, char *err_file)
 {
 	if (err_file)

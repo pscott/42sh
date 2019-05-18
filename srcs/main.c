@@ -50,6 +50,8 @@ int		main(int argc, char **argv, char **env)
 			break ; // free env, free st_cmd
 		else if (ret > 0 && !is_full_of_whitespaces(st_cmd->st_txt->txt))
 			handle_input(st_cmd, &vars);
+		ft_printf("last_cmd value: %d", vars.cmd_value);
+		print_line(0);
 		st_cmd = reset_st_cmd(st_cmd);
 	}
 	if (isatty(STDIN_FILENO))

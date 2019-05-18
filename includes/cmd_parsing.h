@@ -13,8 +13,8 @@ void			redirect(int old_fd, int new_fd);
 
 t_bool			parse_tildes(t_token *token_head, const char **env);
 t_bool			replace_tilde(char **str, const char **env);
-t_bool			parse_expands(t_token *token_head, char **env);
-t_bool			parse_dollars(t_token *token_head, char **env);
+t_bool			parse_expands(t_token *token_head, t_vars *vars);
+t_bool			parse_dollars(t_token *token_head, t_vars *vars);
 t_bool			parse_quotes(t_token *token_head);
 
 /*

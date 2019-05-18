@@ -1,5 +1,5 @@
+#include "42sh.h"
 #include "lexer.h"
-#include "ast.h"
 
 static t_bool	is_env_var_name_char(char c)
 {
@@ -44,13 +44,13 @@ static char		*substitute_env_var(char *old_str, size_t *i
 	char	*new_str;
 
 	if (!(new_str = ft_strnew(ft_strlen(old_str)
-					- (ft_strlen(var_name) + 1) + ft_strlen(var_value))))
+		- (ft_strlen(var_name) + 1) + ft_strlen(var_value))))
 		ERROR_MEM;
 	ft_strncpy(new_str, old_str, *i);
 	ft_strcpy(new_str + *i, var_value);
 	*i += ft_strlen(var_value);
-	ft_strcpy(new_str + *i
-			, old_str + *i - ft_strlen(var_value) + (ft_strlen(var_name) + 1));
+	ft_strcpy(new_str + *i,
+		old_str + *i - ft_strlen(var_value) + (ft_strlen(var_name) + 1));
 	(*i)--;
 	ft_memdel((void*)&old_str);
 	ft_memdel((void*)&var_name);
@@ -67,7 +67,7 @@ static char		*substitute_env_var(char *old_str, size_t *i
 ** if the token->content is empty after this, token->type = TK_EAT
 */
 
-static t_bool	expand_dollars(t_token *token, char **env)
+static t_bool	expand_dollars(t_token *token, t_vars *vars)
 {
 	size_t	i;
 	char 	*var_name;
@@ -84,10 +84,10 @@ static t_bool	expand_dollars(t_token *token, char **env)
 				i++;
 				continue ;
 			}
-			if (!(var_value = get_envline_value(var_name, env)))
+			if (!(var_value = get_envline_value(var_name, vars->env_vars)))
 				var_value = &var_name[ft_strlen(var_name)];
-			token->content = substitute_env_var(token->content, &i
-					, var_value, var_name);
+			token->content = substitute_env_var(token->content, &i,
+				var_value, var_name);
 		}
 		i++;
 	}
@@ -97,7 +97,7 @@ static t_bool	expand_dollars(t_token *token, char **env)
 }
 
 //check return type
-t_bool			parse_dollars(t_token *token_head, char** env)
+t_bool			parse_dollars(t_token *token_head, t_vars *vars)
 {
 	t_bool	res;
 
@@ -107,7 +107,7 @@ t_bool			parse_dollars(t_token *token_head, char** env)
 		if (token_head->type == tk_word || token_head->type == tk_dq_str)
 		{
 			res = 1;
-			expand_dollars(token_head, env);
+			expand_dollars(token_head, vars);
 		}
 		token_head = token_head->next;
 	}

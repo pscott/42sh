@@ -9,11 +9,11 @@
 **		- Quote removal
 */
 
-t_bool		parse_expands(t_token *token_head, char **env)
+t_bool		parse_expands(t_token *token_head, t_vars *vars)
 {
-	if (!(parse_tildes(token_head, (const char **)env)))
+	if (!(parse_tildes(token_head, (const char **)vars->env_vars)))
 		return (0);
-	parse_dollars(token_head, env); // check return types ? protect ?
+	parse_dollars(token_head, vars); // check return types ? protect ?
 	parse_quotes(token_head); 	// check return types ? protect ?
 	return (1);
 }

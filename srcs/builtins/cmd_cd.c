@@ -46,32 +46,49 @@ static int	print_cd_errors(int ret, char *str)
 }
 
 /*
-**	
-*/
+ **	
+ */
 
 int			case_cd(char **t, char ***env)
 {
 	char			buf[PATH_MAX + 1];
 	int				ret;
 	struct	stat	infos;
-	int				i;
 
 	if (t && t[1])
 	{
-		i = ft_strlen(t[1]) ? ft_strlen(t[1]) - 1 : 0;
-		if (t[1][i] == '/')
-			t[1][i] = '\0';
+		ret = ft_strlen(t[1]) ? ft_strlen(t[1]) - 1 : 0;
+		if (t[1][ret] == '/')
+			t[1][ret] = '\0';
 		if (lstat(t[1], &infos) == -1)
-			return (print_errors(ERR_NOEXIST, ERR_NOEXIST_STR, t[1]));
-		if (!S_ISDIR(infos.st_mode))
-			return (print_errors(ERR_NOTDIR, ERR_NOTDIR_STR, t[1]));
-		if (access(t[1], F_OK) == 0 && access(t[1], X_OK) == -1)
-			return (print_errors(ERR_ACCESS, ERR_ACCESS_STR, t[1]));
+		{
+			print_errors(ERR_NOEXIST, ERR_NOEXIST_STR, t[1]);
+			ret = 1;
+		}
+		else if (!S_ISDIR(infos.st_mode))
+		{
+			print_errors(ERR_NOTDIR, ERR_NOTDIR_STR, t[1]);
+			ret = 1;
+		}
+		else if (access(t[1], F_OK) == 0 && access(t[1], X_OK) == -1)
+		{
+			print_errors(ERR_ACCESS, ERR_ACCESS_STR, t[1]);
+			ret = 1;
+		}
+		else
+			ret = 0;
 	}
-	if (getcwd(buf, PATH_MAX) == NULL)
-		return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
-	ret = apply_cd(t, env);
-	if (ret == 0 && change_environ(buf, env))
-		return (ERR_MALLOC);
-	return (print_cd_errors(ret, t[1]));
+	else
+	{
+		if (getcwd(buf, PATH_MAX) == NULL)
+		{
+			print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL);
+			return (2);
+		}
+		ret = apply_cd(t, env);
+		if (ret == 0 && change_environ(buf, env))
+			ERR_MALLOC;
+		print_cd_errors(ret, t[1]);
+	}
+	return (ret);
 }

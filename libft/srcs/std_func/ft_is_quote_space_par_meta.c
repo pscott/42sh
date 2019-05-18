@@ -34,8 +34,8 @@ unsigned int	ft_is_parenth(char c)
 unsigned int	ft_is_metachar(char c)
 {
 	if (ft_is_white_space(c) || ft_is_parenth(c) || ft_is_quote(c) || c  == '*'
-			|| c == '?' || c == '\\' || c == ';' || c == '&'
-			|| c == '|' || c == '^' || c == '<' || c == '>')
+		|| c == '\\' || c == ';' || c == '&' || c == '?'
+		|| c == '|' || c == '^' || c == '<' || c == '>')
 		return (1);
 	return (0);
 }

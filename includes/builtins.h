@@ -11,7 +11,7 @@ t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id);
 int		case_cd(char **argv, char ***env);
 int		case_hash(char **argv, t_vars *vars);
 int		get_exit_value(char **argv);
-int		case_exit(char **argv);
+int		case_exit(char **argv, int *exitno);
 int		case_type(char **argv, t_vars *vars);
 
 #endif

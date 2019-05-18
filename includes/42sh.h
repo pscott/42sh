@@ -14,7 +14,7 @@ typedef struct			s_vars
 	char				**env_vars;
 	char				**shell_vars;
 	struct s_hashmap	*hashmap;
-	int					*previous_exit;
+	int					cmd_value;
 }						t_vars;
 # include "hashmap.h"
 

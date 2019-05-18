@@ -80,21 +80,21 @@ static void	fake_redir_parser(t_token *token_head)
 	}
 }
 
-static void	execute_exit(char **argv)
+static void	execute_exit(int exitno)
 {
 	if (isatty(STDIN_FILENO))
 	{
 		ft_printf("exit");
 		print_line(0);
 	}
-	clean_exit(get_exit_value(argv));
+	clean_exit(exitno);
 }
 
 t_bool		execute_only_one_cmd(t_token *token_head, t_vars *vars)
 {
 	t_token					*cpy;
 	char					**argv;
-	unsigned int			cmd;
+	unsigned int			cmd_id;
 	unsigned int			ret;
 	char					*cmd_path;
 
@@ -108,22 +108,22 @@ t_bool		execute_only_one_cmd(t_token *token_head, t_vars *vars)
 		free_token_list(cpy);
 		return (1);
 	}
-	if ((cmd = check_builtins(argv)))
+	if ((cmd_id = check_builtins(argv)))
 	{
 		ft_free_ntab(argv);
 		parse_expands(token_head, vars->env_vars);
 		parse_redirections(token_head);
 		argv = get_argv_from_token_lst(token_head);
 		reset_terminal_settings();
-		ret = exec_builtins(argv, vars, cmd);
-		if (cmd == cmd_exit)
+		ret = exec_builtins(argv, vars, cmd_id);
+		if (cmd_id == cmd_exit)
 		{
-			if (ret == 0)
-				execute_exit(argv);
-			ret = 0;
+			if (ret == 1)
+				execute_exit(vars->cmd_value);
 		}
 		ft_free_ntab(argv);
 		setup_terminal_settings();
+		ret = 0;
 	}
 	else if ((cmd_path = check_hashmap(argv[0], vars->hashmap, hash_exec)))
 	{

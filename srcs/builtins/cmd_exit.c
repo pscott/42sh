@@ -1,21 +1,18 @@
 #include "42sh.h"
 #include "builtins.h"
 
-static int		builtin_exit_error(int errno, char *s)
+static void		builtin_exit_error(int errno, char *s)
 {
 	if (errno == args_nb)
 	{
 		ft_dprintf(STDERR_FILENO,"exit: too many arguments");
 		print_line(2);
-		return (1);
 	}
 	else if (errno == arg_not_digit)
 	{
 		ft_dprintf(STDERR_FILENO, "exit: numeric argument required: %s", s);
 		print_line(2);
-		return (0);
 	}
-	return (1);
 }
 
 
@@ -98,28 +95,42 @@ int				get_exit_value(char **argv)
 }
 
 /*
-**	Exit builtin. Returns 0 if shell should actually exit, else returns 1.
-**	Updates exitno with the expectd exit value.
+**	Exit builtin. Does NOT call exit(3). Returns 1 if exit(3) should be called
+**	else returns 0. Sets the *exitno parameter to the corresponding value.
 */
 
-int				case_exit(char **argv)
+int				case_exit(char **argv, int *exitno)
 {
-	int			i;
-	int			exitno;
-
-	i = 0;
 	if (!argv || !argv[1])
-		return (0);
+	{
+		*exitno = 0;
+		return (1);
+	}
 	if (!word_is_num(argv[1]))
+	{
 		builtin_exit_error(arg_not_digit, argv[1]);
-	else if (is_zero(argv[1]))
-		return (0);
-	else if ((exitno = ft_atol(argv[1])) == 0)
-		builtin_exit_error(arg_not_digit, argv[1]);
+		*exitno = 2;
+		return (1);
+	}
 	else if (argv[2])
 	{
 		builtin_exit_error(args_nb, NULL);
+		*exitno = 1;
+		return (0);
+	}
+	else if (is_zero(argv[1]))
+	{
+		*exitno = 0;
 		return (1);
 	}
-	return (0);
+	else 
+	{
+		*exitno = ft_atol(argv[1]);
+		if (*exitno == 0)
+		{
+			builtin_exit_error(arg_not_digit, argv[1]);
+			*exitno = 2;
+		}
+		return (1);
+	}
 }

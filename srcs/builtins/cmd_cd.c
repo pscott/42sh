@@ -34,6 +34,21 @@ static int	change_environ(char *buf, char ***env)
 	return (0);
 }
 
+static int	print_cd_errors(int ret, char *str)
+{
+	if (ret == -1)
+		return (print_errors(ERR_CHDIR, ERR_CHDIR_STR, NULL));
+	else if (ret == ERR_NOEXIST)
+		return (print_errors(ERR_NOEXIST, ERR_NOEXIST_STR, "HOME"));// ?
+	else if (ret == ERR_NO_OLDPWD)
+		return (print_errors(ERR_NO_OLDPWD, ERR_NO_OLDPWD_STR, str));
+	return (0);
+}
+
+/*
+**	
+*/
+
 int			case_cd(char **t, char ***env)
 {
 	char			buf[PATH_MAX + 1];
@@ -43,7 +58,7 @@ int			case_cd(char **t, char ***env)
 
 	if (t && t[1])
 	{
-		i = ft_strlen(t[1]) - 1;
+		i = ft_strlen(t[1]) ? ft_strlen(t[1]) - 1 : 0;
 		if (t[1][i] == '/')
 			t[1][i] = '\0';
 		if (lstat(t[1], &infos) == -1)
@@ -58,11 +73,5 @@ int			case_cd(char **t, char ***env)
 	ret = apply_cd(t, env);
 	if (ret == 0 && change_environ(buf, env))
 		return (ERR_MALLOC);
-	else if (ret == -1)
-		return (print_errors(ERR_CHDIR, ERR_CHDIR_STR, NULL));
-	else if (ret == ERR_NOEXIST)
-		return (print_errors(ERR_NOEXIST, ERR_NOEXIST_STR, "HOME"));// ?
-	else if (ret == ERR_NO_OLDPWD)
-		return (print_errors(ERR_NO_OLDPWD, ERR_NO_OLDPWD_STR, t[1]));
-	return (0);
+	return (print_cd_errors(ret, t[1]));
 }

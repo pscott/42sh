@@ -45,11 +45,7 @@ int		check_for_quit(t_st_cmd *st_cmd, const char *buf)
 				ft_dprintf(STDERR_FILENO, "42sh: unexepected EOF");
 				print_line(2);
 			}
-			if (isatty(STDIN_FILENO))
-			{
-				ft_printf("exit");// test
-				print_line(0); //test
-			}
+			print_exit();
 			clean_exit(0);
 		}
 		else if (st_cmd->st_txt->tracker >= st_cmd->st_txt->data_size)

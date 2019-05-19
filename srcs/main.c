@@ -3,6 +3,7 @@
 #include "input.h"
 #include "history.h"
 #include "signals.h"
+#include "builtins.h"
 #include "line_editing.h"
 
 t_bool	is_full_of_whitespaces(char *input)
@@ -50,16 +51,16 @@ int		main(int argc, char **argv, char **env)
 			break ; // free env, free st_cmd
 		else if (ret > 0 && !is_full_of_whitespaces(st_cmd->st_txt->txt))
 			handle_input(st_cmd, &vars);
-		ft_printf("last_cmd value: %d", vars.cmd_value);
-		print_line(0);
+		if (isatty(STDIN_FILENO))
+		{
+			ft_printf("last_cmd value: %d", vars.cmd_value);
+			print_line(0);
+		}
 		st_cmd = reset_st_cmd(st_cmd);
 	}
+	print_exit();
 	if (isatty(STDIN_FILENO))
-	{
-		ft_printf("exit");
-		print_line(0);
 		write_to_history(st_cmd, (const char **)vars.env_vars);
-	}
 	free_all_st_cmds(&st_cmd);
 	free_vars(&vars);
 	delete_hashmap(vars.hashmap);

@@ -94,6 +94,14 @@ int				get_exit_value(char **argv)
 	}
 }
 
+void			print_exit(void)
+{
+	if (isatty(STDIN_FILENO))
+	{
+		ft_printf("exit");
+		print_line(0);
+	}
+}
 /*
 **	Exit builtin. Does NOT call exit(3). Returns 1 if exit(3) should be called
 **	else returns 0. Sets the *exitno parameter to the corresponding value.

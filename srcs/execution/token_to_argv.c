@@ -1,6 +1,11 @@
 #include "42sh.h"
 #include "lexer.h"
 
+/*
+**	Utilty function for get_token_from_argv. Joins s1 and s2 in a freshly
+**	allocated string, and frees s1.
+*/
+
 static char	*ft_strjoin_free(char *s1, char *s2)
 {
 	char			*res;
@@ -19,6 +24,12 @@ static char	*ft_strjoin_free(char *s1, char *s2)
 	return (res);
 }
 
+/*
+**	Utility function for get_argv_from_token_lst.
+**	Concatenates words, simple quotes, double quotes, and monochars that are
+**	not separated by eat tokens.
+*/
+
 static char	*concatenate_strings(t_token *token)
 {
 	char	*res;
@@ -34,6 +45,10 @@ static char	*concatenate_strings(t_token *token)
 	}
 	return (res);
 }
+
+/*
+**	Utility function for get_argv_from_token_lst.
+*/
 
 static char	**create_argv(t_token *token_head, unsigned int argv_len)
 {
@@ -59,6 +74,13 @@ static char	**create_argv(t_token *token_head, unsigned int argv_len)
 	return (res);
 }
 
+/*
+**	Returns a freshly allocated array of strings corresponding to the argv
+**	parameter that should be passed on to the execve function.
+**	Should be called after have used parse_expands and parse_redirections
+**	on the token_head.
+*/
+
 char		**get_argv_from_token_lst(t_token *token_head)
 {
 	unsigned int	argv_len;
@@ -80,7 +102,8 @@ char		**get_argv_from_token_lst(t_token *token_head)
 	}
 	if (argv_len < 1)
 	{
-		ft_dprintf(2, "Something went wrong: nothing to execute..\n"); // should be error func ?
+		ft_dprintf(2, "Something went wrong: nothing to execute.."); // should be error func ?
+		print_line(2);
 		return (NULL);
 	}
 	return (create_argv(token_head, argv_len));

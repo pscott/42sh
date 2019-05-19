@@ -10,6 +10,11 @@
 	return (0);
 }*/
 
+/*
+**	Returns 0 if token is a pipe (or bigger), or an eat token.
+**	Returns 1 on quotes, words, monochars, and redirections.
+*/
+
 t_bool		is_argv_token(t_token *probe)
 {
 	if (!probe)
@@ -18,6 +23,11 @@ t_bool		is_argv_token(t_token *probe)
 		return (1);
 	return (0);
 }
+
+/*
+**	Returns 0 if token is bigger than a pipe.
+**	Else returns 1.
+*/
 
 t_bool	is_simple_cmd_token(t_token *probe)
 {

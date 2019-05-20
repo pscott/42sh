@@ -182,7 +182,6 @@ static char	*get_heredoc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 		-‘\’ must be used to quote the characters ‘\’, ‘$’, and ‘`’.
 		*/
 		//i can maybe tricks, by making a tk_dq_str, then passing the single token in parse expand ?
-		//this would not work for '\<newline>'
 		ft_printf("EOF is NOT quoted\n");
 	}
 	if (!(path = save_heredoc(txt)))

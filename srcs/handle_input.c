@@ -65,6 +65,8 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		print_line();
 		return (0);
 	}
+	//maybe parse heredoc here ??
+	print_ast(ast_root);
 	ft_printf("POST_EXEC\n");
 	exec_ast(ast_root, vars);
 	ft_printf("POST_FREE_AST\n");

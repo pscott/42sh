@@ -8,7 +8,7 @@
 **	Returns ERR_PERM if file exists but not executable
 */
 
-int			check_access(char *file)
+int			check_access(const char *file)
 {
 	if (!file)
 		return (ERR_CMD);

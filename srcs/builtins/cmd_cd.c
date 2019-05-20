@@ -38,8 +38,6 @@ static int	change_environ(char *new_pwd, char ***env)
 			return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
 	set_env_var("PWD", (char*)new_pwd, env);
 	set_env_var("OLDPWD", old_pwd, env); // not working
-	ft_printf("OLD: %s", old_pwd);
-	print_line(0);
 	ft_strdel(&old_pwd);
 	if ((ret = chdir(new_pwd)) == -1)
 		print_errors(ERR_CHDIR, ERR_CHDIR_STR, new_pwd);

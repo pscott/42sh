@@ -77,6 +77,9 @@
 # define ERR_NO_OLDPWD 24
 # define ERR_NO_OLDPWD_STR "error: old pwd not set"
 
+# define ERR_EXECUTE 25
+# define ERR_EXECUTE_STR "error: failed to execute"
+
 void	error_exit(int errno, const char *str_err, const char *err_file);
 int		print_errors(int errno, const char *err_str, const char *err_file);
 void	syntax_error_near(t_token *token);

@@ -44,6 +44,30 @@ static void	execute_exit(int exitno)
 }
 
 /*
+**	Parses expands, redirections, and executes builtin on the real token_list.
+**	Returns 0.
+*/
+
+static int	no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
+{
+	char	 **argv;
+	int		ret;
+
+	parse_expands(token_head, vars);
+	parse_redirections(token_head);
+	argv = get_argv_from_token_lst(token_head);
+	reset_terminal_settings();
+	ret = exec_builtins(argv, vars, cmd_id);
+	if (cmd_id == cmd_exit)
+	{
+		if (ret == 1)
+			execute_exit(vars->cmd_value);
+	}
+	setup_terminal_settings();
+	return (0);
+}
+
+/*
 **	Returns a freshly allocated `fake` argv, because redirections have not
 **	been applied.
 */
@@ -62,7 +86,7 @@ static char **fake_argv(t_token *token_head, t_vars *vars)
 }
 
 /*
-**	Gets a temporary argv and checks if argv[0] is a builtin.
+**	Creates a temporary argv and checks if argv[0] is a builtin.
 **	Returns 0 if argv[0] is a builtin, else returns 1.
 **	If argv[0] contains a '/'.
 **	If argv[0] is a builtin.
@@ -82,21 +106,7 @@ t_bool		execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
 	if (ft_strchr(argv[0], '/'))
 		ret = 1;
 	else if ((cmd_id = check_builtins(argv)))
-	{
-		ft_free_ntab(argv);
-		parse_expands(token_head, vars);
-		parse_redirections(token_head);
-		argv = get_argv_from_token_lst(token_head);
-		reset_terminal_settings();
-		ret = exec_builtins(argv, vars, cmd_id);
-		if (cmd_id == cmd_exit)
-		{
-			if (ret == 1)
-				execute_exit(vars->cmd_value);
-		}
-		setup_terminal_settings();
-		ret = 0;
-	}
+		ret = no_pipe_builtin(token_head, vars, cmd_id);
 	else if ((cmd_path = check_hashmap(argv[0], vars->hashmap, hash_exec)))
 	{
 		//ft_strdel(&cmd_path);//check_hashmap doesn't alloc

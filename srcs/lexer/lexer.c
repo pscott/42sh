@@ -47,13 +47,13 @@ static t_bool	add_token_to_list(t_token *current_token, t_token *prev_token
 	if (token_list_start_with_ctrl_op(prev_token, current_token)
 		|| is_two_ctrlop_or_redir_following(prev_token, current_token))
 		return (0);
-	if (prev_token && prev_token->type == tk_heredoc
-		&& current_token->type != tk_eat)
-	{
-		ft_printf("HEREDOC, enter READ_MODE, with EOF: {%s}\n", current_token->content);//NOT HERE: 'cat << EOF && &&'
-		//if (!(save_heredoc(&prev_token, &current_token, vars)))
-		//	return (0);//pas sure
-	}
+	//if (prev_token && prev_token->type == tk_heredoc
+	//	&& current_token->type != tk_eat)
+	//{
+	//	//ft_printf("HEREDOC, enter READ_MODE, with EOF: {%s}\n", current_token->content);//NOT HERE: 'cat << EOF && &&'
+	//	//if (!(save_heredoc(&prev_token, &current_token, vars)))
+	//	//	return (0);//pas sure
+	//}
 	if (!(*token_head))
 	{
 		*token_head = current_token;
@@ -90,7 +90,7 @@ static void	init_lexer(t_operation **op_chart, t_token **token_head
 */
 
 
-t_bool	parse_heredoc(t_token *token_head, t_vars *vars);//proto
+//t_bool	parse_heredoc(t_token *token_head, t_vars *vars);//proto
 
 int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 {

@@ -2,19 +2,10 @@
 #include "lexer.h"
 #include "input.h"
 
-static char	*add_quot(char *str)
-{
-	char	*new;
-	unsigned int old_len;
+#define	HEREDOC_FILENAME "/tmp/.tmp_heredoc"
+#define	MAX_INT_LEN 10
+#define UINT_MAX 4294967295
 
-	old_len = ft_strlen(str) + 2;
-	if (!(new = ft_strnew(old_len)))
-		ERROR_MEM;
-	new[0] = '"';
-	ft_strcpy(&new[1], str);
-	new[old_len + 1] = '"';
-	return (new);
-}
 
 static char	*remove_quot(char *str)
 {
@@ -28,19 +19,72 @@ static char	*remove_quot(char *str)
 	return (new);
 }
 
-//-read and save input in a file
-//	check if default filename exist ('/tmp/tmp_heredoc0000'):
-//		if not: create it
-//		else: increment number at the end of filename
-//-replace '<<' by '<'
-//-replace 'EOF' by 'path to file'
+static char	*strjoin_free(char *str_join, char *str_add)
+{
+	char	*tmp_str;
 
-//later, at exec:
-//rm all used file (can we)
+	//if 1NULL or 2NULL
+	if (!(tmp_str = ft_strjoin(str_join, str_add)))
+		ERROR_MEM;
+	ft_strdel(&str_join);
+	//ft_strdel(&str_add);//don't want to free token->content now
+	return (tmp_str);
+}
 
-#define	HEREDOC_FILENAME "/tmp/.tmp_heredoc"
-#define	MAX_INT_LEN 10
-#define UINT_MAX 4294967295
+static char	*eof_join(char *eof, t_token *token)
+{
+	char	*tmp_str;
+
+	if (!eof)
+	{
+		if (token->type == tk_word || token->type == tk_monoc)
+		{
+			if (!(eof = ft_strdup(token->content)))
+				ERROR_MEM;
+		}
+		else if (token->type == tk_sq_str || token->type == tk_dq_str)
+		{
+			if (!(tmp_str = remove_quot(token->content)))
+				ERROR_MEM;
+			if (!(eof = ft_strdup(tmp_str)))
+				ERROR_MEM;
+			ft_strdel(&tmp_str);
+		}
+	}
+	else
+	{
+		if (token->type == tk_word || token->type == tk_monoc)
+			eof = strjoin_free(eof, token->content);
+		else if (token->type == tk_sq_str || token->type == tk_dq_str)
+		{
+			if (!(tmp_str = remove_quot(token->content)))
+				ERROR_MEM;
+			eof = strjoin_free(eof, tmp_str);
+			ft_strdel(&tmp_str);
+		}
+	}
+	return (eof);
+}
+
+static unsigned char	get_eof(char **eof, t_token *probe)
+{
+	unsigned char	is_eof_quoted;
+
+	is_eof_quoted = 0;
+	while (probe->next && probe->next->type == tk_eat)
+		probe = probe->next;
+	probe = probe->next;
+	while (probe && probe->type > tk_eat && probe->type < tk_redirection)
+	{
+		if (probe->type >= tk_monoc && probe->type <= tk_dq_str)
+			is_eof_quoted = 1;
+		*eof = eof_join(*eof, probe);
+		ft_printf("REFRESH EOF {%s}\n", *eof);
+		//EAT
+		probe = probe->next;
+	}
+	return(is_eof_quoted);
+}
 
 /*
 ** get_heredoc_finename
@@ -90,20 +134,16 @@ static char	*find_uniq_filename(void)
 	return (path);
 }
 
-/*
-** heredoc
-** create and open an unique filename
-** write the desired content in it, close it
-** and return the path to the file
-*/
-
-char	*heredoc(const char *txt)
+static char	*save_heredoc(const char *txt)
 {
 	char	*path;
 	int		fd;
 
-	if (!(path = find_uniq_filename()))
+	if (!(path = find_uniq_filename()))//protect better
+	{
 		ft_dprintf(2, "tmp(heredoc): can't create unique temporary filename\n");
+		return (NULL);//check this return
+	}
 	if ((fd = open(path, O_CREAT | O_RDWR | O_APPEND, 0666)) == -1)
 	{
 		ft_dprintf(2, "tmp: open error\n");
@@ -115,133 +155,16 @@ char	*heredoc(const char *txt)
 	return (path);//free
 }
 
-/* OUTDATED ?
-** save_heredoc
-** enter in read_mode until the matching 'EOF' is found
-** it will write the new content in a file
-** replace '<<' by '<'
-** and 'EOF' by the path of the new file
-*/
-
-//need to check if EOF is quoted
-/*
-t_bool	save_heredoc(t_token **prev_token, t_token **current_token, t_vars *vars)
+static char	*get_heredoc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 {
+	char		*path;
 	char		*txt;
 	char		*txt_tmp;
 	t_st_cmd	*st_cmd;
-	char		*path;
 
 	st_cmd = init_st_cmd((const char**)vars->env_vars);
 	txt_tmp = ft_strdup("");
-	while (ft_strncmp((*current_token)->content, txt_tmp, ft_strlen((*current_token)->content) + 1))
-	{
-		txt = concatenate_txt(st_cmd);
-		input_loop(st_cmd, vars);
-		ft_memdel((void*)&txt_tmp);
-		txt_tmp = ft_strndup(st_cmd->st_txt->txt, ft_strlen(st_cmd->st_txt->txt) - 1);
-		st_cmd = append_st_cmd(st_cmd, "", "cont > ");
-	}
-	if (!(path = heredoc(txt)))//protect
-		return (0);
-	ft_memdel((void*)&txt_tmp);
-	ft_memdel((void*)&txt);
-	//(*current_token)->content = add_quot(txt);
-	ft_memdel((void*)&(*current_token)->content);
-	(*current_token)->content = path;//strdup ? nop, already alloc, will be free later
-	(*current_token)->type = tk_word;//was tk_dq_str, should it be tk_heredoc_path or tk_q_str
-	ft_memdel((void*)&(*prev_token)->content);
-	(*prev_token)->content = ft_strdup("<");//useless ?
-	(*prev_token)->type = tk_redirection;
-	free_st_cmd(st_cmd);
-	return (1);
-}
-*/
-
-//i can find eof len before, and then just cpy each token in it
-static char	*eof_join(char *str, t_token *probe)
-{
-	if (probe->type == tk_word || probe->type == tk_monoc)
-		return(ft_strjoin(str, probe->content));
-	if (probe->type == tk_sq_str)
-		return (ft_strjoin(str, remove_quot(probe->content)));
-	if (probe->type == tk_dq_str)
-		return (ft_strjoin(str, remove_quot(probe->content)));
-	return (NULL);//this should never happen
-}
-
-//static char	*get_eof(t_token *probe)
-static unsigned char	get_eof(char **eof, t_token *probe)
-{
-	unsigned char	is_eof_quoted;
-	//char	*eof;
-	//char	*tmp_str;
-
-	//eof = NULL;
-	is_eof_quoted = 0;
-	while (probe->next && probe->next->type == tk_eat)
-		probe = probe->next;
-	probe = probe->next;
-	ft_printf("current type=%d\n", probe->type);
-	while (probe && probe->type > tk_eat && probe->type < tk_redirection)
-	{
-		ft_printf("joining\n");
-		if (probe->type >= tk_monoc && probe->type <= tk_dq_str)
-			is_eof_quoted = 1;
-		*eof = eof_join(*eof, probe);
-		probe = probe->next;
-	}
-	return(is_eof_quoted);
-}
-
-//MAIN parse the entire cmdline(tk_lst)
-/*
-** if it find a heredoc
-** -get real EOF (remove \ ' " and set is_eof_quoted)
-** -read until EOF
-** -expand if (is_eof_quoted)
-** -write in /tmp (uniq check)
-** replace << by <
-** replace first EOF token by 'path to /tmp file' and EAT the rest
-*/
-t_bool	parse_heredoc(t_token *token_head, t_vars *vars)
-{
-	t_token			*token_probe;
-	t_token			*prev_token;
-	char			*eof;
-	unsigned char	is_eof_quoted;
-
-	token_probe = token_head;
-	prev_token = NULL;
-	while (token_probe->next)
-	{
-		token_probe = token_probe->next;
-		if (token_probe->type == tk_heredoc)
-		{
-			prev_token = token_probe;
-			ft_printf("HERE IS A HEREDOC\n");
-			//eof = get_eof(token_probe);
-			eof = NULL;
-			is_eof_quoted = get_eof(&eof, token_probe);
-			ft_printf("EOF: {%s}, quot:%d\n", eof, (int)is_eof_quoted);
-		}
-		save_heredoc(eof, prev_token, token_probe, is_eof_quoted, vars);
-	}
-	return (1);
-}
-
-//t_bool	save_heredoc(t_token **prev_token, t_token **current_token, t_vars *vars)
-//do i need prev_token ?
-t_bool	save_heredoc(char *eof, t_token *prev_token, t_token *current_token, unsigned char is_eof_quoted, t_vars *vars)
-{
-	char		*txt;
-	char		*txt_tmp;
-	t_st_cmd	*st_cmd;
-	char		*path;
-
-	st_cmd = init_st_cmd((const char**)vars->env_vars);
-	txt_tmp = ft_strdup("");
-	while (ft_strncmp(current_token->content, txt_tmp, ft_strlen(current_token->content) + 1))
+	while (ft_strncmp(eof, txt_tmp, ft_strlen(eof) + 1))
 	{
 		txt = concatenate_txt(st_cmd);
 		input_loop(st_cmd, vars);
@@ -249,17 +172,75 @@ t_bool	save_heredoc(char *eof, t_token *prev_token, t_token *current_token, unsi
 		txt_tmp = ft_strndup(st_cmd->st_txt->txt, ft_strlen(st_cmd->st_txt->txt) - 1);
 		st_cmd = append_st_cmd(st_cmd, "", "heredoc> ");
 	}
-	//expand txt if !is_eof_quoted
-	if (!(path = heredoc(txt)))//protect
-		return (0);
+	//expand txt (depending on is_eof_quoted)
+	if (!is_eof_quoted)
+	{/*
+		-parameter expansion
+		-command substitution
+		-arithmetic expansion
+		-the character sequence \newline is ignored
+		-‘\’ must be used to quote the characters ‘\’, ‘$’, and ‘`’.
+		*/
+		//i can maybe tricks, by making a tk_dq_str, then passing the single token in parse expand ?
+		//this would not work for '\<newline>'
+		ft_printf("EOF is NOT quoted\n");
+	}
+	if (!(path = save_heredoc(txt)))
+		return (NULL);
 	ft_memdel((void*)&txt_tmp);
 	ft_memdel((void*)&txt);
-	ft_memdel((void*)&(*current_token)->content);
-	current_token->content = path;//strdup ? nop, already alloc, will be free later
-	current_token->type = tk_word;//was tk_dq_str, should it be tk_heredoc_path or tk_q_str
-	ft_memdel((void*)&(*prev_token)->content);
-	(*prev_token)->content = ft_strdup("<");//useless ?
-	(*prev_token)->type = tk_redirection;
 	free_st_cmd(st_cmd);
-	return (1);
+	return (path);
+}
+
+static t_token	*replace_heredoc_tokens(t_token *probe, const char *path)
+{
+	//change '<<' to '<', still tk_redirection
+	ft_strdel(&probe->content);
+	if (!(probe->content = ft_strdup("<")))
+		ERROR_MEM;
+	//
+	probe = probe->next;
+	while (probe->type == tk_eat)
+		probe = probe->next;
+	probe->type = tk_word;//was tk_dq_str, should it be tk_heredoc_path or tk_q_str
+	ft_strdel(&probe->content);
+	if (!(probe->content = ft_strdup(path)))
+		ERROR_MEM;
+	probe = probe->next;
+	while (probe && probe->type >= tk_word && probe->type <= tk_redirection)
+	{
+		probe->type = tk_eat;
+		//ft_strdel(&probe->content);//pas sure
+		//probe->content = ft_strdup("");//pas sure non plus, depend des prochain free
+		probe = probe->next;
+	}
+	return (probe);
+}
+
+t_bool	parse_heredoc(t_token *token_head, t_vars *vars)
+{
+	t_token			*token_probe;
+	char			*eof;
+	unsigned char	is_eof_quoted;
+	char			*path;
+
+	token_probe = token_head;
+	while (token_probe)
+	{
+		if (token_probe->type == tk_heredoc)
+		{
+			eof = NULL;
+			is_eof_quoted = get_eof(&eof, token_probe);
+			ft_printf("EOF: {%s}, quot:%d\n", eof, (int)is_eof_quoted);
+			//read and save
+			path = get_heredoc(eof, is_eof_quoted, vars);//protect
+			//replace tokens
+			token_probe = replace_heredoc_tokens(token_probe, path);
+			//continue
+		}
+		token_probe = token_probe->next;
+	}
+	ft_printf("END HEREDOC\n");
+	return (1);//tmp
 }

@@ -45,7 +45,7 @@ typedef struct		s_token
 	struct s_token	*next;
 }					t_token;
 
-t_bool	save_heredoc(t_token **prev_token, t_token **current_token, struct s_vars *vars);
+//t_bool	save_heredoc(t_token **prev_token, t_token **current_token, struct s_vars *vars);
 
 typedef struct		s_operation
 {

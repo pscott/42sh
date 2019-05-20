@@ -8,8 +8,10 @@
 
 t_bool	is_full_of_whitespaces(char *input)
 {
-	int		i;//TODO protect
+	int		i;
 
+	if (!input)
+		return (1);
 	i = -1;
 	while (input[++i])
 	{

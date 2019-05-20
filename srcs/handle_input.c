@@ -1,5 +1,4 @@
 #include "42sh.h"
-
 #include "lexer.h"
 #include "ast.h"
 #include "libterm.h"

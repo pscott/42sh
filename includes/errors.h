@@ -24,6 +24,9 @@
 # define ERR_CLOSE 8
 # define ERR_CLOSE_STR "error: close() failed"
 
+# define ERR_NOT_SET 9
+# define ERR_NOT_SET_STR "error: variable not set"
+
 # define ERR_TERMENTR 10
 # define ERR_TERMENTR_STR "error: no data for terminal name"
 
@@ -61,7 +64,7 @@
 # define ERR_GETENV_STR "error: get_env()failed"
 
 # define ERR_NOTDIR 23
-# define ERR_NOTDIR_STR "error: this is not a directory"
+# define ERR_NOTDIR_STR "error: not a directory"
 
 # define ERR_TERM_DEVICE 23
 # define ERR_TERM_DEVICE_STR "error: unable to open the terminal device file"

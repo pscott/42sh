@@ -64,7 +64,8 @@ VPATH	:=	$(SRC_DIR) $(addprefix $(SRC_DIR)/,$(SRC_SUBDIRS))
 # Srcs file names ##############################################################
 SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c heredoc_utils.c\
 	#srcs subfiles names
-	ENV_FILES		:=	environ_set.c environ_utils.c init_env.c shlvl.c
+	ENV_FILES		:=	environ_set.c environ_utils.c init_env.c shlvl.c \
+						environ_unset.c
 	ERRORS_FILES	:=	errors.c print_errors.c error_exit.c
 	LEXER_FILES		:=	lexer.c lexer_tools.c lexer_op_chart.c get_token.c \
 						lexer_debug.c copy_token_list.c
@@ -81,7 +82,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c heredoc_utils.c
 	SIGNALS_FILES	:=	signals.c
 	L_E_FILES		:=	st_cmd.c st_prompt.c st_txt.c writing.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c \
-						cmd_type.c
+						cmd_type.c cmd_setenv.c cmd_unsetenv.c
 	REDIR_FILES		:=	redir_dgreat.c redir_dless.c redir_fd_great.c \
 						redir_great.c redir_less.c parse_redirections.c
 	AUTO_COMP_FILES	:=	auto_completion.c compare_entry.c create_match_link.c del_match.c \

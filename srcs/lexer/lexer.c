@@ -40,18 +40,20 @@ t_token	*create_token(char *cmdline, size_t size, t_token_type type)
 */
 
 static t_bool	add_token_to_list(t_token *current_token, t_token *prev_token
-				, t_token **token_head)
+				, t_token **token_head, t_vars *vars)
 {
 	t_token	*probe;
 
 	if (token_list_start_with_ctrl_op(prev_token, current_token)
 		|| is_two_ctrlop_or_redir_following(prev_token, current_token))
 		return (0);
-	if (prev_token && prev_token->type == tk_heredoc
-		&& current_token->type != tk_eat)
-	{
-		ft_printf("HEREDOC, enter READ_MODE, with EOF: {%s}\n", current_token->content);
-	}
+	//if (prev_token && prev_token->type == tk_heredoc
+	//	&& current_token->type != tk_eat)
+	//{
+	//	//ft_printf("HEREDOC, enter READ_MODE, with EOF: {%s}\n", current_token->content);//NOT HERE: 'cat << EOF && &&'
+	//	//if (!(save_heredoc(&prev_token, &current_token, vars)))
+	//	//	return (0);//pas sure
+	//}
 	if (!(*token_head))
 	{
 		*token_head = current_token;
@@ -87,7 +89,10 @@ static void	init_lexer(t_operation **op_chart, t_token **token_head
 ** - return LEX_SUCCES otherwise, so handle_input can continue
 */
 
-int		lexer(char *cmdline, t_token **token_head)
+
+//t_bool	parse_heredoc(t_token *token_head, t_vars *vars);//proto
+
+int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 {
 	t_token		*current_token;
 	t_operation	*op_chart;
@@ -98,11 +103,13 @@ int		lexer(char *cmdline, t_token **token_head)
 	{
 		if (!(current_token = get_token(&cmdline, op_chart)))
 			return (lex_cont_read);
-		if (!(add_token_to_list(current_token, prev_token, token_head)))
+		if (!(add_token_to_list(current_token, prev_token, token_head, vars)))
 			return (lex_fail);
 		if (current_token->type != tk_eat)
 			prev_token = current_token;
 	}
+	//maybe get heredocs here ?? 'cat << EOF &&'
+	parse_heredoc(*token_head, vars);
 	if (is_logic_or_pipe(current_token)
 		|| (is_logic_or_pipe(prev_token) && !current_token->type))
 	{

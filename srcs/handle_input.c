@@ -23,7 +23,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 
 	token_head = NULL;
 	input = concatenate_txt(st_cmd);
-	while ((lexer_ret = lexer(input, &token_head)) == lex_cont_read)
+	while ((lexer_ret = lexer(input, &token_head, vars)) == lex_cont_read)
 	{
 		free_token_list(token_head);
 		if (isatty(STDIN_FILENO) == 0)
@@ -56,7 +56,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	if (lexer_ret == lex_fail)
 	{
 		free_token_list(token_head);
-		print_line(0);
+		print_line(0);//why ? 
 		return (0);
 	}
 	if (!(ast_root = create_ast(token_head)))
@@ -65,6 +65,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		print_line(0);
 		return (0);
 	}
+	//maybe parse heredoc here ??
 	exec_ast(ast_root, vars);
 	free_ast(ast_root);
 	return (1);

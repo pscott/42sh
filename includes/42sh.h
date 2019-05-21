@@ -7,7 +7,7 @@
 typedef unsigned char	t_bool;
 
 # define ERROR_MEM clean_exit(1);
-
+# define SHELL_NAME "42sh"//for error messages
 
 typedef struct			s_vars
 {
@@ -16,6 +16,7 @@ typedef struct			s_vars
 	struct s_hashmap	*hashmap;
 	int					cmd_value;
 }						t_vars;
+
 # include "hashmap.h"
 
 /*

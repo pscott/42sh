@@ -30,6 +30,12 @@ static void	Close(int fd) //remove me pls
 	}
 }
 
+static void	error_message(const char *what)
+{
+	ft_dprintf(2, "%s error", what);
+	print_line(2);
+}
+
 /*	OUTDATED
  **	Manages all pipes and fds, while handing the simple command to parse_redir
  **	for redirection parsing and execution. Note that i < n - 1, because piping
@@ -46,28 +52,27 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 
 	in = STDIN_FILENO;
 	i = 0;
-	if (num_simple_commands == 1)
-		if (execute_no_pipe_builtin(begin, vars) == 0)
-			return (0);
-	while (i < num_simple_commands - 1)
+	while (i++ < num_simple_commands - 1)
 	{
 		if (pipe(fd))
-		{
-			ft_dprintf(2, "pipe error\n"); //dprintf //exit ?
-			print_line(2);
-			clean_exit(1);
-		}
+			error_message("pipe");
+		//{
+		//	ft_dprintf(2, "pipe error\n"); //dprintf //exit ?
+		//	print_line(2);
+		//	//clean_exit(1);
+		//}
 		if ((pid = fork()) == -1)
-		{
-			ft_dprintf(2, "fork error");
-			print_line(2);
-			clean_exit(1);
-		}
+			error_message("fork");
+		//{
+		//	ft_dprintf(2, "fork error\n");
+		//	print_line(2);
+		//	//clean_exit(1);
+		//}
 		else if (pid == 0)
 		{
 			Close(fd[0]);//check return value
 			parse_and_exec(begin, in, fd[1], vars);
-			clean_exit(1);
+			//clean_exit(1);//or clean_exit(parse_and_exec(begin, in, fd[1], vars));
 		}
 		else if (pid > 0)
 		{
@@ -75,9 +80,11 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 			if (in != STDIN_FILENO)
 				Close(in); // check if it's a proper way of doing things
 			in = fd[0];
-			i++;
+			//i++;
 			begin = get_next_simple_command(begin);
+			continue ;
 		}
+		clean_exit(1);
 	}
 	status = 0; //necessary ?
 	if ((pid = fork()) == -1)
@@ -117,29 +124,33 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 	}
 }
 
-	/*
-	 ** First counts the number of pipes and checks for correct pipe syntax
-	 ** then hands the token list to fork_pipes to handle pipes.
-	 */
+/*
+** First counts the number of pipes and checks for correct pipe syntax
+** then hands the token list to fork_pipes to handle pipes.
+*/
 
-	int			parse_pipeline(t_token *token, t_vars *vars) // no need for t_pipelst ?
+//rename parse_cmdline ?
+int			parse_pipeline(t_token *token, t_vars *vars) // no need for t_pipelst ?
+{
+	int	num_simple_commands;
+	t_token *probe;
+
+	if (!token)
+		return (0);
+	num_simple_commands = 1;
+	probe = token;
+	while (probe)
 	{
-		int	num_simple_commands;
-		t_token *probe;
-
-		if (!token)
-			return (0);
-		num_simple_commands = 1;
-		probe = token;
-		while (probe)
+		while (probe && is_simple_cmd_token(probe)) //continue on simple_cmd tokens
+			probe = probe->next;
+		if (probe && probe->next && (probe->type == tk_pipe)) // is a pipe and not empty after //should it check with (while tk_eat)?
 		{
-			while (probe && is_simple_cmd_token(probe)) //continue on simple_cmd tokens
-				probe = probe->next;
-			if (probe && probe->next && (probe->type == tk_pipe)) // is a pipe and not empty after
-			{
-				probe = probe->next;
-				num_simple_commands++;
-			}
+			probe = probe->next;
+			num_simple_commands++;
 		}
-		return (fork_pipes(num_simple_commands, token, vars));
 	}
+	if ((num_simple_commands == 1)
+			&& (execute_no_pipe_builtin(token, vars) == 0))
+		return (0);//or return (execute_no_pipe_builtin(token, vars) == 0)); ?
+	return (fork_pipes(num_simple_commands, token, vars));
+}

@@ -30,7 +30,7 @@ static char	*ft_strjoin_free(char *s1, char *s2)
 **	not separated by eat tokens.
 */
 
-static char	*concatenate_strings(t_token *token)
+static char	*concatenate_strings(t_token *token)//make global func for EOF
 {
 	char	*res;
 

@@ -3,8 +3,9 @@
 
 # include "42sh.h"
 
-enum {args_nb, arg_not_digit};
-enum	{cmd_cd = 1, cmd_echo, cmd_env, cmd_exit, cmd_setenv, cmd_unsetenv, cmd_hash, cmd_type};
+enum	{args_nb, arg_not_digit};
+enum	{cmd_cd = 1, cmd_echo, cmd_env, cmd_exit, cmd_setenv, cmd_unsetenv
+	, cmd_hash, cmd_type};
 t_bool	check_builtins(char **argv);
 t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id);
 

@@ -36,7 +36,7 @@ t_token	*create_token(char *cmdline, size_t size, t_token_type type)
 /*
 ** add_token_to_list
 ** 1. check syntax (if start with '&&', or 2 '&&' are following)
-** 2. check here_doc ???
+** 2. check here_doc ??? NOP: need full EOF to start heredoc()
 ** 3. create a token_list or append it with the given token
 */
 

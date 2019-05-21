@@ -79,6 +79,7 @@ static char	*get_heredoc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 	txt_tmp = ft_strdup("");
 	while (ft_strncmp(eof, txt_tmp, ft_strlen(eof) + 1))
 	{
+		//make ignore "\<enter>"
 		txt = concatenate_txt(st_cmd);
 		input_loop(st_cmd, vars);
 		ft_memdel((void*)&txt_tmp);
@@ -88,7 +89,7 @@ static char	*get_heredoc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 	//expand txt (depending on is_eof_quoted)// OR should i expand as i write()
 	if (!is_eof_quoted)
 	{/*
-		-parameter expansion
+		-parameter expansion  //DONE if it's dollars_expansion
 		-command substitution
 		-arithmetic expansion
 		-the character sequence \newline is ignored
@@ -97,6 +98,8 @@ static char	*get_heredoc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 		//i can maybe tricks, by making a tk_dq_str, then passing the single token in parse expand ?
 		//ft_printf("EOF is NOT quoted");
 		//print_line();
+		heredoc_expand_dollars(&txt, vars);
+		//arithmetic_expand(&txt);
 	}
 	if (!(path = save_heredoc(txt)))
 		return (NULL);

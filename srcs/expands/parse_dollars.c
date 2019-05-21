@@ -1,5 +1,4 @@
-#include "42sh.h"
-#include "lexer.h"
+#include "expand.h"
 
 static t_bool	is_env_var_name_char(char c)
 {
@@ -15,7 +14,7 @@ static t_bool	is_env_var_name_char(char c)
 ** return the allocated var_name otherwise
 */
 
-static char		*get_var_name(char *str)
+char		*get_var_name(char *str)
 {
 	size_t		i;
 	char	*var_name;
@@ -38,7 +37,7 @@ static char		*get_var_name(char *str)
 ** free (old_str && var_name)
 */
 
-static char		*substitute_env_var(char *old_str, size_t *i
+char		*substitute_env_var(char *old_str, size_t *i
 		, char *var_value, char *var_name)
 {
 	char	*new_str;

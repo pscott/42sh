@@ -1,3 +1,4 @@
+
 #include "libft.h"
 #include "errors.h"
 #include "line_editing.h"
@@ -13,14 +14,14 @@ static int			is_first_arg_and_exec(char *str, unsigned int cursor_pos, unsigned 
 	i = 0;
 
 	if (cursor_pos == 0)
-		return (2);//space
+		return (2);
 	else
 		cursor_pos--;
 	while (str && is_white_spaces(str[i]) && i <= cursor_pos)
 		i++;
-	if (i < start_actual_word)//je suis pas sur le premier mot
+	if (i < start_actual_word)
 			return (0);
-	else//je suis sur le premier mot
+	else
 	{
 		if (str[cursor_pos] == '\0' || is_white_spaces(str[cursor_pos]))
 			return (2);
@@ -48,7 +49,6 @@ static char			*handle_x_arg(char *input, char *to_find_and_next_char)
 	match = NULL;
 	tmp = NULL;
 	tmp2 = NULL;
-
 	if (input && input[0] && ft_strchr(input, '/'))
 		tmp = ft_strndup(input, ft_strlen(input) - ft_strlen(ft_strrchr(input, '/') + 1));
 	get_path_file_and_to_find(input, &path, &to_find);
@@ -58,12 +58,9 @@ static char			*handle_x_arg(char *input, char *to_find_and_next_char)
 		find_all_match(path, &match, to_find, to_find_and_next_char);
 	if (match)
 		ret_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
-	tmp2 = ft_strjoin(tmp, ret_str);
-	if (path)
-		ft_strdel(&path);
-	if (to_find)
-		ft_strdel(&to_find);
-	ft_strdel(&ret_str);
+	else if (!(ret_str = ft_strdup(to_find)))
+		ERROR_MEM
+	free_four_strings(&tmp, &ret_str, &path, &to_find);
 	return (tmp2);
 }
 
@@ -72,13 +69,12 @@ char				*handle_first_arg_dot_tilde(int type, char *to_find)
 	char			*ret;
 
 	ret = NULL;
-	if (type == 1)//case . / .. en premier arg ou ~ 
+	if (type == 1) 
 	{
 		if ((!ft_strcmp(to_find, ".") || !ft_strcmp(to_find, "..")) && !(ret = ft_strjoin(to_find, "/")))
 			ERROR_MEM
-	//ret = search_dirs_and_exe(to_find_full + start_actual_word, len - start_actual_word);//chercher doss ET exec MEME CACHES dans path specifie. comme quand ca finde pas un exe en first + EXE. si . ou .., on append direct un slash et on display dossiers et exec meme caches du dossier. si /, on affiche la liste des dossiers (append /) et des executables
 	}
-	else if (type == 6)// case ~/ 
+	else if (type == 6) 
 		ret = home_directory_first_arg(to_find);
 	return (ret);
 }
@@ -96,7 +92,7 @@ static char			*handle_first_bin(t_vars *vars, char *to_find, char *str, unsigned
 				ERROR_MEM
 		}
 		else if (!ft_strchr(to_find, '/'))
-			ret = search_dirs_first_arg(".", to_find, len);//chercher tous les dossiers dans le path specifie en to_find + start_actual_word, si first arg et pas exec. si match, append / // ADAPTER POUR LE CAS OU SRCS/ ...
+			ret = search_dirs_first_arg(".", to_find, len);
 		else
 			ret = search_dirs_and_exe(to_find, len);
 	}
@@ -149,11 +145,10 @@ char				*new_auto_completion(char *input, unsigned int len, t_vars *vars)
 	start_actual_word = get_needed_values(input, len, &str, &to_find_full);
 	if (is_first_arg_and_exec(input, len, start_actual_word) == 3)
 		ret = handle_first_bin(vars, to_find_full + start_actual_word, str + start_actual_word, len);
-	else if (is_first_arg_and_exec(input, len, start_actual_word) == 2)//case white sapce en premier arg
-		new_auto_completion_space(vars);//jsute display tous les execs et variables, on returne une dup de input
+	else if (is_first_arg_and_exec(input, len, start_actual_word) == 2)
+		new_auto_completion_space(vars);
 	else if (is_first_arg_and_exec(input, len, start_actual_word))
 		ret = handle_first_arg_dot_tilde(is_first_arg_and_exec(input, len, start_actual_word), to_find_full + start_actual_word);
-
 	else if (!is_first_arg_and_exec(input, len, start_actual_word))
 		ret = handle_x_arg(to_find_full + start_actual_word, str + start_actual_word);
 	format_finding_and_get_correct_ret(&ret, start_actual_word, input, len);

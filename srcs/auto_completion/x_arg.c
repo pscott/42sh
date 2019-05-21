@@ -57,7 +57,7 @@ int					find_all_except_dots(char *directory, t_auto_comp **match)
 				closedir(dir);
 				ERROR_MEM
 			}
-			//ft_strdel(&tmp);
+			ft_strdel(&tmp);
 		}
 	}
 	if (closedir(dir) == -1)

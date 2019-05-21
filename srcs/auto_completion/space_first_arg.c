@@ -39,6 +39,7 @@ int					find_exe_space(char **path, t_auto_comp **match)
 	{
 		true_path = rm_spaces_path(path[i++]);
 		get_everything_from_path(true_path, match);
+		ft_strdel(&true_path);
 	}
 	return (0);
 }

@@ -21,7 +21,7 @@ char				*new_auto_completion_bin(t_vars *vars, char *str, char *to_find_and_next
 				ERROR_MEM
 	ft_free_ntab(path);
 	if (match)
-		ret_str = get_ret_or_display_matches(match, to_find, len);//chercher alias
+		ret_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));//chercher alias
 	if (to_find)
 		ft_strdel(&to_find);
 	return (ret_str);

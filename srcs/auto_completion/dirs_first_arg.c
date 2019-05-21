@@ -9,19 +9,20 @@ int					find_matching_dirs(char *directory, t_auto_comp **match, char *to_find)
 
 	if ((dir = opendir(directory)) == NULL)
 		return (1);//ERR_OPENDIR
+				tmp = NULL;
 	while ((ent = readdir(dir)))
 	{
 		if (!to_find || !to_find[0] || !compare_entry(to_find, ent->d_name))
 		{
 			if (ent->d_type && ent->d_type == DT_DIR)
 			{
-				tmp = NULL;
 				tmp = ft_strjoin(ent->d_name, "/");
 				if (create_match_link(match, tmp, -1))
 				{
 					closedir(dir);
 					return (1);//ERR MALL
 				}
+				ft_strdel(&tmp);
 			}
 		}
 	}

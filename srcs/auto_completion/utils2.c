@@ -48,3 +48,19 @@ int				get_path(char ***path, t_vars *vars)
 		ERROR_MEM
 	return (0);
 }
+
+int				free_two_strings(char **s1, char **s2)
+{
+	if (s1)
+		ft_strdel(s1);
+	if (s2)
+		ft_strdel(s2);
+	return (0);
+}
+
+int				free_four_strings(char **s1, char **s2, char **s3, char **s4)
+{
+	free_two_strings(s1, s2);
+	free_two_strings(s3, s4);
+	return (0);
+}

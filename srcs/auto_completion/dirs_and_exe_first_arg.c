@@ -24,17 +24,16 @@ static int				find_matching_dirs_and_exe_even_hidden(char *directory, t_auto_com
 					tmp = ft_strjoin(ent->d_name, "/");
 				else
 					tmp = ft_strdup(ent->d_name);
-				/*
-				ft_putendl(tmp);
-				sleep(1);
-				*/
+				if (!(tmp))
+					ERROR_MEM
 				if (create_match_link(match, tmp, -1))
 				{
 					closedir(dir);
-					return (1);//ERR MALL
+					ERROR_MEM
 				}
 				ft_strdel(&tmp);
 			}
+			ft_strdel(&filename);
 		}
 	}
 	if (closedir(dir) == -1)
@@ -58,22 +57,22 @@ char					*search_dirs_and_exe(char *str, int len)
 	if ((to_find = ft_strrchr(str, '/') + 1))
 	{
 		if (!(path = ft_strndup(str, ft_strlen(str) - ft_strlen(to_find))))
-			return (NULL);
-			//ERROR_MEM
+			ERROR_MEM
 	}
 	else
 		if (!(path = ft_strdup(str)))
 			ERROR_MEM
-		if (find_matching_dirs_and_exe_even_hidden(path, &match, to_find))
+	if (find_matching_dirs_and_exe_even_hidden(path, &match, to_find))
+		ERROR_MEM
+	if (match)
+	{
+		while (match->prev)
+			match = match->prev;
+		ret_tmp = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
+		if (!(ret_str = ft_strjoin(path, ret_tmp)))
 			ERROR_MEM
-		if (match)
-		{
-			while (match->prev)
-				match = match->prev;
-			ret_tmp = get_ret_or_display_matches(match, to_find, len - ft_strlen(path));
-
-			if (!(ret_str = ft_strjoin(path, ret_tmp)))
-				ERROR_MEM
-		}
+		ft_strdel(&ret_tmp);
+	}
+	ft_strdel(&path);
 	return (ret_str);
 }

@@ -8,7 +8,7 @@ static t_auto_comp	*create_auto_comp_link(void)
 	t_auto_comp		*link;
 
 	if ((!(link = (t_auto_comp*)malloc(sizeof(t_auto_comp) + 1))))
-		return (NULL);
+		ERROR_MEM
 	link->prev = NULL;
 	link->next = NULL;
 	link->name = NULL;
@@ -23,10 +23,9 @@ int					create_match_link(t_auto_comp **match, char *str, unsigned char type)
 	if (!(*match))
 	{
 		if (!((*match) = create_auto_comp_link()))
-			return (ERR_MALLOC);
+			ERROR_MEM
 		if (!((*match)->name = ft_strdup(str)))
-			return (1);
-		//	return (free_ptr((*match), ERR_MALLOC));
+			ERROR_MEM
 		(*match)->len = ft_strlen(str);
 	}
 	else
@@ -37,8 +36,7 @@ int					create_match_link(t_auto_comp **match, char *str, unsigned char type)
 		new->prev = (*match);
 		new->next = NULL;
 		if (!(new->name = ft_strdup(str)))
-			return (1);
-		//	return (free_ptr(new, ERR_MALLOC));
+			ERROR_MEM
 		new->len = ft_strlen(str);
 		(*match) = new;
 	}

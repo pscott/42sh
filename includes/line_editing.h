@@ -5,6 +5,7 @@
 # include "input.h"
 # define MAX_DISPLAY 50
 # define PATH_MAX 4096
+# define NAME_MAX 4096
 # include <dirent.h>
 
 /*
@@ -79,6 +80,8 @@ char						*home_directory_first_arg(char *to_find);
 char						*tilde_no_slash(char *to_find, int len);
 int							find_all_except_dots(char *directory, t_auto_comp **match);
 int							find_all_match(char *directory, t_auto_comp **match, char *to_find, char *next);
+int							free_two_strings(char **s1, char **s2);
+int							free_four_strings(char **s1, char **s2, char **s3, char **s4);
 
 
 #endif

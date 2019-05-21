@@ -24,6 +24,7 @@ int					find_matching_home_dirs(char *directory, t_auto_comp **match, char * to_
 					closedir(dir);
 					return (1);//ERR MALL
 				}
+				ft_strdel(&tmp);
 			}
 		}
 	}
@@ -75,6 +76,7 @@ char				*home_directory_first_arg(char *to_find)
 	if (!(tmp = ft_strjoin(tmp2, ret_str)))
 		ERROR_MEM
 	ft_strdel(&path);
+	ft_strdel(&ret_str);
 	ft_strdel(&tmp2);
 	return (tmp);
 }

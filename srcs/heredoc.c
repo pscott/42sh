@@ -79,7 +79,7 @@ static unsigned char	get_eof(char **eof, t_token *probe)
 		if (probe->type >= tk_monoc && probe->type <= tk_dq_str)
 			is_eof_quoted = 1;
 		*eof = eof_join(*eof, probe);
-		ft_printf("REFRESH EOF {%s}\n", *eof);
+		//ft_printf("REFRESH EOF {%s}\n", *eof);
 		//EAT
 		probe = probe->next;
 	}
@@ -182,7 +182,8 @@ static char	*get_heredoc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 		-‘\’ must be used to quote the characters ‘\’, ‘$’, and ‘`’.
 		*/
 		//i can maybe tricks, by making a tk_dq_str, then passing the single token in parse expand ?
-		ft_printf("EOF is NOT quoted\n");
+		//ft_printf("EOF is NOT quoted");
+		//print_line();
 	}
 	if (!(path = save_heredoc(txt)))
 		return (NULL);
@@ -198,6 +199,7 @@ static t_token	*replace_heredoc_tokens(t_token *probe, const char *path)
 	ft_strdel(&probe->content);
 	if (!(probe->content = ft_strdup("<")))
 		ERROR_MEM;
+	probe->type = tk_redirection;
 	//
 	probe = probe->next;
 	while (probe->type == tk_eat)
@@ -231,7 +233,6 @@ t_bool	parse_heredoc(t_token *token_head, t_vars *vars)
 		{
 			eof = NULL;
 			is_eof_quoted = get_eof(&eof, token_probe);
-			ft_printf("EOF: {%s}, quot:%d\n", eof, (int)is_eof_quoted);
 			//read and save
 			path = get_heredoc(eof, is_eof_quoted, vars);//protect
 			//replace tokens
@@ -240,6 +241,5 @@ t_bool	parse_heredoc(t_token *token_head, t_vars *vars)
 		}
 		token_probe = token_probe->next;
 	}
-	ft_printf("END HEREDOC\n");
 	return (1);//tmp
 }

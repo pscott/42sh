@@ -55,10 +55,9 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	if (lexer_ret == lex_fail)
 	{
 		free_token_list(token_head);
-		print_line();
+		print_line();//why ? 
 		return (0);
 	}
-	print_token_list(token_head);
 	if (!(ast_root = create_ast(token_head)))
 	{
 		//DEBUG_PARSER && ft_printf("\x1B[31m""### Parser FAILED""\x1B[0m""\n");
@@ -66,10 +65,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		return (0);
 	}
 	//maybe parse heredoc here ??
-	print_ast(ast_root);
-	ft_printf("POST_EXEC\n");
 	exec_ast(ast_root, vars);
-	ft_printf("POST_FREE_AST\n");
 	free_ast(ast_root);
 	return (1);
 }

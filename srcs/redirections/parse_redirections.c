@@ -60,8 +60,8 @@ t_bool	apply_redirections(t_token *redir, t_token *prev) //static ?//use redir_t
 		redir_dgreat(redir, prev);
 	else if (ft_strncmp(redir->content, "<", 2) == 0)
 		return (redir_less(redir, prev));
-	else if (ft_strncmp(redir->content, "<<", 3) == 0) //TODO
-		redir_dless(redir, prev);
+	//else if (ft_strncmp(redir->content, "<<", 3) == 0) //TODO//useless now as it's checked before
+	//	redir_dless(redir, prev);
 	else
 		return (0);
 	return (1);

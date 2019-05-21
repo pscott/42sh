@@ -85,9 +85,11 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c \
 						redir_great.c redir_less.c parse_redirections.c
 	AUTO_COMP_FILES	:=	auto_completion.c compare_entry.c create_match_link.c del_match.c \
 						display_auto_comp.c find_exe_names.c find_file.c utils.c \
-						get_name_and_path.c get_path_file.c handler_sig_display.c \
+						get_name_and_path.c get_path_file.c \
 						utils2.c space_first_arg.c dirs_first_arg.c bin_first_arg.c \
-						file_x_arg.c dirs_and_exe_first_arg.c home_dirs_first_arg.c \
+						dirs_and_exe_first_arg.c home_dirs_first_arg.c \
+						x_arg.c
+						
 
 	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c
 	HASHMAP_FILES	:=	find_next_prime.c hash_main.c hashfun.c hashmap.c\

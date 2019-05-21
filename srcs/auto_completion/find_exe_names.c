@@ -24,14 +24,10 @@ static int			check_command_folder(char *path, t_auto_comp **match, char *to_find
 			if (ent->d_type)
 				t = ent->d_type;
 			tmp = NULL;
-		//	ft_printf("to_find |%s| next|%s| nextlen %d \n", to_find, next, ft_strlen(next));
-		//	sleep(2);
 			if (ft_strlen(next) == ft_strlen(to_find) || is_white_spaces(next[ft_strlen(to_find)]))
 			{
 				if (!(tmp = ft_strjoin(ent->d_name, " ")))
 					ERROR_MEM
-		//	ft_printf("{%s}\n", tmp);
-		//	sleep(2);
 			}
 			else
 				if (!(tmp = ft_strdup(ent->d_name)))
@@ -104,10 +100,12 @@ int					find_matching_exe(char **path, t_auto_comp **match, char *to_find_real, 
 	int				i;
 
 	i = 0;
+	true_path = NULL;
 	while (path[i])
 		{
-			true_path = rm_spaces_path(path[i]);
-			check_command_folder(path[i++], match, to_find_real, next);
+			true_path = rm_spaces_path(path[i++]);
+			check_command_folder(true_path, match, to_find_real, next);
+			ft_strdel(&true_path);
 		}
 	if (add_builtins(match, to_find_real))
 		return (1);

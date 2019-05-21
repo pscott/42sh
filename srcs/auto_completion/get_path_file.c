@@ -30,7 +30,6 @@ static int			get_path_user(int index, char *arg, char **path, char **to_find)
 static int			get_path_root(int index, char *arg, char **path, char **to_find)
 {
 	char			*tmp;
-	char			*ret;
 
 	tmp = NULL;
 	if (arg[index + 1])

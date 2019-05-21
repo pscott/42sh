@@ -32,7 +32,7 @@ int					find_matching_home_dirs(char *directory, t_auto_comp **match, char * to_
 	return (0);
 }
 
-char				*search_dirs_home_first_arg(char *directory, char *str, int len)
+static char			*search_dirs_home_first_arg(char *directory, char *str)
 {
 	t_auto_comp		*match;
 	char			*ret_str;
@@ -51,7 +51,7 @@ char				*search_dirs_home_first_arg(char *directory, char *str, int len)
 }
 
 
-char				*home_directory_first_arg(char *to_find, int len)
+char				*home_directory_first_arg(char *to_find)
 {
 	char			*ret_str;
 	char			*path;
@@ -70,7 +70,7 @@ char				*home_directory_first_arg(char *to_find, int len)
 	ft_printf("|%s|, |%s|", path, to_find_real);
 	sleep(2);
 */	
-	ret_str = search_dirs_home_first_arg(path, tmp, len);
+	ret_str = search_dirs_home_first_arg(path, tmp);
 	ft_strdel(&tmp);
 	if (!(tmp = ft_strjoin(tmp2, ret_str)))
 		ERROR_MEM

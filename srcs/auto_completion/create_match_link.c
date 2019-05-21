@@ -12,7 +12,6 @@ static t_auto_comp	*create_auto_comp_link(void)
 	link->prev = NULL;
 	link->next = NULL;
 	link->name = NULL;
-	link->type = 0;
 	link->len = 0;
 	return (link);
 }
@@ -29,10 +28,6 @@ int					create_match_link(t_auto_comp **match, char *str, unsigned char type)
 			return (1);
 		//	return (free_ptr((*match), ERR_MALLOC));
 		(*match)->len = ft_strlen(str);
-		(*match)->type = REGULAR;
-		if (type == DT_DIR)
-			(*match)->type = DIRECTORY;
-		(*match)->rank = 0;
 	}
 	else
 	{
@@ -46,10 +41,6 @@ int					create_match_link(t_auto_comp **match, char *str, unsigned char type)
 		//	return (free_ptr(new, ERR_MALLOC));
 		new->len = ft_strlen(str);
 		(*match) = new;
-		(*match)->type = REGULAR;
-		if (type == DT_DIR)
-			(*match)->type = DIRECTORY;
-		(*match)->rank = 0;
 	}
 	return (0);
 }

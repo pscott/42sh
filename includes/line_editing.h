@@ -39,7 +39,6 @@ typedef struct				s_auto_comp
 {
 	unsigned int			len;
 	unsigned int			rank;
-	int						type;
 	char					*name;
 	struct s_auto_comp		*next;
 	struct s_auto_comp		*prev;
@@ -76,7 +75,10 @@ char						*search_dirs_first_arg(char *directory, char *str, int len);
 char                       *new_auto_completion_bin(t_vars *vars, char *str, char *to_find_and_next_char, unsigned int len);
 int							new_auto_completion_file(char *str, unsigned int len);
 char						*search_dirs_and_exe(char *str, int len);
-char						*home_directory_first_arg(char *to_find, int len);
+char						*home_directory_first_arg(char *to_find);
+char						*tilde_no_slash(char *to_find, int len);
+int							find_all_except_dots(char *directory, t_auto_comp **match);
+int							find_all_match(char *directory, t_auto_comp **match, char *to_find, char *next);
 
 
 #endif

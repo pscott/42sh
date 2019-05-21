@@ -140,9 +140,10 @@ int			lst_match_more_than_to_find(t_auto_comp *match, unsigned int len)
 		match = match->prev;
 	curr = match;
 	ret = len;
-	
+/*	
 	ft_printf("match->name |%s|, len |%d|", match->name, len);
 	sleep(1);
+	*/
 	
 	if (ret > 0)
 		ret--;
@@ -177,25 +178,16 @@ char		*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigned in
 
 	while (match->prev)
 		match = match->prev;
-	
+/*	
 	ft_printf("|%s|", match->name);
 	sleep(2);
-
+*/
 	if (len_lst(match) == 1)//one only match 
-	{
 		ret_str = ft_strdup(match->name);
-	}
 	else if ((diff_len = lst_match_more_than_to_find(match, len)))//if all matches have a common pattern longer than to_find : diff_len = nb of char to add
 	{
-		/*
-		ft_putendl("HEEERE");
-		ft_putnbr(len_lst(match));
-		sleep(1);
-		*/
 		if (match->name[diff_len] && (match->name[diff_len] == ' ' || match->name[diff_len] == '/'))
-		{
 			is_empty_last_c = 1;
-		}
 		ft_putnbr(diff_len);
 		sleep(1);
 		if (!(ret_str = ft_strndup(match->name, len + diff_len - is_empty_last_c)))

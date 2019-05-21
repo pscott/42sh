@@ -140,9 +140,19 @@ int			lst_match_more_than_to_find(t_auto_comp *match, unsigned int len)
 		match = match->prev;
 	curr = match;
 	ret = len;
-	ft_printf("
+	
+	ft_printf("match->name |%s|, len |%d|", match->name, len);
+	sleep(1);
+	
+	if (ret > 0)
+		ret--;
+	
 	while (curr->name && curr->name[ret] && curr->next)
 	{
+		/*
+	ft_printf("curr->name |%s|", curr->next->name);
+	sleep(1);
+	*/
 		curr = curr->next;
 		if (curr->name[ret]	!= match->name[ret])
 			return (ret - len);
@@ -167,6 +177,10 @@ char		*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigned in
 
 	while (match->prev)
 		match = match->prev;
+	
+	ft_printf("|%s|", match->name);
+	sleep(2);
+
 	if (len_lst(match) == 1)//one only match 
 	{
 		ret_str = ft_strdup(match->name);
@@ -182,6 +196,8 @@ char		*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigned in
 		{
 			is_empty_last_c = 1;
 		}
+		ft_putnbr(diff_len);
+		sleep(1);
 		if (!(ret_str = ft_strndup(match->name, len + diff_len - is_empty_last_c)))
 			ERROR_MEM
 	}

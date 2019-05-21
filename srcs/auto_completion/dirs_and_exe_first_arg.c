@@ -24,6 +24,10 @@ static int				find_matching_dirs_and_exe_even_hidden(char *directory, t_auto_com
 					tmp = ft_strjoin(ent->d_name, "/");
 				else
 					tmp = ft_strdup(ent->d_name);
+				/*
+				ft_putendl(tmp);
+				sleep(1);
+				*/
 				if (create_match_link(match, tmp, -1))
 				{
 					closedir(dir);

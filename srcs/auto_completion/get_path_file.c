@@ -92,7 +92,9 @@ static int			get_path_reg(int index, char *arg, char **path, char **to_find)
 	{	
 		if (!(*to_find = ft_strsub(arg, index + 1, ft_strlen(arg) - index)))
 			ERROR_MEM
+				/*
 				ft_putendl(arg);
+				*/
 		tmp_path = ft_strsub(arg, 0, index + 1);
 		if (!(*path = ft_strjoin(pwd_slash, tmp_path)))
 			ERROR_MEM

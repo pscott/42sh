@@ -76,4 +76,7 @@ char						*search_dirs_first_arg(char *directory, char *str, int len);
 char                       *new_auto_completion_bin(t_vars *vars, char *str, char *to_find_and_next_char, unsigned int len);
 int							new_auto_completion_file(char *str, unsigned int len);
 char						*search_dirs_and_exe(char *str, int len);
+char						*home_directory_first_arg(char *to_find, int len);
+
+
 #endif

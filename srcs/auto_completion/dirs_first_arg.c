@@ -1,7 +1,7 @@
 #include "libft.h"
 #include "line_editing.h"
 
-int					find_matching_dirs(char *directory, t_auto_comp **match, char * to_find)
+int					find_matching_dirs(char *directory, t_auto_comp **match, char *to_find)
 {
 	DIR				*dir;
 	struct dirent	*ent;
@@ -11,7 +11,7 @@ int					find_matching_dirs(char *directory, t_auto_comp **match, char * to_find)
 		return (1);//ERR_OPENDIR
 	while ((ent = readdir(dir)))
 	{
-		if (!compare_entry(to_find, ent->d_name))
+		if (!to_find || !to_find[0] || !compare_entry(to_find, ent->d_name))
 		{
 			if (ent->d_type && ent->d_type == DT_DIR)
 			{
@@ -40,6 +40,10 @@ char				*search_dirs_first_arg(char *directory, char *str, int len)
 	ret_str = NULL;
 	if (!(to_find = ft_strdup(str)))
 		ERROR_MEM
+	/*		
+			ft_printf("dir |%s|, str |%s|", directory, str);
+	sleep(2);
+	*/
 	if (find_matching_dirs(directory, &match, to_find))//je fais la liste de match avec / append
 		ERROR_MEM
 	if (match)

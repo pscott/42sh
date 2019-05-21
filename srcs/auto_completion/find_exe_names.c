@@ -11,7 +11,7 @@ static int			check_command_folder(char *path, t_auto_comp **match, char *to_find
 	char			*tmp;
 
 	if ((dir = opendir(path)) == NULL)
-		return (print_errors(ERR_OPENDIR, ERR_OPENDIR_STR, path));
+		return (0);
 	while ((ent = readdir(dir)))
 	{
 		if (!compare_entry2("..", ent->d_name)

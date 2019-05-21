@@ -23,6 +23,7 @@ static unsigned char	get_eof(char **eof, t_token *probe)
 		//EAT
 		probe = probe->next;
 	}
+	*eof = ft_strjoin("\n", *eof);
 	return(is_eof_quoted);
 }
 
@@ -60,6 +61,57 @@ static char	*save_heredoc(const char *txt)
 	return (path);//free
 }
 
+static char	*heredoc_concatenate_txt(t_st_cmd *st_cmd)
+{
+	char			*input;
+	unsigned int	len;
+
+	if (!st_cmd)
+		return (NULL);
+	while (st_cmd->prev)
+		st_cmd = st_cmd->prev;
+	input = NULL;
+	//len = ft_strlen(st_cmd->st_txt->txt);
+	while (st_cmd)
+	{
+		//if (len > 1)
+		//{
+		//	ft_printf("{%c|%c}\n", st_cmd->st_txt->txt[len - 2]
+		//		, st_cmd->st_txt->txt[len - 1]);
+		//	//if quoted
+		//	st_cmd->st_txt->txt[len - 2] = 0;
+		//	st_cmd->st_txt->txt[len - 1] = 0;
+		//	st_cmd->st_txt->data_size--;
+		//	st_cmd->st_txt->data_size--;
+		//}
+		//ft_printf("333{%s}\n", st_cmd->st_txt->txt);
+		input = ft_strjoin(input, st_cmd->st_txt->txt);//protect ? free ?
+		st_cmd = st_cmd->next;
+	}
+	return (input);
+}
+
+//static t_bool	is_eof_inputed(char *eof, char *txt)
+//{
+//	unsigned int	txt_len;
+//	unsigned int	eof_len;
+//
+//	txt_len = ft_strlen(txt);
+//	eof_len = ft_strlen(eof);
+//	ft_printf("@@LEN{txt:%u}{eof:%u}", txt_len, eof_len);
+//	print_line(1);
+//	ft_printf("@@CON{txt:%s}{eof:%s}", txt, eof);
+//	print_line(1);
+//	if (txt_len < eof_len)//TODO check me
+//		return (0);
+//	else
+//		ft_printf("@@&txt{%s}\n", &txt[txt_len - eof_len]);
+//	if ((txt[txt_len - eof_len - 1] == '\n')
+//			&& !ft_strncmp(eof, &txt[txt_len - eof_len], eof_len + 1))
+//		return (1);
+//	return (0);
+//}
+
 /*
 ** get_heredoc
 ** read input from user
@@ -72,20 +124,37 @@ static char	*get_heredoc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 {
 	char		*path;
 	char		*txt;
-	char		*txt_tmp;
 	t_st_cmd	*st_cmd;
 
 	st_cmd = init_st_cmd((const char**)vars->env_vars);
-	txt_tmp = ft_strdup("");
-	while (ft_strncmp(eof, txt_tmp, ft_strlen(eof) + 1))
+	txt = ft_strdup("");
+	ft_printf("txt len: %u", ft_strlen(txt));
+	print_line(1);
+	ft_printf("eof len: %u", ft_strlen(eof));
+	print_line(1);
+	st_cmd = append_st_cmd(st_cmd, "", "heredoc> ");
+	while (!(ft_strlen(txt) > ft_strlen(eof))
+		|| (ft_strncmp(eof, &txt[ft_strlen(txt) - ft_strlen(eof) - 1], ft_strlen(eof)) != 0))//check
 	{
+		ft_printf("%s", &txt[ft_strlen(txt) - ft_strlen(eof) - 1]);
+		print_line(1);
 		//make ignore "\<enter>"
-		txt = concatenate_txt(st_cmd);
 		input_loop(st_cmd, vars);
-		ft_memdel((void*)&txt_tmp);
-		txt_tmp = ft_strndup(st_cmd->st_txt->txt, ft_strlen(st_cmd->st_txt->txt) - 1);
+		txt = heredoc_concatenate_txt(st_cmd);
+		int len = st_cmd->st_txt->data_size;
+		if (!is_eof_quoted
+			&& len > 2 && st_cmd->st_txt->txt[len - 2] == '\\'
+			&& st_cmd->st_txt->txt[len - 1] == '\n')//refactor
+		{
+			st_cmd->st_txt->txt[len - 2] = 0;
+			st_cmd->st_txt->txt[len - 1] = 0;
+			st_cmd->st_txt->data_size--;
+			st_cmd->st_txt->data_size--;
+		}
 		st_cmd = append_st_cmd(st_cmd, "", "heredoc> ");
 	}
+	ft_printf("OUT OF WHILE");
+	print_line(1);
 	//expand txt (depending on is_eof_quoted)// OR should i expand as i write()
 	if (!is_eof_quoted)
 	{/*
@@ -99,11 +168,10 @@ static char	*get_heredoc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 		//ft_printf("EOF is NOT quoted");
 		//print_line();
 		heredoc_expand_dollars(&txt, vars);
-		//arithmetic_expand(&txt);
+		//if '$((' => get ')) => arithmetic_expand(&txt);
 	}
 	if (!(path = save_heredoc(txt)))
 		return (NULL);
-	ft_memdel((void*)&txt_tmp);
 	ft_memdel((void*)&txt);
 	free_st_cmd(st_cmd);
 	return (path);

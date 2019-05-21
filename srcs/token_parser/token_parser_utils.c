@@ -64,7 +64,8 @@ t_bool	exec_ast(t_ast *root, t_vars *vars)
 	else if (root->token->type == tk_or)
 		return (exec_ast(root->left, vars) && exec_ast(root->right, vars));
 	else
-		return (parse_pipeline(root->token, vars));
+		return (parse_cmdline(root->token, vars));
+		//return (parse_pipeline(root->token, vars));
 }
 
 void	print_ast(t_ast *root)

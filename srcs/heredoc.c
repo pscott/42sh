@@ -31,6 +31,7 @@ static char	*strjoin_free(char *str_join, char *str_add)
 	return (tmp_str);
 }
 
+//check expand order ?
 static char	*eof_join(char *eof, t_token *token)
 {
 	char	*tmp_str;
@@ -65,6 +66,12 @@ static char	*eof_join(char *eof, t_token *token)
 	}
 	return (eof);
 }
+
+/*
+** get_eof
+** parse tokens to concatenate the real EOF
+** and check if it is quoted
+*/
 
 static unsigned char	get_eof(char **eof, t_token *probe)
 {
@@ -108,7 +115,7 @@ static char	*get_heredoc_filename(unsigned int file_key)
 }
 
 /*
-** find_unia_filename
+** find_unique_filename
 ** find an unused filename
 ** and returned it
 */
@@ -134,6 +141,13 @@ static char	*find_uniq_filename(void)
 	return (path);
 }
 
+/*
+** save_heredoc
+** find a unique file name
+** write the input into the new file
+** return the path to it
+*/
+
 static char	*save_heredoc(const char *txt)
 {
 	char	*path;
@@ -141,19 +155,32 @@ static char	*save_heredoc(const char *txt)
 
 	if (!(path = find_uniq_filename()))//protect better
 	{
-		ft_dprintf(2, "tmp(heredoc): can't create unique temporary filename\n");
+		ft_dprintf(2, "tmp(heredoc): can't create unique temporary filename");
+		print_line(2);
 		return (NULL);//check this return
 	}
 	if ((fd = open(path, O_CREAT | O_RDWR | O_APPEND, 0666)) == -1)
 	{
-		ft_dprintf(2, "tmp: open error\n");
+		ft_dprintf(2, "tmp: open error");
+		print_line(2);
 		return (NULL);//error
 	}
 	if (write(fd, txt, ft_strlen(txt)) == -1)
-		ft_dprintf(2, "tmp: write error\n");
+	{
+		ft_dprintf(2, "tmp: write error");
+		print_line(2);
+	}
 	close(fd);
 	return (path);//free
 }
+
+/*
+** get_heredoc
+** read input from user
+** concatenate the input
+** TODO expand the input if EOF isn't quoted
+** save it into a file and return the path to it
+*/
 
 static char	*get_heredoc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 {
@@ -172,7 +199,7 @@ static char	*get_heredoc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 		txt_tmp = ft_strndup(st_cmd->st_txt->txt, ft_strlen(st_cmd->st_txt->txt) - 1);
 		st_cmd = append_st_cmd(st_cmd, "", "heredoc> ");
 	}
-	//expand txt (depending on is_eof_quoted)
+	//expand txt (depending on is_eof_quoted)// OR should i expand as i write()
 	if (!is_eof_quoted)
 	{/*
 		-parameter expansion
@@ -192,6 +219,10 @@ static char	*get_heredoc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 	free_st_cmd(st_cmd);
 	return (path);
 }
+
+/*
+** replace_heredoc_tokens
+*/
 
 static t_token	*replace_heredoc_tokens(t_token *probe, const char *path)
 {
@@ -219,6 +250,15 @@ static t_token	*replace_heredoc_tokens(t_token *probe, const char *path)
 	return (probe);
 }
 
+/*
+** parse_heredoc
+** parse the entire token list, if it find an 'heredoc'
+** - it get 'EOF' word and check if it was quoted
+** - write the content of heredoc into a unique file
+** - replace << by <, first 'EOF' token by new file name (and tk_eat if multi)
+**		and type the rest of 'EOF' tokens to tk_eat
+*/
+
 t_bool	parse_heredoc(t_token *token_head, t_vars *vars)
 {
 	t_token			*token_probe;
@@ -237,6 +277,7 @@ t_bool	parse_heredoc(t_token *token_head, t_vars *vars)
 			path = get_heredoc(eof, is_eof_quoted, vars);//protect
 			//replace tokens
 			token_probe = replace_heredoc_tokens(token_probe, path);
+			ft_strdel(&path);//test
 			//continue
 		}
 		token_probe = token_probe->next;

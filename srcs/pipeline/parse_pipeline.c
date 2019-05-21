@@ -61,7 +61,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 		//	print_line(2);
 		//	//clean_exit(1);
 		//}
-		if ((pid = fork()) == -1)
+		if ((pid = fork()) == -1)//else if ?
 			error_message("fork");
 		//{
 		//	ft_dprintf(2, "fork error\n");
@@ -86,6 +86,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 		}
 		clean_exit(1);
 	}
+	//break func here: fork_last_cmd()
 	status = 0; //necessary ?
 	if ((pid = fork()) == -1)
 	{
@@ -130,7 +131,8 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 */
 
 //rename parse_cmdline ?
-int			parse_pipeline(t_token *token, t_vars *vars) // no need for t_pipelst ?
+//int			parse_pipeline(t_token *token, t_vars *vars) // no need for t_pipelst ?
+int			parse_cmdline(t_token *token, t_vars *vars) // no need for t_pipelst ?
 {
 	int	num_simple_commands;
 	t_token *probe;
@@ -149,7 +151,7 @@ int			parse_pipeline(t_token *token, t_vars *vars) // no need for t_pipelst ?
 			num_simple_commands++;
 		}
 	}
-	if ((num_simple_commands == 1)
+	if ((num_simple_commands == 1)//TODO check
 			&& (execute_no_pipe_builtin(token, vars) == 0))
 		return (0);//or return (execute_no_pipe_builtin(token, vars) == 0)); ?
 	return (fork_pipes(num_simple_commands, token, vars));

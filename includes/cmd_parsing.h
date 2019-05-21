@@ -4,7 +4,8 @@
 # include "42sh.h"
 # include "lexer.h"
 
-int				parse_pipeline(t_token *token, t_vars *vars);
+//int				parse_pipeline(t_token *token, t_vars *vars);
+int				parse_cmdline(t_token *token, t_vars *vars);
 void			redirect(int old_fd, int new_fd);
 
 /*

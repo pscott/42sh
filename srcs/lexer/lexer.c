@@ -2,6 +2,7 @@
 #include "errors.h"
 #include "lexer.h"
 #include "libterm.h"
+#include "heredoc.h"
 
 /*
 ** create_token

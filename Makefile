@@ -28,7 +28,7 @@ INCL_CMD	:=	$(addprefix -I,$(INCL_DIR))
 
 INCL_FILES	:=	42sh.h lexer.h ast.h input.h history.h get_next_line.h \
 				line_editing.h builtins.h errors.h cmd_parsing.h execution.h \
-				signals.h hashmap.h
+				signals.h hashmap.h heredoc.h
 
 INCLS		:=	$(addprefix includes/,$(INCL_FILES))
 
@@ -62,7 +62,7 @@ SRC_DIR	:=	srcs
 VPATH	:=	$(SRC_DIR) $(addprefix $(SRC_DIR)/,$(SRC_SUBDIRS))
 
 # Srcs file names ##############################################################
-SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c \
+SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c heredoc_utils.c\
 	#srcs subfiles names
 	ENV_FILES		:=	environ_set.c environ_utils.c init_env.c shlvl.c
 	ERRORS_FILES	:=	errors.c print_errors.c error_exit.c

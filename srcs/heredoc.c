@@ -112,6 +112,19 @@ static char	*heredoc_concatenate_txt(t_st_cmd *st_cmd)
 //	return (0);
 //}
 
+static void	delete_last_eof(char **txt, char *eof)
+{
+	unsigned int	eof_len;
+	unsigned int	txt_len;
+
+	eof_len = ft_strlen(eof);
+	txt_len = ft_strlen(*txt);
+	while (eof_len--)
+	{
+		(*txt)[txt_len - eof_len - 1] = 0;
+	}
+}
+
 /*
 ** get_heredoc
 ** read input from user
@@ -128,20 +141,18 @@ static char	*get_heredoc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 
 	st_cmd = init_st_cmd((const char**)vars->env_vars);
 	txt = ft_strdup("");
-	ft_printf("txt len: %u", ft_strlen(txt));
-	print_line(1);
-	ft_printf("eof len: %u", ft_strlen(eof));
-	print_line(1);
 	st_cmd = append_st_cmd(st_cmd, "", "heredoc> ");
-	while (!(ft_strlen(txt) > ft_strlen(eof))
+	while (!(ft_strlen(txt) >= ft_strlen(eof))
 		|| (ft_strncmp(eof, &txt[ft_strlen(txt) - ft_strlen(eof) - 1], ft_strlen(eof)) != 0))//check
 	{
-		ft_printf("%s", &txt[ft_strlen(txt) - ft_strlen(eof) - 1]);
-		print_line(1);
 		//make ignore "\<enter>"
 		input_loop(st_cmd, vars);
+		//ft_printf("HERE: {%s}", st_cmd->st_txt->txt);
+		//print_line(1);
 		txt = heredoc_concatenate_txt(st_cmd);
+
 		int len = st_cmd->st_txt->data_size;
+
 		if (!is_eof_quoted
 			&& len > 2 && st_cmd->st_txt->txt[len - 2] == '\\'
 			&& st_cmd->st_txt->txt[len - 1] == '\n')//refactor
@@ -152,8 +163,15 @@ static char	*get_heredoc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 			st_cmd->st_txt->data_size--;
 		}
 		st_cmd = append_st_cmd(st_cmd, "", "heredoc> ");
+		ft_printf("txt_len: %d", ft_strlen(txt));print_line(1);
+		ft_printf("eof_len: %d", ft_strlen(eof));print_line(1);
+		ft_printf("txt: {%s}", txt);print_line(1);
+		ft_printf("txt: {%s}", &txt[ft_strlen(txt) - ft_strlen(eof)]);print_line(1);
+		ft_printf("eof: {%s}", eof);print_line(1);
 	}
-	ft_printf("OUT OF WHILE");
+	//delete last EOF
+	delete_last_eof(&txt, eof);
+	ft_printf("HERE: {%s}", txt);
 	print_line(1);
 	//expand txt (depending on is_eof_quoted)// OR should i expand as i write()
 	if (!is_eof_quoted)
@@ -197,7 +215,7 @@ static t_token	*replace_heredoc_tokens(t_token *probe, const char *path)
 	if (!(probe->content = ft_strdup(path)))
 		ERROR_MEM;
 	probe = probe->next;
-	while (probe && probe->type >= tk_word && probe->type <= tk_redirection)
+	while (probe && probe->type >= tk_word && probe->type < tk_redirection)
 	{
 		probe->type = tk_eat;
 		//ft_strdel(&probe->content);//pas sure
@@ -234,8 +252,10 @@ t_bool	parse_heredoc(t_token *token_head, t_vars *vars)
 			path = get_heredoc(eof, is_eof_quoted, vars);//protect
 			//replace tokens
 			token_probe = replace_heredoc_tokens(token_probe, path);
+			ft_printf("content: {%s}", token_probe->content);
+			print_line(1);
 			ft_strdel(&path);//test
-			//continue
+			continue ;
 		}
 		token_probe = token_probe->next;
 	}

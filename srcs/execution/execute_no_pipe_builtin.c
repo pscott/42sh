@@ -87,12 +87,12 @@ static char **fake_argv(t_token *token_head, t_vars *vars)
 
 /*
 **	Creates a temporary argv and checks if argv[0] is a builtin.
-**	Returns 0 if argv[0] is a builtin, else returns 1.
 **	If argv[0] contains a '/'.
 **	If argv[0] is a builtin.
 **	If argv[0] is in hashmap, adds a hit tag to it, but does not execute.
 **	If argv[0] is not in hashmap, add it to hashmap and add a hit to it but
 **	does not execute it.
+**	Returns 0 if argv[0] is a builtin and got executed, else returns 1.
 */
 
 t_bool		execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
@@ -108,13 +108,10 @@ t_bool		execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
 	else if ((cmd_id = check_builtins(argv)))
 		ret = no_pipe_builtin(token_head, vars, cmd_id);
 	else if ((cmd_path = check_hashmap(argv[0], vars->hashmap, hash_exec)))
-	{
-		//ft_strdel(&cmd_path);//check_hashmap doesn't alloc
 		ret = 1;
-	}
 	else
 	{
-		if ((cmd_path = get_cmd_path(argv, vars->env_vars)))
+		if ((cmd_path = get_cmd_path(argv, vars->env_vars, 0)))
 		{
 			add_to_hashmap(argv[0], cmd_path, &vars->hashmap);
 			check_hashmap(argv[0], vars->hashmap, hash_exec);

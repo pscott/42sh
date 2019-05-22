@@ -140,7 +140,7 @@ int			parse_cmdline(t_token *token, t_vars *vars) // no need for t_pipelst ?
 		}
 	}
 	if ((num_simple_commands == 1)//TODO check
-			&& (execute_no_pipe_builtin(token, vars) == 0))
-		return (0);//or return (execute_no_pipe_builtin(token, vars) == 0)); ?
+		&& (execute_no_pipe_builtin(token, vars) == 0))
+		return (0);
 	return (fork_pipes(num_simple_commands, token, vars));
 }

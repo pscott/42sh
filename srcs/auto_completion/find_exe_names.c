@@ -1,77 +1,64 @@
 #include "libft.h"
 #include "line_editing.h"
 #include "errors.h"
-#include <dirent.h>
 
-static int			check_command_folder(char *path, t_auto_comp **match, char *to_find, char *next)
+static int			get_filename(const char *next, const char *to_find,
+						struct dirent *ent, char **filename)
+{
+	if (ft_strlen(next) == ft_strlen(to_find) || is_white_spaces(next[ft_strlen(to_find)]))
+	{	
+		if (!(*filename = ft_strjoin(ent->d_name, " ")))	
+			ERROR_MEM		
+	}
+	else if (!(*filename = ft_strdup(ent->d_name)))
+		ERROR_MEM
+	return (0);
+
+}
+
+static int			check_command_folder(char *path, t_auto_comp **match, const char *to_find, const char *next)
 {
 	DIR				*dir;
 	struct dirent	*ent;
-	unsigned char	t;
-	char			*tmp;
+	char			*filename;
 
 	if ((dir = opendir(path)) == NULL)
-		return (0);
+		return (1);
+	filename = NULL;
 	while ((ent = readdir(dir)))
 	{
 		if (!compare_entry2("..", ent->d_name)
-				&& !compare_entry2(".", ent->d_name)
-				&& !compare_entry(to_find, ent->d_name))
-
-		if (!compare_entry(to_find, ent->d_name))
+			&& !compare_entry2(".", ent->d_name)
+			&& !compare_entry(to_find, ent->d_name))
 		{
-			t = 0;
-			if (ent->d_type)
-				t = ent->d_type;
-			tmp = NULL;
-			if (ft_strlen(next) == ft_strlen(to_find) || is_white_spaces(next[ft_strlen(to_find)]))
-			{
-				if (!(tmp = ft_strjoin(ent->d_name, " ")))
-					ERROR_MEM
-			}
-			else
-				if (!(tmp = ft_strdup(ent->d_name)))
-					ERROR_MEM
-			if (create_match_link(match, tmp, t))
-			{
-				closedir(dir);
-				ERROR_MEM
-			}
-			ft_strdel(&tmp);
+			get_filename(next, to_find, ent, &filename);
+			create_match_link(match, filename);
+			ft_strdel(&filename);
 		}
 	}
 	if (closedir(dir) == -1)
-		return (print_errors(ERR_CLOSEDIR, ERR_CLOSEDIR_STR, NULL));
+		return (1);
 	return (0);
 }
 
-static int			add_builtins(t_auto_comp **match, char *to_find)
+static int			add_builtins(t_auto_comp **match, const char *to_find)
 {
 	if (!compare_entry(to_find, "exit"))
-	{
-		if (create_match_link(match, "exit", REGULAR))
-			ERROR_MEM
-	}
+		create_match_link(match, "exit");
 	else if (!compare_entry(to_find, "setenv"))
-	{
-		if (create_match_link(match, "setenv", REGULAR))
-			ERROR_MEM
-	}
+		create_match_link(match, "setenv");
 	else if (!compare_entry(to_find, "unsetenv"))
-	{
-		if (create_match_link(match, "unsetenv", REGULAR))
-			ERROR_MEM
-	}
+		create_match_link(match, "unsetenv");
 	return (0);
 }
 
-static int			add_alias(t_auto_comp **match, char *to_find)
+static int			add_alias(t_auto_comp **match, const char *to_find)
 {
 	//quand les alias seront geres
 	return (0);
 }
 
-char				*rm_spaces_path(char *str)
+char				*rm_spaces_path(const char *str)
 {
 	char			*ret;
 	int				i;
@@ -81,7 +68,8 @@ char				*rm_spaces_path(char *str)
 	j = 0;
 	if (!str)
 		return (NULL);
-	ret = ft_strnew(ft_strlen(str));
+	if (!(ret = ft_strnew(ft_strlen(str))))
+		ERROR_MEM
 	while (str[i])
 	{
 		if (str[i] == '\\' && str[i + 1] != '\\')
@@ -94,7 +82,8 @@ char				*rm_spaces_path(char *str)
 }
 
 
-int					find_matching_exe(char **path, t_auto_comp **match, char *to_find_real, char *next)
+int					find_matching_exe(char **path, t_auto_comp **match,
+					const char *to_find_real, const char *next)
 {
 	char			*true_path;
 	int				i;
@@ -113,19 +102,5 @@ int					find_matching_exe(char **path, t_auto_comp **match, char *to_find_real, 
 		return (1);
 	if (!(*match))
 		return (0);
-/*	if (match)
-		while ((*match)->prev)
-		{
-			(*match) = (*match)->prev;
-		}*/// pas oublier de le remettre pour reset
-/*	while (*match)
-	{
-		ft_putendl((*match)->name);
-		ft_putnbr(i++);
-		if ((*match)->next)
-			(*match) = (*match)->next;
-		else
-			sleep(10);
-	}*/
 	return (0);
 }

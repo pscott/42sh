@@ -19,11 +19,7 @@ int					find_matching_home_dirs(char *directory, t_auto_comp **match, char * to_
 			{
 				tmp = NULL;
 				tmp = ft_strjoin(ent->d_name, "/");
-				if (create_match_link(match, tmp, -1))
-				{
-					closedir(dir);
-					return (1);//ERR MALL
-				}
+				create_match_link(match, tmp);
 				ft_strdel(&tmp);
 			}
 		}

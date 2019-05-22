@@ -7,6 +7,9 @@
 # define PATH_MAX 4096
 # define NAME_MAX 4096
 # include <dirent.h>
+# include <sys/types.h>
+# include <pwd.h>
+# include <sys/stat.h> 
 
 /*
 **	Window struct
@@ -50,12 +53,12 @@ char						*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigne
 void						new_sort_list(t_auto_comp **match);
 int							del_match_unique(t_auto_comp *match);
 int							del_match(t_auto_comp *match);
-int							get_cols_term(void);
-int							get_columns_display(int count, int maxlen);
-int							get_rows_display(int count, int cols);
-int							create_match_link(t_auto_comp **match, char *str, unsigned char type);
-int							compare_entry(char *s, char *n);
-int							compare_entry2(char *s, char *n);
+unsigned int				get_cols_term(void);
+unsigned int				get_columns_display(unsigned int count, unsigned int maxlen);
+unsigned int				get_rows_display(unsigned int count, unsigned int cols);
+int							create_match_link(t_auto_comp **match, char *str);
+int							compare_entry(const char *s, const char *n);
+int							compare_entry2(const char *s, const char *n);
 void						handler_is_display(int signo);
 char						*get_to_find_file(char *s);
 int							get_path_file_and_to_find(char *arg, char **path, char **to_find);
@@ -66,20 +69,23 @@ char						*lst_to_string_auto_c(t_list *lst);
 int							lst_len_until_cursor_pos(t_list *lst);
 char						*lst_to_string_auto_c(t_list *lst);
 int							is_same_char(char a, char b);
-int							find_matching_exe(char **path, t_auto_comp **match, char *to_find, char *to_find_and_next_char);
-int							get_needed_values(char *input, unsigned int len, char **str
-								, char **to_find_full);
+int							find_matching_exe(char **path, t_auto_comp **match, const char *to_find_real, const char *next);
+int							get_needed_values(const char *input, unsigned int len, char **str , char **to_find_full);
 int							get_path(char ***path, t_vars *vars);
-char						*rm_spaces_path(char *str);
+char						*rm_spaces_path(const char *str);
 char						*new_auto_completion_space(t_vars *vars);
-char						*search_dirs_first_arg(char *directory, char *str, int len);
-char                       *new_auto_completion_bin(t_vars *vars, char *str, char *to_find_and_next_char, unsigned int len);
+char						*search_dirs_first_arg(const char *directory, const char *str, unsigned int len);
+char                       *new_auto_completion_bin(t_vars *vars, const char *str, const char *to_find_and_next_char);
 int							new_auto_completion_file(char *str, unsigned int len);
-char						*search_dirs_and_exe(char *str, int len);
+char						*search_dirs_and_exe(const char *str);
 char						*home_directory_first_arg(char *to_find);
 char						*tilde_no_slash(char *to_find, int len);
-int							find_all_except_dots(char *directory, t_auto_comp **match);
-int							find_all_match(char *directory, t_auto_comp **match, char *to_find, char *next);
+int							find_all_except_dots(const char *directory, t_auto_comp **match);
+unsigned int				get_max_len(t_auto_comp *match);
+unsigned int				len_lst(t_auto_comp *lst);
+void						print_spaces(const char *s, unsigned int cols);
+int							is_display(unsigned int count);
+int							find_all_match(char *directory, t_auto_comp **match, const char *to_find, const char *next);
 int							free_two_strings(char **s1, char **s2);
 int							free_four_strings(char **s1, char **s2, char **s3, char **s4);
 

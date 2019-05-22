@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/22 15:42:01 by aschoenh          #+#    #+#             */
+/*   Updated: 2019/05/22 15:44:05 by aschoenh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "line_editing.h"
 
@@ -12,8 +24,8 @@ int				is_same_char(char a, char b)
 	return (0);
 }
 
-int				get_needed_values(char *input, unsigned int len, char **str
-					, char **to_find_full)
+int				get_needed_values
+	(const char *input, unsigned int len, char **str, char **to_find_full)
 {
 	int			start_actual_word;
 

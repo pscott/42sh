@@ -88,7 +88,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c \
 						get_name_and_path.c get_path_file.c \
 						utils2.c space_first_arg.c dirs_first_arg.c bin_first_arg.c \
 						dirs_and_exe_first_arg.c home_dirs_first_arg.c \
-						x_arg.c
+						x_arg.c utils_display.c get_next_line_2.c \
 						
 
 	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c

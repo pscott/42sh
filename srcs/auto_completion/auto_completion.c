@@ -2,12 +2,13 @@
 #include "libft.h"
 #include "errors.h"
 #include "line_editing.h"
+#include "get_next_line_2.h"
 
 /* 
 ** compare start_actual_word (== len) and first word of the input. if ==, then its first arg of input
 */
 
-static int			is_first_arg_and_exec(char *str, unsigned int cursor_pos, unsigned int start_actual_word)
+static int			is_first_arg_and_exec(const char *str, unsigned int cursor_pos, unsigned int start_actual_word)
 {
 	unsigned int	i;
 
@@ -25,8 +26,10 @@ static int			is_first_arg_and_exec(char *str, unsigned int cursor_pos, unsigned 
 	{
 		if (str[cursor_pos] == '\0' || is_white_spaces(str[cursor_pos]))
 			return (2);
-		else if (str[i] == '~' && (str[i + 1] == '/'))
+		else if (str[i] == '~' && str[i + 1] && str[i + 1] == '/')
 				return (6);
+		else if (str[i] == '~' && (!str[i + 1] || str[i + 1] != '/'))
+				return (7);
 		else if (str[i] == '$')
 			return (5);
 		else
@@ -64,7 +67,98 @@ static char			*handle_x_arg(char *input, char *to_find_and_next_char)
 	return (tmp2);
 }
 
-char				*handle_first_arg_dot_tilde(int type, char *to_find)
+static unsigned int	ft_strlen_char(const char *line, char c)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (line && line[i] && line[i] != c && line[i] != '\0')
+		i++;
+	return (i);
+}
+
+static void			get_user_name(char **users, const char *line)
+{
+	char			*tmp;
+	char			*tmp2;
+	struct passwd	*infos;
+	struct stat		file_infos;
+
+	tmp = NULL;
+	tmp2 = NULL;
+	infos = NULL;
+	if (!(tmp = ft_strndup(line, ft_strlen_char(line, ':'))))
+		ERROR_MEM
+	if (!(tmp2 = ft_strjoin("~", tmp)))
+		ERROR_MEM
+	infos = getpwnam(tmp);
+	if ((stat(infos->pw_dir, &file_infos) != -1))
+	{
+		if (S_ISDIR(file_infos.st_mode))
+		{
+			if (!((*users) = ft_strjoin(tmp2, "/")))
+				ERROR_MEM
+		}
+	}
+	else if (!(*users = ft_strdup(tmp2)))
+		ERROR_MEM
+	free_two_strings(&tmp, &tmp2);
+}
+
+static int			get_users_list(t_auto_comp **match, const char *to_find)
+{
+	int				fd;
+	char			*line;
+	int				ret;
+	char			*users;
+	char			*tmp;
+
+	line = NULL;
+	users = NULL;
+	tmp = NULL;
+	fd = open("/etc/passwd", 0);
+	while (((ret = get_next_line_2(fd, &line)) != -1))
+	{
+		if (line && line[0] && line[0] != '#' && (!to_find[0] || !strncmp(to_find, line, ft_strlen(to_find))))
+		{
+			get_user_name(&users, line);
+			if (users == NULL)
+				users = ft_strnew(1);
+			create_match_link(match, users);
+/*
+			ft_printf("||%s||", (*match)->name);
+			sleep(1);
+*/
+			ft_strdel(&users);
+		}
+		if (!ret)
+			break ;
+	}
+	return (0);
+}
+
+char				*users_passwd(const char *to_find)
+{
+	t_auto_comp		*match;
+	char			*ret_str;
+
+	match = NULL;
+	ret_str = NULL;
+	get_users_list(&match, to_find + 1);
+/*
+			ft_printf("||%s||", match->name);
+			sleep(1);
+*/
+	/*
+	ft_printf("to_f |%s|", to_find);
+	sleep(1);
+	*/
+	if (match)
+		ret_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find) - 1);
+	return (ret_str);
+}
+
+char				*handle_first_arg_dot_tilde(int type, const char *to_find)
 {
 	char			*ret;
 
@@ -74,17 +168,19 @@ char				*handle_first_arg_dot_tilde(int type, char *to_find)
 		if ((!ft_strcmp(to_find, ".") || !ft_strcmp(to_find, "..")) && !(ret = ft_strjoin(to_find, "/")))
 			ERROR_MEM
 	}
-	else if (type == 6) 
+	else if (type == 6)
 		ret = home_directory_first_arg(to_find);
+	else if (type == 7)
+		ret = users_passwd(to_find);
 	return (ret);
 }
 
-static char			*handle_first_bin(t_vars *vars, char *to_find, char *str, unsigned int len)
+static char			*handle_first_bin(t_vars *vars, const char *to_find, const char *str, unsigned int len)
 {
 	char			*ret;
 
 	ret = NULL;
-	if (!(ret = new_auto_completion_bin(vars, to_find, str, len)))
+	if (!(ret = new_auto_completion_bin(vars, to_find, str)))
 	{
 		if (!ft_strncmp(to_find, ".", 2) || !ft_strncmp(to_find, "..", 3))
 		{
@@ -94,7 +190,7 @@ static char			*handle_first_bin(t_vars *vars, char *to_find, char *str, unsigned
 		else if (!ft_strchr(to_find, '/'))
 			ret = search_dirs_first_arg(".", to_find, len);
 		else
-			ret = search_dirs_and_exe(to_find, len);
+			ret = search_dirs_and_exe(to_find);
 	}
 	return (ret);
 }

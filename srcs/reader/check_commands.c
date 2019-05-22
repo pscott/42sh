@@ -30,20 +30,13 @@ int		check_for_arrows(t_st_cmd *st_cmd, const char *buf)
 
 int		check_for_quit(t_st_cmd *st_cmd, const char *buf)
 {
-	char	exit[5];
-	char	*av[2];
-
-	ft_strncpy(exit, "exit", 5);
-	av[0] = exit;
-	av[1] = NULL;
 	if (ft_strncmp(buf, CTRL_D, 2) == 0)
 	{
 		if (st_cmd->st_txt->data_size == 0)
 		{
 			if (st_cmd->prev)
-				ft_dprintf(STDERR_FILENO, "42sh: unexepected EOF\n");
-			print_exit();
-			clean_exit(0);
+				ft_dprintf(STDERR_FILENO, "42sh: unexpected EOF\n");
+			*st_cmd->st_txt->txt = 0;
 		}
 		else if (st_cmd->st_txt->tracker >= st_cmd->st_txt->data_size)
 			return (0);

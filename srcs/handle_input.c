@@ -37,6 +37,11 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 				ft_strdel(&input); // need \n ?
 			return (0);
 		}
+		if (!*st_cmd->st_txt->txt)
+		{
+			ft_strdel(&input);
+			return (0);
+		}
 		input = concatenate_txt(st_cmd);
 		if (is_full_of_whitespaces(input))
 		{
@@ -57,7 +62,6 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	}
 	if (!(ast_root = create_ast(token_head)))
 		return (0);
-	//maybe parse heredoc here ??
 	exec_ast(ast_root, vars);
 	free_ast(ast_root);
 	return (1);

@@ -1,9 +1,9 @@
 #include "line_editing.h"
 
 /*
- **	Function that scrolls down if need be and writes the
- **	remainder of the line.
- */
+**	Function that scrolls down if need be and writes the
+**	remainder of the line.
+*/
 
 int		move_down(t_st_cmd *st_cmd)
 {
@@ -20,9 +20,9 @@ int		move_down(t_st_cmd *st_cmd)
 }
 
 /*
- **	Function that moves the cursor to the start of the first st_cmd, without
- **	using start_pos (useful when window size changes)
- */
+**	Function that moves the cursor to the start of the first st_cmd, without
+**	using start_pos (useful when window size changes)
+*/
 
 void	go_back_to_start(t_st_cmd *st_cmd)
 {
@@ -65,16 +65,16 @@ void	write_from_start(t_st_cmd *st_cmd)
 		{
 			get_pos(st_cmd, st_cmd->st_txt->data_size);
 			move_down(st_cmd);
-			print_line(0);
+			ft_dprintf(0, "\n");
 		}
 	}
 }
 
 /*
- **	Function that writes the current line, starting at tracker. If a new line
- **	is printed, moves down and prints every line and st_cmd following the
- **	current line.
- */
+**	Function that writes the current line, starting at tracker. If a new line
+**	is printed, moves down and prints every line and st_cmd following the
+**	current line.
+*/
 
 int		write_line(t_st_cmd *st_cmd)
 {
@@ -93,9 +93,9 @@ int		write_line(t_st_cmd *st_cmd)
 		i++;
 		get_pos(st_cmd, st_cmd->st_txt->data_size - 1);
 		if ((st_cmd->start_pos.row + st_cmd->relative_pos.row) > st_cmd->window->ws_row
-			|| st_cmd->relative_pos.col == st_cmd->window->ws_col - 1)
+				|| st_cmd->relative_pos.col == st_cmd->window->ws_col - 1)
 		{
-			move_down(st_cmd); // TODO
+			move_down(st_cmd);
 			get_pos(st_cmd, st_txt->tracker + i);
 			reposition_cursor(st_cmd);
 			execute_str(CLEAR_BELOW);
@@ -112,16 +112,12 @@ int		write_line(t_st_cmd *st_cmd)
 	}
 	execute_str(ERASE_ENDLINE);
 	return (0);
-	//	write until \n
-	//	if end screen  -> evaluate if scroll
-	// if scroll : update_pos of all structs
-	// else, write everything, updating_pos of following
 }
 
 /*
- **	Function that writes every line in the st_cmd, starting form
- **	tracker
- */
+**	Function that writes every line in the st_cmd, starting form
+**	tracker
+*/
 
 void		write_st_cmd(t_st_cmd *st_cmd)
 {

@@ -12,10 +12,9 @@ void	magic_print(char *buf) // debug
 	move_cursor(0, 0);
 	while (i < BUF_SIZE + 1)
 	{
-		ft_dprintf(2, "%-3d ", buf[i]);
+		ft_dprintf(2, "%-3d\n", buf[i]);
 		i++;
 	}
-	print_line(2);
 	execute_str(RESTORE_CURSOR);
 }
 
@@ -114,7 +113,7 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 	{
 		buf[ret] = 0;
 		check_for_escape_seq(buf);
-		magic_print(buf);
+//		magic_print(buf); //debug
 		if (check_for_signal(buf))
 			return (-1);
 		else if (check_for_arrows(st_cmd, buf) || check_for_delete(st_cmd, buf)
@@ -127,7 +126,7 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 			get_pos(st_cmd, st_cmd->st_txt->tracker);
 			reposition_cursor(st_cmd);
 			insert_txt(st_cmd, (const char*)buf);
-			print_line(0);
+			write(STDIN_FILENO, "\n", 1);
 			break ;
 		}
 		else

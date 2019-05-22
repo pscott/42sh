@@ -23,7 +23,7 @@ void	sigint_handler(int signo)
 	*st_cmd->st_txt->txt = '\x03';
 	go_to_end(st_cmd);
 	reposition_cursor(st_cmd);
-	print_line(0);
+	write(0, "\n", 1);
 	//free (st_cmd->st_prompt); ?
 	//free(st_cmd->st_txt); ?
 }

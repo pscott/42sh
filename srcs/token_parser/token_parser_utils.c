@@ -50,14 +50,11 @@ t_bool	is_ctrl_op_token(t_token *token)
 t_bool	exec_ast(t_ast *root, t_vars *vars)
 {
 	if (!root)
-		ft_dprintf(2, "Error: NULL node\n");
+		return (1);
 	if (root->token->type == tk_semi)//TK_AMP
 	{
 		exec_ast(root->left, vars);
-		if (root->right)//penzo added this
-			return (exec_ast(root->right, vars)); // check if that's true
-		else
-			return (1);//penzo test
+		return (exec_ast(root->right, vars));
 	}
 	else if (root->token->type == tk_and)
 		return (exec_ast(root->left, vars) || exec_ast(root->right, vars));
@@ -65,7 +62,6 @@ t_bool	exec_ast(t_ast *root, t_vars *vars)
 		return (exec_ast(root->left, vars) && exec_ast(root->right, vars));
 	else
 		return (parse_cmdline(root->token, vars));
-		//return (parse_pipeline(root->token, vars));
 }
 
 void	print_ast(t_ast *root)

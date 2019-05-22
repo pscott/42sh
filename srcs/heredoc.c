@@ -41,20 +41,17 @@ static char	*save_heredoc(const char *txt)
 
 	if (!(path = find_uniq_filename()))//protect better
 	{
-		ft_dprintf(2, "tmp(heredoc): can't create unique temporary filename");
-		print_line(2);
+		ft_dprintf(2, "tmp(heredoc): can't create unique temporary filename\n");
 		return (NULL);//check this return
 	}
 	if ((fd = open(path, O_CREAT | O_RDWR | O_APPEND, 0666)) == -1)
 	{
-		ft_dprintf(2, "tmp: open error");
-		print_line(2);
+		ft_dprintf(2, "tmp: open error\n");
 		return (NULL);//error
 	}
 	if (write(fd, txt, ft_strlen(txt)) == -1)
 	{
-		ft_dprintf(2, "tmp: write error");
-		print_line(2);
+		ft_dprintf(2, "tmp: write error\n");
 	}
 	close(fd);
 	return (path);//free
@@ -95,8 +92,7 @@ static char	*get_heredoc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 		-‘\’ must be used to quote the characters ‘\’, ‘$’, and ‘`’.
 		*/
 		//i can maybe tricks, by making a tk_dq_str, then passing the single token in parse expand ?
-		//ft_printf("EOF is NOT quoted");
-		//print_line();
+		//ft_printf("EOF is NOT quoted\n");
 	}
 	if (!(path = save_heredoc(txt)))
 		return (NULL);

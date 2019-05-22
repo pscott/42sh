@@ -24,16 +24,12 @@ static t_token *get_next_simple_command(t_token *begin)
 static void	Close(int fd) //remove me pls
 {
 	if (close(fd) < 0)
-	{
-		ft_dprintf(2, "FAILED TO CLOSE :%d", fd);
-		print_line(2);
-	}
+		ft_dprintf(2, "FAILED TO CLOSE :%d\n", fd);
 }
 
 static void	error_message(const char *cause)
 {
-	ft_dprintf(2, "%s error", cause);
-	print_line(2);
+	ft_dprintf(2, "%s error\n", cause);
 }
 
 /*	OUTDATED
@@ -78,8 +74,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 	status = 0; //necessary ?
 	if ((pid = fork()) == -1)
 	{
-		ft_dprintf(2, "fork error");
-		print_line(2);
+		ft_dprintf(2, "fork error\n");
 		clean_exit(1);
 		return (1);
 	}
@@ -96,18 +91,12 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 		while ((pid = wait(&status)) > 0)
 		{
 			if (WIFSIGNALED(status))
-			{
 				if (WTERMSIG(status) != SIGINT && WTERMSIG(status) != SIGPIPE)
-				{
-					ft_dprintf(2, "process terminated, received signal : %d", WTERMSIG(status));
-					print_line(2);
-				}
-			}
+					ft_dprintf(2, "process terminated, received signal : %d\n", WTERMSIG(status));
 		}
 		signal_setup();
 		//Close(STDIN_FILENO); // for fd leaks
-		if (setup_terminal_settings() == 0)
-			clean_exit(1); // ? 
+		setup_terminal_settings();
 		vars->cmd_value = WEXITSTATUS(status);
 		return (WEXITSTATUS(status));
 	}

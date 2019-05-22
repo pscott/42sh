@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/16 16:50:28 by pscott           ###   ########.fr       */
+/*   Updated: 2019/05/22 14:10:57 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	get_pos(char *pos_str)
 		{
 			if ((len = read(STDIN_FILENO, pos_str, 50)) < 0)
 			{
-				term_putstr_endline("error: failed to read", 2);
+				ft_dprintf(2, "error: failed to read\n");
 				pos_str = NULL;
 				break ;
 			}
@@ -84,7 +84,7 @@ int			move_cursor(int col, int row)
 	ft_bzero(buf, 50);
 	ap = buf;
 	if (!(gotostr = tgetstr(MOVE_CURSOR, &ap)))
-		return (err_no_str(MOVE_CURSOR));
+		return (err_tgoto(MOVE_CURSOR));
 	if (!(gotostr = tgoto(gotostr, col, row)))
 		return (err_tgoto(MOVE_CURSOR));
 	tputs(gotostr, 1, ft_putchar);

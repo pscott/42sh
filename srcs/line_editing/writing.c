@@ -58,7 +58,7 @@ void	write_from_start(t_st_cmd *st_cmd)
 		tmp = st_cmd->st_txt->tracker;
 		st_cmd->st_txt->tracker = 0;
 		init_relative_pos(st_cmd);
-		print_prompt(st_cmd->st_prompt);
+		print_prompt(st_cmd);
 		write_st_cmd(st_cmd);
 		st_cmd->st_txt->tracker = tmp;
 		if ((st_cmd = st_cmd->next))

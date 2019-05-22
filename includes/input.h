@@ -91,7 +91,7 @@ void						free_st_txt(t_st_txt **st_txt);
 */
 
 t_st_prompt					*init_st_prompt(const char *prompt);
-void						print_prompt(t_st_prompt *st_prompt);
+void						print_prompt(t_st_cmd *st_cmd);
 void						free_st_prompt(t_st_prompt **st_prompt);
 
 /*

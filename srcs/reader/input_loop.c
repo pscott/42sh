@@ -9,7 +9,7 @@ void	magic_print(char *buf) // debug
 
 	i = 0;
 	execute_str(SAVE_CURSOR);
-	move_cursor(0, 0);
+	//move_cursor(0, 0);
 	while (i < BUF_SIZE + 1)
 	{
 		ft_dprintf(2, "%-3d\n", buf[i]);
@@ -105,15 +105,21 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 {
 	char	buf[BUF_SIZE + 1];
 	int		ret;
+	t_pos	tmp_pos;
 
 	ft_bzero(buf, BUF_SIZE + 1);
-	retrieve_pos(&st_cmd->start_pos);
-	print_prompt(st_cmd->st_prompt);
+	print_prompt(st_cmd);
 	while ((ret = read(STDIN_FILENO, buf, 1)) > 0)
 	{
+		retrieve_pos(&tmp_pos);
+		if (tmp_pos.row < st_cmd->start_pos.row)
+		{
+			execute_str(CLEAR_BELOW);
+			retrieve_pos(&st_cmd->start_pos);
+		}
 		buf[ret] = 0;
 		check_for_escape_seq(buf);
-//		magic_print(buf); //debug
+		//magic_print(buf); //debug
 		if (check_for_signal(buf))
 			return (-1);
 		else if (check_for_arrows(st_cmd, buf) || check_for_delete(st_cmd, buf)

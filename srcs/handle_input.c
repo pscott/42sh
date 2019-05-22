@@ -34,10 +34,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	 	if ((ret = input_loop(st_cmd, vars)) < 1)
 		{
 			if (ret == 0)
-			{
-				print_line(0);
-				ft_strdel(&input);
-			}
+				ft_strdel(&input); // need \n ?
 			return (0);
 		}
 		input = concatenate_txt(st_cmd);
@@ -56,15 +53,10 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	if (lexer_ret == lex_fail)
 	{
 		free_token_list(token_head);
-		print_line(0);//why ? 
 		return (0);
 	}
 	if (!(ast_root = create_ast(token_head)))
-	{
-		//DEBUG_PARSER && ft_printf("\x1B[31m""### Parser FAILED""\x1B[0m""\n");
-		print_line(0);
 		return (0);
-	}
 	//maybe parse heredoc here ??
 	exec_ast(ast_root, vars);
 	free_ast(ast_root);

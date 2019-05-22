@@ -16,7 +16,6 @@ void	syntax_error_near(t_token *token)
 		str = ft_strdup(newline);
 	else
 		str = ft_strdup(token->content);
-	ft_dprintf(STDERR_FILENO, "42sh: syntax error near unexpected token `%s'", str);
-	print_line(2);
+	ft_dprintf(STDERR_FILENO, "42sh: syntax error near unexpected token `%s'\n", str);
 	ft_strdel(&str);
 }

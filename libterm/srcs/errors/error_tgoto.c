@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/04/04 14:54:40 by pscott           ###   ########.fr       */
+/*   Updated: 2019/05/22 14:11:36 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int		err_tgoto(char *cap)
 {
-	term_putstr_endline("error: failed to use tgoto with \"", 2);
-	term_putstr_endline(cap ? cap : "(null)", 2);
-	term_putstr_endline("\" cap.\n", 2);
+	ft_dprintf(2, "error: failed to use tgoto with \"%s\" cap.\n", cap);
 	return (0);
 }

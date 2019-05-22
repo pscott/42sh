@@ -128,8 +128,5 @@ t_ast	*create_ast(t_token *token_head)
 		if (!(add_node_to_ast(&token_head, &ast_root)))
 			return (NULL);//free ast
 	}
-//	ft_printf("PRINT AST:");
-//	print_line();
-//	print_ast(ast_root);
 	return (ast_root);
 }

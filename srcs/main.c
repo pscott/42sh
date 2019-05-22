@@ -54,10 +54,7 @@ int		main(int argc, char **argv, char **env)
 		else if (ret > 0 && !is_full_of_whitespaces(st_cmd->st_txt->txt))
 			handle_input(st_cmd, &vars);
 		if (isatty(STDIN_FILENO))
-		{
-			ft_printf("last_cmd value: %d", vars.cmd_value);
-			print_line(0);
-		}
+			ft_printf("last_cmd value: %d\n", vars.cmd_value);
 		st_cmd = reset_st_cmd(st_cmd);
 	}
 	print_exit();

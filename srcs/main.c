@@ -29,6 +29,15 @@ static void	free_vars(t_vars *vars)
 	ft_free_ntab(vars->shell_vars);
 }
 
+t_vars	*get_vars(t_vars *new_vars)
+{
+	static t_vars *vars = NULL;
+
+	if (new_vars)
+		vars = new_vars;
+	return (vars);
+}
+
 int		main(int argc, char **argv, char **env)
 {
 	t_st_cmd		*st_cmd;
@@ -37,9 +46,8 @@ int		main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	vars.env_vars = 0;
-	vars.shell_vars = 0;
 	vars.hashmap = init_hashmap(INIT_HASH_SIZE);
+	get_vars(&vars);
 	if (setup_terminal_settings() == -1)
 		return (EXIT_FAILURE);
 	if (!(vars.env_vars = init_env((const char **)env)))

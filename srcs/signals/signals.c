@@ -17,12 +17,15 @@ static void	sig_handler(int signo)
 void	sigint_handler(int signo)
 {
 	t_st_cmd	*st_cmd;
+	t_vars		*vars;
 
 	(void)signo;
 	st_cmd = get_st_cmd(NULL); //only modifies local copy ?
 	*st_cmd->st_txt->txt = '\x03';
 	go_to_end(st_cmd);
 	reposition_cursor(st_cmd);
+	vars = get_vars(NULL);
+	vars->cmd_value = 1;
 	write(0, "\n", 1);
 	//free (st_cmd->st_prompt); ?
 	//free(st_cmd->st_txt); ?

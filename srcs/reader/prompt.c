@@ -5,7 +5,9 @@ void	print_prompt(t_st_cmd *st_cmd)
 {
 	char		*zsh;
 	int			len;
+	t_vars		*vars;
 
+	vars = get_vars(NULL);
 	if (isatty(STDIN_FILENO))
 	{
 		len = st_cmd->window->ws_col - 1 > 0 ? st_cmd->window->ws_col - 1 : 2;
@@ -19,7 +21,12 @@ void	print_prompt(t_st_cmd *st_cmd)
 		execute_str(BEGIN_LINE);
 		execute_str(ERASE_ENDLINE);
 		retrieve_pos(&st_cmd->start_pos);
-		ft_putstr(st_cmd->st_prompt->prompt);
+		if (vars->cmd_value)
+			ft_printf("%s", RED);
+		else
+			ft_printf("%s", GREEN);
+		ft_printf("%s%s", st_cmd->st_prompt->prompt, FG_DFL);
+		vars->cmd_value = 0;
 		ft_memdel((void*)&zsh);
 	}
 }

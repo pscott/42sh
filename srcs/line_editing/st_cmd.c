@@ -12,12 +12,8 @@ t_st_cmd	*get_st_cmd(t_st_cmd **new_struct)
 	static t_st_cmd *st_cmd = NULL;
 
 	if (new_struct)
-	{
 		st_cmd = *new_struct;
-		return (NULL);
-	}
-	else
-		return (st_cmd);
+	return (st_cmd);
 }
 
 t_st_cmd	*get_first_st_cmd(t_st_cmd *st_cmd)

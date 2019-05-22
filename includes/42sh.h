@@ -20,6 +20,12 @@ typedef struct			s_vars
 # include "hashmap.h"
 
 /*
+**	t_vars utility functions
+*/
+
+t_vars	*get_vars(t_vars *new_vars);
+
+/*
 ** init_env.c
 */
 

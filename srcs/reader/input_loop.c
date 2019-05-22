@@ -9,10 +9,10 @@ void	magic_print(char *buf) // debug
 
 	i = 0;
 	execute_str(SAVE_CURSOR);
-	//move_cursor(0, 0);
+	move_cursor(0, 0);
 	while (i < BUF_SIZE + 1)
 	{
-		ft_dprintf(2, "%-3d\n", buf[i]);
+		ft_dprintf(2, "%-3d", buf[i]);
 		i++;
 	}
 	execute_str(RESTORE_CURSOR);
@@ -47,10 +47,23 @@ void	insert_txt(t_st_cmd *st_cmd, const char *buf)
 **	Returns 1 if buffer IS an escape sequence.
 */
 
-static int is_valid_escape(const char *buf, int len)
+static int is_valid_escape(char *buf)
 {
-	if (len > BUF_SIZE)
+	int		len;
+	int		last;
+
+	len = ft_strlen(buf);
+	if (len >= BUF_SIZE)
 		return (-1);
+	last = len > 0 ? len - 1 : 0;
+	if (buf[last] == '\x03' || buf[last] == '\x04')
+	{
+		*buf = buf[last];
+		ft_bzero(&buf[1], BUF_SIZE);
+		magic_print(buf);
+		return (-1);
+	}
+	last = len > 0 ? len - 1 : 0;
 	if (ft_strncmp(buf, RIGHTARROW, ARROW_LEN + 1) == 0 || ft_strncmp(buf, LEFTARROW, ARROW_LEN + 1) == 0
 		|| ft_strncmp(buf, UPARROW, ARROW_LEN + 1) == 0 || ft_strncmp(buf, DOWNARROW, ARROW_LEN + 1) == 0
 		|| ft_strncmp(buf, HOME, HOME_LEN + 1) == 0 || ft_strncmp(buf, END, END_LEN + 1) == 0)
@@ -62,40 +75,6 @@ static int is_valid_escape(const char *buf, int len)
 }
 
 /*
-**	Checks for any escape sequence.
-**	While characters input in the read function form a valid escape sequence,
-**	continue reading (max length is BUF_SIZE).
-**	Returns 1 if the sequence corresponding to one of our supported sequences,
-**	else returns 0.
-*/
-
-static int	check_for_escape_seq(char *buf)
-{
-	char	c;
-	int		ret;
-	int		i;
-
-	i = 1;
-	if (*buf != '\x1b')
-		return (0);
-	while ((ret = is_valid_escape((const char*)buf, i)) == 0)
-	{
-		i++;
-		read(STDIN_FILENO, &c, 1);
-		if (c == '\x03')
-		{
-			ft_strcpy(buf, "\x03");
-			return (0);
-		}
-		buf[i - 1] = c;
-	}
-	if (ret == 1)
-		return (1);
-	ft_bzero(buf, BUF_SIZE);
-	return (0);
-}
-
-/*
 **	Assumes we are at the beginning of a line, with a freshly initalized st_cmd.
 **	Reads stdin, breaks when \n is entered, returning the filled st_cmd.
 **	Returns 0 on quit, return -1 on ctrl + c
@@ -104,22 +83,23 @@ static int	check_for_escape_seq(char *buf)
 int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 {
 	char	buf[BUF_SIZE + 1];
+	char	c;
 	int		ret;
 	t_pos	tmp_pos;
 
 	ft_bzero(buf, BUF_SIZE + 1);
 	print_prompt(st_cmd);
-	while ((ret = read(STDIN_FILENO, buf, 1)) > 0)
+	while ((ret = read(STDIN_FILENO, &c, 1)) > 0)
 	{
+		buf[ft_strlen(buf)] = c;
+		if (is_valid_escape(buf) == 0)
+			continue ;
 		retrieve_pos(&tmp_pos);
 		if (tmp_pos.row < st_cmd->start_pos.row)
 		{
 			execute_str(CLEAR_BELOW);
 			retrieve_pos(&st_cmd->start_pos);
 		}
-		buf[ret] = 0;
-		check_for_escape_seq(buf);
-		//magic_print(buf); //debug
 		if (check_for_signal(buf))
 			return (-1);
 		else if (check_for_arrows(st_cmd, buf) || check_for_delete(st_cmd, buf)

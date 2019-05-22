@@ -56,7 +56,7 @@ SRC_DIR	:=	srcs
 	SRC_SUBDIRS	:=	$(ENV_DIR) $(ERRORS_DIR) $(LEXER_DIR) $(PARSER_DIR) \
 					$(PIPELINE_DIR) $(READER_DIR) $(HISTORY_DIR) $(EXPANDS_DIR) \
 				   	$(SIGNALS_DIR) $(L_E_DIR) $(BUILTINS_DIR) $(REDIR_DIR) \
-					$(EXEC_DIR) $(AUTO_COMP_DIR) $(EXP_ARITH_DIR)\
+					$(EXEC_DIR) $(AUTO_COMP_DIR) $(EXP_ARITH_DIR) \
 					$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_DIR))
 
 
@@ -150,7 +150,7 @@ SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(AUTO_COMP_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(REDIR_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(EXEC_PATH)) \
-			$(addprefix $(EXP_ARITH_DIR)/,$(EXP_ARITH_PATH)) \
+			$(addprefix $(SRC_DIR)/,$(EXP_ARITH_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(HASHMAP_PATH)) \
 			$(SRC_PATH)
 

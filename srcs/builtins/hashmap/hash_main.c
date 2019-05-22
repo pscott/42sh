@@ -1,4 +1,5 @@
 #include "hashmap.h"
+#include "builtins.h"
 #include "execution.h"
 
 static void	init_hash_args(t_hash_args *hash_args)
@@ -130,6 +131,8 @@ static t_bool	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc, char
 		ERROR_MEM;//ERROR_MEM??pas sure
 	while (++i < argc)
 	{
+		if (check_builtins(&argv[i]))
+			continue ;
 		if (!(value = find_path(argv[i], paths)))
 		{
 			ft_dprintf(2, "hash: %s: not found\n", argv[i]);

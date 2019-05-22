@@ -1,6 +1,13 @@
 #include "42sh.h"
 #include "execution.h"
 #include "builtins.h"
+#include "errors.h"
+
+static void	print_error(const char *arg)
+{
+	ft_dprintf(2, SHELL_NAME);
+	ft_dprintf(2, ": type: %s: not found\n", arg);
+}
 
 /*
 **	Returns 0 if it succesfully executed. Else returns 1.
@@ -26,7 +33,10 @@ int		case_type(char **argv, t_vars *vars)
 		else if ((path = get_cmd_path(&argv[i], vars->env_vars, 0)))
 			ft_printf("%s is %s\n", argv[i], path);
 		else
+		{
+			print_error(argv[i]);
 			ret = 1;
+		}
 	}
-	return (0);
+	return (ret);
 }

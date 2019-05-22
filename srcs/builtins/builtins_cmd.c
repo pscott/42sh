@@ -3,7 +3,7 @@
 
 /*
 **	Executes the builtin corresponding to the cmd_id parameter (see cmd enums).
-**	Returns 1 if it executed something
+**	Returns 1 if it executed something.
 **	Returns 0 if there was an error.
 **	Updates vars->cmd_value with the corresponding builtin execution value.
 **	Use check_builtins before calling exec_builtins
@@ -35,7 +35,7 @@ t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id)
 		vars->cmd_value = case_hash(argv, vars);
 		ret = 1;
 	}
-	if (cmd_id == cmd_setenv) // will need vars
+	else if (cmd_id == cmd_setenv) // will need vars
 	{
   		vars->cmd_value = case_setenv(argv, vars);
 		ret = 1;

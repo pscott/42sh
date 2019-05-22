@@ -94,8 +94,8 @@ void			print_exit(void)
 		ft_dprintf(0, "exit\n");
 }
 /*
-**	Exit builtin. Does NOT call exit(3). Returns 1 if exit(3) should be called
-**	else returns 0. Sets the *exitno parameter to the corresponding value.
+**	Exit builtin. Does NOT call exit(3). Returns 0 if exit(3) should be called
+**	else returns 1. Sets the *exitno parameter to the corresponding value.
 */
 
 int				case_exit(char **argv, int *exitno)

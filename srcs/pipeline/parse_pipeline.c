@@ -96,8 +96,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 		}
 		signal_setup();
 		//Close(STDIN_FILENO); // for fd leaks
-		if (setup_terminal_settings() == 0)
-			clean_exit(1); // ? 
+		setup_terminal_settings();
 		vars->cmd_value = WEXITSTATUS(status);
 		return (WEXITSTATUS(status));
 	}

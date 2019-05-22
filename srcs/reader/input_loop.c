@@ -113,7 +113,7 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 	{
 		buf[ret] = 0;
 		check_for_escape_seq(buf);
-		magic_print(buf);
+//		magic_print(buf); //debug
 		if (check_for_signal(buf))
 			return (-1);
 		else if (check_for_arrows(st_cmd, buf) || check_for_delete(st_cmd, buf)

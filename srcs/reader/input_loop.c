@@ -60,7 +60,6 @@ static int is_valid_escape(char *buf)
 	{
 		*buf = buf[last];
 		ft_bzero(&buf[1], BUF_SIZE);
-		magic_print(buf);
 		return (-1);
 	}
 	last = len > 0 ? len - 1 : 0;
@@ -97,8 +96,10 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 		retrieve_pos(&tmp_pos);
 		if (tmp_pos.row < st_cmd->start_pos.row)
 		{
+			execute_str(BEGIN_LINE);
 			execute_str(CLEAR_BELOW);
 			retrieve_pos(&st_cmd->start_pos);
+			write_from_start(st_cmd);
 		}
 		if (check_for_signal(buf))
 			return (-1);

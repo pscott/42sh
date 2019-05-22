@@ -45,7 +45,7 @@ int		main(int argc, char **argv, char **env)
 	if (!(vars.env_vars = init_env((const char **)env)))
 		return (EXIT_FAILURE);
 	signal_setup();
-	st_cmd = NULL;
+	st_cmd = NULL; // useless ?
 	st_cmd = init_st_cmd((const char **)vars.env_vars);
 	while (42)
 	{
@@ -53,11 +53,8 @@ int		main(int argc, char **argv, char **env)
 			break ; // free env, free st_cmd
 		else if (ret > 0 && !is_full_of_whitespaces(st_cmd->st_txt->txt))
 			handle_input(st_cmd, &vars);
-		if (isatty(STDIN_FILENO))
-		{
-			ft_printf("last_cmd value: %d", vars.cmd_value);
-			print_line(0);
-		}
+		if (isatty(STDIN_FILENO)) // debug
+			ft_printf("last_cmd value: %d\n", vars.cmd_value); // debug
 		st_cmd = reset_st_cmd(st_cmd);
 	}
 	print_exit();

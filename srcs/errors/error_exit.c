@@ -12,6 +12,5 @@ void		error_exit(int errno, const char *err_str, const char *err_file)
 		ft_dprintf(2, "%s: %s\n", err_str, err_file);
 	else
 		ft_dprintf(2, "%s\n", err_str);
-	print_line(2);
 	exit(errno);
 }

@@ -28,7 +28,7 @@ INCL_CMD	:=	$(addprefix -I,$(INCL_DIR))
 
 INCL_FILES	:=	42sh.h lexer.h ast.h input.h history.h get_next_line.h \
 				line_editing.h builtins.h errors.h cmd_parsing.h execution.h \
-				signals.h hashmap.h heredoc.h expand.h
+				signals.h hashmap.h heredoc.h expand.h exp_arith.h
 
 INCLS		:=	$(addprefix includes/,$(INCL_FILES))
 
@@ -50,11 +50,13 @@ SRC_DIR	:=	srcs
 	REDIR_DIR			:=	redirections
 	EXEC_DIR			:=	execution
 	HASHMAP_DIR			:=	hashmap
+	EXP_ARITH_DIR		:=	exp_arith
+
 	#list of all srcs subdirectories
 	SRC_SUBDIRS	:=	$(ENV_DIR) $(ERRORS_DIR) $(LEXER_DIR) $(PARSER_DIR) \
 					$(PIPELINE_DIR) $(READER_DIR) $(HISTORY_DIR) $(EXPANDS_DIR) \
-				   	$(SIGNALS_DIR) $(L_E_DIR) $(BUILTINS_DIR) $(REDIR_DIR) $(EXEC_DIR) \
-					$(AUTO_COMP_DIR) \
+				   	$(SIGNALS_DIR) $(L_E_DIR) $(BUILTINS_DIR) $(REDIR_DIR) \
+					$(EXEC_DIR) $(AUTO_COMP_DIR) $(EXP_ARITH_DIR)\
 					$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_DIR))
 
 
@@ -64,7 +66,8 @@ VPATH	:=	$(SRC_DIR) $(addprefix $(SRC_DIR)/,$(SRC_SUBDIRS))
 # Srcs file names ##############################################################
 SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c heredoc_utils.c heredoc_expands.c\
 	#srcs subfiles names
-	ENV_FILES		:=	environ_set.c environ_utils.c init_env.c shlvl.c
+	ENV_FILES		:=	environ_set.c environ_utils.c init_env.c shlvl.c \
+						environ_unset.c
 	ERRORS_FILES	:=	errors.c print_errors.c error_exit.c
 	LEXER_FILES		:=	lexer.c lexer_tools.c lexer_op_chart.c get_token.c \
 						lexer_debug.c copy_token_list.c
@@ -81,23 +84,34 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c heredoc_utils.c
 	SIGNALS_FILES	:=	signals.c
 	L_E_FILES		:=	st_cmd.c st_prompt.c st_txt.c writing.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c \
-						cmd_type.c
+						cmd_type.c cmd_setenv.c cmd_unsetenv.c
 	REDIR_FILES		:=	redir_dgreat.c redir_dless.c redir_fd_great.c \
 						redir_great.c redir_less.c parse_redirections.c
-	AUTO_COMP_FILES	:=	auto_completion.c compare_entry.c create_match_link.c del_match.c \
-						display_auto_comp.c find_exe_names.c find_file.c utils.c \
-						get_name_and_path.c get_path_file.c handler_sig_display.c \
-						utils2.c
-	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c execute_no_pipe_builtin.c
+	AUTO_COMP_FILES	:=	auto_completion.c compare_entry.c create_match_link.c \
+						del_match.c utils2.c display_auto_comp.c \
+						find_exe_names.c find_file.c utils.c \
+						get_name_and_path.c get_path_file.c \
+						handler_sig_display.c
+	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c \
+						execute_no_pipe_builtin.c
 	HASHMAP_FILES	:=	find_next_prime.c hash_main.c hashfun.c hashmap.c\
 						hashmap_alloc.c hashmap_delete.c hashmap_print.c
+	EXP_ARITH_FILES	:=	build_list.c check_errors.c create_op_link.c \
+						exec_op_list.c exec_op_list_2.c exec_op_list_3.c \
+						expansion_arith.c free_list.c array_utils.c\
+						free_tokens.c ft_atoll.c ft_lltoa.c get_op_token.c \
+						is_oper.c op_tokenizer.c op_tokenizer_clean.c \
+						op_tokenizer_clean_2.c op_tokenizer_dirty.c \
+						op_tokenizer_utils.c print_list_test.c put_op_link.c \
+						ft_isempty.c
 
 
 #list of all .c files
 C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES)\
 			$(PARSER_FILES) $(PIPELINE_FILES) $(READER_FILES) $(HISTORY_FILES) \
 			$(EXPANDS_FILES) $(SIGNALS_FILES) $(L_E_FILES) $(BUILTINS_FILES) \
-			$(REDIR_FILES) $(EXEC_FILES) $(HASHMAP_FILES) $(AUTO_COMP_FILES)
+			$(REDIR_FILES) $(EXEC_FILES) $(HASHMAP_FILES) $(AUTO_COMP_FILES) \
+			$(EXP_ARITH_FILES)
 
 # Complete path of each .c files ###############################################
 SRC_PATH			:=	$(addprefix $(SRC_DIR)/,$(SRC_FILES))
@@ -115,6 +129,7 @@ BUILTINS_PATH		:=	$(addprefix $(BUILTINS_DIR)/,$(BUILTINS_FILES))
 AUTO_COMP_PATH		:=	$(addprefix $(AUTO_COMP_DIR)/,$(AUTO_COMP_FILES))
 REDIR_PATH			:=	$(addprefix $(REDIR_DIR)/,$(REDIR_FILES))
 EXEC_PATH			:=	$(addprefix $(EXEC_DIR)/,$(EXEC_FILES))
+EXP_ARITH_PATH		:=	$(addprefix $(EXP_ARITH_DIR)/,$(EXP_ARITH_FILES))
 HASHMAP_PATH		:=	$(addprefix $(HASHMAP_DIR)/,$(HASHMAP_FILES))
 #	builtin/ + hashmap/*.c
 HASHMAP_PATH		:=	$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_PATH))
@@ -135,6 +150,7 @@ SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(AUTO_COMP_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(REDIR_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(EXEC_PATH)) \
+			$(addprefix $(EXP_ARITH_DIR)/,$(EXP_ARITH_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(HASHMAP_PATH)) \
 			$(SRC_PATH)
 

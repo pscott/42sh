@@ -45,7 +45,11 @@ char				*get_envline(char *search, char **env);
 
 void				set_env_var(char *var_name, char *var_value, char ***env);
 
+/*
+** environ_unset.h
+*/
 
+void				unset_env_var(char *var_name, char ***env);
 
 /*
 ** lexer_tools.c

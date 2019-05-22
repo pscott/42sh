@@ -48,10 +48,10 @@ static t_bool		execute_argv(char **argv, t_vars *vars)
 		if (!(cmd_path = ft_strdup(cmd_path)))
 			ERROR_MEM;
 	}
-	else if ((cmd_path = get_cmd_path(argv, vars->env_vars)))
+	else if ((cmd_path = get_cmd_path(argv, vars->env_vars, 1)))
 		;
 	else
-		return (print_errors(ERR_CMD, ERR_CMD_STR, argv[0]));
+		return (ERR_CMD);
 	access_and_exec(cmd_path, (const char **)argv, (const char**)vars->env_vars);
 	ft_strdel(&cmd_path);
 	return (0);

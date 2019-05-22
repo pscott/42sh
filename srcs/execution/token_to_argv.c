@@ -102,8 +102,7 @@ char		**get_argv_from_token_lst(t_token *token_head)
 	}
 	if (argv_len < 1)
 	{
-		ft_dprintf(2, "Something went wrong: nothing to execute.."); // should be error func ?
-		print_line(2);
+		ft_dprintf(2, "Something went wrong: nothing to execute..\n");
 		return (NULL);
 	}
 	return (create_argv(token_head, argv_len));

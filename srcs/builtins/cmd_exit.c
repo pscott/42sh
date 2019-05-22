@@ -4,15 +4,9 @@
 static void		builtin_exit_error(int errno, char *s)
 {
 	if (errno == args_nb)
-	{
-		ft_dprintf(STDERR_FILENO,"exit: too many arguments");
-		print_line(2);
-	}
+		ft_dprintf(STDERR_FILENO,"exit: too many arguments\n");
 	else if (errno == arg_not_digit)
-	{
-		ft_dprintf(STDERR_FILENO, "exit: numeric argument required: %s", s);
-		print_line(2);
-	}
+		ft_dprintf(STDERR_FILENO, "exit: numeric argument required: %s\n", s);
 }
 
 
@@ -97,14 +91,11 @@ int				get_exit_value(char **argv)
 void			print_exit(void)
 {
 	if (isatty(STDIN_FILENO))
-	{
-		ft_printf("exit");
-		print_line(0);
-	}
+		ft_dprintf(0, "exit\n");
 }
 /*
-**	Exit builtin. Does NOT call exit(3). Returns 1 if exit(3) should be called
-**	else returns 0. Sets the *exitno parameter to the corresponding value.
+**	Exit builtin. Does NOT call exit(3). Returns 0 if exit(3) should be called
+**	else returns 1. Sets the *exitno parameter to the corresponding value.
 */
 
 int				case_exit(char **argv, int *exitno)

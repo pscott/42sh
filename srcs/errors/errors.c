@@ -12,11 +12,11 @@ void	syntax_error_near(t_token *token)
 {
 	char *str;
 
-	if (ft_strncmp(token->content, "\n", 2))
-		str = ft_strdup(newline);
+	ft_printf("{%s}", token->content);
+	if (!ft_strncmp(token->content, "\n", 2))
+		str = ft_strdup("newline");
 	else
 		str = ft_strdup(token->content);
-	ft_dprintf(STDERR_FILENO, "42sh: syntax error near unexpected token `%s'", str);
-	print_line(2);
+	ft_dprintf(STDERR_FILENO, "42sh: syntax error near unexpected token `%s'\n", str);
 	ft_strdel(&str);
 }

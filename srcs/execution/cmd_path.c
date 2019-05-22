@@ -67,11 +67,11 @@ static void	print_error_message(int access, const char *str)
 /*
 **	Returns a freshly allocated string containing the path corresponding
 **	to argv[0]. If no path is found in the PATH variable, or the file is not
-**	accessible, or not executable, returns NULL, and prints the corresponding
-**	error msg.
+**	accessible, or not executable, returns NULL.
+**	Verbose parameter prints error messages.
 */
 
-char	*get_cmd_path(char **argv, char **env)
+char	*get_cmd_path(char **argv, char **env, int verbose)
 {
 	char	**paths;
 	char	*path_line;
@@ -95,7 +95,7 @@ char	*get_cmd_path(char **argv, char **env)
 	access = check_access(path);
 	if (access == 0)
 		return (path);
-	else
+	else if (verbose)
 		print_error_message(access, argv[0]);
-		return (NULL);
+	return (NULL);
 }

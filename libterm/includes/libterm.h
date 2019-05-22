@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/16 19:14:11 by pscott           ###   ########.fr       */
+/*   Updated: 2019/05/22 14:10:27 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,6 @@ int				reset_terminal_settings(void);
 int				execute_str(char *cap);
 
 /*
-** Function for printing line and outputing msgs with endline
-*/
-
-int				print_line(int fd);
-void			term_putstr_endline(char *str, int fd);
-
-/*
 ** Error functions
 */
 int				err_getattr(void);
@@ -109,7 +102,6 @@ int				err_noentry(void);
 int				err_no_database(void);
 int				err_no_env(void);
 int				err_tgoto(char *cap);
-int				err_no_str(char *cap);
 int				err_caps(void);
 
 #endif

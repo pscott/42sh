@@ -20,9 +20,10 @@ void	sigint_handler(int signo)
 
 	(void)signo;
 	st_cmd = get_st_cmd(NULL); //only modifies local copy ?
+	*st_cmd->st_txt->txt = '\x03';
 	go_to_end(st_cmd);
 	reposition_cursor(st_cmd);
-	print_line(0);
+	write(0, "\n", 1);
 	//free (st_cmd->st_prompt); ?
 	//free(st_cmd->st_txt); ?
 }

@@ -3,7 +3,7 @@
 
 /*
 **	Executes the builtin corresponding to the cmd_id parameter (see cmd enums).
-**	Returns 1 if it executed something
+**	Returns 1 if it executed something.
 **	Returns 0 if there was an error.
 **	Updates vars->cmd_value with the corresponding builtin execution value.
 **	Use check_builtins before calling exec_builtins
@@ -35,13 +35,16 @@ t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id)
 		vars->cmd_value = case_hash(argv, vars);
 		ret = 1;
 	}
+	else if (cmd_id == cmd_setenv) // will need vars
+	{
+  		vars->cmd_value = case_setenv(argv, vars);
+		ret = 1;
+	}
 	else
 		ret = 0;
-	/*if (cmd_id == cmd_setenv) // will need vars
-  	return (case_setenv(argv));
 	if (cmd_id == cmd_unsetenv)
-		return (case_unsetenv(argv));
-	if (cmd_id == cmd_echo)
+		return (case_unsetenv(argv, vars));
+/*	if (cmd_id == cmd_echo)
 		return (case_echo(argv));*/
 	return (ret);
 }
@@ -63,11 +66,11 @@ t_bool	check_builtins(char **argv)
 		return (cmd_hash);
 	if (ft_strncmp(argv[0], "type", 5) == 0)
 		return (cmd_type);
-/*	if (ft_strcmp(argv[0], "setenv") == 0)
+	if (ft_strcmp(argv[0], "setenv") == 0)
 		return (cmd_setenv);
-	if (ft_strncmp(argv[0], "unsetenv") == 0)
+	if (ft_strcmp(argv[0], "unsetenv") == 0)
 		return (cmd_unsetenv);
-	if (ft_strncmp(argv[0], "echo") == 0)
+/*	if (ft_strncmp(argv[0], "echo") == 0)
 		return (cmd_echo);*/
 	return (0);
 }

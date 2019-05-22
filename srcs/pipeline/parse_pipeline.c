@@ -24,16 +24,12 @@ static t_token *get_next_simple_command(t_token *begin)
 static void	Close(int fd) //remove me pls
 {
 	if (close(fd) < 0)
-	{
-		ft_dprintf(2, "FAILED TO CLOSE :%d", fd);
-		print_line(2);
-	}
+		ft_dprintf(2, "FAILED TO CLOSE :%d\n", fd);
 }
 
-static void	error_message(const char *what)
+static void	error_message(const char *cause)
 {
-	ft_dprintf(2, "%s error", what);
-	print_line(2);
+	ft_dprintf(2, "%s error\n", cause);
 }
 
 /*	OUTDATED
@@ -56,23 +52,12 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 	{
 		if (pipe(fd))
 			error_message("pipe");
-		//{
-		//	ft_dprintf(2, "pipe error\n"); //dprintf //exit ?
-		//	print_line(2);
-		//	//clean_exit(1);
-		//}
 		if ((pid = fork()) == -1)//else if ?
 			error_message("fork");
-		//{
-		//	ft_dprintf(2, "fork error\n");
-		//	print_line(2);
-		//	//clean_exit(1);
-		//}
 		else if (pid == 0)
 		{
 			Close(fd[0]);//check return value
 			parse_and_exec(begin, in, fd[1], vars);
-			//clean_exit(1);//or clean_exit(parse_and_exec(begin, in, fd[1], vars));
 		}
 		else if (pid > 0)
 		{
@@ -80,18 +65,16 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 			if (in != STDIN_FILENO)
 				Close(in); // check if it's a proper way of doing things
 			in = fd[0];
-			//i++;
 			begin = get_next_simple_command(begin);
 			continue ;
 		}
 		clean_exit(1);
 	}
-	//break func here: fork_last_cmd()
+	//break func here: fork_last_cmd() //TODO
 	status = 0; //necessary ?
 	if ((pid = fork()) == -1)
 	{
-		ft_dprintf(2, "fork error");
-		print_line(2);
+		ft_dprintf(2, "fork error\n");
 		clean_exit(1);
 		return (1);
 	}
@@ -108,18 +91,12 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 		while ((pid = wait(&status)) > 0)
 		{
 			if (WIFSIGNALED(status))
-			{
 				if (WTERMSIG(status) != SIGINT && WTERMSIG(status) != SIGPIPE)
-				{
-					ft_dprintf(2, "process terminated, received signal : %d", WTERMSIG(status));
-					print_line(2);
-				}
-			}
+					ft_dprintf(2, "process terminated, received signal : %d\n", WTERMSIG(status));
 		}
 		signal_setup();
 		//Close(STDIN_FILENO); // for fd leaks
-		if (setup_terminal_settings() == 0)
-			clean_exit(1); // ? 
+		setup_terminal_settings();
 		vars->cmd_value = WEXITSTATUS(status);
 		return (WEXITSTATUS(status));
 	}
@@ -152,7 +129,7 @@ int			parse_cmdline(t_token *token, t_vars *vars) // no need for t_pipelst ?
 		}
 	}
 	if ((num_simple_commands == 1)//TODO check
-			&& (execute_no_pipe_builtin(token, vars) == 0))
-		return (0);//or return (execute_no_pipe_builtin(token, vars) == 0)); ?
+		&& (execute_no_pipe_builtin(token, vars) == 0))
+		return (0);
 	return (fork_pipes(num_simple_commands, token, vars));
 }

@@ -21,8 +21,6 @@ static t_token	*get_dquot_token(char **cmdline)
 				st_cmd = get_st_cmd(NULL);//make func ?
 				st_cmd->st_txt->data_size -= 2;
 				ft_bzero(&st_cmd->st_txt->txt[st_cmd->st_txt->data_size], 2);
-//				ft_printf("end with '\\', READ_MODE");
-//				print_line(0);
 				return (NULL);
 			}
 		}

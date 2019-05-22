@@ -17,7 +17,8 @@ static void	replace_env_var(char *var_name, char *var_value, char **env_line)
 	ft_strcpy(*env_line, var_name);
 	var_name_len = ft_strlen(var_name);
 	(*env_line)[var_name_len] = '=';
-	ft_strcpy(&(*env_line)[var_name_len + 1], var_value);
+	if (var_value)
+		ft_strcpy(&(*env_line)[var_name_len + 1], var_value);
 }
 
 /*

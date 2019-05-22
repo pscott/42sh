@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/16 16:43:55 by pscott           ###   ########.fr       */
+/*   Updated: 2019/05/22 13:51:58 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static int	set_non_canonical_mode(struct termios *tattr)
 {
 	tattr->c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR
 			| ICRNL | IXON);
-	tattr->c_oflag &= ~OPOST;
 	tattr->c_lflag &= ~(ECHO | ECHONL | ICANON | IEXTEN | ISIG);
 	tattr->c_cflag &= ~(CSIZE | PARENB);
 	tattr->c_cflag |= CS8;

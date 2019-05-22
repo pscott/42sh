@@ -150,7 +150,7 @@ SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(AUTO_COMP_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(REDIR_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(EXEC_PATH)) \
-			$(addprefix $(EXP_ARITH_DIR)/,$(EXP_ARITH_PATH)) \
+			$(addprefix $(SRC_DIR)/,$(EXP_ARITH_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(HASHMAP_PATH)) \
 			$(SRC_PATH)
 

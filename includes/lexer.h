@@ -29,6 +29,7 @@ typedef enum		e_token_type
 	tk_dq_str,
 	tk_redirection,
 	tk_heredoc,
+	tk_arith_exp,
 	tk_pipe,
 	tk_and,//=or
 	tk_or,//=and

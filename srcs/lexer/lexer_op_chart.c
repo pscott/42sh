@@ -12,7 +12,7 @@ static void	create_op_chart_elem(t_operation *op, char *str
 static void	fill_op_chart(t_operation *op_chart)
 {
 	create_op_chart_elem(&op_chart[0], ">>-", 3, tk_redirection);
-	create_op_chart_elem(&op_chart[1], "$((", 3, tk_42sh);
+	create_op_chart_elem(&op_chart[1], "$((", 3, tk_arith_exp);
 	create_op_chart_elem(&op_chart[2], ">>", 2, tk_redirection);
 	create_op_chart_elem(&op_chart[3], "<<", 2, tk_heredoc);
 	create_op_chart_elem(&op_chart[4], "&&", 2, tk_and);
@@ -43,6 +43,41 @@ t_operation	*get_op_chart(void)
 	return (op_chart);
 }
 
+t_token		*get_arith_exp_token(char **cmdline)
+{
+	unsigned int	braces_count;
+	int				i;
+	t_token			*token;
+
+	braces_count = 0;
+	i = -1;
+	ft_printf("cmdline: {%s}\n", *cmdline);
+	while((*cmdline)[++i])
+	{
+		ft_printf("on %c\n", (*cmdline)[i]);
+		if (!ft_strncmp("$((", &(*cmdline)[i], 3))
+		{
+			braces_count++;
+			i += 3;
+		}
+		if (!ft_strncmp("))", &(*cmdline)[i], 2))
+		{
+			braces_count--;
+			i += 2;
+		}
+	}
+	ft_printf("braces: %d\ni: %d\n", braces_count, i);
+	if (braces_count == 0)
+		token = create_token(*cmdline, i, tk_arith_exp);
+	else
+	{
+		ft_printf("ERROR (braces+count=%d)\n", braces_count);
+		token = NULL;
+	}
+	print_token(token);
+	return (NULL);
+}
+
 t_token		*get_op_chart_token(char **cmdline, t_operation *op_chart)
 {
 	int		i;
@@ -53,6 +88,13 @@ t_token		*get_op_chart_token(char **cmdline, t_operation *op_chart)
 	{
 		if (!ft_strncmp(*cmdline, op_chart[i].str, op_chart[i].size))
 		{
+			if (op_chart[i].type == tk_arith_exp)
+			{
+				ft_printf("IS AN ARITH EXP\n");
+				token = get_arith_exp_token(cmdline);
+				ft_printf("IS AN ARITH EXP END\n");
+				return (token);
+			}
 			if (!(token = create_token(*cmdline, op_chart[i].size,
 							op_chart[i].type)))
 				return (NULL);

@@ -28,6 +28,12 @@ int		check_for_arrows(t_st_cmd *st_cmd, const char *buf)
 	return (1);
 }
 
+/*
+**	Returns 1 if ctrld is pressed and line is empty
+**	Returns 0 if the key is not ctrld
+**	Returns -1 if ctrld is pressed but line is not empty
+*/
+
 int		check_for_quit(t_st_cmd *st_cmd, const char *buf)
 {
 	if (ft_strncmp(buf, CTRL_D, 2) == 0)
@@ -37,12 +43,13 @@ int		check_for_quit(t_st_cmd *st_cmd, const char *buf)
 			if (st_cmd->prev)
 				ft_dprintf(STDERR_FILENO, "42sh: unexpected EOF\n");
 			*st_cmd->st_txt->txt = 0;
+			return (1);
 		}
 		else if (st_cmd->st_txt->tracker >= st_cmd->st_txt->data_size)
-			return (0);
+			return (-1);
 		else
 			delete_right(st_cmd);
-		return (1);
+		return (-1);
 	}
 	else
 		return (0);

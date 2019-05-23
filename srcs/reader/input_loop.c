@@ -106,8 +106,10 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 		else if (check_for_arrows(st_cmd, buf) || check_for_delete(st_cmd, buf)
 			|| check_for_tab(st_cmd, buf, vars))
 			;
-		else if (check_for_quit(st_cmd, buf))
+		else if ((ret = check_for_quit(st_cmd, buf)) == 1)
 			break ;
+		else if (ret == -1)
+			;
 		else if (check_for_enter(buf))
 		{
 			ft_strncpy(buf, "\n", 1);

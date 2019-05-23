@@ -26,8 +26,6 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	while ((lexer_ret = lexer(input, &token_head, vars)) == lex_cont_read)
 	{
 		free_token_list(token_head);
-		if (isatty(STDIN_FILENO) == 0)
-			return (0);
 		adjust_history(st_cmd, input, 0);
 		st_cmd = append_st_cmd(st_cmd, "", "cont > ");
 		get_st_cmd(&st_cmd);

@@ -115,7 +115,14 @@ int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 	while (cmdline && *cmdline)
 	{
 		if (!(current_token = get_token(&cmdline, op_chart)))
+		{
+			if (!isatty(STDIN_FILENO))
+			{
+				ft_dprintf(2, "42sh: lexer failed\n");
+				return (lex_fail);
+			}
 			return (lex_cont_read);
+		}
 		if (!(add_token_to_list(current_token, prev_token, token_head, vars)))
 			return (lex_fail);
 		if (current_token->type != tk_eat)
@@ -125,7 +132,14 @@ int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 		return (lex_fail);
 	if (is_logic_or_pipe(current_token)
 		|| (is_logic_or_pipe(prev_token) && !current_token->type))
+	{
+		if (!isatty(STDIN_FILENO))
+		{
+			ft_dprintf(2, "42sh: lexer failed\n");
+			return (lex_fail);
+		}
 		return (lex_cont_read);
+	}
 	else if (prev_token && is_redir_token(prev_token)
 		&& (!current_token->type || is_redir_token(current_token)))
 	{

@@ -24,7 +24,6 @@ t_bool	is_two_ctrlop_or_redir_following(t_token *prev_token, t_token *current_to
 		return (0);
 	if (prev_token->type >= tk_pipe && current_token->type >= tk_pipe)
 	{
-		ft_putstr("333"); //
 		syntax_error_near(current_token);
 		ft_memdel((void*)&current_token->content);//test
 		ft_memdel((void*)&current_token);//test
@@ -32,7 +31,6 @@ t_bool	is_two_ctrlop_or_redir_following(t_token *prev_token, t_token *current_to
 	}
 	if (is_redir_token(prev_token) && is_redir_token(current_token))
 	{
-		ft_putstr("444"); //
 		syntax_error_near(current_token);
 		return (1);
 	}
@@ -50,7 +48,6 @@ t_bool	token_list_start_with_ctrl_op(t_token *prev_token, t_token *current_token
 {
 	if (!prev_token && current_token->type >= tk_pipe)
 	{
-		ft_putstr("111"); //
 		syntax_error_near(current_token);
 		ft_memdel((void*)&current_token->content);
 		ft_memdel((void*)&current_token);

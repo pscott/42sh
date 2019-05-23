@@ -26,7 +26,6 @@ void	print_prompt(t_st_cmd *st_cmd)
 		else
 			ft_printf("%s", GREEN);
 		ft_printf("%s%s", st_cmd->st_prompt->prompt, FG_DFL);
-		vars->cmd_value = 0;
 		ft_memdel((void*)&zsh);
 	}
 }

@@ -4,7 +4,7 @@
 # include <stdlib.h>
 # include "libft.h"
 
-# define OP_CHART_SIZE 23
+# define OP_CHART_SIZE 22
 # define DEBUG_PARSER 0
 
 typedef unsigned char	t_bool;

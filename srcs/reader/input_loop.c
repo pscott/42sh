@@ -2,6 +2,7 @@
 #include "input.h"
 #include "libterm.h"
 #include "line_editing.h"
+#include <limits.h>
 
 void	magic_print(char *buf) // debug
 {
@@ -125,6 +126,8 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 		reposition_cursor(st_cmd);
 		ft_bzero(buf, BUF_SIZE + 1);
 	}
+	if (st_cmd->st_txt->data_size > INT_MAX)
+		return (0);
 	if (ret >= 0)
 		return (1);
 	return (0);

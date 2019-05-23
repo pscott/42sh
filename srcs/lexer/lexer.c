@@ -61,6 +61,7 @@ static t_bool	add_token_to_list(t_token *current_token, t_token *prev_token
 {
 	t_token	*probe;
 
+	(void)vars;
 	if (token_list_start_with_ctrl_op(prev_token, current_token)
 		|| is_two_ctrlop_or_redir_following(prev_token, current_token))
 		return (0);
@@ -110,7 +111,6 @@ int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 	t_operation	*op_chart;
 	t_token		*prev_token;
 
-	(void)vars;
 	init_lexer(&op_chart, token_head, &prev_token);
 	while (cmdline && *cmdline)
 	{

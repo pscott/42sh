@@ -4,6 +4,7 @@
 ** get_eof
 ** parse tokens to concatenate the real EOF
 ** and check if it is quoted
+** return 2 if no eof is found
 */
 
 static unsigned char	get_eof(char **eof, t_token *probe)
@@ -13,19 +14,22 @@ static unsigned char	get_eof(char **eof, t_token *probe)
 	is_eof_quoted = 0;
 	while (probe->next && probe->next->type == tk_eat)
 		probe = probe->next;
-	probe = probe->next;
+	if (probe->next)
+		probe = probe->next;
+	if (!probe || probe->type >= tk_redirection || probe->type == tk_eat)
+	{
+		syntax_error_near(probe);
+		return (2);
+	}
 	while (probe && probe->type > tk_eat && probe->type < tk_redirection)
 	{
 		if (probe->type >= tk_monoc && probe->type <= tk_dq_str)
 			is_eof_quoted = 1;
 		*eof = eof_join(*eof, probe);
-		//ft_printf("REFRESH EOF {%s}\n", *eof);
-		//EAT
 		probe = probe->next;
 	}
 	return(is_eof_quoted);
 }
-
 
 /*
 ** save_heredoc
@@ -65,40 +69,70 @@ static char	*save_heredoc(const char *txt)
 ** save it into a file and return the path to it
 */
 
-static char	*get_heredoc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
+//static t_bool	is_last_line_escaped(char *str)
+static void	apply_escape(t_st_cmd *st_cmd)
+{
+	int				i;
+	unsigned char	is_real_escape;
+
+	i = ft_strlen(st_cmd->st_txt->txt) - 1;
+	is_real_escape = 0;
+	while (--i >= 0 && st_cmd->st_txt->txt[i] == '\\')
+	{
+		if (st_cmd->st_txt->txt[i] == '\\')
+			is_real_escape = (is_real_escape) ? 0 : 1;
+	}
+	if (is_real_escape)
+	{
+		st_cmd->st_txt->txt[st_cmd->st_txt->data_size - 1] = 0;
+		st_cmd->st_txt->txt[st_cmd->st_txt->data_size - 2] = 0;
+		st_cmd->st_txt->data_size -= 2;
+	}
+}
+
+static char	*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 {
 	char		*path;
 	char		*txt;
-	char		*txt_tmp;
 	t_st_cmd	*st_cmd;
+	int			len;
 
-	st_cmd = init_st_cmd((const char**)vars->env_vars);
-	txt_tmp = ft_strdup("");
-	while (ft_strncmp(eof, txt_tmp, ft_strlen(eof) + 1))
+	st_cmd = init_st_cmd((const char **)vars->env_vars);
+	if (!(st_cmd->st_txt->txt = ft_strdup("\n")))//TODO lookup insert_str
+		ERROR_MEM;
+	st_cmd = append_st_cmd(st_cmd, "", "heredoc> ");
+	txt = NULL;
+	while (42)
 	{
-		txt = concatenate_txt(st_cmd);
 		input_loop(st_cmd, vars);
-		ft_memdel((void*)&txt_tmp);
-		txt_tmp = ft_strndup(st_cmd->st_txt->txt, ft_strlen(st_cmd->st_txt->txt) - 1);
+		if (!is_eof_quoted)
+			apply_escape(st_cmd);
+		txt = concatenate_txt(st_cmd);//need free ?
+		len = ft_strlen(txt) - ft_strlen(eof) - 1;
+		if (len > 0 && !ft_strncmp(&txt[len], eof, ft_strlen(eof))
+			&& txt[len - 1] == '\n' && txt[ft_strlen(txt) - 1] == '\n')
+			break ;
 		st_cmd = append_st_cmd(st_cmd, "", "heredoc> ");
 	}
-	//expand txt (depending on is_eof_quoted)// OR should i expand as i write()
+	path = txt;
+	if (!(txt = ft_strndup(&txt[1], len - 1)))
+		ERROR_MEM;
+	ft_strdel(&path);
 	if (!is_eof_quoted)
 	{/*
-		-parameter expansion
-		-command substitution
+		-parameter expansion  //DONE if it's dollars_expansion
+		-command substitution//we don't do that
 		-arithmetic expansion
 		-the character sequence \newline is ignored
 		-‘\’ must be used to quote the characters ‘\’, ‘$’, and ‘`’.
 		*/
-		//i can maybe tricks, by making a tk_dq_str, then passing the single token in parse expand ?
-		//ft_printf("EOF is NOT quoted\n");
+		heredoc_expand_dollars(&txt, vars);
+		//if '$((' => get ')) => arithmetic_expand(&txt);
 	}
 	if (!(path = save_heredoc(txt)))
 		return (NULL);
-	ft_memdel((void*)&txt_tmp);
 	ft_memdel((void*)&txt);
-	free_st_cmd(st_cmd);
+	free_st_cmd(st_cmd);//does it free only one ?
 	return (path);
 }
 
@@ -108,21 +142,19 @@ static char	*get_heredoc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 
 static t_token	*replace_heredoc_tokens(t_token *probe, const char *path)
 {
-	//change '<<' to '<', still tk_redirection
 	ft_strdel(&probe->content);
 	if (!(probe->content = ft_strdup("<")))
 		ERROR_MEM;
 	probe->type = tk_redirection;
-	//
 	probe = probe->next;
 	while (probe->type == tk_eat)
 		probe = probe->next;
-	probe->type = tk_word;//was tk_dq_str, should it be tk_heredoc_path or tk_q_str
+	probe->type = tk_word;
 	ft_strdel(&probe->content);
 	if (!(probe->content = ft_strdup(path)))
 		ERROR_MEM;
 	probe = probe->next;
-	while (probe && probe->type >= tk_word && probe->type <= tk_redirection)
+	while (probe && probe->type >= tk_word && probe->type < tk_redirection)
 	{
 		probe->type = tk_eat;
 		//ft_strdel(&probe->content);//pas sure
@@ -154,13 +186,16 @@ t_bool	parse_heredoc(t_token *token_head, t_vars *vars)
 		if (token_probe->type == tk_heredoc)
 		{
 			eof = NULL;
-			is_eof_quoted = get_eof(&eof, token_probe);
+			if ((is_eof_quoted = get_eof(&eof, token_probe)) == 2)
+				return (0);//check me
 			//read and save
-			path = get_heredoc(eof, is_eof_quoted, vars);//protect
+			if (!(path = get_doc(eof, is_eof_quoted, vars)))
+				return (0);//check me
 			//replace tokens
 			token_probe = replace_heredoc_tokens(token_probe, path);
-			ft_strdel(&path);//test
-			//continue
+			//print_line(1);
+			ft_strdel(&path);
+			continue ;
 		}
 		token_probe = token_probe->next;
 	}

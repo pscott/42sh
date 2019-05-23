@@ -8,12 +8,23 @@ void	error_mem(void) //unused but should use ?
 	clean_exit(EXIT_FAILURE);
 }
 
+static t_bool	is_newline_token(t_token *token)
+{
+	int		i;
+	i = -1;
+	while (token->content[++i])
+	{
+		if (token->content[i] == '\n')
+			return (1);
+	}
+	return (0);
+}
+
 void	syntax_error_near(t_token *token)
 {
 	char *str;
 
-	ft_printf("{%s}", token->content);
-	if (!ft_strncmp(token->content, "\n", 2))
+	if (is_newline_token(token))
 		str = ft_strdup("newline");
 	else
 		str = ft_strdup(token->content);

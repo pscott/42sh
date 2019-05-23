@@ -28,7 +28,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		free_token_list(token_head);
 		if (isatty(STDIN_FILENO) == 0)
 			return (0);
-		adjust_history(st_cmd, input);
+		adjust_history(st_cmd, input, 0);
 		st_cmd = append_st_cmd(st_cmd, "", "cont > ");
 		get_st_cmd(&st_cmd);
 	 	if ((ret = input_loop(st_cmd, vars)) < 1)
@@ -49,11 +49,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 			return (1);
 		}
 	}
-	adjust_history(st_cmd, input);
-	if (st_cmd->hist_lst && st_cmd->hist_lst->keep == 0)
-		st_cmd->hist_lst->keep = 1;
-	else
-		insert_left(st_cmd->hist_lst, input, 1);
+	adjust_history(st_cmd, input, 1);
 	ft_strdel(&input);
 	if (lexer_ret == lex_fail)
 	{

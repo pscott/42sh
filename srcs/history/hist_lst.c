@@ -1,7 +1,7 @@
 #include "42sh.h"
 #include "history.h"
 
-t_hist_lst	*create_hist_lst(char *line, char keep)
+t_hist_lst	*create_hist_lst(const char *line, char keep)
 {
 	t_hist_lst	 *res;
 
@@ -19,31 +19,25 @@ t_hist_lst	*create_hist_lst(char *line, char keep)
 
 t_hist_lst	*get_begin_lst(t_hist_lst *hist_lst)
 {
-	t_hist_lst	*probe;
-
-	probe = hist_lst;
-	if (!probe)
+	if (!hist_lst)
 		return (NULL);
 	else
-		while (probe->prev)
-			probe = probe->prev;
-	return (probe);
+		while (hist_lst->prev)
+			hist_lst = hist_lst->prev;
+	return (hist_lst);
 }
 
 t_hist_lst	*get_end_lst(t_hist_lst *hist_lst)
 {
-	t_hist_lst	*probe;
-
-	probe = hist_lst;
-	if (!probe)
+	if (!hist_lst)
 		return (NULL);
 	else
-		while (probe->next)
-			probe = probe->next;
-	return (probe);
+		while (hist_lst->next)
+			hist_lst = hist_lst->next;
+	return (hist_lst);
 }
 
-t_hist_lst		*insert_left(t_hist_lst *hist_lst, char *line, char keep)
+t_hist_lst		*insert_left(t_hist_lst *hist_lst, const char *line, char keep)
 {
 	t_hist_lst	*probe;
 	t_hist_lst	*insert;
@@ -64,7 +58,7 @@ t_hist_lst		*insert_left(t_hist_lst *hist_lst, char *line, char keep)
 	return (insert);
 }
 
-t_hist_lst	*insert_right(t_hist_lst *hist_lst, char *line, char keep)
+t_hist_lst	*insert_right(t_hist_lst *hist_lst, const char *line, char keep)
 {
 	t_hist_lst	*probe;
 	t_hist_lst	*insert;

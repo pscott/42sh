@@ -130,7 +130,7 @@ t_st_cmd	*init_st_cmd(const char **env)
 	{
 		init_relative_pos(st_cmd);
 		st_cmd->hist_lst = get_history(env);
-		st_cmd->hist_lst = insert_right(st_cmd->hist_lst, "", 0); // ? need to malloc "" ?
+		st_cmd->hist_lst = insert_right(st_cmd->hist_lst, "last", 0); // ? need to malloc "" ?
 	}
 	st_cmd->next = NULL;
 	st_cmd->prev = NULL;

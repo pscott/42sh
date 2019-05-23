@@ -33,10 +33,26 @@ t_token	*create_token(char *cmdline, size_t size, t_token_type type)
 	return (new_token);
 }
 
+static void		error_unsupported_token(t_token *token)
+{
+	ft_dprintf(2, "%s: `%s' is not unsupported.\n", SHELL_NAME, token->content);
+}
+
+static t_bool	check_unsupported_token(t_token *token)
+{
+	if (!token)
+		return (1);
+	if (token->type == tk_amp || token->type == tk_42sh)
+	{
+		error_unsupported_token(token);
+		return (0);
+	}
+	return (1);
+}
+
 /*
 ** add_token_to_list
 ** 1. check syntax (if start with '&&', or 2 '&&' are following)
-** 2. check here_doc ??? NOP: need full EOF to start heredoc()
 ** 3. create a token_list or append it with the given token
 */
 
@@ -48,13 +64,8 @@ static t_bool	add_token_to_list(t_token *current_token, t_token *prev_token
 	if (token_list_start_with_ctrl_op(prev_token, current_token)
 		|| is_two_ctrlop_or_redir_following(prev_token, current_token))
 		return (0);
-	//if (prev_token && prev_token->type == tk_heredoc
-	//	&& current_token->type != tk_eat)
-	//{
-	//	//ft_printf("HEREDOC, enter READ_MODE, with EOF: {%s}\n", current_token->content);//NOT HERE: 'cat << EOF && &&'
-	//	//if (!(save_heredoc(&prev_token, &current_token, vars)))
-	//	//	return (0);//pas sure
-	//}
+	if (check_unsupported_token(current_token) == 0)
+		return (0);
 	if (!(*token_head))
 	{
 		*token_head = current_token;
@@ -99,6 +110,7 @@ int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 	t_operation	*op_chart;
 	t_token		*prev_token;
 
+	(void)vars;
 	init_lexer(&op_chart, token_head, &prev_token);
 	while (cmdline && *cmdline)
 	{
@@ -109,19 +121,17 @@ int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 		if (current_token->type != tk_eat)
 			prev_token = current_token;
 	}
-	//maybe get heredocs here ?? 'cat << EOF &&'
-	parse_heredoc(*token_head, vars);
+	if (parse_heredoc(*token_head, vars) == 0)
+		return (lex_fail);
 	if (is_logic_or_pipe(current_token)
 		|| (is_logic_or_pipe(prev_token) && !current_token->type))
-	{
-//		ft_printf("tmp, tklst end with '&&', '||' or '|': READ_MODE\n"); // debug
 		return (lex_cont_read);
-	}
 	else if (prev_token && is_redir_token(prev_token)
 		&& (!current_token->type || is_redir_token(current_token)))
 	{
 		syntax_error_near(current_token);
 		return (lex_fail);
 	}
+	print_token_list(*token_head);//debug
 	return (lex_success);
 }

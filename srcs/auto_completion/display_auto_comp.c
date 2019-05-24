@@ -65,18 +65,20 @@ sleep(3);
 	while (match->prev)
 		match = match->prev;
 	curr = match;
-	ret = len;
 	if (ret > 0)
 		ret--;
-	/*
+	
+	ret = len;
 	ft_printf("name : |%s|, ret: %d", curr->name, ret);
 	sleep(2);
-	*/
+	
 	while (curr->name && curr->name[ret] && curr->next)
 	{
+		ft_putendl(curr->name);
+		usleep(100);
 		curr = curr->next;
 		if (curr->name[ret]	!= match->name[ret])
-			return (ret - 1);
+			return (ret - len);
 		if (!curr->next)
 		{
 			curr = match;
@@ -97,6 +99,10 @@ ft_putendl(to_find);
 sleep(2);
 */
 //	ft_list_sort_ascii(match); //TODO
+/*
+	ft_printf("str {%s} len {%u}", to_find, len);
+	sleep(2);
+	*/
 	ret_str = NULL;
 	is_empty_last_c = 0;
 	while (match->prev)
@@ -111,7 +117,7 @@ sleep(2);
 
 	else if ((diff_len = lst_match_more_than_to_find(match, len)) > 0)
 	{
-		ft_putendl(to_find);
+		ft_putnbr(diff_len);
 		sleep(1);
 		if (match->name[diff_len] && (match->name[diff_len] == ' ' || match->name[diff_len] == '/'))
 			is_empty_last_c = 1;

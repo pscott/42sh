@@ -154,7 +154,7 @@ char				*users_passwd(const char *to_find)
 	sleep(1);
 	*/
 	if (match)
-		ret_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find) - 1);
+		ret_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
 	return (ret_str);
 }
 

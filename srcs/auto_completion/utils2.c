@@ -6,7 +6,7 @@
 /*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:42:01 by aschoenh          #+#    #+#             */
-/*   Updated: 2019/05/24 15:22:20 by aschoenh         ###   ########.fr       */
+/*   Updated: 2019/05/24 17:49:39 by aschoenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ int				get_needed_values
 		ERROR_MEM
 	if (!(*to_find_full = ft_strndup(input, len)))
 		ERROR_MEM
-	if (len > 0 && is_white_spaces((*to_find_full)[len - 1]))
+	if (len > 0 && ft_is_white_space((*to_find_full)[len - 1]))
 		start_actual_word--;
-	while (start_actual_word > 0 && !is_white_spaces((*to_find_full)[start_actual_word]))
+	while (start_actual_word > 0 && !ft_is_white_space((*to_find_full)[start_actual_word]))
 		start_actual_word--;
-	if (is_white_spaces((*to_find_full)[start_actual_word]))
+	if (ft_is_white_space((*to_find_full)[start_actual_word]))
 		start_actual_word++;
 	return (start_actual_word);
 }

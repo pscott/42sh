@@ -18,7 +18,7 @@ int					find_all_match(char *directory, t_auto_comp **match,
 		{
 			if (ent->d_type && ent->d_type == DT_DIR)
 				tmp = ft_strjoin(ent->d_name, "/");
-			else if (is_white_spaces(next[ft_strlen(to_find)]) || !next[ft_strlen(to_find)])
+			else if (ft_is_white_space(next[ft_strlen(to_find)]) || !next[ft_strlen(to_find)])
 				tmp = ft_strjoin(ent->d_name, " ");
 			else
 				tmp = ft_strdup(ent->d_name);

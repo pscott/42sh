@@ -72,7 +72,7 @@ int					is_display(unsigned int count)
 {
 	char			c;
 
-	print_line();
+	ft_putchar('\n');
 	ft_printf("Display all %u possibilities? (y or n)", count);
 	while (1)
 	{

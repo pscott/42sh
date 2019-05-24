@@ -94,7 +94,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c heredoc_utils.c
 						get_name_and_path.c get_path_file.c \
 						utils2.c space_first_arg.c dirs_first_arg.c bin_first_arg.c \
 						dirs_and_exe_first_arg.c home_dirs_first_arg.c \
-						x_arg.c utils_display.c get_next_line_2.c \
+						x_arg.c utils_display.c get_next_line_2.c 
 	HASHMAP_FILES	:=	find_next_prime.c hash_main.c hashfun.c hashmap.c\
 						hashmap_alloc.c hashmap_delete.c hashmap_print.c
 	EXP_ARITH_FILES	:=	build_list.c check_errors.c create_op_link.c \

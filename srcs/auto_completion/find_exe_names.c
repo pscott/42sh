@@ -5,7 +5,7 @@
 static int			get_filename(const char *next, const char *to_find,
 						struct dirent *ent, char **filename)
 {
-	if (ft_strlen(next) == ft_strlen(to_find) || is_white_spaces(next[ft_strlen(to_find)]))
+	if (ft_strlen(next) == ft_strlen(to_find) || ft_is_white_space(next[ft_strlen(to_find)]))
 	{	
 		if (!(*filename = ft_strjoin(ent->d_name, " ")))	
 			ERROR_MEM		

@@ -27,7 +27,8 @@ static void	real_display_various(t_auto_comp *tmp, unsigned int count, int cols,
 		}
 		if (first && first->next && (first = first->next))
 			tmp = first;
-		print_line();
+		ft_putchar('\n');
+	//	print_line();
 	}
 }
 
@@ -41,7 +42,8 @@ static int	display_various(t_auto_comp *match)
 	if (count > MAX_DISPLAY)
 		if ((is_display(count)) == 1)
 			return (1);
-	print_line();
+	ft_putchar('\n');
+//	print_line();
 	cols = get_columns_display(count, get_max_len(match));
 	rows = get_rows_display(count, cols);
 	while (match->prev)

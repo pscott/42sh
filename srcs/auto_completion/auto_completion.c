@@ -18,13 +18,13 @@ static int			is_first_arg_and_exec(const char *str, unsigned int cursor_pos, uns
 		return (2);
 	else
 		cursor_pos--;
-	while (str && is_white_spaces(str[i]) && i <= cursor_pos)
+	while (str && ft_is_white_space(str[i]) && i <= cursor_pos)
 		i++;
 	if (i < start_actual_word)
 			return (0);
 	else
 	{
-		if (str[cursor_pos] == '\0' || is_white_spaces(str[cursor_pos]))
+		if (str[cursor_pos] == '\0' || ft_is_white_space(str[cursor_pos]))
 			return (2);
 		else if (str[i] == '~' && str[i + 1] && str[i + 1] == '/')
 				return (6);
@@ -55,7 +55,7 @@ static char			*handle_x_arg(char *input, char *to_find_and_next_char)
 	if (input && input[0] && ft_strchr(input, '/'))
 		tmp = ft_strndup(input, ft_strlen(input) - ft_strlen(ft_strrchr(input, '/') + 1));
 	get_path_file_and_to_find(input, &path, &to_find);
-	if (!to_find[0] || is_white_spaces(to_find[0]))
+	if (!to_find[0] || ft_is_white_space(to_find[0]))
 		find_all_except_dots(path, &match); 
 	else
 		find_all_match(path, &match, to_find, to_find_and_next_char);
@@ -224,14 +224,14 @@ char				*new_auto_completion(char *input, unsigned int len, t_vars *vars)
 
 	i = 0;
 
-
+/*
 	while (vars && vars->shell_vars && vars->shell_vars[i])
 	{
 		ft_putendl(vars->shell_vars[i++]);
 usleep(100);
 	}
 	sleep(8);
-
+*/
 	//++ handler DOLLAR
 	ret = NULL;
 	tmp = NULL;

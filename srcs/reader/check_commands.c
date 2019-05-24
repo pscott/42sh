@@ -60,20 +60,38 @@ int		check_for_tab(t_st_cmd *st_cmd, const char *buf, t_vars *vars)
 {
 	char	*tmp;
 	char	*old_txt;
+	int		len_tmp;
 
+	len_tmp = 0;
 	if (ft_strncmp(buf, "\t", 2) == 0)
 	{
 		old_txt = st_cmd->st_txt->txt;
 		if ((tmp = new_auto_completion(st_cmd->st_txt->txt, st_cmd->st_txt->tracker, vars))) // alex: tracker ou tracker + 1 ?
 		{
-			ft_strlen(tmp);
-			st_cmd->st_txt->txt = ft_strjoin(tmp, st_cmd->st_txt->txt + st_cmd->st_txt->tracker);
+	//		ft_printf("\n {%s}\n", tmp);
+	//		sleep(1);
+//			ft_printf("\n {%s}\n", tmp);
+			len_tmp = ft_strlen(tmp);		
+			if (!(st_cmd->st_txt->txt = ft_strjoin(tmp, st_cmd->st_txt->txt + st_cmd->st_txt->tracker)))
+				ERROR_MEM
+			st_cmd->st_txt->data_size = ft_strlen(st_cmd->st_txt->txt);
+//			sleep(1);
 			ft_strdel(&old_txt);
+	//		ft_putendl("HERE");
+	//		sleep(1);
 		}
 		ft_strdel(&tmp);
-		go_to_start(st_cmd);
+//		go_to_start(st_cmd);
+//		reposition_cursor(st_cmd);
+		execute_str(BEGIN_LINE);
+		execute_str(CLEAR_BELOW);
+		retrieve_pos(&st_cmd->start_pos);
+		print_prompt(st_cmd->st_prompt);
 		st_cmd->st_txt->tracker = 0;
 		write_st_cmd(st_cmd);
+		st_cmd->st_txt->tracker = len_tmp;
+// test avec len tmp		st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;
+		get_pos(st_cmd, st_cmd->st_txt->tracker);
 		return (1);
 	}
 	else

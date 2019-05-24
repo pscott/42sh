@@ -1,7 +1,7 @@
 #include "libft.h"
 #include "line_editing.h"
 
-int		compare_entry(char *s, char *n)
+int		compare_entry(const char *s, const char *n)
 {
 	int i;
 	int	j;
@@ -22,7 +22,7 @@ int		compare_entry(char *s, char *n)
 	return (s[i] - n[j]);
 }
 
-int		compare_entry2(char *s, char *n)
+int		compare_entry2(const char *s, const char *n)
 {
 	int i;
 	int k;

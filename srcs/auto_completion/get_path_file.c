@@ -1,128 +1,131 @@
 #include "libft.h"
 #include "line_editing.h"
-/*
-static char			*get_path_user(int index, char **find)
+
+static int			get_path_user(int index, const char *arg, char **path, char **to_find)
 {
 	char			*home;
 	char			*tmp;
 	char			*tmp2;
-	char			*ret;
 
-	ret = NULL;
-	if (!check_env("HOME"))
+	if (!getenv("HOME"))
 	{
 		if (!(home = ft_strdup("/Users")))
-			return (NULL);
+			ERROR_MEM
 	}
 	else
 	{
-		if (!(home = ft_strdup(check_env("HOME"))))
-			return (NULL);
+		if (!(home = ft_strdup(getenv("HOME"))))
+			ERROR_MEM
 	}
-	tmp = ft_strsub(*find, index + 1, ft_strlen(*find) - index);
-	tmp2 = ft_strsub(*find, 1, index);
-	ft_strdel(find);
-	*find = tmp;
-	ret = ft_strjoin(home, tmp2);
+	tmp = ft_strsub(arg, index + 1, ft_strlen(arg) - index);
+	tmp2 = ft_strsub(arg, 1, index);
+	*to_find = tmp;
+	if (!(*path = ft_strjoin(home, tmp2)))
+		ERROR_MEM
 	ft_strdel(&tmp2);
 	ft_strdel(&home);
-//	ft_putendl(ret);
-	return (ret);
+	return (0);
 }
 
-static char			*get_path_root(int index, char **find)
+static int			get_path_root(int index, const char *arg, char **path, char **to_find)
 {
 	char			*tmp;
-	char			*ret;
 
-	if ((*find)[index + 1])
+	tmp = NULL;
+	if (arg[index + 1])
 	{
-		tmp = ft_strsub((*find), index + 1, ft_strlen(*find) - index);
-		ret = ft_strsub((*find), 0, index + 1);
-		ft_strdel(find);
-		(*find) = tmp;
+		if (!(*to_find = ft_strsub(arg, index + 1, ft_strlen(arg) - index)))
+			ERROR_MEM
+		if (!(*path = ft_strsub((arg), 0, index + 1)))
+			ERROR_MEM
 	}
 	else
 	{
-		if (!(ret = ft_strdup(*find)))
-			return (NULL);
-		ft_strdel(find);
-		if (!(*find = ft_strnew(0)))
-		{
-			ft_strdel(&ret);
-			return (NULL);
-		}
+		if (!(*path = ft_strdup(arg)))
+			ERROR_MEM
+		if (!(*to_find = ft_strnew(0)))
+			ERROR_MEM
 	}
-	return (ret);
+	return (0);
 }
 
-static char			*get_root(char **find)
+static int			get_root(const char *arg, char **path, char **to_find)
 {
 	int				len;
-	char			*ret;
-	char			*tmp;
 
-	ret = NULL;
-	tmp = NULL;
-	if ((*find)[1])
+	if ((arg)[1])
 	{
-		len = ft_strlen(*find) - 1;
-		tmp = ft_strsub(*find, 1, len);
-		ft_strdel(find);
-		(*find) = tmp;
+		len = ft_strlen(arg) - 1;
+		if (!(*to_find = ft_strsub(arg, 1, len)))
+			ERROR_MEM
 	}
 	else
-		ft_strdel(find);
-	if (!(ret = ft_strdup("/")))
-		ft_strdel(&tmp);
-	return (ret);
+		if (!(*to_find = ft_strnew(0)))
+			ERROR_MEM
+	if (!(*path = ft_strdup("/")))
+		ERROR_MEM
+	return (0);
 }
 
-static char			*get_path_reg(int index, char *pwd, char **find)
+static int			get_path_reg(int index, const char *arg, char **path, char **to_find)
 {
-	char			*tmp_find;
-	char			*tmp_ret;
-	char			*ret;
+	char			*tmp_path;
 	char			*pwd_slash;
+	char			*pwd;
 
-	tmp_find = NULL;
-	tmp_ret = NULL;
+	tmp_path = NULL;
 	pwd_slash = NULL;
-	ret = NULL;
-	tmp_find = ft_strsub(*find, index + 1, ft_strlen(*find) - index);
-	tmp_ret = ft_strsub(*find, 0, index + 1);
+	pwd = NULL;
+	if (!(pwd = getcwd(pwd, PATH_MAX)))
+		ERROR_MEM
 	if (!(pwd_slash = ft_strjoin(pwd, "/")))
-		return (NULL);
-	ret = ft_strjoin(pwd_slash, tmp_ret);
-	ft_strdel(&tmp_ret);
-	ft_strdel(&pwd_slash);
-	ft_strdel(find);
-	*find = tmp_find;
-	return (ret);
+		ERROR_MEM
+	if (!ft_strchr(arg, '/'))
+	{
+		if (!(*path = ft_strdup(pwd_slash)))
+			ERROR_MEM
+		if (!(*to_find = ft_strdup(arg)))
+			ERROR_MEM
+	}
+	else
+	{	
+		if (!(*to_find = ft_strsub(arg, index + 1, ft_strlen(arg) - index)))
+			ERROR_MEM
+		tmp_path = ft_strsub(arg, 0, index + 1);
+		if (!(*path = ft_strjoin(pwd_slash, tmp_path)))
+			ERROR_MEM
+		ft_strdel(&tmp_path);
+	}
+	free_two_strings(&pwd_slash, &pwd);
+	return (0);
 }
 
-char				*get_path_file(char *str, char **find)
+int					get_path_file_and_to_find(const char *arg, char **path, char **to_find)
 {
 	char			*pwd;
-	char			*ret;
 	int				i;
 
 	pwd = NULL;
-	ret = NULL;
+	path = NULL;
 	i = 0;
 	if (!(pwd = getcwd(pwd, PATH_MAX)))
-		return (NULL);
-	i = get_index_rev(*find, '/');
-	if ((*find)[0] == '~' && (*find)[1] == '/')
-		ret = get_path_user(i, find);
-	else if (!i)
-		ret = get_root(find);
-	else if ((*find)[0] == '/' && i > 0)
-		ret = get_path_root(i, find);
-	else if ((*find)[0] != '/' && i > 0)
-		ret = get_path_reg(i, pwd, find);
+		ERROR_MEM
+	i = ft_strlen(arg) - ft_strlen(ft_strrchr(arg, '/'));
+	if ((arg)[0] == '~' && (arg)[1] == '/')
+		get_path_user(i, arg, path, to_find);
+	else if (arg[0] && !i)
+		get_root(arg, path, to_find);
+	else if ((arg)[0] == '/' && i > 0)
+		get_path_root(i, arg, path, to_find);
+	else if ((arg)[0] != '/' && i > 0)
+		get_path_reg(i, arg, path, to_find);
 	else
-		ret = ft_strdup(pwd);
+	{
+		if (!(*path = ft_strdup(pwd)))
+			ERROR_MEM
+		if (!(*to_find = ft_strnew(0)))
+			ERROR_MEM
+	}
 	ft_strdel(&pwd);
-	return (ret);
-}*/
+	return (0);
+}

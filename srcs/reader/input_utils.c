@@ -8,7 +8,7 @@ size_t	ft_printable_len(const char *s1)
 
 	i = 0;
 	res = 0;
-	while (s1[i])
+	while (s1 && s1[i])
 	{
 		if (ft_isprint(s1[i]) || s1[i] == '\n')
 			res++;
@@ -28,7 +28,7 @@ char	*ft_strdup_print(const char *s1)
 		return (NULL);
 	i = 0;
 	len = 0;
-	while (s1[i])
+	while (s1 && s1[i])
 	{
 		if (ft_isprint(s1[i]) || s1[i] == '\n')
 		{

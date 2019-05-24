@@ -1,6 +1,7 @@
 #ifndef LEXER_H
 # define LEXER_H
 
+# include "42sh.h"
 # include <stdlib.h>
 # include "libft.h"
 
@@ -35,7 +36,8 @@ typedef enum		e_token_type
 	tk_or,//=and
 	tk_amp,
 	tk_semi,
-	tk_42sh
+	tk_42sh,
+	tk_unsupported
 }					t_token_type;
 
 typedef struct		s_token
@@ -73,7 +75,8 @@ void	print_token_list(t_token *token_head);
 
 t_token				*create_token(char *cmdline, size_t size
 					, t_token_type type);
-int					lexer(char *cmdline, t_token **token_head, struct s_vars *vars);
+//int					lexer(char *cmdline, t_token **token_head, struct s_vars *vars);
+int					lexer(char *cmdline, t_token **token_head, t_vars *vars);
 
 /*
 ** lexer utils
@@ -95,6 +98,7 @@ t_token				*copy_tokens(t_token *token_head);
 */
 
 t_token	*get_token(char **cmdline, t_operation *op_chart);
+t_token	*get_arith_exp_token(char **cmdline);
 t_token	*create_token(char *cmdline, size_t size, t_token_type type);
 
 /*

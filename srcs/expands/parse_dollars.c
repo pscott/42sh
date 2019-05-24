@@ -66,7 +66,7 @@ char		*substitute_env_var(char *old_str, size_t *i
 ** if the token->content is empty after this, token->type = TK_EAT
 */
 
-static t_bool	expand_dollars(t_token *token, t_vars *vars)
+static t_bool	expand_dollars(t_token *token, t_vars *vars)//TODO expand ARITH here ??
 {
 	size_t	i;
 	char 	*var_name;

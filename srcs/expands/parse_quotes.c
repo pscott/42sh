@@ -71,7 +71,6 @@ static t_bool	expand_dquotes(t_token	*token_head)
 	return (1);//tmp
 }
 
-//it can contain " and ' ! but only trim the first and last: [0], [strlen(content)]
 t_bool	parse_quotes(t_token *token_head)
 {
 	t_bool	res;

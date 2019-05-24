@@ -49,7 +49,7 @@ typedef struct				s_auto_comp
 }							t_auto_comp;
 
 char						*new_auto_completion(char *input, unsigned int len, t_vars *vars);
-char						*get_ret_or_display_matches(t_auto_comp *match, char *to_find, unsigned int len);
+char						*get_ret_or_display_matches(t_auto_comp *match, const char *to_find, unsigned int len);
 void						new_sort_list(t_auto_comp **match);
 int							del_match_unique(t_auto_comp *match);
 int							del_match(t_auto_comp *match);
@@ -61,9 +61,9 @@ int							compare_entry(const char *s, const char *n);
 int							compare_entry2(const char *s, const char *n);
 void						handler_is_display(int signo);
 char						*get_to_find_file(char *s);
-int							get_path_file_and_to_find(char *arg, char **path, char **to_find);
+int							get_path_file_and_to_find(const char *arg, char **path, char **to_find);
 void						handler_is_display(int signo);
-t_auto_comp					*ft_list_sort_ascii(t_auto_comp *lst);
+t_auto_comp					*ft_list_sort_ascii(t_auto_comp **lst);
 t_auto_comp					*ft_lst_swap(t_auto_comp *file1, t_auto_comp *file2);
 char						*lst_to_string_auto_c(t_list *lst);
 int							lst_len_until_cursor_pos(t_list *lst);
@@ -78,7 +78,7 @@ char						*search_dirs_first_arg(const char *directory, const char *str, unsigne
 char                       *new_auto_completion_bin(t_vars *vars, const char *str, const char *to_find_and_next_char);
 int							new_auto_completion_file(char *str, unsigned int len);
 char						*search_dirs_and_exe(const char *str);
-char						*home_directory_first_arg(char *to_find);
+char						*home_directory_first_arg(const char *to_find);
 char						*tilde_no_slash(char *to_find, int len);
 int							find_all_except_dots(const char *directory, t_auto_comp **match);
 unsigned int				get_max_len(t_auto_comp *match);

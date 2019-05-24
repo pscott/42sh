@@ -125,10 +125,6 @@ static int			get_users_list(t_auto_comp **match, const char *to_find)
 			if (users == NULL)
 				users = ft_strnew(1);
 			create_match_link(match, users);
-/*
-			ft_printf("||%s||", (*match)->name);
-			sleep(1);
-*/
 			ft_strdel(&users);
 		}
 		if (!ret)
@@ -145,14 +141,6 @@ char				*users_passwd(const char *to_find)
 	match = NULL;
 	ret_str = NULL;
 	get_users_list(&match, to_find + 1);
-/*
-			ft_printf("||%s||", match->name);
-			sleep(1);
-*/
-	/*
-	ft_printf("to_f |%s|", to_find);
-	sleep(1);
-	*/
 	if (match)
 		ret_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
 	return (ret_str);
@@ -232,6 +220,17 @@ char				*new_auto_completion(char *input, unsigned int len, t_vars *vars)
 	char			*tmp;
 	char			*str;
 	int				start_actual_word;
+	int				i;
+
+	i = 0;
+
+
+	while (vars && vars->shell_vars && vars->shell_vars[i])
+	{
+		ft_putendl(vars->shell_vars[i++]);
+usleep(100);
+	}
+	sleep(8);
 
 	//++ handler DOLLAR
 	ret = NULL;
@@ -248,10 +247,6 @@ char				*new_auto_completion(char *input, unsigned int len, t_vars *vars)
 	else if (!is_first_arg_and_exec(input, len, start_actual_word))
 		ret = handle_x_arg(to_find_full + start_actual_word, str + start_actual_word);
 	format_finding_and_get_correct_ret(&ret, start_actual_word, input, len);
-/*	
-ft_printf("\nret : |%s|, input |%s|, ret_len = |%d|, input_len = |%d|\n", ret, input, ft_strlen(ret), len);
-sleep(1);
-*/
 	ft_strdel(&to_find_full);
 	ft_strdel(&str);
 	return (ret);

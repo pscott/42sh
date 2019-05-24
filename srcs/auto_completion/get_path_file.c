@@ -1,7 +1,7 @@
 #include "libft.h"
 #include "line_editing.h"
 
-static int			get_path_user(int index, char *arg, char **path, char **to_find)
+static int			get_path_user(int index, const char *arg, char **path, char **to_find)
 {
 	char			*home;
 	char			*tmp;
@@ -27,7 +27,7 @@ static int			get_path_user(int index, char *arg, char **path, char **to_find)
 	return (0);
 }
 
-static int			get_path_root(int index, char *arg, char **path, char **to_find)
+static int			get_path_root(int index, const char *arg, char **path, char **to_find)
 {
 	char			*tmp;
 
@@ -49,7 +49,7 @@ static int			get_path_root(int index, char *arg, char **path, char **to_find)
 	return (0);
 }
 
-static int			get_root(char *arg, char **path, char **to_find)
+static int			get_root(const char *arg, char **path, char **to_find)
 {
 	int				len;
 
@@ -67,7 +67,7 @@ static int			get_root(char *arg, char **path, char **to_find)
 	return (0);
 }
 
-static int			get_path_reg(int index, char *arg, char **path, char **to_find)
+static int			get_path_reg(int index, const char *arg, char **path, char **to_find)
 {
 	char			*tmp_path;
 	char			*pwd_slash;
@@ -100,7 +100,7 @@ static int			get_path_reg(int index, char *arg, char **path, char **to_find)
 	return (0);
 }
 
-int					get_path_file_and_to_find(char *arg, char **path, char **to_find)
+int					get_path_file_and_to_find(const char *arg, char **path, char **to_find)
 {
 	char			*pwd;
 	int				i;

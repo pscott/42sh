@@ -1,7 +1,7 @@
 #include "libft.h"
 #include "line_editing.h"
 
-int					find_matching_home_dirs(char *directory, t_auto_comp **match, char * to_find)
+static int		find_matching_home_dirs(const char *directory, t_auto_comp **match, const char * to_find)
 {
 	DIR				*dir;
 	struct dirent	*ent;
@@ -29,7 +29,7 @@ int					find_matching_home_dirs(char *directory, t_auto_comp **match, char * to_
 	return (0);
 }
 
-static char			*search_dirs_home_first_arg(char *directory, char *str)
+static char			*search_dirs_home_first_arg(const char *directory, const char *str)
 {
 	t_auto_comp		*match;
 	char			*ret_str;
@@ -48,7 +48,7 @@ static char			*search_dirs_home_first_arg(char *directory, char *str)
 }
 
 
-char				*home_directory_first_arg(char *to_find)
+char				*home_directory_first_arg(const char *to_find)
 {
 	char			*ret_str;
 	char			*path;
@@ -63,10 +63,6 @@ char				*home_directory_first_arg(char *to_find)
 		if (!(tmp2 = ft_strndup(to_find, ft_strlen(to_find) - ft_strlen(ft_strrchr(to_find, '/') + 1))))
 			ERROR_MEM
 	get_path_file_and_to_find(to_find, &path, &tmp);
-/*	
-	ft_printf("|%s|, |%s|", path, to_find_real);
-	sleep(2);
-*/	
 	ret_str = search_dirs_home_first_arg(path, tmp);
 	ft_strdel(&tmp);
 	if (!(tmp = ft_strjoin(tmp2, ret_str)))

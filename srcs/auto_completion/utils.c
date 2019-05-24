@@ -37,17 +37,17 @@ t_auto_comp			*ft_lst_swap(t_auto_comp *file1, t_auto_comp *file2)
 	return (file2);
 }
 
-t_auto_comp			*ft_list_sort_ascii(t_auto_comp *lst)
+t_auto_comp			*ft_list_sort_ascii(t_auto_comp **lst)
 {
-	if (!lst)
+	if (!lst || !(*lst))
 		return (NULL);
-	if (lst->next && ft_strcmp(lst->name, lst->next->name) > 0)
-		lst = ft_lst_swap(lst, lst->next);
-	lst->next = ft_list_sort_ascii(lst->next);
-	if (lst->next && ft_strcmp(lst->name, lst->next->name) > 0)
+	if ((*lst)->next && ft_strcmp((*lst)->name, (*lst)->next->name) > 0)
+		(*lst) = ft_lst_swap(*lst, (*lst)->next);
+	(*lst)->next = ft_list_sort_ascii(&((*lst)->next));
+	if ((*lst)->next && ft_strcmp((*lst)->name, (*lst)->next->name) > 0)
 	{
-		lst = ft_lst_swap(lst, lst->next);
-		lst->next = ft_list_sort_ascii(lst->next);
+		(*lst) = ft_lst_swap((*lst), (*lst)->next);
+		(*lst)->next = ft_list_sort_ascii(&((*lst)->next));
 	}
-	return (lst);
+	return (*lst);
 }

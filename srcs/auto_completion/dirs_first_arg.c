@@ -1,7 +1,7 @@
 #include "libft.h"
 #include "line_editing.h"
 
-int					find_matching_dirs(char *directory, t_auto_comp **match, char *to_find)
+static int			find_matching_dirs(const char *directory, t_auto_comp **match, char *to_find)
 {
 	DIR				*dir;
 	struct dirent	*ent;

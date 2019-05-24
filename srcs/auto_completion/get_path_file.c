@@ -82,7 +82,7 @@ static int			get_path_reg(int index, const char *arg, char **path, char **to_fin
 		ERROR_MEM
 	if (!ft_strchr(arg, '/'))
 	{
-		if (!(*path = ft_strdup(pwd_slash)))
+		if (!((*path) = ft_strdup(pwd_slash)))
 			ERROR_MEM
 		if (!(*to_find = ft_strdup(arg)))
 			ERROR_MEM
@@ -106,7 +106,7 @@ int					get_path_file_and_to_find(const char *arg, char **path, char **to_find)
 	int				i;
 
 	pwd = NULL;
-	path = NULL;
+	*path = NULL;
 	i = 0;
 	if (!(pwd = getcwd(pwd, PATH_MAX)))
 		ERROR_MEM

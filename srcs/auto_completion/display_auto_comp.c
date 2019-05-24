@@ -77,7 +77,6 @@ static int	lst_match_more_than_to_find(t_auto_comp *match, unsigned int len)
 			ret++;
 		}
 	}
-
 	return (ret - len);
 }
 
@@ -123,8 +122,6 @@ char		*get_ret_or_display_matches(t_auto_comp *match, const char *to_find, unsig
 		ret_str = ft_strdup(match->name);
 	else if ((diff_len = lst_match_more_than_to_find(match, len)) > 0)
 	{
-		ft_putnbr(diff_len);
-		sleep(1);
 		if (match->name[diff_len] && (match->name[diff_len] == ' ' || match->name[diff_len] == '/'))
 			is_empty_last_c = 1;
 		if (!(ret_str = ft_strndup(match->name, len + diff_len - is_empty_last_c)))

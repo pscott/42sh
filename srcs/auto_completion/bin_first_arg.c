@@ -19,8 +19,6 @@ char				*new_auto_completion_bin
 	find_matching_exe(path, &match, to_find, to_find_and_next_char);
 	if (path)
 		ft_free_ntab(path);
-	ft_putendl(to_find);
-	sleep(1);
 	if (match)
 		ret_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
 	if (to_find)

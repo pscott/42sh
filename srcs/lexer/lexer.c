@@ -115,7 +115,7 @@ int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 	if (parse_heredoc(*token_head, vars) == 0)
 		return (lex_fail);
 	if (is_logic_or_pipe(current_token)
-		|| (is_logic_or_pipe(prev_token) && !current_token->type))
+		|| (is_logic_or_pipe(prev_token) && current_token->type == tk_eat))
 		return (lex_cont_read);
 	else if (prev_token && is_redir_token(prev_token)
 		&& (!current_token->type || is_redir_token(current_token)))

@@ -96,17 +96,34 @@ static t_bool	expand_dollars(t_token *token, t_vars *vars)//TODO expand ARITH he
 }
 
 //check return type
+//TODO need arith_expand in tk_dq_str
 t_bool			parse_dollars(t_token *token_head, t_vars *vars)
 {
-	t_bool	res;
+	t_bool		res;
+	long long	arith_res;
+	char		*tmp_str;
 
 	res = 0;
+	arith_res = 0;
 	while (token_head && token_head->type < tk_pipe)
 	{
 		if (token_head->type == tk_word || token_head->type == tk_dq_str)
 		{
 			res = 1;
 			expand_dollars(token_head, vars);
+		}
+		else if (token_head->type == tk_arith_exp)//test
+		{
+			//tmp_str = ft_strndup(&token_head->content[3], ft_strlen(token_head->content) - 5);
+			tmp_str = ft_strdup(token_head->content);
+			ft_printf("duped={%s}\n", tmp_str);
+			expansion_arith(tmp_str, &vars->env_vars, &arith_res);
+			ft_printf("result = {%lld}\n", arith_res);
+			token_head->content = ft_itoa(arith_res);
+			token_head->type = tk_word;//pas sure: "cat not_exist $((2))>&-"
+			ft_printf("token: {%s}\n", token_head->content);
+			//token_head->content = ft_itoa(expansion_arith(tmp_str, &vars->env_vars, &arith_res));
+			//ft_printf("ARITH_RES = {%lld}\n", token_head->content);
 		}
 		token_head = token_head->next;
 	}

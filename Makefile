@@ -95,7 +95,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c heredoc_utils.c
 	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c \
 						execute_no_pipe_builtin.c
 	HASHMAP_FILES	:=	find_next_prime.c hash_main.c hashfun.c hashmap.c\
-						hashmap_alloc.c hashmap_delete.c hashmap_print.c
+						hashmap_alloc.c hashmap_delete.c hashmap_print.c\
+						get_hash_args.c hashmap_errors.c
 	EXP_ARITH_FILES	:=	build_list.c check_errors.c create_op_link.c \
 						exec_op_list.c exec_op_list_2.c exec_op_list_3.c \
 						expansion_arith.c free_list.c array_utils.c\

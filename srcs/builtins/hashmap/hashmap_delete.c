@@ -1,6 +1,6 @@
 #include "hashmap.h"
 
-static void		delete_hashmap_item(t_hash_item *item)
+static void	delete_hashmap_item(t_hash_item *item)
 {
 	ft_memdel((void*)&item->key);
 	ft_memdel((void*)&item->value);
@@ -40,9 +40,11 @@ void		delete_hashmap(t_hashmap *hashmap)
 ** replace_item
 ** substitute the given item value by a new one
 ** and set count to 0
+** return 1 because norm
 */
 
-void		replace_item(t_hash_item *item, const char *value)
+//void		replace_item(t_hash_item *item, const char *value)//change for the norm
+t_bool		replace_item(t_hash_item *item, const char *value)
 {
 	if (!ft_strcmp(value, item->value))
 		item->count = 0;
@@ -50,9 +52,10 @@ void		replace_item(t_hash_item *item, const char *value)
 	{
 		ft_memdel((void*)&item->value);
 		if (!(item->value = ft_strdup(value)))
-			return ;//ERROR_MEM;
+			ERROR_MEM;//TODO check me
 		item->count = 0;
 	}
+	return (1);
 }
 
 /*
@@ -63,7 +66,7 @@ void		replace_item(t_hash_item *item, const char *value)
 
 t_bool		pop_hashmap_item(const char *key, t_hashmap *hashmap)//useless bool ?
 {
-	size_t	index;
+	size_t		index;
 	t_hash_item	*item_probe;
 	t_hash_item	*prev_probe;
 

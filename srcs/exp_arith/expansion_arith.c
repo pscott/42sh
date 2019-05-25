@@ -33,7 +33,7 @@ int				expansion_arith(char *str, char ***vars, long long *result)
 	int		k;
 
 	k = 0;
-	if (ft_str_isempty(str))
+	if (ft_str_isempty(str))//assign 0 to result ?
 		return (0);
 	if (check_chars(str))
 		return (err_msgs(1));

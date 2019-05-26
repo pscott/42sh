@@ -19,10 +19,7 @@ static t_auto_comp	*create_auto_comp_link(void)
 int					create_match_link(t_auto_comp **match, char *str)
 {
 	t_auto_comp		*new;
-/*
-ft_printf("}}}{{{%s}}}{{{", str);
-sleep(1);
-*/
+
 	if (!(*match))
 	{
 		if (!((*match) = create_auto_comp_link()))
@@ -43,9 +40,5 @@ sleep(1);
 		new->len = ft_strlen(str);
 		(*match) = new;
 	}
-	/*
-	ft_putendl((*match)->name);
-	usleep(100);
-	*/
 	return (0);
 }

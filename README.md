@@ -1,10 +1,10 @@
 # 42sh : in a nutshell
 
-*42sh* is the **last project** on the Unix path at [42]([https://www.42.fr/](https://www.42.fr/)). The goal is to write a **fully-fledged shell**, allowing the user to interact with our shell and execute commands.
+*42sh* is the **last project** on the Unix path at [42](https://www.42.fr/). The goal is to write a **fully-fledged shell**, allowing the user to interact with our shell and execute commands.
 
 The shell must be **error-free**: no bug is to be found whatsoever, no infinite loop, no segmentation fault, **regardless of the potentially unexpected behaviour the user could have**. If you do find a bug, please report it via an issue!
 
-The code is written to be [norme compliant]([https://cdn.intra.42.fr/pdf/pdf/960/norme.en.pdf](https://cdn.intra.42.fr/pdf/pdf/960/norme.en.pdf)). Let us outline the key rules of the norme:
+The code is written to be **[norme compliant](https://cdn.intra.42.fr/pdf/pdf/960/norme.en.pdf](https://cdn.intra.42.fr/pdf/pdf/960/norme.en.pdf)**. Let us outline the key rules of the norme:
 - 25 lines per function maximum.
 - 5 functions per .c file maximum.
 - Comments only allowed outside of functions.

@@ -72,7 +72,6 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 		clean_exit(1);
 	}
 	//break func here: fork_last_cmd() //TODO
-	status = 0; //necessary ?
 	if ((pid = fork()) == -1)
 	{
 		ft_dprintf(2, "fork error\n");

@@ -85,7 +85,6 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 	char	buf[BUF_SIZE + 1];
 	char	c;
 	int		ret;
-	t_pos	tmp_pos;
 
 	ft_bzero(buf, BUF_SIZE + 1);
 	print_prompt(st_cmd);
@@ -94,14 +93,6 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 		buf[ft_strlen(buf)] = c;
 		if (is_valid_escape(buf) == 0)
 			continue ;
-		retrieve_pos(&tmp_pos);
-		if (tmp_pos.row < st_cmd->start_pos.row)
-		{
-			execute_str(BEGIN_LINE);
-			execute_str(CLEAR_BELOW);
-			retrieve_pos(&st_cmd->start_pos);
-			write_from_start(st_cmd);
-		}
 		if (check_for_signal(buf))
 			return (-1);
 		else if (check_for_arrows(st_cmd, buf) || check_for_delete(st_cmd, buf)

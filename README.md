@@ -4,7 +4,7 @@
 
 The shell must be **error-free**: no bug is to be found whatsoever, no infinite loop, no segmentation fault, **regardless of the potentially unexpected behaviour the user could have**. If you do find a bug, please report it via an issue!
 
-The code is written to be [norme compliant](https://cdn.intra.42.fr/pdf/pdf/960/norme.en.pdf](https://cdn.intra.42.fr/pdf/pdf/960/norme.en.pdf). Let us outline the key rules of the norme:
+The code is written to be [norme compliant](https://cdn.intra.42.fr/pdf/pdf/960/norme.en.pdf). Let us outline the key rules of the norme:
 - 25 lines per function maximum.
 - 5 functions per .c file maximum.
 - Comments only allowed outside of functions.

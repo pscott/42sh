@@ -62,7 +62,11 @@ static void		add_each_name_with_path(t_hashmap **hashmap
 
 	i = hash_args->name_index - 1;
 	while (++i < argc)
+	{
+		if (ft_strchr(argv[i], '/'))
+			continue ;
 		add_to_hashmap(argv[i], hash_args->path, hashmap);
+	}
 }
 
 /*

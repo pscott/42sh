@@ -36,7 +36,7 @@ static t_bool	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc
 	paths = get_hash_paths(vars->env_vars);//no need protect: MEM_ERR is checked before, i protected 'find_path()'
 	while (++i < argc)
 	{
-		if (check_builtins(&argv[i]))
+		if (check_builtins(&argv[i]) || ft_strchr(argv[i], '/'))
 			continue ;
 		if (!(value = find_path(argv[i], paths)))
 		{

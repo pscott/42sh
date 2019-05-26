@@ -5,7 +5,7 @@
 # include <stdlib.h>
 # include "libft.h"
 
-# define OP_CHART_SIZE 22
+# define OP_CHART_SIZE 21
 # define DEBUG_PARSER 0
 
 typedef unsigned char	t_bool;
@@ -30,7 +30,8 @@ typedef enum		e_token_type
 	tk_dq_str,
 	tk_redirection,
 	tk_heredoc,
-	tk_arith_exp,
+	//tk_arith_exp,//useless
+	//tk_param_sub,//useless
 	tk_pipe,
 	tk_and,//=or
 	tk_or,//=and
@@ -66,7 +67,7 @@ typedef enum		s_lexer_state
 
 //DEBUG TEJME
 void	print_token(t_token *token);
-void	print_token_list(t_token *token_head);
+checkd	print_token_list(t_token *token_head);
 //
 
 /*
@@ -98,7 +99,7 @@ t_token				*copy_tokens(t_token *token_head);
 */
 
 t_token	*get_token(char **cmdline, t_operation *op_chart);
-t_token	*get_arith_exp_token(char **cmdline);
+//t_token	*check_arith_exp_token(char **cmdline);
 t_token	*create_token(char *cmdline, size_t size, t_token_type type);
 
 /*

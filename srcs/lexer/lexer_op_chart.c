@@ -11,7 +11,7 @@ static void	create_op_chart_elem(t_operation *op, char *str
 
 static void	fill_op_chart(t_operation *op_chart)
 {
-	create_op_chart_elem(&op_chart[0], ">>-", 3, tk_redirection);//nop
+	create_op_chart_elem(&op_chart[0], ">>-", 3, tk_redirection);//nop //tk_unsupported ??
 	//create_op_chart_elem(&op_chart[1], "$((", 3, tk_arith_exp);//no need as i check it in get_token before get_op_chart_token
 	create_op_chart_elem(&op_chart[1], ">>", 2, tk_redirection);//tmp
 	create_op_chart_elem(&op_chart[2], ">>", 2, tk_redirection);
@@ -26,14 +26,16 @@ static void	fill_op_chart(t_operation *op_chart)
 	create_op_chart_elem(&op_chart[11], "|&", 2, tk_42sh);//nop
 	create_op_chart_elem(&op_chart[12], "<>", 2, tk_42sh);//nop
 	create_op_chart_elem(&op_chart[13], "$(", 2, tk_42sh);//nop
-	create_op_chart_elem(&op_chart[14], "${", 2, tk_42sh);//need this
+	//create_op_chart_elem(&op_chart[14], "${", 2, tk_42sh);//need this
+	//create_op_chart_elem(&op_chart[14], "${", 2, tk_word);//maybe don't tokenise it and just parse it in expand dollars ?
 	//create_op_chart_elem(&op_chart[15], "))", 2, tk_42sh);//no need: cause a call get_arith_exp()
-	create_op_chart_elem(&op_chart[15], ")", 1, tk_unsupported);//make tk_unsupported
-	create_op_chart_elem(&op_chart[16], "|", 1, tk_pipe);
-	create_op_chart_elem(&op_chart[17], "<", 1, tk_redirection);
-	create_op_chart_elem(&op_chart[18], ">", 1, tk_redirection);
-	create_op_chart_elem(&op_chart[19], "&", 1, tk_amp);
-	create_op_chart_elem(&op_chart[20], ";", 1, tk_semi);
+	create_op_chart_elem(&op_chart[14], ")", 1, tk_unsupported);//make tk_unsupported
+	//create_op_chart_elem(&op_chart[14], "(", 1, tk_unsupported);//TODO make this token too
+	create_op_chart_elem(&op_chart[15], "|", 1, tk_pipe);
+	create_op_chart_elem(&op_chart[16], "<", 1, tk_redirection);
+	create_op_chart_elem(&op_chart[17], ">", 1, tk_redirection);
+	create_op_chart_elem(&op_chart[18], "&", 1, tk_amp);
+	create_op_chart_elem(&op_chart[19], ";", 1, tk_semi);
 	op_chart[OP_CHART_SIZE - 1].size = 0;
 }
 
@@ -43,41 +45,6 @@ t_operation	*get_op_chart(void)
 
 	fill_op_chart(op_chart);
 	return (op_chart);
-}
-
-t_token		*get_arith_exp_token(char **cmdline)
-{
-	unsigned int	braces_count;
-	int				i;
-	t_token			*token;
-
-	braces_count = 0;
-	i = -1;
-	ft_printf("cmdline pre get_arith_tok: |%s|\n", *cmdline);
-	while((*cmdline)[++i])
-	{
-		if (!ft_strncmp("$((", &(*cmdline)[i], 3))
-		{
-			braces_count++;
-			i += 2;
-		}
-		if (!ft_strncmp("))", &(*cmdline)[i], 2))//syntax douteuse
-		{
-			braces_count--;
-			i += 2;
-			if (braces_count == 0)
-				break ;
-		}
-	}
-	//with previous break, braces should be >= 0
-	if (braces_count == 0)
-		token = create_token(*cmdline, i, tk_arith_exp);
-	else
-		return (NULL);
-	//print_token(token);//debug
-	*cmdline = *cmdline + i;
-	ft_printf("cmdline post get_arth:|%s|\n", *cmdline);
-	return (token);
 }
 
 t_token		*get_op_chart_token(char **cmdline, t_operation *op_chart)

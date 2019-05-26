@@ -18,6 +18,9 @@ static char	*get_directory(const char *env_key, const char **env)
 		print_errors(ERR_NOT_SET, ERR_NOT_SET_STR, (char*)env_key);
 		return (NULL);
 	}
+	//$> env HOME= ./42sh
+	//$> cd
+	//does nothing, not even an error msg, should we reproduce that ?
 	if (!(dest = ft_strdup(dest)))
 		ERROR_MEM;
 	return (dest);

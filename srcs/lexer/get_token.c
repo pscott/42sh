@@ -97,6 +97,63 @@ static t_token	*get_eat_token(char **cmdline)
 	return (token);
 }
 
+//just make a tk_word, parse_dollars will do the rest
+static t_token	*check_param_sub_token(char **cmdline)
+{
+	t_token	*token;
+	size_t	i;
+
+	i = 0;
+	while ((*cmdline)[i] && (*cmdline)[i] != '}')
+		i++;
+	if ((*cmdline)[i] == 0)
+	{
+		ft_printf("NO '}' found\n");
+		return (NULL);
+	}
+	if (!(token = create_token(*cmdline, i, tk_word)))
+		ERROR_MEM;
+	*cmdline = *cmdline + i;
+	return (token);//tmp
+}
+
+//Make a tk_word
+static t_token	*check_arith_exp_token(char **cmdline)
+{
+	unsigned int	braces_count;
+	int				i;
+	t_token			*token;
+
+	braces_count = 0;
+	i = -1;
+	ft_printf("cmdline pre get_arith_tok: |%s|\n", *cmdline);
+	while((*cmdline)[++i])
+	{
+		if (!ft_strncmp("$((", &(*cmdline)[i], 3))
+		{
+			braces_count++;
+			i += 2;//should be 3 ??
+		}
+		if (!ft_strncmp("))", &(*cmdline)[i], 2))//syntax douteuse
+		{
+			braces_count--;
+			i += 2;//or should be 1 ??
+			if (braces_count == 0)
+				break ;
+		}
+	}
+	//with previous break, braces should be >= 0
+	if (braces_count == 0)
+		token = create_token(*cmdline, i, tk_word);
+	else
+		return (NULL);
+	//print_token(token);//debug
+	*cmdline = *cmdline + i;
+	ft_printf("cmdline post get_arth:|%s|\n", *cmdline);
+	return (token);
+}
+
+
 /*
 ** get_token
 ** return a malloced token accordingly to the character under the cmdline
@@ -119,7 +176,9 @@ t_token			*get_token(char **cmdline, t_operation *op_chart)
 	else if (ft_is_white_space(**cmdline))
 		return (get_eat_token(cmdline));
 	else if ((ft_strlen(*cmdline) > 3) && !ft_strncmp(*cmdline, "$((", 3))
-		return (get_arith_exp_token(cmdline));
+		return (check_arith_exp_token(cmdline));
+	else if ((ft_strlen(*cmdline) > 2) && !ft_strncmp(*cmdline, "${", 2))
+		return (check_param_sub_token(cmdline));
 	else if ((token = get_op_chart_token(cmdline, op_chart)))
 		return (token);
 	else

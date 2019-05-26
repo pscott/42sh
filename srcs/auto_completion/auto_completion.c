@@ -249,7 +249,9 @@ usleep(100);
 	format_finding_and_get_correct_ret(&ret, start_actual_word, input, len);
 	ft_strdel(&to_find_full);
 	ft_strdel(&str);
+	/*
 	ft_printf("\nret:  |%s|", ret);
 	sleep(1);
+	*/
 	return (ret);
 }

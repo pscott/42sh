@@ -27,9 +27,10 @@ static void	Close(int fd) //remove me pls
 		ft_dprintf(2, "FAILED TO CLOSE :%d\n", fd);
 }
 
-static void	error_message(const char *cause)
+static int error_message(const char *cause)
 {
 	ft_dprintf(2, "%s error\n", cause);
+	return (1);
 }
 
 /*	OUTDATED
@@ -51,9 +52,9 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 	while (i++ < num_simple_commands - 1)
 	{
 		if (pipe(fd))
-			error_message("pipe");
+			return (error_message("pipe"));
 		if ((pid = fork()) == -1)//else if ?
-			error_message("fork");
+			return (error_message("fork")); // need to close fds...
 		else if (pid == 0)
 		{
 			Close(fd[0]);//check return value
@@ -97,7 +98,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 		signal_setup();
 		//Close(STDIN_FILENO); // for fd leaks
 		setup_terminal_settings();
-		vars->cmd_value = WEXITSTATUS(status);
+		vars->cmd_value = WIFSIGNALED(status) ? WTERMSIG(status) : WEXITSTATUS(status);
 		return (WEXITSTATUS(status));
 	}
 }

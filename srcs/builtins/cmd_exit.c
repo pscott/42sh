@@ -102,7 +102,7 @@ int				case_exit(char **argv, int *exitno)
 {
 	if (!argv || !argv[1])
 	{
-		*exitno = 0;
+		*exitno = 0; // should be vars->cmd_value; and verify cmd_value is initialized
 		return (1);
 	}
 	if (!word_is_num(argv[1]))

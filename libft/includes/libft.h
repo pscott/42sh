@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:53:24 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/13 17:05:36 by pscott           ###   ########.fr       */
+/*   Updated: 2019/05/26 17:50:28 by aschoenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int				ft_toupper(int c);
 int				ft_tolower(int c);
 int				ft_strcmp(const char *s1, const char *s2);
 size_t			ft_strlen(const char *s);
+unsigned int	ft_strlen_char(const char *s, char c);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 char			*ft_strcpy(char *dst, const char *src);
 char			*ft_strncpy(char *dst, const char *src, size_t len);

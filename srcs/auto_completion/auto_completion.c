@@ -67,16 +67,6 @@ static char			*handle_x_arg(char *input, char *to_find_and_next_char)
 	return (tmp2);
 }
 
-static unsigned int	ft_strlen_char(const char *line, char c)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (line && line[i] && line[i] != c && line[i] != '\0')
-		i++;
-	return (i);
-}
-
 static void			get_user_name(char **users, const char *line)
 {
 	char			*tmp;
@@ -119,7 +109,7 @@ static int			get_users_list(t_auto_comp **match, const char *to_find)
 	fd = open("/etc/passwd", 0);
 	while (((ret = get_next_line_2(fd, &line)) != -1))
 	{
-		if (line && line[0] && line[0] != '#' && (!to_find[0] || !strncmp(to_find, line, ft_strlen(to_find))))
+		if (line && line[0] && line[0] != '#' && (!to_find[0] || !ft_strncmp(to_find, line, ft_strlen(to_find))))
 		{
 			get_user_name(&users, line);
 			if (users == NULL)

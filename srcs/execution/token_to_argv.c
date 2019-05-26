@@ -101,9 +101,6 @@ char		**get_argv_from_token_lst(t_token *token_head)
 			break;
 	}
 	if (argv_len < 1)
-	{
-		ft_dprintf(2, "Something went wrong: nothing to execute..\n");
 		return (NULL);
-	}
 	return (create_argv(token_head, argv_len));
 }

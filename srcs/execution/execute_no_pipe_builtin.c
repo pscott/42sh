@@ -102,7 +102,8 @@ t_bool		execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
 	unsigned int			ret;
 	char					*cmd_path;
 
-	argv = fake_argv(token_head, vars);
+	if (!(argv = fake_argv(token_head, vars)))
+		return (1);
 	if (ft_strchr(argv[0], '/'))
 		ret = 1;
 	else if ((cmd_id = check_builtins(argv)))

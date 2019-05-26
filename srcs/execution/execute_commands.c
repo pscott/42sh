@@ -65,6 +65,7 @@ t_bool		parse_and_exec(t_token *token_head, int in, int out, t_vars *vars)
 	redirect(out, STDOUT_FILENO);
 	parse_expands(token_head, vars);
 	parse_redirections(token_head);
-	argv = get_argv_from_token_lst(token_head);
+	if (!(argv = get_argv_from_token_lst(token_head)))
+		return (1); // return value ?
 	return (execute_argv(argv, vars));
 }

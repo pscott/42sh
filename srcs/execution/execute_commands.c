@@ -53,7 +53,7 @@ static t_bool		execute_argv(char **argv, t_vars *vars)
 	else
 		return (ERR_CMD);
 	access_and_exec(cmd_path, (const char **)argv, (const char**)vars->env_vars);
-	ft_strdel(&cmd_path);
+	ft_strdel(&cmd_path); // useless becasue of exit before
 	return (0);
 }
 

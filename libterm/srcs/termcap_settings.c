@@ -16,7 +16,6 @@ int			reset_terminal_settings(void)
 {
 	if (isatty(STDIN_FILENO) == 0)
 		return (1);
-	execute_str(VISIBLE);
 	if ((tcsetattr(STDIN_FILENO, TCSANOW, &g_saved_attr) == -1))
 		return (err_resetattr());
 	return (1);

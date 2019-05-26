@@ -4,6 +4,9 @@
 # include "libft.h"
 # include <stdlib.h>
 # include "libterm.h"
+# include <sys/types.h>
+# include <pwd.h>
+# include <unistd.h>
 typedef unsigned char	t_bool;
 
 # define ERROR_MEM clean_exit(1);

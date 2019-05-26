@@ -86,6 +86,9 @@ unsigned int				len_lst(t_auto_comp *lst);
 void						print_spaces(const char *s, unsigned int cols);
 int							is_display(unsigned int count);
 int							find_all_match(char *directory, t_auto_comp **match, const char *to_find, const char *next);
+char						*handle_x_arg(const char *input, const char *to_find_and_next_char);
+char						*users_passwd(const char *to_find);
+int							get_next_line_2(const int fd, char **line);
 int							free_two_strings(char **s1, char **s2);
 int							free_four_strings(char **s1, char **s2, char **s3, char **s4);
 

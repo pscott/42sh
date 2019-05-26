@@ -37,105 +37,6 @@ static int			is_first_arg_and_exec(const char *str, unsigned int cursor_pos, uns
 	}
 }
 
-static char			*handle_x_arg(char *input, char *to_find_and_next_char)
-{
-	char			*path;
-	char			*to_find;
-	char			*tmp;
-	char			*tmp2;
-	char			*ret_str;
-	t_auto_comp		*match;
-
-	to_find = NULL;
-	path = NULL;
-	ret_str = NULL;
-	match = NULL;
-	tmp = NULL;
-	tmp2 = NULL;
-	if (input && input[0] && ft_strchr(input, '/'))
-		tmp = ft_strndup(input, ft_strlen(input) - ft_strlen(ft_strrchr(input, '/') + 1));
-	get_path_file_and_to_find(input, &path, &to_find);
-	if (!to_find[0] || ft_is_white_space(to_find[0]))
-		find_all_except_dots(path, &match); 
-	else
-		find_all_match(path, &match, to_find, to_find_and_next_char);
-	if (match)
-		ret_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
-	else if (!(ret_str = ft_strdup(to_find)))
-		ERROR_MEM
-	free_four_strings(&tmp, &ret_str, &path, &to_find);
-	return (tmp2);
-}
-
-static void			get_user_name(char **users, const char *line)
-{
-	char			*tmp;
-	char			*tmp2;
-	struct passwd	*infos;
-	struct stat		file_infos;
-
-	tmp = NULL;
-	tmp2 = NULL;
-	infos = NULL;
-	if (!(tmp = ft_strndup(line, ft_strlen_char(line, ':'))))
-		ERROR_MEM
-	if (!(tmp2 = ft_strjoin("~", tmp)))
-		ERROR_MEM
-	infos = getpwnam(tmp);
-	if ((stat(infos->pw_dir, &file_infos) != -1))
-	{
-		if (S_ISDIR(file_infos.st_mode))
-		{
-			if (!((*users) = ft_strjoin(tmp2, "/")))
-				ERROR_MEM
-		}
-	}
-	else if (!(*users = ft_strdup(tmp2)))
-		ERROR_MEM
-	free_two_strings(&tmp, &tmp2);
-}
-
-static int			get_users_list(t_auto_comp **match, const char *to_find)
-{
-	int				fd;
-	char			*line;
-	int				ret;
-	char			*users;
-	char			*tmp;
-
-	line = NULL;
-	users = NULL;
-	tmp = NULL;
-	fd = open("/etc/passwd", 0);
-	while (((ret = get_next_line_2(fd, &line)) != -1))
-	{
-		if (line && line[0] && line[0] != '#' && (!to_find[0] || !ft_strncmp(to_find, line, ft_strlen(to_find))))
-		{
-			get_user_name(&users, line);
-			if (users == NULL)
-				users = ft_strnew(1);
-			create_match_link(match, users);
-			ft_strdel(&users);
-		}
-		if (!ret)
-			break ;
-	}
-	return (0);
-}
-
-char				*users_passwd(const char *to_find)
-{
-	t_auto_comp		*match;
-	char			*ret_str;
-
-	match = NULL;
-	ret_str = NULL;
-	get_users_list(&match, to_find + 1);
-	if (match)
-		ret_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
-	return (ret_str);
-}
-
 char				*handle_first_arg_dot_tilde(int type, const char *to_find)
 {
 	char			*ret;
@@ -191,7 +92,7 @@ static int			format_finding_and_get_correct_ret(char **ret, int start_actual_wor
 	{
 		if (save)
 		{
-			if (!(tmp = ft_strjoin(save,(*ret))))
+			if (!(tmp = ft_strjoin(save, (*ret))))
 				ERROR_MEM
 			ft_strdel(ret);
 		}

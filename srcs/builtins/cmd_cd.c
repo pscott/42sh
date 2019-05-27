@@ -81,6 +81,21 @@ static char	*relative_directory(const char *path, const char **env)
 	return (dest);
 }
 
+int			check_cd_usage(char **t)
+{
+	int i;
+
+	i = 0;
+	while (t[i])
+		i++;
+	if (i > 2)
+	{
+		ft_dprintf(2, "42sh: cd: too many arguments\n");
+		return (1);
+	}
+	return (0);
+}
+
 /*
 **	Returns 0 if it succesfully managed to change directory ; else returns
 **	the corresponding error value.
@@ -91,6 +106,8 @@ int			case_cd(char **t, char ***env)
 	char			*dest;
 	struct	stat	infos;
 
+	if (check_cd_usage(t))
+		return (1);
 	if (!(t[1]))
 		dest = get_directory("HOME", (const char**) *env);
 	else if (ft_strncmp(t[1], "-", 2) == 0)

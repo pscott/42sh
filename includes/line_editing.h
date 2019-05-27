@@ -3,7 +3,7 @@
 
 # include "42sh.h"
 # include "input.h"
-# define MAX_DISPLAY 50
+# define MAX_DISPLAY 2000
 # define PATH_MAX 4096
 # define NAME_MAX 4096
 # include <dirent.h>

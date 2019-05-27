@@ -5,10 +5,6 @@
 
 static t_bool	is_valid_tilde(const char *str, t_token *prev_token)
 {
-	/*
-	ft_printf("curr token: |%s|", str);
-	sleep(1);
-	*/
 	if (!prev_token && (!ft_strncmp("~/", str, 2) || !ft_strncmp("~", str, 2)))
 		return (1);
 	if (prev_token && prev_token->type == tk_eat
@@ -94,29 +90,10 @@ char			*get_to_find_exp_tilde_user(char **str)
 
 static t_bool	replace_tilde_users(char **str, const char **env, char *line)
 {
-	int				fd;
-	char			*user;
 	char			*to_find;
-	int				ret;
 
-	user = NULL;
-	ret = 0;
 	to_find = get_to_find_exp_tilde_user(str);
-	fd = open("/etc/passwd", 0);
-	while (((ret = get_next_line(fd, &line)) != -1))
-	{
-		if (line && line[0] && line[0] != '#' && (!ft_strncmp(to_find, line, ft_strlen(to_find))))
-		{
-			if (!(user = ft_strndup(line, ft_strlen_char(line, ':'))))		
-				ERROR_MEM
-			insert_expansion(user, str);
-			ft_strdel(&user);
-			ft_strdel(&to_find);
-			return (1);
-		}
-		if (ret == 0)
-			break ;
-	}
+	insert_expansion(to_find, str);
 	ft_strdel(&to_find);
 	return (0);
 }	
@@ -135,9 +112,6 @@ t_bool	parse_tildes(t_token *token_head, const char **env)
 	{
 		if (curr_token->type == tk_word && (ret = is_valid_tilde(curr_token->content, prev_token)))//~ doesn't expand in ""
 		{
-			//	ft_putendl("CASE ~/okokok");
-		//		ft_putnbr(ret);
-		//		sleep(1);
 			if (ret == 1)//case ~/xxxx -> chercher dans le home, get_envline
 			{
 				if (!replace_tilde(&curr_token->content, env))

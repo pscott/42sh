@@ -31,20 +31,24 @@ static char	*get_directory(const char *env_key, const char **env)
 static int	change_environ(char *new_pwd, char ***env)
 {
 	char	 *old_pwd;
+	char	*pwd;
 	int		ret;
 
 	if (!(old_pwd = get_directory("PWD", (const char**)*env)))
 		if (!(old_pwd = getcwd(NULL, 0))) // would need to get pwd...
 			return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
-	set_env_var("PWD", (char*)new_pwd, env);
+	ft_printf("%s | %s\n", new_pwd, old_pwd);
 	set_env_var("OLDPWD", old_pwd, env); // not working
 	ft_strdel(&old_pwd);
 	if ((ret = chdir(new_pwd)) == -1)
 		print_errors(ERR_CHDIR, ERR_CHDIR_STR, new_pwd);
+	if (!(pwd = getcwd(NULL, 0)))
+		return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
+	set_env_var("PWD", pwd, env);
 	ft_strdel(&new_pwd);
+	ft_strdel(&pwd);
 	return (ret);
 }
-
 
 static char	*relative_directory(const char *path, const char **env)
 {
@@ -65,9 +69,14 @@ static char	*relative_directory(const char *path, const char **env)
 			return (NULL);
 		}
 	}
-	if (!(tmp = ft_strjoin(cwd, "/")))
-		ERROR_MEM;
-	ft_strdel(&cwd);
+	if (cwd[0] && cwd[0] == '/' && !cwd[1])
+		tmp = cwd;
+	else
+	{
+		if (!(tmp = ft_strjoin(cwd, "/")))
+			ERROR_MEM;
+		ft_strdel(&cwd);
+	}
 	if (!(dest = ft_strjoin(tmp, path)))
 		ERROR_MEM;
 	ft_strdel(&tmp);

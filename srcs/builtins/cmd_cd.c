@@ -34,11 +34,9 @@ static int	change_environ(char *new_pwd, char ***env)
 	char	*pwd;
 	int		ret;
 
-	if (!(old_pwd = get_directory("PWD", (const char**)*env)))
-		if (!(old_pwd = getcwd(NULL, 0))) // would need to get pwd...
-			return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
-	ft_printf("%s | %s\n", new_pwd, old_pwd);
-	set_env_var("OLDPWD", old_pwd, env); // not working
+	if (!(old_pwd = getcwd(NULL, 0)))
+		return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
+	set_env_var("OLDPWD", old_pwd, env);
 	ft_strdel(&old_pwd);
 	if ((ret = chdir(new_pwd)) == -1)
 		print_errors(ERR_CHDIR, ERR_CHDIR_STR, new_pwd);

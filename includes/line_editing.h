@@ -6,10 +6,13 @@
 # define MAX_DISPLAY 2000
 # define PATH_MAX 4096
 # define NAME_MAX 4096
+# define PROMPT_REVERSE_I_SEARCH_FAIL "(failed reverse-i-search)"
+# define PROMPT_REVERSE_I_SEARCH_SUCC "(reverse-i-search)"
 # include <dirent.h>
 # include <sys/types.h>
 # include <pwd.h>
 # include <sys/stat.h> 
+
 
 /*
 **	Window struct

@@ -71,7 +71,7 @@ SRC_FILES	:=	ft_printf.c getters.c isprint_special.c parse_struct.c			\
 							ft_strtrim.c ft_tolower.c ft_toupper.c ft_itoa.c	\
 							ft_putchar_err.c ft_free_ntab.c ft_realloc.c		\
 							ft_dup_ntab.c ft_ntab_len.c ft_strndup.c \
-							ft_print_ntab.c ft_strlen_char.c
+							ft_print_ntab.c ft_strlen_char.c ft_strrstr.c
 	CONVERSION_FILES	:=	conv_helper.c converters.c
 	FORMATS_FILES		:=	format_int.c format_char.c format_unsigned.c		\
 							format_string.c format_conv.c format_p.c			\

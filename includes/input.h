@@ -46,6 +46,7 @@ int				check_for_quit(t_st_cmd *st_cmd, const char *buf);
 int				check_for_enter(const char *buf);
 int				check_for_signal(const char *buf);
 int				check_for_delete(t_st_cmd *st_cmd, char *buf);
+int				check_for_search_histo(t_st_cmd *st_cmd, const char *buf_received);
 int				check_for_tab(t_st_cmd *st_cmd, const char *buf, t_vars *vars);
 
 /*
@@ -92,6 +93,7 @@ void						free_st_txt(t_st_txt **st_txt);
 
 t_st_prompt					*init_st_prompt(const char *prompt);
 void						print_prompt(t_st_cmd *st_cmd);
+void						print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf, int prompt_type);
 void						free_st_prompt(t_st_prompt **st_prompt);
 
 /*

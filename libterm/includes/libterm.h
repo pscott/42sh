@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/22 14:10:27 by pscott           ###   ########.fr       */
+/*   Updated: 2019/05/27 14:31:59 by aschoenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@
 # define CTRL_Z_LEN 1
 # define CTRL_C "\x03"
 # define CTRL_C_LEN 1
+# define CTRL_R "\x12"
+# define CTRL_R_LEN 1
 
 /*
 ** Previous terminal settings are saved in a global, and restored on exit.

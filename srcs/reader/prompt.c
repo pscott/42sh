@@ -52,7 +52,7 @@ void	print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf, int prompt_typ
 		execute_str(BEGIN_LINE);
 		execute_str(ERASE_ENDLINE);
 		retrieve_pos(&st_cmd->start_pos);
-		ft_printf("%s`%s': %s", st_cmd->st_prompt->prompt, buf, st_cmd->st_txt->txt);
+		ft_printf("%s`%s': %s", st_cmd->st_prompt->prompt, buf, st_cmd->st_txt->txt);//enlever et juste display le prompt
 		ft_memdel((void*)&zsh);
 	}
 }

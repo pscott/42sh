@@ -51,8 +51,10 @@ char		*substitute_env_var(char *old_str, size_t *i
 	ft_strcpy(new_str + *i,
 		old_str + *i - ft_strlen(var_value) + (ft_strlen(var_name) + 1));
 	(*i)--;
-	ft_memdel((void*)&old_str);
-	ft_memdel((void*)&var_name);
+	//ft_memdel((void*)&old_str);
+	//ft_memdel((void*)&var_name);
+	ft_strdel(&old_str);
+	ft_strdel(&var_name);
 	return (new_str);
 }
 
@@ -67,7 +69,8 @@ char		*substitute_env_var(char *old_str, size_t *i
 */
 
 //when a '$((' is found, i should check if it is ended before giving it to expansion_arith()
-static t_bool	expand_dollars(t_token *token, t_vars *vars)//TODO expand ARITH here ??
+//OLD VERSION
+/*static t_bool	expand_dollars(t_token *token, t_vars *vars)//TODO expand ARITH here ??
 {
 	size_t	i;
 	char 	*var_name;
@@ -95,9 +98,10 @@ static t_bool	expand_dollars(t_token *token, t_vars *vars)//TODO expand ARITH he
 	if (ft_strlen(token->content) == 0)
 		token->type = tk_eat;
 	return (0);
-}
+}*/
 
 //REFACTORED
+//need to check $ and ${ before $((
 static t_bool	expand_dollars(t_token *token, t_vars *vars)
 {
 	size_t	i;
@@ -105,20 +109,18 @@ static t_bool	expand_dollars(t_token *token, t_vars *vars)
 
 	i = 0;
 	escaped = 0;
-	while (token->content[i])
+	while (token->content[i++])
 	{
 		if (!escaped && !ft_strncmp("$((", &token->content[i], 3))
 		{
-			//if a '))' is matching
-			if (is_matched(&token->content[i], "$((", "))"))
+			if (is_matched(&token->content[i], "$((", "))"))//if a '))' is matching
 			//	convert via arith_exp
 			else
 			//	ignore it
 		}
 		else if (!escaped && !ft_strncmp("${", &token->content[i], 2))
 		{
-			//if a '}' is matching
-			if (is_matched(&token->content[i], "${", "}"))
+			if (is_matched(&token->content[i], "${", "}"))//if a '}' is matching
 			//	check for 'error: bad substitution'		//this is the right place  |ls; echo ${PWD  }|
 			//	substitute env_var
 			//else
@@ -135,28 +137,17 @@ static t_bool	expand_dollars(t_token *token, t_vars *vars)
 		//else if (escaped && token->content[i] == '\\')
 		//	escaped = 0;
 		//================
-		i++;
 	}
 	if (ft_strlen(token->content) == 0)
 		token->type = tk_eat;
 	return (0);
 }
 
-static t_bool	is_tk_param_sub_well_formated(t_token *token)
-{
-	size_t	i;
-
-	if (token->content[2] == '}')
-		return (0);
-	i = 0;
-	while (token->content[i++] && token->content[i] != '}')
-		if (!ft_isalnum(token->content[i]) && token->content[i] != '_')
-			return (0);
-	return (1);
-}
-
+//	Return 0 if ${..} if not well formated
 //check return type
 //TODO need arith_expand in tk_dq_str
+//NEED to expand $ and ${} before $(())
+
 t_bool			parse_dollars(t_token *token_head, t_vars *vars)
 {
 	t_bool		res;
@@ -172,24 +163,24 @@ t_bool			parse_dollars(t_token *token_head, t_vars *vars)
 			res = 1;
 			expand_dollars(token_head, vars);
 		}
-		else if (token_head->type == tk_arith_exp)//test
-		{
-			//tmp_str = ft_strndup(&token_head->content[3], ft_strlen(token_head->content) - 5);
-			tmp_str = ft_strdup(token_head->content);
-			ft_printf("duped={%s}\n", tmp_str);
-			expansion_arith(tmp_str, &vars->env_vars, &arith_res);
-			ft_printf("result = {%lld}\n", arith_res);
-			token_head->content = ft_itoa(arith_res);
-			token_head->type = tk_word;//pas sure: "cat not_exist $((2))>&-"
-			ft_printf("token: {%s}\n", token_head->content);
-			//token_head->content = ft_itoa(expansion_arith(tmp_str, &vars->env_vars, &arith_res));
-			//ft_printf("ARITH_RES = {%lld}\n", token_head->content);
-		}
-		else if (token_head->type == tk_param_sub)
-		{
-			if (is_tk_param_sub_well_formated(token_head) == 0)
-				return (0);
-		}
+		//else if (token_head->type == tk_arith_exp)//test//NO MORE tk_arith
+		//{
+		//	//tmp_str = ft_strndup(&token_head->content[3], ft_strlen(token_head->content) - 5);
+		//	tmp_str = ft_strdup(token_head->content);
+		//	ft_printf("duped={%s}\n", tmp_str);
+		//	expansion_arith(tmp_str, &vars->env_vars, &arith_res);
+		//	ft_printf("result = {%lld}\n", arith_res);
+		//	token_head->content = ft_itoa(arith_res);
+		//	token_head->type = tk_word;//pas sure: "cat not_exist $((2))>&-"
+		//	ft_printf("token: {%s}\n", token_head->content);
+		//	//token_head->content = ft_itoa(expansion_arith(tmp_str, &vars->env_vars, &arith_res));
+		//	//ft_printf("ARITH_RES = {%lld}\n", token_head->content);
+		//}
+		//else if (token_head->type == tk_param_sub)//NO MORE tk_param_sub
+		//{
+		//	if (is_tk_param_sub_well_formated(token_head) == 0)
+		//		return (0);
+		//}
 		token_head = token_head->next;
 	}
 	return (1);

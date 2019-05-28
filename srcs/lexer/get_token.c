@@ -108,8 +108,8 @@ static t_token	*check_param_sub_token(char **cmdline)
 		i++;
 	if ((*cmdline)[i] == 0)
 	{
-		ft_printf("NO '}' found\n");
-		return (NULL);
+		ft_printf("TMP: NO '}' found\n");
+		return (NULL);//=cont_read
 	}
 	if (!(token = create_token(*cmdline, i, tk_word)))
 		ERROR_MEM;
@@ -126,7 +126,6 @@ static t_token	*check_arith_exp_token(char **cmdline)
 
 	braces_count = 0;
 	i = -1;
-	ft_printf("cmdline pre get_arith_tok: |%s|\n", *cmdline);
 	while((*cmdline)[++i])
 	{
 		if (!ft_strncmp("$((", &(*cmdline)[i], 3))
@@ -149,7 +148,6 @@ static t_token	*check_arith_exp_token(char **cmdline)
 		return (NULL);
 	//print_token(token);//debug
 	*cmdline = *cmdline + i;
-	ft_printf("cmdline post get_arth:|%s|\n", *cmdline);
 	return (token);
 }
 

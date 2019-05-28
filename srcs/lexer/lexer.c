@@ -93,9 +93,6 @@ static void	init_lexer(t_operation **op_chart, t_token **token_head
 ** - return LEX_SUCCES otherwise, so handle_input can continue
 */
 
-
-//t_bool	parse_heredoc(t_token *token_head, t_vars *vars);//proto
-
 int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 {
 	t_token		*current_token;

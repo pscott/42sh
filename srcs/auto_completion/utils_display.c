@@ -21,23 +21,30 @@ unsigned int		len_lst(t_auto_comp *lst)
 unsigned int		get_max_len(t_auto_comp *match)
 {
 	t_auto_comp		*tmp;
+	char			*save_max;
 	unsigned int	max;
 
 	if (!match)
 		return (0);
 	max = 0;
+	save_max = NULL;
 	tmp = match;
 	while (tmp->prev)
-	{
 		tmp = tmp->prev;
-	}
 	max = tmp->len;
-	while (tmp)
+	while ((tmp = tmp->next))
 	{
 		if (tmp->len > max)
+		{
+			if (save_max)
+				ft_strdel(&save_max);
 			max = tmp->len;
-		tmp = tmp->next;
+			if (!(save_max = ft_strdup(tmp->name)))
+				ERROR_MEM
+		}
 	}
+	if (save_max && save_max[ft_strlen(save_max) - 1] != ' ')
+		max++;
 	return (max);
 }
 

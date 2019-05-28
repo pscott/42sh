@@ -61,6 +61,17 @@ int					find_all_except_dots(const char *directory, t_auto_comp **match)
 	return (0);
 }
 
+static void			get_good_ret_str(char **ret_str, char *tmp)
+{
+	char			*tmp2;
+
+	tmp2 = NULL;
+	if (!(tmp2 = ft_strjoin(tmp, *ret_str)))
+		ERROR_MEM
+	ft_strdel(ret_str);
+	*ret_str = tmp2;
+}
+
 char				*handle_x_arg(const char *input, const char *to_find_and_next_char)
 {
 	char			*path;
@@ -77,7 +88,7 @@ char				*handle_x_arg(const char *input, const char *to_find_and_next_char)
 
 	if (input && input[0] == '~' && (!input[1] || input[1] != '/'))
 		return (ret_str = users_passwd(input));
-	if (input && input[0] && ft_strchr(input, '/'))
+	else if (input && input[0] && ft_strchr(input, '/'))
 		tmp = ft_strndup(input, ft_strlen(input) - ft_strlen(ft_strrchr(input, '/') + 1));
 	get_path_file_and_to_find(input, &path, &to_find);
 	if (!to_find[0] || ft_is_white_space(to_find[0]))
@@ -88,6 +99,7 @@ char				*handle_x_arg(const char *input, const char *to_find_and_next_char)
 		ret_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
 	else if (!(ret_str = ft_strdup(to_find)))
 		ERROR_MEM
-			free_four_strings(&tmp, &ret_str, &path, &to_find);
+	get_good_ret_str(&ret_str, tmp);
+	free_four_strings(&tmp, NULL, &path, &to_find);
 	return (ret_str);
 }

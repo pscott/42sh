@@ -67,7 +67,7 @@ static char			*handle_first_bin(t_vars *vars, const char *to_find, const char *s
 				ERROR_MEM
 		}
 		else if (!ft_strchr(to_find, '/'))
-			ret = search_dirs_first_arg(".", to_find, len);
+			ret = search_dirs_first_arg(".", to_find, ft_strlen(to_find));
 		else
 			ret = search_dirs_and_exe(to_find);
 	}

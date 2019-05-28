@@ -91,7 +91,7 @@ int				get_exit_value(char **argv)
 void			print_exit(void)
 {
 	if (isatty(STDIN_FILENO))
-		ft_dprintf(0, "exit\n");
+		ft_dprintf(2, "exit\n");
 }
 /*
 **	Exit builtin. Does NOT call exit(3). Returns 0 if exit(3) should be called

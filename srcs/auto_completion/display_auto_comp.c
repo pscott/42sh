@@ -116,6 +116,10 @@ char		*get_ret_or_display_matches(t_auto_comp *match, const char *to_find, unsig
 	while (match->prev)
 		match = match->prev;
 	my_ft_list_sort(&match);
+	/*
+	ft_printf("%s, %d", to_find, len);
+	sleep(2);
+	*/
 	if (len_lst(match) == 1)
 		ret_str = ft_strdup(match->name);
 	else if ((diff_len = lst_match_more_than_to_find(match, len)) > 0)

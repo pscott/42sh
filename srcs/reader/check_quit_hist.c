@@ -67,7 +67,7 @@ int					search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find)
 	t_hist_lst		*curr;
 
 	if ((*st_cmd)->hist_lst->next == NULL)//check si on est sur last ou non pour savoir a partir d'ou chercher. il faut commencer la ou on est actuellement.
-		curr = (*st_cmd)->hist_lst->prev;
+		curr = (*st_cmd)->hist_lst->prev;// il faut garder en memoire la place ou on est : reculer st_cmd->hist_lst ? OUI (si on remonte de 3 maillons avec ctrl R et qu'on appuie sur fleche du haut, alors on est a head - 4
 	else
 		curr = (*st_cmd)->hist_lst;
 	while (curr)
@@ -139,8 +139,8 @@ int		check_for_search_histo(t_st_cmd *st_cmd, const char *buf_received)
 			buf = ft_realloc(buf, ft_strlen(buf) - 1, &malloc_size, 1);
 			buf[ft_strlen(buf)] = c;//buf contient ce que je dois chercher dans l'historique ; gere quand c'est del, etc..
 			prompt_type = search_reverse_in_histo(&st_cmd, buf);//pattern found ; afficher le prompt SUCCESS (reverse-i-search)`$buf': $st_cmd->st_txt->txt
-		/*	print_prompt_search_histo(st_cmd, buf, prompt_type);
-			execute_str(BEGIN_LINE);
+			print_prompt_search_histo(st_cmd, buf, prompt_type);
+		/*	execute_str(BEGIN_LINE);
 			execute_str(CLEAR_BELOW);
 			retrieve_pos(&st_cmd->start_pos);
 			write_st_cmd(st_cmd);

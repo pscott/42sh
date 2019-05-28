@@ -13,7 +13,7 @@ void	magic_print(char *buf) // debug
 	move_cursor(0, 0);
 	while (i < BUF_SIZE + 1)
 	{
-		ft_dprintf(2, "%-3d", buf[i]);
+		ft_dprintf(2, "%-4d", buf[i]);
 		i++;
 	}
 	execute_str(RESTORE_CURSOR);
@@ -91,6 +91,7 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 	while ((ret = read(STDIN_FILENO, &c, 1)) > 0)
 	{
 		buf[ft_strlen(buf)] = c;
+		magic_print(buf);
 		if (is_valid_escape(buf) == 0)
 			continue ;
 		if (check_for_signal(buf))

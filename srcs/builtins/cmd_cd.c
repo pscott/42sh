@@ -31,20 +31,22 @@ static char	*get_directory(const char *env_key, const char **env)
 static int	change_environ(char *new_pwd, char ***env)
 {
 	char	 *old_pwd;
+	char	*pwd;
 	int		ret;
 
-	if (!(old_pwd = get_directory("PWD", (const char**)*env)))
-		if (!(old_pwd = getcwd(NULL, 0))) // would need to get pwd...
-			return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
-	set_env_var("PWD", (char*)new_pwd, env);
-	set_env_var("OLDPWD", old_pwd, env); // not working
+	if (!(old_pwd = getcwd(NULL, 0)))
+		return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
+	set_env_var("OLDPWD", old_pwd, env);
 	ft_strdel(&old_pwd);
 	if ((ret = chdir(new_pwd)) == -1)
 		print_errors(ERR_CHDIR, ERR_CHDIR_STR, new_pwd);
+	if (!(pwd = getcwd(NULL, 0)))
+		return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
+	set_env_var("PWD", pwd, env);
 	ft_strdel(&new_pwd);
+	ft_strdel(&pwd);
 	return (ret);
 }
-
 
 static char	*relative_directory(const char *path, const char **env)
 {
@@ -65,13 +67,33 @@ static char	*relative_directory(const char *path, const char **env)
 			return (NULL);
 		}
 	}
-	if (!(tmp = ft_strjoin(cwd, "/")))
-		ERROR_MEM;
-	ft_strdel(&cwd);
+	if (cwd[0] && cwd[0] == '/' && !cwd[1])
+		tmp = cwd;
+	else
+	{
+		if (!(tmp = ft_strjoin(cwd, "/")))
+			ERROR_MEM;
+		ft_strdel(&cwd);
+	}
 	if (!(dest = ft_strjoin(tmp, path)))
 		ERROR_MEM;
 	ft_strdel(&tmp);
 	return (dest);
+}
+
+int			check_cd_usage(char **t)
+{
+	int i;
+
+	i = 0;
+	while (t[i])
+		i++;
+	if (i > 2)
+	{
+		ft_dprintf(2, "42sh: cd: too many arguments\n");
+		return (1);
+	}
+	return (0);
 }
 
 /*
@@ -84,6 +106,8 @@ int			case_cd(char **t, char ***env)
 	char			*dest;
 	struct	stat	infos;
 
+	if (check_cd_usage(t))
+		return (1);
 	if (!(t[1]))
 		dest = get_directory("HOME", (const char**) *env);
 	else if (ft_strncmp(t[1], "-", 2) == 0)

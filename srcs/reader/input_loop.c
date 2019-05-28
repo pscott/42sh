@@ -66,10 +66,12 @@ static int is_valid_escape(char *buf)
 	last = len > 0 ? len - 1 : 0;
 	if (ft_strncmp(buf, RIGHTARROW, ARROW_LEN + 1) == 0 || ft_strncmp(buf, LEFTARROW, ARROW_LEN + 1) == 0
 		|| ft_strncmp(buf, UPARROW, ARROW_LEN + 1) == 0 || ft_strncmp(buf, DOWNARROW, ARROW_LEN + 1) == 0
-		|| ft_strncmp(buf, HOME, HOME_LEN + 1) == 0 || ft_strncmp(buf, END, END_LEN + 1) == 0)
+		|| ft_strncmp(buf, HOME, HOME_LEN + 1) == 0 || ft_strncmp(buf, END, END_LEN + 1) == 0
+		|| ft_strncmp(buf, DEL, DEL_LEN + 1) == 0)
 		return (1);
 	if (ft_strncmp(buf, RIGHTARROW, len) == 0 || ft_strncmp(buf, LEFTARROW, len) == 0
-		|| ft_strncmp(buf, UPARROW, len) == 0 || ft_strncmp(buf, DOWNARROW, len) == 0)
+		|| ft_strncmp(buf, UPARROW, len) == 0 || ft_strncmp(buf, DOWNARROW, len) == 0
+		|| ft_strncmp(buf, DEL, len) == 0)
 		return (0);
 	return (-1);
 }

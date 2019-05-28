@@ -111,7 +111,10 @@ int			case_cd(char **t, char ***env)
 	if (!(t[1]))
 		dest = get_directory("HOME", (const char**) *env);
 	else if (ft_strncmp(t[1], "-", 2) == 0)
-		dest = get_directory("OLDPWD", (const char**) *env);
+	{
+		if ((dest = get_directory("OLDPWD", (const char**) *env)))
+			ft_dprintf(1, "%s\n", dest);
+	}
 	else if (t[1][0] == '/')
 	{
 		if (!(dest = ft_strdup(t[1]))) // test with '/' at the END pls

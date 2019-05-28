@@ -1,4 +1,4 @@
-# 42sh : in a nutSHELL
+# 42sh : in a nut*shell*
 
 *42sh* is the **last project** on the Unix path at [42](https://www.42.fr/). The goal is to write a **fully-fledged shell**, allowing the user to interact with our shell and execute commands.
 

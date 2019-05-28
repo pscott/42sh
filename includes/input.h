@@ -66,6 +66,12 @@ void			delete_right(t_st_cmd *st_cmd);
 void			delete_left(t_st_cmd *st_cmd);
 
 /*
+**	Jump words
+*/
+
+int				jump_word(t_st_cmd *st_cmd, int num);
+
+/*
 ** Read input
 */
 

@@ -19,10 +19,14 @@ int		check_for_arrows(t_st_cmd *st_cmd, const char *buf)
 		get_previous_history(st_cmd);
 	else if (ft_strncmp(buf, DOWNARROW, ARROW_LEN + 1) == 0)
 		get_next_history(st_cmd);
-	else if (ft_strncmp(buf, HOME, HOME_LEN + 1) == 0)
+	else if (ft_strncmp(buf, HOME, HOME_LEN + 1) == 0 || *buf == '\x01')
 		go_to_start(st_cmd);
-	else if (ft_strncmp(buf, END, END_LEN + 1) == 0)
+	else if (ft_strncmp(buf, END, END_LEN + 1) == 0 || *buf == '\x05')
 		go_to_end(st_cmd);
+	else if (*buf == '\x06')
+		jump_word(st_cmd, 1);
+	else if (*buf == '\x02')
+		jump_word(st_cmd, -1);
 	else
 		return (0);
 	return (1);

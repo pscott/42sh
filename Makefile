@@ -76,7 +76,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c heredoc_utils.c
 						check_token_type.c
 	READER_FILES	:=	arrows.c check_commands.c prompt.c \
 						input_loop.c cursor_position.c input_utils.c \
-						delete.c txt_cat.c
+						delete.c txt_cat.c jump_word.c
 	EXPANDS_FILES	:=	parse_expands.c parse_dollars.c parse_tildes.c \
 						parse_quotes.c 
 	HISTORY_FILES	:=	hist_file.c get_next_line.c hist_lst.c \

@@ -100,7 +100,7 @@ char		*substitute_env_var(char *old_str, size_t *i
 	return (0);
 }*/
 
-//REFACTORED
+//REFACTORED i will not use it enfaite...
 //need to check $ and ${ before $((
 static t_bool	expand_dollars(t_token *token, t_vars *vars)
 {

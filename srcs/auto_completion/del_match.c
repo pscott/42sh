@@ -11,8 +11,6 @@ int			del_match(t_auto_comp *match)
 	while (match && match->next)
 	{
 		tmp = (match);
-		(match)->len = 0;
-		(match)->rank = 0;
 		(match)->prev = NULL;
 		ft_strdel(&(match->name));
 		match = match->next;
@@ -20,8 +18,6 @@ int			del_match(t_auto_comp *match)
 	}
 	if (!match)
 		return (1);
-	match->len = 0;
-	match->rank = 0;
 	match->next = NULL;
 	match->prev = NULL;
 	ft_strdel(&(match->name));

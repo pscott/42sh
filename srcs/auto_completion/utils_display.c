@@ -31,14 +31,14 @@ unsigned int		get_max_len(t_auto_comp *match)
 	tmp = match;
 	while (tmp->prev)
 		tmp = tmp->prev;
-	max = tmp->len;
+	max = ft_strlen(tmp->name);
 	while ((tmp = tmp->next))
 	{
-		if (tmp->len > max)
+		if (ft_strlen(tmp->name) > max)
 		{
 			if (save_max)
 				ft_strdel(&save_max);
-			max = tmp->len;
+			max = ft_strlen(tmp->name);
 			if (!(save_max = ft_strdup(tmp->name)))
 				ERROR_MEM
 		}

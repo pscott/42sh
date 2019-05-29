@@ -30,11 +30,13 @@ unsigned int		get_rows_display(unsigned int count, unsigned int cols)
 		return ((count / cols) + 1);
 }
 
-t_auto_comp			*ft_lst_swap(t_auto_comp *file1, t_auto_comp *file2)
+void				*ft_lst_swap(t_auto_comp **l1, t_auto_comp **l2)
 {
-	file1->next = file2->next;
-	file2->next = file1;
-	return (file2);
+	t_auto_comp		*tmp;
+
+	tmp = *l2;
+	*l2 = *l1;
+	*l1 = tmp;
 }
 
 t_auto_comp			*ft_list_sort_ascii(t_auto_comp **lst)

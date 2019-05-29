@@ -12,7 +12,6 @@ static t_auto_comp	*create_auto_comp_link(void)
 	link->prev = NULL;
 	link->next = NULL;
 	link->name = NULL;
-	link->len = 0;
 	return (link);
 }
 
@@ -26,7 +25,6 @@ int					create_match_link(t_auto_comp **match, char *str)
 			ERROR_MEM
 		if (!((*match)->name = ft_strdup(str)))
 			ERROR_MEM
-		(*match)->len = ft_strlen((*match)->name);
 	}
 	else
 	{
@@ -37,7 +35,6 @@ int					create_match_link(t_auto_comp **match, char *str)
 		new->next = NULL;
 		if (!(new->name = ft_strdup(str)))
 			ERROR_MEM
-		new->len = ft_strlen(new->name);
 		(*match) = new;
 	}
 	return (0);

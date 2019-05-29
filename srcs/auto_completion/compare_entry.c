@@ -1,5 +1,4 @@
-#include "libft.h"
-#include "line_editing.h"
+#include "auto_completion.h"
 
 int		compare_entry(const char *s, const char *n)
 {

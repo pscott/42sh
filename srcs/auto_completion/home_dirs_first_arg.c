@@ -1,14 +1,14 @@
-#include "libft.h"
-#include "line_editing.h"
+#include "auto_completion.h"
 
-static int		find_matching_home_dirs(const char *directory, t_auto_comp **match, const char * to_find)
+static int			find_matching_home_dirs(const char *directory,
+					t_auto_comp **match, const char *to_find)
 {
 	DIR				*dir;
 	struct dirent	*ent;
 	char			*tmp;
 
 	if ((dir = opendir(directory)) == NULL)
-		return (1);//ERR_OPENDIR
+		return (1);
 	while ((ent = readdir(dir)))
 	{
 		if ((!to_find || !to_find[0] || !compare_entry(to_find, ent->d_name))
@@ -25,11 +25,12 @@ static int		find_matching_home_dirs(const char *directory, t_auto_comp **match, 
 		}
 	}
 	if (closedir(dir) == -1)
-		return (1);//ERR_CLOSEDIR;
+		return (1);
 	return (0);
 }
 
-static char			*search_dirs_home_first_arg(const char *directory, const char *str)
+static char			*search_dirs_home_first_arg(const char *directory,
+					const char *str)
 {
 	t_auto_comp		*match;
 	char			*ret_str;
@@ -38,15 +39,15 @@ static char			*search_dirs_home_first_arg(const char *directory, const char *str
 	match = NULL;
 	ret_str = NULL;
 	if (!(to_find = ft_strdup(str)))
-		ERROR_MEM
-	if (find_matching_home_dirs(directory, &match, to_find))//je fais la liste de match avec / append
-		ERROR_MEM
+		ERROR_MEM;
+	if (find_matching_home_dirs(directory, &match, to_find))
+		ERROR_MEM;
 	if (match)
-		ret_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
+		ret_str = get_ret_or_display_matches(match, to_find,
+				ft_strlen(to_find));
 	ft_strdel(&to_find);
 	return (ret_str);
 }
-
 
 char				*home_directory_first_arg(const char *to_find)
 {
@@ -60,13 +61,14 @@ char				*home_directory_first_arg(const char *to_find)
 	tmp = NULL;
 	tmp2 = NULL;
 	if (to_find && to_find[0] && ft_strchr(to_find, '/'))
-		if (!(tmp2 = ft_strndup(to_find, ft_strlen(to_find) - ft_strlen(ft_strrchr(to_find, '/') + 1))))
-			ERROR_MEM
+		if (!(tmp2 = ft_strndup(to_find, ft_strlen(to_find)
+				- ft_strlen(ft_strrchr(to_find, '/') + 1))))
+			ERROR_MEM;
 	get_path_file_and_to_find(to_find, &path, &tmp);
 	ret_str = search_dirs_home_first_arg(path, tmp);
 	ft_strdel(&tmp);
 	if (!(tmp = ft_strjoin(tmp2, ret_str)))
-		ERROR_MEM
+		ERROR_MEM;
 	ft_strdel(&path);
 	ft_strdel(&ret_str);
 	ft_strdel(&tmp2);

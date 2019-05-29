@@ -26,7 +26,8 @@ LIBS			:= $(LIBFT_A) $(LIBTERM_A)
 INCL_DIR	:=	includes libft/includes libterm/includes
 INCL_CMD	:=	$(addprefix -I,$(INCL_DIR))
 
-INCL_FILES	:=	42sh.h lexer.h ast.h input.h history.h get_next_line.h \
+INCL_FILES	:=	42sh.h lexer.h ast.h auto_completion.h input.h history.h \
+				get_next_line.h \
 				line_editing.h builtins.h errors.h cmd_parsing.h execution.h \
 				signals.h hashmap.h heredoc.h expand.h exp_arith.h
 
@@ -89,13 +90,14 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c heredoc_utils.c
 						redir_great.c redir_less.c parse_redirections.c
 	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c \
 						execute_no_pipe_builtin.c
-	AUTO_COMP_FILES	:=	auto_completion.c compare_entry.c create_match_link.c del_match.c \
-						display_auto_comp.c find_exe_names.c find_file.c utils.c \
-						get_name_and_path.c get_path_file.c \
-						utils2.c space_first_arg.c dirs_first_arg.c bin_first_arg.c \
-						dirs_and_exe_first_arg.c home_dirs_first_arg.c \
-						x_arg.c utils_display.c get_next_line_2.c tilde_users.c \
-						sort_list_auto_c.c
+	AUTO_COMP_FILES	:=	auto_completion.c auto_completion_x_arg.c \
+						bin_first_arg.c compare_entry.c \
+						create_match_link.c del_match.c \
+						dirs_and_exe_first_arg.c dirs_first_arg.c \
+						display_auto_comp.c get_exe_names.c \
+						get_next_line_a_c.c get_path_file.c \
+						home_dirs_first_arg.c space_first_arg.c tilde_users.c \
+						utils.c	utils2.c utils_display.c 
 	HASHMAP_FILES	:=	find_next_prime.c hash_main.c hashfun.c hashmap.c\
 						hashmap_alloc.c hashmap_delete.c hashmap_print.c
 	EXP_ARITH_FILES	:=	build_list.c check_errors.c create_op_link.c \

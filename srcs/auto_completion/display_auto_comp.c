@@ -1,8 +1,7 @@
-#include "libft.h"
-#include "line_editing.h"
-#include "libterm.h"
+#include "auto_completion.h"
 
-static void	real_display_various(t_auto_comp *tmp, unsigned int count, int cols, int rows)
+static void	real_display_various(t_auto_comp *tmp, unsigned int count,
+			int cols, int rows)
 {
 	unsigned int	maxlen;
 	t_auto_comp		*first;
@@ -31,7 +30,8 @@ static void	real_display_various(t_auto_comp *tmp, unsigned int count, int cols,
 	}
 }
 
-static int	display_various(t_auto_comp *match)
+static int	display_various(t_auto_comp *match, char **ret,
+			const char *to_find)
 {
 	int				cols;
 	unsigned int	count;
@@ -42,11 +42,15 @@ static int	display_various(t_auto_comp *match)
 		if ((is_display(count)) == 1)
 			return (1);
 	ft_putchar('\n');
+	while (match->prev)
+		match = match->prev;
 	cols = get_columns_display(count, get_max_len(match));
 	rows = get_rows_display(count, cols);
 	while (match->prev)
 		match = match->prev;
 	real_display_various(match, count, cols, rows);
+	if (to_find)
+		*ret = ft_strdup(to_find);
 	return (0);
 }
 
@@ -67,7 +71,7 @@ static int	lst_match_more_than_to_find(t_auto_comp *match, unsigned int len)
 	while (curr->name && curr->name[ret] && curr->next)
 	{
 		curr = curr->next;
-		if (curr->name[ret]	!= match->name[ret])
+		if (curr->name[ret] != match->name[ret])
 			return (ret - len);
 		if (!curr->next)
 		{
@@ -83,10 +87,12 @@ static void	my_ft_list_sort(t_auto_comp **begin_list)
 	t_auto_comp		*current;
 	t_auto_comp		*current2;
 	char			*next;
-	
+
 	current = NULL;
 	if (!begin_list || !*begin_list)
 		return ;
+	while ((*begin_list)->prev)
+		(*begin_list) = (*begin_list)->prev;
 	current = *begin_list;
 	while (current)
 	{
@@ -105,7 +111,8 @@ static void	my_ft_list_sort(t_auto_comp **begin_list)
 	}
 }
 
-char		*get_ret_or_display_matches(t_auto_comp *match, const char *to_find, unsigned int len)
+char		*get_ret_or_display_matches(t_auto_comp *match,
+			const char *to_find, unsigned int len)
 {
 	int				diff_len;
 	char			*ret_str;
@@ -113,28 +120,20 @@ char		*get_ret_or_display_matches(t_auto_comp *match, const char *to_find, unsig
 
 	ret_str = NULL;
 	is_empty_last_c = 0;
-	while (match->prev)
-		match = match->prev;
 	my_ft_list_sort(&match);
-	/*
-	ft_printf("%s, %d", to_find, len);
-	sleep(2);
-	*/
 	if (len_lst(match) == 1)
 		ret_str = ft_strdup(match->name);
 	else if ((diff_len = lst_match_more_than_to_find(match, len)) > 0)
 	{
-		if (match->name[diff_len] && (match->name[diff_len] == ' ' || match->name[diff_len] == '/'))
+		if (match->name[diff_len] && (match->name[diff_len] == ' '
+					|| match->name[diff_len] == '/'))
 			is_empty_last_c = 1;
-		if (!(ret_str = ft_strndup(match->name, len + diff_len - is_empty_last_c)))
-			ERROR_MEM
+		if (!(ret_str = ft_strndup(match->name, len + diff_len
+						- is_empty_last_c)))
+			ERROR_MEM;
 	}
 	else
-	{
-		display_various(match);
-		if (to_find)
-			ret_str = ft_strdup(to_find);
-	}
+		display_various(match, &ret_str, to_find);
 	del_match(match);
 	return (ret_str);
 }

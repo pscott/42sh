@@ -1,6 +1,5 @@
 #ifndef SIGNALS_H
 #define SIGNALS_H
-
 # include "42sh.h"
 # include <signal.h>
 # include <sys/ioctl.h>

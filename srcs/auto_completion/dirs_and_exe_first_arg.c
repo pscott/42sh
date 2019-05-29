@@ -1,17 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   dirs_and_exe_first_arg.c                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/22 15:26:04 by aschoenh          #+#    #+#             */
-/*   Updated: 2019/05/22 17:22:08 by aschoenh         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "libft.h"
-#include "line_editing.h"
+#include "auto_completion.h"
 
 static int				get_needed_values_to_create_match_link
 	(char **tmp, struct dirent *ent, const char *directory)
@@ -19,21 +6,20 @@ static int				get_needed_values_to_create_match_link
 	char			*filename;
 
 	if (!(filename = ft_strjoin(directory, ent->d_name)))
-		ERROR_MEM
+		ERROR_MEM;
 	if (access(filename, X_OK) == 0)
 	{
 		if (ent->d_type && ent->d_type == DT_DIR)
-			*tmp = ft_strjoin(ent->d_name, "/");		
+			*tmp = ft_strjoin(ent->d_name, "/");
 		else
 			*tmp = ft_strdup(ent->d_name);
 		if (!(*tmp))
-			ERROR_MEM
+			ERROR_MEM;
 		ft_strdel(&filename);
 		return (0);
 	}
 	ft_strdel(&filename);
 	return (1);
-
 }
 
 static int				find_matching_dirs_and_exe_even_hidden
@@ -50,7 +36,7 @@ static int				find_matching_dirs_and_exe_even_hidden
 		tmp = NULL;
 		if ((!to_find[0] || (!compare_entry(to_find, ent->d_name))) &&
 			ft_strncmp("..", ent->d_name, 3) && ft_strncmp(".", ent->d_name, 2))
-			if (!get_needed_values_to_create_match_link(&tmp, ent, directory)) 
+			if (!get_needed_values_to_create_match_link(&tmp, ent, directory))
 			{
 				create_match_link(match, tmp);
 				ft_strdel(&tmp);
@@ -67,11 +53,10 @@ static int				get_path_and_to_find_local
 	if ((*to_find = ft_strrchr(str, '/') + 1))
 	{
 		if (!(*path = ft_strndup(str, ft_strlen(str) - ft_strlen(*to_find))))
-			ERROR_MEM
+			ERROR_MEM;
 	}
-	else
-		if (!(*path = ft_strdup(str)))
-			ERROR_MEM
+	else if (!(*path = ft_strdup(str)))
+		ERROR_MEM;
 	return (0);
 }
 
@@ -83,21 +68,19 @@ char					*search_dirs_and_exe(const char *str)
 	char				*path;
 	t_auto_comp			*match;
 
-	ret_str = NULL;
-	ret_tmp = NULL;
-	path = NULL;
+	initialize_str(&ret_str, &ret_tmp, &path, &to_find);
 	match = NULL;
-	to_find = NULL;
 	get_path_and_to_find_local(&to_find, &path, str);
 	if (find_matching_dirs_and_exe_even_hidden(path, &match, to_find))
-		ERROR_MEM
+		ERROR_MEM;
 	if (match)
 	{
 		while (match->prev)
 			match = match->prev;
-		ret_tmp = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
+		ret_tmp = get_ret_or_display_matches(match, to_find,
+				ft_strlen(to_find));
 		if (!(ret_str = ft_strjoin(path, ret_tmp)))
-			ERROR_MEM
+			ERROR_MEM;
 		ft_strdel(&ret_tmp);
 	}
 	ft_strdel(&path);

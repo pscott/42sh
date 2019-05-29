@@ -1,17 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line2.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/16 16:08:09 by aschoenh          #+#    #+#             */
-/*   Updated: 2019/05/26 16:32:55 by aschoenh         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "libft.h"
-#include "get_next_line_2.h"
+#include "auto_completion.h"
 
 size_t			ft_strlen_eol(char *s)
 {
@@ -48,7 +35,7 @@ static int		ft_fill_line(char **file, char **line, int fd)
 	return (1);
 }
 
-int				get_next_line_2(const int fd, char **line)
+int				get_next_line_a_c(const int fd, char **line)
 {
 	static char		*file[MAX_FD];
 	char			buf[BUFF_SIZE + 1];

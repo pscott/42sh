@@ -1,8 +1,6 @@
 #ifndef ERRORS_H
 # define ERRORS_H
-
-#include "lexer.h"
-
+# include "lexer.h"
 # define ERR_CMD 2
 # define ERR_CMD_STR "error: command not found"
 
@@ -37,7 +35,7 @@
 # define ERR_TCGET_STR "error: tcgetattr() failed"
 
 # define ERR_TCSET 13
-# define ERR_TCSET_STR "error: tcsetattr() failed. Impossible to apply capacities."
+# define ERR_TCSET_STR "error: tcsetattr() failed."
 
 # define ERR_OPENDIR 14
 # define ERR_OPENDIR_STR "error: opendir() failed"
@@ -72,7 +70,7 @@
 # define ERR_IOCTL 23
 # define ERR_IOCTL_STR "error: unable to get terminal state infos with ioctl()"
 # define ERR_TERMNAME 23
-# define ERR_TERMNAME_STR "error: terminal name could not be found with get_env()"
+# define ERR_TERMNAME_STR "error: terminal name could not be found (get_env())"
 
 # define ERR_NO_OLDPWD 24
 # define ERR_NO_OLDPWD_STR "error: old pwd not set"

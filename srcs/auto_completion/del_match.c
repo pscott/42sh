@@ -1,5 +1,4 @@
-#include "libft.h"
-#include "line_editing.h"
+#include "auto_completion.h"
 
 int			del_match(t_auto_comp *match)
 {

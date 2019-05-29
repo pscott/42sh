@@ -40,12 +40,18 @@ t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id)
   		vars->cmd_value = case_setenv(argv, vars);
 		ret = 1;
 	}
+	else if (cmd_id == cmd_unsetenv)
+	{
+  		vars->cmd_value = case_unsetenv(argv, vars);
+		ret = 1;
+	}
+	else if (cmd_id == cmd_echo)
+	{
+  		vars->cmd_value = case_echo(argv);
+		ret = 1;
+	}
 	else
 		ret = 0;
-	if (cmd_id == cmd_unsetenv)
-		return (case_unsetenv(argv, vars));
-/*	if (cmd_id == cmd_echo)
-		return (case_echo(argv));*/
 	return (ret);
 }
 
@@ -56,21 +62,21 @@ t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id)
 
 t_bool	check_builtins(char **argv)
 {
-	if (ft_strncmp(argv[0], "exit", 5) == 0)
+	if (ft_strcmp(argv[0], "exit") == 0)
 		return (cmd_exit);
-	if (ft_strncmp(argv[0], "env", 4) == 0)
+	if (ft_strcmp(argv[0], "env") == 0)
 		return (cmd_env);
-	if (ft_strncmp(argv[0], "cd", 3) == 0)
+	if (ft_strcmp(argv[0], "cd") == 0)
 		return (cmd_cd);
-	if (ft_strncmp(argv[0], "hash", 5) == 0)
+	if (ft_strcmp(argv[0], "hash") == 0)
 		return (cmd_hash);
-	if (ft_strncmp(argv[0], "type", 5) == 0)
+	if (ft_strcmp(argv[0], "type") == 0)
 		return (cmd_type);
 	if (ft_strcmp(argv[0], "setenv") == 0)
 		return (cmd_setenv);
 	if (ft_strcmp(argv[0], "unsetenv") == 0)
 		return (cmd_unsetenv);
-/*	if (ft_strncmp(argv[0], "echo") == 0)
-		return (cmd_echo);*/
+	if (ft_strcmp(argv[0], "echo") == 0)
+		return (cmd_echo);
 	return (0);
 }

@@ -112,6 +112,8 @@ char				*auto_completion(char *input, unsigned int len,
 	tmp = NULL;
 	if (!input)
 		return (NULL);
+	ft_printf("len : %d, strlen : %d", len, ft_strlen(input));
+	sleep(1);
 	start_actual_word = get_needed_values(input, len, &str, &to_find_full);
 	if (is_first_arg_and_exec(input, len, start_actual_word) == 3)
 		ret = handle_first_bin(vars, to_find_full + start_actual_word,

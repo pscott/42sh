@@ -33,8 +33,7 @@ unsigned int		get_max_len(t_auto_comp *match)
 	{
 		if (ft_strlen(tmp->name) > max)
 		{
-			if (save_max)
-				ft_strdel(&save_max);
+			ft_strdel(&save_max);
 			max = ft_strlen(tmp->name);
 			if (!(save_max = ft_strdup(tmp->name)))
 				ERROR_MEM;
@@ -42,6 +41,7 @@ unsigned int		get_max_len(t_auto_comp *match)
 	}
 	if (save_max && save_max[ft_strlen(save_max) - 1] != ' ')
 		max++;
+	ft_strdel(&save_max);
 	return (max);
 }
 

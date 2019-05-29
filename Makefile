@@ -103,8 +103,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c heredoc_utils.c
 						free_tokens.c ft_atoll.c ft_lltoa.c get_op_token.c \
 						is_oper.c op_tokenizer.c op_tokenizer_clean.c \
 						op_tokenizer_clean_2.c op_tokenizer_dirty.c \
-						op_tokenizer_utils.c print_list_test.c put_op_link.c \
-						ft_isempty.c
+						op_tokenizer_utils.c put_op_link.c ft_isempty.c
 
 
 #list of all .c files

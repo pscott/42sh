@@ -12,7 +12,7 @@ long long		check_err_numbers(t_op *lst)
 
 long long		not_tok_nb(t_op *lst, int *err, long long *nb, char ***vars)
 {
-	*nb = recurs_exec(lst, err, vars, 0, 0);
+	*nb = exec(lst, err, vars, 0, 0);
 	if (*err != 0)
 		return (*err);
 	return (0);

@@ -27,7 +27,7 @@ static	long long	case_nb2(t_op *lst, long long *nb2, int *err, char ***vars)
 	return (0);
 }
 
-long long			recurs_exec(t_op *lst, int *err, char ***vars, long long nb1, long long nb2)
+long long			exec(t_op *lst, int *err, char ***vars, long long nb1, long long nb2)
 {
 	if (!lst->left && !lst->right)
 		return (lonely_number(lst, vars));
@@ -62,17 +62,17 @@ long long			oper_and_or(t_op *lst, int *err, char ***vars)
 		return (return_set_err(err, 5));
 	if (lst->token == TK_OPERAND)
 	{
-		if (recurs_exec(lst->left, err, vars, 0, 0))
+		if (exec(lst->left, err, vars, 0, 0))
 		{
-			if (recurs_exec(lst->right, err, vars, 0, 0))
+			if (exec(lst->right, err, vars, 0, 0))
 				return (1);
 		}
 	}
 	else
 	{
-		if (recurs_exec(lst->left, err, vars, 0, 0))
+		if (exec(lst->left, err, vars, 0, 0))
 			return (1);
-		else if (recurs_exec(lst->right, err, vars, 0, 0))
+		else if (exec(lst->right, err, vars, 0, 0))
 			return (1);
 	}
 	return (0);
@@ -89,6 +89,6 @@ int					exec_op_list(t_op *lst, char ***vars, long long *result)
 	error = 0;
 	while (lst->prev)
 		lst = lst->prev;
-	*result = recurs_exec(lst, &error, vars, 0, 0);
+	*result = exec(lst, &error, vars, 0, 0);
 	return (error);
 }

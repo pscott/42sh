@@ -2,7 +2,7 @@
 #include "exp_arith.h"
 
 /*
-**	Ascii to long long 
+**	Ascii to long long
 */
 
 long long	ft_atoll(char *str)

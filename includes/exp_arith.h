@@ -6,7 +6,7 @@
 /*   By: mporzier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 14:01:01 by mporzier          #+#    #+#             */
-/*   Updated: 2019/05/22 12:31:25 by mporzier         ###   ########.fr       */
+/*   Updated: 2019/05/29 17:22:34 by mporzier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int					is_var(char *str);
 int					check_next_tok(t_token *dirty, int i);
 int					init_tokens_dirty(t_token **tokens, char *str);
 void				d_number(t_token **tokens, size_t *i, int *k, char **str);
-int					d_variable(t_token **tokens, size_t *i, int *k, char **str, char ***vars);
+int					d_variable(t_token **t, t_integ *it, char **s, char ***v);
 void				d_operator(t_token **tokens, size_t *i, int *k, char **str);
 int					init_tokens_clean(t_token *dirty, t_token **clean);
 void				c_iter(t_token *d, t_token **c, int *i, int *k);
@@ -129,15 +129,11 @@ long long			oper_and_or(t_op *lst, int *err, char ***vars);
 long long			return_set_err(int *err, int error);
 long long			double_numbers(t_op *lst, int *err, char ***vars);
 long long			not_tok_nb(t_op *lst, int *err, long long *nb, char ***vars);
-long long			recurs_exec(t_op *lst, int *err, char ***vars, long long nb1, long long nb2);
+long long			exec(t_op *lst, int *err, char ***vars, long long nb1, long long nb2);
 long long			lonely_number(t_op *lst, char ***vars);
 long long			check_err_numbers(t_op *lst);
 
 char				*get_value_index(int i, char **env);
 int					ft_str_isempty(const char *s);
-
-void				print_list(t_op *lst);
-void				print_dirty(t_token **tokens);
-void				print_clean(t_token **clean);
 
 #endif

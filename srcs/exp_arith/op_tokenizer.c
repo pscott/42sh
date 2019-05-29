@@ -36,24 +36,23 @@ static	int		format_tokens(t_token *di, t_token **cl)
 
 int				op_tokenizer(char *str, t_token **tokens, char ***vars)
 {
-	size_t		i;
-	int			k;
+	t_integ		ints;
 	t_token		*clean;
 
-	k = 0;
-	i = 0;
+	ints.k = 0;
+	ints.i = 0;
 	init_tokens_dirty(tokens, str);
 	while (!ft_str_isempty(str))
 	{
-		while (ft_is_white_space(str[i]))
-			i++;
-		if (get_nb_len(str + i))
-			d_number(tokens, &i, &k, &str);
-		else if (is_var(str + i))
-			d_variable(tokens, &i, &k, &str, vars);
+		while (ft_is_white_space(str[ints.i]))
+			ints.i++;
+		if (get_nb_len(str + ints.i))
+			d_number(tokens, (size_t*)&ints.i, &ints.k, &str);
+		else if (is_var(str + ints.i))
+			d_variable(tokens, &ints, &str, vars);
 		else
-			d_operator(tokens, &i, &k, &str);
-		k++;
+			d_operator(tokens, (size_t*)&ints.i, &ints.k, &str);
+		ints.k++;
 	}
 	format_tokens(*tokens, &clean);
 	free_tokens(*tokens, 0);

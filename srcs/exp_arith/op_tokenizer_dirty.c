@@ -26,52 +26,51 @@ void	d_number(t_token **tokens, size_t *i, int *k, char **str)
 	clean_done_token(*str + *i, get_nb_len(*str + *i));
 }
 
-int		d_variable(t_token **tokens, size_t *i, int *k, char **str, char ***vars)
+int		d_variable(t_token **tks, t_integ *it, char **str, char ***vars)
 {
 	char		*tmp;
 	char		*ptr;
-	long long	ret;
 
-	(*tokens)[*k].value = 1;
-	(*tokens)[*k].token = TK_NB;
-	if ((*str)[*i] == '$')
+	(*tks)[it->k].value = 1;
+	(*tks)[it->k].token = TK_NB;
+	if ((*str)[it->i] == '$')
 	{
-		(*tokens)[*k].value = 0;
-		if (!(tmp = ft_strndup(*str + *i + 1, is_var(*str + *i + 1))))
+		(*tks)[it->k].value = 0;
+		if (!(tmp = ft_strndup(*str + it->i + 1, is_var(*str + it->i + 1))))
 			ERROR_MEM;
 		if ((ptr = get_envline_value(tmp, *vars)))
-			(*tokens)[*k].value = ft_atoll(ptr);
+			(*tks)[it->k].value = ft_atoll(ptr);
 	}
 	else
 	{
-		if (!(tmp = ft_strndup(*str + *i, is_var(*str + *i))))
+		if (!(tmp = ft_strndup(*str + it->i, is_var(*str + it->i))))
 			ERROR_MEM;
-		(*tokens)[*k].varid = get_envline_index(tmp, *vars);
-		(*tokens)[*k].varname = tmp;
+		(*tks)[it->k].varid = get_envline_index(tmp, *vars);
+		(*tks)[it->k].varname = tmp;
 	}
-	clean_done_token(*str + *i, is_var(*str + *i));
+	clean_done_token(*str + it->i, is_var(*str + it->i));
 	return (0);
 }
 
-void	d_operator(t_token **tk, size_t *i, int *k, char **str)
+void	d_operator(t_token **t, size_t *i, int *k, char **s)
 {
 	int ret;
 
 	if (*i != 0)
 	{
 		if (*k > 1)
-			ret = get_op_token(*str + *i, (*tk)[*k - 1].varid, (*tk)[*k - 2].token);
+			ret = get_op_token(*s + *i, (*t)[*k - 1].varid, (*t)[*k - 2].token);
 		else if (*k > 0)
-			ret = get_op_token(*str + *i, (*tk)[*k - 1].varid, 0);
+			ret = get_op_token(*s + *i, (*t)[*k - 1].varid, 0);
 		else
-			ret = get_op_token(*str + *i, (*tk)[*k].varid, 0);
+			ret = get_op_token(*s + *i, (*t)[*k].varid, 0);
 	}
 	else
-		ret = get_op_token(*str + *i, -2, 0);
-	(*tk)[*k].token = ret;
-	(*tk)[*k].value = 0;
+		ret = get_op_token(*s + *i, -2, 0);
+	(*t)[*k].token = ret;
+	(*t)[*k].value = 0;
 	if (ret < TK_ADD)
-		clean_done_token(*str + *i, 2);
+		clean_done_token(*s + *i, 2);
 	else
-		clean_done_token(*str + *i, is_oper(*str + *i));
+		clean_done_token(*s + *i, is_oper(*s + *i));
 }

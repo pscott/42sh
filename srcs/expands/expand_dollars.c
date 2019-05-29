@@ -6,7 +6,6 @@
 ** return 1 if '$((' is matched with a '))'
 */
 
-//do i need a binary state for '/' escape ?//maybe depend on parse_expand order ?
 t_bool	is_matched(const char *str
 		, const char *begin_match, const char *end_match)
 {
@@ -24,13 +23,14 @@ t_bool	is_matched(const char *str
 			i += 2;
 		}
 		//else if (!ft_strncmp("))", $str[i], 2))
-		else if (!ft_strncmp(end_match, $str[i], ft_strlen(end_match)))
+		else if (!ft_strncmp(end_match, &str[i], ft_strlen(end_match)))
 		{
 			braces_count--;
 			i++;
 			if (braces_count == 0)
 				break ;
 		}
+		i++;
 	}
 	return ((braces_count) ? 0 : 1);
 }

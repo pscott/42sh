@@ -67,7 +67,7 @@ typedef enum		s_lexer_state
 
 //DEBUG TEJME
 void	print_token(t_token *token);
-checkd	print_token_list(t_token *token_head);
+void	print_token_list(t_token *token_head);
 //
 
 /*
@@ -116,4 +116,7 @@ void		print_op_table(t_operation *op_chart);//debug
 
 void				free_token_list(t_token *token_head);
 
+
+//test
+char	*get_lowest_arith_exp(char *str, t_vars *vars);
 #endif

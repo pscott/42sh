@@ -38,7 +38,7 @@ char		*get_var_name(char *str)
 */
 
 char		*substitute_env_var(char *old_str, size_t *i
-		, char *var_value, char *var_name)
+		, const char *var_value, const char *var_name)
 {
 	char	*new_str;
 
@@ -53,8 +53,8 @@ char		*substitute_env_var(char *old_str, size_t *i
 	(*i)--;
 	//ft_memdel((void*)&old_str);
 	//ft_memdel((void*)&var_name);
-	ft_strdel(&old_str);
-	ft_strdel(&var_name);
+	ft_strdel((char**)&old_str);
+	ft_strdel((char**)&var_name);
 	return (new_str);
 }
 
@@ -102,6 +102,7 @@ char		*substitute_env_var(char *old_str, size_t *i
 
 //REFACTORED i will not use it enfaite...
 //need to check $ and ${ before $((
+/*
 static t_bool	expand_dollars(t_token *token, t_vars *vars)
 {
 	size_t	i;
@@ -142,12 +143,14 @@ static t_bool	expand_dollars(t_token *token, t_vars *vars)
 		token->type = tk_eat;
 	return (0);
 }
+*/
 
 //	Return 0 if ${..} if not well formated
 //check return type
 //TODO need arith_expand in tk_dq_str
 //NEED to expand $ and ${} before $(())
 
+/*OLD
 t_bool			parse_dollars(t_token *token_head, t_vars *vars)
 {
 	t_bool		res;
@@ -185,3 +188,4 @@ t_bool			parse_dollars(t_token *token_head, t_vars *vars)
 	}
 	return (1);
 }
+*/

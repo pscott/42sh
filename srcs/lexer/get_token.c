@@ -97,7 +97,7 @@ static t_token	*get_eat_token(char **cmdline)
 	return (token);
 }
 
-//just make a tk_word, parse_dollars will do the rest
+//just make a tk_word, parse_dollars() will do the rest
 static t_token	*check_param_sub_token(char **cmdline)
 {
 	t_token	*token;
@@ -111,6 +111,7 @@ static t_token	*check_param_sub_token(char **cmdline)
 		ft_printf("TMP: NO '}' found\n");
 		return (NULL);//=cont_read
 	}
+	i++;//test
 	if (!(token = create_token(*cmdline, i, tk_word)))
 		ERROR_MEM;
 	*cmdline = *cmdline + i;
@@ -128,17 +129,22 @@ static t_token	*check_arith_exp_token(char **cmdline)
 	i = -1;
 	while((*cmdline)[++i])
 	{
-		if (!ft_strncmp("$((", &(*cmdline)[i], 3))
+		//if (!ft_strncmp("$((", &(*cmdline)[i], 3))
+		if (!ft_strncmp("$((", (*cmdline) + i, 3))
 		{
 			braces_count++;
 			i += 2;//should be 3 ??
 		}
-		if (!ft_strncmp("))", &(*cmdline)[i], 2))//syntax douteuse
+		//else if (!ft_strncmp("))", &(*cmdline)[i], 2))//syntax douteuse
+		else if (!ft_strncmp("))", (*cmdline) + i, 2))//syntax douteuse
 		{
 			braces_count--;
-			i += 2;//or should be 1 ??
+			i += 1;//or should be 1 ??
 			if (braces_count == 0)
+			{
+				i++;//test
 				break ;
+			}
 		}
 	}
 	//with previous break, braces should be >= 0

@@ -32,7 +32,7 @@ void			print_list(t_op *lst)
 	recurs_print_lst(lst, 0, -1);
 }
 
-void		print_dirty(t_token **tokens)
+void		print_dirty(t_tok **tokens)
 {
 	int l;
 
@@ -49,7 +49,7 @@ void		print_dirty(t_token **tokens)
 	printf("---------------------\n");
 }
 
-void		print_clean(t_token **tokens)
+void		print_clean(t_tok **tokens)
 {
 	int l;
 

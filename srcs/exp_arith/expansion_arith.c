@@ -29,7 +29,7 @@ int				expansion_arith(char *str, char ***vars, long long *result)
 {
 	int		ret;
 	t_op	*lst;
-	t_token	*tokens;
+	t_tok	*tokens;
 	int		k;
 
 	k = 0;

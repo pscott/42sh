@@ -64,9 +64,10 @@ SRC_DIR	:=	srcs
 VPATH	:=	$(SRC_DIR) $(addprefix $(SRC_DIR)/,$(SRC_SUBDIRS))
 
 # Srcs file names ##############################################################
-SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c heredoc_utils.c heredoc_expands.c\
+SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c\
+				heredoc_utils.c heredoc_expands.c\
 	#srcs subfiles names
-	ENV_FILES		:=	environ_set.c environ_utils.c init_env.c shlvl.c \
+	ENV_FILES		:=	environ_set.c environ_utils.c init_env.c shlvl.c\
 						environ_unset.c
 	ERRORS_FILES	:=	errors.c print_errors.c error_exit.c
 	LEXER_FILES		:=	lexer.c lexer_tools.c lexer_op_chart.c get_token.c \
@@ -78,7 +79,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c heredoc_utils.c
 						input_loop.c cursor_position.c input_utils.c \
 						delete.c txt_cat.c
 	EXPANDS_FILES	:=	parse_expands.c parse_dollars.c parse_tildes.c \
-						parse_quotes.c parameter_substitution.c
+						parse_quotes.c parameter_substitution.c \
+						expand_dollars.c prepare_arith_exp.c
 	HISTORY_FILES	:=	hist_file.c get_next_line.c hist_lst.c \
 						switch_history.c handle_input_hist.c
 	SIGNALS_FILES	:=	signals.c

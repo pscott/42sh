@@ -57,15 +57,15 @@ t_token		*get_op_chart_token(char **cmdline, t_operation *op_chart)
 	{
 		if (!ft_strncmp(*cmdline, op_chart[i].str, op_chart[i].size))
 		{
-			if (op_chart[i].type == tk_arith_exp)
-			{
-				if (!(token = get_arith_exp_token(cmdline)))
-				{
-					ft_printf("get_arith didn't find the end \n");
-					return (NULL);
-				}
-				return (token);
-			}
+			//if (op_chart[i].type == tk_arith_exp)//useless ?? 
+			//{
+			//	if (!(token = get_arith_exp_token(cmdline)))
+			//	{
+			//		ft_printf("get_arith didn't find the end \n");
+			//		return (NULL);
+			//	}
+			//	return (token);
+			//}
 			if (!(token = create_token(*cmdline, op_chart[i].size,
 							op_chart[i].type)))
 				return (NULL);

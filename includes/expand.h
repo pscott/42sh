@@ -6,6 +6,9 @@
 
 char		*get_var_name(char *str);
 char		*substitute_env_var(char *old_str, size_t *i
-		, char *var_value, char *var_name);
+			, const char *var_value, const char *var_name);
+char		*get_var_name(char *str);
+t_bool		is_matched(const char *str
+			, const char *begin_match, const char *end_match);
 
 #endif

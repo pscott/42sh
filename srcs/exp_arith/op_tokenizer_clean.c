@@ -1,12 +1,12 @@
 #include "42sh.h"
 #include "exp_arith.h"
 
-int		init_tokens_clean(t_token *d, t_token **c)
+int		init_toks_clean(t_tok *d, t_tok **c)
 {
 	int k;
 
 	k = 0;
-	if (!(*c = (t_token*)malloc(sizeof(t_token) * (get_tok_len(d) + 1))))
+	if (!(*c = (t_tok*)malloc(sizeof(t_tok) * (get_tok_len(d) + 1))))
 		ERROR_MEM;
 	while (k <= get_tok_len(d))
 	{
@@ -21,7 +21,7 @@ int		init_tokens_clean(t_token *d, t_token **c)
 	return (0);
 }
 
-void	c_iter(t_token *d, t_token **c, int *i, int *k)
+void	c_iter(t_tok *d, t_tok **c, int *i, int *k)
 {
 	if (*k != 0)
 	{
@@ -36,7 +36,7 @@ void	c_iter(t_token *d, t_token **c, int *i, int *k)
 		(*c)[*k].beg = -1;
 }
 
-int		check_put_oper(int prev, t_token *dirty, int i)
+int		check_put_oper(int prev, t_tok *dirty, int i)
 {
 	if (prev == 'n' || (check_next_tok(dirty, i) != TK_NB
 				&& check_next_tok(dirty, i) != TK_PLUSVAR
@@ -53,7 +53,7 @@ void	invert_value(int *i)
 		*i = -1;
 }
 
-void	insert_clean_token(t_token *d, t_token **c, t_integ *v)
+void	insert_clean_token(t_tok *d, t_tok **c, t_integ *v)
 {
 	(*c)[v->k++].token = d[v->i].token;
 	v->prev = d[v->i].token;

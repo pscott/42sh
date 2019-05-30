@@ -40,7 +40,7 @@ long long			exec(t_op *lst, int *err, char ***vars)
 		return (oper_and_or(lst, err, vars));
 	if (lst->left && lst->left->token != TK_NB
 			&& not_tok_nb(lst->left, err, &nb1, vars))
-			return (0);
+		return (0);
 	else if (lst->left && lst->left->token == TK_NB)
 		if (case_nb1(lst, &nb1, err, vars))
 			return (0);
@@ -48,7 +48,7 @@ long long			exec(t_op *lst, int *err, char ***vars)
 		return (return_set_err(err, 5));
 	if (lst->right && lst->right->token != TK_NB
 			&& not_tok_nb(lst->right, err, &nb2, vars))
-			return (0);
+		return (0);
 	else if (lst->right && lst->right->token == TK_NB)
 		if (case_nb2(lst, &nb2, err, vars))
 			return (0);

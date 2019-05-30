@@ -17,6 +17,7 @@ t_bool			replace_tilde(char **str, const char **env);
 t_bool			parse_expands(t_token *token_head, t_vars *vars);
 t_bool			parse_dollars(t_token *token_head, t_vars *vars);
 t_bool			parse_quotes(t_token *token_head);
+t_bool			is_valid_tilde(const char *str, t_token *prev_token);
 
 /*
 **	Redirections parsing

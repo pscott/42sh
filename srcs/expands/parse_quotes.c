@@ -8,19 +8,20 @@
 
 static t_bool	expand_squotes(t_token *token_head)
 {
-	char	*old_content;
+	char		*old_content;
 
 	if (*token_head->content == '\'' || *token_head->content == '"')
 	{
 		old_content = token_head->content;
 		if (!(token_head->content = ft_strndup((const char*)&(*(token_head->content + 1)), ft_strlen(token_head->content) - 2)))
 			ERROR_MEM;
-		//do stuff: rien a faire ?
+//do stuff: rien a faire ?
 		ft_strdel(&old_content);
 		return (1);
 	}
 	return (0);
 }
+
 static t_bool	is_valid_dquotes_escape(char c)
 {
 	if (c == '$' || c == '`' || c == '"' || c == '\\' || c == '\n')
@@ -30,8 +31,8 @@ static t_bool	is_valid_dquotes_escape(char c)
 
 static size_t	get_new_len(char *str, size_t old_len)
 {
-	size_t	i;
-	size_t	res;
+	size_t		i;
+	size_t		res;
 
 	i = 1;
 	res = 0;
@@ -47,11 +48,11 @@ static size_t	get_new_len(char *str, size_t old_len)
 
 static t_bool	expand_dquotes(t_token	*token_head)
 {
-	char	*new_str;
-	size_t	old_len;
-	size_t	new_len;
-	size_t	i;
-	size_t	j;
+	char		*new_str;
+	size_t		old_len;
+	size_t		new_len;
+	size_t		i;
+	size_t		j;
 
 	old_len = ft_strlen(token_head->content);
 	new_len = get_new_len(token_head->content, old_len);
@@ -61,7 +62,8 @@ static t_bool	expand_dquotes(t_token	*token_head)
 	j = 0;
 	while (i + j < new_len + 1)
 	{
-		if (token_head->content[i + j] == '\\' && is_valid_dquotes_escape(token_head->content[i + j + 1]))
+		if (token_head->content[i + j] == '\\'
+				&& is_valid_dquotes_escape(token_head->content[i + j + 1]))
 			j++;
 		new_str[i - 1] = token_head->content[i + j];
 		i++;
@@ -72,9 +74,10 @@ static t_bool	expand_dquotes(t_token	*token_head)
 }
 
 //it can contain " and ' ! but only trim the first and last: [0], [strlen(content)]
-t_bool	parse_quotes(t_token *token_head)
+
+t_bool			parse_quotes(t_token *token_head)
 {
-	t_bool	res;
+	t_bool		res;
 
 	res = 0;
 	while (token_head && token_head->type < tk_pipe)

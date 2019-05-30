@@ -1,5 +1,4 @@
-#include "libft.h"
-#include "line_editing.h"
+#include "auto_completion.h"
 
 int					get_everything_from_path(char *path, t_auto_comp **match)
 {
@@ -19,9 +18,8 @@ int					get_everything_from_path(char *path, t_auto_comp **match)
 		}
 	}
 	if (closedir(dir) == -1)
-		return(1);
+		return (1);
 	return (0);
-
 }
 
 int					find_exe_space(char **path, t_auto_comp **match)
@@ -40,18 +38,14 @@ int					find_exe_space(char **path, t_auto_comp **match)
 	return (0);
 }
 
-int					find_all_var_and_exe(char **path, t_auto_comp **match)//tous static?
+int					find_all_var_and_exe(char **path, t_auto_comp **match)
 {
 	if (find_exe_space(path, match))
-		ERROR_MEM
-			/*if (find_alias_space(match)
-			 * ERROR_MEM
-			 * if (find_reserved_words_space(match)
-			 * ERROR_MEM*/
-			return (0);
+		ERROR_MEM;
+	return (0);
 }
 
-char				*new_auto_completion_space(t_vars *vars)
+char				*auto_completion_space(t_vars *vars)
 {
 	char			**path;
 	t_auto_comp		*match;
@@ -59,12 +53,12 @@ char				*new_auto_completion_space(t_vars *vars)
 	path = NULL;
 	match = NULL;
 	if (get_path(&path, vars))
-		ERROR_MEM
+		ERROR_MEM;
 	if (find_all_var_and_exe(path, &match))
-		ERROR_MEM
+		ERROR_MEM;
 	if (path)
 		ft_free_ntab(path);
 	if (match)
 		get_ret_or_display_matches(match, NULL, 0);
 	return (NULL);
-	}
+}

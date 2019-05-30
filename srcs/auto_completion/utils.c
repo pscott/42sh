@@ -1,6 +1,4 @@
-#include "libft.h"
-#include "line_editing.h"
-#include <sys/ioctl.h>
+#include "auto_completion.h"
 
 unsigned int		get_cols_term(void)
 {
@@ -30,24 +28,23 @@ unsigned int		get_rows_display(unsigned int count, unsigned int cols)
 		return ((count / cols) + 1);
 }
 
-t_auto_comp			*ft_lst_swap(t_auto_comp *file1, t_auto_comp *file2)
+void				initialize_str(char **s1, char **s2, char **s3,
+					char **s4)
 {
-	file1->next = file2->next;
-	file2->next = file1;
-	return (file2);
+	if (s1)
+		*s1 = NULL;
+	if (s2)
+		*s2 = NULL;
+	if (s3)
+		*s3 = NULL;
+	if (s4)
+		*s4 = NULL;
 }
 
-t_auto_comp			*ft_list_sort_ascii(t_auto_comp **lst)
+void				get_pwd_and_pwd_slash(char **pwd, char **pwd_slash)
 {
-	if (!lst || !(*lst))
-		return (NULL);
-	if ((*lst)->next && ft_strcmp((*lst)->name, (*lst)->next->name) > 0)
-		(*lst) = ft_lst_swap(*lst, (*lst)->next);
-	(*lst)->next = ft_list_sort_ascii(&((*lst)->next));
-	if ((*lst)->next && ft_strcmp((*lst)->name, (*lst)->next->name) > 0)
-	{
-		(*lst) = ft_lst_swap((*lst), (*lst)->next);
-		(*lst)->next = ft_list_sort_ascii(&((*lst)->next));
-	}
-	return (*lst);
+	if (!(*pwd = getcwd(*pwd, PATH_MAX)))
+		ERROR_MEM;
+	if (!(*pwd_slash = ft_strjoin(*pwd, "/")))
+		ERROR_MEM;
 }

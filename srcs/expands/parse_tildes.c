@@ -88,7 +88,7 @@ char			*get_to_find_exp_tilde_user(char **str)
 	return (ret);
 }
 
-static t_bool	replace_tilde_users(char **str, const char **env, char *line)
+static t_bool	replace_tilde_users(char **str)
 {
 	char			*to_find;
 
@@ -119,7 +119,7 @@ t_bool	parse_tildes(t_token *token_head, const char **env)
 			}
 			else if (ret == 2 && ft_strlen(curr_token->content) > 1)// case ~user
 			{
-				if (!replace_tilde_users(&curr_token->content, env, NULL))
+				if (!replace_tilde_users(&curr_token->content))
 					return (0);
 			}
 		}

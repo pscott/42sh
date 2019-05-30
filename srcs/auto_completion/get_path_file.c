@@ -1,7 +1,7 @@
-#include "libft.h"
-#include "line_editing.h"
+#include "auto_completion.h"
 
-static int			get_path_user(int index, const char *arg, char **path, char **to_find)
+static int			get_path_user(int index, const char *arg, char **path,
+					char **to_find)
 {
 	char			*home;
 	char			*tmp;
@@ -10,24 +10,25 @@ static int			get_path_user(int index, const char *arg, char **path, char **to_fi
 	if (!getenv("HOME"))
 	{
 		if (!(home = ft_strdup("/Users")))
-			ERROR_MEM
+			ERROR_MEM;
 	}
 	else
 	{
 		if (!(home = ft_strdup(getenv("HOME"))))
-			ERROR_MEM
+			ERROR_MEM;
 	}
 	tmp = ft_strsub(arg, index + 1, ft_strlen(arg) - index);
 	tmp2 = ft_strsub(arg, 1, index);
 	*to_find = tmp;
 	if (!(*path = ft_strjoin(home, tmp2)))
-		ERROR_MEM
+		ERROR_MEM;
 	ft_strdel(&tmp2);
 	ft_strdel(&home);
 	return (0);
 }
 
-static int			get_path_root(int index, const char *arg, char **path, char **to_find)
+static int			get_path_root(int index, const char *arg, char **path,
+					char **to_find)
 {
 	char			*tmp;
 
@@ -35,16 +36,16 @@ static int			get_path_root(int index, const char *arg, char **path, char **to_fi
 	if (arg[index + 1])
 	{
 		if (!(*to_find = ft_strsub(arg, index + 1, ft_strlen(arg) - index)))
-			ERROR_MEM
+			ERROR_MEM;
 		if (!(*path = ft_strsub((arg), 0, index + 1)))
-			ERROR_MEM
+			ERROR_MEM;
 	}
 	else
 	{
 		if (!(*path = ft_strdup(arg)))
-			ERROR_MEM
+			ERROR_MEM;
 		if (!(*to_find = ft_strnew(0)))
-			ERROR_MEM
+			ERROR_MEM;
 	}
 	return (0);
 }
@@ -57,59 +58,54 @@ static int			get_root(const char *arg, char **path, char **to_find)
 	{
 		len = ft_strlen(arg) - 1;
 		if (!(*to_find = ft_strsub(arg, 1, len)))
-			ERROR_MEM
+			ERROR_MEM;
 	}
-	else
-		if (!(*to_find = ft_strnew(0)))
-			ERROR_MEM
+	else if (!(*to_find = ft_strnew(0)))
+		ERROR_MEM;
 	if (!(*path = ft_strdup("/")))
-		ERROR_MEM
+		ERROR_MEM;
 	return (0);
 }
 
-static int			get_path_reg(int index, const char *arg, char **path, char **to_find)
+static int			get_path_reg(int index, const char *arg, char **path,
+					char **to_find)
 {
 	char			*tmp_path;
 	char			*pwd_slash;
 	char			*pwd;
 
-	tmp_path = NULL;
-	pwd_slash = NULL;
-	pwd = NULL;
-	if (!(pwd = getcwd(pwd, PATH_MAX)))
-		ERROR_MEM
-	if (!(pwd_slash = ft_strjoin(pwd, "/")))
-		ERROR_MEM
+	initialize_str(&tmp_path, &pwd_slash, &pwd, NULL);
+	get_pwd_and_pwd_slash(&pwd, &pwd_slash);
 	if (!ft_strchr(arg, '/'))
 	{
 		if (!((*path) = ft_strdup(pwd_slash)))
-			ERROR_MEM
+			ERROR_MEM;
 		if (!(*to_find = ft_strdup(arg)))
-			ERROR_MEM
+			ERROR_MEM;
 	}
 	else
-	{	
+	{
 		if (!(*to_find = ft_strsub(arg, index + 1, ft_strlen(arg) - index)))
-			ERROR_MEM
+			ERROR_MEM;
 		tmp_path = ft_strsub(arg, 0, index + 1);
 		if (!(*path = ft_strjoin(pwd_slash, tmp_path)))
-			ERROR_MEM
+			ERROR_MEM;
 		ft_strdel(&tmp_path);
 	}
 	free_two_strings(&pwd_slash, &pwd);
 	return (0);
 }
 
-int					get_path_file_and_to_find(const char *arg, char **path, char **to_find)
+int					get_path_file_and_to_find(const char *arg, char **path,
+					char **to_find)
 {
 	char			*pwd;
 	int				i;
 
-	pwd = NULL;
-	*path = NULL;
+	initialize_str(&pwd, &pwd, path, NULL);
 	i = 0;
 	if (!(pwd = getcwd(pwd, PATH_MAX)))
-		ERROR_MEM
+		ERROR_MEM;
 	i = ft_strlen(arg) - ft_strlen(ft_strrchr(arg, '/'));
 	if ((arg)[0] == '~' && (arg)[1] == '/')
 		get_path_user(i, arg, path, to_find);
@@ -122,9 +118,9 @@ int					get_path_file_and_to_find(const char *arg, char **path, char **to_find)
 	else
 	{
 		if (!(*path = ft_strdup(pwd)))
-			ERROR_MEM
+			ERROR_MEM;
 		if (!(*to_find = ft_strnew(0)))
-			ERROR_MEM
+			ERROR_MEM;
 	}
 	ft_strdel(&pwd);
 	return (0);

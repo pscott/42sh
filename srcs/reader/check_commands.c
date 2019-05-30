@@ -70,7 +70,7 @@ int		check_for_tab(t_st_cmd *st_cmd, const char *buf, t_vars *vars)
 	if (ft_strncmp(buf, "\t", 2) == 0)
 	{
 		old_txt = st_cmd->st_txt->txt;
-		if ((tmp = new_auto_completion(st_cmd->st_txt->txt, st_cmd->st_txt->tracker, vars))) // alex: tracker ou tracker + 1 ?
+		if ((tmp = auto_completion(st_cmd->st_txt->txt, st_cmd->st_txt->tracker, vars))) // alex: tracker ou tracker + 1 ?
 		{
 			len_tmp = ft_strlen(tmp);		
 			if (!(st_cmd->st_txt->txt = ft_strjoin(tmp, st_cmd->st_txt->txt + st_cmd->st_txt->tracker)))

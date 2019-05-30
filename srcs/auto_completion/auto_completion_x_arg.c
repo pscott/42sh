@@ -1,9 +1,8 @@
-#include "libft.h"
-#include "line_editing.h"
+#include "auto_completion.h"
 #include "errors.h"
 
-int					find_all_match(char *directory, t_auto_comp **match,
-		const char *to_find, const char *next)
+static int			get_all_match(char *directory, t_auto_comp **match,
+					const char *to_find, const char *next)
 {
 	DIR				*dir;
 	struct dirent	*ent;
@@ -11,29 +10,29 @@ int					find_all_match(char *directory, t_auto_comp **match,
 
 	if ((dir = opendir(directory)) == NULL)
 		return (1);
+	tmp = NULL;
 	while ((ent = readdir(dir)))
-	{
-		tmp = NULL;
 		if (!(compare_entry(to_find, ent->d_name)))
 		{
 			if (ent->d_type && ent->d_type == DT_DIR)
 				tmp = ft_strjoin(ent->d_name, "/");
-			else if (ft_is_white_space(next[ft_strlen(to_find)]) || !next[ft_strlen(to_find)])
+			else if (ft_is_white_space(next[ft_strlen(to_find)])
+				|| !next[ft_strlen(to_find)])
 				tmp = ft_strjoin(ent->d_name, " ");
 			else
 				tmp = ft_strdup(ent->d_name);
 			if (!tmp)
-				ERROR_MEM
+				ERROR_MEM;
 			create_match_link(match, tmp);
 			ft_strdel(&tmp);
 		}
-	}
 	if (closedir(dir) == -1)
 		return (1);
 	return (0);
 }
 
-int					find_all_except_dots(const char *directory, t_auto_comp **match)
+static int			find_all_except_dots(const char *directory,
+					t_auto_comp **match)
 {
 	DIR				*dir;
 	struct dirent	*ent;
@@ -51,7 +50,7 @@ int					find_all_except_dots(const char *directory, t_auto_comp **match)
 			else
 				tmp = ft_strjoin(ent->d_name, " ");
 			if (!tmp)
-				ERROR_MEM
+				ERROR_MEM;
 			create_match_link(match, tmp);
 			ft_strdel(&tmp);
 		}
@@ -67,39 +66,37 @@ static void			get_good_ret_str(char **ret_str, char *tmp)
 
 	tmp2 = NULL;
 	if (!(tmp2 = ft_strjoin(tmp, *ret_str)))
-		ERROR_MEM
+		ERROR_MEM;
 	ft_strdel(ret_str);
 	*ret_str = tmp2;
 }
 
-char				*handle_x_arg(const char *input, const char *to_find_and_next_char)
+char				*auto_completion_x_arg(const char *input,
+					const char *to_find_and_next_char)
 {
 	char			*path;
 	char			*to_find;
 	char			*tmp;
-	char			*ret_str;
+	char			*r_str;
 	t_auto_comp		*match;
 
-	to_find = NULL;
-	path = NULL;
-	ret_str = NULL;
+	initialize_str(&to_find, &path, &r_str, &tmp);
 	match = NULL;
-	tmp = NULL;
-
 	if (input && input[0] == '~' && (!input[1] || input[1] != '/'))
-		return (ret_str = users_passwd(input));
+		return (r_str = users_passwd(input));
 	else if (input && input[0] && ft_strchr(input, '/'))
-		tmp = ft_strndup(input, ft_strlen(input) - ft_strlen(ft_strrchr(input, '/') + 1));
+		tmp = ft_strndup(input, ft_strlen(input)
+			- ft_strlen(ft_strrchr(input, '/') + 1));
 	get_path_file_and_to_find(input, &path, &to_find);
 	if (!to_find[0] || ft_is_white_space(to_find[0]))
 		find_all_except_dots(path, &match);
 	else
-		find_all_match(path, &match, to_find, to_find_and_next_char);
+		get_all_match(path, &match, to_find, to_find_and_next_char);
 	if (match)
-		ret_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
-	else if (!(ret_str = ft_strdup(to_find)))
-		ERROR_MEM
-	get_good_ret_str(&ret_str, tmp);
+		r_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
+	else if (!(r_str = ft_strdup(to_find)))
+		ERROR_MEM;
+	get_good_ret_str(&r_str, tmp);
 	free_four_strings(&tmp, NULL, &path, &to_find);
-	return (ret_str);
+	return (r_str);
 }

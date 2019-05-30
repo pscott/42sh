@@ -1,7 +1,7 @@
-#include "libft.h"
-#include "line_editing.h"
+#include "auto_completion.h"
 
-static int			find_matching_dirs(const char *directory, t_auto_comp **match, char *to_find)
+static int			find_matching_dirs(const char *directory,
+					t_auto_comp **match, char *to_find)
 {
 	DIR				*dir;
 	struct dirent	*ent;
@@ -27,7 +27,8 @@ static int			find_matching_dirs(const char *directory, t_auto_comp **match, char
 	return (0);
 }
 
-char				*search_dirs_first_arg(const char *directory, const char *str, unsigned int len)
+char				*get_dirs_first_arg(const char *directory, const char *str,
+					unsigned int len)
 {
 	t_auto_comp		*match;
 	char			*ret_str;
@@ -36,7 +37,7 @@ char				*search_dirs_first_arg(const char *directory, const char *str, unsigned 
 	match = NULL;
 	ret_str = NULL;
 	if (!(to_find = ft_strdup(str)))
-		ERROR_MEM
+		ERROR_MEM;
 	find_matching_dirs(directory, &match, to_find);
 	if (match)
 		ret_str = get_ret_or_display_matches(match, to_find, len);

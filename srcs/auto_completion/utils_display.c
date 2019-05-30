@@ -1,5 +1,4 @@
-#include "libft.h"
-#include "line_editing.h"
+#include "auto_completion.h"
 
 unsigned int		len_lst(t_auto_comp *lst)
 {
@@ -29,22 +28,20 @@ unsigned int		get_max_len(t_auto_comp *match)
 	max = 0;
 	save_max = NULL;
 	tmp = match;
-	while (tmp->prev)
-		tmp = tmp->prev;
-	max = tmp->len;
+	max = ft_strlen(tmp->name);
 	while ((tmp = tmp->next))
 	{
-		if (tmp->len > max)
+		if (ft_strlen(tmp->name) > max)
 		{
-			if (save_max)
-				ft_strdel(&save_max);
-			max = tmp->len;
+			ft_strdel(&save_max);
+			max = ft_strlen(tmp->name);
 			if (!(save_max = ft_strdup(tmp->name)))
-				ERROR_MEM
+				ERROR_MEM;
 		}
 	}
 	if (save_max && save_max[ft_strlen(save_max) - 1] != ' ')
 		max++;
+	ft_strdel(&save_max);
 	return (max);
 }
 
@@ -68,7 +65,7 @@ void				print_spaces(const char *s, unsigned int cols)
 			count++;
 	}
 	if (count > 0 && !(spaces = (char *)malloc(sizeof(char) * (count + 1))))
-		ERROR_MEM
+		ERROR_MEM;
 	spaces[count] = '\0';
 	ft_memset(spaces, ' ', count);
 	ft_putstr(spaces);

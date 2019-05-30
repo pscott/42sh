@@ -1,22 +1,22 @@
-#include "libft.h"
-#include "line_editing.h"
+#include "auto_completion.h"
 #include "errors.h"
 
 static int			get_filename(const char *next, const char *to_find,
-						struct dirent *ent, char **filename)
+					struct dirent *ent, char **filename)
 {
-	if (ft_strlen(next) == ft_strlen(to_find) || ft_is_white_space(next[ft_strlen(to_find)]))
-	{	
-		if (!(*filename = ft_strjoin(ent->d_name, " ")))	
-			ERROR_MEM		
+	if (ft_strlen(next) == ft_strlen(to_find)
+			|| ft_is_white_space(next[ft_strlen(to_find)]))
+	{
+		if (!(*filename = ft_strjoin(ent->d_name, " ")))
+			ERROR_MEM;
 	}
 	else if (!(*filename = ft_strdup(ent->d_name)))
-		ERROR_MEM
+		ERROR_MEM;
 	return (0);
-
 }
 
-static int			check_command_folder(char *path, t_auto_comp **match, const char *to_find, const char *next)
+static int			check_command_folder(char *path, t_auto_comp **match,
+					const char *to_find, const char *next)
 {
 	DIR				*dir;
 	struct dirent	*ent;
@@ -52,12 +52,6 @@ static int			add_builtins(t_auto_comp **match, const char *to_find)
 	return (0);
 }
 
-static int			add_alias(t_auto_comp **match, const char *to_find)
-{
-	//quand les alias seront geres
-	return (0);
-}
-
 char				*rm_spaces_path(const char *str)
 {
 	char			*ret;
@@ -69,7 +63,7 @@ char				*rm_spaces_path(const char *str)
 	if (!str)
 		return (NULL);
 	if (!(ret = ft_strnew(ft_strlen(str))))
-		ERROR_MEM
+		ERROR_MEM;
 	while (str[i])
 	{
 		if (str[i] == '\\' && str[i + 1] != '\\')
@@ -81,8 +75,7 @@ char				*rm_spaces_path(const char *str)
 	return (ret);
 }
 
-
-int					find_matching_exe(char **path, t_auto_comp **match,
+int					get_matching_exe(char **path, t_auto_comp **match,
 					const char *to_find_real, const char *next)
 {
 	char			*true_path;
@@ -91,14 +84,12 @@ int					find_matching_exe(char **path, t_auto_comp **match,
 	i = 0;
 	true_path = NULL;
 	while (path[i])
-		{
-			true_path = rm_spaces_path(path[i++]);
-			check_command_folder(true_path, match, to_find_real, next);
-			ft_strdel(&true_path);
-		}
+	{
+		true_path = rm_spaces_path(path[i++]);
+		check_command_folder(true_path, match, to_find_real, next);
+		ft_strdel(&true_path);
+	}
 	if (add_builtins(match, to_find_real))
-		return (1);
-	if (add_alias(match, to_find_real))
 		return (1);
 	if (!(*match))
 		return (0);

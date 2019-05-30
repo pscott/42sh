@@ -1,17 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/22 15:42:01 by aschoenh          #+#    #+#             */
-/*   Updated: 2019/05/24 17:49:39 by aschoenh         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "libft.h"
-#include "line_editing.h"
+#include "auto_completion.h"
 
 int				is_same_char(char a, char b)
 {
@@ -32,13 +19,14 @@ int				get_needed_values
 	start_actual_word = len;
 	*str = NULL;
 	*to_find_full = NULL;
-	if (!(*str = ft_strndup(input, len + 1)))
-		ERROR_MEM
+	if (!(*str = ft_strndup(input, len)))
+		ERROR_MEM;
 	if (!(*to_find_full = ft_strndup(input, len)))
-		ERROR_MEM
+		ERROR_MEM;
 	if (len > 0 && ft_is_white_space((*to_find_full)[len - 1]))
 		start_actual_word--;
-	while (start_actual_word > 0 && !ft_is_white_space((*to_find_full)[start_actual_word]))
+	while (start_actual_word > 0
+			&& !ft_is_white_space((*to_find_full)[start_actual_word]))
 		start_actual_word--;
 	if (ft_is_white_space((*to_find_full)[start_actual_word]))
 		start_actual_word++;
@@ -57,7 +45,7 @@ int				get_path(char ***path, t_vars *vars)
 		return (0);
 	}
 	if (!(*path = ft_strsplit(tmpath, ":")))
-		ERROR_MEM
+		ERROR_MEM;
 	return (0);
 }
 

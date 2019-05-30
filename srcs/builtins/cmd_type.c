@@ -3,7 +3,7 @@
 #include "builtins.h"
 #include "errors.h"
 
-static void	print_error(const char *arg)
+static void			print_error(const char *arg)
 {
 	ft_dprintf(2, SHELL_NAME);
 	ft_dprintf(2, ": type: %s: not found\n", arg);
@@ -13,7 +13,7 @@ static void	print_error(const char *arg)
 **	Returns 0 if it succesfully executed. Else returns 1.
 */
 
-int		case_type(char **argv, t_vars *vars)
+int					case_type(char **argv, t_vars *vars)
 {
 	unsigned int	i;
 	char			*path;

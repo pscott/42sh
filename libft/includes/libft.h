@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:53:24 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/26 17:50:28 by aschoenh         ###   ########.fr       */
+/*   Updated: 2019/05/30 16:40:45 by aschoenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,8 @@ void			ft_free_ntab(char **tabs);
 void			ft_print_ntab(char **tabs);
 char			**ft_dup_ntab(const char **tabs);
 int				ft_ntab_len(const char **tabs);
+void			ft_initialize_str(char **s1, char **s2, char **s3,
+		char **s4);
+
+
 #endif

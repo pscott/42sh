@@ -19,4 +19,20 @@ int		case_setenv(char **argv, t_vars *vars);
 int		case_unsetenv(char **argv, t_vars *vars);
 int		case_echo(char **argv);
 
+/*
+**	Exit utils
+*/
+
+int		ft_atol(const char *str);
+int		word_is_num(char *str);
+int		is_zero(char *str);
+
+/*
+**	CD utils
+*/
+
+char	*get_directory(const char *env_key, const char **env);
+char	*get_cwd_value(const char **env);
+char	*relative_directory(const char *path, const char **env);
+
 #endif

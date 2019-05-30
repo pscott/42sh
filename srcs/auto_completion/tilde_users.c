@@ -51,6 +51,7 @@ static int				get_users_list(t_auto_comp **match, const char *to_find)
 			create_match_link(match, users);
 			ft_strdel(&users);
 		}
+		ft_strdel(&line);
 		if (!ret)
 			break ;
 	}

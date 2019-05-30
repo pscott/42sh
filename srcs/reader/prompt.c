@@ -48,7 +48,7 @@ void	print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf, int prompt_typ
 			ERROR_MEM
 		ft_memset(zsh, ' ', len);
 	//	write(1, "%", 1);
-		write(1, zsh, len);
+//		write(1, zsh, len);
 		execute_str(BEGIN_LINE);
 		execute_str(ERASE_ENDLINE);
 		retrieve_pos(&st_cmd->start_pos);

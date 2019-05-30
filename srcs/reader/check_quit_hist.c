@@ -70,6 +70,7 @@ int					search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find)
 	{
 		if (strstr_adapted((*st_cmd)->hist_lst->txt, to_find) == 1)//pattern found -> je dois placer le curseur sur la derniere occurence du pattern et return 1 pour afficher le prompt SUCCESS
 		{
+			// free txt
 			if (!((*st_cmd)->st_txt->txt = ft_strdup((*st_cmd)->hist_lst->txt)))//change st_cmd->st_txt->txt par l'entree de l'historique correspondant
 				ERROR_MEM
 			(*st_cmd)->st_txt->data_size = ft_strlen((*st_cmd)->st_txt->txt);//change st_cmd->data_size par strlen
@@ -122,17 +123,50 @@ int		check_for_search_histo(t_st_cmd *st_cmd, const char *buf_received)
 		{
 			if (!ft_isprint_ctrlr(c))// quitte la boucle en cas de fleche etc... -> pas de termcaps. Il faut peut etre le join a st_cmd->st_txt->txt quand meme (ex : si on met "shift + fleche de gauche", le ctrl R doit quitter et le prompt doit afficher D ; EN FAIT pas que ascii (exemple TAB quitte)
 			{
-				/*
-				ft_putendl("BREAK");
-				sleep(1);
-				*/
+				// 3 cas : ctrlc -> affiche ctrlc, nouveau prompt une ligne en dessous, entree -> substitue par un promp regular le prompt de recherche et execute, char de merdre -> overwrite un prompt sur la meme ligne
+				if (c == '\n')//ENTER
+				{
+				free_st_prompt(&st_cmd->st_prompt);
+				st_cmd->st_prompt = init_st_prompt(NULL);	
+				execute_str(BEGIN_LINE);
+				execute_str(CLEAR_BELOW);
+				print_prompt(st_cmd);
+				st_cmd->st_txt->tracker = 0;
+				write_st_cmd(st_cmd);
+				return (1);
+				}
+
+
+
+				else if (c ==  3)
+				{
+				free_st_prompt(&st_cmd->st_prompt);
+				st_cmd->st_prompt = init_st_prompt(NULL);	
+				execute_str(BEGIN_LINE);
+				execute_str(CLEAR_BELOW);
+				print_prompt(st_cmd);
+				st_cmd->st_txt->tracker = 0;
+				write_st_cmd(st_cmd);
+
+				}
+				else
+				{
+				free_st_prompt(&st_cmd->st_prompt);
+				st_cmd->st_prompt = init_st_prompt(NULL);	
+				execute_str(BEGIN_LINE);
+				execute_str(CLEAR_BELOW);
+				print_prompt(st_cmd);
+				st_cmd->st_txt->tracker = 0;
+				write_st_cmd(st_cmd);
+
+				}
 				break ;
 			}
 			buf = ft_realloc(buf, ft_strlen(buf) - 1, &malloc_size, 1);
 			buf[ft_strlen(buf)] = c;//buf contient ce que je dois chercher dans l'historique ; gere quand c'est del, etc..
-			prompt_type = search_reverse_in_histo(&st_cmd, buf);//pattern found ; afficher le prompt SUCCESS (reverse-i-search)`$buf': $st_cmd->st_txt->txt
 			execute_str(BEGIN_LINE);
 			execute_str(CLEAR_BELOW);
+			prompt_type = search_reverse_in_histo(&st_cmd, buf);//pattern found ; afficher le prompt SUCCESS (reverse-i-search)`$buf': $st_cmd->st_txt->txt
 			print_prompt_search_histo(st_cmd, buf, prompt_type);
 		/*	retrieve_pos(&st_cmd->start_pos);
 			write_st_cmd(st_cmd);

@@ -7,7 +7,8 @@ static void				get_user_name(char **users, const char *line)
 	struct passwd		*infos;
 	struct stat			file_infos;
 
-	initialize_str(&tmp, &tmp2, &infos, NULL);
+	initialize_str(&tmp, &tmp2, NULL, NULL);
+	infos = NULL;
 	if (!(tmp = ft_strndup(line, ft_strlen_char(line, ':'))))
 		ERROR_MEM;
 	if (!(tmp2 = ft_strjoin("~", tmp)))

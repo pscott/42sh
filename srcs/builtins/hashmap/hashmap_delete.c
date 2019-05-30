@@ -63,7 +63,7 @@ void		replace_item(t_hash_item *item, const char *value)
 
 t_bool		pop_hashmap_item(const char *key, t_hashmap *hashmap)//useless bool ?
 {
-	size_t	index;
+	size_t		index;
 	t_hash_item	*item_probe;
 	t_hash_item	*prev_probe;
 

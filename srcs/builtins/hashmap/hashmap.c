@@ -75,3 +75,8 @@ char	*check_hashmap(const char *key, t_hashmap *hashmap, t_hashopt opt)
 	}
 	return (NULL);
 }
+
+void	print_usage(void)
+{
+	ft_dprintf(STDERR_FILENO, "hash [-lr] [-p pathname] [-d] [name ...]\n");
+}

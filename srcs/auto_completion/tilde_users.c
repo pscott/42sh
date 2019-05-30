@@ -7,9 +7,7 @@ static void				get_user_name(char **users, const char *line)
 	struct passwd		*infos;
 	struct stat			file_infos;
 
-	tmp = NULL;
-	tmp2 = NULL;
-	infos = NULL;
+	initialize_str(&tmp, &tmp2, &infos, NULL);
 	if (!(tmp = ft_strndup(line, ft_strlen_char(line, ':'))))
 		ERROR_MEM;
 	if (!(tmp2 = ft_strjoin("~", tmp)))
@@ -36,9 +34,7 @@ static int				get_users_list(t_auto_comp **match, const char *to_find)
 	char				*users;
 	char				*tmp;
 
-	line = NULL;
-	users = NULL;
-	tmp = NULL;
+	initialize_str(&line, &users, &tmp, NULL);
 	fd = open("/etc/passwd", 0);
 	while (((ret = get_next_line_a_c(fd, &line)) != -1))
 	{

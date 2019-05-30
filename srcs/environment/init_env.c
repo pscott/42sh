@@ -21,13 +21,14 @@ static char	**create_minienv(void)
 
 	init_lines = 2;
 	if (!(env = (char**)malloc(sizeof(char**) * (init_lines + 1))))
-		ERROR_MEM
+		ERROR_MEM;
 	bzero_env(env, init_lines);
-	set_env_var("SHLVL", "1", &env); //TODO: enzo?? 
-	if (!(cwd = getcwd(NULL, 0)))//getcwd can fail in other way than ERROR_MEM
-		ERROR_MEM
-	set_env_var("SHLVL", "1", &env); //TODO: enzo?? 
-	set_env_var("PWD", cwd, &env);
+	set_env_var("SHLVL", "1", &env);//TODO: enzo??
+	if (!(cwd = getcwd(NULL, 0)))//getcwd can fail in other way than ERROR_MEM/ Axel : je rajoute un print error + une condition pour le set env var 3lignes + bas
+		print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL);
+	set_env_var("SHLVL", "1", &env);//TODO: enzo??
+	if (cwd)
+		set_env_var("PWD", cwd, &env);
 	env[init_lines - 0] = NULL;
 	ft_memdel((void*)&cwd);
 	return (env);
@@ -46,7 +47,7 @@ char		**init_env(const char **env)
 	if (env && *env)
 	{
 		if (!(new_env = ft_dup_ntab(env)))
-			ERROR_MEM
+			ERROR_MEM;
 		set_shlvl(&new_env);
 		return (new_env);
 	}

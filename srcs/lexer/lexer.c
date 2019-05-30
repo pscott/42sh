@@ -120,6 +120,6 @@ int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 		syntax_error_near(current_token);
 		return (lex_fail);
 	}
-	print_token_list(*token_head);//debug
+	//print_token_list(*token_head);//debug
 	return (lex_success);
 }

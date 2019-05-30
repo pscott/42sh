@@ -75,7 +75,6 @@ t_bool	parse_vars(t_token *token, t_vars *vars)
 	{
 		if (!escaped && !ft_strncmp("${", &token->content[i], 2))
 		{
-			ft_printf("found a ${\n");
 			if (!is_terminated("${", "}", &token->content[i]))
 			{
 				ft_printf("${ is NOT terminated\n");
@@ -87,7 +86,6 @@ t_bool	parse_vars(t_token *token, t_vars *vars)
 				ft_printf("get_param_sub_name failed\n");
 				return (0);
 			}
-			ft_printf("get_param_sub_name return: |%s|\n", var_name);
 			substitute_param(token, &i, var_name, vars);
 			//check (*i value) && token plz
 		}
@@ -105,13 +103,12 @@ t_bool	parse_vars(t_token *token, t_vars *vars)
 		}
 		else if (token->content[i] == '\\')
 			escaped = (escaped) ? 0 : 1;
-		else//test: pas sure
+		else
 			escaped = 0;
 		i++;
 	}
 	if (ft_strlen(token->content) == 0)
 		token->type = tk_eat;
-	//ft_printf("parse_vars() returned 1, on token |%s|\n", token->content);
 	return (1);
 }
 
@@ -119,21 +116,13 @@ t_bool	parse_arith_exp(t_token *token, t_vars *vars)
 {
 	size_t		i;
 	char		escaped;
-	long long	arith_exp_res;
-	//t_token		*new_token;
 
-	//if no unescaped $(( is found
-	//	return (1);
-	//ft_printf("IN parse_arith_exp()\n");
-	(void)vars;
-	(void)arith_exp_res;
 	i = 0;
 	escaped = 0;
 	while (token->content[i])
 	{
 		if (!escaped && !ft_strncmp("$((", &token->content[i], 3))
 		{
-			get_lowest_arith_exp(&token->content[i], vars);//pure test
 			//get matching '))'
 			if (!(is_matched(&token->content[i], "$((", "))")))
 			{
@@ -150,7 +139,7 @@ t_bool	parse_arith_exp(t_token *token, t_vars *vars)
 		}
 		else if (token->content[i] == '\\')
 			escaped = (escaped) ? 0 : 1;
-		else//test: pas sure
+		else
 			escaped = 0;
 		i++;
 	}//no need to check if empty for arith_exp
@@ -167,13 +156,13 @@ t_bool	parse_dollars(t_token *token_head, t_vars *vars)
 			//parse for $ and ${}, return 0 on bad substitution (and stop exec)
 			if (!(parse_vars(token_head, vars)))
 			{
-				ft_printf("EEEEEEEEEEEEEEE\n");
+				ft_printf("parse_vars() returned 0\n");
 				return (0);
 			}
 			//then reparse for $((, return 0 on 'unexpected char'
 			if (!(parse_arith_exp(token_head, vars)))
 			{
-				ft_printf("FFFFFFFFFFFFFFF\n");
+				ft_printf("parse_arith_exp() returned 0\n");
 				return (0);
 			}
 		}
@@ -190,7 +179,6 @@ t_bool	parse_dollars(t_token *token_head, t_vars *vars)
 
 t_bool	parse_expands(t_token *token_head, t_vars *vars)
 {
-	ft_printf("------------------------------\n");
 	parse_tildes(token_head, (const char **)vars->env_vars);//we don't care about return value
 	if (!(parse_dollars(token_head, vars)))//if it return 0, TODO stop execution
 		return (0);

@@ -32,5 +32,6 @@ t_bool	is_matched(const char *str
 		}
 		i++;
 	}
+	ft_printf("braces_count = %u, in |%s|\n", braces_count, str);
 	return ((braces_count) ? 0 : 1);
 }

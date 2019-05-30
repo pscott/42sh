@@ -57,7 +57,11 @@ static t_token	*get_regular_token(char **cmdline)
 	//TODO check unwanted char in this func or in ft_is_metachar()
 	i = 0;
 	while ((*cmdline)[i] && !ft_is_metachar((*cmdline)[i]))
+	{
+		if ((*cmdline)[i] == '$' && i != 0)
+			break ;
 		i++;
+	}
 	if (!(token = create_token(*cmdline, i, tk_word)))
 		ERROR_MEM;
 	*cmdline = *cmdline + i;

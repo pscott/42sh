@@ -118,5 +118,5 @@ void				free_token_list(t_token *token_head);
 
 
 //test
-char	*get_lowest_arith_exp(char *str, t_vars *vars);
+t_bool	get_lowest_arith_exp(char **str, t_vars *vars);
 #endif

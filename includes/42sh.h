@@ -61,6 +61,12 @@ void				set_env_var(char *var_name, char *var_value, char ***env);
 void				unset_env_var(char *var_name, char ***env);
 
 /*
+**	File descriptors funcs
+*/
+
+void	save_reset_stdfd(int mode);
+
+/*
 ** lexer_tools.c
 */
 

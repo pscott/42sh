@@ -113,6 +113,7 @@ int			parse_cmdline(t_token *token, t_vars *vars) // no need for t_pipelst ?
 {
 	int	num_simple_commands;
 	t_token *probe;
+	int ret;
 
 	if (!token)
 		return (0);
@@ -128,29 +129,14 @@ int			parse_cmdline(t_token *token, t_vars *vars) // no need for t_pipelst ?
 			num_simple_commands++;
 		}
 	}
-
-	int sin = dup(0);
-	int sout = dup(1);
-	int serr = dup(2);
-	int ret;
-
+	save_reset_stdfd(1);
 	if ((num_simple_commands == 1)//TODO check
 		&& (execute_no_pipe_builtin(token, vars) == 0))
 	{
-		dup2(sin, 0);
-		dup2(sout, 1);
-		dup2(serr, 2);
-		close(sin);
-		close(sout);
-		close(serr);
+		save_reset_stdfd(0);
 		return (0);
 	}
 	ret = fork_pipes(num_simple_commands, token, vars);
-	dup2(sin, 0);
-	dup2(sout, 1);
-	dup2(serr, 2);
-	close(sin);
-	close(sout);
-	close(serr);
+	save_reset_stdfd(0);
 	return (ret);
 }

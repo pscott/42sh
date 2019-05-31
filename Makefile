@@ -89,7 +89,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c heredoc_utils.c
 						cmd_type.c cmd_setenv.c cmd_unsetenv.c cmd_echo.c \
 						cmd_exit_utils.c cmd_cd_utils.c
 	REDIR_FILES		:=	redir_dgreat.c redir_dless.c redir_fd_great.c \
-						redir_great.c redir_less.c parse_redirections.c
+						redir_great.c redir_less.c parse_redirections.c \
+						fd_utils.c
 	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c \
 						execute_no_pipe_builtin.c
 	AUTO_COMP_FILES	:=	auto_completion.c auto_completion_x_arg.c \

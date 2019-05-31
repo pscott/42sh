@@ -1,6 +1,7 @@
 #include "input.h"
 #include "line_editing.h"
 #include "signals.h"
+#include "history.h"
 
 /*
 ** Handler function for terminating (aka dangerous) signals
@@ -26,6 +27,7 @@ void			sigint_handler(int signo)
 	reposition_cursor(st_cmd);
 	vars = get_vars(NULL);
 	vars->cmd_value = 1;
+	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 	write(0, "\n", 1);
 	execute_str(CLEAR_BELOW);
 }

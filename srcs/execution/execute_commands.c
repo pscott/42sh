@@ -9,7 +9,7 @@ static void	access_and_exec(const char *cmd_path, const char **argv, const char 
 {
 	int	access;
 
-	if ((access = check_access(cmd_path)) == 0 && reset_terminal_settings())
+	if ((access = check_access(cmd_path)) == 0)
 	{
 		execve(cmd_path, (char * const*)argv, (char* const*)env);
 		print_errors(ERR_EXECUTE, ERR_EXECUTE_STR, cmd_path);
@@ -64,6 +64,7 @@ t_bool		parse_and_exec(t_token *token_head, int in, int out, t_vars *vars)
 	redirect(in, STDIN_FILENO);
 	redirect(out, STDOUT_FILENO);
 	parse_expands(token_head, vars);
+	reset_terminal_settings();
 	parse_redirections(token_head);
 	if (!(argv = get_argv_from_token_lst(token_head)))
 		return (1); // return value ?

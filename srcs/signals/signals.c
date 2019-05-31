@@ -27,8 +27,7 @@ void	sigint_handler(int signo)
 	vars = get_vars(NULL);
 	vars->cmd_value = 1;
 	write(0, "\n", 1);
-	//free (st_cmd->st_prompt); ?
-	//free(st_cmd->st_txt); ?
+	execute_str(CLEAR_BELOW);
 }
 
 static void	sigcont_handler(int signo)

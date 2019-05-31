@@ -1,5 +1,9 @@
 #include "42sh.h"
 
+/*
+**	Saving std fds : mode 1 is saving, mode 0 is restoring
+*/
+
 void	save_reset_stdfd(int mode)
 {
 	static int	in = -1;

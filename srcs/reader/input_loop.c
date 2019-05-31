@@ -93,7 +93,7 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 	while ((ret = read(STDIN_FILENO, &c, 1)) > 0)
 	{
 		buf[ft_strlen(buf)] = c;
-		magic_print(buf);
+		//magic_print(buf);
 		if (is_valid_escape(buf) == 0)
 			continue ;
 		if (check_for_signal(buf))

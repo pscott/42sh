@@ -6,7 +6,10 @@
 # define INIT_TXT_SIZE 2 // change to 32(?) later but for debug purpose it's 2
 # define BUF_SIZE 4
 # define STD_PROMPT "42sh $ "
+# define PROMPT_REVERSE_I_SEARCH_SUCC "(reverse-i-search)"
+# define PROMPT_REVERSE_I_SEARCH_FAIL "(failed reverse-i-search)"
 
+enum {enter_case, ctrl_c_case, quit_case};
 
 typedef struct				s_st_txt {
 	char					*txt;
@@ -31,6 +34,8 @@ typedef struct				s_st_cmd {
 	struct s_st_cmd			*prev;
 }							t_st_cmd;
 
+int				handle_reverse_search_history(t_st_cmd *st_cmd);
+
 /*
 ** Handling input
 */
@@ -41,19 +46,16 @@ t_bool						handle_input(t_st_cmd *st_cmd, t_vars *vars);
 **	Input checking
 */
 
-int							check_for_arrows(t_st_cmd *st_cmd, const char *buf);
-int							check_for_quit(t_st_cmd *st_cmd, const char *buf);
-int							check_for_enter(const char *buf);
-int							check_for_signal(const char *buf);
-int							check_for_delete(t_st_cmd *st_cmd, char *buf);
-int							check_for_tab(t_st_cmd *st_cmd, const char *buf, t_vars *vars);
-
-/*
-**	Auto-completion
-*/
 
 char						*auto_completion(char *input, unsigned int len,
 								t_vars *vars);
+int				check_for_arrows(t_st_cmd *st_cmd, const char *buf);
+int				check_for_quit(t_st_cmd *st_cmd, const char *buf);
+int				check_for_enter(const char *buf);
+int				check_for_signal(const char *buf);
+int				check_for_delete(t_st_cmd *st_cmd, char *buf);
+int				check_for_search_histo(t_st_cmd *st_cmd, const char *buf_received);
+int				check_for_tab(t_st_cmd *st_cmd, const char *buf, t_vars *vars);
 
 /*
 **	Arrow movement
@@ -105,6 +107,7 @@ void						free_st_txt(t_st_txt **st_txt);
 
 t_st_prompt					*init_st_prompt(const char *prompt);
 void						print_prompt(t_st_cmd *st_cmd);
+void						print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf, int prompt_type);
 void						free_st_prompt(t_st_prompt **st_prompt);
 
 /*

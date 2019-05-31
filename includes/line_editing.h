@@ -4,6 +4,7 @@
 # include "42sh.h"
 # include "input.h"
 
+
 /*
 **	Window struct
 */

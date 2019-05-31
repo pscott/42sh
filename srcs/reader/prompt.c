@@ -1,5 +1,6 @@
 #include "libterm.h"
 #include "input.h"
+#include "line_editing.h"
 
 void	print_prompt(t_st_cmd *st_cmd)
 {
@@ -27,5 +28,27 @@ void	print_prompt(t_st_cmd *st_cmd)
 			ft_printf("%s", GREEN);
 		ft_printf("%s%s", st_cmd->st_prompt->prompt, FG_DFL);
 		ft_memdel((void*)&zsh);
+	}
+}
+
+void	print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf, int prompt_type) 
+{
+	int			len;
+
+	if (isatty(STDIN_FILENO))
+	{
+		free_st_prompt(&st_cmd->st_prompt);
+		if (prompt_type == 0)
+			st_cmd->st_prompt = init_st_prompt(PROMPT_REVERSE_I_SEARCH_SUCC);
+		else if (prompt_type == 1)
+			st_cmd->st_prompt = init_st_prompt(PROMPT_REVERSE_I_SEARCH_FAIL);
+		st_cmd->st_prompt->size += 4 + ft_strlen(buf);
+		len = st_cmd->window->ws_col - 1 > 0 ? st_cmd->window->ws_col -1 : 2;
+		execute_str(BEGIN_LINE);
+		execute_str(ERASE_ENDLINE);
+		retrieve_pos(&st_cmd->start_pos);
+		ft_printf("%s`%s': %s", st_cmd->st_prompt->prompt, buf, st_cmd->st_txt->txt);
+		get_pos(st_cmd, st_cmd->st_txt->tracker);
+		reposition_cursor(st_cmd);
 	}
 }

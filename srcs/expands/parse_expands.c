@@ -3,34 +3,32 @@
 #include "ast.h"
 
 //loop through token list
+//parse for $ and ${}, return 0 on bad substitution (and stop exec)
 static t_bool	parse_dollars(t_token *token_head, t_vars *vars)
 {
 	while (token_head && token_head->type < tk_pipe)
 	{
 		if (token_head->type == tk_word || token_head->type == tk_dq_str)
 		{
-			//parse for $ and ${}, return 0 on bad substitution (and stop exec)
-			//if (!(parse_vars(token_head, vars)))
-			//{
-			//	ft_printf("parse_vars() returned 0\n");
-			//	return (0);
-			//}
-			if (!(parse_param_sub(token_head, vars)))
+			if (!(parse_param_sub(&token_head->content, vars)))
 			{
 				ft_printf("parse_param_sub() return (0)\n");
 				return (0);
 			}
-			if (!(parse_env_var(token_head, vars)))//protection needed ?
+			if (!(parse_env_var(&token_head->content, vars)))//protection needed ?
 			{
 				ft_printf("parse_env_var() return (0)\n");
 				return (0);
 			}
 			//then reparse for $((, return 0 on 'unexpected char'
-			if (!(parse_arith_exp(token_head, vars)))
+			if (!(parse_arith_exp(&token_head->content, vars)))
 			{
 				ft_printf("parse_arith_exp() returned 0\n");
 				return (0);
 			}
+			//don't make tk_eat
+			//if (!(ft_strlen(token_head->content)))
+			//	token_head->type = tk_eat;
 		}
 		token_head = token_head->next;
 	}

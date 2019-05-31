@@ -77,27 +77,27 @@ static char	expand_lowest_arith_exp(char **str, t_vars *vars)
 	return (0);
 }
 
-t_bool		parse_arith_exp(t_token *token, t_vars *vars)
+t_bool		parse_arith_exp(char **str, t_vars *vars)
 {
 	size_t		i;
 	char		escaped;
-	char		arith_expand_ret;//TODO
+	char		arith_expand_ret;
 
 	i = 0;
 	escaped = 0;
-	while (token->content[i])
+	while ((*str)[i])
 	{
-		if (!escaped && !ft_strncmp("$((", &token->content[i], 3)
-				&& is_matched(token->content + i, "$((", "))"))
+		if (!escaped && !ft_strncmp("$((", (*str) + i, 3)
+				&& is_matched((*str) + i, "$((", "))"))
 		{
-			while ((arith_expand_ret = expand_lowest_arith_exp(&token->content, vars)))//no need to move *i as it will be relplaced by numbers only
+			while ((arith_expand_ret = expand_lowest_arith_exp(str, vars)))//no need to move *i as it will be relplaced by numbers only
 			{
 				if (arith_expand_ret == -1)
 					return (0);//bad sub
-				ft_printf("TOP: |%s|\n", token->content);//debug
+				ft_printf("TOP: |%s|\n", *str);//debug
 			}
 		}
-		else if (token->content[i] == '\\')
+		else if ((*str)[i] == '\\')
 			escaped = (escaped) ? 0 : 1;
 		else
 			escaped = 0;

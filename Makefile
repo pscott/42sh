@@ -28,7 +28,7 @@ INCL_CMD	:=	$(addprefix -I,$(INCL_DIR))
 
 INCL_FILES	:=	42sh.h lexer.h ast.h input.h history.h get_next_line.h \
 				line_editing.h builtins.h errors.h cmd_parsing.h execution.h \
-				signals.h hashmap.h heredoc.h expand.h exp_arith.h
+				signals.h hashmap.h heredoc.h exp_arith.h
 
 INCLS		:=	$(addprefix includes/,$(INCL_FILES))
 
@@ -78,9 +78,9 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c\
 	READER_FILES	:=	arrows.c check_commands.c prompt.c \
 						input_loop.c cursor_position.c input_utils.c \
 						delete.c txt_cat.c
-	EXPANDS_FILES	:=	parse_expands.c parse_dollars.c parse_tildes.c \
-						parse_quotes.c parameter_substitution.c \
-						expand_dollars.c prepare_arith_exp.c substitue_test.c
+	EXPANDS_FILES	:=	parse_expands.c parse_tildes.c parse_param_sub.c\
+						parse_quotes.c parse_env_var.c parse_arith_exp.c\
+						substitute_utils.c
 	HISTORY_FILES	:=	hist_file.c get_next_line.c hist_lst.c \
 						switch_history.c handle_input_hist.c
 	SIGNALS_FILES	:=	signals.c

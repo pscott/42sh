@@ -4,7 +4,7 @@
 # include "42sh.h"
 # include "lexer.h"
 # include "input.h"
-# include "expand.h"
+# include "cmd_parsing.h"
 # include "errors.h"
 
 # define HEREDOC_FILENAME "/tmp/.tmp_heredoc"

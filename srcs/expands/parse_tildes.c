@@ -17,14 +17,14 @@ static t_bool	is_valid_tilde(t_token *curr_token, t_token *prev_token)
 **	Replaces the str with the '~' expanded.
 */
 
-t_bool	replace_tilde(char **str, const char **env)
+t_bool			replace_tilde(char **str, const char **env)
 {
 	char	*new_str;
 	char	*home_str;
 
 	if (!(home_str = get_envline_value("HOME", (char **)env)))
 	{
-		ft_putendl("NO HOME VAR");//TODO
+		ft_putendl("TMP: NO HOME VAR");//TODO
 		return (0);
 	}
 	if (!(new_str = ft_strnew(ft_strlen(home_str) + ft_strlen(*str) - 1)))
@@ -36,14 +36,13 @@ t_bool	replace_tilde(char **str, const char **env)
 	return (1);
 }
 
-t_bool	parse_tildes(t_token *token_head, const char **env)
+t_bool			parse_tildes(t_token *token_head, const char **env)
 {
 	t_token *prev_token;
 	t_token *curr_token;
 
 	curr_token = token_head;
 	prev_token = NULL;
-	//ft_putendl("##########in Parse_tildes");
 	while (curr_token)
 	{
 		if (curr_token->type == tk_word && is_valid_tilde(curr_token, prev_token))//~ doesn't expand in ""
@@ -54,6 +53,5 @@ t_bool	parse_tildes(t_token *token_head, const char **env)
 		prev_token = curr_token;
 		curr_token = curr_token->next;
 	}
-	//ft_putendl("################");
 	return (1);//tmp
 }

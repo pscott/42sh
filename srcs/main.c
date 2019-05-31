@@ -47,6 +47,8 @@ int		main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	vars.hashmap = init_hashmap(INIT_HASH_SIZE);
+	vars.cmd_value = 0;
+	vars.shell_vars = NULL;
 	get_vars(&vars);
 	if (setup_terminal_settings() == -1)
 		return (EXIT_FAILURE);

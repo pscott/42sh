@@ -61,7 +61,7 @@ char		*substitute_env_var(char *old_str, size_t *i
 */
 
 //could be more generic with a parameter 'trim_size', "$((" would be 5
-void		*substitute_env_var(t_token *token, size_t *i, const char *var_name
+void		substitute_env_var(t_token *token, size_t *i, const char *var_name
 			, t_vars *vars)
 {
 	const char	*var_value;
@@ -71,7 +71,7 @@ void		*substitute_env_var(t_token *token, size_t *i, const char *var_name
 		var_value = &var_name[ft_strlen(var_name)];//toujours aussi degueu
 	index[0] = *i;
 	index[1] = *i + ft_strlen(var_name) + 1;
-	ft_pritnf("var_value: %s\n", var_value);//HEREHERE
+	ft_printf("var_value: %s\n", var_value);//HEREHERE
 	substitute_slice(&token->content, index, var_value);
 	*i += ft_strlen(var_value);
 	ft_strdel((char**)&var_name);

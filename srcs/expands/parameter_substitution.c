@@ -39,6 +39,7 @@ t_bool	parse_param_sub(t_token *token, t_vars *vars)
 				ft_printf("get_param_sub_name failed\n");//debug
 				return (0);
 			}
+			ft_printf("var_name: |%s|\n", var_name);
 			substitute_param(token, &i, var_name, vars);
 		}
 		else if (token->content[i] == '\\')

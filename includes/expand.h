@@ -5,7 +5,7 @@
 # include "lexer.h"
 
 char		*get_var_name(char *str);
-void		*substitute_env_var(t_token *token, size_t *i, const char *var_name
+void		substitute_env_var(t_token *token, size_t *i, const char *var_name
 			, t_vars *vars);
 char		*get_var_name(char *str);
 t_bool		is_matched(const char *str

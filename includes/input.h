@@ -7,6 +7,7 @@
 # define BUF_SIZE 4
 # define STD_PROMPT "42sh $ "
 
+enum {enter_case, ctrl_c_case, quit_case};
 
 typedef struct				s_st_txt {
 	char					*txt;

@@ -54,7 +54,8 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	int						ret;
 
 	parse_expands(token_head, vars);
-	parse_redirections(token_head);
+	if (parse_redirections(token_head) == 0)
+		return (0);
 	argv = get_argv_from_token_lst(token_head);
 	reset_terminal_settings();
 	ret = exec_builtins(argv, vars, cmd_id);

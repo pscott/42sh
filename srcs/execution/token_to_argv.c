@@ -98,7 +98,7 @@ char		**get_argv_from_token_lst(t_token *token_head)
 		while (probe && probe->type == tk_eat)
 			probe = probe->next;
 		if (!probe || probe->type > tk_redirection)
-			break;
+			break ;
 	}
 	if (argv_len < 1)
 		return (NULL);

@@ -8,7 +8,7 @@
 **	Returns ERR_PERM if file exists but not executable
 */
 
-int			check_access(const char *file)
+int					check_access(const char *file)
 {
 	if (!file)
 		return (ERR_CMD);
@@ -28,7 +28,7 @@ int			check_access(const char *file)
 **	NULL.
 */
 
-char		*find_path(char *file, char **paths)
+char				*find_path(char *file, char **paths)
 {
 	unsigned int	i;
 	char			*possible_path;
@@ -53,10 +53,10 @@ char		*find_path(char *file, char **paths)
 }
 
 /*
-**	Utility function to print the correpsonding error messages for 
+**	Utility function to print the correpsonding error messages for
 */
 
-static void	print_error_message(int access, const char *str)
+static void			print_error_message(int access, const char *str)
 {
 	if (access == ERR_CMD)
 		print_errors(ERR_CMD, ERR_CMD_STR, str);
@@ -73,14 +73,14 @@ static void	print_error_message(int access, const char *str)
 **	Verbose parameter prints error messages.
 */
 
-char	*get_cmd_path(char **argv, char **env, int verbose)
+char				*get_cmd_path(char **argv, char **env, int verbose)
 {
-	char	**paths;
-	char	*path_line;
-	char	*path;
-	int		access;
+	char			**paths;
+	char			*path_line;
+	char			*path;
+	int				access;
 
-	path = NULL;
+	ft_initialize_str(&path_line, &path, NULL, NULL);
 	paths = NULL;
 	if (ft_strchr(argv[0], '/'))
 		path = ft_strdup(argv[0]);

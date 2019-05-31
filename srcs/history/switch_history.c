@@ -29,7 +29,7 @@ void	switch_st_cmd(t_st_cmd *st_cmd, char *newcmd)
 	free_st_txt(&st_txt);
 	st_cmd->st_txt = init_st_txt(trunc_newcmd);
 	write_st_cmd(st_cmd);
-	st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;;
+	st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;
 	get_pos(st_cmd, st_cmd->st_txt->tracker);
 	ft_memdel((void*)&trunc_newcmd);
 }
@@ -47,7 +47,7 @@ void	get_previous_history(t_st_cmd *st_cmd)
 	else if (st_cmd->hist_lst->prev)
 	{
 		free(st_cmd->hist_lst->cpy);
-		if (!(st_cmd->hist_lst->cpy = ft_strdup(st_cmd->st_txt->txt))) //protect
+		if (!(st_cmd->hist_lst->cpy = ft_strdup(st_cmd->st_txt->txt)))
 			ERROR_MEM;
 		st_cmd->hist_lst = st_cmd->hist_lst->prev;
 		switch_st_cmd(st_cmd, st_cmd->hist_lst->cpy);
@@ -59,7 +59,6 @@ void	get_previous_history(t_st_cmd *st_cmd)
 **	the characters displayed on screen to those of the next history.
 */
 
-
 void	get_next_history(t_st_cmd *st_cmd)
 {
 	if (!st_cmd->hist_lst || !st_cmd->hist_lst->next)
@@ -67,7 +66,7 @@ void	get_next_history(t_st_cmd *st_cmd)
 	else
 	{
 		free(st_cmd->hist_lst->cpy);
-		if (!(st_cmd->hist_lst->cpy = ft_strdup(st_cmd->st_txt->txt))) //protect
+		if (!(st_cmd->hist_lst->cpy = ft_strdup(st_cmd->st_txt->txt)))
 			ERROR_MEM;
 		st_cmd->hist_lst = st_cmd->hist_lst->next;
 		switch_st_cmd(st_cmd, st_cmd->hist_lst->cpy);

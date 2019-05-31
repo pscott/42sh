@@ -6,7 +6,7 @@
 ** Handler function for terminating (aka dangerous) signals
 */
 
-static void		sig_handler(int signo)
+ void		sig_handler(int signo)
 {
 	execute_str(CLEAR_BELOW);
 	reset_terminal_settings();
@@ -27,11 +27,10 @@ void			sigint_handler(int signo)
 	vars = get_vars(NULL);
 	vars->cmd_value = 1;
 	write(0, "\n", 1);
-	//free (st_cmd->st_prompt); ?
-	//free(st_cmd->st_txt); ?
+	execute_str(CLEAR_BELOW);
 }
 
-static void		sigcont_handler(int signo)
+void		sigcont_handler(int signo)
 {
 	if (setup_terminal_settings() == 0)
 	{
@@ -44,7 +43,7 @@ static void		sigcont_handler(int signo)
 	(void)signo;
 }
 
-static void		sigwinch_handler(int signo)
+void		sigwinch_handler(int signo)
 {
 	t_st_cmd	*st_cmd;
 

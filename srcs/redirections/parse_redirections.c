@@ -8,10 +8,17 @@
 
 void	redirect(int old_fd, int new_fd)
 {
-	if (old_fd != new_fd)
+	if (old_fd == -1)
+	{
+		close(new_fd);
+	}
+	else if (old_fd != new_fd)
 	{
 		if (dup2(old_fd, new_fd) != -1)
-			close(old_fd); //check close return value ?
+		{
+			if (old_fd > 2)
+				close(old_fd); //check close return value ?
+		}
 		else
 			ft_dprintf(2, "error with dup2: old_fd: %d, new_fd: %d\n", old_fd, new_fd);
 	}
@@ -54,7 +61,7 @@ t_bool	apply_redirections(t_token *redir, t_token *prev) //static ?//use redir_t
 		return (0);
 	else if (ft_strncmp(redir->content, ">", 2) == 0) // only >
 		redir_great(redir, prev);
-	else if (ft_strncmp(redir->content, "&>", 3) == 0)
+	else if (ft_strncmp(redir->content, ">&", 3) == 0)
 		redir_fd_great(redir, prev);
 	else if (ft_strncmp(redir->content, ">>", 3) == 0)
 		redir_dgreat(redir, prev);

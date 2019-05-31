@@ -10,7 +10,7 @@ t_bool		redir_less(t_token *redir, t_token *prev)
 	int		new_fd;
 
 	if ((old_fd = check_fd_prev(prev)) < 0)
-		old_fd = 0;
+		old_fd = STDIN_FILENO;
 	next = redir->next;
 	while (next->type == tk_eat)
 		next = next->next;

@@ -13,15 +13,15 @@ void	save_reset_stdfd(int mode)
 
 	if (mode == 1 && lastmode != 1)
 	{
-		in = dup(0);
-		out = dup(1);
-		err = dup(2);
+		in = dup(STDIN_FILENO);
+		out = dup(STDOUT_FILENO);
+		err = dup(STDERR_FILENO);
 	}
 	if (mode == 0 && lastmode != 0)
 	{
-		dup2(in, 0);
-		dup2(out, 1);
-		dup2(err, 2);
+		dup2(in, STDIN_FILENO);
+		dup2(out, STDOUT_FILENO);
+		dup2(err, STDERR_FILENO);
 		close(in);
 		close(out);
 		close(err);

@@ -80,7 +80,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c\
 						delete.c txt_cat.c
 	EXPANDS_FILES	:=	parse_expands.c parse_dollars.c parse_tildes.c \
 						parse_quotes.c parameter_substitution.c \
-						expand_dollars.c prepare_arith_exp.c
+						expand_dollars.c prepare_arith_exp.c substitue_test.c
 	HISTORY_FILES	:=	hist_file.c get_next_line.c hist_lst.c \
 						switch_history.c handle_input_hist.c
 	SIGNALS_FILES	:=	signals.c

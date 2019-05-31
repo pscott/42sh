@@ -3,6 +3,7 @@
 #include "cmd_parsing.h"
 #include "ast.h"
 
+/*
 void	substitute_param(t_token *token, size_t *i, const char *var_name
 		, t_vars *vars)
 {
@@ -23,9 +24,10 @@ void	substitute_param(t_token *token, size_t *i, const char *var_name
 	token->content = new_str;
 	ft_strdel((char**)&var_name);
 }
+*/
 
 //static t_bool	is_param_sub_valid(const char *str)
-static const char	*get_param_sub_name(const char *str)
+const char	*get_param_sub_name(const char *str)
 {
 	size_t	i;
 
@@ -41,10 +43,10 @@ static const char	*get_param_sub_name(const char *str)
 	}
 	if (str[i] == '}')//check me
 		return (ft_strndup(&str[2], i - 2));
-	//return (str); ??
 	return (NULL);
 }
 
+//is_terminated doesn't care about '\' escape
 t_bool	is_terminated(const char *open, const char *closed, const char *str)
 {
 	size_t	i;
@@ -61,6 +63,38 @@ t_bool	is_terminated(const char *open, const char *closed, const char *str)
 	return (0);
 }
 
+t_bool	parse_env_var(t_token *token, t_vars *vars)
+{
+	size_t		i;
+	t_bool		escaped;
+	const char	*var_name;
+
+	i = 0;
+	escaped = 0;
+	while (token->content[i])
+	{
+		if (!escaped && token->content[i] == '$')
+		{
+			//get_var_name return NULL when get_var_name didn't find a name, ex: $\PWD
+			if (!(var_name = get_var_name(&token->content[i])))
+			{
+				i++;
+				continue ;
+			}
+			substitute_env_var(token, &i, var_name, vars);
+		}
+		else if (token->content[i] == '\\')
+			escaped = (escaped) ? 0 : 1;
+		else
+			escaped = 0;
+		i++;
+		//TODO check if empty
+	}
+	return (1);
+}
+
+//OLD
+/*
 t_bool	parse_vars(t_token *token, t_vars *vars)
 {
 	size_t		i;
@@ -111,7 +145,39 @@ t_bool	parse_vars(t_token *token, t_vars *vars)
 		token->type = tk_eat;
 	return (1);
 }
+*/
 
+t_bool	parse_arith_exp(t_token *token, t_vars *vars)
+{
+	size_t		i;
+	char		escaped;
+	char		arith_expand_ret;//TODO
+
+	i = 0;
+	escaped = 0;
+	while (token->content[i])
+	{
+		if (!escaped && !ft_strncmp("$((", &token->content[i], 3)
+				&& is_matched(token->content + i, "$((", "))"))
+		{
+			while ((arith_expand_ret = get_lowest_arith_exp(&token->content, vars)))//no need to move *i as it will be relplaced by numbers only
+			{
+				if (arith_expand_ret == -1)
+					return (0);//bad sub
+				ft_printf("TOP: |%s|\n", token->content);//debug
+			}
+		}
+		else if (token->content[i] == '\\')
+			escaped = (escaped) ? 0 : 1;
+		else
+			escaped = 0;
+		i++;
+	}//no need to check if empty for arith_exp
+	return (1);
+}
+
+//OLD
+/*
 t_bool	parse_arith_exp(t_token *token, t_vars *vars)
 {
 	size_t		i;
@@ -145,6 +211,7 @@ t_bool	parse_arith_exp(t_token *token, t_vars *vars)
 	}//no need to check if empty for arith_exp
 	return (1);
 }
+*/
 
 //loop through token list
 t_bool	parse_dollars(t_token *token_head, t_vars *vars)
@@ -154,9 +221,19 @@ t_bool	parse_dollars(t_token *token_head, t_vars *vars)
 		if (token_head->type == tk_word || token_head->type == tk_dq_str)
 		{
 			//parse for $ and ${}, return 0 on bad substitution (and stop exec)
-			if (!(parse_vars(token_head, vars)))
+			//if (!(parse_vars(token_head, vars)))
+			//{
+			//	ft_printf("parse_vars() returned 0\n");
+			//	return (0);
+			//}
+			if (!(parse_param_sub(token_head, vars)))
 			{
-				ft_printf("parse_vars() returned 0\n");
+				ft_printf("parse_param_sub() return (0)\n");
+				return (0);
+			}
+			if (!(parse_env_var(token_head, vars)))//protection needed ?
+			{
+				ft_printf("parse_env_var() return (0)\n");
 				return (0);
 			}
 			//then reparse for $((, return 0 on 'unexpected char'
@@ -170,6 +247,7 @@ t_bool	parse_dollars(t_token *token_head, t_vars *vars)
 	}
 	return (1);
 }
+
 
 /*
 ** parse_expands

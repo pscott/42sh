@@ -36,6 +36,7 @@ static char	*lltoa(long long nb)
 	return (str);
 }
 
+/*
 static char	*substitute_arith_exp(char *old_str, size_t start_index
 			, size_t end_index, long long result)
 {
@@ -59,8 +60,11 @@ static char	*substitute_arith_exp(char *old_str, size_t start_index
 	ft_strdel(&char_nb);
 	return (new_str);
 }
+*/
 
+//OLD
 //this function will not receive escaped str
+/*
 t_bool	get_lowest_arith_exp(char **str, t_vars *vars)
 {
 	size_t	i;
@@ -94,9 +98,38 @@ t_bool	get_lowest_arith_exp(char **str, t_vars *vars)
 	}
 	return (0);//tmp
 }
+*/
 
+//TODO rename expand_lowest
+char	get_lowest_arith_exp(char **str, t_vars *vars)
+{
+	size_t	i;
+	size_t	index[2];
+	long long	arith_result;
+
+	i = 0;
+	arith_result = 0;
+	while ((*str)[i])
+	{
+		if (!(ft_strncmp("$((", *str + i, 3)))
+			index[0] = i;
+		if (!(ft_strncmp("))", *str + i, 2)))
+		{
+			index[1] = i + 2;
+			if (expansion_arith(*str, &vars->shell_vars, &arith_result))
+				return (-1);
+			substitute_slice(str, index, lltoa(arith_result));
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+//FULL USELESS
 //the $(( at index is terminated
 //t_token	*replace_all_arith_exp(char **str, size_t *index, t_vars *vars)
+/*
 t_bool		replace_all_arith_exp(char **str, size_t *index, t_vars *vars)
 {
 	//char	*new_str;
@@ -109,3 +142,4 @@ t_bool		replace_all_arith_exp(char **str, size_t *index, t_vars *vars)
 	}
 	return (1);//TMP
 }
+*/

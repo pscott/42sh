@@ -21,23 +21,6 @@ t_bool	is_full_of_whitespaces(char *input)
 	return (1);
 }
 
-static void	free_vars(t_vars *vars)
-{
-	if (!vars)
-		return ;
-	ft_free_ntab(vars->env_vars);
-	ft_free_ntab(vars->shell_vars);
-}
-
-t_vars	*get_vars(t_vars *new_vars)
-{
-	static t_vars *vars = NULL;
-
-	if (new_vars)
-		vars = new_vars;
-	return (vars);
-}
-
 int		main(int argc, char **argv, char **env)
 {
 	t_st_cmd		*st_cmd;

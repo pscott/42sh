@@ -27,6 +27,7 @@ typedef struct			s_vars
 */
 
 t_vars	*get_vars(t_vars *new_vars);
+void	free_vars(t_vars *vars);
 
 /*
 ** init_env.c

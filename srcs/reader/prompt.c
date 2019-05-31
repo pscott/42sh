@@ -31,9 +31,8 @@ void	print_prompt(t_st_cmd *st_cmd)
 	}
 }
 
-void	print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf, int prompt_type)
+void	print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf, int prompt_type) 
 {
-	char		*zsh;
 	int			len;
 
 	if (isatty(STDIN_FILENO))
@@ -45,17 +44,11 @@ void	print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf, int prompt_typ
 			st_cmd->st_prompt = init_st_prompt(PROMPT_REVERSE_I_SEARCH_FAIL);
 		st_cmd->st_prompt->size += 4 + ft_strlen(buf);
 		len = st_cmd->window->ws_col - 1 > 0 ? st_cmd->window->ws_col -1 : 2;
-		if (!(zsh = ft_strnew(len)))
-			ERROR_MEM
-		ft_memset(zsh, ' ', len);
-	//	write(1, "%", 1);
-//		write(1, zsh, len);
 		execute_str(BEGIN_LINE);
 		execute_str(ERASE_ENDLINE);
 		retrieve_pos(&st_cmd->start_pos);
-		ft_printf("%s`%s': %s", st_cmd->st_prompt->prompt, buf, st_cmd->st_txt->txt);//enlever et juste display le prompt
+		ft_printf("%s`%s': %s", st_cmd->st_prompt->prompt, buf, st_cmd->st_txt->txt);
 		get_pos(st_cmd, st_cmd->st_txt->tracker);
 		reposition_cursor(st_cmd);
-		ft_memdel((void*)&zsh);
 	}
 }

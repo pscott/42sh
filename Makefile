@@ -79,10 +79,11 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c heredoc.c heredoc_utils.c
 						input_loop.c cursor_position.c input_utils.c \
 						delete.c txt_cat.c jump_word.c
 	EXPANDS_FILES	:=	parse_expands.c parse_dollars.c parse_tildes.c \
-						parse_quotes.c 
-	HISTORY_FILES	:=	hist_file.c get_next_line.c hist_lst.c \
-						switch_history.c handle_input_hist.c
-	SIGNALS_FILES	:=	signals.c
+						parse_quotes.c parse_tildes_utils.c 
+	HISTORY_FILES	:=	hist_file.c get_next_line.c  hist_lst_utils.c\
+						hist_lst_utils_2.c switch_history.c \
+						handle_input_hist.c
+	SIGNALS_FILES	:=	signals_handlers.c signals_init_reset.c
 	L_E_FILES		:=	st_cmd.c st_prompt.c st_txt.c writing.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c \
 						cmd_type.c cmd_setenv.c cmd_unsetenv.c cmd_echo.c \

@@ -14,10 +14,10 @@ static t_bool	is_env_var_name_char(char c)
 ** return the allocated var_name otherwise
 */
 
-char		*get_var_name(char *str)
+char			*get_var_name(char *str)
 {
 	size_t		i;
-	char	*var_name;
+	char		*var_name;
 
 	str++;
 	i = 0;
@@ -37,10 +37,10 @@ char		*get_var_name(char *str)
 ** free (old_str && var_name)
 */
 
-char		*substitute_env_var(char *old_str, size_t *i
-		, char *var_value, char *var_name)
+char			*substitute_env_var(char *old_str, size_t *i
+				, char *var_value, char *var_name)
 {
-	char	*new_str;
+	char		*new_str;
 
 	if (!(new_str = ft_strnew(ft_strlen(old_str)
 		- (ft_strlen(var_name) + 1) + ft_strlen(var_value))))
@@ -68,9 +68,9 @@ char		*substitute_env_var(char *old_str, size_t *i
 
 static t_bool	expand_dollars(t_token *token, t_vars *vars)
 {
-	size_t	i;
-	char 	*var_name;
-	char	*var_value;
+	size_t		i;
+	char		*var_name;
+	char		*var_value;
 
 	i = 0;
 	while (token->content[i])
@@ -96,9 +96,10 @@ static t_bool	expand_dollars(t_token *token, t_vars *vars)
 }
 
 //check return type
+
 t_bool			parse_dollars(t_token *token_head, t_vars *vars)
 {
-	t_bool	res;
+	t_bool		res;
 
 	res = 0;
 	while (token_head && token_head->type < tk_pipe)

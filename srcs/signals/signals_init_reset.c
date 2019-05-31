@@ -100,9 +100,9 @@ void		reset_dfl(void)
 	signal(SIGXCPU, SIG_DFL);
 	signal(SIGXFSZ, SIG_DFL);
 	signal(SIGVTALRM, SIG_DFL);
-	signal(SIGPROF, SIG_DFL);
 /*	signal(SIGUSR1, SIG_DFL);
 	signal(SIGUSR2, SIG_DFL);*/
+	signal(SIGPROF, SIG_DFL);
 }
 
 void		reset_ign(void)
@@ -129,11 +129,10 @@ void		reset_ign(void)
 	signal(SIGXCPU, SIG_IGN);
 	signal(SIGXFSZ, SIG_IGN);
 	signal(SIGVTALRM, SIG_IGN);
-	signal(SIGPROF, SIG_IGN);
 /*	signal(SIGUSR1, SIG_IGN);
 	signal(SIGUSR2, SIG_IGN);*/
+	signal(SIGPROF, SIG_IGN);
 }
-
 
 void		signal_setup(void)
 {
@@ -159,7 +158,7 @@ void		signal_setup(void)
 	signal(SIGXCPU, sig_handler);
 	signal(SIGXFSZ, sig_handler);
 	signal(SIGVTALRM, sig_handler);
-	signal(SIGPROF, sig_handler);
 /*	signal(SIGUSR1, sig_handler);
 	signal(SIGUSR2, sig_handler);*/
+	signal(SIGPROF, sig_handler);
 }

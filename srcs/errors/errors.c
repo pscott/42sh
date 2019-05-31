@@ -2,7 +2,7 @@
 #include "lexer.h"
 #include "line_editing.h"
 
-void	error_mem(void) //unused but should use ?
+void			error_mem(void) //unused but should use ?
 {
 	ft_putendl_fd("memory error.", STDERR_FILENO);
 	clean_exit(EXIT_FAILURE);
@@ -10,7 +10,8 @@ void	error_mem(void) //unused but should use ?
 
 static t_bool	is_newline_token(t_token *token)
 {
-	int		i;
+	int			i;
+
 	i = -1;
 	while (token->content[++i])
 	{
@@ -20,14 +21,16 @@ static t_bool	is_newline_token(t_token *token)
 	return (0);
 }
 
-void	syntax_error_near(t_token *token)
+void			syntax_error_near(t_token *token)
 {
-	char *str;
+	char		*str;
+	int			fd;
 
+	fd = STDERR_FILENO;
 	if (is_newline_token(token))
 		str = ft_strdup("newline");
 	else
 		str = ft_strdup(token->content);
-	ft_dprintf(STDERR_FILENO, "42sh: syntax error near unexpected token `%s'\n", str);
+	ft_dprintf(fd, "42sh: syntax error near unexpected token `%s'\n", str);
 	ft_strdel(&str);
 }

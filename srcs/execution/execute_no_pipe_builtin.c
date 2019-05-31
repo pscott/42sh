@@ -9,11 +9,11 @@
 **	actually perform redirections.
 */
 
-static void	fake_redir_parser(t_token *token_head)
+static void		fake_redir_parser(t_token *token_head)
 {
-	t_token *current;
-	t_token *prev;
-	t_token	*next;
+	t_token					*current;
+	t_token					*prev;
+	t_token					*next;
 
 	current = token_head;
 	if (!current)
@@ -37,7 +37,7 @@ static void	fake_redir_parser(t_token *token_head)
 **	Utility function for execute_no_pipe_builtin
 */
 
-static void	execute_exit(int exitno)
+static void		execute_exit(int exitno)
 {
 	print_exit();
 	clean_exit(exitno);
@@ -48,10 +48,10 @@ static void	execute_exit(int exitno)
 **	Returns 0.
 */
 
-static int	no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
+static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 {
-	char	 **argv;
-	int		ret;
+	char					**argv;
+	int						ret;
 
 	parse_expands(token_head, vars);
 	parse_redirections(token_head);
@@ -72,10 +72,10 @@ static int	no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 **	been applied.
 */
 
-static char **fake_argv(t_token *token_head, t_vars *vars)
+static char		**fake_argv(t_token *token_head, t_vars *vars)
 {
-	t_token		*cpy;
-	char		**argv;
+	t_token					*cpy;
+	char					**argv;
 
 	cpy = copy_tokens(token_head);
 	parse_expands(cpy, vars);
@@ -95,7 +95,7 @@ static char **fake_argv(t_token *token_head, t_vars *vars)
 **	Returns 0 if argv[0] is a builtin and got executed, else returns 1.
 */
 
-t_bool		execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
+t_bool			execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
 {
 	char					**argv;
 	unsigned int			cmd_id;

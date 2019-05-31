@@ -33,12 +33,12 @@ static void	update_temporary_hist(t_hist_lst *hist_lst, const char *line)
 
 /*
 **	Appends a history node to the left of the last history node.
-**	If keep is zero, simply works on left node and join the left node content 
+**	If keep is zero, simply works on left node and join the left node content
 **	and line parameter.
 **	If keep is 1, replace the temporary content with a definitive content.
 */
 
-void	adjust_history(t_st_cmd *st_cmd, const char *line, int keep)
+void		adjust_history(t_st_cmd *st_cmd, const char *line, int keep)
 {
 	t_hist_lst *left;
 

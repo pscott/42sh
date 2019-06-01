@@ -1,5 +1,6 @@
 #include "heredoc.h"
 
+/*
 static char		*substitute_env_var_heredoc(char *old_str, size_t *i
 		, const char *var_value, const char *var_name)
 {
@@ -20,11 +21,13 @@ static char		*substitute_env_var_heredoc(char *old_str, size_t *i
 	ft_strdel((char**)&var_name);
 	return (new_str);
 }
+*/
 
 /*
 ** heredoc_expand_dollars
 */
 
+/*
 t_bool	heredoc_expand_dollars(char **txt, t_vars *vars)
 {
 	size_t	i;
@@ -56,3 +59,4 @@ t_bool	heredoc_expand_dollars(char **txt, t_vars *vars)
 	//	token->type = tk_eat;
 	return (0);
 }
+*/

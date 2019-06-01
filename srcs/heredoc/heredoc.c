@@ -7,6 +7,7 @@
 ** return 2 if no eof is found
 */
 
+//TODO check this function
 static unsigned char	get_eof(char **eof, t_token *probe)
 {
 	unsigned char	is_eof_quoted;
@@ -119,15 +120,9 @@ static char	*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 		ERROR_MEM;
 	ft_strdel(&path);
 	if (!is_eof_quoted)
-	{/*
-		-parameter expansion  //DONE if it's dollars_expansion
-		-command substitution//we don't do that
-		-arithmetic expansion
-		-the character sequence \newline is ignored
-		-‘\’ must be used to quote the characters ‘\’, ‘$’, and ‘`’.
-		*/
-		heredoc_expand_dollars(&txt, vars);
-		//if '$((' => get ')) => arithmetic_expand(&txt);
+	{
+		if (!parse_dollars_str(&txt, vars))
+			ft_printf("TMP: parse_dollars_str in heredoc FAILED\n");
 	}
 	if (!(path = save_heredoc(txt)))
 		return (NULL);

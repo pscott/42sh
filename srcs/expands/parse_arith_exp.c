@@ -64,7 +64,7 @@ static char	expand_lowest_arith_exp(char **str, t_vars *vars)
 			index[0] = i;
 		if (!(ft_strncmp("))", *str + i, 2)))
 		{
-			index[1] = i + 2;
+			index[1] = i + 1;
 			arith_str = dup_for_arith_exp(*str, i, index[0]);
 			if (expansion_arith(arith_str, &vars->shell_vars, &arith_result))
 				return (-1);

@@ -27,8 +27,9 @@ t_bool	is_terminated(const char *open, const char *closed, const char *str)
 ** index  [0,   1]
 **		aaaNEWVAR/aaa
 **		  
+** Should be:
 ** 		aaa$USER/aaa
-**should be^   ^
+**         ^   ^
 */
 
 t_bool	substitute_slice(char **old_str, size_t index[2], const char *to_sub)
@@ -45,8 +46,8 @@ t_bool	substitute_slice(char **old_str, size_t index[2], const char *to_sub)
 		ERROR_MEM;
 	ft_strncpy(new_str, *old_str, index[0]);
 	ft_strncpy(&new_str[index[0]], to_sub, to_sub_len);
-	ft_strncpy(&new_str[ft_strlen(new_str)], (*old_str) + index[1],
-			ft_strlen((*old_str) + index[1] - 1));//-1 test
+	ft_strncpy(&new_str[ft_strlen(new_str)], (*old_str) + index[1] + 1,
+			ft_strlen((*old_str) + index[1] + 1));//-1 test
 	ft_strdel(old_str);
 	*old_str = new_str;
 	return (1);

@@ -17,6 +17,7 @@ t_bool		parse_arith_exp(char **str, t_vars *vars);
 t_bool		parse_env_var(char **str, t_vars *vars);
 t_bool		parse_quotes(t_token *token_head);
 t_bool		parse_expands(t_token *token_head, t_vars *vars);
+t_bool		parse_dollars_str(char **str, t_vars *vars);
 
 /*
 ** substitute_utils
@@ -30,6 +31,13 @@ t_bool		is_matched(const char *str
 			, const char *begin_match, const char *end_match);
 char		*get_var_name(char *str);//change place ?
 t_bool		replace_tilde(char **str, const char **env);
+
+
+
+
+//
+void		substitute_env_var(char **str, size_t *i, const char *var_name
+			, t_vars *vars);
 
 /*
 **	Redirections parsing

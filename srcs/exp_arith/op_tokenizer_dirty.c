@@ -1,12 +1,12 @@
 #include "42sh.h"
 #include "exp_arith.h"
 
-int		init_tokens_dirty(t_token **tokens, char *str)
+int		init_toks_dirty(t_tok **tokens, char *str)
 {
 	size_t i;
 
 	i = 0;
-	if (!(*tokens = (t_token*)malloc(sizeof(t_token) * (ft_strlen(str) + 1))))
+	if (!(*tokens = (t_tok*)malloc(sizeof(t_tok) * (ft_strlen(str) + 1))))
 		ERROR_MEM;
 	while (i <= ft_strlen(str))
 	{
@@ -19,14 +19,14 @@ int		init_tokens_dirty(t_token **tokens, char *str)
 	return (0);
 }
 
-void	d_number(t_token **tokens, size_t *i, int *k, char **str)
+void	d_number(t_tok **tokens, size_t *i, int *k, char **str)
 {
 	(*tokens)[*k].token = TK_NB;
 	(*tokens)[*k].value = ft_atoll(*str);
 	clean_done_token(*str + *i, get_nb_len(*str + *i));
 }
 
-int		d_variable(t_token **tks, t_integ *it, char **str, char ***vars)
+int		d_variable(t_tok **tks, t_integ *it, char **str, char ***vars)
 {
 	char		*tmp;
 	char		*ptr;
@@ -52,7 +52,7 @@ int		d_variable(t_token **tks, t_integ *it, char **str, char ***vars)
 	return (0);
 }
 
-void	d_operator(t_token **t, size_t *i, int *k, char **s)
+void	d_operator(t_tok **t, size_t *i, int *k, char **s)
 {
 	int ret;
 
@@ -61,7 +61,7 @@ void	d_operator(t_token **t, size_t *i, int *k, char **s)
 		if (*k > 1)
 			ret = get_op_token(*s + *i, (*t)[*k - 1].varid, (*t)[*k - 2].token);
 		else if (*k > 0)
-			ret = get_op_token(*s + *i, (*t)[*k - 1].varid, 0);
+			ret = get_op_token(*s + 1, (*t)[*k - 1].varid, 0);
 		else
 			ret = get_op_token(*s + *i, (*t)[*k].varid, 0);
 	}

@@ -6,7 +6,7 @@
 **	are not operators but sign marks, and building a clean token array
 */
 
-static	int		format_tokens(t_token *di, t_token **cl)
+static	int		format_toks(t_tok *di, t_tok **cl)
 {
 	t_integ	v;
 
@@ -14,13 +14,13 @@ static	int		format_tokens(t_token *di, t_token **cl)
 	v.moins = 1;
 	v.i = 0;
 	v.k = 0;
-	init_tokens_clean(di, cl);
+	init_toks_clean(di, cl);
 	while (di[v.i].token != 0)
 	{
 		if (di[v.i].token == TK_NB)
 			c_number(di, cl, &v);
 		else if (di[v.i].token <= TK_MINVAR && di[v.i].token >= TK_VARPLUS)
-			c_iter(di, cl, &v.i, &v.k);
+			c_iter(di, cl, (int*)&v.i, (int*)&v.k);
 		else
 			c_operator(di, cl, &v);
 		v.i++;
@@ -34,27 +34,27 @@ static	int		format_tokens(t_token *di, t_token **cl)
 **	dirty token array
 */
 
-int				op_tokenizer(char *str, t_token **tokens, char ***vars)
+int				op_tokenizer(char *str, t_tok **tokens, char ***vars)
 {
 	t_integ		ints;
-	t_token		*clean;
+	t_tok		*clean;
 
 	ints.k = 0;
 	ints.i = 0;
-	init_tokens_dirty(tokens, str);
+	init_toks_dirty(tokens, str);
 	while (!ft_str_isempty(str))
 	{
 		while (ft_is_white_space(str[ints.i]))
 			ints.i++;
 		if (get_nb_len(str + ints.i))
-			d_number(tokens, (size_t*)&ints.i, &ints.k, &str);
+			d_number(tokens, &ints.i, &ints.k, &str);
 		else if (is_var(str + ints.i))
 			d_variable(tokens, &ints, &str, vars);
 		else
-			d_operator(tokens, (size_t*)&ints.i, &ints.k, &str);
+			d_operator(tokens, &ints.i, &ints.k, &str);
 		ints.k++;
 	}
-	format_tokens(*tokens, &clean);
+	format_toks(*tokens, &clean);
 	free_tokens(*tokens, 0);
 	*tokens = clean;
 	return (0);

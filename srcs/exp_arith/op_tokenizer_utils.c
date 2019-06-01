@@ -24,7 +24,7 @@ void		clean_done_token(char *str, int len)
 	}
 }
 
-int			get_tok_len(t_token *tok)
+int			get_tok_len(t_tok *tok)
 {
 	int i;
 
@@ -46,7 +46,7 @@ int			is_var(char *str)
 	return (i);
 }
 
-int			check_next_tok(t_token *dirty, int i)
+int			check_next_tok(t_tok *dirty, int i)
 {
 	while (dirty[i].token != 0 && (dirty[i].token == TK_ADD
 				|| dirty[i].token == TK_SUB))

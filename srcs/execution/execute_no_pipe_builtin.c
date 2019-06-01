@@ -46,7 +46,7 @@ static void		execute_exit(int exitno)
 
 /*
 **	Parses expands, redirections, and executes builtin on the real token_list.
-**	Returns 0.
+**	Returns -1 on failed expand, else returns 0.
 */
 
 static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
@@ -54,10 +54,11 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	char					**argv;
 	int						ret;
 
-	parse_expands(token_head, vars);
+	if (parse_expands(token_head, vars) == 0)
+		return (-1);
 	save_reset_stdfd(1); // should be deleted
 	if (parse_redirections(token_head) == 0) // would need to be special and to save fd in list
-		return (0);
+		return (-1);
 	argv = get_argv_from_token_lst(token_head);
 	reset_terminal_settings();
 	ret = exec_builtins(argv, vars, cmd_id);
@@ -95,14 +96,17 @@ static char		**fake_argv(t_token *token_head, t_vars *vars)
 **	If argv[0] is in hashmap, adds a hit tag to it, but does not execute.
 **	If argv[0] is not in hashmap, add it to hashmap and add a hit to it but
 **	does not execute it.
-**	Returns 0 if argv[0] is a builtin and got executed, else returns 1.
+**	If argv[0] is a builtin:
+**			- if it got executed, returns 0.
+**			- if there was an error returns -1.
+**	Else (argv[0] is NOT a builtin) returns 1.
 */
 
-t_bool			execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
+int			execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
 {
 	char					**argv;
 	unsigned int			cmd_id;
-	unsigned int			ret;
+	int			ret;
 	char					*cmd_path;
 
 	if (!(argv = fake_argv(token_head, vars)))

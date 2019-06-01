@@ -1,7 +1,7 @@
 #include "42sh.h"
 #include "exp_arith.h"
 
-static	t_op	*init_link(int token, long long value, t_token link, t_op *new)
+static	t_op	*init_link(int token, long long value, t_tok link, t_op *new)
 {
 	new->prev = NULL;
 	new->right = NULL;
@@ -26,7 +26,7 @@ static	t_op	*init_link(int token, long long value, t_token link, t_op *new)
 	return (new);
 }
 
-t_op			*create_op_link(int token, long long value, t_token link)
+t_op			*create_op_link(int token, long long value, t_tok link)
 {
 	t_op	*new;
 

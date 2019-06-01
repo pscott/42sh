@@ -1,7 +1,7 @@
 #include "42sh.h"
 #include "exp_arith.h"
 
-int		free_tokens(t_token *tokens, int ret)
+int		free_tokens(t_tok *tokens, int ret)
 {
 	int i;
 

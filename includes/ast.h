@@ -23,6 +23,6 @@ t_bool			is_tklst_full_eat(t_token *token_head);
 void				free_ast(t_ast *ast_root);
 
 void			print_ast(t_ast *root);//debug
-t_bool			exec_ast(t_ast *ast_root, t_vars *vars);
+int				exec_ast(t_ast *ast_root, t_vars *vars);
 
 #endif

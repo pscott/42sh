@@ -1,7 +1,7 @@
 #include "42sh.h"
 #include "exp_arith.h"
 
-int		c_number(t_token *d, t_token **c, t_integ *v)
+int		c_number(t_tok *d, t_tok **c, t_integ *v)
 {
 	(*c)[(*v).k].token = TK_NB;
 	(*c)[(*v).k].varid = d[(*v).i].varid;
@@ -19,7 +19,7 @@ int		c_number(t_token *d, t_token **c, t_integ *v)
 	return (0);
 }
 
-void	c_operator(t_token *d, t_token **c, t_integ *v)
+void	c_operator(t_tok *d, t_tok **c, t_integ *v)
 {
 	if (check_put_oper(v->prev, d, v->i))
 		insert_clean_token(d, c, v);

@@ -7,27 +7,27 @@
 
 static	int		get_op_token_2(char *str)
 {
-	if (!strncmp(str, "||", 2))
+	if (!ft_strncmp(str, "||", 2))
 		return (TK_OPEROR);
-	if (!strncmp(str, "&&", 2))
+	if (!ft_strncmp(str, "&&", 2))
 		return (TK_OPERAND);
-	if (!strncmp(str, "!=", 2))
+	if (!ft_strncmp(str, "!=", 2))
 		return (TK_NOTEQ);
-	if (!strncmp(str, "==", 2))
+	if (!ft_strncmp(str, "==", 2))
 		return (TK_EQ);
-	if (!strncmp(str, ">=", 2))
+	if (!ft_strncmp(str, ">=", 2))
 		return (TK_MOREEQ);
-	if (!strncmp(str, "<=", 2))
+	if (!ft_strncmp(str, "<=", 2))
 		return (TK_LESSEQ);
-	if (!strncmp(str, ">", 1))
+	if (!ft_strncmp(str, ">", 1))
 		return (TK_MORE);
-	if (!strncmp(str, "<", 1))
+	if (!ft_strncmp(str, "<", 1))
 		return (TK_LESS);
-	if (!strncmp(str, "%", 1))
+	if (!ft_strncmp(str, "%", 1))
 		return (TK_MOD);
-	if (!strncmp(str, "/", 1))
+	if (!ft_strncmp(str, "/", 1))
 		return (TK_DIV);
-	if (!strncmp(str, "*", 1))
+	if (!ft_strncmp(str, "*", 1))
 		return (TK_MULT);
 	return (0);
 }
@@ -53,19 +53,19 @@ int				get_op_token(char *str, int varid, int prev_prev_tk)
 
 	if ((ret = get_op_token_2(str)))
 		return (ret);
-	if (!strncmp(str, "++", 2) && varid != -2 && (prev_prev_tk == 0
+	if (!ft_strncmp(str, "++", 2) && varid != -2 && (prev_prev_tk == 0
 			|| prev_prev_tk > TK_MINVAR || prev_prev_tk == TK_NB))
 		return (TK_VARPLUS);
-	if (!strncmp(str, "++", 2) && ft_isalpha(pass_spaces(str + 2)))
+	if (!ft_strncmp(str, "++", 2) && ft_isalpha(pass_spaces(str + 2)))
 		return (TK_PLUSVAR);
-	if (!strncmp(str, "--", 2) && varid != -2 && (prev_prev_tk == 0
+	if (!ft_strncmp(str, "--", 2) && varid != -2 && (prev_prev_tk == 0
 			|| prev_prev_tk > TK_MINVAR || prev_prev_tk == TK_NB))
 		return (TK_VARMIN);
-	if (!strncmp(str, "--", 2) && ft_isalpha(pass_spaces(str + 2)))
+	if (!ft_strncmp(str, "--", 2) && ft_isalpha(pass_spaces(str + 2)))
 		return (TK_MINVAR);
-	if (!strncmp(str, "-", 1))
+	if (!ft_strncmp(str, "-", 1))
 		return (TK_SUB);
-	if (!strncmp(str, "+", 1))
+	if (!ft_strncmp(str, "+", 1))
 		return (TK_ADD);
 	return (0);
 }

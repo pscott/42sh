@@ -43,7 +43,10 @@ int				check_chars(char *str)
 	{
 		if (!ft_isalnum(str[i]) && !ft_isop(str[i], str[i + 1], &i)
 				&& !ft_is_white_space(str[i]))
+		{
+			ft_printf("ERROR wrong char = %c\n", str[i]);
 			return (1);
+		}
 		i++;
 	}
 	return (0);

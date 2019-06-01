@@ -90,3 +90,9 @@ t_bool			hash_builtin_print(t_hashmap *hashmap, t_hash_args *hash_args
 		print_hashmap(hashmap);
 	return (0);
 }
+
+void	print_hash_usage(void)
+{
+	ft_dprintf(STDERR_FILENO
+		, "hash usage [-lr] [-p pathname] [-d] [name ...]\n");
+}

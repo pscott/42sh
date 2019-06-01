@@ -18,7 +18,6 @@ void	clean_exit(int exitno)
 	free_all_st_cmds(&st_cmd);
 	free_vars(vars);
 	delete_hashmap(vars->hashmap);
-	save_reset_stdfd(0);
 	reset_terminal_settings();
 	exit(exitno);
 }

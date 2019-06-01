@@ -64,7 +64,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 		{
 			Close(fd[1]); //protect
 			if (in != STDIN_FILENO)
-				Close(in); // check if it's a proper way of doing things
+				Close(in); // protect
 			in = fd[0];
 			begin = get_next_simple_command(begin);
 			continue ;
@@ -129,7 +129,6 @@ int			parse_cmdline(t_token *token, t_vars *vars) // no need for t_pipelst ?
 			num_simple_commands++;
 		}
 	}
-	save_reset_stdfd(1);
 	if ((num_simple_commands == 1)//TODO check
 		&& (execute_no_pipe_builtin(token, vars) == 0))
 	{
@@ -137,6 +136,5 @@ int			parse_cmdline(t_token *token, t_vars *vars) // no need for t_pipelst ?
 		return (0);
 	}
 	ret = fork_pipes(num_simple_commands, token, vars);
-	save_reset_stdfd(0);
 	return (ret);
 }

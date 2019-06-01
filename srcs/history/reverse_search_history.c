@@ -96,11 +96,15 @@ int		switch_and_return(const char buf[64], t_st_cmd *st_cmd)
 	free(newcmd);
 	if (ft_strncmp(buf, "\r", 2)  == 0 || ft_strncmp(buf, "\n", 2) == 0)
 	{
+		if (!(st_cmd->st_txt->txt[0]))
+			st_cmd->st_txt->txt[0] = ' ';
 		write(1, "\n", 1);
 		return (enter_case);
 	}
 	else
+	{
 		return (quit_case);
+	}
 }
 
 int		init_vars(size_t *malloc_size, int *prompt_type, char **stock, char buf[64])

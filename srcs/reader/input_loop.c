@@ -102,7 +102,12 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 			|| check_for_tab(st_cmd, buf, vars))
 			;
 		else if ((ret = check_for_search_histo(st_cmd, buf)))
-			;//tu me geres ca mon scotty? ret == enter_case, ctrl_c_case ou quit_case
+		{
+			if (ret == ctrl_c_case)
+				return (-1);
+			if (ret == enter_case || ret == ctrl_c_case)//tu me geres ca mon scotty? ret == enter_case, ctrl_c_case ou quit_case
+				break;
+		}
 		else if ((ret = check_for_quit(st_cmd, buf)) == 1)
 			break ;
 		else if (ret == -1)
@@ -123,7 +128,7 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 		ft_bzero(buf, BUF_SIZE + 1);
 	}
 	if (st_cmd->st_txt->data_size > INT_MAX)
-		return (0);
+		return (0); // print error ?  move inside loop ?
 	if (ret >= 0)
 		return (1);
 	return (0);

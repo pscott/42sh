@@ -42,4 +42,8 @@ void		adjust_history(t_st_cmd *st_cmd, const char *line, int keep);
 t_hist_lst	*get_keep(t_hist_lst *hist_lst);
 void		free_hist_lst(t_hist_lst *hist_lst);
 
+
+// should not be here
+void		switch_st_cmd(t_st_cmd *st_cmd, char *newcmd);
+
 #endif

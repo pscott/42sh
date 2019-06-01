@@ -9,7 +9,7 @@
 # define PROMPT_REVERSE_I_SEARCH_SUCC "(reverse-i-search)"
 # define PROMPT_REVERSE_I_SEARCH_FAIL "(failed reverse-i-search)"
 
-enum {enter_case, ctrl_c_case, quit_case};
+enum {enter_case = 1, ctrl_c_case, quit_case};
 
 typedef struct				s_st_txt {
 	char					*txt;

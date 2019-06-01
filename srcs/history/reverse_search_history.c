@@ -45,7 +45,7 @@ int					search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find)
 		{
 			if (!((*st_cmd)->st_txt->txt = ft_strndup((*st_cmd)->hist_lst->txt, ft_strlen((*st_cmd)->hist_lst->txt) - 1)))
 				ERROR_MEM
-			(*st_cmd)->st_txt->data_size = ft_strlen((*st_cmd)->st_txt->txt);
+					(*st_cmd)->st_txt->data_size = ft_strlen((*st_cmd)->st_txt->txt);
 			(*st_cmd)->st_txt->tracker = ft_strlen((*st_cmd)->st_txt->txt) - ft_strlen(ft_strrstr((*st_cmd)->st_txt->txt, to_find));
 			return (0);
 		}
@@ -73,13 +73,32 @@ int			ft_isprint_ctrlr(char buf[64])
 	return (0);
 }
 
-int		check_case(const char buf[64], char **stock)
+int		switch_and_return(const char buf[64], t_st_cmd *st_cmd)
 {
-	ft_strdel(stock);
-	if (!ft_strncmp(buf, "\r", 1))
-		return (enter_case);
-	else if (!ft_strncmp(buf, CTRL_C, CTRL_C_LEN))
+	char *newcmd;
+
+	if (ft_strncmp(buf, CTRL_C, CTRL_C_LEN) == 0) // care to + 1 because of "\x03a"
+	{
+		get_pos(st_cmd, st_cmd->st_txt->tracker);
+		reposition_cursor(st_cmd);
+		write(1, "^C\n", 3);
 		return (ctrl_c_case);
+	}
+	free_st_prompt(&st_cmd->st_prompt);
+	st_cmd->st_prompt = init_st_prompt(NULL);
+	if (ft_strncmp(buf, "\r", 2)  == 0 || ft_strncmp(buf, "\n", 2) == 0)
+		newcmd = ft_strjoin(st_cmd->st_txt->txt, "\n"); // protect
+	else
+		newcmd = ft_strdup(st_cmd->st_txt->txt); // protect
+	execute_str(BEGIN_LINE);
+	ft_printf("%s", st_cmd->st_prompt->prompt);
+	switch_st_cmd(st_cmd, newcmd);
+	free(newcmd);
+	if (ft_strncmp(buf, "\r", 2)  == 0 || ft_strncmp(buf, "\n", 2) == 0)
+	{
+		write(1, "\n", 1);
+		return (enter_case);
+	}
 	else
 		return (quit_case);
 }
@@ -112,16 +131,16 @@ int		handle_reverse_search_history(t_st_cmd *st_cmd)
 	print_prompt_search_histo(st_cmd, stock, prompt_type);
 	while ((ret = read(STDIN_FILENO, buf, 64)) > 0)
 	{
-		if (!ft_isprint_ctrlr(buf))
+		if (!ft_isprint_ctrlr(buf)) // care buf is 64 bytes long... strncmp only first byte, why not use char c ?
 		{
 			if (!ft_strncmp(buf, BACKSPACE, BACKSPACE_LEN) && stock[0])
 				stock[ft_strlen(stock) - 1] = '\0';
 			else
-				return (check_case(buf, &stock));
+				return (switch_and_return(buf, st_cmd));
 		}
 		else
 		{
-			stock = ft_realloc(stock, ft_strlen(stock) - 1, &malloc_size, 1);
+			stock = ft_realloc(stock, ft_strlen(stock) - 1, &malloc_size, 1); // ?? buf is 64 bytes long
 			stock[ft_strlen(stock)] = buf[0];
 		}
 		prompt_type = search_reverse_in_histo(&st_cmd, stock);

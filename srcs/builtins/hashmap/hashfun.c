@@ -1,5 +1,11 @@
 #include "hashmap.h"
 
+/*
+** hashfun
+** is a typical hashing function
+** (damn, what a comment !)
+*/
+
 unsigned int	hashfun(const char *input)
 {
 	unsigned int	hash_address;
@@ -12,6 +18,5 @@ unsigned int	hashfun(const char *input)
 		hash_address = input[i] + (hash_address << 6) + (hash_address << 16)
 			- hash_address;
 	}
-	//printf("hashfun: result of {%s} is %u\n", input, hash_address);
 	return (hash_address);
 }

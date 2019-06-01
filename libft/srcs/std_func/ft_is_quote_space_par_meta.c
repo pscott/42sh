@@ -6,7 +6,7 @@
 /*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 19:20:30 by aschoenh          #+#    #+#             */
-/*   Updated: 2019/05/23 14:54:43 by penzo            ###   ########.fr       */
+/*   Updated: 2019/05/24 19:57:36 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ unsigned int	ft_is_white_space(char c)
 	return (0);
 }
 
-unsigned int	ft_is_parenth(char c)
+unsigned int	ft_is_parenth(char c)//useless ? or lexer error when encountered ?
 {
 	if (c == '[' || c == ']' || c == '(' || c == ')')
 		return (1);

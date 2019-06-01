@@ -3,6 +3,8 @@
 
 void	print_token(t_token *token)//debug
 {
+	if (!token)
+		return ;
 	ft_printf("_TOKEN_ type:%d {%s}\n", token->type, token->content);
 }
 

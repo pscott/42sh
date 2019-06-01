@@ -7,6 +7,7 @@
 ** return 2 if no eof is found
 */
 
+//TODO check this function
 static unsigned char	get_eof(char **eof, t_token *probe)
 {
 	unsigned char	is_eof_quoted;
@@ -119,20 +120,15 @@ static char	*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 		ERROR_MEM;
 	ft_strdel(&path);
 	if (!is_eof_quoted)
-	{/*
-		-parameter expansion  //DONE if it's dollars_expansion
-		-command substitution//we don't do that
-		-arithmetic expansion
-		-the character sequence \newline is ignored
-		-‘\’ must be used to quote the characters ‘\’, ‘$’, and ‘`’.
-		*/
-		heredoc_expand_dollars(&txt, vars);
-		//if '$((' => get ')) => arithmetic_expand(&txt);
+	{
+		if (!parse_dollars_str(&txt, vars))
+			ft_printf("TMP: parse_dollars_str in heredoc FAILED\n");
 	}
 	if (!(path = save_heredoc(txt)))
 		return (NULL);
 	ft_memdel((void*)&txt);
-	free_st_cmd(st_cmd);//does it free only one ?
+	//free_st_cmd(st_cmd);//does it free only one ? yes
+	free_all_st_cmds(&st_cmd);
 	return (path);
 }
 
@@ -157,8 +153,6 @@ static t_token	*replace_heredoc_tokens(t_token *probe, const char *path)
 	while (probe && probe->type >= tk_word && probe->type < tk_redirection)
 	{
 		probe->type = tk_eat;
-		//ft_strdel(&probe->content);//pas sure
-		//probe->content = ft_strdup("");//pas sure non plus, depend des prochain free
 		probe = probe->next;
 	}
 	return (probe);
@@ -193,11 +187,10 @@ t_bool	parse_heredoc(t_token *token_head, t_vars *vars)
 				return (0);//check me
 			//replace tokens
 			token_probe = replace_heredoc_tokens(token_probe, path);
-			//print_line(1);
 			ft_strdel(&path);
 			continue ;
 		}
 		token_probe = token_probe->next;
 	}
-	return (1);//tmp
+	return (1);
 }

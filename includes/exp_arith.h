@@ -6,7 +6,11 @@
 /*   By: mporzier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 14:01:01 by mporzier          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/05/29 18:02:52 by mporzier         ###   ########.fr       */
+=======
+/*   Updated: 2019/05/29 17:27:26 by penzo            ###   ########.fr       */
+>>>>>>> implement_arith_exp
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +70,7 @@ typedef struct		s_op
 **	Structure for lexer
 */
 
-typedef struct		s_token
+typedef struct		s_tok
 {
 	int				token;
 	long long		value;
@@ -74,7 +78,7 @@ typedef struct		s_token
 	char			*varname;
 	int				beg;
 	int				end;
-}					t_token;
+}					t_tok;
 
 /*
 **	Structure for tokenizer vars
@@ -89,9 +93,9 @@ typedef struct		s_integ
 }					t_integ;
 
 int					is_oper(char *str);
-t_op				*create_op_link(int token, long long value, t_token link);
-t_op				*build_op_list(t_token *tokens);
-int					op_tokenizer(char *str, t_token **tokens, char ***vars);
+t_op				*create_op_link(int token, long long value, t_tok link);
+t_op				*build_op_list(t_tok *tokens);
+int					op_tokenizer(char *str, t_tok **tokens, char ***vars);
 int					get_op_token(char *str, int varid, int prev_prev_tk);
 void				put_lst_right(t_op *lst, t_op *new);
 void				put_lst_left(t_op *lst, t_op *new);
@@ -103,11 +107,11 @@ int					check_chars(char *str);
 long long			ft_atoll(char *str);
 char				*ft_lltoa(long long n);
 int					expansion_arith(char *str, char ***vars, long long *result);
-int					free_tokens(t_token *tokens, int ret);
+int					free_tokens(t_tok *tokens, int ret);
 
 int					get_nb_len(char *str);
 void				clean_done_token(char *str, int len);
-int					get_tok_len(t_token *tok);
+int					get_tok_len(t_tok *tok);
 int					is_var(char *str);
 int					check_next_tok(t_token *dirty, int i);
 int					init_tokens_dirty(t_token **tokens, char *str);
@@ -118,9 +122,9 @@ int					init_tokens_clean(t_token *dirty, t_token **clean);
 void				c_iter(t_token *d, t_token **c, int *i, int *k);
 int					check_put_oper(int prev, t_token *dirty, int i);
 void				invert_value(int *i);
-void				insert_clean_token(t_token *d, t_token **c, t_integ *v);
-int					c_number(t_token *d, t_token **c, t_integ *v);
-void				c_operator(t_token *d, t_token **c, t_integ *v);
+void				insert_clean_token(t_tok *d, t_tok **c, t_integ *v);
+int					c_number(t_tok *d, t_tok **c, t_integ *v);
+void				c_operator(t_tok *d, t_tok **c, t_integ *v);
 
 int					exec_op_list(t_op *lst, char ***vars, long long *result);
 int					get_var_value(t_op *lst, long long *nb, char ***vars);

@@ -33,21 +33,12 @@ t_token	*create_token(char *cmdline, size_t size, t_token_type type)
 	return (new_token);
 }
 
-static void		error_unsupported_token(t_token *token)
-{
-	ft_dprintf(2, "%s: `%s' is not unsupported.\n", SHELL_NAME, token->content);
-}
-
-static t_bool	check_unsupported_token(t_token *token)
+static t_bool		error_unsupported_token(t_token *token, t_bool return_val)
 {
 	if (!token)
-		return (1);
-	if (token->type == tk_amp || token->type == tk_42sh)
-	{
-		error_unsupported_token(token);
-		return (0);
-	}
-	return (1);
+		return (return_val);//ou un autre msg
+	ft_dprintf(2, "%s: `%s' is not unsupported.\n", SHELL_NAME, token->content);
+	return (return_val);
 }
 
 /*
@@ -62,10 +53,10 @@ static t_bool	add_token_to_list(t_token *current_token, t_token *prev_token
 	t_token	*probe;
 
 	(void)vars;
+	if (current_token->type == tk_unsupported)
+		return (error_unsupported_token(current_token, 0));
 	if (token_list_start_with_ctrl_op(prev_token, current_token)
 		|| is_two_ctrlop_or_redir_following(prev_token, current_token))
-		return (0);
-	if (check_unsupported_token(current_token) == 0)
 		return (0);
 	if (!(*token_head))
 	{
@@ -102,9 +93,6 @@ static void	init_lexer(t_operation **op_chart, t_token **token_head
 ** - return LEX_SUCCES otherwise, so handle_input can continue
 */
 
-
-//t_bool	parse_heredoc(t_token *token_head, t_vars *vars);//proto
-
 int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 {
 	t_token		*current_token;
@@ -131,7 +119,7 @@ int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 	if (parse_heredoc(*token_head, vars) == 0)
 		return (lex_fail);
 	if (is_logic_or_pipe(current_token)
-		|| (is_logic_or_pipe(prev_token) && !current_token->type))
+		|| (is_logic_or_pipe(prev_token) && current_token->type == tk_eat))
 	{
 		if (!isatty(STDIN_FILENO))
 		{

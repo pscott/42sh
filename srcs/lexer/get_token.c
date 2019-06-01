@@ -13,10 +13,9 @@ static t_token	*get_dquot_token(char **cmdline)
 	{
 		if ((*cmdline)[i] == '\\')
 		{
-		   	//if (((*cmdline)[i + 1] == '\'' || (*cmdline)[i + 1] == '\"'))//why check ' ?
 		   	if ((*cmdline)[i + 1] == '\"')
 				i++;
-			else if ((*cmdline)[i + 1] == '\n')
+			else if ((*cmdline)[i + 1] == '\n')//TODO check me
 			{
 				st_cmd = get_st_cmd(NULL);//make func ?
 				st_cmd->st_txt->data_size -= 2;
@@ -27,10 +26,7 @@ static t_token	*get_dquot_token(char **cmdline)
 		i++;
 	}
 	if ((*cmdline)[i] == 0)
-	{
-//		ft_printf("Unmatched \". READ_MODE PLZ");
 		return (NULL);
-	}
 	if (!(token = create_token(*cmdline, ++i, tk_dq_str)))
 		ERROR_MEM;
 	*cmdline = *cmdline + i;
@@ -46,11 +42,7 @@ static t_token	*get_squot_token(char **cmdline)
 	while ((*cmdline)[i] && (*cmdline)[i] != '\'')
 		i++;
 	if ((*cmdline)[i] == 0)
-	{
-		//ft_printf("Unmatched '. READ_MODE PLZ");
-		//(*cmdline)[i] = '\n';// this don't change anything ??
 		return (NULL);
-	}
 	if (!(token = create_token(*cmdline, ++i, tk_sq_str)))
 		ERROR_MEM;
 	*cmdline = *cmdline + i;
@@ -62,9 +54,14 @@ static t_token	*get_regular_token(char **cmdline)
 	t_token	*token;
 	size_t	i;
 
+	//TODO check unwanted char in this func or in ft_is_metachar()
 	i = 0;
 	while ((*cmdline)[i] && !ft_is_metachar((*cmdline)[i]))
+	{
+		if ((*cmdline)[i] == '$' && i != 0)
+			break ;
 		i++;
+	}
 	if (!(token = create_token(*cmdline, i, tk_word)))
 		ERROR_MEM;
 	*cmdline = *cmdline + i;
@@ -104,6 +101,67 @@ static t_token	*get_eat_token(char **cmdline)
 	return (token);
 }
 
+//just make a tk_word, parse_dollars() will do the rest
+static t_token	*check_param_sub_token(char **cmdline)
+{
+	t_token	*token;
+	size_t	i;
+
+	i = 0;
+	while ((*cmdline)[i] && (*cmdline)[i] != '}')
+		i++;
+	if ((*cmdline)[i] == 0)
+	{
+		ft_printf("TMP: NO '}' found\n");
+		return (NULL);//=cont_read
+	}
+	i++;//test
+	if (!(token = create_token(*cmdline, i, tk_word)))
+		ERROR_MEM;
+	*cmdline = *cmdline + i;
+	return (token);//tmp
+}
+
+//Make a tk_word
+static t_token	*check_arith_exp_token(char **cmdline)
+{
+	unsigned int	braces_count;
+	int				i;
+	t_token			*token;
+
+	braces_count = 0;
+	i = -1;
+	while((*cmdline)[++i])
+	{
+		//if (!ft_strncmp("$((", &(*cmdline)[i], 3))
+		if (!ft_strncmp("$((", (*cmdline) + i, 3))
+		{
+			braces_count++;
+			i += 2;//should be 3 ??
+		}
+		//else if (!ft_strncmp("))", &(*cmdline)[i], 2))//syntax douteuse
+		else if (!ft_strncmp("))", (*cmdline) + i, 2))//syntax douteuse
+		{
+			braces_count--;
+			i += 1;//or should be 1 ??
+			if (braces_count == 0)
+			{
+				i++;//test
+				break ;
+			}
+		}
+	}
+	//with previous break, braces should be >= 0
+	if (braces_count == 0)
+		token = create_token(*cmdline, i, tk_word);
+	else
+		return (NULL);
+	//print_token(token);//debug
+	*cmdline = *cmdline + i;
+	return (token);
+}
+
+
 /*
 ** get_token
 ** return a malloced token accordingly to the character under the cmdline
@@ -125,6 +183,10 @@ t_token			*get_token(char **cmdline, t_operation *op_chart)
 		return (get_monochar(cmdline));
 	else if (ft_is_white_space(**cmdline))
 		return (get_eat_token(cmdline));
+	else if ((ft_strlen(*cmdline) > 3) && !ft_strncmp(*cmdline, "$((", 3))
+		return (check_arith_exp_token(cmdline));
+	else if ((ft_strlen(*cmdline) > 2) && !ft_strncmp(*cmdline, "${", 2))
+		return (check_param_sub_token(cmdline));
 	else if ((token = get_op_chart_token(cmdline, op_chart)))
 		return (token);
 	else

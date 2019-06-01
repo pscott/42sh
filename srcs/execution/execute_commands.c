@@ -66,7 +66,8 @@ t_bool				parse_and_exec(t_token *token_head, int in,
 
 	redirect(in, STDIN_FILENO);
 	redirect(out, STDOUT_FILENO);
-	parse_expands(token_head, vars);
+	if (!(parse_expands(token_head, vars)))//TODO check order
+		return (0);
 	reset_terminal_settings();
 	if (parse_redirections(token_head) == 0)
 		return (1);

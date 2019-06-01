@@ -50,7 +50,7 @@ static	void			put_lst_higher(t_op **lst, t_op **new)
 	(*lst) = (*lst)->prev;
 }
 
-t_op					*build_op_list(t_token *tks)
+t_op					*build_op_list(t_tok *tks)
 {
 	t_op				*new;
 	t_op				*lst;

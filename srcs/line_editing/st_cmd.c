@@ -83,7 +83,7 @@ static struct winsize	*init_window_struct(void)
 {
 	struct winsize	*window;
 	if (!(window = malloc(sizeof(*window))))
-		ERROR_MEM
+		ERROR_MEM;
 	update_window_struct(window);
 	return (window);
 }

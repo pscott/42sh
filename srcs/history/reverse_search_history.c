@@ -44,8 +44,8 @@ int					search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find)
 		if (strstr_adapted((*st_cmd)->hist_lst->txt, to_find) == 1)
 		{
 			if (!((*st_cmd)->st_txt->txt = ft_strndup((*st_cmd)->hist_lst->txt, ft_strlen((*st_cmd)->hist_lst->txt) - 1)))
-				ERROR_MEM
-					(*st_cmd)->st_txt->data_size = ft_strlen((*st_cmd)->st_txt->txt);
+				ERROR_MEM;
+			(*st_cmd)->st_txt->data_size = ft_strlen((*st_cmd)->st_txt->txt);
 			(*st_cmd)->st_txt->tracker = ft_strlen((*st_cmd)->st_txt->txt) - ft_strlen(ft_strrstr((*st_cmd)->st_txt->txt, to_find));
 			return (0);
 		}

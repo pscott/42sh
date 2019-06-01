@@ -91,6 +91,7 @@ int							input_loop(t_st_cmd *st_cmd, t_vars *vars);
 */
 
 size_t						ft_printable_len(const char *str);
+char						*ft_strdup_print(const char *str);
 void						insert_str(t_st_cmd *st_cmd, const char *buf,
 								size_t printable_len);
 

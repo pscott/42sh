@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 18:18:39 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/31 14:21:52 by aschoenh         ###   ########.fr       */
+/*   Updated: 2019/06/01 17:24:27 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int			open_history(const char **env, int options)
 	replace_tilde(&hist_file, env);
 	if ((fd = open(hist_file, options, 0640)) == -1)
 	{
-		//ft_dprintf(2, "error: failed to open history file");
 		ft_memdel((void*)&hist_file);
 		return (-1);
 	}
@@ -57,24 +56,28 @@ t_hist_lst			*get_history(const char **env)
 	size_t			id;
 	char			*append_with_newline;
 	int				fd;
+	char			*tmp;
 
 	if (isatty(STDIN_FILENO) == 0)
 		return (NULL);
 	if ((fd = open_history(env, O_RDONLY)) < 0)
 		return (NULL); //error_msg ?
-	line = NULL;
+	tmp = NULL;
 	id = 0;
 	hist_lst = NULL;
-	while ((get_next_line(fd, &line) > 0) && (line && ft_strlen(line) > 6))
+	while ((get_next_line(fd, &tmp) > 0) && (tmp && ft_printable_len(tmp) > 6))
 	{
-		append_with_newline = ft_strjoin(&line[6], "\n"); // not secure !
+		if (!(line = ft_strdup_print(tmp)))
+			ERROR_MEM;
+		ft_strdel(&tmp);
+		append_with_newline = ft_strjoin(&line[6], "\n");
+		ft_strdel(&tmp);
 		hist_lst = insert_right(hist_lst, append_with_newline, 1);
-		ft_memdel((void*)&append_with_newline);
-		ft_memdel((void*)&line);
+		ft_strdel(&append_with_newline);
 		id++;
 	}
-	if (line)
-		ft_memdel((void*)&line);
+	if (tmp)
+		ft_memdel((void*)&tmp);
 	close(fd);
 	return (hist_lst);
 }

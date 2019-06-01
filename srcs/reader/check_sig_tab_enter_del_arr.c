@@ -42,7 +42,7 @@ int		check_for_tab(t_st_cmd *st_cmd, const char *buf, t_vars *vars)
 		{
 			len_tmp = ft_strlen(tmp);		
 			if (!(st_cmd->st_txt->txt = ft_strjoin(tmp, st_cmd->st_txt->txt + st_cmd->st_txt->tracker)))
-				ERROR_MEM
+				ERROR_MEM;
 			st_cmd->st_txt->data_size = ft_strlen(st_cmd->st_txt->txt);
 			ft_strdel(&old_txt);
 		}

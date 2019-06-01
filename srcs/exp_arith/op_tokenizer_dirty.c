@@ -26,7 +26,7 @@ void	d_number(t_tok **tokens, size_t *i, int *k, char **str)
 	clean_done_token(*str + *i, get_nb_len(*str + *i));
 }
 
-int		d_variable(t_token **tks, t_integ *it, char **str, char ***vars)
+int		d_variable(t_tok **tks, t_integ *it, char **str, char ***vars)
 {
 	char		*tmp;
 	char		*ptr;
@@ -52,7 +52,7 @@ int		d_variable(t_token **tks, t_integ *it, char **str, char ***vars)
 	return (0);
 }
 
-void	d_operator(t_token **t, size_t *i, int *k, char **s)
+void	d_operator(t_tok **t, size_t *i, int *k, char **s)
 {
 	int ret;
 

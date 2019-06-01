@@ -14,7 +14,7 @@ static	int		format_toks(t_tok *di, t_tok **cl)
 	v.moins = 1;
 	v.i = 0;
 	v.k = 0;
-	init_toks_clean(di, cl);
+	//init_toks_clean(di, cl);//penzo test
 	while (di[v.i].token != 0)
 	{
 		if (di[v.i].token == TK_NB)
@@ -37,11 +37,12 @@ static	int		format_toks(t_tok *di, t_tok **cl)
 int				op_tokenizer(char *str, t_tok **tokens, char ***vars)
 {
 	t_integ		ints;
-	t_token		*clean;
+	t_tok		*clean;
 
 	ints.k = 0;
 	ints.i = 0;
-	init_tokens_dirty(tokens, str);
+	//init_tokens_dirty(tokens, str);
+	//init_tokens_clean(*tokens, str);//test penzo
 	while (!ft_str_isempty(str))
 	{
 		while (ft_is_white_space(str[ints.i]))

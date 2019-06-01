@@ -37,7 +37,7 @@ char	*ft_strdup_print(const char *s1)
 		}
 		i++;
 	}
-	res[i] = 0;
+	res[len] = 0;
 	return (res);
 }
 

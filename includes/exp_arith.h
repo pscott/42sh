@@ -6,11 +6,7 @@
 /*   By: mporzier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 14:01:01 by mporzier          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2019/05/29 18:02:52 by mporzier         ###   ########.fr       */
-=======
-/*   Updated: 2019/05/29 17:27:26 by penzo            ###   ########.fr       */
->>>>>>> implement_arith_exp
+/*   Updated: 2019/06/01 18:36:08 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,14 +109,14 @@ int					get_nb_len(char *str);
 void				clean_done_token(char *str, int len);
 int					get_tok_len(t_tok *tok);
 int					is_var(char *str);
-int					check_next_tok(t_token *dirty, int i);
-int					init_tokens_dirty(t_token **tokens, char *str);
-void				d_number(t_token **tokens, size_t *i, int *k, char **str);
-int					d_variable(t_token **t, t_integ *it, char **s, char ***v);
-void				d_operator(t_token **tokens, size_t *i, int *k, char **str);
-int					init_tokens_clean(t_token *dirty, t_token **clean);
-void				c_iter(t_token *d, t_token **c, int *i, int *k);
-int					check_put_oper(int prev, t_token *dirty, int i);
+int					check_next_tok(t_tok *dirty, int i);
+//int					init_tokens_dirty(t_tok **tokens, char *str);
+void				d_number(t_tok **tokens, size_t *i, int *k, char **str);
+int					d_variable(t_tok **t, t_integ *it, char **s, char ***v);
+void				d_operator(t_tok **tokens, size_t *i, int *k, char **str);
+//int					init_tokens_clean(t_tok *dirty, t_tok **clean);
+void				c_iter(t_tok *d, t_tok **c, int *i, int *k);
+int					check_put_oper(int prev, t_tok *dirty, int i);
 void				invert_value(int *i);
 void				insert_clean_token(t_tok *d, t_tok **c, t_integ *v);
 int					c_number(t_tok *d, t_tok **c, t_integ *v);

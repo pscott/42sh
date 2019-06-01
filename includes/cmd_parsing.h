@@ -36,7 +36,7 @@ t_bool		substitute_slice(char **old_str, size_t index[2]
 
 char		*get_var_name(char *str);//change place ?
 t_bool		replace_tilde(char **str, const char **env);
-
+t_bool		is_valid_tilde(const char *str, t_token *prev_token);
 
 
 

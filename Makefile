@@ -45,7 +45,7 @@ SRC_DIR	:=	srcs
 	EXPANDS_DIR			:=	expands
 	HISTORY_DIR			:=	history
 	SIGNALS_DIR			:=	signals
-	L_E_DIR				:=	line_editing
+	LINE_EDIT_DIR		:=	line_editing
 	BUILTINS_DIR		:=	builtins
 	AUTO_COMP_DIR		:=	auto_completion
 	REDIR_DIR			:=	redirections
@@ -57,7 +57,7 @@ SRC_DIR	:=	srcs
 	#list of all srcs subdirectories
 	SRC_SUBDIRS	:=	$(ENV_DIR) $(ERRORS_DIR) $(LEXER_DIR) $(PARSER_DIR) \
 					$(PIPELINE_DIR) $(READER_DIR) $(HISTORY_DIR) $(EXPANDS_DIR) \
-				   	$(SIGNALS_DIR) $(L_E_DIR) $(BUILTINS_DIR) $(REDIR_DIR) \
+				   	$(SIGNALS_DIR) $(LINE_EDIT_DIR) $(BUILTINS_DIR) $(REDIR_DIR) \
 					$(EXEC_DIR) $(AUTO_COMP_DIR) $(EXP_ARITH_DIR) \
 					$(HEREDOC_DIR) \
 					$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_DIR))
@@ -81,13 +81,13 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c 	#srcs subfiles names
 						check_quit_hist.c delete.c txt_cat.c jump_word.c
 	EXPANDS_FILES	:=	parse_expands.c parse_tildes.c parse_vars.c\
 						parse_quotes.c parse_arith_exp.c\
-						substitute_utils.c
+						substitute_utils.c parse_tildes_utils.c
 	HISTORY_FILES	:=	hist_file.c get_next_line.c  hist_lst_utils.c \
 						getters.c switch_history.c insertion.c \
 						handle_input_hist.c reverse_search_history.c
 	SIGNALS_FILES	:=	signals_handlers.c signals_init_reset.c
-	L_E_FILES		:=	st_cmd.c st_prompt.c st_txt.c writing.c t_vars.c
-						delete.c txt_cat.c
+	LINE_EDIT_FILES		:=	st_cmd.c st_prompt.c st_txt.c writing.c t_vars.c \
+						#delete.c txt_cat.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c \
 						cmd_type.c cmd_setenv.c cmd_unsetenv.c cmd_echo.c \
 						cmd_exit_utils.c cmd_cd_utils.c
@@ -121,7 +121,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c 	#srcs subfiles names
 #list of all .c files
 C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES)\
 			$(PARSER_FILES) $(PIPELINE_FILES) $(READER_FILES) $(HISTORY_FILES) \
-			$(EXPANDS_FILES) $(SIGNALS_FILES) $(L_E_FILES) $(BUILTINS_FILES) \
+			$(EXPANDS_FILES) $(SIGNALS_FILES) $(LINE_EDIT_FILES) $(BUILTINS_FILES) \
 			$(REDIR_FILES) $(EXEC_FILES) $(HASHMAP_FILES) $(AUTO_COMP_FILES) \
 			$(EXP_ARITH_FILES) $(HEREDOC_FILES)
 
@@ -136,7 +136,7 @@ READER_PATH			:=	$(addprefix $(READER_DIR)/,$(READER_FILES))
 EXPANDS_PATH		:=	$(addprefix $(EXPANDS_DIR)/,$(EXPANDS_FILES))
 HISTORY_PATH		:=	$(addprefix $(HISTORY_DIR)/,$(HISTORY_FILES))
 SIGNALS_PATH		:=	$(addprefix $(SIGNALS_DIR)/,$(SIGNALS_FILES))
-L_E_PATH			:=	$(addprefix $(L_E_DIR)/,$(L_E_FILES))
+LINE_EDIT_PATH			:=	$(addprefix $(LINE_EDIT_DIR)/,$(LINE_EDIT_FILES))
 BUILTINS_PATH		:=	$(addprefix $(BUILTINS_DIR)/,$(BUILTINS_FILES))
 AUTO_COMP_PATH		:=	$(addprefix $(AUTO_COMP_DIR)/,$(AUTO_COMP_FILES))
 REDIR_PATH			:=	$(addprefix $(REDIR_DIR)/,$(REDIR_FILES))
@@ -158,7 +158,7 @@ SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(EXPANDS_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(HISTORY_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(SIGNALS_PATH)) \
-			$(addprefix $(SRC_DIR)/,$(L_E_PATH)) \
+			$(addprefix $(SRC_DIR)/,$(LINE_EDIT_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(BUILTINS_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(AUTO_COMP_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(REDIR_PATH)) \

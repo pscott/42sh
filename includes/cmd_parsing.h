@@ -12,9 +12,10 @@ void			redirect(int old_fd, int new_fd);
 */
 
 t_bool		parse_tildes(t_token *token_head, const char **env);
-t_bool		parse_param_sub(char **str, t_vars *vars);
+//t_bool		parse_param_sub(char **str, t_vars *vars);
+t_bool		parse_vars(char **str, t_vars *vars);
 t_bool		parse_arith_exp(char **str, t_vars *vars);
-t_bool		parse_env_var(char **str, t_vars *vars);
+//t_bool		parse_env_var(char **str, t_vars *vars);
 t_bool		parse_quotes(t_token *token_head);
 t_bool		parse_expands(t_token *token_head, t_vars *vars);
 t_bool		parse_dollars_str(char **str, t_vars *vars);
@@ -23,12 +24,16 @@ t_bool		parse_dollars_str(char **str, t_vars *vars);
 ** substitute_utils
 */
 
-t_bool		is_terminated(const char *open, const char *closed
+t_bool		is_terminated(const char *open_pattern, const char *close_pattern
 			, const char *str);
-t_bool		substitute_slice(char **old_str, size_t index[2]
-			, const char *to_sub);
 t_bool		is_matched(const char *str
 			, const char *begin_match, const char *end_match);
+t_bool		substitute_slice(char **old_str, size_t index[2]
+			, const char *to_sub);
+
+
+
+
 char		*get_var_name(char *str);//change place ?
 t_bool		replace_tilde(char **str, const char **env);
 
@@ -36,8 +41,8 @@ t_bool		replace_tilde(char **str, const char **env);
 
 
 //
-void		substitute_env_var(char **str, size_t *i, const char *var_name
-			, t_vars *vars);
+//void		substitute_env_var(char **str, size_t *i, const char *var_name
+//			, t_vars *vars);
 
 /*
 **	Redirections parsing

@@ -36,7 +36,10 @@ int				expansion_arith(char *str, char ***vars, long long *result)
 	if (ft_str_isempty(str))//assign 0 to result ?
 		return (0);
 	if (check_chars(str))
+	{
+		ft_strdel(&str);//penzo test
 		return (err_msgs(1));
+	}
 	if (op_tokenizer(str, &tokens, vars))
 		return (err_msgs(2));
 	lst = build_op_list(tokens);

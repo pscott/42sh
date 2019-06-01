@@ -9,7 +9,7 @@ CFLAGS	:=	-Wall -Wextra #-Werror
 DEBUG_FLAG	:=	-g
 FSA_FLAGS	:=	$(DEBUG_FLAG) -fsanitize=address
 VAL_FLAGS	:=	--track-origins=yes --show-leak-kinds=all --track-fds=yes \
-				--show-reachable=no --leak-check=full
+				--show-reachable=no --leak-check=full --trace-children=yes
 
 # Libraries ####################################################################
 LIBFT_DIR		:=	libft
@@ -78,8 +78,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c 	#srcs subfiles names
 	READER_FILES	:=	arrows.c check_commands.c prompt.c \
 						input_loop.c cursor_position.c input_utils.c \
 						delete.c txt_cat.c
-	EXPANDS_FILES	:=	parse_expands.c parse_tildes.c parse_param_sub.c\
-						parse_quotes.c parse_env_var.c parse_arith_exp.c\
+	EXPANDS_FILES	:=	parse_expands.c parse_tildes.c parse_vars.c\
+						parse_quotes.c parse_arith_exp.c\
 						substitute_utils.c
 	HISTORY_FILES	:=	hist_file.c get_next_line.c hist_lst.c \
 						switch_history.c handle_input_hist.c
@@ -108,7 +108,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c 	#srcs subfiles names
 						op_tokenizer_utils.c print_list_test.c put_op_link.c \
 						ft_isempty.c
 
-	HEREDOC_FILES	:=	heredoc.c heredoc_utils.c heredoc_expands.c
+	HEREDOC_FILES	:=	heredoc.c heredoc_utils.c
 
 
 

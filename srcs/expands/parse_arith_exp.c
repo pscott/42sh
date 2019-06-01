@@ -14,11 +14,12 @@ static	size_t	get_ll_len(long long nb)
 	return (len);
 }
 
-static char	*lltoa(long long nb)
+static char	*lltoa_and_free(long long nb, char **to_free)
 {
 	char		*str;
 	int			len;
 
+	ft_strdel(to_free);
 	len = get_ll_len(nb);
 	if (!(str = ft_strnew(len)))
 		ERROR_MEM;
@@ -35,11 +36,6 @@ static char	*lltoa(long long nb)
 	return (str);
 }
 
-/*
-** aa$((2 + 3))aa
-**   ^2        ^12
-** len should be 5
-*/
 static char	*dup_for_arith_exp(char *str, size_t i, size_t index)
 {
 	char	*new_str;
@@ -51,8 +47,8 @@ static char	*dup_for_arith_exp(char *str, size_t i, size_t index)
 
 static char	expand_lowest_arith_exp(char **str, t_vars *vars)
 {
-	size_t	i;
-	size_t	index[2];
+	size_t		i;
+	size_t		index[2];
 	long long	arith_result;
 	char		*arith_str;
 
@@ -68,8 +64,9 @@ static char	expand_lowest_arith_exp(char **str, t_vars *vars)
 			arith_str = dup_for_arith_exp(*str, i, index[0]);
 			if (expansion_arith(arith_str, &vars->shell_vars, &arith_result))
 				return (-1);
+			arith_str = lltoa_and_free(arith_result, &arith_str);
+			substitute_slice(str, index, arith_str);
 			ft_strdel(&arith_str);
-			substitute_slice(str, index, lltoa(arith_result));
 			return (1);
 		}
 		i++;
@@ -90,12 +87,9 @@ t_bool		parse_arith_exp(char **str, t_vars *vars)
 		if (!escaped && !ft_strncmp("$((", (*str) + i, 3)
 				&& is_matched((*str) + i, "$((", "))"))
 		{
-			while ((arith_expand_ret = expand_lowest_arith_exp(str, vars)))//no need to move *i as it will be relplaced by numbers only
-			{
+			while ((arith_expand_ret = expand_lowest_arith_exp(str, vars)))
 				if (arith_expand_ret == -1)
 					return (0);//bad sub
-				ft_printf("TOP: |%s|\n", *str);//debug
-			}
 		}
 		else if ((*str)[i] == '\\')
 			escaped = (escaped) ? 0 : 1;

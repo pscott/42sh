@@ -49,7 +49,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 			return (1);
 		}
 	}
-	print_token_list(token_head);//debug
+	//print_token_list(token_head);//debug
 	adjust_history(st_cmd, input);
 	if (st_cmd->hist_lst && st_cmd->hist_lst->keep == 0)
 		st_cmd->hist_lst->keep = 1;

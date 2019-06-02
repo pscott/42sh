@@ -76,13 +76,11 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 	{
 		ft_dprintf(2, "fork error\n");
 		clean_exit(1);
-		return (1);
 	}
 	else if (pid == 0)
 	{
 		parse_and_exec(begin, in, STDOUT_FILENO, vars);
 		clean_exit(1);
-		return (1);
 	}
 	else
 	{
@@ -98,8 +96,8 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 		//Close(STDIN_FILENO); // for fd leaks
 		setup_terminal_settings();
 		vars->cmd_value = WIFSIGNALED(status) ? WTERMSIG(status) : WEXITSTATUS(status);
-		return (WEXITSTATUS(status));
 	}
+		return (WEXITSTATUS(status));
 }
 
 /*

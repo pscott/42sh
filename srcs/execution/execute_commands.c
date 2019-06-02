@@ -70,8 +70,8 @@ t_bool				parse_and_exec(t_token *token_head, int in,
 		return (0);
 	reset_terminal_settings();
 	if (parse_redirections(token_head) == 0)
-		return (1);
+		return (0);
 	if (!(argv = get_argv_from_token_lst(token_head)))
-		return (1); // return value ?
+		return (0); // return value ?
 	return (execute_argv(argv, vars));
 }

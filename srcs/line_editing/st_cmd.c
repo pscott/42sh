@@ -105,7 +105,12 @@ t_st_cmd	*reset_st_cmd(t_st_cmd *old_st_cmd)
 	st_cmd->window = old_st_cmd->window;
 	init_relative_pos(st_cmd);
 	st_cmd->hist_lst = old_st_cmd->hist_lst;
-	free_st_cmd(old_st_cmd);
+	old_st_cmd = get_first_st_cmd(old_st_cmd);
+	while (old_st_cmd)
+	{
+		free_st_cmd(old_st_cmd);
+		old_st_cmd = old_st_cmd->next;
+	}
 	//free old_st_cmd lst;
 	st_cmd->next = NULL;
 	st_cmd->prev = NULL;

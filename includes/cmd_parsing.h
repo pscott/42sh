@@ -1,7 +1,7 @@
 #ifndef CMD_PARSING_H
 # define CMD_PARSING_H
 
-# include "42sh.h"
+# include "ftsh.h"
 # include "lexer.h"
 
 int				parse_cmdline(t_token *token, t_vars *vars);

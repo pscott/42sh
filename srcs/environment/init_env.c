@@ -1,4 +1,5 @@
-#include "42sh.h"
+#include "ftsh.h"
+#include "env.h"
 #include "errors.h"
 
 static void	bzero_env(char **env, int size)

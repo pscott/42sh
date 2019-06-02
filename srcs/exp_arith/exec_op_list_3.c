@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "exp_arith.h"
 
 long long		check_err_numbers(t_op *lst)

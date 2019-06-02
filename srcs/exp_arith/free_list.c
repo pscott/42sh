@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "exp_arith.h"
 
 int				free_lst_link(t_op *lst, int err)

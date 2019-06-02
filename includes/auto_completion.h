@@ -9,7 +9,7 @@
 # include <dirent.h>
 # include <sys/stat.h>
 # include <sys/ioctl.h>
-# include "42sh.h"
+# include "ftsh.h"
 
 typedef struct				s_auto_comp
 {

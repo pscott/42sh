@@ -1,4 +1,5 @@
-#include "42sh.h"
+#include "ftsh.h"
+#include "env.h"
 
 /*
 ** replace_env_var

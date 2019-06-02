@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "cmd_parsing.h"
 
 //is_terminated doesn't care about '\' escape

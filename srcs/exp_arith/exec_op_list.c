@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "exp_arith.h"
 
 static	long long	case_nb1(t_op *lst, long long *nb1, int *err, char ***vars)

@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "exp_arith.h"
 
 static	void	recurs_print_lst(t_op *lst, int i, int right)

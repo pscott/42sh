@@ -1,7 +1,6 @@
 #ifndef AST_H
 # define AST_H
 
-# include "42sh.h"
 # include "lexer.h"
 
 typedef struct		s_ast

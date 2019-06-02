@@ -1,7 +1,7 @@
 #ifndef HEREDOC_H
 # define HEREDOC_H
 
-# include "42sh.h"
+# include "ftsh.h"
 # include "lexer.h"
 # include "input.h"
 # include "cmd_parsing.h"

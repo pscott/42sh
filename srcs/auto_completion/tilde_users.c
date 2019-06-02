@@ -1,4 +1,5 @@
 #include "auto_completion.h"
+#include <pwd.h>
 
 static void				get_user_name(char **users, const char *line)
 {

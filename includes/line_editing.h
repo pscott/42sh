@@ -1,7 +1,7 @@
 #ifndef LINE_EDITING_H
 # define LINE_EDITING_H
 
-# include "42sh.h"
+# include "ftsh.h"
 # include "input.h"
 
 

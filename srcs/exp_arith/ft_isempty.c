@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "exp_arith.h"
 
 int		ft_str_isempty(const char *s)

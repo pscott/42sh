@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 
 int		case_hash(char **argv, t_vars *vars)
 {

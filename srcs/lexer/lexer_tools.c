@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "errors.h"
 
 //Control operators:

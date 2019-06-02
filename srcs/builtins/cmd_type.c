@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "execution.h"
 #include "builtins.h"
 #include "errors.h"

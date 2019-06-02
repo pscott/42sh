@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "exp_arith.h"
 
 static	t_op	*init_link(int token, long long value, t_tok link, t_op *new)

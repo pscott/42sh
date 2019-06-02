@@ -1,4 +1,5 @@
-#include "42sh.h"
+#include "ftsh.h"
+#include "env.h"
 #include "lexer.h"
 #include "input.h"
 #include "history.h"
@@ -6,7 +7,7 @@
 #include "builtins.h"
 #include "line_editing.h"
 
-t_bool	is_full_of_whitespaces(const char *input)
+t_bool		is_full_of_whitespaces(const char *input)
 {
 	int		i;
 
@@ -27,7 +28,7 @@ t_bool	is_full_of_whitespaces(const char *input)
 */
 
 static int	init_vars(t_vars *vars, int argc, char **argv, char **env)
-{ 
+{
 	(void)argc;
 	(void)argv;
 	vars->hashmap = init_hashmap(INIT_HASH_SIZE);
@@ -46,7 +47,7 @@ static int	init_vars(t_vars *vars, int argc, char **argv, char **env)
 **	On exit, writes history and frees everything that was previously allocated.
 */
 
-int		main(int argc, char **argv, char **env)
+int			main(int argc, char **argv, char **env)
 {
 	t_st_cmd		*st_cmd;
 	t_vars			vars;
@@ -68,8 +69,7 @@ int		main(int argc, char **argv, char **env)
 		st_cmd = reset_st_cmd(st_cmd);
 	}
 	print_exit();
-	if (isatty(STDIN_FILENO))
-		write_to_history(st_cmd, (const char **)vars.env_vars);
+	write_to_history(st_cmd, (const char **)vars.env_vars);
 	free_all_st_cmds(&st_cmd);
 	free_vars(&vars);
 	reset_terminal_settings();

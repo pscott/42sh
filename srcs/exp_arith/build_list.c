@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "exp_arith.h"
 
 static	void			put_lst_new(t_op **lst, t_op **new)

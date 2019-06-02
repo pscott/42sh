@@ -1,4 +1,6 @@
 #include "lexer.h"
+#include "env.h"
+#include <pwd.h>
 #include "ast.h"
 #include "line_editing.h"
 #include "get_next_line.h"

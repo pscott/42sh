@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "builtins.h"
 
 static void		builtin_exit_error(int errno, char *s)

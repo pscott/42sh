@@ -1,4 +1,5 @@
-#include "42sh.h"
+#include "ftsh.h"
+#include "env.h"
 #include "exp_arith.h"
 
 static	long long	calc_bas(long long nb1, long long nb2, int token, int *err)

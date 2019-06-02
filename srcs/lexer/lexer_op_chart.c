@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "lexer.h"
 
 static void	create_op_chart_elem(t_operation *op, char *str

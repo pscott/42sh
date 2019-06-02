@@ -1,4 +1,5 @@
-#include "42sh.h"
+#include "ftsh.h"
+#include "env.h"
 #include "exp_arith.h"
 
 int		init_toks_dirty(t_tok **tokens, char *str)

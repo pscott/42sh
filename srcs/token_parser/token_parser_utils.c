@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "lexer.h"
 #include "cmd_parsing.h"
 #include "ast.h"

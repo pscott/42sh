@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "exp_arith.h"
 
 int		init_toks_clean(t_tok *d, t_tok **c)

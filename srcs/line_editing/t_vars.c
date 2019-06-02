@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 
 void	free_vars(t_vars *vars)
 {

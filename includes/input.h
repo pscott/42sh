@@ -1,7 +1,7 @@
 #ifndef INPUT_H
 # define INPUT_H
 
-# include "42sh.h"
+# include "ftsh.h"
 # include "libterm.h"
 # define INIT_TXT_SIZE 2 // change to 32(?) later but for debug purpose it's 2
 # define BUF_SIZE 4

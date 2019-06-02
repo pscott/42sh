@@ -1,4 +1,5 @@
-#include "42sh.h"
+#include "ftsh.h"
+#include "env.h"
 
 /*
 **	Copy the env vars into the new env, without the deleted one

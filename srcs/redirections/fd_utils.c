@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 
 /*
 **	Saving std fds : mode 1 is saving, mode 0 is restoring

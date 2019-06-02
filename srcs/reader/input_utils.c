@@ -1,5 +1,5 @@
 #include "input.h"
-#include "42sh.h"
+#include "ftsh.h"
 
 size_t	ft_printable_len(const char *s1)
 {

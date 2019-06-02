@@ -1,7 +1,7 @@
 #ifndef LEXER_H
 # define LEXER_H
 
-# include "42sh.h"
+# include "ftsh.h"
 # include <stdlib.h>
 # include "libft.h"
 

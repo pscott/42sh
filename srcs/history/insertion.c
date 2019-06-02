@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "history.h"
 
 t_hist_lst		*insert_left(t_hist_lst *hist_lst, const char *line, char keep)

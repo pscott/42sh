@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 
 /*
 ** ft_strcmp_before_c

@@ -1,7 +1,7 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include "42sh.h"
+# include "ftsh.h"
 
 enum	{args_nb, arg_not_digit};
 enum	{cmd_cd = 1, cmd_echo, cmd_env, cmd_exit, cmd_setenv, cmd_unsetenv

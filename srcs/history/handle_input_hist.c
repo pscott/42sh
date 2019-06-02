@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "line_editing.h"
 #include "history.h"
 

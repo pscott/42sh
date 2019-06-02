@@ -1,6 +1,5 @@
-//#include "42sh.h"
-//#include "lexer.h"
 #include "cmd_parsing.h"
+#include "env.h"
 
 static void			substitute_env_var(char **str, size_t *i
 					, const char *var_name, t_vars *vars)

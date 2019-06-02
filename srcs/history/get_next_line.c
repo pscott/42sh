@@ -1,5 +1,5 @@
 #include "get_next_line.h"
-#include "42sh.h"
+#include "ftsh.h"
 
 static char		*ft_strjoinfree(char *s1, char *s2)
 {

@@ -1,7 +1,7 @@
 #ifndef hashmap_H
 # define hashmap_H
 
-#include "42sh.h"
+#include "ftsh.h"
 #include "libft.h"
 
 #define INIT_HASH_SIZE 7// should be prime

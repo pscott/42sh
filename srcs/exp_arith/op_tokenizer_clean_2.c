@@ -1,4 +1,4 @@
-#include "42sh.h"
+#include "ftsh.h"
 #include "exp_arith.h"
 
 int		c_number(t_tok *d, t_tok **c, t_integ *v)

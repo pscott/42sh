@@ -43,8 +43,9 @@ static void pressed_enter(t_st_cmd *st_cmd, char *buf)
 int			checkers(t_st_cmd *st_cmd, t_vars *vars, char *buf)
 {
 	int	ret;
-	if (check_for_signal(buf))
-		return (input_stop);
+
+	if ((ret = check_for_signal(buf)) > 0)
+		return (ret);
 	else if (check_for_arrows(st_cmd, buf) || check_for_delete(st_cmd, buf)
 			|| check_for_tab(st_cmd, buf, vars))
 		;

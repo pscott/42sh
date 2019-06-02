@@ -35,7 +35,7 @@ static int is_valid_escape(char *buf)
 	if (len >= BUF_SIZE)
 		return (-1);
 	last = len > 0 ? len - 1 : 0;
-	if (buf[last] == '\x03' || buf[last] == '\x04')
+	if (buf[last] == '\x03' || buf[last] == '\x04' || buf[last] == '\x1a')
 	{
 		*buf = buf[last];
 		ft_bzero(&buf[1], BUF_SIZE);
@@ -71,7 +71,7 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 	while ((ret = read(STDIN_FILENO, &c, 1)) > 0)
 	{
 		buf[ft_strlen(buf)] = c;
-		//magic_print(buf);
+		magic_print(buf);
 		if (is_valid_escape(buf) == 0)
 			continue ;
 		ret = checkers(st_cmd, vars, buf);

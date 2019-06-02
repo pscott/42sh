@@ -15,13 +15,20 @@
 	exit(signo);
 }
 
+/*
+**	SIGINT
+**	Puts a \x03 at the beginning of txt.
+**	Sets the last cmd_value to 1 (error)
+**	Prints a newline on terminal
+*/
+
 void			sigint_handler(int signo)
 {
 	t_st_cmd	*st_cmd;
 	t_vars		*vars;
 
 	(void)signo;
-	st_cmd = get_st_cmd(NULL); //only modifies local copy ?
+	st_cmd = get_st_cmd(NULL);
 	*st_cmd->st_txt->txt = '\x03';
 	go_to_end(st_cmd);
 	reposition_cursor(st_cmd);
@@ -32,25 +39,16 @@ void			sigint_handler(int signo)
 	execute_str(CLEAR_BELOW);
 }
 
-void		sigcont_handler(int signo)
-{
-	if (setup_terminal_settings() == 0)
-	{
-		reset_terminal_settings();
-		exit(1);
-	}
-	execute_str(INVISIBLE);
-	execute_str(BEGIN_LINE);
-	signal_setup();
-	(void)signo;
-}
+/*
+**	SIGWINCH
+**	Simply writes back the st_cmd
+*/
 
 void		sigwinch_handler(int signo)
 {
 	t_st_cmd	*st_cmd;
 
 	(void)signo;
-//	signal(SIGWINCH, SIG_IGN);  in case two occur at the same time
 	st_cmd = get_st_cmd(NULL);
 	update_window_struct(st_cmd->window);
 	go_back_to_start(st_cmd);
@@ -60,6 +58,21 @@ void		sigwinch_handler(int signo)
 	reposition_cursor(st_cmd);
 	signal(SIGWINCH, sigwinch_handler);
 }
+
+void		sigcont_handler(int signo)
+{
+	if (setup_terminal_settings() == 0)
+	{
+		reset_terminal_settings();
+		clean_exit(1);
+	}
+	execute_str(INVISIBLE);
+	execute_str(BEGIN_LINE);
+	signal_setup();
+	(void)signo;
+}
+
+
 
 void			sigtstp_handler(int signo)
 {

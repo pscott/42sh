@@ -6,7 +6,7 @@
 #include "builtins.h"
 #include "line_editing.h"
 
-t_bool	is_full_of_whitespaces(char *input)
+t_bool	is_full_of_whitespaces(const char *input)
 {
 	int		i;
 
@@ -21,29 +21,47 @@ t_bool	is_full_of_whitespaces(char *input)
 	return (1);
 }
 
+/*
+**	Utility function to initalize the shell variables, the environement, and
+**	the last exit status.
+*/
+
+static int	init_vars(t_vars *vars, int argc, char **argv, char **env)
+{ 
+	(void)argc;
+	(void)argv;
+	vars->hashmap = init_hashmap(INIT_HASH_SIZE);
+	vars->cmd_value = 0;
+	vars->shell_vars = NULL;
+	get_vars(vars);
+	if (!(vars->env_vars = init_env((const char **)env)))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
+/*
+**	Initialize variables, read input with input_loop.
+**	If reading input fails or first byte of input is 0, exits.
+**	Else, calls handle_input for lexing, creating and executing the AST.
+**	On exit, writes history and frees everything that was previously allocated.
+*/
+
 int		main(int argc, char **argv, char **env)
 {
 	t_st_cmd		*st_cmd;
 	t_vars			vars;
 	int				ret;
 
-	(void)argc;
-	(void)argv;
-	vars.hashmap = init_hashmap(INIT_HASH_SIZE);
-	vars.cmd_value = 0;
-	vars.shell_vars = NULL;
-	get_vars(&vars);
 	if (setup_terminal_settings() == -1)
 		return (EXIT_FAILURE);
-	if (!(vars.env_vars = init_env((const char **)env)))
+	if (init_vars(&vars, argc, argv, env) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	signal_setup();
-	st_cmd = NULL; // useless ?
 	st_cmd = init_st_cmd((const char **)vars.env_vars);
 	while (42)
 	{
 		if ((ret = input_loop(st_cmd, &vars)) == 0 || !*st_cmd->st_txt->txt)
-			break ; // free env, free st_cmd
+			break ;
 		else if (ret > 0 && !is_full_of_whitespaces(st_cmd->st_txt->txt))
 			handle_input(st_cmd, &vars);
 		st_cmd = reset_st_cmd(st_cmd);
@@ -53,7 +71,6 @@ int		main(int argc, char **argv, char **env)
 		write_to_history(st_cmd, (const char **)vars.env_vars);
 	free_all_st_cmds(&st_cmd);
 	free_vars(&vars);
-	delete_hashmap(vars.hashmap);
 	reset_terminal_settings();
 	return (EXIT_SUCCESS);
 }

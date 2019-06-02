@@ -4,7 +4,7 @@
 #include "line_editing.h"
 #include <limits.h>
 
-void	magic_print(char *buf) // debug
+static void	magic_print(char *buf) // debug
 {
 	int	i;
 
@@ -19,28 +19,6 @@ void	magic_print(char *buf) // debug
 	execute_str(RESTORE_CURSOR);
 }
 
-/*
-**	Inserts some text in the current st_cmd
-*/
-
-void	insert_txt(t_st_cmd *st_cmd, const char *buf)
-{
-	t_st_txt	*st_txt;
-	size_t		print_len;
-	size_t		tmp;
-
-
-	st_txt = st_cmd->st_txt;
-	print_len = ft_printable_len(buf);
-	st_txt->txt = ft_realloc(st_txt->txt, st_txt->data_size,
-			&st_txt->malloc_size, print_len);
-	insert_str(st_cmd, buf, print_len);
-	st_txt->data_size += print_len;
-	tmp = st_txt->tracker + print_len;
-	write_st_cmd(st_cmd);
-	st_txt->tracker = tmp;
-	get_pos(st_cmd, st_cmd->st_txt->tracker);
-}
 
 /*
 **	Returns -1 if buffer is NOT an escape sequence.

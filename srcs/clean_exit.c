@@ -17,7 +17,6 @@ void	clean_exit(int exitno)
 		write_to_history(st_cmd, (const char **)vars->env_vars);
 	free_all_st_cmds(&st_cmd);
 	free_vars(vars);
-	delete_hashmap(vars->hashmap);
 	reset_terminal_settings();
 	exit(exitno);
 }

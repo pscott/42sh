@@ -79,6 +79,8 @@ int		switch_and_return(const char buf[64], t_st_cmd *st_cmd)
 
 	if (ft_strncmp(buf, CTRL_C, CTRL_C_LEN) == 0) // care to + 1 because of "\x03a"
 	{
+		if (!(st_cmd->st_txt->txt[0]))
+			st_cmd->st_txt->txt[0] = ' ';
 		get_pos(st_cmd, st_cmd->st_txt->tracker);
 		reposition_cursor(st_cmd);
 		write(1, "^C\n", 3);
@@ -90,7 +92,7 @@ int		switch_and_return(const char buf[64], t_st_cmd *st_cmd)
 		newcmd = ft_strjoin(st_cmd->st_txt->txt, "\n"); // protect
 	else
 		newcmd = ft_strdup(st_cmd->st_txt->txt); // protect
-	execute_str(BEGIN_LINE);
+	move_cursor(st_cmd->start_pos.col, st_cmd->start_pos.row);
 	ft_printf("%s", st_cmd->st_prompt->prompt);
 	switch_st_cmd(st_cmd, newcmd);
 	free(newcmd);

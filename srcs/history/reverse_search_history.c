@@ -72,7 +72,7 @@ int			ft_isprint_ctrlr(char buf[64])
 	return (0);
 }
 
-int		init_vars(size_t *malloc_size, int *prompt_type, char **stock, char buf[64])
+static int	init_vars(size_t *malloc_size, int *prompt_type, char **stock, char buf[64])
 {
 	*malloc_size = 256;
 	*prompt_type = 0;

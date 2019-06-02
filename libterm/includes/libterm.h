@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/27 14:31:59 by aschoenh         ###   ########.fr       */
+/*   Updated: 2019/06/02 14:19:04 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,6 @@
 # define SPACE_LEN 1
 # define ENTER "\r"
 # define ENTER_LEN 1
-# define TAB "\x09"
-# define TAB_LEN 1
-# define RTAB "\x1b\x5b\x5a"
-# define RTAB_LEN 3
 # define ESCAPE "\x1b"
 # define ESCAPE_LEN 1
 # define BACKSPACE "\x7f"

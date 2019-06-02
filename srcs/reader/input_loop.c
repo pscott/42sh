@@ -4,19 +4,19 @@
 #include "line_editing.h"
 #include <limits.h>
 
-static void	magic_print(char *buf) // debug
+void	magic_print(char *buf) // debug
 {
 	int	i;
 
 	i = 0;
-	execute_str(SAVE_CURSOR);
-	move_cursor(0, 0);
+	//execute_str(SAVE_CURSOR);
+	//move_cursor(0, 0);
 	while (i < BUF_SIZE + 1)
 	{
 		ft_dprintf(2, "%-4d", buf[i]);
 		i++;
 	}
-	execute_str(RESTORE_CURSOR);
+	//execute_str(RESTORE_CURSOR);
 }
 
 
@@ -71,7 +71,7 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 	while ((ret = read(STDIN_FILENO, &c, 1)) > 0)
 	{
 		buf[ft_strlen(buf)] = c;
-		magic_print(buf);
+		//magic_print(buf);
 		if (is_valid_escape(buf) == 0)
 			continue ;
 		ret = checkers(st_cmd, vars, buf);

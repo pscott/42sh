@@ -96,7 +96,7 @@ char	*find_uniq_filename(void)
 	path = get_heredoc_filename(file_key);
 	while (access(path, F_OK) == 0)//pas sure
 	{
-		ft_memdel((void*)&path);
+		ft_strdel(&path);
 		if (file_key == UINT_MAX)
 		{
 			ft_dprintf(2, "tmp: can't create heredoc temporary file(max UINT)\n");

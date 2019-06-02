@@ -47,19 +47,17 @@ static char	*save_heredoc(const char *txt)
 	if (!(path = find_uniq_filename()))//protect better
 	{
 		ft_dprintf(2, "tmp(heredoc): can't create unique temporary filename\n");
-		return (NULL);//check this return
+		return (NULL);
 	}
 	if ((fd = open(path, O_CREAT | O_RDWR | O_APPEND, 0666)) == -1)
 	{
 		ft_dprintf(2, "tmp: open error\n");
-		return (NULL);//error
+		return (NULL);
 	}
 	if (write(fd, txt, ft_strlen(txt)) == -1)
-	{
 		ft_dprintf(2, "tmp: write error\n");
-	}
 	close(fd);
-	return (path);//free
+	return (path);
 }
 
 /*

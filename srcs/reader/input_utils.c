@@ -42,16 +42,20 @@ char	*ft_strdup_print(const char *s1)
 }
 
 void	insert_str(t_st_cmd *st_cmd, const char *buf,
-		size_t printable_len)
+		size_t print_len) // remove print_len
 {
-	char		*tmp;
+	char		*printable_buf;
 	t_st_txt	*st_txt;
+	char		*end_line;
 
 	st_txt = st_cmd->st_txt;
-	if (!(tmp = ft_strdup_print(&st_txt->txt[st_txt->tracker])))
+	if (!(printable_buf = ft_strdup_print(buf)))
 		ERROR_MEM;
-	ft_strcpy(&st_txt->txt[st_txt->tracker + printable_len],
-			tmp);
-	ft_strncpy(&st_txt->txt[st_txt->tracker], buf, printable_len);
-	free(tmp);
+	print_len = ft_strlen(printable_buf);
+	if (!(end_line = ft_strdup(&st_txt->txt[st_txt->tracker])))
+		ERROR_MEM;
+	ft_strcpy(&st_txt->txt[st_txt->tracker + print_len], end_line);
+	ft_strdel(&end_line);
+	ft_strncpy(&st_txt->txt[st_txt->tracker], printable_buf, print_len);
+	free(printable_buf);
 }

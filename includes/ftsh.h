@@ -32,4 +32,6 @@ void	save_reset_stdfd(int mode);
 t_bool				is_full_of_whitespaces(const char *input);
 
 void			clean_exit(int exitno);
+
+void			magic_print(char *buf);//debug
 #endif

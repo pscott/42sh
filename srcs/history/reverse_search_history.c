@@ -109,7 +109,7 @@ int		switch_and_return(const char buf[64], t_st_cmd *st_cmd)
 	}
 }
 
-int		init_vars(size_t *malloc_size, int *prompt_type, char **stock, char buf[64])
+static int	init_vars(size_t *malloc_size, int *prompt_type, char **stock, char buf[64])
 {
 	*malloc_size = 256;
 	*prompt_type = 0;

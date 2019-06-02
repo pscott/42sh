@@ -34,10 +34,11 @@ static int	init_vars(t_vars *vars, int argc, char **argv, char **env)
 	vars->hashmap = init_hashmap(INIT_HASH_SIZE);
 	vars->cmd_value = 0;
 	vars->shell_vars = NULL;
+	vars->verbose = 0;
 	get_vars(vars);
 	if (!(vars->env_vars = init_env((const char **)env)))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+		return (1);
+	return (0);
 }
 
 /*
@@ -55,7 +56,7 @@ int			main(int argc, char **argv, char **env)
 
 	if (setup_terminal_settings() == -1)
 		return (EXIT_FAILURE);
-	if (init_vars(&vars, argc, argv, env) == EXIT_FAILURE)
+	if (init_vars(&vars, argc, argv, env) == 1)
 		return (EXIT_FAILURE);
 	signals_setup();
 	st_cmd = init_st_cmd((const char **)vars.env_vars);

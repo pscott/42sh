@@ -96,39 +96,19 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 		//magic_print(buf);
 		if (is_valid_escape(buf) == 0)
 			continue ;
-		if (check_for_signal(buf))
+		ret = checkers(st_cmd, vars, buf);
+		if (ret == input_stop)
 			return (-1);
-		else if (check_for_arrows(st_cmd, buf) || check_for_delete(st_cmd, buf)
-			|| check_for_tab(st_cmd, buf, vars))
-			;
-		else if ((ret = check_for_search_histo(st_cmd, buf)))
-		{
-			if (ret == ctrl_c_case)
-				return (-1);
-			if (ret == enter_case || ret == ctrl_c_case)//tu me geres ca mon scotty? ret == enter_case, ctrl_c_case ou quit_case
-				break;
-		}
-		else if ((ret = check_for_quit(st_cmd, buf)) == 1)
-			break ;
-		else if (ret == -1)
-			;
-		else if (check_for_enter(buf))
-		{
-			ft_strncpy(buf, "\n", 1);
-			st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;
-			get_pos(st_cmd, st_cmd->st_txt->tracker);
-			reposition_cursor(st_cmd);
-			insert_txt(st_cmd, (const char*)buf);
-			write(STDIN_FILENO, "\n", 1);
-			break ;
-		}
-		else
-			insert_txt(st_cmd, (const char*)buf);
+		else if (ret == input_break)
+			break;
 		reposition_cursor(st_cmd);
 		ft_bzero(buf, BUF_SIZE + 1);
 	}
 	if (st_cmd->st_txt->data_size > INT_MAX)
-		return (0); // print error ?  move inside loop ?
+	{
+		ft_dprintf(2, "error: maximum input size exceeded\n");
+		return (-1); // print error ?  move inside loop ?
+	}
 	if (ret >= 0)
 		return (1);
 	return (0);

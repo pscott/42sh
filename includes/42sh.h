@@ -12,6 +12,8 @@ typedef unsigned char	t_bool;
 # define ERROR_MEM clean_exit(1)
 # define SHELL_NAME "42sh"//for error messages
 
+enum {input_break, input_continue, input_stop};
+
 typedef struct			s_vars
 {
 	char				**env_vars;

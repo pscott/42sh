@@ -47,6 +47,7 @@ t_bool						handle_input(t_st_cmd *st_cmd, t_vars *vars);
 */
 
 
+int				checkers(t_st_cmd *st_cmd, t_vars *vars, char *buf);
 char						*auto_completion(char *input, unsigned int len,
 								t_vars *vars);
 int				check_for_arrows(t_st_cmd *st_cmd, const char *buf);

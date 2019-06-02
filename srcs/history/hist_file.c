@@ -37,7 +37,7 @@ static t_hist_lst	*construct_history(int fd)
 			ERROR_MEM;
 		ft_strdel(&tmp);
 		append_with_newline = ft_strjoin(&line[6], "\n");
-		ft_strdel(&tmp);
+		ft_strdel(&line);
 		hist_lst = insert_right(hist_lst, append_with_newline, 1);
 		ft_strdel(&append_with_newline);
 		id++;

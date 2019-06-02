@@ -44,6 +44,7 @@ int		check_for_tab(t_st_cmd *st_cmd, const char *buf, t_vars *vars)
 			if (!(st_cmd->st_txt->txt = ft_strjoin(tmp, st_cmd->st_txt->txt + st_cmd->st_txt->tracker)))
 				ERROR_MEM;
 			st_cmd->st_txt->data_size = ft_strlen(st_cmd->st_txt->txt);
+			st_cmd->st_txt->malloc_size = st_cmd->st_txt->data_size + 1;
 			ft_strdel(&old_txt);
 		}
 		ft_strdel(&tmp);

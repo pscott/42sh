@@ -48,8 +48,7 @@ int		check_for_tab(t_st_cmd *st_cmd, const char *buf, t_vars *vars)
 			ft_strdel(&old_txt);
 		}
 		ft_strdel(&tmp);
-		execute_str(BEGIN_LINE);
-		execute_str(CLEAR_BELOW);
+		move_cursor(st_cmd->start_pos.col, st_cmd->start_pos.row);
 		retrieve_pos(&st_cmd->start_pos);
 		print_prompt(st_cmd);
 		st_cmd->st_txt->tracker = 0;

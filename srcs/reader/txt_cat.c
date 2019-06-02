@@ -3,6 +3,7 @@
 char	*concatenate_txt(t_st_cmd *st_cmd)
 {
 	char	*input;
+	char	*tmp;
 
 	if (!st_cmd)
 		return (NULL);
@@ -11,7 +12,10 @@ char	*concatenate_txt(t_st_cmd *st_cmd)
 	input = NULL;
 	while (st_cmd)
 	{
-		input = ft_strjoin(input, st_cmd->st_txt->txt);//protect ?
+		tmp = input;
+		if (!(input = ft_strjoin(input, st_cmd->st_txt->txt)))
+			ERROR_MEM;
+		ft_strdel(&tmp);
 		st_cmd = st_cmd->next;
 	}
 	return (input);

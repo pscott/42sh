@@ -18,6 +18,7 @@ typedef struct		s_hist_lst {
 **	Retrieving and writing history to/from a file
 */
 t_hist_lst	*get_history(const char **env);
+int			open_history(const char **env, int options);
 int			write_to_history(t_st_cmd *st_cmd, const char **env);
 
 /*
@@ -39,11 +40,11 @@ void		get_previous_history(t_st_cmd *st_cmd);
 void		get_next_history(t_st_cmd *st_cmd);
 
 void		adjust_history(t_st_cmd *st_cmd, const char *line, int keep);
-t_hist_lst	*get_keep(t_hist_lst *hist_lst);
 void		free_hist_lst(t_hist_lst *hist_lst);
 
 
 // should not be here
 void		switch_st_cmd(t_st_cmd *st_cmd, char *newcmd);
+int			switch_and_return(const char buf[64], t_st_cmd *st_cmd);
 
 #endif

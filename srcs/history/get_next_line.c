@@ -58,7 +58,6 @@ static int		return_val(char **line, t_fdlist *save)
 		*(save)->c = 0;
 		return (1);
 	}
-	/* should be return create_new */
 	return (0);
 }
 

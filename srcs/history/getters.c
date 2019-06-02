@@ -20,5 +20,3 @@ t_hist_lst		*get_end_lst(t_hist_lst *hist_lst)
 			hist_lst = hist_lst->next;
 	return (hist_lst);
 }
-
-

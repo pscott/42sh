@@ -2,17 +2,6 @@
 #include "line_editing.h"
 #include "history.h"
 
-t_hist_lst	*get_keep(t_hist_lst *hist_lst)
-{
-	t_hist_lst *probe;
-
-	if (!(probe = hist_lst))
-		return (NULL);
-	while (probe->keep)
-		probe = probe->next;
-	return (probe);
-}
-
 static void	update_temporary_hist(t_hist_lst *hist_lst, const char *line)
 {
 	t_hist_lst *left;

@@ -20,7 +20,7 @@ static unsigned char	get_eof(char **eof, t_token *probe)
 	if (!probe || probe->type >= tk_redirection || probe->type == tk_eat)
 	{
 		syntax_error_near(probe);
-		return (2);
+		return (ERR_PARSE_EOF);
 	}
 	while (probe && probe->type > tk_eat && probe->type < tk_redirection)
 	{
@@ -89,13 +89,19 @@ static void	apply_escape(t_st_cmd *st_cmd)
 	}
 }
 
+static char	*get_doc_free(char **txt, t_st_cmd **st_cmd)
+{
+	ft_strdel(txt);
+	free_all_st_cmds(st_cmd);
+	return (NULL);
+}
+//double use of path and len for the norm...
 static char	*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 {
 	char		*path;
 	char		*txt;
 	t_st_cmd	*st_cmd;
 	int			len;
-	int			ret;
 
 	st_cmd = init_st_cmd((const char **)vars->env_vars);
 	ft_strdel(&st_cmd->st_txt->txt);
@@ -105,7 +111,7 @@ static char	*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 	txt = NULL;
 	while (42)
 	{
-		if ((ret = input_loop(st_cmd, vars)) == 0 || !*st_cmd->st_txt->txt)
+		if ((len = input_loop(st_cmd, vars)) == 0 || !*st_cmd->st_txt->txt)
 		{
 			ft_strdel(&txt);
 			free_all_st_cmds(&st_cmd);
@@ -125,19 +131,11 @@ static char	*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 	if (!(txt = ft_strndup(&txt[1], len - 1)))
 		ERROR_MEM;
 	ft_strdel(&path);
-	if (!is_eof_quoted)
-	{
-		if (!parse_dollars_str(&txt, vars))
-			ft_printf("TMP: parse_dollars_str in heredoc FAILED\n");
-	}
+	if (!is_eof_quoted && !parse_dollars_str(&txt, vars))
+		return (get_doc_free(&txt, &st_cmd));
 	if (!(path = save_heredoc(txt)))
-	{
-		ft_strdel(&txt);
-		free_all_st_cmds(&st_cmd);
-		return (NULL);
-	}
+		return (get_doc_free(&txt, &st_cmd));
 	ft_strdel(&txt);
-	//free_st_cmd(st_cmd);//does it free only one ? yes
 	free_all_st_cmds(&st_cmd);
 	return (path);
 }
@@ -190,9 +188,8 @@ t_bool	parse_heredoc(t_token *token_head, t_vars *vars)
 		if (token_probe->type == tk_heredoc)
 		{
 			eof = NULL;
-			if ((is_eof_quoted = get_eof(&eof, token_probe)) == 2)
+			if ((is_eof_quoted = get_eof(&eof, token_probe)) == ERR_PARSE_EOF)
 				return (0);//check me
-			//read and save
 			if (!(path = get_doc(eof, is_eof_quoted, vars)))
 			{
 				ft_strdel(&eof);

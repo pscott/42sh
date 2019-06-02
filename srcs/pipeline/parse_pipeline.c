@@ -59,6 +59,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 		{
 			Close(fd[0]);//check return value
 			parse_and_exec(begin, in, fd[1], vars);
+			clean_exit(1);
 		}
 		else if (pid > 0)
 		{
@@ -97,7 +98,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 		setup_terminal_settings();
 		vars->cmd_value = WIFSIGNALED(status) ? WTERMSIG(status) : WEXITSTATUS(status);
 	}
-		return (WEXITSTATUS(status));
+	return (WEXITSTATUS(status));
 }
 
 /*

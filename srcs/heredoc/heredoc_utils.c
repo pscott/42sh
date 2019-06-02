@@ -94,12 +94,13 @@ char	*find_uniq_filename(void)
 
 	file_key = 0;
 	path = get_heredoc_filename(file_key);
-	while (access(path, F_OK) == 0)//pas sure
+	while (access(path, F_OK) == 0)//TODO check me
 	{
 		ft_strdel(&path);
 		if (file_key == UINT_MAX)
 		{
-			ft_dprintf(2, "tmp: can't create heredoc temporary file(max UINT)\n");
+			ft_dprintf(2, "%s: can't create heredoc temporary file(max UINT)\n"
+					, SHELL_NAME);
 			return (NULL);
 		}
 		file_key++;

@@ -4,10 +4,9 @@
 ** get_eof
 ** parse tokens to concatenate the real EOF
 ** and check if it is quoted
-** return 2 if no eof is found
+** return ERR_PARSE_EOF if no eof is found
 */
 
-//TODO check this function
 static unsigned char	get_eof(char **eof, t_token *probe)
 {
 	unsigned char	is_eof_quoted;
@@ -30,114 +29,6 @@ static unsigned char	get_eof(char **eof, t_token *probe)
 		probe = probe->next;
 	}
 	return(is_eof_quoted);
-}
-
-/*
-** save_heredoc
-** find a unique file name
-** write the input into the new file
-** return the path to it
-*/
-
-static char	*save_heredoc(const char *txt)
-{
-	char	*path;
-	int		fd;
-
-	if (!(path = find_uniq_filename()))//protect better
-	{
-		ft_dprintf(2, "tmp(heredoc): can't create unique temporary filename\n");
-		return (NULL);
-	}
-	if ((fd = open(path, O_CREAT | O_RDWR | O_APPEND, 0666)) == -1)
-	{
-		ft_dprintf(2, "tmp: open error\n");
-		return (NULL);
-	}
-	if (write(fd, txt, ft_strlen(txt)) == -1)
-		ft_dprintf(2, "tmp: write error\n");
-	close(fd);
-	return (path);
-}
-
-/*
-** get_heredoc
-** read input from user
-** concatenate the input
-** TODO expand the input if EOF isn't quoted
-** save it into a file and return the path to it
-*/
-
-//static t_bool	is_last_line_escaped(char *str)
-static void	apply_escape(t_st_cmd *st_cmd)
-{
-	int				i;
-	unsigned char	is_real_escape;
-
-	i = ft_strlen(st_cmd->st_txt->txt) - 1;
-	is_real_escape = 0;
-	while (--i >= 0 && st_cmd->st_txt->txt[i] == '\\')
-	{
-		if (st_cmd->st_txt->txt[i] == '\\')
-			is_real_escape = (is_real_escape) ? 0 : 1;
-	}
-	if (is_real_escape)
-	{
-		st_cmd->st_txt->txt[st_cmd->st_txt->data_size - 1] = 0;
-		st_cmd->st_txt->txt[st_cmd->st_txt->data_size - 2] = 0;
-		st_cmd->st_txt->data_size -= 2;
-	}
-}
-
-static char	*get_doc_free(char **txt, t_st_cmd **st_cmd)
-{
-	ft_strdel(txt);
-	free_all_st_cmds(st_cmd);
-	return (NULL);
-}
-//double use of path and len for the norm...
-static char	*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
-{
-	char		*path;
-	char		*txt;
-	t_st_cmd	*st_cmd;
-	int			len;
-
-	st_cmd = init_st_cmd((const char **)vars->env_vars);
-	ft_strdel(&st_cmd->st_txt->txt);
-	if (!(st_cmd->st_txt->txt = ft_strdup("\n")))//TODO lookup insert_str
-		ERROR_MEM;
-	st_cmd = append_st_cmd(st_cmd, "", "heredoc> ");
-	txt = NULL;
-	while (42)
-	{
-		if ((len = input_loop(st_cmd, vars)) == 0 || !*st_cmd->st_txt->txt)
-		{
-			ft_strdel(&txt);
-			free_all_st_cmds(&st_cmd);
-			return (NULL);
-		}
-		if (!is_eof_quoted)
-			apply_escape(st_cmd);
-		txt = concatenate_txt(st_cmd);//need free ?
-		len = ft_strlen(txt) - ft_strlen(eof) - 1;
-		if (len > 0 && !ft_strncmp(&txt[len], eof, ft_strlen(eof))
-			&& txt[len - 1] == '\n' && txt[ft_strlen(txt) - 1] == '\n')
-			break ;
-		st_cmd = append_st_cmd(st_cmd, "", "heredoc> ");
-		ft_strdel(&txt);
-	}
-	path = txt;
-	if (!(txt = ft_strndup(&txt[1], len - 1)))
-		ERROR_MEM;
-	ft_strdel(&path);
-	if (!is_eof_quoted && !parse_dollars_str(&txt, vars))
-		return (get_doc_free(&txt, &st_cmd));
-	if (!(path = save_heredoc(txt)))
-		return (get_doc_free(&txt, &st_cmd));
-	ft_strdel(&txt);
-	free_all_st_cmds(&st_cmd);
-	return (path);
 }
 
 /*
@@ -179,7 +70,7 @@ t_bool	parse_heredoc(t_token *token_head, t_vars *vars)
 {
 	t_token			*token_probe;
 	char			*eof;
-	unsigned char	is_eof_quoted;
+	t_bool			is_eof_quoted;
 	char			*path;
 
 	token_probe = token_head;
@@ -189,14 +80,9 @@ t_bool	parse_heredoc(t_token *token_head, t_vars *vars)
 		{
 			eof = NULL;
 			if ((is_eof_quoted = get_eof(&eof, token_probe)) == ERR_PARSE_EOF)
-				return (0);//check me
+				return (0);
 			if (!(path = get_doc(eof, is_eof_quoted, vars)))
-			{
-				ft_strdel(&eof);
-				return (0);//check me
-			}
-			//replace tokens
-			ft_strdel(&eof);
+				return (0);
 			token_probe = replace_heredoc_tokens(token_probe, path);
 			ft_strdel(&path);
 			continue ;

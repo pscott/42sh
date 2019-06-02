@@ -12,6 +12,7 @@
 ** then return the token
 */
 
+//TODO should create_token take &size to move it (for the norm !!)
 t_token	*create_token(char *cmdline, size_t size, t_token_type type)
 {
 	t_token	*new_token;

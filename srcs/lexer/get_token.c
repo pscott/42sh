@@ -2,6 +2,15 @@
 #include "lexer.h"
 #include "input.h"
 
+//TODO is double pointer necesary ?
+static t_token	*trim_escaped_newline(t_st_cmd **st_cmd)
+{
+	*st_cmd = get_st_cmd(NULL);
+	(*st_cmd)->st_txt->data_size -= 2;
+	ft_bzero(&(*st_cmd)->st_txt->txt[(*st_cmd)->st_txt->data_size], 2);
+	return (NULL);
+}
+
 static t_token	*get_dquot_token(char **cmdline)
 {
 	t_token			*token;
@@ -16,12 +25,7 @@ static t_token	*get_dquot_token(char **cmdline)
 		   	if ((*cmdline)[i + 1] == '\"')
 				i++;
 			else if ((*cmdline)[i + 1] == '\n')//TODO check me
-			{
-				st_cmd = get_st_cmd(NULL);//make func ?
-				st_cmd->st_txt->data_size -= 2;
-				ft_bzero(&st_cmd->st_txt->txt[st_cmd->st_txt->data_size], 2);
-				return (NULL);
-			}
+				return (trim_escaped_newline(&st_cmd));
 		}
 		i++;
 	}
@@ -75,7 +79,7 @@ static t_token	*get_monochar(char **cmdline)
 
 	if (*(*cmdline + 1) == '\n')
 	{
-		st_cmd = get_st_cmd(NULL);//make func ?
+		st_cmd = get_st_cmd(NULL);//make func ? i did it 'trim_escaped_newline()//TODO need free
 		st_cmd->st_txt->data_size -= 2;
 		ft_bzero(&st_cmd->st_txt->txt[st_cmd->st_txt->data_size], 2);
 		return (NULL);
@@ -122,6 +126,13 @@ static t_token	*check_param_sub_token(char **cmdline)
 	return (token);//tmp
 }
 
+static void		modif_ints(unsigned int *braces_count, int braces_to_add
+				, int *i, int i_to_add)
+{
+	*braces_count += braces_to_add;
+	*i += i_to_add;
+}
+
 //Make a tk_word
 static t_token	*check_arith_exp_token(char **cmdline)
 {
@@ -133,30 +144,22 @@ static t_token	*check_arith_exp_token(char **cmdline)
 	i = -1;
 	while((*cmdline)[++i])
 	{
-		//if (!ft_strncmp("$((", &(*cmdline)[i], 3))
 		if (!ft_strncmp("$((", (*cmdline) + i, 3))
+			modif_ints(&braces_count, 1, &i, 2);
+		else if (!ft_strncmp("))", (*cmdline) + i, 2))
 		{
-			braces_count++;
-			i += 2;//should be 3 ??
-		}
-		//else if (!ft_strncmp("))", &(*cmdline)[i], 2))//syntax douteuse
-		else if (!ft_strncmp("))", (*cmdline) + i, 2))//syntax douteuse
-		{
-			braces_count--;
-			i += 1;//or should be 1 ??
+			modif_ints(&braces_count, -1, &i, 1);
 			if (braces_count == 0)
 			{
-				i++;//test
+				i++;
 				break ;
 			}
 		}
 	}
-	//with previous break, braces should be >= 0
 	if (braces_count == 0)
 		token = create_token(*cmdline, i, tk_word);
 	else
 		return (NULL);
-	//print_token(token);//debug
 	*cmdline = *cmdline + i;
 	return (token);
 }

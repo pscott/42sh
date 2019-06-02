@@ -94,7 +94,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 				if (WTERMSIG(status) != SIGINT && WTERMSIG(status) != SIGPIPE)
 					ft_dprintf(2, "process terminated, received signal : %d\n", WTERMSIG(status));
 		}
-		signal_setup();
+		signals_setup();
 		//Close(STDIN_FILENO); // for fd leaks
 		setup_terminal_settings();
 		vars->cmd_value = WIFSIGNALED(status) ? WTERMSIG(status) : WEXITSTATUS(status);

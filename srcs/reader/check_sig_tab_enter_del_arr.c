@@ -64,7 +64,10 @@ int		check_for_tab(t_st_cmd *st_cmd, const char *buf, t_vars *vars)
 int		check_for_signal(const char *buf)
 {
 	if (ft_strncmp(buf, CTRL_Z, CTRL_Z_LEN + 1) == 0)
+	{
+		sigtstp_handler(SIGTSTP);
 		return (input_continue);
+	}
 	else if (ft_strncmp(buf, CTRL_C, CTRL_C_LEN + 1) == 0)
 	{
 		sigint_handler(SIGINT);

@@ -41,7 +41,7 @@ void			sigint_handler(int signo)
 
 /*
 **	SIGWINCH
-**	Simply writes back the st_cmd
+**	Simply writes back the st_cmd on screen
 */
 
 void		sigwinch_handler(int signo)
@@ -59,20 +59,30 @@ void		sigwinch_handler(int signo)
 	signal(SIGWINCH, sigwinch_handler);
 }
 
+/*
+**	SIGCONT
+**	Setups terminal settings, and writes back the st cmd.
+*/
+
 void		sigcont_handler(int signo)
 {
-	if (setup_terminal_settings() == 0)
-	{
-		reset_terminal_settings();
-		clean_exit(1);
-	}
-	execute_str(INVISIBLE);
-	execute_str(BEGIN_LINE);
-	signal_setup();
+	t_st_cmd	*st_cmd;
+
 	(void)signo;
+	if (setup_terminal_settings() == 0)
+		clean_exit(1);
+	st_cmd = get_st_cmd(NULL);
+	st_cmd = get_first_st_cmd(st_cmd);
+	write_from_start(st_cmd);
+	get_pos(st_cmd, st_cmd->st_txt->tracker);
+	reposition_cursor(st_cmd);
 }
 
-
+/*
+**	SIGTSTP
+**	Clears the screen and resets terminal settings. Then resets the default
+**	behavior for signal and simulates the signal with ioctl
+*/
 
 void			sigtstp_handler(int signo)
 {

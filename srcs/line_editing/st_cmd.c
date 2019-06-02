@@ -134,7 +134,7 @@ t_st_cmd	*init_st_cmd(const char **env)
 	}
 	st_cmd->next = NULL;
 	st_cmd->prev = NULL;
-	get_st_cmd(&st_cmd);
+//	get_st_cmd(&st_cmd);
 	return (st_cmd);
 }
 

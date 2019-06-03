@@ -37,7 +37,7 @@ static void pressed_enter(t_st_cmd *st_cmd, char *buf)
 	get_pos(st_cmd, st_cmd->st_txt->tracker);
 	reposition_cursor(st_cmd);
 	insert_txt(st_cmd, (const char*)buf);
-	write(STDIN_FILENO, "\n", 1);
+	execute_str(PRINT_LINE);
 }
 
 int			checkers(t_st_cmd *st_cmd, t_vars *vars, char *buf)

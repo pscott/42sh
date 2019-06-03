@@ -9,7 +9,8 @@ static int	interrupt_search(t_st_cmd *st_cmd)
 		st_cmd->st_txt->txt[0] = ' ';
 	get_pos(st_cmd, st_cmd->st_txt->tracker);
 	reposition_cursor(st_cmd);
-	write(1, "^C\n", 3);
+	write(STDERR_FILENO, "^C", 2);
+	execute_str(PRINT_LINE);
 	return (ctrl_c_case);
 }
 
@@ -35,7 +36,9 @@ int			switch_and_return(const char buf[64], t_st_cmd *st_cmd)
 	{
 		if (!(st_cmd->st_txt->txt[0]))
 			st_cmd->st_txt->txt[0] = ' ';
-		write(1, "\n", 1);
+		st_cmd->st_txt->txt = ft_realloc(st_cmd->st_txt->txt, st_cmd->st_txt->data_size, &st_cmd->st_txt->malloc_size, 1);
+		st_cmd->st_txt->txt[st_cmd->st_txt->data_size] = '\n';
+		execute_str(PRINT_LINE);
 		return (enter_case);
 	}
 	else

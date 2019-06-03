@@ -1,32 +1,6 @@
 #include "heredoc.h"
 
 /*
-** save_heredoc
-** find a unique file name
-** write the input into the new file
-** return the path to it
-*/
-
-static char	*save_heredoc(char **txt)
-{
-	char	*path;
-	int		fd;
-
-	if (!(path = find_uniq_filename()))//protect better
-		return (NULL);
-	if ((fd = open(path, O_CREAT | O_RDWR | O_APPEND, 0666)) == -1)
-	{
-		ft_dprintf(2, "%s: an open() error occurs\n", SHELL_NAME);
-		return (NULL);
-	}
-	if (write(fd, *txt, ft_strlen(*txt)) == -1)
-		ft_dprintf(2, "%s: heredoc write error\n", SHELL_NAME);
-	close(fd);
-	ft_strdel(txt);
-	return (path);
-}
-
-/*
 ** get_heredoc
 ** read input from user
 ** concatenate the input
@@ -99,7 +73,10 @@ char		*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 		ft_strdel(&txt);
 		return (NULL);
 	}
-	if (!(path = save_heredoc(&txt)))
+	if (!(path = write_heredoc_in_file(&txt)))
+	{
+		ft_strdel(&txt);
 		return (NULL);
+	}
 	return (path);
 }

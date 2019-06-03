@@ -13,7 +13,7 @@
 # define ERR_PARSE_EOF 2
 
 char	*eof_join(char *eof, t_token *token);
-char	*find_uniq_filename(void);
 t_bool	parse_heredoc(t_token *token_head, t_vars *vars);
 char	*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars);
+char	*write_heredoc_in_file(char **txt);
 #endif

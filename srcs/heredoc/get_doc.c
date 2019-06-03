@@ -95,7 +95,10 @@ char		*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 	ft_strdel(&path);
 	ft_strdel(&eof);
 	if (!is_eof_quoted && !parse_dollars_str(&txt, vars))
+	{
+		ft_strdel(&txt);
 		return (NULL);
+	}
 	if (!(path = save_heredoc(&txt)))
 		return (NULL);
 	return (path);

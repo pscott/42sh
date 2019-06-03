@@ -5,7 +5,7 @@
 #include "cmd_parsing.h"
 #include "errors.h"
 
-static void			access_and_exec(const char *cmd_path, const char **argv,
+static void			access_and_exec(char *cmd_path, char **argv,
 					const char **env)
 {
 	int				access;
@@ -14,7 +14,6 @@ static void			access_and_exec(const char *cmd_path, const char **argv,
 	{
 		execve(cmd_path, (char*const*)argv, (char*const*)env);
 		print_errors(ERR_EXECUTE, ERR_EXECUTE_STR, cmd_path);
-		clean_exit(1);
 	}
 	else
 	{
@@ -23,6 +22,8 @@ static void			access_and_exec(const char *cmd_path, const char **argv,
 		else if (access == ERR_PERM)
 			print_errors(ERR_PERM, ERR_PERM_STR, cmd_path);
 	}
+	ft_strdel(&cmd_path);
+	ft_free_ntab(argv);
 }
 
 /*
@@ -52,10 +53,12 @@ static t_bool		execute_argv(char **argv, t_vars *vars)
 	else if ((cmd_path = get_cmd_path(argv, vars->env_vars, 1)))
 		;
 	else
+	{
+		ft_strdel(&cmd_path);
+		ft_free_ntab(argv);
 		return (ERR_CMD);
-	access_and_exec(cmd_path, (const char **)argv,
-			(const char**)vars->env_vars);//good tabulation?
-	ft_strdel(&cmd_path); // useless becasue of exit before
+	}
+	access_and_exec(cmd_path, argv, (const char**)vars->env_vars);
 	return (0);
 }
 

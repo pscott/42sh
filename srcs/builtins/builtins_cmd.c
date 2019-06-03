@@ -9,7 +9,7 @@
 **	Use check_builtins before calling exec_builtins
 */
 
-static t_bool	exec_builtins_2(char **argv, t_vars *vars, int cmd_id)
+static t_bool	exec_builtins_2(char **argv, t_vars *vars, int cmd_id) // tableau pointeur fonctions
 {
 	int			ret;
 
@@ -61,6 +61,7 @@ t_bool			exec_builtins(char **argv, t_vars *vars, int cmd_id)
 	}
 	else
 		ret = exec_builtins_2(argv, vars, cmd_id);
+	ft_free_ntab(argv);
 	return (ret);
 }
 

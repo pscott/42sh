@@ -53,36 +53,40 @@ int					check_fd_prev(t_token *prev)
 
 /*
 **	Calls the appropriate function for the current redirection token.
+**	Returns 0 on success, > 0 on fail.
 */
 
-static t_bool		apply_redirections(t_token *redir, t_token *prev, int mode)
+static int	apply_redirections(t_token *redir, t_token *prev, int in_fork)
 {
 	if (!redir)
 		return (0);
 	else if (ft_strncmp(redir->content, ">", 2) == 0)
-		return (redir_great(redir, prev, mode));
+		return (redir_great(redir, prev, in_fork));
 	else if (ft_strncmp(redir->content, ">&", 3) == 0)
-		return (redir_fd_great(redir, prev, mode));
+		return (redir_fd_great(redir, prev, in_fork));
 	else if (ft_strncmp(redir->content, ">>", 3) == 0)
-		return (redir_dgreat(redir, prev, mode));
+		return (redir_dgreat(redir, prev, in_fork));
 	else if (ft_strncmp(redir->content, "<", 2) == 0)
-		return (redir_less(redir, prev, mode));
+		return (redir_less(redir, prev, in_fork));
 	else if (ft_strncmp(redir->content, "<&", 3) == 0)
-		return (redir_fd_less(redir, prev, mode));
+		return (redir_fd_less(redir, prev, in_fork));
 	else
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 /*
 **	Parses the simple_command for redirections and applies them
 **	Mode == 1 means that it's a no_pipe_builtin call
+**	Returns 0 on success
+**	Returns error number on failure
 */
 
-t_bool				parse_redirections(t_token *token_head, int mode)
+int	parse_redirections(t_token *token_head, int in_fork)
 {
 	t_token	*current;
 	t_token	*prev;
+	int		ret;
 
 	current = token_head;
 	if (!current)
@@ -91,10 +95,10 @@ t_bool				parse_redirections(t_token *token_head, int mode)
 	while (is_simple_cmd_token(current))
 	{
 		if (current->type == tk_redirection)
-			if (apply_redirections(current, prev, mode) == 0)
-				return (0);
+			if ((ret = apply_redirections(current, prev, in_fork)) > 0)
+				return (ret);
 		prev = current;
 		current = current->next;
 	}
-	return (1);
+	return (0);
 }

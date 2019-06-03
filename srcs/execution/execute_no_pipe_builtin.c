@@ -46,7 +46,7 @@ static void		execute_exit(int exitno)
 
 /*
 **	Parses expands, redirections, and executes builtin on the real token_list.
-**	Returns -1 on failed expand, else returns 0.
+**	Returns 0 on success : else returns error number
 */
 
 static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
@@ -54,10 +54,10 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	char					**argv;
 	int						ret;
 
-	if (parse_expands(token_head, vars) == 0)
-		return (-1);
-	if (parse_redirections(token_head, 1) == 0) // would need to be special and to save fd in list
-		return (-1);
+	if ((ret = parse_expands(token_head, vars)) > 0)
+		return (ret);
+	if ((ret = parse_redirections(token_head, 1)) > 0) // would need to be special and to save fd in list
+		return (ret);
 	argv = get_argv_from_token_lst(token_head);
 	reset_terminal_settings();
 	ret = exec_builtins(argv, vars, cmd_id);
@@ -100,25 +100,25 @@ static char		**fake_argv(t_token *token_head, t_vars *vars)
 **	does not execute it.
 **	If argv[0] is a builtin:
 **			- if it got executed, returns 0.
-**			- if there was an error returns -1.
-**	Else (argv[0] is NOT a builtin) returns 1.
+**			- if there was an error returns error number
+**	Else (argv[0] is NOT a builtin) returns -1.
 */
 
 int			execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
 {
 	char					**argv;
 	unsigned int			cmd_id;
-	int			ret;
+	int						ret;
 	char					*cmd_path;
 
 	if (!(argv = fake_argv(token_head, vars)))
 		return (1);
 	if (ft_strchr(argv[0], '/'))
-		ret = 1;
+		ret = -1;
 	else if ((cmd_id = check_builtins(argv)))
 		ret = no_pipe_builtin(token_head, vars, cmd_id);
 	else if ((cmd_path = check_hashmap(argv[0], vars->hashmap, hash_exec)))
-		ret = 1;
+		ret = -1;
 	else
 	{
 		if ((cmd_path = get_cmd_path(argv, vars->env_vars, 0)))
@@ -127,8 +127,9 @@ int			execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
 			check_hashmap(argv[0], vars->hashmap, hash_exec);
 			ft_strdel(&cmd_path);
 		}
-		ret = 1;
+		ret = -1;
 	}
 	ft_free_ntab(argv);
+	ft_dprintf(2, "RET: %d\n", ret);
 	return (ret);
 }

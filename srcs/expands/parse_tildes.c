@@ -10,7 +10,7 @@
 **	Replaces the str with the '~' expanded.
 */
 
-t_bool			replace_tilde(char **str, const char **env)
+int			replace_tilde(char **str, const char **env)
 {
 	char	*new_str;
 	char	*home_str;
@@ -109,7 +109,7 @@ static char	*get_to_find_exp_tilde_user(char **str)
 	return (ret);
 }
 
-static t_bool	replace_tilde_users(char **str)
+static int	replace_tilde_users(char **str)
 {
 	char			*to_find;
 
@@ -124,7 +124,7 @@ static t_bool	replace_tilde_users(char **str)
 **	or the home directory of the specified user (~root/)
 */
 
-t_bool			parse_tildes(t_token *token_head, const char **env)
+int			parse_tildes(t_token *token_head, const char **env)
 {
 	t_token *prev_token;
 	t_token *curr_token;

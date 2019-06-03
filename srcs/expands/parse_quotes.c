@@ -6,7 +6,7 @@
 **	orginal type for redirections.
 */
 
-static t_bool	expand_squotes(t_token *token_head)
+static int	expand_squotes(t_token *token_head)
 {
 	char		*old_content;
 
@@ -22,7 +22,7 @@ static t_bool	expand_squotes(t_token *token_head)
 	return (0);
 }
 
-static t_bool	is_valid_dquotes_escape(char c)
+static int	is_valid_dquotes_escape(char c)
 {
 	if (c == '$' || c == '`' || c == '"' || c == '\\' || c == '\n')
 		return (1);
@@ -46,7 +46,7 @@ static size_t	get_new_len(char *str, size_t old_len)
 	return (res);//tmp
 }
 
-static t_bool	expand_dquotes(t_token	*token_head)
+static int	expand_dquotes(t_token	*token_head)
 {
 	char		*new_str;
 	size_t		old_len;
@@ -75,9 +75,9 @@ static t_bool	expand_dquotes(t_token	*token_head)
 
 //it can contain " and ' ! but only trim the first and last: [0], [strlen(content)]
 
-t_bool			parse_quotes(t_token *token_head)
+int			parse_quotes(t_token *token_head)
 {
-	t_bool		res;
+	int		res;
 
 	res = 0;
 	while (token_head && token_head->type < tk_pipe)

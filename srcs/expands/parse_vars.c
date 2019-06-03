@@ -92,7 +92,7 @@ char				*get_var_name(char *str)
 ** return 1 otherwise
 */
 
-t_bool				parse_vars(char **str, t_vars *vars)
+int				parse_vars(char **str, t_vars *vars)
 {
 	size_t		i;
 	t_bool		escaped;

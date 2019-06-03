@@ -40,7 +40,12 @@ static	int		change_token_close(t_token *next)
 	return (-1);
 }
 
-t_bool			redir_fd_great(t_token *redir, t_token *prev, int mode)
+/*
+**	Returns 0 on success
+**	Else returns error number
+*/
+
+int			redir_fd_great(t_token *redir, t_token *prev, int mode)
 {
 	int				old_fd;
 	t_token			*next;
@@ -66,5 +71,5 @@ t_bool			redir_fd_great(t_token *redir, t_token *prev, int mode)
 	redir->type = tk_eat;
 	if (new_fd != -1)
 		next->type = tk_eat;
-	return (1);
+	return (0);
 }

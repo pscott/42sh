@@ -3,7 +3,12 @@
 #include "libterm.h"
 #include <fcntl.h>
 
-t_bool		redir_less(t_token *redir, t_token *prev, int mode)
+/*
+**	Returns 0 on success
+**	Else returns error number
+*/
+
+int		redir_less(t_token *redir, t_token *prev, int mode)
 {
 	int		old_fd;
 	t_token	*next;
@@ -14,7 +19,7 @@ t_bool		redir_less(t_token *redir, t_token *prev, int mode)
 	if (old_fd > 4863)
 	{
 		ft_dprintf(2, "42sh: %d: bad file descriptor\n", old_fd);
-		return (0);
+		return (1);
 	}
 	next = redir->next;
 	while (next->type == tk_eat)
@@ -24,8 +29,8 @@ t_bool		redir_less(t_token *redir, t_token *prev, int mode)
 	if ((new_fd = open(next->content, O_RDONLY)) < 0)
 	{
 		ft_dprintf(2, "42sh: %s: No such file or directory\n", next->content);
-		return (0);
+		return (1);
 	}
 	redirect(new_fd, old_fd, mode);
-	return (1);
+	return (0);
 }

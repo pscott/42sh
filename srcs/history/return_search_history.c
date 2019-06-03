@@ -16,7 +16,8 @@ static int	interrupt_search(t_st_cmd *st_cmd)
 
 int			switch_and_return(char buf, t_st_cmd *st_cmd)
 {
-	char *newcmd;
+	char	*newcmd;
+	t_vars	*vars;
 
 	if (buf == 3)
 		return (interrupt_search(st_cmd));
@@ -28,8 +29,9 @@ int			switch_and_return(char buf, t_st_cmd *st_cmd)
 		newcmd = ft_strdup(st_cmd->st_txt->txt);
 	if (!newcmd)
 		ERROR_MEM;
+	vars = get_vars(NULL);
 	move_cursor(st_cmd->start_pos.col, st_cmd->start_pos.row);
-	ft_printf("%s", st_cmd->st_prompt->prompt);
+	ft_printf("%s%s%s", vars->cmd_value ? RED : GREEN, st_cmd->st_prompt->prompt, FG_DFL);
 	switch_st_cmd(st_cmd, newcmd);
 	free(newcmd);
 	if (buf == '\r'|| buf == '\n')

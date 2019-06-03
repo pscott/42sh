@@ -60,10 +60,10 @@ static t_bool	expand_dquotes(t_token	*token_head)
 		ERROR_MEM;
 	i = 1;
 	j = 0;
-	while (i + j < new_len + 1)
+	while (i < new_len + 1)
 	{
 		if (token_head->content[i + j] == '\\'
-				&& is_valid_dquotes_escape(token_head->content[i + j + 1]))
+			&& is_valid_dquotes_escape(token_head->content[i + j + 1]))
 			j++;
 		new_str[i - 1] = token_head->content[i + j];
 		i++;

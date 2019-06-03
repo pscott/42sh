@@ -50,13 +50,14 @@ t_bool						handle_input(t_st_cmd *st_cmd, t_vars *vars);
 
 int				checkers(t_st_cmd *st_cmd, t_vars *vars, char *buf);
 char						*auto_completion(char *input, unsigned int len,
-								t_vars *vars);
+		t_vars *vars);
 int				check_for_arrows(t_st_cmd *st_cmd, const char *buf);
 int				check_for_quit(t_st_cmd *st_cmd, const char *buf);
 int				check_for_enter(const char *buf);
 int				check_for_signal(const char *buf);
 int				check_for_delete(t_st_cmd *st_cmd, char *buf);
-int				check_for_search_histo(t_st_cmd *st_cmd, const char *buf_received);
+int				check_for_search_histo(t_st_cmd *st_cmd,
+		const char *buf_received);
 int				check_for_tab(t_st_cmd *st_cmd, const char *buf, t_vars *vars);
 
 /*
@@ -67,7 +68,6 @@ void						move_arrow_left(t_st_cmd *st_cmd);
 void						move_arrow_right(t_st_cmd *st_cmd);
 void						go_to_start(t_st_cmd *st_cmd);
 void						go_to_end(t_st_cmd *st_cmd);
-
 
 /*
 **	Backspace and delete functions
@@ -95,7 +95,7 @@ int							input_loop(t_st_cmd *st_cmd, t_vars *vars);
 size_t						ft_printable_len(const char *str);
 char						*ft_strdup_print(const char *str);
 void						insert_str(t_st_cmd *st_cmd, const char *buf,
-								size_t printable_len);
+		size_t printable_len);
 
 /*
 **	st_txt functions
@@ -110,7 +110,8 @@ void						free_st_txt(t_st_txt **st_txt);
 
 t_st_prompt					*init_st_prompt(const char *prompt);
 void						print_prompt(t_st_cmd *st_cmd);
-void						print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf, int prompt_type);
+void						print_prompt_search_histo(t_st_cmd *st_cmd,
+		const char *buf, int prompt_type);
 void						free_st_prompt(t_st_prompt **st_prompt);
 
 /*
@@ -129,6 +130,5 @@ t_st_cmd					*init_st_cmd(const char **env);
 char						*concatenate_txt(t_st_cmd *st_cmd);
 void						free_st_cmd(t_st_cmd *st_cmd);
 void						free_all_st_cmds(t_st_cmd **st_cmd);
-
 
 #endif

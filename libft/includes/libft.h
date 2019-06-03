@@ -97,5 +97,4 @@ int				ft_ntab_len(const char **tabs);
 void			ft_initialize_str(char **s1, char **s2, char **s3,
 		char **s4);
 
-
 #endif

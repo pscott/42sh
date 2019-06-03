@@ -4,7 +4,6 @@
 # include "ftsh.h"
 # include "input.h"
 
-
 /*
 **	Window struct
 */
@@ -19,7 +18,6 @@ void						update_start_pos(t_st_cmd *st_cmd);
 void						get_pos(t_st_cmd *st_cmd, size_t tracker);
 void						go_back_to_start(t_st_cmd *st_cmd);
 void						reposition_cursor(t_st_cmd *st_cmd);
-
 
 /*
 **	Writing functions

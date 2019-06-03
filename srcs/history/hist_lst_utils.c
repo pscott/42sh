@@ -22,6 +22,8 @@ void		free_hist_lst(t_hist_lst *hist_lst)
 	t_hist_lst *tmp;
 	t_hist_lst *probe;
 
+	if (isatty(STDIN_FILENO) == 0)
+		return ;
 	if (!hist_lst)
 		return ;
 	probe = get_begin_lst(hist_lst);

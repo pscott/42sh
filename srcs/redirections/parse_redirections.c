@@ -6,8 +6,10 @@
 **	STDIN
 */
 
-void	redirect(int old_fd, int new_fd)
+void	redirect(int old_fd, int new_fd, int save)
 {
+	if (save)
+		save_reset_stdfd(1);
 	if (old_fd == -1)
 	{
 		close(new_fd);
@@ -55,20 +57,18 @@ int		check_fd_prev(t_token *prev) //should rename
 **	Calls the appropriate function for the current redirection token.
 */
 
-t_bool	apply_redirections(t_token *redir, t_token *prev) //static ?//use redir_table ?
+static t_bool	apply_redirections(t_token *redir, t_token *prev, int mode)
 {
 	if (!redir)
 		return (0);
 	else if (ft_strncmp(redir->content, ">", 2) == 0) // only >
-		redir_great(redir, prev);
+		redir_great(redir, prev, mode);
 	else if (ft_strncmp(redir->content, ">&", 3) == 0)
-		redir_fd_great(redir, prev);
+		redir_fd_great(redir, prev, mode);
 	else if (ft_strncmp(redir->content, ">>", 3) == 0)
-		redir_dgreat(redir, prev);
+		redir_dgreat(redir, prev, mode);
 	else if (ft_strncmp(redir->content, "<", 2) == 0)
-		return (redir_less(redir, prev));
-	//else if (ft_strncmp(redir->content, "<<", 3) == 0) //TODO//useless now as it's checked before
-	//	redir_dless(redir, prev);
+		return (redir_less(redir, prev, mode));
 	else
 		return (0);
 	return (1);
@@ -76,9 +76,10 @@ t_bool	apply_redirections(t_token *redir, t_token *prev) //static ?//use redir_t
 
 /*
 **	Parses the simple_command for redirections and applies them
+**	Mode == 1 means that it's a no_pipe_builtin call
 */
 
-t_bool	parse_redirections(t_token *token_head)
+t_bool	parse_redirections(t_token *token_head, int mode)
 {
 	t_token	*current;
 	t_token	*prev;
@@ -90,7 +91,7 @@ t_bool	parse_redirections(t_token *token_head)
 	while (is_simple_cmd_token(current))
 	{
 		if (current->type == tk_redirection)
-			if (apply_redirections(current, prev) == 0)
+			if (apply_redirections(current, prev, mode) == 0)
 				return (0);
 		prev = current;
 		current = current->next;

@@ -2,7 +2,7 @@
 #include "cmd_parsing.h"
 #include <fcntl.h>
 
-t_bool		redir_great(t_token *redir, t_token *prev)
+t_bool		redir_great(t_token *redir, t_token *prev, int mode)
 {
 	int		old_fd;
 	t_token	*next;
@@ -24,7 +24,7 @@ t_bool		redir_great(t_token *redir, t_token *prev)
 		ft_dprintf(2, "error opening file : %s\n", next->content);
 		return (0);
 	}
-	redirect(new_fd, old_fd);
+	redirect(new_fd, old_fd, mode);
 	redir->type = tk_eat;
 	next->type = tk_eat;
 	return (1);

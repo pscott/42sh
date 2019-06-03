@@ -67,12 +67,12 @@ t_bool				parse_and_exec(t_token *token_head, int in,
 {
 	char			**argv;
 
-	redirect(in, STDIN_FILENO);
-	redirect(out, STDOUT_FILENO);
+	redirect(in, STDIN_FILENO, 0);
+	redirect(out, STDOUT_FILENO, 0);
 	if (!(parse_expands(token_head, vars)))//TODO check order
 		return (0);
 	reset_terminal_settings();
-	if (parse_redirections(token_head) == 0)
+	if (parse_redirections(token_head, 0) == 0)
 		return (0);
 	if (!(argv = get_argv_from_token_lst(token_head)))
 		return (0); // return value ?

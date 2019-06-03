@@ -66,6 +66,7 @@ int				case_exit(char **argv, int *exitno)
 {
 	int			ret;
 	
+	save_reset_stdfd(0);
 	if ((ret = check_validity_args(argv, exitno)) == 1)
 		return (1);
 	else if (argv[2])

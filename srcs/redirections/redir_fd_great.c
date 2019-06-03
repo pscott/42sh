@@ -40,7 +40,7 @@ static	int		change_token_close(t_token *next)
 	return (-1);
 }
 
-t_bool			redir_fd_great(t_token *redir, t_token *prev)
+t_bool			redir_fd_great(t_token *redir, t_token *prev, int mode)
 {
 	int				old_fd;
 	t_token			*next;
@@ -62,7 +62,7 @@ t_bool			redir_fd_great(t_token *redir, t_token *prev)
 		new_fd = ft_atoi(next->content);
 	if (new_fd != -1 && fstat(new_fd, &buf) == -1)
 		return (errors_fd_great(NULL, 2, new_fd));
-	redirect(new_fd, old_fd);
+	redirect(new_fd, old_fd, mode);
 	redir->type = tk_eat;
 	if (new_fd != -1)
 		next->type = tk_eat;

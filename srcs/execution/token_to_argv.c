@@ -85,6 +85,7 @@ char		**get_argv_from_token_lst(t_token *token_head)
 {
 	unsigned int	argv_len;
 	t_token			*probe;
+	char			**words;
 
 	if (!(probe = token_head))
 		return (NULL);
@@ -92,7 +93,17 @@ char		**get_argv_from_token_lst(t_token *token_head)
 	while (probe)
 	{
 		if (is_argv_token(probe))
+		{
 			argv_len++;
+			if (probe->type == tk_word)
+			{
+				if (!(words = ft_strsplit(probe->content, " \t\n")))
+					ERROR_MEM;
+				argv_len += ft_ntab_len((const char**)words)
+					? ft_ntab_len((const char**)words) - 1 : 0;
+				ft_free_ntab(words);
+			}
+		}
 		while (is_argv_token(probe))
 			probe = probe->next;
 		while (probe && probe->type == tk_eat)

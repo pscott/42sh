@@ -6,7 +6,7 @@
 /*   By: mporzier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 14:01:01 by mporzier          #+#    #+#             */
-/*   Updated: 2019/06/01 19:35:43 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/03 14:49:25 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,13 @@ int					free_lst(t_op *lst, int err);
 void				put_lst_right(t_op *lst, t_op *new);
 void				put_lst_left(t_op *lst, t_op *new);
 void				put_lst_back(t_op *lst, t_op *new);
-int					check_chars(char *str);
+int					check_chars(char *str, t_vars *vars);
 long long			ft_atoll(char *str);
 char				*ft_lltoa(long long n);
-int					expansion_arith(char *str, char ***vars, long long *result);
+//int					expansion_arith(char *str, char ***vars, long long *result
+//					, t_bool verbose);
+int					expansion_arith(char *str, long long *result
+					, t_vars *vars);
 int					free_tokens(t_tok *tokens, int ret);
 
 int					get_nb_len(char *str);

@@ -81,11 +81,13 @@ static char		**fake_argv(t_token *token_head, t_vars *vars)
 	t_token					*cpy;
 	char					**argv;
 
+	vars->verbose = 0;
 	cpy = copy_tokens(token_head);
 	parse_expands(cpy, vars);
 	fake_redir_parser(cpy);
 	argv = get_argv_from_token_lst(cpy);
 	free_token_list(cpy);
+	vars->verbose = 1;
 	return (argv);
 }
 

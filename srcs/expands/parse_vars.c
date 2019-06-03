@@ -37,22 +37,35 @@ static void			substitute_param(char **str, size_t *i
 	ft_strdel((char**)&var_name);
 }
 
-static const char	*get_param_sub_name(const char *str)
+static const char 	*bad_substitution(const char *str, t_vars *vars)//TODO make verbose mod ?
 {
-	size_t	i;
+	if (vars->verbose)
+	{
+		ft_dprintf(STDERR_FILENO, "%s: %s: bad substitution\n"
+			, SHELL_NAME, str);
+	}
+	return (NULL);
+}
+
+static const char	*get_param_sub_name(const char *str, t_vars *vars)
+{
+	size_t		i;
+	const char *var_name;
 
 	i = 1;
 	while (str[++i] && str[i] != '}')
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
-		{
-			ft_dprintf(STDERR_FILENO, "%s: %s: bad substitution\n"
-				, SHELL_NAME, str);
-			return (NULL);
-		}
+			return (bad_substitution(str, vars));
 	}
+	if (i == 2 && str[i] == '}')
+		return (bad_substitution(str, vars));
 	if (str[i] == '}')//check me
-		return (ft_strndup(&str[2], i - 2));
+	{
+		if (!(var_name = ft_strndup(&str[2], i - 2)))
+			ERROR_MEM;
+		return (var_name);
+	}
 	return (NULL);
 }
 
@@ -71,7 +84,6 @@ char				*get_var_name(char *str)
 		ERROR_MEM;
 	return (var_name);
 }
-
 
 /*
 ** parse_vars
@@ -93,7 +105,7 @@ t_bool				parse_vars(char **str, t_vars *vars)
 		if (!escaped && !ft_strncmp("${", (*str) + i, 2)
 				&& is_terminated("${", "}", (*str) + i))
 		{
-			if (!(var_name = get_param_sub_name((*str) + i)))//this print 'bad sub'
+			if (!(var_name = get_param_sub_name((*str) + i, vars)))//this print 'bad sub'//TODO add vars for verbose
 				return (0);
 			substitute_param(str, &i, var_name, vars);
 		}

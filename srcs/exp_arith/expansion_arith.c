@@ -5,18 +5,23 @@
 **	Arithmetic expansion errors
 */
 
-static	int		err_msgs(int err)
+static	int		err_msgs(int err, t_bool verbose)
 {
-	if (err == 1)
-		ft_printf("Syntax error : unauthorized character\n");
-	else if (err == 2)
-		ft_printf("Error malloc\n");
-	else if (err == 3)
-		ft_printf("Syntax error : several numbers in a row\n");
-	else if (err == 4)
-		ft_printf("Error : division by 0\n");
-	else if (err == 5)
-		ft_printf("Syntax error : number missing\n");
+	if (verbose)
+	{
+		if (err == 2)
+			ft_dprintf(STDERR_FILENO, "%s: error malloc\n", SHELL_NAME);
+		else if (err == 3)
+			ft_dprintf(STDERR_FILENO,
+				"%s: syntax error : several numbers in a row\n",
+				SHELL_NAME);
+		else if (err == 4)
+			ft_dprintf(STDERR_FILENO, "%s: error : division by 0\n",
+				SHELL_NAME);
+		else if (err == 5)
+			ft_dprintf(STDERR_FILENO, "%s: syntax error : number missing\n",
+				SHELL_NAME);
+	}
 	return (err);
 }
 
@@ -25,7 +30,7 @@ static	int		err_msgs(int err)
 **	expansion, and gives the result in the 'result' argument is no err happened
 */
 
-int				expansion_arith(char *str, char ***vars, long long *result)
+int				expansion_arith(char *str, long long *result, t_vars *vars)
 {
 	int		ret;
 	t_op	*lst;
@@ -35,16 +40,13 @@ int				expansion_arith(char *str, char ***vars, long long *result)
 	k = 0;
 	if (ft_str_isempty(str))//assign 0 to result ?
 		return (0);
-	if (check_chars(str))
-	{
-		ft_strdel(&str);//penzo test
-		return (err_msgs(1));
-	}
-	if (op_tokenizer(str, &tokens, vars))
-		return (err_msgs(2));
+	if (check_chars(str, vars))
+		return (err_msgs(1, vars->verbose));
+	if (op_tokenizer(str, &tokens, &vars->shell_vars))
+		return (err_msgs(2, vars->verbose));
 	lst = build_op_list(tokens);
-	ret = exec_op_list(lst, vars, result);
+	ret = exec_op_list(lst, &vars->shell_vars, result);
 	free_tokens(tokens, 0);
 	free_lst(lst, 0);
-	return (err_msgs(ret));
+	return (err_msgs(ret, vars->verbose));
 }

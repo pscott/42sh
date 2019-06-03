@@ -34,7 +34,7 @@ static int	init_vars(t_vars *vars, int argc, char **argv, char **env)
 	vars->hashmap = init_hashmap(INIT_HASH_SIZE);
 	vars->cmd_value = 0;
 	vars->shell_vars = NULL;
-	vars->verbose = 0;
+	vars->verbose = 1;//should be 0 ?
 	get_vars(vars);
 	if (!(vars->env_vars = init_env((const char **)env)))
 		return (1);

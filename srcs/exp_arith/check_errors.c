@@ -34,7 +34,7 @@ static	int		ft_isop(char c, char d, int *i)
 **	Check unauthorized characters, and bad syntaxs of comparisons
 */
 
-int				check_chars(char *str)
+int				check_chars(char *str, t_vars *vars)
 {
 	int i;
 
@@ -44,7 +44,9 @@ int				check_chars(char *str)
 		if (!ft_isalnum(str[i]) && !ft_isop(str[i], str[i + 1], &i)
 				&& !ft_is_white_space(str[i]))
 		{
-			ft_printf("ERROR wrong char = %c\n", str[i]);
+			if (vars->verbose)
+				ft_dprintf(STDERR_FILENO, "%s: unexpected character '%c'\n",
+					SHELL_NAME, str[i]);
 			return (1);
 		}
 		i++;

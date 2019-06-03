@@ -13,9 +13,9 @@ static t_token	*trim_escaped_newline(t_st_cmd **st_cmd)
 
 static t_token	*get_dquot_token(char **cmdline)
 {
-	t_token			*token;
+	t_token		*token;
 	t_st_cmd	*st_cmd;
-	size_t			i;
+	size_t		i;
 
 	i = 1;
 	while ((*cmdline)[i] != 0 && (*cmdline)[i] != '"')
@@ -156,11 +156,10 @@ static t_token	*check_arith_exp_token(char **cmdline)
 			}
 		}
 	}
-	if (braces_count == 0)
-		token = create_token(*cmdline, i, tk_word);
+	if (braces_count == 0 && (token = create_token(*cmdline, i, tk_word)))
+		*cmdline = *cmdline + i;
 	else
 		return (NULL);
-	*cmdline = *cmdline + i;
 	return (token);
 }
 

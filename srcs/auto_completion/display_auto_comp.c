@@ -38,6 +38,8 @@ static int	display_various(t_auto_comp *match, char **ret,
 	int				rows;
 
 	count = len_lst(match);
+	if (to_find)
+		*ret = ft_strdup(to_find);
 	if (count > MAX_DISPLAY)
 		if ((is_display(count)) == 1)
 			return (1);
@@ -49,8 +51,6 @@ static int	display_various(t_auto_comp *match, char **ret,
 	while (match->prev)
 		match = match->prev;
 	real_display_various(match, count, cols, rows);
-	if (to_find)
-		*ret = ft_strdup(to_find);
 	return (0);
 }
 
@@ -133,7 +133,9 @@ char		*get_ret_or_display_matches(t_auto_comp *match,
 			ERROR_MEM;
 	}
 	else
+	{
 		display_various(match, &ret_str, to_find);
+	}
 	del_match(match);
 	return (ret_str);
 }

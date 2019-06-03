@@ -51,7 +51,6 @@ void	insert_str(t_st_cmd *st_cmd, const char *buf,
 	st_txt = st_cmd->st_txt;
 	if (!(printable_buf = ft_strdup_print(buf)))
 		ERROR_MEM;
-	print_len = ft_strlen(printable_buf);
 	if (!(end_line = ft_strdup(&st_txt->txt[st_txt->tracker])))
 		ERROR_MEM;
 	ft_strcpy(&st_txt->txt[st_txt->tracker + print_len], end_line);

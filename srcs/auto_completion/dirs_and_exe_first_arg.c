@@ -34,8 +34,9 @@ static int				find_matching_dirs_and_exe_even_hidden
 	while ((ent = readdir(dir)))
 	{
 		tmp = NULL;
-		if ((!to_find[0] || (!compare_entry(to_find, ent->d_name))) &&
-			ft_strncmp("..", ent->d_name, 3) && ft_strncmp(".", ent->d_name, 2))
+		if ((!to_find[0] || (!compare_entry(to_find, ent->d_name)))
+			&& ft_strncmp("..", ent->d_name, 3)
+			&& ft_strncmp(".", ent->d_name, 2))
 			if (!get_needed_values_to_create_match_link(&tmp, ent, directory))
 			{
 				create_match_link(match, tmp);

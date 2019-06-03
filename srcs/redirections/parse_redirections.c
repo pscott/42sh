@@ -6,7 +6,7 @@
 **	STDIN
 */
 
-void	redirect(int old_fd, int new_fd, int save)
+void				redirect(int old_fd, int new_fd, int save)
 {
 	if (save)
 		save_reset_stdfd(1);
@@ -17,10 +17,10 @@ void	redirect(int old_fd, int new_fd, int save)
 		if (dup2(old_fd, new_fd) != -1)
 		{
 			if (old_fd > 2)
-				close(old_fd); //check close return value ?
+				close(old_fd);
 		}
 		else
-			ft_dprintf(2, "error with dup2: old_fd: %d, new_fd: %d\n", old_fd, new_fd);
+			ft_dprintf(2, "42sh: error: dup2 failed\n");
 	}
 }
 
@@ -29,7 +29,7 @@ void	redirect(int old_fd, int new_fd, int save)
 **	Returns -1 if it is not.
 */
 
-int		check_fd_prev(t_token *prev) //should rename 
+int					check_fd_prev(t_token *prev)
 {
 	int	i;
 
@@ -55,11 +55,11 @@ int		check_fd_prev(t_token *prev) //should rename
 **	Calls the appropriate function for the current redirection token.
 */
 
-static t_bool	apply_redirections(t_token *redir, t_token *prev, int mode)
+static t_bool		apply_redirections(t_token *redir, t_token *prev, int mode)
 {
 	if (!redir)
 		return (0);
-	else if (ft_strncmp(redir->content, ">", 2) == 0) // only >
+	else if (ft_strncmp(redir->content, ">", 2) == 0)
 		return (redir_great(redir, prev, mode));
 	else if (ft_strncmp(redir->content, ">&", 3) == 0)
 		return (redir_fd_great(redir, prev, mode));
@@ -79,7 +79,7 @@ static t_bool	apply_redirections(t_token *redir, t_token *prev, int mode)
 **	Mode == 1 means that it's a no_pipe_builtin call
 */
 
-t_bool	parse_redirections(t_token *token_head, int mode)
+t_bool				parse_redirections(t_token *token_head, int mode)
 {
 	t_token	*current;
 	t_token	*prev;

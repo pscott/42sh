@@ -45,7 +45,7 @@ t_bool			redir_fd_less(t_token *redir, t_token *prev, int mode)
 	int				old_fd;
 	t_token			*next;
 	int				new_fd;
-	struct	stat	buf;
+	struct stat		buf;
 
 	if ((old_fd = check_fd_prev(prev)) < 0)
 		old_fd = STDIN_FILENO;

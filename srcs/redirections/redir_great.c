@@ -16,7 +16,7 @@ t_bool		redir_great(t_token *redir, t_token *prev, int mode)
 		return (0);
 	}
 	next = redir->next;
-	while (next->type == tk_eat) // need functions that does this
+	while (next->type == tk_eat)
 		next = next->next;
 	if ((new_fd = open(next->content, O_WRONLY | O_CREAT | O_TRUNC,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) < 0)

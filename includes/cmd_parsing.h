@@ -3,6 +3,7 @@
 
 # include "ftsh.h"
 # include "lexer.h"
+# define IFS " \t\n"
 
 int				parse_cmdline(t_token *token, t_vars *vars);
 void			redirect(int old_fd, int new_fd);

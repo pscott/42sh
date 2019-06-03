@@ -1,7 +1,7 @@
 #ifndef EXECUTION_H
 #define EXECUTION_H
 
-#include "lexer.h"
+# include "lexer.h"
 
 char		*get_cmd_path(char **argv, char **env, int verbose);
 char		**get_argv_from_token_lst(t_token *token);

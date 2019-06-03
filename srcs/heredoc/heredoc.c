@@ -28,14 +28,15 @@ static unsigned char	get_eof(char **eof, t_token *probe)
 		*eof = eof_join(*eof, probe);
 		probe = probe->next;
 	}
-	return(is_eof_quoted);
+	return (is_eof_quoted);
 }
 
 /*
 ** replace_heredoc_tokens
 */
 
-static t_token	*replace_heredoc_tokens(t_token *probe, const char *path)
+static t_token			*replace_heredoc_tokens(t_token *probe,
+						const char *path)
 {
 	ft_strdel(&probe->content);
 	if (!(probe->content = ft_strdup("<")))
@@ -66,7 +67,7 @@ static t_token	*replace_heredoc_tokens(t_token *probe, const char *path)
 **		and type the rest of 'EOF' tokens to tk_eat
 */
 
-t_bool	parse_heredoc(t_token *token_head, t_vars *vars)
+t_bool					parse_heredoc(t_token *token_head, t_vars *vars)
 {
 	t_token			*token_probe;
 	char			*eof;

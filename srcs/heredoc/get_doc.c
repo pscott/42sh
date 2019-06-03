@@ -29,23 +29,42 @@ static void	apply_escape(t_st_cmd *st_cmd)
 	}
 }
 
-//double use of path and len for the norm...
+static void	init_get_doc(t_st_cmd **st_cmd, char **txt, t_vars *vars)
+{
+	*st_cmd = init_st_cmd((const char **)vars->env_vars);
+	ft_strdel(&(*st_cmd)->st_txt->txt);
+	if (!((*st_cmd)->st_txt->txt = ft_strdup("\n")))//TODO lookup insert_str
+		ERROR_MEM;
+	*st_cmd = append_st_cmd(*st_cmd, "", "heredoc> ");
+	*txt = NULL;
+}
+
+static char *get_txt(t_st_cmd **st_cmd, char *txt, char *eof)
+{
+	char	*trimed_txt;
+	size_t	len;
+
+	free_all_st_cmds(st_cmd);
+	len = ft_strlen(txt) - ft_strlen(eof) - 2;
+	if (!(trimed_txt = ft_strndup(&txt[1], len)))
+		ERROR_MEM;
+	ft_strdel(&txt);
+	ft_strdel(&eof);
+	return (trimed_txt);
+}
+
 char		*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 {
 	char		*path;
 	char		*txt;
 	t_st_cmd	*st_cmd;
 	int			len;
+	int			ret;
 
-	st_cmd = init_st_cmd((const char **)vars->env_vars);
-	ft_strdel(&st_cmd->st_txt->txt);
-	if (!(st_cmd->st_txt->txt = ft_strdup("\n")))//TODO lookup insert_str
-		ERROR_MEM;
-	st_cmd = append_st_cmd(st_cmd, "", "heredoc> ");
-	txt = NULL;
+	init_get_doc(&st_cmd, &txt, vars);
 	while (42)
 	{
-		if ((len = input_loop(st_cmd, vars)) < 1 || !*st_cmd->st_txt->txt)
+		if ((ret = input_loop(st_cmd, vars)) < 1 || !*st_cmd->st_txt->txt)
 		{
 			ft_strdel(&txt);
 			free_all_st_cmds(&st_cmd);
@@ -62,21 +81,13 @@ char		*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 		st_cmd = append_st_cmd(st_cmd, "", "heredoc> ");
 		ft_strdel(&txt);
 	}
-	free_all_st_cmds(&st_cmd);
-	path = txt;
-	if (!(txt = ft_strndup(&txt[1], len - 1)))
-		ERROR_MEM;
-	ft_strdel(&path);
-	ft_strdel(&eof);
+	txt = get_txt(&st_cmd, txt, eof);
 	if (!is_eof_quoted && !parse_dollars_str(&txt, vars))
 	{
 		ft_strdel(&txt);
 		return (NULL);
 	}
 	if (!(path = write_heredoc_in_file(&txt)))
-	{
-		ft_strdel(&txt);
 		return (NULL);
-	}
 	return (path);
 }

@@ -39,8 +39,9 @@ static char	*find_uniq_filename(void)
 		ft_strdel(&path);
 		if (file_key == UINT_MAX)
 		{
-			ft_dprintf(2, "%s: can't create heredoc temporary file(max UINT)\n"
-					, SHELL_NAME);
+			ft_dprintf(2,
+				"%s: can't create heredoc temporary file(max UINT)\n",
+				SHELL_NAME);
 			return (NULL);
 		}
 		file_key++;
@@ -62,10 +63,14 @@ char		*write_heredoc_in_file(char **txt)
 	int		fd;
 
 	if (!(path = find_uniq_filename()))
+	{
+		ft_strdel(txt);
 		return (NULL);
+	}
 	if ((fd = open(path, O_CREAT | O_RDWR | O_APPEND, 0666)) == -1)
 	{
 		ft_dprintf(2, "%s: an open() error occurs\n", SHELL_NAME);
+		ft_strdel(txt);
 		return (NULL);
 	}
 	if (write(fd, *txt, ft_strlen(*txt)) == -1)

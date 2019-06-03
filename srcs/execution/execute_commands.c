@@ -5,7 +5,7 @@
 #include "cmd_parsing.h"
 #include "errors.h"
 
-static void			access_and_exec(char *cmd_path, char **argv,
+static int			access_and_exec(char *cmd_path, char **argv,
 					const char **env)
 {
 	int				access;
@@ -24,6 +24,7 @@ static void			access_and_exec(char *cmd_path, char **argv,
 	}
 	ft_strdel(&cmd_path);
 	ft_free_ntab(argv);
+	return (access);
 }
 
 /*
@@ -58,9 +59,13 @@ static t_bool		execute_argv(char **argv, t_vars *vars)
 		ft_free_ntab(argv);
 		return (ERR_CMD);
 	}
-	access_and_exec(cmd_path, argv, (const char**)vars->env_vars);
-	return (0);
+	return (access_and_exec(cmd_path, argv, (const char**)vars->env_vars));
 }
+
+/*
+**	Parses expands and redirections, creates the argv and executes it.
+**	Returns 0 if it executed properly ; else returns 1.
+*/
 
 t_bool				parse_and_exec(t_token *token_head, int in,
 					int out, t_vars *vars)
@@ -70,11 +75,11 @@ t_bool				parse_and_exec(t_token *token_head, int in,
 	redirect(in, STDIN_FILENO, 0);
 	redirect(out, STDOUT_FILENO, 0);
 	if (!(parse_expands(token_head, vars)))//TODO check order
-		return (0);
+		return (1);
 	reset_terminal_settings();
 	if (parse_redirections(token_head, 0) == 0)
-		return (0);
+		return (1);
 	if (!(argv = get_argv_from_token_lst(token_head)))
-		return (0); // return value ?
+		return (1); // return value ?
 	return (execute_argv(argv, vars));
 }

@@ -72,7 +72,8 @@ int			main(int argc, char **argv, char **env)
 	print_exit();
 	write_to_history(st_cmd, (const char **)vars.env_vars);
 	free_all_st_cmds(&st_cmd);
+	ret = vars.cmd_value;
 	free_vars(&vars);
 	reset_terminal_settings();
-	return (EXIT_SUCCESS);
+	return (ret);
 }

@@ -54,6 +54,8 @@ static int		check_validity_args(char **argv, int *exitno)
 		ret = 1;
 		*exitno = 0;
 	}
+	else
+		*exitno = get_exit_value(argv);
 	return (ret);
 }
 

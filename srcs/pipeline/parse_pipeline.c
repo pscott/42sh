@@ -59,7 +59,6 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 		{
 			Close(fd[0]);//check return value
 			parse_and_exec(begin, in, fd[1], vars);
-			clean_exit(1);
 		}
 		else if (pid > 0)
 		{
@@ -70,7 +69,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 			begin = get_next_simple_command(begin);
 			continue ;
 		}
-		clean_exit(1);
+		clean_exit(vars->cmd_value);
 	}
 	//break func here: fork_last_cmd() //TODO
 	if ((pid = fork()) == -1)
@@ -81,7 +80,7 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 	else if (pid == 0)
 	{
 		parse_and_exec(begin, in, STDOUT_FILENO, vars);
-		clean_exit(1);
+		clean_exit(vars->cmd_value);
 	}
 	else
 	{

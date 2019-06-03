@@ -3,7 +3,7 @@
 #include "libterm.h"
 #include <fcntl.h>
 
-t_bool		redir_less(t_token *redir, t_token *prev)
+t_bool		redir_less(t_token *redir, t_token *prev, int mode)
 {
 	int		old_fd;
 	t_token	*next;
@@ -11,6 +11,11 @@ t_bool		redir_less(t_token *redir, t_token *prev)
 
 	if ((old_fd = check_fd_prev(prev)) < 0)
 		old_fd = STDIN_FILENO;
+	if (old_fd > 4863)
+	{
+		ft_dprintf(2, "42sh: %d: bad file descriptor\n", old_fd);
+		return (0);
+	}
 	next = redir->next;
 	while (next->type == tk_eat)
 		next = next->next;
@@ -21,6 +26,6 @@ t_bool		redir_less(t_token *redir, t_token *prev)
 		ft_dprintf(2, "42sh: %s: No such file or directory\n", next->content);
 		return (0);
 	}
-	redirect(new_fd, old_fd);
+	redirect(new_fd, old_fd, mode);
 	return (1);
 }

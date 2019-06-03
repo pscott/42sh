@@ -2,7 +2,7 @@
 #include "cmd_parsing.h"
 #include <fcntl.h>
 
-t_bool		redir_dgreat(t_token *redir, t_token *prev)
+t_bool		redir_dgreat(t_token *redir, t_token *prev, int mode)
 {
 	int		old_fd;
 	t_token	*next;
@@ -16,7 +16,7 @@ t_bool		redir_dgreat(t_token *redir, t_token *prev)
 		return (0);
 	}
 	next = redir->next;
-	while (next->type == tk_eat) // need functions that does this
+	while (next->type == tk_eat)
 		next = next->next;
 	if ((new_fd = open(next->content, O_WRONLY | O_CREAT | O_APPEND,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) < 0)
@@ -24,7 +24,7 @@ t_bool		redir_dgreat(t_token *redir, t_token *prev)
 		ft_dprintf(2, "error opening file : %s\n", next->content);
 		return (0);
 	}
-	redirect(new_fd, old_fd);
+	redirect(new_fd, old_fd, mode);
 	redir->type = tk_eat;
 	next->type = tk_eat;
 	return (1);

@@ -40,7 +40,7 @@ static	int		change_token_close(t_token *next)
 	return (-1);
 }
 
-t_bool			redir_fd_great(t_token *redir, t_token *prev, int mode)
+t_bool			redir_fd_less(t_token *redir, t_token *prev, int mode)
 {
 	int				old_fd;
 	t_token			*next;
@@ -48,7 +48,7 @@ t_bool			redir_fd_great(t_token *redir, t_token *prev, int mode)
 	struct stat		buf;
 
 	if ((old_fd = check_fd_prev(prev)) < 0)
-		old_fd = STDOUT_FILENO;
+		old_fd = STDIN_FILENO;
 	if (old_fd > 4863)
 		return (errors_fd_great(NULL, 2, old_fd));
 	next = redir->next;

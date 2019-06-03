@@ -56,12 +56,12 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 
 	if (parse_expands(token_head, vars) == 0)
 		return (-1);
-	save_reset_stdfd(1); // should be deleted
-	if (parse_redirections(token_head) == 0) // would need to be special and to save fd in list
+	if (parse_redirections(token_head, 1) == 0) // would need to be special and to save fd in list
 		return (-1);
 	argv = get_argv_from_token_lst(token_head);
 	reset_terminal_settings();
 	ret = exec_builtins(argv, vars, cmd_id);
+	save_reset_stdfd(0);
 	if (cmd_id == cmd_exit)
 	{
 		if (ret == 1)

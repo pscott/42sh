@@ -84,6 +84,8 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 	}
 	else
 	{
+		waitpid(pid, &status, 0);
+		vars->cmd_value = WIFSIGNALED(status) ? WTERMSIG(status) : WEXITSTATUS(status);
 		if (num_simple_commands != 1)
 			Close(fd[0]);
 		while ((pid = wait(&status)) > 0)
@@ -95,7 +97,6 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 		signals_setup();
 		//Close(STDIN_FILENO); // for fd leaks
 		setup_terminal_settings();
-		vars->cmd_value = WIFSIGNALED(status) ? WTERMSIG(status) : WEXITSTATUS(status);
 	}
 	return (WEXITSTATUS(status));
 }

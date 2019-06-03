@@ -47,6 +47,7 @@ t_bool		is_valid_tilde(const char *str, t_token *prev_token);
 t_bool			parse_redirections(t_token *token_head, int mode);
 t_bool			redir_great(t_token *redir, t_token *prev, int mode);
 t_bool			redir_fd_great(t_token *redir, t_token *prev, int mode);
+t_bool			redir_fd_less(t_token *redir, t_token *prev, int mode);
 t_bool			redir_dgreat(t_token *redir, t_token *prev, int mode);
 t_bool			redir_less(t_token *redir, t_token *prev, int mode);
 int				check_fd_prev(t_token *prev);

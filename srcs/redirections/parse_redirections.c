@@ -11,9 +11,7 @@ void	redirect(int old_fd, int new_fd, int save)
 	if (save)
 		save_reset_stdfd(1);
 	if (old_fd == -1)
-	{
 		close(new_fd);
-	}
 	else if (old_fd != new_fd)
 	{
 		if (dup2(old_fd, new_fd) != -1)
@@ -62,13 +60,15 @@ static t_bool	apply_redirections(t_token *redir, t_token *prev, int mode)
 	if (!redir)
 		return (0);
 	else if (ft_strncmp(redir->content, ">", 2) == 0) // only >
-		redir_great(redir, prev, mode);
+		return (redir_great(redir, prev, mode));
 	else if (ft_strncmp(redir->content, ">&", 3) == 0)
-		redir_fd_great(redir, prev, mode);
+		return (redir_fd_great(redir, prev, mode));
 	else if (ft_strncmp(redir->content, ">>", 3) == 0)
-		redir_dgreat(redir, prev, mode);
+		return (redir_dgreat(redir, prev, mode));
 	else if (ft_strncmp(redir->content, "<", 2) == 0)
 		return (redir_less(redir, prev, mode));
+	else if (ft_strncmp(redir->content, "<&", 3) == 0)
+		return (redir_fd_less(redir, prev, mode));
 	else
 		return (0);
 	return (1);

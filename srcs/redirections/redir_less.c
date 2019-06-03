@@ -11,6 +11,11 @@ t_bool		redir_less(t_token *redir, t_token *prev, int mode)
 
 	if ((old_fd = check_fd_prev(prev)) < 0)
 		old_fd = STDIN_FILENO;
+	if (old_fd > 4863)
+	{
+		ft_dprintf(2, "42sh: %d: bad file descriptor\n", old_fd);
+		return (0);
+	}
 	next = redir->next;
 	while (next->type == tk_eat)
 		next = next->next;

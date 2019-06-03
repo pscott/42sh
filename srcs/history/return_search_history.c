@@ -13,15 +13,15 @@ static int	interrupt_search(t_st_cmd *st_cmd)
 	return (ctrl_c_case);
 }
 
-int			switch_and_return(const char buf[64], t_st_cmd *st_cmd)
+int			switch_and_return(char buf, t_st_cmd *st_cmd)
 {
 	char *newcmd;
 
-	if (ft_strncmp(buf, CTRL_C, CTRL_C_LEN) == 0) // care to + 1 because of "\x03a"
+	if (buf == 3)
 		return (interrupt_search(st_cmd));
 	free_st_prompt(&st_cmd->st_prompt);
 	st_cmd->st_prompt = init_st_prompt(NULL);
-	if (ft_strncmp(buf, "\r", 2) == 0 || ft_strncmp(buf, "\n", 2) == 0)
+	if (buf == '\r' || buf == '\n')
 		newcmd = ft_strjoin(st_cmd->st_txt->txt, "\n");
 	else
 		newcmd = ft_strdup(st_cmd->st_txt->txt);
@@ -31,7 +31,7 @@ int			switch_and_return(const char buf[64], t_st_cmd *st_cmd)
 	ft_printf("%s", st_cmd->st_prompt->prompt);
 	switch_st_cmd(st_cmd, newcmd);
 	free(newcmd);
-	if (ft_strncmp(buf, "\r", 2) == 0 || ft_strncmp(buf, "\n", 2) == 0)
+	if (buf == "\r"|| buf == '\n')
 	{
 		if (!(st_cmd->st_txt->txt[0]))
 			st_cmd->st_txt->txt[0] = ' ';

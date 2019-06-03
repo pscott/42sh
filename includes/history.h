@@ -45,6 +45,6 @@ void		free_hist_lst(t_hist_lst *hist_lst);
 
 // should not be here
 void		switch_st_cmd(t_st_cmd *st_cmd, char *newcmd);
-int			switch_and_return(const char buf[64], t_st_cmd *st_cmd);
+int			switch_and_return(char buf, t_st_cmd *st_cmd);
 
 #endif

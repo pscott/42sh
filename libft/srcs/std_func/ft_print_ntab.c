@@ -6,7 +6,10 @@ void	ft_print_ntab(char **ntab)
 
 	i = 0;
 	if (!ntab)
+	{
+		ft_putendl("(null)");
 		return ;
+	}
 	while (ntab[i])
 	{
 		ft_putendl(ntab[i]);

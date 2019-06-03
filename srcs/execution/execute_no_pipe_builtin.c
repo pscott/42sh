@@ -130,6 +130,5 @@ int			execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
 		ret = -1;
 	}
 	ft_free_ntab(argv);
-	ft_dprintf(2, "RET: %d\n", ret);
 	return (ret);
 }

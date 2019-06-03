@@ -46,9 +46,11 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 	pid_t	pid;
 	int		status;
 	int fd[2];
+	int		ret;
 
 	in = STDIN_FILENO;
 	i = 0;
+	ret = 0;
 	while (i++ < num_simple_commands - 1)
 	{
 		if (pipe(fd))
@@ -85,20 +87,21 @@ static int	fork_pipes(int num_simple_commands, t_token *begin, t_vars *vars)
 	else
 	{
 		waitpid(pid, &status, 0);
-		vars->cmd_value = WIFSIGNALED(status) ? WTERMSIG(status) : WEXITSTATUS(status);
-		if (num_simple_commands != 1)
-			Close(fd[0]);
-		while ((pid = wait(&status)) > 0)
+		ret = WIFSIGNALED(status) ? WTERMSIG(status) : WEXITSTATUS(status);
+		if (WIFSIGNALED(status))
 		{
-			if (WIFSIGNALED(status))
 				if (WTERMSIG(status) != SIGINT && WTERMSIG(status) != SIGPIPE)
 					ft_dprintf(2, "process terminated, received signal : %d\n", WTERMSIG(status));
 		}
+		if (num_simple_commands != 1)
+			Close(fd[0]);
+		while ((pid = wait(&status)) > 0)
+			;
 		signals_setup();
 		//Close(STDIN_FILENO); // for fd leaks
 		setup_terminal_settings();
 	}
-	return (WEXITSTATUS(status));
+	return (ret);
 }
 
 /*
@@ -130,10 +133,7 @@ int			parse_cmdline(t_token *token, t_vars *vars) // no need for t_pipelst ?
 	}
 	if ((num_simple_commands == 1)//TODO check
 		&& (ret = execute_no_pipe_builtin(token, vars)) >= 0)
-	{
-		ft_dprintf(2, "RET: %d\n", ret);
 		return (ret);
-	}
 	ret = fork_pipes(num_simple_commands, token, vars);
 	return (ret);
 }

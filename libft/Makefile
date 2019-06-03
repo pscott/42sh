@@ -72,7 +72,7 @@ SRC_FILES	:=	ft_printf.c getters.c isprint_special.c parse_struct.c			\
 							ft_putchar_err.c ft_free_ntab.c ft_realloc.c		\
 							ft_dup_ntab.c ft_ntab_len.c ft_strndup.c \
 							ft_print_ntab.c ft_strlen_char.c ft_initialize_str.c\
-							ft_strrstr.c
+							ft_strrstr.c ft_strjoin_free_left.c
 	CONVERSION_FILES	:=	conv_helper.c converters.c
 	FORMATS_FILES		:=	format_int.c format_char.c format_unsigned.c		\
 							format_string.c format_conv.c format_p.c			\
@@ -133,11 +133,11 @@ rmh:
 adh: rmh
 	vim -ns $(SCRIPT_PATH)/42header_add.keys $(SRCS) $(INCLS)
 
-$(NAME): $(OBJS) $(INCLS)
+$(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 	ranlib $(NAME)
 
-$(OBJ_DIR)/%.o: %.c
+$(OBJ_DIR)/%.o: %.c $(INCLS)
 	@mkdir $(OBJ_DIR) 2> /dev/null || true
 	@$(CC) $(CFlAGS) $(INCL_CMD) -o $@ -c $<
 	@echo Compiling $@

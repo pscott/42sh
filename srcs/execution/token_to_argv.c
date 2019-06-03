@@ -3,34 +3,7 @@
 #include "cmd_parsing.h"
 
 /*
-**	Utilty function for get_token_from_argv. Joins s1 and s2 in a freshly
-**	allocated string, and frees s1.
-*/
-
-static char			*ft_strjoin_free(char *s1, char *s2)
-{
-	char			*res;
-	unsigned int	s1_len;
-
-	if (!s2)
-	{
-		res = ft_strdup(s1);
-		ft_strdel(&s1);
-		return (res);
-	}
-	if (!s1)
-		return (ft_strdup(s2));
-	s1_len = ft_strlen(s1);
-	if (!(res = ft_strnew(s1_len + ft_strlen(s2))))
-		ERROR_MEM;
-	ft_strcpy(res, s1);
-	ft_strcat(&res[s1_len], s2);
-	ft_strdel(&s1);
-	return (res);
-}
-
-/*
-**	Utility function for get_argv_from_token_lst.
+**	Utility function for fill_argv
 **	Separates words in the string, filling the argv with the different words
 */
 
@@ -44,7 +17,7 @@ static void			apply_ifs(const char *string, char **argv, unsigned int *i)
 	j = 0;
 	while (words[j])
 	{
-		if (!(argv[*i] = ft_strjoin_free(argv[*i], words[j])))
+		if (!(argv[*i] = ft_strjoin_free_left(argv[*i], words[j])))
 			ERROR_MEM;
 		j++;
 		(*i)++;
@@ -55,7 +28,34 @@ static void			apply_ifs(const char *string, char **argv, unsigned int *i)
 }
 
 /*
+**	Fills the argv (applying IFS if needs be) until it encounters a token
+**	that should not be in argv (tk_eat or type >= tk_pipe)
+*/
+
+static t_token		*fill_argv(t_token *token, char **argv, unsigned int *i)
+{
+	unsigned int incremented;
+
+	incremented = 0;
+	while (is_argv_token(token))
+	{
+		if (token->type == tk_word)
+			apply_ifs(token->content, argv, i);
+		else
+		{
+			if (!(argv[*i] = ft_strjoin_free_left(argv[*i], token->content)))
+				ERROR_MEM;
+		}
+		incremented = 1;
+		token = token->next;
+	}
+	*i += incremented;
+	return (token);
+}
+
+/*
 **	Utility function for get_argv_from_token_lst.
+**	Returns the freshly allocated argv.
 */
 
 static char			**create_argv(t_token *token_head, unsigned int argv_len)
@@ -69,20 +69,9 @@ static char			**create_argv(t_token *token_head, unsigned int argv_len)
 	i = 0;
 	while (i < argv_len)
 	{
-		while (is_argv_token(token_head))
-		{
-			if (token_head->type == tk_word)
-				apply_ifs(token_head->content, argv, &i);
-			else
-			{
-				if (!(argv[i] = ft_strjoin_free(argv[i], token_head->content)))
-					ERROR_MEM;
-			}
-			token_head = token_head->next;
-		}
+		token_head = fill_argv(token_head, argv, &i);
 		while (token_head && token_head->type == tk_eat)
 			token_head = token_head->next;
-		i++;
 	}
 	return (argv);
 }
@@ -93,6 +82,7 @@ static char			**create_argv(t_token *token_head, unsigned int argv_len)
 **	If token is a tk_word, separates words according to IFS.
 **	Else returns 1
 */
+
 static unsigned int	token_length(t_token *probe)
 {
 	unsigned int	argv_len;

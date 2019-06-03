@@ -96,5 +96,5 @@ char			**ft_dup_ntab(const char **tabs);
 int				ft_ntab_len(const char **tabs);
 void			ft_initialize_str(char **s1, char **s2, char **s3,
 		char **s4);
-
+char			*ft_strjoin_free_left(char *s1, const char *s2);
 #endif

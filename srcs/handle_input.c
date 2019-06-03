@@ -28,18 +28,12 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		free_token_list(token_head);
 		adjust_history(st_cmd, input, 0);
 		st_cmd = append_st_cmd(st_cmd, "", "cont > ");
-		//get_st_cmd(&st_cmd); //utility ?
-	 	if ((ret = input_loop(st_cmd, vars)) < 1)
+	 	if (((ret = input_loop(st_cmd, vars)) < 1) || !*st_cmd->st_txt->txt)
 		{
-			if (ret == 0)
-				ft_strdel(&input); // need \n ?
+			ft_strdel(&input); // need \n ?
 			return (0);
 		}
-		if (!*st_cmd->st_txt->txt)
-		{
-			ft_strdel(&input);
-			return (0);
-		}
+		ft_strdel(&input);
 		input = concatenate_txt(st_cmd);
 		if (is_full_of_whitespaces(input))
 		{

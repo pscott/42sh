@@ -29,6 +29,28 @@ t_bool			replace_tilde(char **str, const char **env)
 	return (1);
 }
 
+int				is_slashed(char *str)
+{
+	char			*ptr;
+	int				len;
+
+	len = ft_strlen(str) - 1;
+	ptr = NULL;
+	if ((ptr = ft_strchr(str, '/')))
+	{
+		while (ptr && *ptr)
+		{
+			if (*ptr == '/')
+				ptr++;
+			else if (*ptr != '\0')
+				return (1);
+			else if (*ptr == '\0')
+				return (0);
+		}
+	}
+	return (0);
+}
+
 static void		insert_expansion(char *user, char **str)
 {
 	char			*tmp_end;
@@ -36,10 +58,20 @@ static void		insert_expansion(char *user, char **str)
 	struct passwd	*infos;
 
 	ft_initialize_str(&tmp_end, &expansion, NULL, NULL);
+	infos = NULL;
 	infos = getpwnam(user);
-	if (infos && infos->pw_dir)
+	if (infos == NULL)
 	{
-		if (ft_strlen_char(*str, '/') != ft_strlen(*str))
+		ft_printf("User does not exist");
+		sleep(1);
+		return ;
+	}
+	else if (infos && infos->pw_dir)
+	{
+		ft_printf("User exists");
+		sleep(1);
+
+		if (is_slashed(*str))
 		{
 			tmp_end = ft_strsub(*str, ft_strlen_char(*str, '/'),
 					ft_strlen(*str));
@@ -48,6 +80,7 @@ static void		insert_expansion(char *user, char **str)
 			ft_strdel(str);
 			if (!(*str = ft_strjoin(expansion, tmp_end)))
 				ERROR_MEM;
+			ft_strdel(&tmp_end);
 		}
 		else
 		{

@@ -57,28 +57,19 @@ int					search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find)
 
 }
 
-int			ft_isprint_ctrlr(char buf[64])
+int			ft_isprint_ctrlr(char c)
 {
-	char			c;
-
-	if (ft_strlen(buf) == 1)
-	{
-		c = buf[0];
-		if ((c > 31 && c < 127) || c == ' ' )
-			return (1);
-	}
-	else if (!ft_strncmp(buf, CTRL_R, CTRL_R_LEN))
+	if ((c > 31 && c < 127) || c == ' ')
 		return (1);
 	return (0);
 }
 
-static int	init_vars(size_t *malloc_size, int *prompt_type, char **stock, char buf[64])
+static int	init_vars(size_t *malloc_size, int *prompt_type, char **stock)
 {
 	*malloc_size = 256;
 	*prompt_type = 0;
 	if (!(*stock = ft_strnew(*malloc_size + 1)))
 		ERROR_MEM;
-	ft_bzero((void *)buf, 64);
 	return (0);
 }
 
@@ -91,30 +82,37 @@ static int	init_vars(size_t *malloc_size, int *prompt_type, char **stock, char b
 int		handle_reverse_search_history(t_st_cmd *st_cmd)
 {
 	char			*stock;
-	char			buf[64];
+	char			buf;
 	int				ret;
 	size_t			malloc_size;
 	int				prompt_type;
 
-	init_vars(&malloc_size, &prompt_type, &stock, buf);
+	init_vars(&malloc_size, &prompt_type, &stock);
 	print_prompt_search_histo(st_cmd, stock, prompt_type);
-	while ((ret = read(STDIN_FILENO, buf, 64)) > 0)
+	while ((ret = read(STDIN_FILENO, &buf, 1)) > 0)
 	{
-		if (!ft_isprint_ctrlr(buf)) // care buf is 64 bytes long... strncmp only first byte, why not use char c ?
-		{
-			if (!ft_strncmp(buf, BACKSPACE, BACKSPACE_LEN) && stock[0])
-				stock[ft_strlen(stock) - 1] = '\0';
-			else
-				return (switch_and_return(buf, st_cmd));
-		}
+		if (buf == 18)
+			;
 		else
 		{
-			stock = ft_realloc(stock, ft_strlen(stock) - 1, &malloc_size, 1); // ?? buf is 64 bytes long
-			stock[ft_strlen(stock)] = buf[0];
+			if (!ft_isprint_ctrlr(buf))
+			{
+				if (buf == 0x7f && stock[0])
+					stock[ft_strlen(stock) - 1] = '\0';
+				else if (buf == 0x7f)
+					;
+				else
+					return (switch_and_return(buf, st_cmd));
+			}
+			else
+			{
+				stock = ft_realloc(stock, ft_strlen(stock) - 1, &malloc_size, 1);
+				stock[ft_strlen(stock)] = buf;
+			}
+			prompt_type = search_reverse_in_histo(&st_cmd, stock);
+			print_prompt_search_histo(st_cmd, stock, prompt_type);
+			buf = 0;
 		}
-		prompt_type = search_reverse_in_histo(&st_cmd, stock);
-		print_prompt_search_histo(st_cmd, stock, prompt_type);
-		ft_bzero((void *)buf, 64);
 	}
 	return (0);
 }

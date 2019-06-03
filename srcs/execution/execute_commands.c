@@ -12,6 +12,7 @@ static int			access_and_exec(char *cmd_path, char **argv,
 
 	if ((access = check_access(cmd_path)) == 0)
 	{
+		clean_exit(1);
 		execve(cmd_path, (char*const*)argv, (char*const*)env);
 		print_errors(ERR_EXECUTE, ERR_EXECUTE_STR, cmd_path);
 	}

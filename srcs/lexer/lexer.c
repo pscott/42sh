@@ -100,6 +100,7 @@ int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 	t_operation	*op_chart;
 	t_token		*prev_token;
 
+	ft_printf("------------LEXER START------------\n|%s|\n-------------------------------------\n", cmdline);
 	init_lexer(&op_chart, token_head, &prev_token);
 	while (cmdline && *cmdline)
 	{
@@ -107,15 +108,25 @@ int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 		{
 			if (!isatty(STDIN_FILENO))
 			{
+				ft_printf("CMDLINE|%s|\n", cmdline);
 				ft_dprintf(2, "42sh: lexer failed\n");
 				return (lex_fail);
 			}
+			else
+				ft_printf("NOT TTY\n");
+			ft_printf("CONT READ\n");
 			return (lex_cont_read);
 		}
+		//debug
+		if (current_token->type == tk_amp)
+			return (lex_fail);
+		//
+		print_token(current_token);
 		if (!(add_token_to_list(current_token, prev_token, token_head, vars)))
 			return (lex_fail);
 		if (current_token->type != tk_eat)
 			prev_token = current_token;
+		ft_printf("BOTTOM LEXER cmdline |%s|\n", cmdline);
 	}
 	if (parse_heredoc(*token_head, vars) == 0)
 		return (lex_fail);
@@ -124,17 +135,22 @@ int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 	{
 		if (!isatty(STDIN_FILENO))
 		{
+			ft_printf("DOUBLE OPER\n");
 			ft_dprintf(2, "42sh: lexer failed\n");
 			return (lex_fail);
 		}
+		else
+			ft_printf("NOT TTY\n");
 		return (lex_cont_read);
 	}
 	else if (prev_token && is_redir_token(prev_token)
 		&& (!current_token->type || is_redir_token(current_token)))
 	{
+		ft_printf("DOUBLE REDIR\n");
 		syntax_error_near(current_token);
 		return (lex_fail);
 	}
 	//print_token_list(*token_head);//debug
+	ft_printf("---LEXER END---\n");
 	return (lex_success);
 }

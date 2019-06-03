@@ -96,6 +96,7 @@ static struct winsize	*init_window_struct(void)
 t_st_cmd	*reset_st_cmd(t_st_cmd *old_st_cmd)
 {
 	t_st_cmd	*st_cmd;
+	t_st_cmd	*left_cmd;
 
 	if (!(st_cmd = (t_st_cmd*)malloc(sizeof(*st_cmd))))
 		ERROR_MEM;
@@ -108,8 +109,9 @@ t_st_cmd	*reset_st_cmd(t_st_cmd *old_st_cmd)
 	old_st_cmd = get_first_st_cmd(old_st_cmd);
 	while (old_st_cmd)
 	{
-		free_st_cmd(old_st_cmd);
+		left_cmd = old_st_cmd;
 		old_st_cmd = old_st_cmd->next;
+		free_st_cmd(left_cmd);
 	}
 	//free old_st_cmd lst;
 	st_cmd->next = NULL;

@@ -30,12 +30,12 @@ void			sigint_handler(int signo)
 	(void)signo;
 	st_cmd = get_st_cmd(NULL);
 	*st_cmd->st_txt->txt = '\x03';
-	go_to_end(st_cmd);
-	reposition_cursor(st_cmd);
+	st_cmd = get_last_st_cmd(st_cmd);
 	vars = get_vars(NULL);
 	vars->cmd_value = 1;
-	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
-	write(0, "\n", 1);
+	write(0, "^C", 2);
+	execute_str(PRINT_LINE);
+	execute_str(BEGIN_LINE);
 	execute_str(CLEAR_BELOW);
 }
 

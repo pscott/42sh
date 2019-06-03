@@ -33,7 +33,7 @@ void			sigint_handler(int signo)
 	st_cmd = get_last_st_cmd(st_cmd);
 	vars = get_vars(NULL);
 	vars->cmd_value = 1;
-	write(0, "^C", 2);
+	write(STDERR, "^C", 2);
 	execute_str(PRINT_LINE);
 	execute_str(BEGIN_LINE);
 	execute_str(CLEAR_BELOW);

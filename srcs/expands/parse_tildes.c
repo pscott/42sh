@@ -10,10 +10,10 @@
 **	Replaces the str with the '~' expanded.
 */
 
-int			replace_tilde(char **str, const char **env)
+int				replace_tilde(char **str, const char **env)
 {
-	char	*new_str;
-	char	*home_str;
+	char			*new_str;
+	char			*home_str;
 
 	if (!(home_str = get_envline_value("HOME", (char **)env)))
 	{
@@ -27,28 +27,6 @@ int			replace_tilde(char **str, const char **env)
 	ft_memdel((void*)str);
 	*str = new_str;
 	return (1);
-}
-
-int				is_slashed(char *str)
-{
-	char			*ptr;
-	int				len;
-
-	len = ft_strlen(str) - 1;
-	ptr = NULL;
-	if ((ptr = ft_strchr(str, '/')))
-	{
-		while (ptr && *ptr)
-		{
-			if (*ptr == '/')
-				ptr++;
-			else if (*ptr != '\0')
-				return (1);
-			else if (*ptr == '\0')
-				return (0);
-		}
-	}
-	return (0);
 }
 
 static void		insert_expansion(char *user, char **str)
@@ -82,9 +60,9 @@ static void		insert_expansion(char *user, char **str)
 	}
 }
 
-static char	*get_to_find_exp_tilde_user(char **str)
+static char		*get_to_find_exp_tilde_user(char **str)
 {
-	char		*ret;
+	char			*ret;
 
 	ret = NULL;
 	if (!ft_strchr(*str, '/'))
@@ -100,7 +78,7 @@ static char	*get_to_find_exp_tilde_user(char **str)
 	return (ret);
 }
 
-static int	replace_tilde_users(char **str)
+static int		replace_tilde_users(char **str)
 {
 	char			*to_find;
 
@@ -115,11 +93,11 @@ static int	replace_tilde_users(char **str)
 **	or the home directory of the specified user (~root/)
 */
 
-int			parse_tildes(t_token *token_head, const char **env)
+int				parse_tildes(t_token *token_head, const char **env)
 {
-	t_token *prev_token;
-	t_token *curr_token;
-	int		ret;
+	t_token			*prev_token;
+	t_token			*curr_token;
+	int				ret;
 
 	curr_token = token_head;
 	prev_token = NULL;

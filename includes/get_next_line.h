@@ -10,7 +10,7 @@
 
 typedef struct		s_fdlist
 {
-	char			*c;
+	char			*content;
 	int				fd;
 	struct s_fdlist	*next;
 	struct s_fdlist *prev;

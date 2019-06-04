@@ -111,7 +111,10 @@ int				handle_reverse_search_history(t_st_cmd *st_cmd,
 				if (buf == '\x7f' && stock[0])
 					stock[ft_strlen(stock) - 1] = '\0';
 				else if (buf != '\x7f')
+				{
+					ft_strdel(&stock);
 					return (switch_and_return(buf, st_cmd));
+				}
 			}
 			else
 				realloc_stock(&stock, buf, malloc_size);

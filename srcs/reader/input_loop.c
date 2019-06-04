@@ -50,7 +50,7 @@ static int	cmp_special_keys_versus_buf_len(char *buf, int len)
 **	Returns 1 if buffer IS an escape sequence.
 */
 
-static int	is_valid_escape(char *buf)
+int			is_valid_escape(char *buf)
 {
 	int		len;
 	int		last;
@@ -85,7 +85,7 @@ int			input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)
 	char	c;
 	int		ret;
 
-	ft_bzero(buf, BUF_SIZE + 1);
+	ft_bzero(buf, sizeof(buf));
 	print_prompt(st_cmd);
 	while ((ret = read(STDIN_FILENO, &c, 1)) > 0)
 	{
@@ -99,7 +99,7 @@ int			input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)
 		else if (ret == input_break)
 			break ;
 		reposition_cursor(st_cmd);
-		ft_bzero(buf, BUF_SIZE + 1);
+		ft_bzero(buf, sizeof(buf));
 	}
 	if (st_cmd->st_txt->data_size > INT_MAX)
 		return (print_errors(-1, ERR_MAX_INPUT_STR, NULL));

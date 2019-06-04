@@ -64,6 +64,7 @@ int						handle_reverse_search_history(t_st_cmd *st_cmd,
 ** Handling input
 */
 
+int						is_valid_escape(char *str);
 t_bool					handle_input(t_st_cmd *st_cmd, t_vars *vars);
 
 /*

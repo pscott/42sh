@@ -73,6 +73,14 @@ static	void	realloc_stock(char **stock, char buf, size_t malloc_size)
 	(*stock)[ft_strlen((*stock))] = buf;
 }
 
+static int		is_quit_char(char buf)
+{
+	if (buf != 18 && buf != '\x7f'
+		&& ft_isprint(buf) == 0)
+		return (1);
+	return (0);
+}
+
 /*
 **	If buf_received == ctrlr, reverse-i-search in historic
 **	Returns 0 if the key is not ctrlr
@@ -85,26 +93,32 @@ int				handle_reverse_search_history(t_st_cmd *st_cmd,
 	char			*stock;
 	char			buf;
 	int				ret;
+	char			escape[BUF_SIZE + 1];
 
 	init_vars(&malloc_size, &prompt_type, &stock);
 	print_prompt_search_histo(st_cmd, stock, prompt_type);
+	ft_bzero(escape, sizeof(escape));
 	while ((ret = read(STDIN_FILENO, &buf, 1)) > 0)
 	{
+		escape[ft_strlen(escape)] = buf;
+		if (is_valid_escape(escape) == 0)
+			continue ;
+		buf = escape[0];
 		if (buf != 18)
 		{
-			if (!((buf > 31 && buf < 127) || buf == ' '))
+			if (ft_strlen(escape) > 1 || is_quit_char(buf))
 			{
-				if (buf == 0x7f && stock[0])
+				if (buf == '\x7f' && stock[0])
 					stock[ft_strlen(stock) - 1] = '\0';
-				else if (buf != 0x7f)
+				else if (buf != '\x7f')
 					return (switch_and_return(buf, st_cmd));
 			}
 			else
 				realloc_stock(&stock, buf, malloc_size);
 			prompt_type = search_reverse_in_histo(&st_cmd, stock);
 			print_prompt_search_histo(st_cmd, stock, prompt_type);
-			buf = 0;
 		}
+		ft_bzero(escape, sizeof(escape));
 	}
 	return (0);
 }

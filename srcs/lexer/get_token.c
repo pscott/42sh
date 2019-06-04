@@ -2,32 +2,24 @@
 #include "lexer.h"
 #include "input.h"
 
-static t_token	*trim_escaped_newline(void)
-{
-	t_st_cmd *st_cmd;
-
-	st_cmd = get_st_cmd(NULL);
-	st_cmd = get_last_st_cmd(st_cmd);
-	st_cmd->st_txt->data_size -= 2;
-	ft_bzero(&st_cmd->st_txt->txt[st_cmd->st_txt->data_size], 2);
-	return (NULL);
-}
-
 static t_token	*get_dquot_token(char **cmdline)
 {
 	t_token		*token;
 	size_t		i;
+	int			escaped;
 
 	i = 1;
-	while ((*cmdline)[i] != 0 && (*cmdline)[i] != '"')
+	escaped = 0;
+	while ((*cmdline)[i] != 0)
 	{
-		if ((*cmdline)[i] == '\\')
-		{
-		   	if ((*cmdline)[i + 1] == '\"')
-				i++;
-			else if ((*cmdline)[i + 1] == '\n')//TODO check me
-				return (trim_escaped_newline());
-		}
+		if (!escaped && (*cmdline)[i] == '"')
+			break ;
+		if (!escaped && (*cmdline)[i] == '\\' && (*cmdline)[i + 1] == '\n')
+			return (trim_escaped_newline());
+		else if ((*cmdline)[i] == '\\')
+			escaped = (escaped) ? 0 : 1;
+		else
+			escaped = 0;
 		i++;
 	}
 	if ((*cmdline)[i] == 0)
@@ -85,79 +77,6 @@ static t_token	*get_monochar(char **cmdline)
 	(*cmdline)++;
 	return (token);
 }
-
-static t_token	*get_eat_token(char **cmdline)
-{
-	t_token	*token;
-	size_t	i;
-
-	i = 0;
-	while (ft_is_white_space((*cmdline)[i]))
-		i++;
-	if (!(token = create_token(*cmdline, i, tk_eat)))
-		ERROR_MEM;
-	*cmdline = *cmdline + i;
-	return (token);
-}
-
-//just make a tk_word, parse_dollars() will do the rest
-static t_token	*check_param_sub_token(char **cmdline)
-{
-	t_token	*token;
-	size_t	i;
-
-	i = 0;
-	while ((*cmdline)[i] && (*cmdline)[i] != '}')
-		i++;
-	if ((*cmdline)[i] == 0)
-	{
-		ft_printf("TMP: NO '}' found\n");
-		return (NULL);//=cont_read
-	}
-	i++;//test
-	if (!(token = create_token(*cmdline, i, tk_word)))
-		ERROR_MEM;
-	*cmdline = *cmdline + i;
-	return (token);//tmp
-}
-
-static void		modif_ints(unsigned int *braces_count, int braces_to_add
-				, int *i, int i_to_add)
-{
-	*braces_count += braces_to_add;
-	*i += i_to_add;
-}
-
-//Make a tk_word
-static t_token	*check_arith_exp_token(char **cmdline)
-{
-	unsigned int	braces_count;
-	int				i;
-	t_token			*token;
-
-	braces_count = 0;
-	i = -1;
-	while((*cmdline)[++i])
-	{
-		if (!ft_strncmp("$((", (*cmdline) + i, 3))
-			modif_ints(&braces_count, 1, &i, 2);
-		else if (!ft_strncmp("))", (*cmdline) + i, 2))
-		{
-			modif_ints(&braces_count, -1, &i, 1);
-			if (braces_count == 0)
-			{
-				i++;
-				break ;
-			}
-		}
-	}
-	if (braces_count == 0 && (token = create_token(*cmdline, i, tk_word)))
-		*cmdline = *cmdline + i;
-	else
-		return (NULL);
-	return (token);
-}
-
 
 /*
 ** get_token

@@ -1,6 +1,7 @@
 #include "ftsh.h"
 #include "lexer.h"
 
+//TODO tej me before last push
 void	print_token(t_token *token)//debug
 {
 	if (!token)

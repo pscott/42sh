@@ -38,7 +38,6 @@ int				expansion_arith(char *str, long long *result, t_vars *vars)
 	int		k;
 
 	k = 0;
-	*result = 0;
 	if (ft_str_isempty(str))
 		return (0);
 	if (check_chars(str, vars))

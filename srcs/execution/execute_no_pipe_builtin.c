@@ -58,7 +58,8 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 		return (ret);
 	if ((ret = parse_redirections(token_head, 1)) > 0) // would need to be special and to save fd in list
 		return (ret);
-	argv = get_argv_from_token_lst(token_head);
+	argv = NULL;
+	get_argv_from_token_lst(token_head, &argv); // protect ?
 	reset_terminal_settings();
 	ret = exec_builtins(argv, vars, cmd_id);
 	save_reset_stdfd(0);
@@ -81,11 +82,12 @@ static char		**fake_argv(t_token *token_head, t_vars *vars)
 	t_token					*cpy;
 	char					**argv;
 
+	argv = NULL;
 	vars->verbose = 0;
 	cpy = copy_tokens(token_head);
 	parse_expands(cpy, vars);
 	fake_redir_parser(cpy);
-	argv = get_argv_from_token_lst(cpy);
+	get_argv_from_token_lst(cpy, &argv);
 	free_token_list(cpy);
 	vars->verbose = 1;
 	return (argv);
@@ -112,7 +114,7 @@ int			execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
 	char					*cmd_path;
 
 	if (!(argv = fake_argv(token_head, vars)))
-		return (1);
+		return (-1);
 	if (ft_strchr(argv[0], '/'))
 		ret = -1;
 	else if ((cmd_id = check_builtins(argv)))

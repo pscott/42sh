@@ -101,19 +101,20 @@ static unsigned int	token_length(t_token *probe)
 }
 
 /*
+** outdated
 **	Returns a freshly allocated array of strings corresponding to the argv
 **	parameter that should be passed on to the execve function.
 **	Should be called after have used parse_expands and parse_redirections
 **	on the token_head.
 */
 
-char				**get_argv_from_token_lst(t_token *token_head)
+int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 {
 	unsigned int	argv_len;
 	t_token			*probe;
 
 	if (!(probe = token_head))
-		return (NULL);
+		return (1);
 	argv_len = 0;
 	while (probe)
 	{
@@ -127,6 +128,7 @@ char				**get_argv_from_token_lst(t_token *token_head)
 			break ;
 	}
 	if (argv_len < 1)
-		return (NULL);
-	return (create_argv(token_head, argv_len));
+		return (1);
+	*argv = create_argv(token_head, argv_len);
+	return (0);
 }

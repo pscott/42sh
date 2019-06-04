@@ -9,7 +9,7 @@
 **	Use check_builtins before calling exec_builtins
 */
 
-static t_bool	exec_builtins_2(char **argv, t_vars *vars, int cmd_id)
+static int	exec_builtins_2(char **argv, t_vars *vars, t_cmd_id cmd_id)
 {
 	int			ret;
 
@@ -41,7 +41,8 @@ static t_bool	exec_builtins_2(char **argv, t_vars *vars, int cmd_id)
 /*
 **	TO DO : env is not supposed to do that, to fix
 */
-t_bool			exec_builtins(char **argv, t_vars *vars, int cmd_id)
+
+int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 {
 	int			ret;
 

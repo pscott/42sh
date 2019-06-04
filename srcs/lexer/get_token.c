@@ -2,19 +2,20 @@
 #include "lexer.h"
 #include "input.h"
 
-//TODO is double pointer necesary ?
-static t_token	*trim_escaped_newline(t_st_cmd **st_cmd)
+static t_token	*trim_escaped_newline(void)
 {
-	*st_cmd = get_st_cmd(NULL);
-	(*st_cmd)->st_txt->data_size -= 2;
-	ft_bzero(&(*st_cmd)->st_txt->txt[(*st_cmd)->st_txt->data_size], 2);
+	t_st_cmd *st_cmd;
+
+	st_cmd = get_st_cmd(NULL);
+	st_cmd = get_last_st_cmd(st_cmd);
+	st_cmd->st_txt->data_size -= 2;
+	ft_bzero(&st_cmd->st_txt->txt[st_cmd->st_txt->data_size], 2);
 	return (NULL);
 }
 
 static t_token	*get_dquot_token(char **cmdline)
 {
 	t_token		*token;
-	t_st_cmd	*st_cmd;
 	size_t		i;
 
 	i = 1;
@@ -25,7 +26,7 @@ static t_token	*get_dquot_token(char **cmdline)
 		   	if ((*cmdline)[i + 1] == '\"')
 				i++;
 			else if ((*cmdline)[i + 1] == '\n')//TODO check me
-				return (trim_escaped_newline(&st_cmd));
+				return (trim_escaped_newline());
 		}
 		i++;
 	}
@@ -58,7 +59,6 @@ static t_token	*get_regular_token(char **cmdline)
 	t_token	*token;
 	size_t	i;
 
-	//TODO check unwanted char in this func or in ft_is_metachar()
 	i = 0;
 	while ((*cmdline)[i] && !ft_is_metachar((*cmdline)[i]))
 	{
@@ -75,15 +75,9 @@ static t_token	*get_regular_token(char **cmdline)
 static t_token	*get_monochar(char **cmdline)
 {
 	t_token			*token;
-	t_st_cmd		*st_cmd;
 
 	if (*(*cmdline + 1) == '\n')
-	{
-		st_cmd = get_st_cmd(NULL);//make func ? i did it 'trim_escaped_newline()//TODO need free
-		st_cmd->st_txt->data_size -= 2;
-		ft_bzero(&st_cmd->st_txt->txt[st_cmd->st_txt->data_size], 2);
-		return (NULL);
-	}
+		return (trim_escaped_newline());
 	(*cmdline)++;
 	if (!(**cmdline))
 		return (NULL);

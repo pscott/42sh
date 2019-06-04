@@ -58,19 +58,10 @@ static void		insert_expansion(char *user, char **str)
 	struct passwd	*infos;
 
 	ft_initialize_str(&tmp_end, &expansion, NULL, NULL);
-	infos = NULL;
-	infos = getpwnam(user);
-	if (infos == NULL)
-	{
-		ft_printf("User does not exist");
-		sleep(1);
+	if (!(infos = getpwnam(user)))
 		return ;
-	}
 	else if (infos && infos->pw_dir)
 	{
-		ft_printf("User exists");
-		sleep(1);
-
 		if (is_slashed(*str))
 		{
 			tmp_end = ft_strsub(*str, ft_strlen_char(*str, '/'),

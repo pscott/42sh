@@ -42,7 +42,12 @@ int		check_for_quit(t_st_cmd *st_cmd, const char *buf)
 int		check_for_search_histo(t_st_cmd *st_cmd, const char *buf_received)
 {
 	if (ft_strncmp(buf_received, CTRL_R, 2) == 0)
-		return (handle_reverse_search_history(st_cmd));
+	{
+		if (isatty(STDIN_FILENO) == 0)
+			return (1);
+		else
+			return (handle_reverse_search_history(st_cmd));
+	}
 	else
 		return (0);
 }

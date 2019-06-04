@@ -59,6 +59,8 @@ int							get_matching_exe(char **path, t_auto_comp **match,
 								const char *to_find_real, const char *next);
 char						*get_dirs_first_arg(const char *directory,
 								const char *str, unsigned int len);
+int							get_all_match(char *directory, t_auto_comp **match,
+								const char *to_find, const char *next);
 
 /*
 **	Utils functions
@@ -86,5 +88,9 @@ int							free_four_strings(char **s1, char **s2, char **s3,
 								char **s4);
 void						initialize_str(char **s1, char **s2, char **s3,
 								char **s4);
+int							format_finding_and_get_correct_ret(char **ret,
+								int start_actual_word, char *input,
+								unsigned int len);
+void						get_good_ret_str(char **ret_str, char *tmp);
 
 #endif

@@ -6,6 +6,8 @@ static	size_t	get_ll_len(long long nb)
 	size_t	len;
 
 	len = (nb < 0) ? 1 : 0;
+	if (nb == 0)
+		return (1);
 	while (nb)
 	{
 		len++;
@@ -23,6 +25,11 @@ static char	*lltoa_and_free(long long nb, char **to_free)
 	len = get_ll_len(nb);
 	if (!(str = ft_strnew(len)))
 		ERROR_MEM;
+	if (nb == 0)
+	{
+		str[0] = '0';
+		return (str);
+	}
 	if (nb < 0)
 	{
 		str[0] = '-';

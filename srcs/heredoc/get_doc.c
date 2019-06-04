@@ -76,7 +76,7 @@ char		*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 	init_get_doc(&st_cmd, &txt, vars);
 	while (42)
 	{
-		if ((ret = input_loop(st_cmd, vars)) < 1 || !*st_cmd->st_txt->txt)
+		if ((ret = input_loop(st_cmd, vars, heredoc)) < 1 || !*st_cmd->st_txt->txt)
 			return (free_get_doc(txt, st_cmd, eof));
 		if (!is_eof_quoted)
 			apply_escape(st_cmd);

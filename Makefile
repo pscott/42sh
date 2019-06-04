@@ -76,10 +76,10 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c 	#srcs subfiles names
 	PARSER_FILES	:=	token_parser.c token_parser_utils.c
 	PIPELINE_FILES	:=	parse_pipeline.c  \
 						check_token_type.c
-	READER_FILES	:=	arrows.c check_sig_tab_enter_del_arr.c prompt.c \
+	READER_FILES	:=	arrows.c check_sig_tab_del_arr.c prompt.c \
 						input_loop.c cursor_position.c input_utils.c \
-						check_quit_hist.c delete.c txt_cat.c jump_word.c \
-						checkers.c
+						check_enter_quit_hist.c delete.c txt_cat.c \
+						jump_word.c checkers.c
 	EXPANDS_FILES	:=	parse_expands.c parse_tildes.c parse_vars.c\
 						parse_quotes.c parse_arith_exp.c\
 						substitute_utils.c parse_tildes_utils.c
@@ -105,7 +105,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c 	#srcs subfiles names
 						display_auto_comp.c get_exe_names.c \
 						get_next_line_a_c.c get_path_file.c \
 						home_dirs_first_arg.c space_first_arg.c tilde_users.c \
-						utils.c	utils2.c utils_display.c 
+						utils.c	utils2.c utils_display.c auto_completion_hdoc.c \
+						get_all_match.c formating_ret.c
 	HASHMAP_FILES	:=	find_next_prime.c hash_main.c hashfun.c hashmap.c\
 						hashmap_alloc.c hashmap_delete.c hashmap_print.c\
 						get_hash_args.c hashmap_errors.c

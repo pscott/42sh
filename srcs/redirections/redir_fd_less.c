@@ -45,7 +45,7 @@ static	int		change_token_close(t_token *next)
 **	Else returns error number
 */
 
-int			redir_fd_less(t_token *redir, t_token *prev, int mode)
+int				redir_fd_less(t_token *redir, t_token *prev, int mode)
 {
 	int				old_fd;
 	t_token			*next;

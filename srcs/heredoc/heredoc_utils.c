@@ -44,6 +44,12 @@ static char	*eof_init(t_token *token)
 	return (eof);
 }
 
+/*
+** eof_join
+** join 2 token->content to the string 'eof'
+** and return the concatenated string
+*/
+
 char		*eof_join(char *eof, t_token *token)
 {
 	char	*tmp_str;

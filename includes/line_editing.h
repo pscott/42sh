@@ -7,7 +7,9 @@
 /*
 **	Window struct
 */
+
 void						update_window_struct(struct winsize *window);
+struct winsize				*init_window_struct(void);
 
 /*
 **	On-screen position functions

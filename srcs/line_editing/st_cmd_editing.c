@@ -3,60 +3,8 @@
 #include "history.h"
 #include "ast.h"
 
-/*
-**	Singleton function to set or retrieve st_cmd address
-*/
-
-t_st_cmd	*get_st_cmd(t_st_cmd **new_struct)
-{
-	static t_st_cmd *st_cmd = NULL;
-
-	if (new_struct)
-		st_cmd = *new_struct;
-	return (st_cmd);
-}
-
-t_st_cmd	*get_first_st_cmd(t_st_cmd *st_cmd)
-{
-	if (st_cmd)
-		while (st_cmd->prev)
-			st_cmd = st_cmd->prev;
-	return (st_cmd);
-}
-
-t_st_cmd	*get_last_st_cmd(t_st_cmd *st_cmd)
-{
-	if (st_cmd)
-		while (st_cmd->next)
-			st_cmd = st_cmd->next;
-	return (st_cmd);
-}
-
-/*
-**	Updates the window struct passed as a parameter by calling the ioctl
-**	function. Exits if it fails.
-*/
-
-void		init_relative_pos(t_st_cmd *st_cmd)
-{
-	if (isatty(STDIN_FILENO) == 0)
-		return ;
-	st_cmd->relative_pos.col = st_cmd->st_prompt->size % st_cmd->window->ws_col;
-	st_cmd->relative_pos.row = st_cmd->st_prompt->size / st_cmd->window->ws_col;
-}
-
-void		update_window_struct(struct winsize *window)
-{
-	if (isatty(STDIN_FILENO) == 0)
-		return ;
-	if (ioctl(STDIN_FILENO, TIOCGWINSZ, window) == -1)
-	{
-		ft_dprintf(2, "error ioctl: exiting!\n");
-		clean_exit(1);
-	}
-}
-
-t_st_cmd	*append_st_cmd(t_st_cmd *st_cmd, const char *txt, const char *prompt)
+t_st_cmd		*append_st_cmd(t_st_cmd *st_cmd, const char *txt,
+				const char *prompt)
 {
 	t_st_cmd	*new;
 
@@ -74,26 +22,7 @@ t_st_cmd	*append_st_cmd(t_st_cmd *st_cmd, const char *txt, const char *prompt)
 	return (new);
 }
 
-/*
-**	Allocates and updates a fresh window struct, containing information about
-**	the window size.
-*/
-
-static struct winsize	*init_window_struct(void)
-{
-	struct winsize	*window;
-	if (!(window = malloc(sizeof(*window))))
-		ERROR_MEM;
-	update_window_struct(window);
-	return (window);
-}
-
-/*
-**	Resets the st_cmd by creating a new one, and using the hist_lst form the
-**	previous one. Expects old_st_cmd to be the first of its list.
-*/
-
-t_st_cmd	*reset_st_cmd(t_st_cmd *old_st_cmd)
+t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd)
 {
 	t_st_cmd	*st_cmd;
 	t_st_cmd	*left_cmd;
@@ -124,9 +53,9 @@ t_st_cmd	*reset_st_cmd(t_st_cmd *old_st_cmd)
 **	Function to initialize st_cmd
 */
 
-t_st_cmd	*init_st_cmd(const char **env)
+t_st_cmd		*init_st_cmd(const char **env)
 {
-	t_st_cmd *st_cmd;
+	t_st_cmd	*st_cmd;
 
 	if (!(st_cmd = (t_st_cmd*)malloc(sizeof(*st_cmd))))
 		ERROR_MEM;
@@ -137,7 +66,8 @@ t_st_cmd	*init_st_cmd(const char **env)
 	{
 		init_relative_pos(st_cmd);
 		st_cmd->hist_lst = get_history(env);
-		st_cmd->hist_lst = insert_right(st_cmd->hist_lst, "last", 0); // ? need to malloc "" ?
+		st_cmd->hist_lst = insert_right(st_cmd->hist_lst, "last", 0);
+		//  previous line : ? need to malloc "" ?
 	}
 	st_cmd->next = NULL;
 	st_cmd->prev = NULL;
@@ -145,12 +75,11 @@ t_st_cmd	*init_st_cmd(const char **env)
 	return (st_cmd);
 }
 
-
 /*
 **	Frees the st_cmd, WITHOUT freeing history.
 */
 
-void	free_st_cmd(t_st_cmd *st_cmd)
+void			free_st_cmd(t_st_cmd *st_cmd)
 {
 	if (!st_cmd)
 		return ;
@@ -164,10 +93,10 @@ void	free_st_cmd(t_st_cmd *st_cmd)
 **	Frees history.
 */
 
-void		free_all_st_cmds(t_st_cmd **st_cmd)
+void			free_all_st_cmds(t_st_cmd **st_cmd)
 {
-	t_st_cmd *probe;
-	t_st_cmd *tmp;
+	t_st_cmd	*probe;
+	t_st_cmd	*tmp;
 
 	if (!st_cmd || !(*st_cmd))
 		return ;

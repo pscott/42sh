@@ -9,7 +9,8 @@ int		move_down(t_st_cmd *st_cmd)
 {
 	if (isatty(STDIN_FILENO) == 0)
 		return (0);
-	if (st_cmd->start_pos.row + st_cmd->relative_pos.row >= st_cmd->window->ws_row)
+	if (st_cmd->start_pos.row + st_cmd->relative_pos.row
+			>= st_cmd->window->ws_row)
 	{
 		move_cursor(st_cmd->window->ws_col, st_cmd->window->ws_row);
 		execute_str(SCROLL_DOWN);
@@ -87,12 +88,14 @@ int		write_line(t_st_cmd *st_cmd)
 	st_txt = st_cmd->st_txt;
 	i = 0;
 	tmp_pos = st_cmd->relative_pos;
-	while ((st_txt->tracker + i) < st_txt->data_size && st_txt->txt[st_txt->tracker + i] != '\n')
+	while ((st_txt->tracker + i) < st_txt->data_size
+			&& st_txt->txt[st_txt->tracker + i] != '\n')
 	{
 		write(STDIN_FILENO, &st_txt->txt[st_txt->tracker + i], 1);
 		i++;
 		get_pos(st_cmd, st_cmd->st_txt->data_size - 1);
-		if ((st_cmd->start_pos.row + st_cmd->relative_pos.row) > st_cmd->window->ws_row
+		if ((st_cmd->start_pos.row + st_cmd->relative_pos.row)
+				> st_cmd->window->ws_row
 				|| st_cmd->relative_pos.col == st_cmd->window->ws_col - 1)
 		{
 			move_down(st_cmd);
@@ -119,7 +122,7 @@ int		write_line(t_st_cmd *st_cmd)
 **	tracker
 */
 
-void		write_st_cmd(t_st_cmd *st_cmd)
+void	write_st_cmd(t_st_cmd *st_cmd)
 {
 	size_t	step;
 

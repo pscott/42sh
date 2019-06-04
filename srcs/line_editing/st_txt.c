@@ -17,9 +17,8 @@ t_st_txt	*init_st_txt(const char *txt)
 		if (!(st_txt->txt = ft_strdup("")))
 			ERROR_MEM;
 	}
-	else
-		if (!(st_txt->txt = ft_strdup(txt)))
-			ERROR_MEM;
+	else if (!(st_txt->txt = ft_strdup(txt)))
+		ERROR_MEM;
 	st_txt->data_size = ft_strlen(st_txt->txt);
 	st_txt->malloc_size = st_txt->data_size + 1;
 	st_txt->tracker = 0;
@@ -30,7 +29,7 @@ t_st_txt	*init_st_txt(const char *txt)
 **	Memdels st_txt and frees up the allocated memory
 */
 
-void	free_st_txt(t_st_txt **st_txt)
+void		free_st_txt(t_st_txt **st_txt)
 {
 	if (!st_txt || !(*st_txt))
 		return ;

@@ -62,7 +62,7 @@ void	d_operator(t_tok **t, size_t *i, int *k, char **s)
 		if (*k > 1)
 			ret = get_op_token(*s + *i, (*t)[*k - 1].varid, (*t)[*k - 2].token);
 		else if (*k > 0)
-			ret = get_op_token(*s + 1, (*t)[*k - 1].varid, 0);
+			ret = get_op_token(*s + *i, (*t)[*k - 1].varid, 0);
 		else
 			ret = get_op_token(*s + *i, (*t)[*k].varid, 0);
 	}

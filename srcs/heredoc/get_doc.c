@@ -20,14 +20,17 @@ static void	apply_escape(t_st_cmd *st_cmd)
 	}
 }
 
-static void	init_get_doc(t_st_cmd **st_cmd, char **txt, t_vars *vars)
+static t_st_cmd	*init_get_doc(char **txt, t_vars *vars)
 {
-	*st_cmd = init_st_cmd((const char **)vars->env_vars);
-	ft_strdel(&(*st_cmd)->st_txt->txt);
-	if (!((*st_cmd)->st_txt->txt = ft_strdup("\n")))
+	t_st_cmd *st_cmd;
+
+	st_cmd = init_st_cmd((const char **)vars->env_vars);
+	ft_strdel(&st_cmd->st_txt->txt);
+	if (!(st_cmd->st_txt->txt = ft_strdup("\n")))
 		ERROR_MEM;
-	*st_cmd = append_st_cmd(*st_cmd, "", "heredoc> ");
+	st_cmd = append_st_cmd(st_cmd, "", "heredoc> ");
 	*txt = NULL;
+	return (st_cmd);
 }
 
 static char	*get_heredoc_txt(t_st_cmd **st_cmd, char *txt, char *eof)
@@ -73,7 +76,7 @@ char		*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 	int			len;
 	int			ret;
 
-	init_get_doc(&st_cmd, &txt, vars);
+	st_cmd = init_get_doc(&txt, vars);
 	while (42)
 	{
 		if ((ret = input_loop(st_cmd, vars, heredoc)) < 1

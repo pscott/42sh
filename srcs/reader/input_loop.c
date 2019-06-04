@@ -60,7 +60,7 @@ static int is_valid_escape(char *buf)
 **	Returns 0 on quit, return -1 on ctrl + c
 */
 
-int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
+int		input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)
 {
 	char	buf[BUF_SIZE + 1];
 	char	c;
@@ -74,7 +74,7 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars)
 		//magic_print(buf);
 		if (is_valid_escape(buf) == 0)
 			continue ;
-		ret = checkers(st_cmd, vars, buf);
+		ret = checkers(st_cmd, vars, buf, mode);
 		if (ret == input_stop)
 			return (-1);
 		else if (ret == input_break)

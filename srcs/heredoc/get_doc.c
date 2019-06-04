@@ -49,7 +49,7 @@ static char	*return_get_doc(char *txt, unsigned char is_eof_quoted,
 {
 	char	*path;
 
-	if (!is_eof_quoted && !parse_dollars_str(&txt, vars))
+	if (!is_eof_quoted && (parse_dollars_str(&txt, vars) > 0))
 	{
 		ft_strdel(&txt);
 		return (NULL);

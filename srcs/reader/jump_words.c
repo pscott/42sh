@@ -57,7 +57,7 @@ static void	get_prev_word(t_st_cmd *st_cmd)
 	}
 }
 
-int			jump_word(t_st_cmd *st_cmd, int num)
+int			jump_words(t_st_cmd *st_cmd, int num)
 {
 	char			*begin;
 

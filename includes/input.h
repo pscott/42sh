@@ -82,6 +82,7 @@ int						check_for_search_histo(t_st_cmd *st_cmd,
 int						check_for_tab(t_st_cmd *st_cmd, const char *buf,
 						t_vars *vars);
 int						check_for_tab_hdoc(t_st_cmd *st_cmd, const char *buf);
+int						check_for_words(t_st_cmd *st_cmd, const char *buf);
 char					*auto_completion(char *input, unsigned int len,
 						t_vars *vars);
 char					*auto_completion_hdoc(char *input,
@@ -107,7 +108,7 @@ void					delete_left(t_st_cmd *st_cmd);
 **	Jump words
 */
 
-int						jump_word(t_st_cmd *st_cmd, int num);
+int						jump_words(t_st_cmd *st_cmd, int num);
 
 /*
 ** Read input

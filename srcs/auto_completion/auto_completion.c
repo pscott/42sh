@@ -96,9 +96,5 @@ char				*auto_completion(char *input, unsigned int len,
 				str + start_actual_word);
 	format_finding_and_get_correct_ret(&ret, start_actual_word, input, len);
 	free_two_strings(&to_find_full, &str);
-	/*
-	ft_printf("ret  :|%s|", ret);
-	sleep(1);
-	*/
 	return (ret);
 }

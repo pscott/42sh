@@ -42,10 +42,12 @@ int				search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find)
 	{
 		if (strstr_adapted((*st_cmd)->hist_lst->txt, to_find) == 1)
 		{
-			if (!((*st_cmd)->st_txt->txt = ft_strndup((*st_cmd)->hist_lst->txt, ft_strlen((*st_cmd)->hist_lst->txt) - 1)))
+			if (!((*st_cmd)->st_txt->txt = ft_strndup((*st_cmd)->hist_lst->txt,
+							ft_strlen((*st_cmd)->hist_lst->txt) - 1)))
 				ERROR_MEM;
 			(*st_cmd)->st_txt->data_size = ft_strlen((*st_cmd)->st_txt->txt);
-			(*st_cmd)->st_txt->tracker = ft_strlen((*st_cmd)->st_txt->txt) - ft_strlen(ft_strrstr((*st_cmd)->st_txt->txt, to_find));
+			(*st_cmd)->st_txt->tracker = ft_strlen((*st_cmd)->st_txt->txt) -
+				ft_strlen(ft_strrstr((*st_cmd)->st_txt->txt, to_find));
 			return (0);
 		}
 		if ((*st_cmd)->hist_lst->prev)
@@ -54,13 +56,6 @@ int				search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find)
 			break ;
 	}
 	return (1);
-}
-
-int				ft_isprint_ctrlr(char c)
-{
-	if ((c > 31 && c < 127) || c == ' ')
-		return (1);
-	return (0);
 }
 
 static int		init_vars(size_t *malloc_size, int *prompt_type, char **stock)
@@ -72,42 +67,40 @@ static int		init_vars(size_t *malloc_size, int *prompt_type, char **stock)
 	return (0);
 }
 
+static	void	realloc_stock(char **stock, char buf, size_t malloc_size)
+{
+	(*stock) = ft_realloc((*stock), ft_strlen((*stock)) - 1, &malloc_size, 1);
+	(*stock)[ft_strlen((*stock))] = buf;
+}
+
 /*
 **	If buf_received == ctrlr, reverse-i-search in historic
 **	Returns 0 if the key is not ctrlr
 **	Returns 1 if it is ctrlr + display new prompt + search
 */
 
-int				handle_reverse_search_history(t_st_cmd *st_cmd)
+int				handle_reverse_search_history(t_st_cmd *st_cmd,
+		size_t malloc_size, int prompt_type)
 {
 	char			*stock;
 	char			buf;
 	int				ret;
-	size_t			malloc_size;
-	int				prompt_type;
 
 	init_vars(&malloc_size, &prompt_type, &stock);
 	print_prompt_search_histo(st_cmd, stock, prompt_type);
 	while ((ret = read(STDIN_FILENO, &buf, 1)) > 0)
 	{
-		if (buf == 18)
-			;
-		else
+		if (buf != 18)
 		{
-			if (!ft_isprint_ctrlr(buf))
+			if (!((buf > 31 && buf < 127) || buf == ' '))
 			{
 				if (buf == 0x7f && stock[0])
 					stock[ft_strlen(stock) - 1] = '\0';
-				else if (buf == 0x7f)
-					;
-				else
+				else if (buf != 0x7f)
 					return (switch_and_return(buf, st_cmd));
 			}
 			else
-			{
-				stock = ft_realloc(stock, ft_strlen(stock) - 1, &malloc_size, 1);
-				stock[ft_strlen(stock)] = buf;
-			}
+				realloc_stock(&stock, buf, malloc_size);
 			prompt_type = search_reverse_in_histo(&st_cmd, stock);
 			print_prompt_search_histo(st_cmd, stock, prompt_type);
 			buf = 0;

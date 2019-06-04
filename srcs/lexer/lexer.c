@@ -12,7 +12,6 @@
 ** then return the token
 */
 
-//TODO should create_token take &size to move it (for the norm !!)
 t_token	*create_token(char *cmdline, size_t size, t_token_type type)
 {
 	t_token	*new_token;
@@ -34,11 +33,12 @@ t_token	*create_token(char *cmdline, size_t size, t_token_type type)
 	return (new_token);
 }
 
-static t_bool		error_unsupported_token(t_token *token, t_bool return_val)
+static int			error_unsupported_token(t_token *token, int	 return_val)
 {
 	if (!token)
-		return (return_val);//ou un autre msg
+		return (return_val);
 	ft_dprintf(2, "%s: `%s' is not unsupported.\n", SHELL_NAME, token->content);
+	free_token_list(token);
 	return (return_val);
 }
 
@@ -48,17 +48,14 @@ static t_bool		error_unsupported_token(t_token *token, t_bool return_val)
 ** 3. create a token_list or append it with the given token
 */
 
-static t_bool	add_token_to_list(t_token *current_token, t_token *prev_token
+static int		add_token_to_list(t_token *current_token, t_token *prev_token
 				, t_token **token_head, t_vars *vars)
 {
 	t_token	*probe;
 
 	(void)vars;
 	if (current_token->type == tk_unsupported)
-	{
-		free_token_list(current_token);
 		return (error_unsupported_token(current_token, 0));
-	}
 	if (token_list_start_with_ctrl_op(prev_token, current_token)
 		|| is_two_ctrlop_or_redir_following(prev_token, current_token))
 		return (0);

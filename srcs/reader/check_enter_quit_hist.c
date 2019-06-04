@@ -46,7 +46,7 @@ int		check_for_search_histo(t_st_cmd *st_cmd, const char *buf_received)
 		if (isatty(STDIN_FILENO) == 0)
 			return (1);
 		else
-			return (handle_reverse_search_history(st_cmd));
+			return (handle_reverse_search_history(st_cmd, 0, 0));
 	}
 	else
 		return (0);

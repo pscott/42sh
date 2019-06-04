@@ -15,6 +15,17 @@ static int	interrupt_search(t_st_cmd *st_cmd)
 	return (ctrl_c_case);
 }
 
+static int	case_return_newline(t_st_cmd *st_cmd)
+{
+	if (!(st_cmd->st_txt->txt[0]))
+		st_cmd->st_txt->txt[0] = ' ';
+	st_cmd->st_txt->txt = ft_realloc(st_cmd->st_txt->txt,
+			st_cmd->st_txt->data_size, &st_cmd->st_txt->malloc_size, 1);
+	st_cmd->st_txt->txt[st_cmd->st_txt->data_size] = '\n';
+	execute_str(PRINT_LINE);
+	return (enter_case);
+}
+
 int			switch_and_return(char buf, t_st_cmd *st_cmd)
 {
 	char	*newcmd;
@@ -32,18 +43,12 @@ int			switch_and_return(char buf, t_st_cmd *st_cmd)
 		ERROR_MEM;
 	vars = get_vars(NULL);
 	move_cursor(st_cmd->start_pos.col, st_cmd->start_pos.row);
-	ft_printf("%s%s%s", vars->cmd_value ? RED : GREEN, st_cmd->st_prompt->prompt, FG_DFL);
+	ft_printf("%s%s%s", vars->cmd_value ? RED : GREEN,
+			st_cmd->st_prompt->prompt, FG_DFL);
 	switch_st_cmd(st_cmd, newcmd);
 	free(newcmd);
 	if (buf == '\r' || buf == '\n')
-	{
-		if (!(st_cmd->st_txt->txt[0]))
-			st_cmd->st_txt->txt[0] = ' ';
-		st_cmd->st_txt->txt = ft_realloc(st_cmd->st_txt->txt, st_cmd->st_txt->data_size, &st_cmd->st_txt->malloc_size, 1);
-		st_cmd->st_txt->txt[st_cmd->st_txt->data_size] = '\n';
-		execute_str(PRINT_LINE);
-		return (enter_case);
-	}
+		return (case_return_newline(st_cmd));
 	else
 		return (quit_case);
 }

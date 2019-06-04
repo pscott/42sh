@@ -80,14 +80,12 @@ void	write_from_start(t_st_cmd *st_cmd)
 int		write_line(t_st_cmd *st_cmd)
 {
 	t_st_txt	*st_txt;
-	t_pos		tmp_pos; //legacy ?
 	size_t		i;
 
 	if (isatty(STDIN_FILENO) == 0)
 		return (0);
 	st_txt = st_cmd->st_txt;
 	i = 0;
-	tmp_pos = st_cmd->relative_pos;
 	while ((st_txt->tracker + i) < st_txt->data_size
 			&& st_txt->txt[st_txt->tracker + i] != '\n')
 	{
@@ -105,14 +103,6 @@ int		write_line(t_st_cmd *st_cmd)
 		}
 	}
 	get_pos(st_cmd, st_cmd->st_txt->tracker);
-/*	if (st_txt && st_txt->txt && st_txt->txt[st_txt->tracker + i] == '\n' && st_txt->txt[st_txt->tracker + i + 1])//check of st_txt && st_txt->txt addes, avoid SEGV
-	{
-		i++;
-		move_down(st_cmd);
-		tmp_pos.col = 1;
-		tmp_pos.row++;
-		return (i);
-	}*/
 	execute_str(ERASE_ENDLINE);
 	return (0);
 }

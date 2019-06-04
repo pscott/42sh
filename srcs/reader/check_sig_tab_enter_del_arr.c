@@ -35,7 +35,7 @@ int		check_for_tab(t_st_cmd *st_cmd, const char *buf, t_vars *vars)
 	int		len_tmp;
 
 	len_tmp = 0;
-	if (ft_strncmp(buf, "\t", 2) == 0)
+	if (ft_strncmp(buf, "\t", 2) == 0 && isatty(STDIN_FILENO))
 	{
 		old_txt = st_cmd->st_txt->txt;
 		if ((tmp = auto_completion(st_cmd->st_txt->txt, st_cmd->st_txt->tracker, vars))) // alex: tracker ou tracker + 1 ?

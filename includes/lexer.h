@@ -115,4 +115,18 @@ t_operation				*get_op_chart(void);
 
 void					free_token_list(t_token *token_head);
 
+/*
+** check_special_token.c
+*/
+
+t_token					*check_arith_exp_token(char **cmdline);
+t_token					*check_param_sub_token(char **cmdline);
+
+/*
+** lexer_escape_tools.c
+*/
+
+int						adjust_escaped(char c, int escaped);
+t_token					*trim_escaped_newline(void);
+t_token					*get_eat_token(char **cmdline);
 #endif

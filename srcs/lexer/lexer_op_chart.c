@@ -61,19 +61,3 @@ t_token		*get_op_chart_token(char **cmdline, t_operation *op_chart)
 	}
 	return (NULL);
 }
-
-void		print_op_table(t_operation *op_chart)//debug
-{
-	int		i;
-
-	i = 0;
-	while (op_chart[i].size != 0)
-	{
-		ft_dprintf(2, "i: %d, str: {%s}, size: %d, type: %d\n",
-				i,
-				op_chart[i].str,
-				op_chart[i].size,
-				op_chart[i].type);
-		i++;
-	}
-}

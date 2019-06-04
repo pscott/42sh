@@ -3,7 +3,7 @@
 #include "cmd_parsing.h"
 #include "get_next_line.h"
 
-int			open_history(const char **env, int options)
+int					open_history(const char **env, int options)
 {
 	int				fd;
 	char			*hist_file;

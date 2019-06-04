@@ -35,7 +35,7 @@ int			switch_and_return(char buf, t_st_cmd *st_cmd)
 	ft_printf("%s%s%s", vars->cmd_value ? RED : GREEN, st_cmd->st_prompt->prompt, FG_DFL);
 	switch_st_cmd(st_cmd, newcmd);
 	free(newcmd);
-	if (buf == '\r'|| buf == '\n')
+	if (buf == '\r' || buf == '\n')
 	{
 		if (!(st_cmd->st_txt->txt[0]))
 			st_cmd->st_txt->txt[0] = ' ';

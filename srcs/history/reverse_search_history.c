@@ -5,7 +5,7 @@
 #include "builtins.h"
 #include "libft.h"
 
-int					strstr_adapted(const char *haystack, const char *needle)
+int				strstr_adapted(const char *haystack, const char *needle)
 {
 	size_t			i;
 	size_t			j;
@@ -34,7 +34,7 @@ int					strstr_adapted(const char *haystack, const char *needle)
 **	Returns 1 if to_find is found
 */
 
-int					search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find)
+int				search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find)
 {
 	if ((*st_cmd)->hist_lst->next == NULL)
 		(*st_cmd)->hist_lst = (*st_cmd)->hist_lst->prev;
@@ -54,17 +54,16 @@ int					search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find)
 			break ;
 	}
 	return (1);
-
 }
 
-int			ft_isprint_ctrlr(char c)
+int				ft_isprint_ctrlr(char c)
 {
 	if ((c > 31 && c < 127) || c == ' ')
 		return (1);
 	return (0);
 }
 
-static int	init_vars(size_t *malloc_size, int *prompt_type, char **stock)
+static int		init_vars(size_t *malloc_size, int *prompt_type, char **stock)
 {
 	*malloc_size = 256;
 	*prompt_type = 0;
@@ -75,11 +74,11 @@ static int	init_vars(size_t *malloc_size, int *prompt_type, char **stock)
 
 /*
 **	If buf_received == ctrlr, reverse-i-search in historic
-**	Returns 0 if the key is not ctrlr 
+**	Returns 0 if the key is not ctrlr
 **	Returns 1 if it is ctrlr + display new prompt + search
 */
 
-int		handle_reverse_search_history(t_st_cmd *st_cmd)
+int				handle_reverse_search_history(t_st_cmd *st_cmd)
 {
 	char			*stock;
 	char			buf;

@@ -1,6 +1,6 @@
 #include "history.h"
 
-static t_hist_lst			*get_hist_size_start(t_hist_lst *hist_lst)
+static t_hist_lst	*get_hist_size_start(t_hist_lst *hist_lst)
 {
 	t_hist_lst		*res;
 	unsigned int	i;

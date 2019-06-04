@@ -14,9 +14,25 @@
 # define PROMPT_REVERSE_I_SEARCH_SUCC "(reverse-i-search)"
 # define PROMPT_REVERSE_I_SEARCH_FAIL "(failed reverse-i-search)"
 
-enum {input_break, input_continue, input_stop};
-enum {enter_case = 1, ctrl_c_case, quit_case};
-enum {regular = 1, heredoc = 2};
+typedef enum	e_input
+{
+	input_break,
+	input_continue,
+	input_stop
+}				t_input;
+
+typedef enum	e_search_case
+{
+	enter_case = 1,
+	ctrl_c_case,
+	quit_case
+}				t_search_case;
+
+typedef enum	e_input_mode
+{
+	regular,
+	heredoc
+}				t_input_mode;;
 
 typedef struct			s_st_txt {
 	char				*txt;

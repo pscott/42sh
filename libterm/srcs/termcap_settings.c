@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/31 15:34:53 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/04 13:06:27 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,13 @@ static int	check_caps(void)
 	return (1);
 }
 
+/*
+**	Setups up the terminal settings : checking for all used capacities,
+**	saving the current terminal attributes in g_saved_attr.
+**	Returns 0 on success
+**	Else returns error number.
+*/
+
 int			setup_terminal_settings(void)
 {
 	char			term_buffer[2048];
@@ -98,23 +105,24 @@ int			setup_terminal_settings(void)
 	struct termios	tattr;
 	int				new_tty;
 
-	if ((new_tty = open(ttyname(STDIN_FILENO), O_WRONLY)) < 0) // need non interactive
-		return (0);
-	dup2(STDIN_FILENO, new_tty); // protect
+	if ((new_tty = open(ttyname(STDIN_FILENO), O_WRONLY)) < 0)
+		return (-1);
+	if ((dup2(STDIN_FILENO, new_tty) < 0))
+		return (1);
 	if ((tcgetattr(STDIN_FILENO, &g_saved_attr) == -1))
-		return (err_getattr() - 1);
+		return (err_getattr());
 	if ((termtype = getenv("TERM")) == NULL)
-		return (err_no_env() - 1);
+		return (err_no_env());
 	if ((res = tgetent(term_buffer, termtype)) == 0)
-		return (err_noentry() - 1);
+		return (err_noentry());
 	else if (res == -1)
-		return (err_no_database() - 1);
+		return (err_no_database());
 	if ((tcgetattr(STDIN_FILENO, &tattr) == -1))
-		return (err_getattr() - 1);
+		return (err_getattr());
 	if (check_caps() == 0)
-		return (err_caps() - 1);
+		return (err_caps());
 	if (set_non_canonical_mode(&tattr) == 0)
-		return (0);
+		return (1);
 	close(new_tty);
-	return (1);
+	return (0);
 }

@@ -33,6 +33,7 @@ t_bool			substitute_slice(char **old_str, size_t index[2],
 char			*get_var_name(char *str);
 int				replace_tilde(char **str, const char **env);
 int				is_valid_tilde(const char *str, t_token *prev_token);
+int				is_slashed(const char *str);
 
 /*
 **	Redirections parsing

@@ -7,7 +7,7 @@
 ** Handler function for terminating (aka dangerous) signals
 */
 
-void		sig_handler(int signo)
+void			sig_handler(int signo)
 {
 	execute_str(CLEAR_BELOW);
 	reset_terminal_settings();
@@ -22,7 +22,7 @@ void		sig_handler(int signo)
 **	Prints a newline on terminal
 */
 
-void		sigint_handler(int signo)
+void			sigint_handler(int signo)
 {
 	t_st_cmd	*st_cmd;
 	t_vars		*vars;
@@ -45,7 +45,7 @@ void		sigint_handler(int signo)
 **	Simply writes back the st_cmd on screen
 */
 
-void		sigwinch_handler(int signo)
+void			sigwinch_handler(int signo)
 {
 	t_st_cmd	*st_cmd;
 
@@ -65,7 +65,7 @@ void		sigwinch_handler(int signo)
 **	Setups terminal settings, and writes back the st cmd.
 */
 
-void		sigcont_handler(int signo)
+void			sigcont_handler(int signo)
 {
 	t_st_cmd	*st_cmd;
 	int			ret;
@@ -86,7 +86,7 @@ void		sigcont_handler(int signo)
 **	behavior for signal and simulates the signal with ioctl
 */
 
-void		sigtstp_handler(int signo)
+void			sigtstp_handler(int signo)
 {
 	(void)signo;
 	execute_str(CLEAR_BELOW);

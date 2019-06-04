@@ -6,7 +6,7 @@
 **	Unsetenv accepts 1 argument or more, but not 0
 */
 
-int		check_usage_unsetenv(char **argv)
+int			check_usage_unsetenv(char **argv)
 {
 	int		i;
 

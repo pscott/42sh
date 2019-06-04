@@ -43,7 +43,6 @@ void		delete_hashmap(t_hashmap *hashmap)
 ** return 1 because norm
 */
 
-//void		replace_item(t_hash_item *item, const char *value)//change for the norm
 t_bool		replace_item(t_hash_item *item, const char *value)
 {
 	if (!ft_strcmp(value, item->value))
@@ -52,7 +51,7 @@ t_bool		replace_item(t_hash_item *item, const char *value)
 	{
 		ft_memdel((void*)&item->value);
 		if (!(item->value = ft_strdup(value)))
-			ERROR_MEM;//TODO check me
+			ERROR_MEM;
 		item->count = 0;
 	}
 	return (1);
@@ -64,25 +63,25 @@ t_bool		replace_item(t_hash_item *item, const char *value)
 ** without breaking the linked list if there's one
 */
 
-t_bool		pop_hashmap_item(const char *key, t_hashmap *hashmap)//useless bool ?
+t_bool		pop_hashmap_item(const char *key, t_hashmap *hashmap)
 {
 	size_t		index;
 	t_hash_item	*item_probe;
 	t_hash_item	*prev_probe;
 
-	if (!check_hashmap(key, hashmap, hash_check))//dangerous to base on this ?
+	if (!check_hashmap(key, hashmap, hash_check))
 		return (0);
 	index = hashfun(key) % hashmap->size;
 	item_probe = hashmap->items[index];
 	prev_probe = NULL;
-	while (item_probe && ft_strcmp(key, item_probe->key))//checking item_probe useless cause i check_hashmap before
+	while (item_probe && ft_strcmp(key, item_probe->key))
 	{
 		prev_probe = item_probe;
 		item_probe = item_probe->next;
 	}
-	if (prev_probe)//	item not the first of the list
+	if (prev_probe)
 		prev_probe->next = item_probe->next;
-	else//	item is first of the list
+	else
 		hashmap->items[index] = item_probe->next;
 	delete_hashmap_item(item_probe);
 	return (1);
@@ -94,7 +93,7 @@ t_bool		reset_hashmap(t_hashmap **hashmap)
 
 	delete_hashmap(*hashmap);
 	if (!(new_map = init_hashmap(INIT_HASH_SIZE)))
-		return (0);//ERROR_MEM;
+		ERROR_MEM;
 	*hashmap = new_map;
 	return (1);
 }

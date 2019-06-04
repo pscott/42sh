@@ -2,12 +2,6 @@
 #include "lexer.h"
 #include "line_editing.h"
 
-void			error_mem(void) //unused but should use ?
-{
-	ft_putendl_fd("memory error.", STDERR_FILENO);
-	clean_exit(EXIT_FAILURE);
-}
-
 static t_bool	is_newline_token(t_token *token)
 {
 	int			i;

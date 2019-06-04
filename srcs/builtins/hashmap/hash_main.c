@@ -3,7 +3,7 @@
 #include "builtins.h"
 #include "execution.h"
 
-static char		**get_hash_paths(char **env)//no comment needed
+static char		**get_hash_paths(char **env)
 {
 	char	**paths;
 	char	*path_line;
@@ -34,7 +34,7 @@ static t_bool	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc
 
 	return_value = 0;
 	i = hash_args->name_index - 1;
-	paths = get_hash_paths(vars->env_vars);//no need protect: MEM_ERR is checked before, i protected 'find_path()'
+	paths = get_hash_paths(vars->env_vars);
 	while (++i < argc)
 	{
 		if (check_builtins(&argv[i]) || ft_strchr(argv[i], '/'))

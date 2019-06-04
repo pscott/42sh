@@ -35,7 +35,7 @@ char	*get_cwd_value(const char **env)
 		if (!(cwd = ft_strdup(cwd)))
 			ERROR_MEM;
 	}
-	else if (!(cwd = getcwd(NULL, 0)))//test it pls
+	else if (!(cwd = getcwd(NULL, 0)))
 	{
 		print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL);
 		return (NULL);

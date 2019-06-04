@@ -32,7 +32,8 @@ static t_bool	last_args_check(t_hash_state state)
 	if (state == get_hash_path)
 	{
 		ft_dprintf(2, "hash: -p: option requires an argument\n");
-		print_hash_usage();
+		ft_dprintf(STDERR_FILENO,
+				"hash usage [-lr] [-p pathname] [-d] [name ...]\n");
 		return (0);
 	}
 	return (1);
@@ -104,5 +105,5 @@ t_bool			get_hash_args(char **argv, t_hash_args *hash_args)
 				return (0);
 		}
 	}
-	return (last_args_check(hash_args->state));//bad function name :(
+	return (last_args_check(hash_args->state));
 }

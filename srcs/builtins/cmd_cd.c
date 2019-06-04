@@ -62,6 +62,12 @@ static int	is_error(char *dest)
 		return (0);
 }
 
+static	int	del_and_return_cd(char **dest, int ret)
+{
+	ft_strdel(dest);
+	return (ret);
+}
+
 /*
 **	Returns 0 if it succesfully managed to change directory ; else returns
 **	the corresponding error value.
@@ -83,16 +89,13 @@ int			case_cd(char **t, char ***env)
 	}
 	else if (t[1][0] == '/')
 	{
-		if (!(dest = ft_strdup(t[1])))// test with '/' at the END pls
+		if (!(dest = ft_strdup(t[1])))
 			ERROR_MEM;
 	}
 	else
 		dest = relative_directory(t[1], (const char**)*env);
 	if ((ret = is_error(dest)) != 0)
-	{
-		ft_strdel(&dest);
-		return (ret);
-	}
+		return (del_and_return_cd(&dest, ret));
 	else
 		return (change_environ(dest, env));
 }

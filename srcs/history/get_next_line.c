@@ -26,7 +26,7 @@ static t_fdlist	*ft_dlistnew(int fd)
 
 	if (!(i = (t_fdlist*)malloc(sizeof(t_fdlist))))
 		ERROR_MEM;
-	i->c = NULL;
+	i->content = NULL;
 	i->fd = fd;
 	i->next = NULL;
 	return (i);
@@ -37,25 +37,25 @@ static int		return_val(char **line, t_fdlist *save)
 	char			*e;
 	char			*tmp;
 
-	if (!(save->c))
+	if (!(save->content))
 		return (0);
-	e = ft_strchr(save->c, ENDL);
+	e = ft_strchr(save->content, ENDL);
 	if (e != NULL)
 	{
 		*e = 0;
-		if (!(*line = ft_strdup(save->c)))
+		if (!(*line = ft_strdup(save->content)))
 			ERROR_MEM;
 		if (!(tmp = ft_strdup(e + 1)))
 			ERROR_MEM;
-		free(save->c);
-		save->c = tmp;
+		free(save->content);
+		save->content = tmp;
 		return (1);
 	}
-	if (ft_strlen(save->c) > 0)
+	if (ft_strlen(save->content) > 0)
 	{
-		if (!(*line = ft_strdup(save->c)))
+		if (!(*line = ft_strdup(save->content)))
 			ERROR_MEM;
-		*(save)->c = 0;
+		*(save)->content = 0;
 		return (1);
 	}
 	return (0);
@@ -107,7 +107,7 @@ int				get_next_line(const int fd, char **line)
 	while ((check = read(fd, buf, GNL_BUFF_SIZE)) > 0)
 	{
 		buf[check] = 0;
-		save->c = ft_strjoinfree(save->c, buf);
+		save->content = ft_strjoinfree(save->content, buf);
 	}
 	if (check < 0)
 		return (-1);

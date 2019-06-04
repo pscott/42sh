@@ -66,6 +66,7 @@ int		exec_ast(t_ast *root, t_vars *vars)
 	else
 	{
 		ft_printf("==Begin Exec==\n");
+		print_ast(root);
 		return (parse_cmdline(root->token, vars));
 	}
 }

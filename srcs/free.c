@@ -3,7 +3,7 @@
 #include "ast.h"
 #include "heredoc.h"
 
-void	free_token_list(t_token *token_head)
+void		free_token_list(t_token *token_head)
 {
 	t_token	*probe;
 
@@ -23,7 +23,7 @@ static void	free_ast_node(t_ast *node)
 	ft_memdel((void*)&node);
 }
 
-void	free_ast(t_ast *ast_root)
+void		free_ast(t_ast *ast_root)
 {
 	if (ast_root->left)
 		free_ast(ast_root->left);
@@ -32,11 +32,10 @@ void	free_ast(t_ast *ast_root)
 	free_ast_node(ast_root);
 }
 
-char	*free_get_doc(char *txt, t_st_cmd *st_cmd, char *eof)
+char		*free_get_doc(char *txt, t_st_cmd *st_cmd, char *eof)
 {
 	ft_strdel(&txt);
 	free_all_st_cmds(&st_cmd);
 	ft_strdel(&eof);
 	return (NULL);
 }
-

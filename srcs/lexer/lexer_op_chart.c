@@ -24,7 +24,7 @@ static void	fill_op_chart(t_operation *op_chart)
 	create_op_chart_elem(&op_chart[9], ">|", 2, tk_unsupported);//nop
 	create_op_chart_elem(&op_chart[10], "|&", 2, tk_unsupported);//nop
 	create_op_chart_elem(&op_chart[11], "<>", 2, tk_unsupported);//nop
-	create_op_chart_elem(&op_chart[12], "$(", 2, tk_42sh);//nop
+	create_op_chart_elem(&op_chart[12], "$(", 2, tk_unsupported);//nop
 	//create_op_chart_elem(&op_chart[14], "${", 2, tk_42sh);//need this
 	//create_op_chart_elem(&op_chart[14], "${", 2, tk_word);//maybe don't tokenise it and just parse it in expand dollars ?
 	//create_op_chart_elem(&op_chart[15], "))", 2, tk_42sh);//no need: cause a call get_arith_exp()

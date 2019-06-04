@@ -3,11 +3,24 @@
 
 # include "ftsh.h"
 
-enum	{args_nb, arg_not_digit};
-enum	{cmd_cd = 1, cmd_echo, cmd_env, cmd_exit, cmd_setenv, cmd_unsetenv
-	, cmd_hash, cmd_type};
-t_bool	check_builtins(char **argv);
-t_bool	exec_builtins(char **argv, t_vars *vars, int cmd_id);
+typedef enum	e_cd_error {
+	args_nb = 1,
+	arg_not_digit = 2
+}				t_cd_error;
+
+typedef enum	e_cmd_id {
+	cmd_cd = 1,
+	cmd_echo,
+	cmd_env,
+	cmd_exit,
+	cmd_setenv,
+	cmd_unsetenv,
+	cmd_hash,
+	cmd_type
+}				t_cmd_id;
+
+int		check_builtins(char **argv);
+int		exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id);
 
 int		case_cd(char **argv, char ***env);
 int		case_hash(char **argv, t_vars *vars);

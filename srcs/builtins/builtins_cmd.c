@@ -9,7 +9,7 @@
 **	Use check_builtins before calling exec_builtins
 */
 
-static t_bool	exec_builtins_2(char **argv, t_vars *vars, int cmd_id) // tableau pointeur fonctions
+static int	exec_builtins_2(char **argv, t_vars *vars, int cmd_id) // tableau pointeur fonctions
 {
 	int			ret;
 
@@ -38,7 +38,7 @@ static t_bool	exec_builtins_2(char **argv, t_vars *vars, int cmd_id) // tableau 
 	return (ret);
 }
 
-t_bool			exec_builtins(char **argv, t_vars *vars, int cmd_id)
+int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 {
 	int			ret;
 
@@ -70,7 +70,7 @@ t_bool			exec_builtins(char **argv, t_vars *vars, int cmd_id)
 **	command value in case of success ; returns 0 on failure.
 */
 
-t_bool			check_builtins(char **argv)
+int			check_builtins(char **argv)
 {
 	if (ft_strcmp(argv[0], "exit") == 0)
 		return (cmd_exit);

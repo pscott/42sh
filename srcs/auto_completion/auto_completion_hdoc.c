@@ -64,8 +64,7 @@ static char			*get_match_and_display_hdoc(const char *input,
 
 }
 
-char				*auto_completion_hdoc(char *input, unsigned int len,
-					t_vars *vars)
+char				*auto_completion_hdoc(char *input, unsigned int len)
 {
 	char			*to_find_full;
 	char			*ret;

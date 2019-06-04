@@ -1,4 +1,4 @@
-#include "auto_completion.c"
+#include "auto_completion.h"
 
 int		get_all_match(char *directory, t_auto_comp **match,
 		const char *to_find, const char *next)

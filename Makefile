@@ -80,7 +80,6 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c 	#srcs subfiles names
 						input_loop.c cursor_position.c input_utils.c \
 						check_enter_quit_hist.c delete.c txt_cat.c \
 						jump_words.c checkers.c check_words.c check_tab.c
->>>>>>> Norme_Axel
 	EXPANDS_FILES	:=	parse_expands.c parse_tildes.c parse_vars.c\
 						parse_quotes.c parse_arith_exp.c\
 						substitute_utils.c parse_tildes_utils.c

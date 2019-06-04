@@ -3,8 +3,9 @@
 #include "libterm.h"
 #include "line_editing.h"
 #include <limits.h>
+#include "errors.h"
 
-void	magic_print(char *buf) // debug
+void		magic_print(char *buf) // debug
 {
 	int	i;
 
@@ -19,6 +20,29 @@ void	magic_print(char *buf) // debug
 	//execute_str(RESTORE_CURSOR);
 }
 
+static int	cmp_special_keys_versus_own_len(char *buf)
+{
+	if (ft_strncmp(buf, RIGHTARROW, ARROW_LEN + 1) == 0
+			|| ft_strncmp(buf, LEFTARROW, ARROW_LEN + 1) == 0
+			|| ft_strncmp(buf, UPARROW, ARROW_LEN + 1) == 0
+			|| ft_strncmp(buf, DOWNARROW, ARROW_LEN + 1) == 0
+			|| ft_strncmp(buf, HOME, HOME_LEN + 1) == 0
+			|| ft_strncmp(buf, END, END_LEN + 1) == 0
+			|| ft_strncmp(buf, DEL, DEL_LEN + 1) == 0)
+		return (1);
+	return (0);
+}
+
+static int	cmp_special_keys_versus_buf_len(char *buf, int len)
+{
+	if (ft_strncmp(buf, RIGHTARROW, len) == 0
+			|| ft_strncmp(buf, LEFTARROW, len) == 0
+			|| ft_strncmp(buf, UPARROW, len) == 0
+			|| ft_strncmp(buf, DOWNARROW, len) == 0
+			|| ft_strncmp(buf, DEL, len) == 0)
+		return (1);
+	return (0);
+}
 
 /*
 **	Returns -1 if buffer is NOT an escape sequence.
@@ -26,7 +50,7 @@ void	magic_print(char *buf) // debug
 **	Returns 1 if buffer IS an escape sequence.
 */
 
-static int is_valid_escape(char *buf)
+static int	is_valid_escape(char *buf)
 {
 	int		len;
 	int		last;
@@ -42,14 +66,9 @@ static int is_valid_escape(char *buf)
 		return (-1);
 	}
 	last = len > 0 ? len - 1 : 0;
-	if (ft_strncmp(buf, RIGHTARROW, ARROW_LEN + 1) == 0 || ft_strncmp(buf, LEFTARROW, ARROW_LEN + 1) == 0
-		|| ft_strncmp(buf, UPARROW, ARROW_LEN + 1) == 0 || ft_strncmp(buf, DOWNARROW, ARROW_LEN + 1) == 0
-		|| ft_strncmp(buf, HOME, HOME_LEN + 1) == 0 || ft_strncmp(buf, END, END_LEN + 1) == 0
-		|| ft_strncmp(buf, DEL, DEL_LEN + 1) == 0)
+	if (cmp_special_keys_versus_own_len(buf))
 		return (1);
-	if (ft_strncmp(buf, RIGHTARROW, len) == 0 || ft_strncmp(buf, LEFTARROW, len) == 0
-		|| ft_strncmp(buf, UPARROW, len) == 0 || ft_strncmp(buf, DOWNARROW, len) == 0
-		|| ft_strncmp(buf, DEL, len) == 0)
+	if (cmp_special_keys_versus_buf_len(buf, len))
 		return (0);
 	return (-1);
 }
@@ -60,7 +79,7 @@ static int is_valid_escape(char *buf)
 **	Returns 0 on quit, return -1 on ctrl + c
 */
 
-int		input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)
+int			input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)
 {
 	char	buf[BUF_SIZE + 1];
 	char	c;
@@ -78,15 +97,12 @@ int		input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)
 		if (ret == input_stop)
 			return (-1);
 		else if (ret == input_break)
-			break;
+			break ;
 		reposition_cursor(st_cmd);
 		ft_bzero(buf, BUF_SIZE + 1);
 	}
 	if (st_cmd->st_txt->data_size > INT_MAX)
-	{
-		ft_dprintf(2, "error: maximum input size exceeded\n");
-		return (-1); // print error ?  move inside loop ?
-	}
+		return (print_errors(-1, ERR_MAX_INPUT_STR, NULL));
 	if (ret >= 0)
 		return (1);
 	return (0);

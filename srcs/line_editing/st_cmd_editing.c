@@ -42,7 +42,6 @@ t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd)
 		old_st_cmd = old_st_cmd->next;
 		free_st_cmd(left_cmd);
 	}
-	//free old_st_cmd lst;
 	st_cmd->next = NULL;
 	st_cmd->prev = NULL;
 	get_st_cmd(&st_cmd);
@@ -67,11 +66,9 @@ t_st_cmd		*init_st_cmd(const char **env)
 		init_relative_pos(st_cmd);
 		st_cmd->hist_lst = get_history(env);
 		st_cmd->hist_lst = insert_right(st_cmd->hist_lst, "last", 0);
-		//  previous line : ? need to malloc "" ?
 	}
 	st_cmd->next = NULL;
 	st_cmd->prev = NULL;
-//	get_st_cmd(&st_cmd);
 	return (st_cmd);
 }
 

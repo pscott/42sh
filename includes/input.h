@@ -14,9 +14,25 @@
 # define PROMPT_REVERSE_I_SEARCH_SUCC "(reverse-i-search)"
 # define PROMPT_REVERSE_I_SEARCH_FAIL "(failed reverse-i-search)"
 
-enum {input_break, input_continue, input_stop};
-enum {enter_case = 1, ctrl_c_case, quit_case};
-enum {regular = 1, heredoc = 2};
+typedef enum	e_input
+{
+	input_break,
+	input_continue,
+	input_stop
+}				t_input;
+
+typedef enum	e_search_case
+{
+	enter_case = 1,
+	ctrl_c_case,
+	quit_case
+}				t_search_case;
+
+typedef enum	e_input_mode
+{
+	regular,
+	heredoc
+}				t_input_mode;;
 
 typedef struct			s_st_txt {
 	char				*txt;
@@ -41,7 +57,8 @@ typedef struct			s_st_cmd {
 	struct s_st_cmd		*prev;
 }						t_st_cmd;
 
-int						handle_reverse_search_history(t_st_cmd *st_cmd);
+int						handle_reverse_search_history(t_st_cmd *st_cmd,
+						size_t malloc_size, int prompt_size);
 
 /*
 ** Handling input
@@ -63,8 +80,8 @@ int						check_for_delete(t_st_cmd *st_cmd, char *buf);
 int						check_for_search_histo(t_st_cmd *st_cmd,
 						const char *buf_received);
 int						check_for_tab(t_st_cmd *st_cmd, const char *buf,
-						t_vars *vars);
-int						check_for_tab_hdoc(t_st_cmd *st_cmd, const char *buf);
+						t_vars *vars, int mode);
+int						check_for_words(t_st_cmd *st_cmd, const char *buf);
 char					*auto_completion(char *input, unsigned int len,
 						t_vars *vars);
 char					*auto_completion_hdoc(char *input,
@@ -90,7 +107,7 @@ void					delete_left(t_st_cmd *st_cmd);
 **	Jump words
 */
 
-int						jump_word(t_st_cmd *st_cmd, int num);
+int						jump_words(t_st_cmd *st_cmd, int num);
 
 /*
 ** Read input

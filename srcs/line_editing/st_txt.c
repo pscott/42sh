@@ -34,5 +34,5 @@ void		free_st_txt(t_st_txt **st_txt)
 	if (!st_txt || !(*st_txt))
 		return ;
 	ft_strdel(&(*st_txt)->txt);
-	ft_memdel((void*)st_txt); // works ?
+	ft_memdel((void*)st_txt);
 }

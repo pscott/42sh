@@ -72,14 +72,15 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c 	#srcs subfiles names
 						environ_unset.c
 	ERRORS_FILES	:=	errors.c print_errors.c error_exit.c
 	LEXER_FILES		:=	lexer.c lexer_tools.c lexer_op_chart.c get_token.c \
-						lexer_debug.c copy_token_list.c
+						lexer_debug.c copy_token_list.c lexer_escape_tools.c \
+						check_special_token.c
 	PARSER_FILES	:=	token_parser.c token_parser_utils.c
 	PIPELINE_FILES	:=	parse_pipeline.c  \
 						check_token_type.c
-	READER_FILES	:=	arrows.c check_sig_tab_del_arr.c prompt.c \
+	READER_FILES	:=	arrows.c check_sig_del_arrow.c prompt.c \
 						input_loop.c cursor_position.c input_utils.c \
 						check_enter_quit_hist.c delete.c txt_cat.c \
-						jump_word.c checkers.c
+						jump_words.c checkers.c check_words.c check_tab.c
 	EXPANDS_FILES	:=	parse_expands.c parse_tildes.c parse_vars.c\
 						parse_quotes.c parse_arith_exp.c\
 						substitute_utils.c parse_tildes_utils.c

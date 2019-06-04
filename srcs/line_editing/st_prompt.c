@@ -32,5 +32,5 @@ void		free_st_prompt(t_st_prompt **st_prompt)
 	if (!st_prompt || !(*st_prompt))
 		return ;
 	ft_strdel(&(*st_prompt)->prompt);
-	ft_memdel((void*)st_prompt); // works ?
+	ft_memdel((void*)st_prompt);
 }

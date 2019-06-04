@@ -2,7 +2,7 @@
 #include "input.h"
 #include "line_editing.h"
 
-void	print_prompt(t_st_cmd *st_cmd)
+void			print_prompt(t_st_cmd *st_cmd)
 {
 	char		*zsh;
 	int			len;
@@ -31,10 +31,11 @@ void	print_prompt(t_st_cmd *st_cmd)
 	}
 }
 
-static void	replace_prompt(t_st_cmd *st_cmd, const char *buf, int prompt_type)
+static void		replace_prompt(t_st_cmd *st_cmd, const char *buf,
+				int prompt_type)
 {
-	char	*new_prompt;
-	char	*tmp;
+	char		*new_prompt;
+	char		*tmp;
 
 	free_st_prompt(&st_cmd->st_prompt);
 	if (prompt_type == 0)
@@ -54,9 +55,10 @@ static void	replace_prompt(t_st_cmd *st_cmd, const char *buf, int prompt_type)
 	ft_strdel(&new_prompt);
 }
 
-void	print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf, int prompt_type) 
+void			print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf,
+				int prompt_type)
 {
-	size_t	tmp;
+	size_t		tmp;
 
 	if (isatty(STDIN_FILENO))
 	{

@@ -8,15 +8,20 @@ static void	get_next_word(t_st_cmd *st_cmd)
 
 	st_txt = st_cmd->st_txt;
 	limit = st_txt->data_size;
-	while (!ft_is_white_space(st_txt->txt[st_txt->tracker]) && ft_is_metachar(st_txt->txt[st_txt->tracker]) && st_txt->tracker < limit)
+	while (!ft_is_white_space(st_txt->txt[st_txt->tracker])
+			&& ft_is_metachar(st_txt->txt[st_txt->tracker])
+			&& st_txt->tracker < limit)
 		st_txt->tracker++;
-	while (!ft_is_white_space(st_txt->txt[st_txt->tracker]) && st_txt->tracker < limit)
+	while (!ft_is_white_space(st_txt->txt[st_txt->tracker])
+			&& st_txt->tracker < limit)
 	{
-		if (ft_is_white_space(st_txt->txt[st_txt->tracker]) || ft_is_metachar(st_txt->txt[st_txt->tracker]))
+		if (ft_is_white_space(st_txt->txt[st_txt->tracker])
+				|| ft_is_metachar(st_txt->txt[st_txt->tracker]))
 			return ;
 		st_txt->tracker++;
 	}
-	while (ft_is_white_space(st_txt->txt[st_txt->tracker]) && st_txt->tracker < limit)
+	while (ft_is_white_space(st_txt->txt[st_txt->tracker])
+			&& st_txt->tracker < limit)
 		st_txt->tracker++;
 }
 
@@ -27,11 +32,13 @@ static void	get_prev_word(t_st_cmd *st_cmd)
 	st_txt = st_cmd->st_txt;
 	if (st_txt->tracker > 0)
 		st_txt->tracker--;
-	while (st_txt->tracker > 0 && ft_is_white_space(st_txt->txt[st_txt->tracker]))
+	while (st_txt->tracker > 0
+			&& ft_is_white_space(st_txt->txt[st_txt->tracker]))
 		st_txt->tracker--;
 	if (ft_is_metachar(st_txt->txt[st_txt->tracker]))
 	{
-		while (st_txt->tracker > 0 && ft_is_metachar(st_txt->txt[st_txt->tracker - 1]))
+		while (st_txt->tracker > 0
+				&& ft_is_metachar(st_txt->txt[st_txt->tracker - 1]))
 		{
 			if (ft_is_white_space(st_txt->txt[st_txt->tracker - 1]))
 				return ;
@@ -42,16 +49,17 @@ static void	get_prev_word(t_st_cmd *st_cmd)
 	{
 		while (st_txt->tracker > 0)
 		{
-			if (ft_is_metachar(st_txt->txt[st_txt->tracker - 1]) || ft_is_white_space(st_txt->txt[st_txt->tracker - 1]))
+			if (ft_is_metachar(st_txt->txt[st_txt->tracker - 1])
+					|| ft_is_white_space(st_txt->txt[st_txt->tracker - 1]))
 				return ;
 			st_txt->tracker--;
 		}
 	}
 }
 
-int	jump_word(t_st_cmd *st_cmd, int num)
+int			jump_word(t_st_cmd *st_cmd, int num)
 {
-	char	*begin;
+	char			*begin;
 
 	begin = st_cmd->st_txt->txt;
 	if (num >= 0)

@@ -5,7 +5,8 @@
 #include "builtins.h"
 
 /*
-**	Checks and calls the appropriated functions for UP, DOWN, LEFT, RIGHT, HOME
+**	Checks and calls the appropriated functions for UPARROW, DOWNARROW,
+**	LEFTARROW, RIGHTARROW, HOME
 **	and END keys.
 */
 

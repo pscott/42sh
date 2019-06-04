@@ -34,7 +34,7 @@ void		signals_setup(void)
 	signal(SIGXCPU, sig_handler);
 	signal(SIGXFSZ, sig_handler);
 	signal(SIGVTALRM, sig_handler);
-/*	signal(SIGUSR1, sig_handler);
-	signal(SIGUSR2, sig_handler);*/
+//	signal(SIGUSR1, sig_handler);
+//	signal(SIGUSR2, sig_handler);
 	signal(SIGPROF, sig_handler);
 }

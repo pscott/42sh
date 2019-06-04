@@ -1,6 +1,7 @@
 #include "ftsh.h"
 #include "lexer.h"
 #include "ast.h"
+#include "heredoc.h"
 
 void	free_token_list(t_token *token_head)
 {
@@ -30,3 +31,12 @@ void	free_ast(t_ast *ast_root)
 		free_ast(ast_root->right);
 	free_ast_node(ast_root);
 }
+
+char	*free_get_doc(char *txt, t_st_cmd *st_cmd, char *eof)
+{
+	ft_strdel(&txt);
+	free_all_st_cmds(&st_cmd);
+	ft_strdel(&eof);
+	return (NULL);
+}
+

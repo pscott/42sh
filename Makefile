@@ -117,7 +117,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c 	#srcs subfiles names
 						op_tokenizer_clean_2.c op_tokenizer_dirty.c \
 						op_tokenizer_utils.c put_op_link.c ft_isempty.c
 
-	HEREDOC_FILES	:=	heredoc.c heredoc_utils.c get_doc.c
+	HEREDOC_FILES	:=	heredoc.c heredoc_utils.c get_doc.c save_heredoc.c
 
 
 

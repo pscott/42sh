@@ -7,6 +7,7 @@ static t_token	*trim_escaped_newline(t_st_cmd **st_cmd)
 {
 	*st_cmd = get_st_cmd(NULL);
 	(*st_cmd)->st_txt->data_size -= 2;
+	ft_printf("|%s|\n", &(*st_cmd)->st_txt->txt[(*st_cmd)->st_txt->data_size], 2);
 	ft_bzero(&(*st_cmd)->st_txt->txt[(*st_cmd)->st_txt->data_size], 2);
 	return (NULL);
 }
@@ -16,19 +17,40 @@ static t_token	*get_dquot_token(char **cmdline)
 	t_token		*token;
 	t_st_cmd	*st_cmd;
 	size_t		i;
+	int			escaped;
 
 	i = 1;
-	while ((*cmdline)[i] != 0 && (*cmdline)[i] != '"')
+	escaped = 0;
+	//
+	//while ((*cmdline)[i] != 0 && (*cmdline)[i] != '"')
+	//{
+	//	if ((*cmdline)[i] == '\\')
+	//	{
+	//	   	if ((*cmdline)[i + 1] == '\"')
+	//			i++;
+	//		else if ((*cmdline)[i + 1] == '\n')//TODO check me
+	//			return (trim_escaped_newline(&st_cmd));
+	//	}
+	//	i++;
+	//}
+	//
+	while ((*cmdline)[i] != 0)
 	{
-		if ((*cmdline)[i] == '\\')
+		//ft_printf("%c", (*cmdline)[i]);
+		if (!escaped && (*cmdline)[i] == '"')
+			break ;
+		else if (!escaped && (*cmdline)[i] == '\\' && (*cmdline)[i + 1] == '\n')
 		{
-		   	if ((*cmdline)[i + 1] == '\"')
-				i++;
-			else if ((*cmdline)[i + 1] == '\n')//TODO check me
-				return (trim_escaped_newline(&st_cmd));
+			escaped = 0;
+			return (trim_escaped_newline(&st_cmd));
 		}
+		else if ((*cmdline)[i] == '\\')
+			escaped = (escaped) ? 0 : 1;
+		else
+			escaped = 0;
 		i++;
 	}
+	//
 	if ((*cmdline)[i] == 0)
 		return (NULL);
 	if (!(token = create_token(*cmdline, ++i, tk_dq_str)))

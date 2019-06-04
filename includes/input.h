@@ -41,7 +41,8 @@ typedef struct			s_st_cmd {
 	struct s_st_cmd		*prev;
 }						t_st_cmd;
 
-int						handle_reverse_search_history(t_st_cmd *st_cmd);
+int						handle_reverse_search_history(t_st_cmd *st_cmd,
+						size_t malloc_size, int prompt_size);
 
 /*
 ** Handling input

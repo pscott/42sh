@@ -27,7 +27,7 @@ t_st_prompt	*init_st_prompt(const char *prompt)
 **	Memdels st_prompt and frees up the allocated memory
 */
 
-void	free_st_prompt(t_st_prompt **st_prompt)
+void		free_st_prompt(t_st_prompt **st_prompt)
 {
 	if (!st_prompt || !(*st_prompt))
 		return ;

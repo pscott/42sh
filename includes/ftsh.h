@@ -16,22 +16,27 @@
 **	t_vars utility functions
 */
 
-t_vars	*get_vars(t_vars *new_vars);
-void	free_vars(t_vars *vars);
+t_vars		*get_vars(t_vars *new_vars);
+void		free_vars(t_vars *vars);
 
 /*
 **	File descriptors funcs
 */
 
-void	save_reset_stdfd(int mode);
+void		save_reset_stdfd(int mode);
 
 /*
 **	String tool
 */
 
-t_bool			is_full_of_whitespaces(const char *input);
+t_bool		is_full_of_whitespaces(const char *input);
 
-void			clean_exit(int exitno);
+void		clean_exit(int exitno);
 
-void			magic_print(char *buf);//debug
+/*
+**	Debug
+*/
+
+void		magic_print(char *buf);
+
 #endif

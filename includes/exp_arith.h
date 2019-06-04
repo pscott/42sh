@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exp_arith.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mporzier <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/09 14:01:01 by mporzier          #+#    #+#             */
-/*   Updated: 2019/06/03 14:49:25 by penzo            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef EXP_ARITH_H
 # define EXP_ARITH_H
 
@@ -24,24 +12,24 @@
 
 typedef enum		e_arith_token
 {
-	TK_NB = 1,			// x
-	TK_VARPLUS = 2,		// x++
-	TK_PLUSVAR = 3,		// ++x
-	TK_VARMIN = 4,		// x--
-	TK_MINVAR = 5,		// --x
-	TK_ADD = 6,			// +
-	TK_SUB = 7,			// -
-	TK_MULT = 8,		// *
-	TK_DIV = 9,			// /
-	TK_MOD = 10,		// %
-	TK_LESSEQ = 11,		// <=
-	TK_MOREEQ = 12,		// >=
-	TK_LESS = 13,		// <
-	TK_MORE = 14,		// >
-	TK_EQ = 15,			// ==
-	TK_NOTEQ = 16,		// !=
-	TK_OPERAND = 17,	// &&
-	TK_OPEROR = 18,		// ||
+	TK_NB = 1,
+	TK_VARPLUS = 2,
+	TK_PLUSVAR = 3,
+	TK_VARMIN = 4,
+	TK_MINVAR = 5,
+	TK_ADD = 6,
+	TK_SUB = 7,
+	TK_MULT = 8,
+	TK_DIV = 9,
+	TK_MOD = 10,
+	TK_LESSEQ = 11,
+	TK_MOREEQ = 12,
+	TK_LESS = 13,
+	TK_MORE = 14,
+	TK_EQ = 15,
+	TK_NOTEQ = 16,
+	TK_OPERAND = 17,
+	TK_OPEROR = 18,
 }					t_arith_token;
 
 /*
@@ -102,8 +90,6 @@ void				put_lst_back(t_op *lst, t_op *new);
 int					check_chars(char *str, t_vars *vars);
 long long			ft_atoll(char *str);
 char				*ft_lltoa(long long n);
-//int					expansion_arith(char *str, char ***vars, long long *result
-//					, t_bool verbose);
 int					expansion_arith(char *str, long long *result
 					, t_vars *vars);
 int					free_tokens(t_tok *tokens, int ret);
@@ -131,7 +117,7 @@ long long			calcul(long long nb1, long long nb2, int token, int *error);
 long long			oper_and_or(t_op *lst, int *err, char ***vars);
 long long			return_set_err(int *err, int error);
 long long			double_numbers(t_op *lst, int *err, char ***vars);
-long long			not_tok_nb(t_op *lst, int *err, long long *nb, char ***vars);
+long long			not_tok_nb(t_op *lst, int *err, long long *nb, char ***var);
 long long			exec(t_op *lst, int *err, char ***vars);
 long long			lonely_number(t_op *lst, char ***vars);
 long long			check_err_numbers(t_op *lst);

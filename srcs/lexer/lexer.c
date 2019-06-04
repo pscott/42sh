@@ -25,6 +25,7 @@ t_token	*create_token(char *cmdline, size_t size, t_token_type type)
 	new_token->size = size;
 	new_token->type = type;
 	new_token->next = NULL;
+	ft_dprintf(2, "SIZE TOKEN: %lu\n", size);
 	if (!(new_token->content = ft_strndup(cmdline, size)))
 	{
 		ft_memdel((void*)&new_token);
@@ -126,6 +127,7 @@ int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 			return (lex_fail);
 		if (current_token->type != tk_eat)
 			prev_token = current_token;
+		ft_dprintf(2, "%c\n", cmdline[0]);
 		ft_printf("BOTTOM LEXER cmdline |%s|\n", cmdline);
 	}
 	if (parse_heredoc(*token_head, vars) == 0)

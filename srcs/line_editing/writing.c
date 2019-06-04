@@ -82,9 +82,8 @@ int		write_line(t_st_cmd *st_cmd)
 	t_st_txt	*st_txt;
 	size_t		i;
 
-	if (isatty(STDIN_FILENO) == 0)
+	if (isatty(STDIN_FILENO) == 0 || !(st_txt = st_cmd->st_txt))
 		return (0);
-	st_txt = st_cmd->st_txt;
 	i = 0;
 	while ((st_txt->tracker + i) < st_txt->data_size
 			&& st_txt->txt[st_txt->tracker + i] != '\n')
@@ -93,8 +92,8 @@ int		write_line(t_st_cmd *st_cmd)
 		i++;
 		get_pos(st_cmd, st_cmd->st_txt->data_size - 1);
 		if ((st_cmd->start_pos.row + st_cmd->relative_pos.row)
-				> st_cmd->window->ws_row
-				|| st_cmd->relative_pos.col == st_cmd->window->ws_col - 1)
+			> st_cmd->window->ws_row
+			|| st_cmd->relative_pos.col == st_cmd->window->ws_col - 1)
 		{
 			move_down(st_cmd);
 			get_pos(st_cmd, st_txt->tracker + i);

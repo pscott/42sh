@@ -33,7 +33,7 @@ static void	fill_op_chart(t_operation *op_chart)
 	create_op_chart_elem(&op_chart[14], "|", 1, tk_pipe);
 	create_op_chart_elem(&op_chart[15], "<", 1, tk_redirection);
 	create_op_chart_elem(&op_chart[16], ">", 1, tk_redirection);
-	create_op_chart_elem(&op_chart[17], "&", 1, tk_amp);
+	create_op_chart_elem(&op_chart[17], "&", 1, tk_unsupported);
 	create_op_chart_elem(&op_chart[18], ";", 1, tk_semi);
 	op_chart[OP_CHART_SIZE - 1].size = 0;
 }

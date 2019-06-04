@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/04 15:44:37 by aschoenh         ###   ########.fr       */
+/*   Updated: 2019/06/04 16:34:09 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ struct termios	g_saved_attr;
 
 int				setup_terminal_settings(void);
 int				reset_terminal_settings(void);
+int				check_caps(void);
 
 /*
 ** Executes the corresponding termcap string

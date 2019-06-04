@@ -25,16 +25,21 @@ static void	get_next_word(t_st_cmd *st_cmd)
 		st_txt->tracker++;
 }
 
-static void	get_prev_word(t_st_cmd *st_cmd)
+static void	refresh_tracker_value(t_st_txt *st_txt)
 {
-	t_st_txt		*st_txt;
-
-	st_txt = st_cmd->st_txt;
 	if (st_txt->tracker > 0)
 		st_txt->tracker--;
 	while (st_txt->tracker > 0
 			&& ft_is_white_space(st_txt->txt[st_txt->tracker]))
 		st_txt->tracker--;
+}
+
+static void	get_prev_word(t_st_cmd *st_cmd)
+{
+	t_st_txt		*st_txt;
+
+	st_txt = st_cmd->st_txt;
+	refresh_tracker_value(st_txt);
 	if (ft_is_metachar(st_txt->txt[st_txt->tracker]))
 	{
 		while (st_txt->tracker > 0

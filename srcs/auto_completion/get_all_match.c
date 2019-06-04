@@ -1,4 +1,5 @@
 #include "auto_completion.c"
+
 int		get_all_match(char *directory, t_auto_comp **match,
 		const char *to_find, const char *next)
 {
@@ -9,10 +10,8 @@ int		get_all_match(char *directory, t_auto_comp **match,
 	if ((dir = opendir(directory)) == NULL)
 		return (1);
 	tmp = NULL;
-	ft_printf("%s,%s", directory, to_find);
-	sleep(1);
 	while ((ent = readdir(dir)))
-		if (!(compare_entry(to_find, ent->d_name) || (to_find && !to_find[0])))
+		if (!(compare_entry(to_find, ent->d_name) ))
 		{
 			if (ent->d_type && ent->d_type == DT_DIR)
 				tmp = ft_strjoin(ent->d_name, "/");

@@ -9,7 +9,8 @@ static int	interrupt_search(t_st_cmd *st_cmd)
 		st_cmd->st_txt->txt[0] = ' ';
 	get_pos(st_cmd, st_cmd->st_txt->tracker);
 	reposition_cursor(st_cmd);
-	write(STDERR_FILENO, "^C", 2);
+	if (isatty(STDIN_FILENO))
+		write(STDIN_FILENO, "^C", 2);
 	execute_str(PRINT_LINE);
 	return (ctrl_c_case);
 }

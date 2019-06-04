@@ -1,116 +1,79 @@
-#include "get_next_line.h"
 #include "ftsh.h"
 
-static char		*ft_strjoinfree(char *s1, char *s2)
+static char		*ft_strjoinfree(char **s1, char *s2)
 {
 	char	*s3;
 
 	if (!s2)
 		return (0);
-	if (!s1)
+	if (!*s1)
 		return (ft_strdup(s2));
-	if (!(s3 = ft_strnew(ft_strlen(s1) + ft_strlen(s2))))
+	if (!(s3 = ft_strnew(ft_strlen(*s1) + ft_strlen(s2))))
 		ERROR_MEM;
 	if (s3)
 	{
-		ft_strcpy(s3, s1);
+		ft_strcpy(s3, *s1);
 		ft_strcat(s3, s2);
 	}
-	ft_strdel(&s1);
+	free(*s1);
 	return (s3);
 }
 
-static t_fdlist	*ft_dlistnew(int fd)
+static int		return_val(char **line, char **content)
 {
-	t_fdlist *i;
-
-	if (!(i = (t_fdlist*)malloc(sizeof(t_fdlist))))
-		ERROR_MEM;
-	i->content = NULL;
-	i->fd = fd;
-	i->next = NULL;
-	return (i);
-}
-
-static int		return_val(char **line, t_fdlist *save)
-{
-	char			*next_newline;
+	char			*next_nl;
 	char			*tmp;
 
-	if (!(save->content))
+	if (!*content)
 		return (0);
-	next_newline = ft_strchr(save->content, ENDL);
-	if (next_newline != NULL)
+	if (**content == 0)
 	{
-		*next_newline = 0;
-		if (!(*line = ft_strdup(save->content)))
+		ft_strdel(content);
+		return (0);
+	}
+	next_nl = ft_strchr(*content, '\n');
+	if (next_nl != NULL)
+	{
+		*next_nl = 0;
+		if (!(*line = ft_strdup(*content)) || !(tmp = ft_strdup(next_nl + 1)))
 			ERROR_MEM;
-		if (!(tmp = ft_strdup(next_newline + 1)))
-			ERROR_MEM;
-		free(save->content);
-		save->content = tmp;
+		ft_strdel(content);
+		*content = tmp;
 		return (1);
 	}
-	if (ft_strlen(save->content) > 0)
+	if (ft_strlen(*content) > 0)
 	{
-		if (!(*line = ft_strdup(save->content)))
+		if (!(*line = ft_strdup(*content)))
 			ERROR_MEM;
-		*(save)->content = 0;
+		**content = 0;
 		return (1);
-	}
-	return (0);
-}
-
-static t_fdlist	*getfd(t_fdlist *save, int fd)
-{
-	t_fdlist *dlist;
-
-	while (save->fd < fd && save)
-	{
-		if (!save->next)
-		{
-			dlist = ft_dlistnew(fd);
-			if (save != NULL && dlist != NULL)
-			{
-				save->next = dlist;
-				dlist->prev = save;
-			}
-		}
-		save = save->next;
-		if (save->fd == fd)
-			return (save);
-	}
-	while (save->fd > fd && save)
-	{
-		save = save->prev;
-		if (save->fd == fd)
-			return (save);
 	}
 	return (0);
 }
 
 int				get_next_line(const int fd, char **line)
 {
-	static t_fdlist	*save = NULL;
-	char			*buf;
+	static char		*content = NULL;
+	char			buf[1024];
 	int				check;
 
-	if (line == NULL || GNL_BUFF_SIZE < 1 || fd < 0)
+	if (line == NULL || fd < 0)
 		return (-1);
-	if (save && (int)save->fd != fd && fd)
-		save = getfd(save, fd);
-	if (save == NULL)
-		save = ft_dlistnew(fd);
 	*line = 0;
-	if (!(buf = (char *)malloc(sizeof(char) * (GNL_BUFF_SIZE + 1))))
-		ERROR_MEM;
-	while ((check = read(fd, buf, GNL_BUFF_SIZE)) > 0)
+	if (!content)
+	{
+		if (!(content = ft_strdup("")))
+			ERROR_MEM;
+	}
+	while ((check = read(fd, buf, 1023)) > 0)
 	{
 		buf[check] = 0;
-		save->content = ft_strjoinfree(save->content, buf);
+		content = ft_strjoinfree(&content, buf);
 	}
 	if (check < 0)
+	{
+		ft_strdel(&content);
 		return (-1);
-	free(buf);
-	return (return_val(line, save));
+	}
+	return (return_val(line, &content));
 }

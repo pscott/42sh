@@ -14,6 +14,7 @@ typedef struct			s_hist_lst {
 	struct s_hist_lst	*next;
 }						t_hist_lst;
 
+
 /*
 **	Retrieving and writing history to/from a file
 */
@@ -21,6 +22,7 @@ typedef struct			s_hist_lst {
 t_hist_lst				*get_history(const char **env);
 int						open_history(const char **env, int options);
 int						write_to_history(t_st_cmd *st_cmd, const char **env);
+int						get_next_line(const int fd, char **line);
 
 /*
 **	Utils for hist_lst structure : appending, creating, inserting etc...

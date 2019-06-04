@@ -27,7 +27,7 @@ INCL_DIR	:=	includes libft/includes libterm/includes
 INCL_CMD	:=	$(addprefix -I,$(INCL_DIR))
 
 INCL_FILES	:=	ftsh.h lexer.h ast.h auto_completion.h input.h history.h \
-				get_next_line.h structures.h \
+				structures.h \
 				line_editing.h builtins.h errors.h cmd_parsing.h execution.h \
 				signals.h hashmap.h heredoc.h exp_arith.h env.h
 

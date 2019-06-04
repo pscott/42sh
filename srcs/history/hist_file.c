@@ -1,7 +1,6 @@
 #include "history.h"
 #include "input.h"
 #include "cmd_parsing.h"
-#include "get_next_line.h"
 
 int					open_history(const char **env, int options)
 {

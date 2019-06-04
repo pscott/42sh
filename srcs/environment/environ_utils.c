@@ -6,7 +6,7 @@
 ** return 0 otherwise
 */
 
-int		ft_strcmp_before_c(char *search, char *str, char c)//libft ?
+int		ft_strcmp_before_c(char *search, char *str, char c)
 {
 	int		i;
 

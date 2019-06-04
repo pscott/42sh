@@ -82,15 +82,15 @@ int						lexer(char *cmdline, t_token **token_head,
 ** lexer utils
 */
 
-t_bool					is_argv_token(t_token *probe);
-t_bool					is_simple_cmd_token(t_token *probe);
-t_bool					is_logic_or_pipe(t_token *token);
-t_bool					is_two_ctrlop_or_redir_following(t_token *prev_token
+int						is_argv_token(t_token *probe);
+int						is_simple_cmd_token(t_token *probe);
+int						is_logic_or_pipe(t_token *token);
+int						is_two_ctrlop_or_redir_following(t_token *prev_token
 						, t_token *current_token);
-t_bool					token_list_start_with_ctrl_op(t_token *prev_token
+int						token_list_start_with_ctrl_op(t_token *prev_token
 						, t_token *current_token);
-t_bool					is_redir_token(t_token *token);
-t_bool					is_ctrl_op_token(t_token *token);
+int						is_redir_token(t_token *token);
+int						is_ctrl_op_token(t_token *token);
 t_token					*copy_tokens(t_token *token_head);
 
 /*

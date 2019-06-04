@@ -12,7 +12,7 @@
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define GNL_BUFF_SIZE 32
+# define GNL_BUFF_SIZE 1
 # define ENDL '\n'
 # include "libft.h"
 # include <sys/types.h>

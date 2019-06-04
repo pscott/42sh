@@ -6,7 +6,7 @@
 **	STDIN
 */
 
-void				redirect(int old_fd, int new_fd, int save)
+void		redirect(int old_fd, int new_fd, int save)
 {
 	if (save)
 		save_reset_stdfd(1);
@@ -29,9 +29,9 @@ void				redirect(int old_fd, int new_fd, int save)
 **	Returns -1 if it is not.
 */
 
-int					check_fd_prev(t_token *prev)
+int			check_fd_prev(t_token *prev)
 {
-	int	i;
+	int				i;
 
 	if (!prev)
 		return (-1);
@@ -56,7 +56,8 @@ int					check_fd_prev(t_token *prev)
 **	Returns 0 on success, > 0 on fail.
 */
 
-static int	apply_redirections(t_token *redir, t_token *prev, int in_fork)
+static int	apply_redirections(t_token *redir,
+		t_token *prev, int in_fork)
 {
 	if (!redir)
 		return (0);
@@ -82,7 +83,7 @@ static int	apply_redirections(t_token *redir, t_token *prev, int in_fork)
 **	Returns error number on failure
 */
 
-int	parse_redirections(t_token *token_head, int in_fork)
+int			parse_redirections(t_token *token_head, int in_fork)
 {
 	t_token	*current;
 	t_token	*prev;

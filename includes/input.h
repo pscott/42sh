@@ -11,6 +11,7 @@
 
 enum {input_break, input_continue, input_stop};
 enum {enter_case = 1, ctrl_c_case, quit_case};
+enum {regular = 1, heredoc = 2};
 
 typedef struct				s_st_txt {
 	char					*txt;
@@ -48,9 +49,7 @@ t_bool						handle_input(t_st_cmd *st_cmd, t_vars *vars);
 */
 
 
-int				checkers(t_st_cmd *st_cmd, t_vars *vars, char *buf);
-char						*auto_completion(char *input, unsigned int len,
-		t_vars *vars);
+int				checkers(t_st_cmd *st_cmd, t_vars *vars, char *buf, int mode);
 int				check_for_arrows(t_st_cmd *st_cmd, const char *buf);
 int				check_for_quit(t_st_cmd *st_cmd, const char *buf);
 int				check_for_enter(const char *buf);
@@ -59,6 +58,11 @@ int				check_for_delete(t_st_cmd *st_cmd, char *buf);
 int				check_for_search_histo(t_st_cmd *st_cmd,
 		const char *buf_received);
 int				check_for_tab(t_st_cmd *st_cmd, const char *buf, t_vars *vars);
+int				check_for_tab_hdoc(t_st_cmd *st_cmd, const char *buf, t_vars *vars);
+char						*auto_completion(char *input, unsigned int len,
+		t_vars *vars);
+char						*auto_completion_hdoc(char *input, unsigned int len,
+		t_vars *vars);
 
 /*
 **	Arrow movement
@@ -86,7 +90,7 @@ int							jump_word(t_st_cmd *st_cmd, int num);
 ** Read input
 */
 
-int							input_loop(t_st_cmd *st_cmd, t_vars *vars);
+int							input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode);
 
 /*
 **	Input string manipulation

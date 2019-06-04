@@ -52,6 +52,7 @@ void	write_from_start(t_st_cmd *st_cmd)
 
 	if (isatty(STDIN_FILENO) == 0)
 		return ;
+	st_cmd = get_first_st_cmd(st_cmd);
 	while (st_cmd)
 	{
 		execute_str(CLEAR_BELOW);
@@ -66,7 +67,8 @@ void	write_from_start(t_st_cmd *st_cmd)
 		{
 			get_pos(st_cmd, st_cmd->st_txt->data_size);
 			move_down(st_cmd);
-			ft_printf("\n");
+			execute_str(PRINT_LINE);
+			execute_str(BEGIN_LINE);
 		}
 	}
 }
@@ -92,8 +94,8 @@ int		write_line(t_st_cmd *st_cmd)
 		i++;
 		get_pos(st_cmd, st_cmd->st_txt->data_size - 1);
 		if ((st_cmd->start_pos.row + st_cmd->relative_pos.row)
-			> st_cmd->window->ws_row
-			|| st_cmd->relative_pos.col == st_cmd->window->ws_col - 1)
+				> st_cmd->window->ws_row
+				|| st_cmd->relative_pos.col == st_cmd->window->ws_col - 1)
 		{
 			move_down(st_cmd);
 			get_pos(st_cmd, st_txt->tracker + i);
@@ -101,9 +103,7 @@ int		write_line(t_st_cmd *st_cmd)
 			execute_str(CLEAR_BELOW);
 		}
 	}
-	get_pos(st_cmd, st_cmd->st_txt->tracker);
-	execute_str(ERASE_ENDLINE);
-	return (0);
+	return (i);
 }
 
 /*
@@ -119,8 +119,18 @@ void	write_st_cmd(t_st_cmd *st_cmd)
 		return ;
 	while ((step = write_line(st_cmd)))
 	{
+		get_pos(st_cmd, st_cmd->st_txt->tracker);
+		if (st_cmd->st_txt->txt[st_cmd->st_txt->tracker + step] == '\n'
+			&& st_cmd->st_txt->txt[st_cmd->st_txt->tracker + step + 1])
+		{
+			step++;
+			move_down(st_cmd);
+			st_cmd->relative_pos.col = 1;
+			st_cmd->relative_pos.row++;
+		}
 		st_cmd->st_txt->tracker += step;
 		get_pos(st_cmd, st_cmd->st_txt->tracker);
+		execute_str(ERASE_ENDLINE);
 		reposition_cursor(st_cmd);
 	}
 }

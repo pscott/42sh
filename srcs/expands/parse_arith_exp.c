@@ -80,7 +80,7 @@ static char	expand_lowest_arith_exp(char **str, t_vars *vars)
 	return (0);
 }
 
-t_bool		parse_arith_exp(char **str, t_vars *vars)
+int		parse_arith_exp(char **str, t_vars *vars)
 {
 	size_t		i;
 	char		escaped;

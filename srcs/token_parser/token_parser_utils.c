@@ -49,12 +49,14 @@ t_bool	is_ctrl_op_token(t_token *token)
 //TODO move exec_ast to another file ?
 int		exec_ast(t_ast *root, t_vars *vars)
 {
+	int	ret;
+
 	if (!root)
-		return (1);
+		return (0);
 	if (root->token->type == tk_semi)//TK_AMP
 	{
-		if (exec_ast(root->left, vars) == -1)
-			return (-1);
+		if ((ret = exec_ast(root->left, vars)) > 0)
+			return (ret);
 		return (exec_ast(root->right, vars));
 	}
 	else if (root->token->type == tk_and)

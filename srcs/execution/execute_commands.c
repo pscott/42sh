@@ -35,7 +35,7 @@ static int			access_and_exec(char *cmd_path, char **argv,
 **	number.
 */
 
-static t_bool		execute_argv(char **argv, t_vars *vars)
+static int		execute_argv(char **argv, t_vars *vars)
 {
 	int				cmd;
 	char			*cmd_path;
@@ -67,18 +67,19 @@ static t_bool		execute_argv(char **argv, t_vars *vars)
 **	Returns 0 if it executed properly ; else returns 1.
 */
 
-t_bool				parse_and_exec(t_token *token_head, int in,
+int				parse_and_exec(t_token *token_head, int in,
 					int out, t_vars *vars)
 {
 	char			**argv;
+	int				ret;
 
 	redirect(in, STDIN_FILENO, 0);
 	redirect(out, STDOUT_FILENO, 0);
-	if (!(parse_expands(token_head, vars)))//TODO check order
-		return (1);
+	if ((ret = parse_expands(token_head, vars)) > 0)//TODO check order
+		return (ret);
 	reset_terminal_settings();
-	if (parse_redirections(token_head, 0) == 0)
-		return (1);
+	if ((ret = parse_redirections(token_head, 0)) > 0)
+		return (ret);
 	if (!(argv = get_argv_from_token_lst(token_head)))
 		return (1); // return value ?
 	return (execute_argv(argv, vars));

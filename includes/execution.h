@@ -1,5 +1,5 @@
 #ifndef EXECUTION_H
-#define EXECUTION_H
+# define EXECUTION_H
 
 # include "lexer.h"
 

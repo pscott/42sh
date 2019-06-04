@@ -64,11 +64,7 @@ int		exec_ast(t_ast *root, t_vars *vars)
 	else if (root->token->type == tk_or)
 		return (exec_ast(root->left, vars) && exec_ast(root->right, vars));
 	else
-	{
-		ft_printf("==Begin Exec==\n");
-		print_ast(root);
 		return (parse_cmdline(root->token, vars));
-	}
 }
 
 void	print_ast(t_ast *root)

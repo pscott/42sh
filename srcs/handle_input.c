@@ -50,11 +50,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	}
 	if (!(ast_root = create_ast(token_head)))
 		return (0);
-	print_token_list(token_head);
-	ft_printf("----------------------------------\n---AST END---\n");
-	print_ast(ast_root);
 	vars->cmd_value = exec_ast(ast_root, vars); // might be causing errors with exit statuses...
-	ft_printf("--EXEC END---\n");
 	free_ast(ast_root);
 	return (1);
 }

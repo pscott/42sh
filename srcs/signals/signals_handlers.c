@@ -68,10 +68,11 @@ void		sigwinch_handler(int signo)
 void		sigcont_handler(int signo)
 {
 	t_st_cmd	*st_cmd;
+	int			ret;
 
 	(void)signo;
-	if (setup_terminal_settings() == 0)
-		clean_exit(1);
+	if ((ret = setup_terminal_settings()) > 0)
+		clean_exit(ret);
 	st_cmd = get_st_cmd(NULL);
 	st_cmd = get_first_st_cmd(st_cmd);
 	write_from_start(st_cmd);

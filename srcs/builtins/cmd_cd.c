@@ -89,7 +89,10 @@ int			case_cd(char **t, char ***env)
 	else
 		dest = relative_directory(t[1], (const char**)*env);
 	if ((ret = is_error(dest)) != 0)
+	{
+		ft_strdel(&dest);
 		return (ret);
+	}
 	else
 		return (change_environ(dest, env));
 }

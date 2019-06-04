@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/04/04 14:54:40 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/04 13:04:51 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 int		err_caps(void)
 {
 	ft_putstr_fd("error: missing terminal capabilities\n", 2);
-	return (0);
+	return (1);
 }

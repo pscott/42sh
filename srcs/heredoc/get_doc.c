@@ -71,7 +71,7 @@ char		*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 	txt = NULL;
 	while (42)
 	{
-		if ((len = input_loop(st_cmd, vars)) < 1 || !*st_cmd->st_txt->txt)
+		if ((len = input_loop(st_cmd, vars, heredoc)) < 1 || !*st_cmd->st_txt->txt)
 		{
 			ft_strdel(&txt);
 			free_all_st_cmds(&st_cmd);

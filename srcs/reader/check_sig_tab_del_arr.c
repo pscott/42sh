@@ -61,6 +61,39 @@ int		check_for_tab(t_st_cmd *st_cmd, const char *buf, t_vars *vars)
 		return (0);
 }
 
+int		check_for_tab_hdoc(t_st_cmd *st_cmd, const char*buf, t_vars *vars)
+{
+	char	*tmp;
+	char	*old_txt;
+	int		len_tmp;
+
+	len_tmp = 0;
+	if (ft_strncmp(buf, "\t", 2) == 0)
+	{
+		old_txt = st_cmd->st_txt->txt;
+		if ((tmp = auto_completion_hdoc(st_cmd->st_txt->txt, st_cmd->st_txt->tracker, vars))) // alex: tracker ou tracker + 1 ?
+		{
+			len_tmp = ft_strlen(tmp);		
+			if (!(st_cmd->st_txt->txt = ft_strjoin(tmp, st_cmd->st_txt->txt + st_cmd->st_txt->tracker)))
+				ERROR_MEM;
+			st_cmd->st_txt->data_size = ft_strlen(st_cmd->st_txt->txt);
+			st_cmd->st_txt->malloc_size = st_cmd->st_txt->data_size + 1;
+			ft_strdel(&old_txt);
+		}
+		ft_strdel(&tmp);
+		move_cursor(st_cmd->start_pos.col, st_cmd->start_pos.row);
+		retrieve_pos(&st_cmd->start_pos);
+		print_prompt(st_cmd);
+		st_cmd->st_txt->tracker = 0;
+		write_st_cmd(st_cmd);
+		st_cmd->st_txt->tracker = len_tmp;
+		get_pos(st_cmd, st_cmd->st_txt->tracker);
+		return (1);
+	}
+	else
+		return (0);
+}
+
 int		check_for_signal(const char *buf)
 {
 	if (ft_strncmp(buf, CTRL_Z, CTRL_Z_LEN + 1) == 0)
@@ -74,14 +107,6 @@ int		check_for_signal(const char *buf)
 		return (input_stop);
 	}
 	return (0);
-}
-
-int		check_for_enter(const char *buf)
-{
-	if (ft_strncmp(buf, "\r", 2) == 0 || ft_strncmp(buf, "\n", 2) == 0)
-		return (1);
-	else
-		return (0);
 }
 
 /*

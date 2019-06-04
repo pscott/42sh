@@ -46,3 +46,11 @@ int		check_for_search_histo(t_st_cmd *st_cmd, const char *buf_received)
 	else
 		return (0);
 }
+
+int		check_for_enter(const char *buf)
+{
+	if (ft_strncmp(buf, "\r", 2) == 0 || ft_strncmp(buf, "\n", 2) == 0)
+		return (1);
+	else
+		return (0);
+}

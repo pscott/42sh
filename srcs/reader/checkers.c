@@ -40,14 +40,15 @@ static void pressed_enter(t_st_cmd *st_cmd, char *buf)
 	execute_str(PRINT_LINE);
 }
 
-int			checkers(t_st_cmd *st_cmd, t_vars *vars, char *buf)
+int			checkers(t_st_cmd *st_cmd, t_vars *vars, char *buf, int mode)
 {
 	int	ret;
 
 	if ((ret = check_for_signal(buf)) > 0)
 		return (ret);
 	else if (check_for_arrows(st_cmd, buf) || check_for_delete(st_cmd, buf)
-			|| check_for_tab(st_cmd, buf, vars))
+			|| (mode == regular && check_for_tab(st_cmd, buf, vars))
+			|| (mode == heredoc && check_for_tab_hdoc(st_cmd, buf, vars)))
 		;
 	else if ((ret = check_for_search_histo(st_cmd, buf)))
 	{

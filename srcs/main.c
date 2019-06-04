@@ -63,7 +63,7 @@ int			main(int argc, char **argv, char **env)
 	get_st_cmd(&st_cmd);
 	while (42)
 	{
-		if ((ret = input_loop(st_cmd, &vars)) == 0 || !*st_cmd->st_txt->txt)
+		if ((ret = input_loop(st_cmd, &vars, regular)) == 0 || !*st_cmd->st_txt->txt)
 			break ;
 		else if (ret > 0 && !is_full_of_whitespaces(st_cmd->st_txt->txt))
 			handle_input(st_cmd, &vars);

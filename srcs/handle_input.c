@@ -28,7 +28,7 @@ t_bool	handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		free_token_list(token_head);
 		adjust_history(st_cmd, input, 0);
 		st_cmd = append_st_cmd(st_cmd, "", "cont > ");
-	 	if (((ret = input_loop(st_cmd, vars)) < 1) || !*st_cmd->st_txt->txt)
+	 	if (((ret = input_loop(st_cmd, vars, regular)) < 1) || !*st_cmd->st_txt->txt)
 		{
 			ft_strdel(&input); // need \n ?
 			return (0);

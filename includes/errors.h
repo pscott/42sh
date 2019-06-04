@@ -69,6 +69,7 @@
 
 # define ERR_IOCTL 23
 # define ERR_IOCTL_STR "error: unable to get terminal state infos with ioctl()"
+
 # define ERR_TERMNAME 23
 # define ERR_TERMNAME_STR "error: terminal name could not be found (get_env())"
 
@@ -77,6 +78,9 @@
 
 # define ERR_EXECUTE 25
 # define ERR_EXECUTE_STR "error: failed to execute"
+
+# define ERR_MAX_INPUT 26
+# define ERR_MAX_INPUT_STR "error: maximum input size exceeded"
 
 void	error_exit(int errno, const char *str_err, const char *err_file);
 int		print_errors(int errno, const char *err_str, const char *err_file);

@@ -5,19 +5,19 @@
 #include "builtins.h"
 
 /*
-**	Checks and calls the appropriated functions for UP, DOWN, LEFT, RIGHT, HOME
+**	Checks and calls the appropriated functions for UPARROW, DOWNARROW, LEFTARROW, RIGHTARROW, HOME
 **	and END keys.
 */
 
 int		check_for_arrows(t_st_cmd *st_cmd, const char *buf)
 {
-	if (ft_strncmp(buf, RIGHT, ARROW_LEN + 1) == 0)
+	if (ft_strncmp(buf, RIGHTARROW, ARROW_LEN + 1) == 0)
 		move_arrow_right(st_cmd);
-	else if (ft_strncmp(buf, LEFT, ARROW_LEN + 1) == 0)
+	else if (ft_strncmp(buf, LEFTARROW, ARROW_LEN + 1) == 0)
 		move_arrow_left(st_cmd);
-	else if (ft_strncmp(buf, UP, ARROW_LEN + 1) == 0)
+	else if (ft_strncmp(buf, UPARROW, ARROW_LEN + 1) == 0)
 		get_previous_history(st_cmd);
-	else if (ft_strncmp(buf, DOWN, ARROW_LEN + 1) == 0)
+	else if (ft_strncmp(buf, DOWNARROW, ARROW_LEN + 1) == 0)
 		get_next_history(st_cmd);
 	else if (ft_strncmp(buf, HOME, HOME_LEN + 1) == 0)
 		go_to_start(st_cmd);

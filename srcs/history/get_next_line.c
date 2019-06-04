@@ -34,18 +34,18 @@ static t_fdlist	*ft_dlistnew(int fd)
 
 static int		return_val(char **line, t_fdlist *save)
 {
-	char			*e;
+	char			*next_newline;
 	char			*tmp;
 
 	if (!(save->content))
 		return (0);
-	e = ft_strchr(save->content, ENDL);
-	if (e != NULL)
+	next_newline = ft_strchr(save->content, ENDL);
+	if (next_newline != NULL)
 	{
-		*e = 0;
+		*next_newline = 0;
 		if (!(*line = ft_strdup(save->content)))
 			ERROR_MEM;
-		if (!(tmp = ft_strdup(e + 1)))
+		if (!(tmp = ft_strdup(next_newline + 1)))
 			ERROR_MEM;
 		free(save->content);
 		save->content = tmp;

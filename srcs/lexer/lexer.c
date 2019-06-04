@@ -55,7 +55,10 @@ static t_bool	add_token_to_list(t_token *current_token, t_token *prev_token
 
 	(void)vars;
 	if (current_token->type == tk_unsupported)
+	{
+		free_token_list(current_token);
 		return (error_unsupported_token(current_token, 0));
+	}
 	if (token_list_start_with_ctrl_op(prev_token, current_token)
 		|| is_two_ctrlop_or_redir_following(prev_token, current_token))
 		return (0);
@@ -135,6 +138,5 @@ int		lexer(char *cmdline, t_token **token_head, t_vars *vars)
 		syntax_error_near(current_token);
 		return (lex_fail);
 	}
-	//print_token_list(*token_head);//debug
 	return (lex_success);
 }

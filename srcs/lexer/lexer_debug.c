@@ -5,14 +5,14 @@ void	print_token(t_token *token)//debug
 {
 	if (!token)
 		return ;
-	ft_printf("_TOKEN_ type:%d {%s}\n", token->type, token->content);
+	ft_dprintf(2, "_TOKEN_ type:%d {%s}\n", token->type, token->content);
 }
 
 void	print_token_list(t_token *token_head)//debug
 {
 	t_token	*probe;
 
-	ft_printf("--Printing token list--\n");
+	ft_dprintf(2, "--Printing token list--\n");
 	probe = token_head;
 	while (probe)
 	{

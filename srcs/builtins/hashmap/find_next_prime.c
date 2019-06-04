@@ -20,9 +20,13 @@ static t_bool	is_prime(unsigned int nb)
 	return (TRUE);
 }
 
+/*
+**	nb < u32 max
+*/
+
 unsigned int	find_next_prime(unsigned int nb)
 {
-	while (++nb)//< u32 max
+	while (++nb)
 	{
 		if (is_prime(nb))
 			return (nb);

@@ -10,17 +10,17 @@ t_hash_item	*create_new_item(const char *key, const char *value)
 	t_hash_item	*new_item;
 
 	if (!(new_item = (t_hash_item*)malloc(sizeof(*new_item))))
-		return (NULL);//ERROR_MEM;
+		ERROR_MEM;
 	if (!(new_item->key = ft_strdup(key)))
 	{
 		ft_memdel((void*)&new_item);
-		return (NULL);//ERROR_MEM;
+		ERROR_MEM;
 	}
 	if (!(new_item->value = ft_strdup(value)))
 	{
 		ft_memdel((void*)&new_item->key);
 		ft_memdel((void*)&new_item);
-		return (NULL);//ERROR_MEM;
+		ERROR_MEM;
 	}
 	new_item->count = 0;
 	new_item->next = NULL;
@@ -39,12 +39,12 @@ t_hashmap	*init_hashmap(size_t size)
 	int			i;
 
 	if (!(new_table = (t_hashmap*)malloc(sizeof(*new_table))))
-		return (NULL);//ERROR_MEM;
+		ERROR_MEM;
 	if (!(new_table->items =
 		(t_hash_item**)malloc(sizeof(t_hash_item*) * size)))
 	{
 		ft_memdel((void*)&new_table);
-		return (NULL);//ERROR_MEM;
+		ERROR_MEM;
 	}
 	new_table->size = size;
 	i = -1;
@@ -65,17 +65,11 @@ t_hashmap	*resize_up_hashmap(t_hashmap *old_map)
 	size_t		new_size;
 	t_hashmap	*new_map;
 
-	ft_printf("RESISING UP\n");
-	//ft_printf("********************************\n");
-	//print_hashmap(old_map);
 	new_size = (size_t)find_next_prime(old_map->size);
 	if (!(new_map = init_hashmap(new_size)))
-		return (NULL);//ERROR_MEM;
+		ERROR_MEM;
 	cpy_hashmap(old_map, &new_map);
 	delete_hashmap(old_map);
-	ft_printf("RESISING UP END\n");
-	//print_hashmap(new_map);
-	//ft_printf("********************************\n");
 	return (new_map);
 }
 
@@ -84,13 +78,11 @@ t_hashmap	*resize_down_hashmap(t_hashmap *old_map)
 	size_t		new_size;
 	t_hashmap	*new_map;
 
-	ft_printf("RESISING DOWN\n");
 	new_size = (size_t)find_prev_prime(old_map->size);
 	if (!(new_map = init_hashmap(new_size)))
-		return (NULL);//ERROR_MEM;
-	cpy_hashmap(old_map, &new_map);//nop: can resize sometime while copying
+		ERROR_MEM;
+	cpy_hashmap(old_map, &new_map);
 	delete_hashmap(old_map);
-	ft_printf("RESISING DOWN END\n");
 	return (new_map);
 }
 

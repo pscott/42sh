@@ -9,7 +9,7 @@
 **	Use check_builtins before calling exec_builtins
 */
 
-static int	exec_builtins_2(char **argv, t_vars *vars, int cmd_id) // tableau pointeur fonctions
+static t_bool	exec_builtins_2(char **argv, t_vars *vars, int cmd_id)
 {
 	int			ret;
 
@@ -18,7 +18,7 @@ static int	exec_builtins_2(char **argv, t_vars *vars, int cmd_id) // tableau poi
 		vars->cmd_value = case_hash(argv, vars);
 		ret = 1;
 	}
-	else if (cmd_id == cmd_setenv)// will need vars
+	else if (cmd_id == cmd_setenv)
 	{
 		vars->cmd_value = case_setenv(argv, vars);
 		ret = 1;
@@ -38,7 +38,10 @@ static int	exec_builtins_2(char **argv, t_vars *vars, int cmd_id) // tableau poi
 	return (ret);
 }
 
-int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
+/*
+**	TO DO : env is not supposed to do that, to fix
+*/
+t_bool			exec_builtins(char **argv, t_vars *vars, int cmd_id)
 {
 	int			ret;
 
@@ -46,7 +49,7 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 		ret = case_exit(argv, &vars->cmd_value);
 	else if (cmd_id == cmd_env)
 	{
-		ft_print_ntab(vars->env_vars); // pls
+		ft_print_ntab(vars->env_vars);
 		ret = 1;
 	}
 	else if (cmd_id == cmd_cd)

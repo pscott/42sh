@@ -29,7 +29,6 @@ int					case_type(char **argv, t_vars *vars)
 			ft_printf("%s is a shell builtin\n", argv[i]);
 		else if ((path = check_hashmap(argv[i], vars->hashmap, hash_check)))
 			ft_printf("%s is hashed (%s)\n", argv[i], path);
-		//else if ((path = type_get_cmd_path(argv[i], vars->env_vars)))
 		else if ((path = get_cmd_path(&argv[i], vars->env_vars, 0)))
 			ft_printf("%s is %s\n", argv[i], path);
 		else

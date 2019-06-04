@@ -42,8 +42,7 @@ static int	check_for_arrows_delete_or_tab(t_st_cmd *st_cmd,
 			char *buf, t_vars *vars, int mode)
 {
 	if (check_for_arrows(st_cmd, buf) || check_for_delete(st_cmd, buf)
-			|| (mode == regular && check_for_tab(st_cmd, buf, vars))
-			|| (mode == heredoc && check_for_tab_hdoc(st_cmd, buf)))
+			|| check_for_tab(st_cmd, buf, vars, mode))
 		return (1);
 	return (0);
 }

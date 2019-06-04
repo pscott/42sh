@@ -80,8 +80,7 @@ int						check_for_delete(t_st_cmd *st_cmd, char *buf);
 int						check_for_search_histo(t_st_cmd *st_cmd,
 						const char *buf_received);
 int						check_for_tab(t_st_cmd *st_cmd, const char *buf,
-						t_vars *vars);
-int						check_for_tab_hdoc(t_st_cmd *st_cmd, const char *buf);
+						t_vars *vars, int mode);
 char					*auto_completion(char *input, unsigned int len,
 						t_vars *vars);
 char					*auto_completion_hdoc(char *input,

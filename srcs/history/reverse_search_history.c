@@ -75,7 +75,7 @@ static	void	realloc_stock(char **stock, char buf, size_t malloc_size)
 
 static int		is_quit_char(char buf)
 {
-	if (buf != 18 && buf != '\x7f'
+	if (buf != 18 && buf != '\x7f' && buf != ' '
 		&& ft_isprint(buf) == 0)
 		return (1);
 	return (0);

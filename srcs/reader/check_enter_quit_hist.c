@@ -34,7 +34,7 @@ int		check_for_quit(t_st_cmd *st_cmd, const char *buf)
 
 /*
 **	If buf_received == ctrlr, reverse-i-search in historic
-**	Returns 0 if the key is not ctrlr 
+**	Returns 0 if the key is not ctrlr
 **	Returns > 0 if ctrlr pressed, depending of the state of the way our reading
 **		loop is broken
 */

@@ -19,14 +19,13 @@ void	magic_print(char *buf) // debug
 	//execute_str(RESTORE_CURSOR);
 }
 
-
 /*
 **	Returns -1 if buffer is NOT an escape sequence.
 **	Returns 0 if buffer might be an escape sequence.
 **	Returns 1 if buffer IS an escape sequence.
 */
 
-static int is_valid_escape(char *buf)
+static int	is_valid_escape(char *buf)
 {
 	int		len;
 	int		last;
@@ -42,13 +41,14 @@ static int is_valid_escape(char *buf)
 		return (-1);
 	}
 	last = len > 0 ? len - 1 : 0;
-	if (ft_strncmp(buf, RIGHTARROW, ARROW_LEN + 1) == 0 || ft_strncmp(buf, LEFTARROW, ARROW_LEN + 1) == 0
-		|| ft_strncmp(buf, UPARROW, ARROW_LEN + 1) == 0 || ft_strncmp(buf, DOWNARROW, ARROW_LEN + 1) == 0
+	if (check
+	if (ft_strncmp(buf, RIGHT, ARROW_LEN + 1) == 0 || ft_strncmp(buf, LEFT, ARROW_LEN + 1) == 0
+		|| ft_strncmp(buf, UP, ARROW_LEN + 1) == 0 || ft_strncmp(buf, DOWN, ARROW_LEN + 1) == 0
 		|| ft_strncmp(buf, HOME, HOME_LEN + 1) == 0 || ft_strncmp(buf, END, END_LEN + 1) == 0
 		|| ft_strncmp(buf, DEL, DEL_LEN + 1) == 0)
 		return (1);
-	if (ft_strncmp(buf, RIGHTARROW, len) == 0 || ft_strncmp(buf, LEFTARROW, len) == 0
-		|| ft_strncmp(buf, UPARROW, len) == 0 || ft_strncmp(buf, DOWNARROW, len) == 0
+	if (ft_strncmp(buf, RIGHT, len) == 0 || ft_strncmp(buf, LEFT, len) == 0
+		|| ft_strncmp(buf, UP, len) == 0 || ft_strncmp(buf, DOWN, len) == 0
 		|| ft_strncmp(buf, DEL, len) == 0)
 		return (0);
 	return (-1);

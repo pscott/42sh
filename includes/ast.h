@@ -16,7 +16,7 @@ typedef struct		s_ast
 
 t_ast				*create_ast(t_token *token_head);
 t_ast				*create_ast_node(t_token *new, t_ast *left, t_ast *right);
-t_bool				is_tklst_full_eat(t_token *token_head);
+int					is_tklst_full_eat(t_token *token_head);
 
 void				free_ast(t_ast *ast_root);
 

@@ -25,7 +25,7 @@ t_ast	*create_ast_node(t_token *new_token, t_ast *left, t_ast *right)
 ** just check if the given token list is full of eat tokens
 */
 
-t_bool	is_tklst_full_eat(t_token *token_head)
+int		is_tklst_full_eat(t_token *token_head)
 {
 	t_token	*probe;
 
@@ -39,21 +39,20 @@ t_bool	is_tklst_full_eat(t_token *token_head)
 	return (1);
 }
 
-t_bool	is_ctrl_op_token(t_token *token)
+int		is_ctrl_op_token(t_token *token)
 {
 	if (token->type >= tk_and)
 		return (1);
 	return (0);
 }
 
-//TODO move exec_ast to another file ?
 int		exec_ast(t_ast *root, t_vars *vars)
 {
 	int	ret;
 
 	if (!root)
 		return (0);
-	if (root->token->type == tk_semi)//TK_AMP
+	if (root->token->type == tk_semi)
 	{
 		if ((ret = exec_ast(root->left, vars)) > 0)
 			return (ret);

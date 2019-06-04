@@ -12,7 +12,7 @@
 ** 4. insert right
 */
 
-static t_bool	insert_ast_node(t_ast *new_ast_node, t_ast **ast_root)
+static int		insert_ast_node(t_ast *new_ast_node, t_ast **ast_root)
 {
 	if (!new_ast_node)
 		return (0);
@@ -21,7 +21,7 @@ static t_bool	insert_ast_node(t_ast *new_ast_node, t_ast **ast_root)
 		*ast_root = new_ast_node;
 		return (1);
 	}
-	if (new_ast_node->token->type >= (*ast_root)->token->type)//reroot
+	if (new_ast_node->token->type >= (*ast_root)->token->type)
 	{
 		new_ast_node->left = *ast_root;
 		*ast_root = new_ast_node;
@@ -45,9 +45,8 @@ static t_bool	insert_ast_node(t_ast *new_ast_node, t_ast **ast_root)
 ** return 1 otherwise (token_probe is on an CTRL_OP token)
 */
 
-static t_bool	find_next_ctrl_op(t_token **token_probe, t_token **token_prev)
+static int		find_next_ctrl_op(t_token **token_probe, t_token **token_prev)
 {
-	//can do without is_ctrl_op_token, but i will be easier to tweak if we keep it
 	while (*token_probe && !(is_ctrl_op_token(*token_probe)))
 	{
 		*token_prev = *token_probe;
@@ -64,7 +63,7 @@ static t_bool	find_next_ctrl_op(t_token **token_probe, t_token **token_prev)
 ** set token_head to NULL, so create_ast() can return the ast to handle_input()
 */
 
-static t_bool	add_last_node_to_ast(t_token **token_head, t_ast **ast_root)
+static int		add_last_node_to_ast(t_token **token_head, t_ast **ast_root)
 {
 	if (!is_tklst_full_eat(*token_head))
 	{
@@ -84,7 +83,7 @@ static t_bool	add_last_node_to_ast(t_token **token_head, t_ast **ast_root)
 ** then create and add ast_node to ast accordingly
 */
 
-static t_bool	add_node_to_ast(t_token **token_head, t_ast **ast_root)
+static int		add_node_to_ast(t_token **token_head, t_ast **ast_root)
 {
 	t_token	*token_probe;
 	t_token	*token_prev;
@@ -118,7 +117,7 @@ static t_bool	add_node_to_ast(t_token **token_head, t_ast **ast_root)
 ** - move the token_head accordingly
 */
 
-t_ast	*create_ast(t_token *token_head)
+t_ast			*create_ast(t_token *token_head)
 {
 	t_ast	*ast_root;
 
@@ -126,7 +125,7 @@ t_ast	*create_ast(t_token *token_head)
 	while (token_head)
 	{
 		if (!(add_node_to_ast(&token_head, &ast_root)))
-			return (NULL);//free ast
+			return (NULL);
 	}
 	return (ast_root);
 }

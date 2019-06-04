@@ -6,7 +6,7 @@
 **	Returns 1 on quotes, words, monochars, and redirections.
 */
 
-t_bool		is_argv_token(t_token *probe)
+int			is_argv_token(t_token *probe)
 {
 	if (!probe)
 		return (0);
@@ -20,7 +20,7 @@ t_bool		is_argv_token(t_token *probe)
 **	Else returns 1.
 */
 
-t_bool		is_simple_cmd_token(t_token *probe)
+int			is_simple_cmd_token(t_token *probe)
 {
 	if (!probe)
 		return (0);

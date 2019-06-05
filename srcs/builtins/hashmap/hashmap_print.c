@@ -2,7 +2,7 @@
 
 static int	is_hashmap_empty(t_hashmap *hashmap)
 {
-	int		is_empty;
+	int			is_empty;
 	int			i;
 
 	is_empty = 1;

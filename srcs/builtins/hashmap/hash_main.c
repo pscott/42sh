@@ -28,7 +28,7 @@ static int		add_each_name(t_vars *vars, t_hash_args *hash_args, int argc
 				, char **argv)
 {
 	int		i;
-	int	return_value;
+	int		return_value;
 	char	*value;
 	char	**paths;
 
@@ -81,7 +81,7 @@ static int		pop_each_name(t_hashmap **hashmap, t_hash_args *hash_args
 				, int argc, char **argv)
 {
 	int		i;
-	int	return_value;
+	int		return_value;
 
 	i = hash_args->name_index - 1;
 	return_value = 0;

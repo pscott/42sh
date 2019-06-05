@@ -30,7 +30,9 @@ int			switch_and_return(char buf, t_st_cmd *st_cmd)
 {
 	char	*newcmd;
 	t_vars	*vars;
+	size_t	tmp;
 
+	tmp = st_cmd->st_txt->tracker;
 	if (buf == 3)
 		return (interrupt_search(st_cmd));
 	free_st_prompt(&st_cmd->st_prompt);
@@ -46,6 +48,9 @@ int			switch_and_return(char buf, t_st_cmd *st_cmd)
 	ft_printf("%s%s%s", vars->cmd_value ? RED : GREEN,
 			st_cmd->st_prompt->prompt, FG_DFL);
 	switch_st_cmd(st_cmd, newcmd);
+	st_cmd->st_txt->tracker = tmp;
+	get_pos(st_cmd, st_cmd->st_txt->tracker);
+	reposition_cursor(st_cmd);
 	free(newcmd);
 	if (buf == '\r' || buf == '\n')
 		return (case_return_newline(st_cmd));

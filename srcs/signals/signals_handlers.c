@@ -38,6 +38,7 @@ void			sigint_handler(int signo)
 	execute_str(PRINT_LINE);
 	execute_str(BEGIN_LINE);
 	execute_str(CLEAR_BELOW);
+	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 }
 
 /*

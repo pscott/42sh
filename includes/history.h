@@ -51,4 +51,14 @@ void					free_hist_lst(t_hist_lst *hist_lst);
 void					switch_st_cmd(t_st_cmd *st_cmd, char *newcmd);
 int						switch_and_return(char buf, t_st_cmd *st_cmd);
 
+/*
+**	Reverse Search History functions
+*/
+
+int						strstr_adapted(const char *haystack, const char *needle);
+int						init_vars_reverse_search_histo
+							(size_t *malloc_size, int *prompt_type, char **stock);
+void					realloc_stock(char **stock, char buf, size_t malloc_size);
+int						is_quit_char(char buf);
+
 #endif

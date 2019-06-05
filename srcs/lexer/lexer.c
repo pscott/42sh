@@ -27,10 +27,6 @@ static int	add_token_to_list(t_token *current_token, t_token *prev_token,
 	(void)vars;
 	if (current_token->type == tk_unsupported)
 		return (error_unsupported_token(current_token, 0));
-	ft_printf("===================\nPREV: ");
-	print_token(prev_token);
-	ft_printf("CURR: ");
-	print_token(current_token);
 	if (token_list_start_with_ctrl_op(prev_token, current_token)
 		|| is_two_ctrlop_or_redir_following(prev_token, current_token))
 		return (0);
@@ -113,9 +109,6 @@ int			lexer(char *cmdline, t_token **token_head, t_vars *vars)
 		if (current_token->type != tk_eat)
 			prev_token = current_token;
 	}
-	ft_printf("------------------------\n");
-	print_token_list(*token_head);
-	ft_printf("------------------------\n");
 	if (parse_heredoc(*token_head, vars) == 0)
 		return (lex_fail);
 	return (lexer_final_check(current_token, prev_token));

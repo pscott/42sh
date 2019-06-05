@@ -1,43 +1,27 @@
 #include "input.h"
 #include "history.h"
 
-int				strstr_adapted(const char *haystack, const char *needle)
+static int		search_in_current_entry(t_st_cmd **st_cmd, char *to_find, size_t tracker)
 {
-	size_t			i;
-	size_t			j;
-
-	if (*needle == 0)
-		return (0);
-	i = 0;
-	while (haystack[i])
+	if ((*st_cmd)->st_txt->txt != NULL && (*st_cmd)->st_txt->txt[0] != '\0')
 	{
-		j = 0;
-		while (haystack[i] == needle[j] && needle[j])
+		if (to_find && to_find[0] && ft_strrnstr((*st_cmd)->st_txt->txt, to_find, tracker))
 		{
-			i++;
-			j++;
-		}
-		if (needle[j] == 0)
+			(*st_cmd)->st_txt->tracker = ft_strlen((*st_cmd)->st_txt->txt) -
+				ft_strlen(ft_strrnstr((*st_cmd)->st_txt->txt, to_find, tracker));
 			return (1);
-		i = i - j + 1;
+		}
 	}
 	return (0);
 }
 
-/*
-**	Looking for pattern "to_find" in st_cmd->hist_lst, recursively
-**	Returns 0 if to_find is not found
-**	Returns 1 if to_find is found
-*/
-
-int				search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find)
+static int		search_in_previous_entries(t_st_cmd **st_cmd, char *to_find)
 {
-	if ((*st_cmd)->hist_lst->next == NULL)
-		(*st_cmd)->hist_lst = (*st_cmd)->hist_lst->prev;
 	while ((*st_cmd)->hist_lst)
 	{
-		if (strstr_adapted((*st_cmd)->hist_lst->txt, to_find) == 1)
+		if (to_find && to_find[0] && strstr_adapted((*st_cmd)->hist_lst->txt, to_find))
 		{
+			ft_strdel(&(*st_cmd)->st_txt->txt);
 			if (!((*st_cmd)->st_txt->txt = ft_strndup((*st_cmd)->hist_lst->txt,
 							ft_strlen((*st_cmd)->hist_lst->txt) - 1)))
 				ERROR_MEM;
@@ -50,32 +34,79 @@ int				search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find)
 			(*st_cmd)->hist_lst = (*st_cmd)->hist_lst->prev;
 		else
 			break ;
-	}
+		}
 	return (1);
 }
 
-static int		init_vars(size_t *malloc_size, int *prompt_type, char **stock)
+/*
+**	Looking for pattern "to_find" in st_cmd->hist_lst, reversely.
+**	First, if our st_txt is not empty (i.e we already had a successful search
+**		or something was written when ctrl r was activated), we look for
+**		our pattern between the beginning of st_txt and our tracker.
+**	Then, if we did not find any match, we look for our pattern in
+**		previous history entries.
+**	The condition (tracker >= 0) is needed to protect from segmentation
+**		fault in case of various ctrl R : in this case, we first need to look
+**		for 'to_find' pattern between the beginning of st_txt and tracker - 1..
+**	Returns 1 if to_find is found
+**	Returns 0 if to_find is not found
+*/
+
+int				search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find, int tracker, char buf)
 {
-	*malloc_size = 256;
-	*prompt_type = 0;
-	if (!(*stock = ft_strnew(*malloc_size + 1)))
-		ERROR_MEM;
-	return (0);
+	int			ret;
+	size_t		tracker_save;
+	t_st_txt	*txt_save;
+
+
+	tracker_save = (*st_cmd)->st_txt->tracker;
+	txt_save = (*st_cmd)->st_txt;
+	if (buf == 18)
+	{
+		if ((*st_cmd)->st_txt->txt && ((*st_cmd)->st_txt->txt[0] == '\0'))
+			return (-1);
+		tracker--;
+	}
+	if (tracker >= 0)
+	{
+		if (search_in_current_entry(st_cmd, to_find, tracker))
+		{
+			return (0);
+		}
+	}
+	if (((*st_cmd)->hist_lst) && (*st_cmd)->hist_lst->prev)
+			(*st_cmd)->hist_lst = (*st_cmd)->hist_lst->prev;
+			
+	ret = search_in_previous_entries(st_cmd, to_find);
+	return (ret);
 }
 
-static	void	realloc_stock(char **stock, char buf, size_t malloc_size)
+static int	handle_quitting_chars_and_bcksp(char buf, char **stock)
 {
-	(*stock) = ft_realloc((*stock), ft_strlen((*stock)) - 1, &malloc_size, 1);
-	(*stock)[ft_strlen((*stock))] = buf;
-}
-
-static int		is_quit_char(char buf)
-{
-	if (buf != 18 && buf != '\x7f' && buf != ' '
-		&& ft_isprint(buf) == 0)
+	if (buf == '\x7f' && (*stock)[0])
+		(*stock)[ft_strlen(*stock) - 1] = '\0';
+	else if (buf != '\x7f')
+	{
+		ft_strdel(stock);
 		return (1);
+	}
 	return (0);
 }
+
+
+
+static int	check_exit_and_realloc(size_t *malloc_size, char buf, char escape[BUF_SIZE + 1], char **stock)
+{
+	if (buf !=  18 && (ft_strlen(escape) > 1 || is_quit_char(buf)))
+	{
+		if (handle_quitting_chars_and_bcksp(buf, stock))
+			return (1);
+	}
+	else if (buf != 18)
+		realloc_stock(stock, buf, malloc_size);
+	return (0);
+}
+
 
 /*
 **	If buf_received == ctrlr, reverse-i-search in historic
@@ -89,10 +120,10 @@ int				handle_reverse_search_history(t_st_cmd *st_cmd,
 	char			*stock;
 	char			buf;
 	int				ret;
+	int				type_save;
 	char			escape[BUF_SIZE + 1];
 
-	init_vars(&malloc_size, &prompt_type, &stock);
-	print_prompt_search_histo(st_cmd, stock, prompt_type);
+	init_vars_rsh_and_prompt(st_cmd, &malloc_size, &prompt_type, &stock);
 	ft_bzero(escape, sizeof(escape));
 	while ((ret = read(STDIN_FILENO, &buf, 1)) > 0)
 	{
@@ -100,23 +131,14 @@ int				handle_reverse_search_history(t_st_cmd *st_cmd,
 		if (is_valid_escape(escape) == 0)
 			continue ;
 		buf = escape[0];
-		if (buf != 18)
-		{
-			if (ft_strlen(escape) > 1 || is_quit_char(buf))
-			{
-				if (buf == '\x7f' && stock[0])
-					stock[ft_strlen(stock) - 1] = '\0';
-				else if (buf != '\x7f')
-				{
-					ft_strdel(&stock);
-					return (switch_and_return(buf, st_cmd));
-				}
-			}
-			else
-				realloc_stock(&stock, buf, malloc_size);
-			prompt_type = search_reverse_in_histo(&st_cmd, stock);
-			print_prompt_search_histo(st_cmd, stock, prompt_type);
-		}
+		if (check_exit_and_realloc(&malloc_size, buf, escape, &stock))
+			return (switch_and_return(buf, st_cmd));
+		type_save = prompt_type;
+		if (buf == '\x7f' && !stock[0])
+			prompt_type = 1;
+		else if ((prompt_type = search_reverse_in_histo(&st_cmd, stock, (int)(st_cmd->st_txt->tracker), buf)) == -1)
+			prompt_type = type_save;
+		print_prompt_search_histo(st_cmd, stock, prompt_type);
 		ft_bzero(escape, sizeof(escape));
 	}
 	return (0);

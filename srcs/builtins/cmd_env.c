@@ -29,13 +29,13 @@ static	void	exec_env_bin(char *cmd_path, char **argv, char **new_env)
 	if ((pid = fork()) == -1)
 	{
 		ft_dprintf(2, "fork error\n");
-		clean_exit(-1);
+		clean_exit(1, 0);
 	}
 	else if (pid == 0)
 	{
 		execve(cmd_path, (char*const*)argv, (char*const*)new_env);
 		print_errors(ERR_EXECUTE, ERR_EXECUTE_STR, cmd_path);
-		clean_exit(-1);
+		clean_exit(1, 0);
 	}
 	else
 	{

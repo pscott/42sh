@@ -6,29 +6,28 @@
 #include "libft.h"
 
 /*
-**	Looking for pattern "to_find" in st_cmd->hist_lst, reversely.
-**	First, if our st_txt is not empty (ie we already had a successful search
-**		or something was written when ctrl r was actived), we look for
-**		our pattern between the beginning of st_txt and our tracker.
-**	Then, if we did not find any match, we look for our pattern in
-**		previous history entries.
-**	Returns 0 if to_find is not found
-**	Returns 1 if to_find is found
 */
 
-int				search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find, char buf, int prompt_type)
+static int		search_in_current_entry(t_st_cmd **st_cmd, char *to_find, size_t tracker)
 {
 	if ((*st_cmd)->st_txt->txt != NULL)
 	{
-		if (to_find && to_find[0] && ft_strrnstr((*st_cmd)->st_txt->txt, to_find, (*st_cmd)->st_txt->tracker))
+		if (to_find && to_find[0] && ft_strrnstr((*st_cmd)->st_txt->txt, to_find, tracker))
 		{
 			(*st_cmd)->st_txt->tracker = ft_strlen((*st_cmd)->st_txt->txt) -
-				ft_strlen(ft_strrnstr((*st_cmd)->st_txt->txt, to_find, (*st_cmd)->st_txt->tracker));
-			return (0);
+				ft_strlen(ft_strrnstr((*st_cmd)->st_txt->txt, to_find, tracker));
+			return (1);
 		}
 		if (((*st_cmd)->hist_lst) && (*st_cmd)->hist_lst->prev)
 			(*st_cmd)->hist_lst = (*st_cmd)->hist_lst->prev;
 	}
+	return (0);
+}
+
+int				search_in_previous_entries(t_st_cmd **st_cmd, char *to_find)
+{
+	if (((*st_cmd)->hist_lst) && (*st_cmd)->hist_lst->prev)
+			(*st_cmd)->hist_lst = (*st_cmd)->hist_lst->prev;
 	while ((*st_cmd)->hist_lst)
 	{
 		if (to_find && to_find[0] && strstr_adapted((*st_cmd)->hist_lst->txt, to_find))
@@ -50,10 +49,33 @@ int				search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find, char buf, int p
 	return (1);
 }
 
-int				search_reverse_ctrl_again(t_st_cmd **st_cmd, char *to_find, char buf, int prompt_type)
-{
+/*
+**	Looking for pattern "to_find" in st_cmd->hist_lst, reversely.
+**	First, if our st_txt is not empty (ie we already had a successful search
+**		or something was written when ctrl r was actived), we look for
+**	our pattern between the beginning of st_txt and our tracker.
+**	Then, if we did not find any match, we look for our pattern in
+**		previous history entries.
+**	The condition (tracker >= 0) is needed to protect from segmentation
+**		fault in case of various ctrl R. In this case, we first need to look
+**		for 'to_find' pattern between the beginning of st_txt and tracker -1.
+**	Returns 0 if to_find is not found
+**	Returns 1 if to_find is found
+*/
 
+int				search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find, int tracker)
+{
+	int			ret;
+
+	if (tracker >= 0)
+	{
+		if (search_in_current_entry(st_cmd, to_find, tracker))
+			return (0);
+	}
+	ret = search_in_previous_entries(st_cmd, to_find);
+	return (ret);
 }
+
 
 /*
 **	If buf_received == ctrlr, reverse-i-search in historic
@@ -95,12 +117,12 @@ int				handle_reverse_search_history(t_st_cmd *st_cmd,
 			if (buf == '\x7f' && !stock[0])
 				prompt_type = 1;
 			else
-				prompt_type = search_reverse_in_histo(&st_cmd, stock, buf, prompt_type);
+				prompt_type = search_reverse_in_histo(&st_cmd, stock, (int)(st_cmd->st_txt->tracker));
 			print_prompt_search_histo(st_cmd, stock, prompt_type);
 		}
 		else if (buf == 18)
 		{
-			prompt_type = search_reverse_ctrlr_again(&st_cmd, stock);
+			prompt_type = search_reverse_in_histo(&st_cmd, stock, (int)(st_cmd->st_txt->tracker - 1));
 			print_prompt_search_histo(st_cmd, stock, prompt_type);
 		}
 		ft_bzero(escape, sizeof(escape));

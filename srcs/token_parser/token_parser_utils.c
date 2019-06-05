@@ -51,7 +51,7 @@ int		exec_ast(t_ast *root, t_vars *vars)
 	int	ret;
 
 	if (!root)
-		return (0);
+		return (1);
 	if (root->token->type == tk_semi)
 	{
 		if ((ret = exec_ast(root->left, vars)) > 0)

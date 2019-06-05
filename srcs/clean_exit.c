@@ -20,7 +20,7 @@ void	clean_exit(int exitno, int malloc_error)
 		free_vars(vars);
 	}
 	else
-		write(2, "exiting: malloc error\n", 22);
+		write(2, "\nexiting: malloc error\n", 23);
 	reset_terminal_settings();
 	exit(exitno);
 }

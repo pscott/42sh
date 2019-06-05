@@ -1,6 +1,7 @@
 #ifndef ERRORS_H
 # define ERRORS_H
 # include "lexer.h"
+
 # define ERR_CMD 127
 # define ERR_CMD_STR "error: command not found"
 

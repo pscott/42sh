@@ -1,10 +1,10 @@
 #ifndef HISTORY_H
 # define HISTORY_H
 
+#include "input.h"
+
 # define HIST_FILE "~/.42sh_history"
 # define HIST_SIZE 500
-
-# include "input.h"
 
 typedef struct			s_hist_lst {
 	char				*txt;

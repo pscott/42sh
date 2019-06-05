@@ -224,8 +224,8 @@ $(NAME): $(OBJS) libft/libft.a libterm/libterm.a
 -include $(DEPENDENCIES)
 $(OBJ_DIR)/%.o: %.c Makefile
 	@mkdir $(OBJ_DIR) 2> /dev/null || true
-	@$(CC) $(CFLAGS) $(MMD) $(INCL_CMD) -o $@ -c $<
 	@echo Compiling $@
+	@$(CC) $(CFLAGS) $(MMD) $(INCL_CMD) -o $@ -c $<
 
 tags:
 	ctags -R .

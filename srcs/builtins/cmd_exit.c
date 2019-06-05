@@ -1,4 +1,3 @@
-#include "ftsh.h"
 #include "builtins.h"
 
 static void		builtin_exit_error(int errno, char *s)

@@ -1,7 +1,5 @@
 #include "line_editing.h"
 #include <sys/ioctl.h>
-#include "history.h"
-#include "ast.h"
 
 /*
 **	Updates the window struct passed as a parameter by calling the ioctl

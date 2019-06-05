@@ -1,9 +1,6 @@
 #include "builtins.h"
 #include "env.h"
 #include "errors.h"
-#include "ftsh.h"
-#include <sys/stat.h>
-#include <limits.h>
 
 /*
 **	Returns a freshly allocated string containing the value of value associated

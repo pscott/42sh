@@ -1,7 +1,7 @@
 #include "ftsh.h"
+#include "line_editing.h"
 #include "lexer.h"
 #include "ast.h"
-#include "libterm.h"
 #include "history.h"
 
 /*

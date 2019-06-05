@@ -1,11 +1,8 @@
-#include "ftsh.h"
-#include "env.h"
-#include "lexer.h"
-#include "input.h"
-#include "history.h"
-#include "signals.h"
 #include "builtins.h"
 #include "line_editing.h"
+#include "env.h"
+#include "history.h"
+#include "signals.h"
 
 int			is_full_of_whitespaces(const char *input)
 {

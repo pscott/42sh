@@ -1,5 +1,4 @@
-#include "hashmap.h"
-#include "builtins.h"
+#include "ftsh.h"
 
 static void		init_hash_args(t_hash_args *hash_args)
 {

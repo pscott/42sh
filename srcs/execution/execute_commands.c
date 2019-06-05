@@ -1,7 +1,5 @@
-#include "ftsh.h"
 #include "builtins.h"
 #include "execution.h"
-#include "libterm.h"
 #include "cmd_parsing.h"
 #include "errors.h"
 

@@ -2,7 +2,6 @@
 # define HASHMAP_H
 
 # include "ftsh.h"
-# include "libft.h"
 
 /*
 **	INIT_HASH_SIZE needs to be prime to make it work

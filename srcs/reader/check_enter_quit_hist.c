@@ -1,9 +1,5 @@
-#include "input.h"
-#include "signals.h"
 #include "history.h"
 #include "line_editing.h"
-#include "builtins.h"
-#include "libft.h"
 
 /*
 **	Returns 1 if ctrld is pressed and line is empty

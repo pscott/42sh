@@ -1,4 +1,3 @@
-#include "hashmap.h"
 #include "env.h"
 #include "builtins.h"
 #include "execution.h"

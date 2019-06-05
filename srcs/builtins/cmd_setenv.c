@@ -1,6 +1,5 @@
-#include "ftsh.h"
-#include "env.h"
 #include "builtins.h"
+#include "env.h"
 
 /*
 **	Few errors that csh uses

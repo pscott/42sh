@@ -9,10 +9,6 @@
 **	Use check_builtins before calling exec_builtins
 */
 
-/*
-**	TO DO : env is not supposed to do that, to fix
-*/
-
 int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 {
 	int				ret;
@@ -21,7 +17,8 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 		ret = case_exit(argv, &vars->cmd_value);
 	else if (cmd_id == cmd_env)
 	{
-		ret =1;ft_print_ntab(vars->env_vars);
+		vars->cmd_value = case_env(argv, &vars->env_vars, vars);
+		ret = 1;
 	}
 	else if (cmd_id == cmd_cd)
 		ret = case_cd(argv, &vars->env_vars);

@@ -13,9 +13,6 @@ int			parse_dollars_str(char **str, t_vars *vars)
 		return (1);
 	if (!(parse_arith_exp(str, vars)))
 		return (1);
-	//don't make tk_eat
-	//if (!(ft_strlen(token_head->content)))
-	//	token_head->type = tk_eat;
 	return (0);
 }
 
@@ -46,9 +43,9 @@ static int	parse_dollars(t_token *token_head, t_vars *vars)
 
 int			parse_expands(t_token *token_head, t_vars *vars)
 {
-	parse_tildes(token_head, (const char **)vars->env_vars);//we don't care about return value
+	parse_tildes(token_head, (const char **)vars->env_vars);
 	if (parse_dollars(token_head, vars) > 0)
 		return (1);
-	parse_quotes(token_head);//i don't think we care about this return value
+	parse_quotes(token_head);
 	return (0);
 }

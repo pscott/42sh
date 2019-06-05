@@ -248,7 +248,5 @@ re: fclean all
 d: all
 	@$(OPT) ./$(NAME)
 
-
-norm: adh
-	norminette $(SRCS)
-	norminette $(INCLS)
+norm:
+	norminette $(SRCS) | grep -b1 "Error" | grep -v -e "C++ comment" -e "42 header"

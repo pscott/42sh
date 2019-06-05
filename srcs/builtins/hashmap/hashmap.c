@@ -1,6 +1,6 @@
 #include "hashmap.h"
 
-static void	move_on_bucket_list(t_hash_item **item_probe,
+static void		move_on_bucket_list(t_hash_item **item_probe,
 			t_hash_item **prev_probe, unsigned int *list_len)
 {
 	*prev_probe = *item_probe;
@@ -47,7 +47,7 @@ int				add_to_hashmap(char *key, char *value, t_hashmap **hashmap)
 ** return NULL if 'key' wasn't found
 */
 
-char		*check_hashmap(const char *key, t_hashmap *hashmap,
+char			*check_hashmap(const char *key, t_hashmap *hashmap,
 			t_hashopt opt)
 {
 	t_hash_item		*item_probe;
@@ -68,7 +68,7 @@ char		*check_hashmap(const char *key, t_hashmap *hashmap,
 	return (NULL);
 }
 
-void		print_usage(void)
+void			print_usage(void)
 {
 	ft_dprintf(STDERR_FILENO, "hash [-lr] [-p pathname] [-d] [name ...]\n");
 }

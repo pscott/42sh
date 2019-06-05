@@ -1,6 +1,6 @@
 #include "hashmap.h"
 
-static void	init_hash_args(t_hash_args *hash_args)
+static void		init_hash_args(t_hash_args *hash_args)
 {
 	hash_args->opt = 0;
 	hash_args->path = NULL;

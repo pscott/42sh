@@ -11,7 +11,7 @@
 /*
 ** TK_EAT should always be 0
 ** then in increasing order:
-** Words (simple word, Monochar, Squot, Dquot) 
+** Words (simple word, Monochar, Squot, Dquot)
 ** Redirections
 ** Pipe
 ** AND OR

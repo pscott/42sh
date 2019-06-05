@@ -7,7 +7,7 @@ typedef struct			s_vars
 	char				**shell_vars;
 	struct s_hashmap	*hashmap;
 	int					cmd_value;
-	int				verbose;
+	int					verbose;
 }						t_vars;
 
 #endif

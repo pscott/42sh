@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:53:19 by pscott            #+#    #+#             */
-/*   Updated: 2019/04/04 14:53:24 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/05 11:54:00 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int		ft_atoi(const char *str)
 	i = 0;
 	modif = 1;
 	finalnb = 0;
+	if (!(str))
+		return (0);
 	while (str[i] == '\t' || str[i] == '\r' || str[i] == '\v' || str[i] == '\b'
 			|| str[i] == '\f' || str[i] == '\n' || str[i] == ' ')
 		i++;

@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:53:19 by pscott            #+#    #+#             */
-/*   Updated: 2019/04/04 14:53:24 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/05 11:56:22 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	*ft_memccpy(void *restrict d, const void *restrict s, int c, size_t n)
 	unsigned char	*desti;
 
 	i = 0;
+	if (!d | !s)
+		return (NULL);
 	source = (unsigned char *)s;
 	desti = (unsigned char *)d;
 	while (i < n)

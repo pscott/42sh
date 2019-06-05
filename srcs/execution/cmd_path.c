@@ -83,7 +83,7 @@ char				*get_cmd_path(char *str, char **env, int verbose)
 
 	ft_initialize_str(&path_line, &path, NULL, NULL);
 	paths = NULL;
-	if (!ft_strchr(str, '/') || !(path_line = get_envline_value("PATH", env)))
+	if (!ft_strchr(str, '/') && !(path_line = get_envline_value("PATH", env)))
 	{
 		if (!(path = ft_strdup(str)))
 			ERROR_MEM;

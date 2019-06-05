@@ -1,7 +1,7 @@
 #ifndef LINE_EDITING_H
 # define LINE_EDITING_H
 
-#include "input.h"
+# include "input.h"
 
 /*
 **	Window struct

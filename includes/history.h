@@ -1,7 +1,7 @@
 #ifndef HISTORY_H
 # define HISTORY_H
 
-#include "input.h"
+# include "input.h"
 
 # define HIST_FILE "~/.42sh_history"
 # define HIST_SIZE 500

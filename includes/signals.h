@@ -1,5 +1,6 @@
 #ifndef SIGNALS_H
 # define SIGNALS_H
+
 # include "ftsh.h"
 # include <signal.h>
 # include <sys/ioctl.h>

@@ -1,12 +1,12 @@
 #include "ftsh.h"
 #include "cmd_parsing.h"
 
-//is_terminated doesn't care about '\' escape
-int	is_terminated(const char *open_pattern
-		, const char *close_pattern, const char *str)
+int	is_terminated(const char *open_pattern,
+	const char *close_pattern, const char *str)
 {
 	size_t	i;
 	size_t	close_len;
+	size_t	len;
 
 	i = open_pattern ? ft_strlen(open_pattern) : 0;
 	if (i > ft_strlen(str))

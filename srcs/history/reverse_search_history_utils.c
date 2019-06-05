@@ -41,8 +41,11 @@ int		init_vars_rsh_and_prompt
 
 void	realloc_stock(char **stock, char buf, size_t *malloc_size)
 {
-	(*stock) = ft_realloc((*stock), ft_strlen((*stock)) - 1, malloc_size, 1);
-	(*stock)[ft_strlen((*stock))] = buf;
+	size_t	size;
+
+	size = ft_strlen(*stock);
+	(*stock) = ft_realloc((*stock), size - 1, malloc_size, 1);
+	(*stock)[size] = buf;
 }
 
 int		is_quit_char(char buf)

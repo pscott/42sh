@@ -36,12 +36,14 @@ void			print_exit(void)
 static int		check_validity_args(char **argv, int *exitno)
 {
 	int			ret;
+	t_vars		*vars;
 
 	ret = 0;
+	vars = get_vars(NULL);
 	if (!argv || !argv[1])
 	{
 		ret = 1;
-		*exitno = 0;
+		*exitno = vars->cmd_value;
 	}
 	else if (!word_is_num(argv[1]))
 	{

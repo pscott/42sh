@@ -53,6 +53,7 @@ static int				get_users_list(t_auto_comp **match, const char *to_find)
 		if (!ret)
 			break ;
 	}
+	close(fd);
 	return (0);
 }
 

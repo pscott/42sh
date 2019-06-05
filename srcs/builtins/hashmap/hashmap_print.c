@@ -17,7 +17,7 @@ static int	is_hashmap_empty(t_hashmap *hashmap)
 	return (is_empty);
 }
 
-void			print_hashmap(t_hashmap *hashmap)
+void		print_hashmap(t_hashmap *hashmap)
 {
 	int			i;
 	t_hash_item	*item_probe;
@@ -57,7 +57,7 @@ int			print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args
 	return (0);
 }
 
-void			print_hashmap_l(t_hashmap *hashmap)
+void		print_hashmap_l(t_hashmap *hashmap)
 {
 	int			i;
 	t_hash_item	*item_probe;

@@ -8,7 +8,7 @@
 **	Should not return NULL because it is called n - 1 times
 */
 
-static			t_token	*get_next_simple_command(t_token *begin)
+static t_token	*get_next_simple_command(t_token *begin)
 {
 	while (is_simple_cmd_token(begin))
 		begin = begin->next;

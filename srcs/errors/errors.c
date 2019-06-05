@@ -2,7 +2,7 @@
 #include "lexer.h"
 #include "line_editing.h"
 
-static int	is_newline_token(t_token *token)
+static int		is_newline_token(t_token *token)
 {
 	int			i;
 

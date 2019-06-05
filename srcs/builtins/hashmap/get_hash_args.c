@@ -14,7 +14,7 @@ static void		init_hash_args(t_hash_args *hash_args)
 ** just return (if  given arg is an option)
 */
 
-static int	is_arg_not_an_option(char *arg, t_hash_args *hash_args)
+static int		is_arg_not_an_option(char *arg, t_hash_args *hash_args)
 {
 	if ((arg[0] != '-' || (arg[0] == '-' && !arg[1]))
 		&& hash_args->state == get_opt)

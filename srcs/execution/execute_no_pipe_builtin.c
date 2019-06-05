@@ -41,7 +41,7 @@ static void		execute_exit(int exitno)
 {
 	print_exit();
 	save_reset_stdfd(0);
-	clean_exit(exitno);
+	clean_exit(exitno, 0);
 }
 
 /*

@@ -55,7 +55,7 @@ static	int		fork_pipes(int num_simple_commands, t_token *beg, t_vars *vars)
 		else if (pid == 0)
 		{
 			close(fd[0]);
-			clean_exit(parse_and_exec(beg, in, fd[1], vars));
+			clean_exit(parse_and_exec(beg, in, fd[1], vars), 0);
 		}
 		else if (pid > 0)
 		{
@@ -71,10 +71,10 @@ static	int		fork_pipes(int num_simple_commands, t_token *beg, t_vars *vars)
 	if ((pid = fork()) == -1)
 	{
 		ft_dprintf(2, "fork error\n");
-		clean_exit(-1);
+		clean_exit(-1, 0);
 	}
 	else if (pid == 0)
-		clean_exit(parse_and_exec(beg, in, STDOUT_FILENO, vars));
+		clean_exit(parse_and_exec(beg, in, STDOUT_FILENO, vars), 0);
 	else
 	{
 		waitpid(pid, &status, 0);

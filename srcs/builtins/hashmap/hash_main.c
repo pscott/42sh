@@ -3,7 +3,7 @@
 #include "builtins.h"
 #include "execution.h"
 
-static char		**get_hash_paths(char **env)
+static char	**get_hash_paths(char **env)
 {
 	char	**paths;
 	char	*path_line;
@@ -24,11 +24,11 @@ static char		**get_hash_paths(char **env)
 ** - add it to hashmap if found
 */
 
-static int	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc
-				, char **argv)
+static int	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc,
+	char **argv)
 {
 	int		i;
-	int	return_value;
+	int		return_value;
 	char	*value;
 	char	**paths;
 
@@ -56,10 +56,10 @@ static int	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc
 ** add each ARG into hashmap with the given path
 */
 
-static void		add_each_name_with_path(t_hashmap **hashmap
-				, t_hash_args *hash_args, int argc, char **argv)
+static void	add_each_name_with_path(t_hashmap **hashmap,
+	t_hash_args *hash_args, int argc, char **argv)
 {
-	int		i;
+	int	i;
 
 	i = hash_args->name_index - 1;
 	while (++i < argc)
@@ -77,10 +77,10 @@ static void		add_each_name_with_path(t_hashmap **hashmap
 ** print an error for unfindable ARG
 */
 
-static int	pop_each_name(t_hashmap **hashmap, t_hash_args *hash_args
-				, int argc, char **argv)
+static int	pop_each_name(t_hashmap **hashmap, t_hash_args *hash_args,
+	int argc, char **argv)
 {
-	int		i;
+	int	i;
 	int	return_value;
 
 	i = hash_args->name_index - 1;
@@ -102,7 +102,7 @@ static int	pop_each_name(t_hashmap **hashmap, t_hash_args *hash_args
 ** -r option a full priority
 */
 
-int				hash_builtin(t_vars *vars, int argc, char **argv)
+int			hash_builtin(t_vars *vars, int argc, char **argv)
 {
 	t_hash_args	hash_args;
 

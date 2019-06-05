@@ -5,7 +5,7 @@
 #include "errors.h"
 
 static int			access_and_exec(char *cmd_path, char **argv,
-					const char **env)
+	const char **env)
 {
 	int				access;
 
@@ -26,6 +26,17 @@ static int			access_and_exec(char *cmd_path, char **argv,
 	return (access);
 }
 
+static int			in_fork_builtin(char **argv, t_vars *vars,
+	t_cmd_id cmd_id)
+{
+	int ret;
+
+	ret = exec_builtins(argv, vars, cmd_id);
+	if (cmd_id == cmd_exit && ret == 1)
+		clean_exit(vars->cmd_value, 0);
+	return (ret);
+}
+
 /*
 **	Execute the argv, first checking if the cmd contains a '/', or if it is
 **	a builtin, if it is in the hashmap, or in the PATH. If it is not found, an
@@ -36,15 +47,15 @@ static int			access_and_exec(char *cmd_path, char **argv,
 
 static int			execute_argv(char **argv, t_vars *vars)
 {
-	int				cmd;
+	t_cmd_id		cmd_id;
 	char			*cmd_path;
 
 	if (!argv)
 		return (1);
 	else if (ft_strchr(argv[0], '/'))
 		cmd_path = ft_strdup(argv[0]);
-	else if ((cmd = check_builtins(argv)))
-		return (exec_builtins(argv, vars, cmd));
+	else if ((cmd_id = check_builtins(argv)))
+		return (in_fork_builtin(argv, vars, cmd_id));
 	else if ((cmd_path = check_hashmap(argv[0], vars->hashmap, hash_check)))
 	{
 		if (!(cmd_path = ft_strdup(cmd_path)))
@@ -67,7 +78,7 @@ static int			execute_argv(char **argv, t_vars *vars)
 */
 
 int					parse_and_exec(t_token *token_head, int in,
-					int out, t_vars *vars)
+	int out, t_vars *vars)
 {
 	char			**argv;
 	int				ret;
@@ -75,7 +86,7 @@ int					parse_and_exec(t_token *token_head, int in,
 	redirect(in, STDIN_FILENO, 0);
 	redirect(out, STDOUT_FILENO, 0);
 	argv = NULL;
-	if ((ret = parse_expands(token_head, vars)) > 0)//TODO check order
+	if ((ret = parse_expands(token_head, vars)) > 0)
 		return (ret);
 	reset_terminal_settings();
 	if ((ret = parse_redirections(token_head, 0)) > 0)

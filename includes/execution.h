@@ -9,7 +9,6 @@ int			parse_and_exec(t_token *token_head, int in, int out, t_vars *vars);
 int			execute_no_pipe_builtin(t_token *begin, t_vars *vars);
 int			check_access(const char *file);
 char		*find_path(char *file, char **paths);
-void		execute_exit(int exitno);
 int			exit_status(int status);
 
 #endif

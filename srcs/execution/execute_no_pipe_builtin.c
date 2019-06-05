@@ -37,7 +37,7 @@ static void		fake_redir_parser(t_token *token_head)
 **	Utility function to actually exit
 */
 
-void		execute_exit(int exitno)
+static void		execute_exit(int exitno)
 {
 	print_exit();
 	save_reset_stdfd(0);

@@ -34,10 +34,10 @@ static void		fake_redir_parser(t_token *token_head)
 }
 
 /*
-**	Utility function for execute_no_pipe_builtin
+**	Utility function to actually exit
 */
 
-static void		execute_exit(int exitno)
+void		execute_exit(int exitno)
 {
 	print_exit();
 	save_reset_stdfd(0);

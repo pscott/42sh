@@ -83,21 +83,27 @@ static char			**create_argv(t_token *token_head, unsigned int argv_len)
 **	Else returns 1
 */
 
-static unsigned int	token_length(t_token *probe)
+static unsigned int	token_length(t_token **probe)
 {
 	unsigned int	argv_len;
+	char			*cat;
 	char			**words;
 
-	if (probe->type != tk_word)
-		return (1);
-	else
+	argv_len = 0;
+	if (!(cat = ft_strdup("")))
+		ERROR_MEM;
+	while (is_argv_token(*probe))
 	{
-		if (!(words = ft_strsplit(probe->content, IFS)))
+		if (!(cat = ft_strjoin_free_left(cat, (*probe)->content)))
 			ERROR_MEM;
-		argv_len = ft_ntab_len((const char**)words);
-		ft_free_ntab(words);
-		return (argv_len);
+		*probe = (*probe)->next;
 	}
+	if (!(words = ft_strsplit(cat, IFS)))
+		ERROR_MEM;
+	argv_len = ft_ntab_len((const char**)words);
+	ft_free_ntab(words);
+	ft_strdel(&cat);
+	return (argv_len);
 }
 
 /*
@@ -119,9 +125,7 @@ int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 	while (probe)
 	{
 		if (is_argv_token(probe))
-			argv_len += token_length(probe);
-		while (is_argv_token(probe))
-			probe = probe->next;
+			argv_len += token_length(&probe);
 		while (probe && probe->type == tk_eat)
 			probe = probe->next;
 		if (!probe || probe->type > tk_redirection)

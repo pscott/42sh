@@ -1,7 +1,7 @@
 #include "ftsh.h"
+#include "line_editing.h"
 #include "errors.h"
 #include "lexer.h"
-#include "libterm.h"
 #include "heredoc.h"
 
 static int	error_unsupported_token(t_token *token, int return_val)

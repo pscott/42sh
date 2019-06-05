@@ -1,4 +1,6 @@
+#include "input.h"
 #include "heredoc.h"
+#include "errors.h"
 
 /*
 ** get_eof

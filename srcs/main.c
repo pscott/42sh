@@ -1,5 +1,6 @@
 #include "builtins.h"
 #include "line_editing.h"
+#include "hashmap.h"
 #include "env.h"
 #include "history.h"
 #include "signals.h"

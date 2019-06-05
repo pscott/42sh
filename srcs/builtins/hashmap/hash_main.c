@@ -1,6 +1,7 @@
 #include "env.h"
 #include "builtins.h"
 #include "execution.h"
+#include "hashmap.h"
 
 static char	**get_hash_paths(char **env)
 {

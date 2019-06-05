@@ -1,6 +1,7 @@
 #include "builtins.h"
 #include "execution.h"
 #include "cmd_parsing.h"
+#include "hashmap.h"
 #include "errors.h"
 
 static int			access_and_exec(char *cmd_path, char **argv,

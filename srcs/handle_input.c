@@ -1,6 +1,5 @@
-#include "ftsh.h"
-#include "line_editing.h"
 #include "lexer.h"
+#include "line_editing.h"
 #include "ast.h"
 #include "history.h"
 

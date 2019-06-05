@@ -3,9 +3,6 @@
 
 # include "ftsh.h"
 # include "lexer.h"
-# include "input.h"
-# include "cmd_parsing.h"
-# include "errors.h"
 
 # define HEREDOC_FILENAME "/tmp/.tmp_heredoc"
 # define MAX_INT_LEN 10

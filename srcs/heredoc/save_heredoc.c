@@ -1,3 +1,4 @@
+#include "input.h"
 #include "heredoc.h"
 
 /*

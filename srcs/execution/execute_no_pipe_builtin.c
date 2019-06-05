@@ -1,6 +1,7 @@
 #include "builtins.h"
 #include "execution.h"
 #include "cmd_parsing.h"
+#include "hashmap.h"
 
 /*
 **	Utility function for execute_no_pipe_builtin

@@ -1,7 +1,6 @@
 #ifndef CMD_PARSING_H
 # define CMD_PARSING_H
 
-# include "ftsh.h"
 # include "lexer.h"
 # define IFS " \t\n"
 

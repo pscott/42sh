@@ -1,5 +1,6 @@
 #include "builtins.h"
 #include "execution.h"
+#include "hashmap.h"
 
 static void			print_error(const char *arg)
 {

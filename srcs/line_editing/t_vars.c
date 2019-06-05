@@ -1,4 +1,5 @@
 #include "ftsh.h"
+#include "hashmap.h"
 
 void	free_vars(t_vars *vars)
 {

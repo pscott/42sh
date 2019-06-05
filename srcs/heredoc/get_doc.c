@@ -1,4 +1,6 @@
+#include "input.h"
 #include "heredoc.h"
+#include "cmd_parsing.h"
 
 static void		apply_escape(t_st_cmd *st_cmd)
 {

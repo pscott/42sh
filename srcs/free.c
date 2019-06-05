@@ -1,4 +1,5 @@
 #include "ftsh.h"
+#include "line_editing.h"
 #include "lexer.h"
 #include "ast.h"
 #include "heredoc.h"

@@ -3,11 +3,8 @@
 
 # include "structures.h"
 # include "libft.h"
-# include <stdlib.h>
 # include "libterm.h"
 # include <sys/types.h>
-# include <unistd.h>
-# include "hashmap.h"
 
 # define ERROR_MEM clean_exit(1, 1)
 # define SHELL_NAME "42sh"

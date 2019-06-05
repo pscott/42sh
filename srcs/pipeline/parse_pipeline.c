@@ -15,77 +15,108 @@ static t_token	*get_next_simple_command(t_token *begin)
 	if (begin && begin->type == tk_pipe)
 		return (begin->next);
 	else
-	{
-		ft_dprintf(2, "Error ???\n");
-		return (begin); //error ?
-	}
-}
-
-static	int		error_message(const char *cause)
-{
-	ft_dprintf(2, "%s error\n", cause);
-	return (1);
+		return (begin);
 }
 
 /*
-**	OUTDATED
-**	Manages all pipes and fds, while handing the simple command to parse_redir
-**	for redirection parsing and execution. Note that i < n - 1, because piping
-**	the last command is never needed.
+**	Executes the last cmd and wait for children to finish.
+**	Returns the exit status of the last cmd executed and prints an error
+**	message if the last cmd exited because of a signal.
+**	Had to use an array of ints for ints because of 42's norme.
 */
 
-static	int		fork_pipes(int num_simple_commands, t_token *beg, t_vars *vars)
+static int		exec_last_cmd(t_token *begin, int ints[2], int fd[2],
+	t_vars *vars)
 {
-	int		i;
-	int		in;
-	pid_t	pid;
 	int		status;
-	int		fd[2];
+	pid_t	pid;
 	int		ret;
 
-	in = STDIN_FILENO;
-	i = 0;
 	ret = 0;
-	while (i++ < num_simple_commands - 1)
-	{
-		if (pipe(fd))
-			return (error_message("pipe"));
-		if ((pid = fork()) == -1)
-			return (error_message("fork"));
-		else if (pid == 0)
-		{
-			close(fd[0]);
-			clean_exit(parse_and_exec(beg, in, fd[1], vars), 0);
-		}
-		else if (pid > 0)
-		{
-			close(fd[1]);
-			if (in != STDIN_FILENO)
-				close(in);
-			in = fd[0];
-			beg = get_next_simple_command(beg);
-			continue ;
-		}
-	}
-	//break func here: fork_last_cmd() //TODO
 	if ((pid = fork()) == -1)
 	{
 		ft_dprintf(2, "fork error\n");
-		clean_exit(-1, 0);
+		clean_exit(ret, 0);
 	}
 	else if (pid == 0)
-		clean_exit(parse_and_exec(beg, in, STDOUT_FILENO, vars), 0);
+		clean_exit(parse_and_exec(begin, ints[0], STDOUT_FILENO, vars), 0);
 	else
 	{
 		waitpid(pid, &status, 0);
 		ret = exit_status(status);
-		if (num_simple_commands != 1)
+		if (ints[1] != 1)
 			close(fd[0]);
 		while ((pid = wait(&status)) > 0)
 			;
 		signals_setup();
 		setup_terminal_settings();
 	}
+	return (ret);
+}
+
+/*
+**	Pipes fd.
+**	Creates a fork :if it's a child, parses and executes starting from the
+**	begin token.
+**	If it's a father, closes fd[1], and sets ints[0] to fd[0].
+*/
+
+static void		create_forks(t_token **begin, int ints[2], int fd[2],
+	t_vars *vars)
+{
+	int	pid;
+
+	if ((pid = fork()) == -1)
+	{
+		write(2, "fork error\n", 11);
+		clean_exit(-1, 0);
+	}
+	else if (pid == 0)
+	{
+		close(fd[0]);
+		pid = parse_and_exec(*begin, ints[0], fd[1], vars);
+		clean_exit(pid, 0);
+	}
+	else if (pid > 0)
+	{
+		close(fd[1]);
+		if (ints[0] != STDIN_FILENO)
+			close(ints[0]);
+		ints[0] = fd[0];
+		*begin = get_next_simple_command(*begin);
+	}
+}
+
+/*
+**	Manages all pipes and fds, while handing the simple command to
+**	parse_and_exec for redirection parsing and execution. Note that i < n - 1,
+**	because piping the last command is never needed.
+**
+**	Declared variable ints[2] because of 42's norme.
+**	ints[0] was a variable called in.
+**	ints[1] was a variable called num_simple_commands.
+*/
+
+static	int		fork_pipes(int num_simple_commands, t_token *beg, t_vars *vars)
+{
+	int		i;
+	int		ints[2];
+	int		fd[2];
+	int		ret;
+
+	i = 0;
+	ints[0] = STDIN_FILENO;
+	ints[1] = num_simple_commands;
+	while (i++ < num_simple_commands - 1)
+	{
+		if (pipe(fd))
+		{
+			write(2, "pipe error\n", 11);
+			clean_exit(-1, 0);
+		}
+		create_forks(&beg, ints, fd, vars);
+	}
+	ret = exec_last_cmd(beg, ints, fd, vars);
 	return (ret);
 }
 

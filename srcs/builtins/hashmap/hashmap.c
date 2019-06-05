@@ -16,7 +16,7 @@ static void	move_on_bucket_list(t_hash_item **item_probe,
 ** resize the hashmap if bucket list length > MAX_HASHMAP_COLLISION
 */
 
-int				add_to_hashmap(char *key, char *value, t_hashmap **hashmap)
+int			add_to_hashmap(char *key, char *value, t_hashmap **hashmap)
 {
 	unsigned int	index;
 	t_hash_item		*item_probe;

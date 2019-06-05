@@ -19,8 +19,8 @@ static int	error_unsupported_token(t_token *token, int return_val)
 ** 3. create a token_list or append it with the given token
 */
 
-static int	add_token_to_list(t_token *current_token, t_token *prev_token
-				, t_token **token_head, t_vars *vars)
+static int	add_token_to_list(t_token *current_token, t_token *prev_token,
+	t_token **token_head, t_vars *vars)
 {
 	t_token	*probe;
 
@@ -47,8 +47,8 @@ static int	add_token_to_list(t_token *current_token, t_token *prev_token
 ** set the variables the lexer needs
 */
 
-static void	init_lexer(t_operation **op_chart, t_token **token_head
-			, t_token **prev_token)
+static void	init_lexer(t_operation **op_chart, t_token **token_head,
+	t_token **prev_token)
 {
 	*op_chart = get_op_chart();
 	*token_head = NULL;

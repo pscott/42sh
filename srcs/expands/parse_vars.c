@@ -95,7 +95,7 @@ char				*get_var_name(char *str)
 int				parse_vars(char **str, t_vars *vars)
 {
 	size_t		i;
-	t_bool		escaped;
+	int		escaped;
 	const char	*var_name;
 
 	i = 0;

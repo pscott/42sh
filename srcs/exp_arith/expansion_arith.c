@@ -5,7 +5,7 @@
 **	Arithmetic expansion errors
 */
 
-static	int		err_msgs(int err, t_bool verbose)
+static	int		err_msgs(int err, int verbose)
 {
 	if (verbose)
 	{

@@ -1,4 +1,4 @@
-ec#include "ftsh.h"
+#include "ftsh.h"
 #include "input.h"
 #include "libterm.h"
 #include "line_editing.h"

@@ -13,7 +13,7 @@
 ** 5. free ast
 */
 
-t_bool			handle_input(t_st_cmd *st_cmd, t_vars *vars)
+int			handle_input(t_st_cmd *st_cmd, t_vars *vars)
 {
 	t_ast			*ast_root;
 	t_token			*token_head;

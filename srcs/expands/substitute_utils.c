@@ -2,7 +2,7 @@
 #include "cmd_parsing.h"
 
 //is_terminated doesn't care about '\' escape
-t_bool	is_terminated(const char *open_pattern
+int	is_terminated(const char *open_pattern
 		, const char *close_pattern, const char *str)
 {
 	size_t	i;
@@ -27,7 +27,7 @@ t_bool	is_terminated(const char *open_pattern
 ** return 1 if '$((' is matched with a '))'
 */
 
-t_bool	is_matched(const char *str
+int	is_matched(const char *str
 		, const char *begin_match, const char *end_match)
 {
 	size_t			i;
@@ -65,7 +65,7 @@ t_bool	is_matched(const char *str
 **	=   aaaMichel/aaa
 */
 
-t_bool	substitute_slice(char **old_str, size_t index[2], const char *to_sub)
+int	substitute_slice(char **old_str, size_t index[2], const char *to_sub)
 {
 	size_t	new_len;
 	size_t	to_sub_len;

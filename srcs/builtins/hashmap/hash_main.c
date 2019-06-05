@@ -24,11 +24,11 @@ static char		**get_hash_paths(char **env)
 ** - add it to hashmap if found
 */
 
-static t_bool	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc
+static int	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc
 				, char **argv)
 {
 	int		i;
-	t_bool	return_value;
+	int	return_value;
 	char	*value;
 	char	**paths;
 
@@ -77,11 +77,11 @@ static void		add_each_name_with_path(t_hashmap **hashmap
 ** print an error for unfindable ARG
 */
 
-static t_bool	pop_each_name(t_hashmap **hashmap, t_hash_args *hash_args
+static int	pop_each_name(t_hashmap **hashmap, t_hash_args *hash_args
 				, int argc, char **argv)
 {
 	int		i;
-	t_bool	return_value;
+	int	return_value;
 
 	i = hash_args->name_index - 1;
 	return_value = 0;

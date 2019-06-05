@@ -64,7 +64,7 @@ typedef enum			e_hashopt
 }						t_hashopt;
 
 void					delete_hashmap(t_hashmap *hashmap);
-t_bool					add_to_hashmap(char *key, char *value,
+int					add_to_hashmap(char *key, char *value,
 						t_hashmap **hashmap);
 unsigned int			hashfun(const char *input);
 char					*check_hashmap(const char *key, t_hashmap *hashmap,
@@ -76,9 +76,9 @@ char					*check_hashmap(const char *key, t_hashmap *hashmap,
 void					print_hashmap(t_hashmap *hashmap);
 void					print_hashmap_l(t_hashmap *hashmap);
 void					print_hash_usage(void);
-t_bool					print_hashmap_l_args(t_hashmap *hashmap,
+int					print_hashmap_l_args(t_hashmap *hashmap,
 						t_hash_args *hash_args, int argc, char **argv);
-t_bool					hash_builtin_print(t_hashmap *hashmap,
+int					hash_builtin_print(t_hashmap *hashmap,
 						t_hash_args *hash_args, int argc, char **argv);
 
 /*
@@ -96,9 +96,9 @@ void					cpy_hashmap(t_hashmap *old_map, t_hashmap **new_map);
 */
 
 void					delete_hashmap(t_hashmap *hashmap);
-t_bool					replace_item(t_hash_item *item, const char *value);
-t_bool					pop_hashmap_item(const char *key, t_hashmap *hashmap);
-t_bool					reset_hashmap(t_hashmap **hashmap);
+int					replace_item(t_hash_item *item, const char *value);
+int					pop_hashmap_item(const char *key, t_hashmap *hashmap);
+int					reset_hashmap(t_hashmap **hashmap);
 
 /*
 ** prime.c
@@ -111,13 +111,13 @@ unsigned int			find_prev_prime(unsigned int nb);
 ** hashmap_errors.c
 */
 
-t_bool					print_hash_invalid_option(char c);
+int					print_hash_invalid_option(char c);
 
 /*
 ** hash_main.c
 */
 
 int						hash_builtin(t_vars *vars, int argc, char **argv);
-t_bool					get_hash_args(char **argv, t_hash_args *hash_args);
+int					get_hash_args(char **argv, t_hash_args *hash_args);
 
 #endif

@@ -62,11 +62,11 @@ static t_token			*replace_heredoc_tokens(t_token *probe,
 ** - replace << by <, and the EOF tokens by the name of the temporary file
 */
 
-int					parse_heredoc(t_token *token_head, t_vars *vars)
+int						parse_heredoc(t_token *token_head, t_vars *vars)
 {
 	t_token			*token_probe;
 	char			*eof;
-	int			is_eof_quoted;
+	int				is_eof_quoted;
 	char			*path;
 
 	token_probe = token_head;

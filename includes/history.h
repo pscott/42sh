@@ -14,7 +14,6 @@ typedef struct			s_hist_lst {
 	struct s_hist_lst	*next;
 }						t_hist_lst;
 
-
 /*
 **	Retrieving and writing history to/from a file
 */

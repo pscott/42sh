@@ -29,7 +29,7 @@ void		save_reset_stdfd(int mode);
 **	String tool
 */
 
-int		is_full_of_whitespaces(const char *input);
+int			is_full_of_whitespaces(const char *input);
 
 void		clean_exit(int exitno, int malloc_error);
 

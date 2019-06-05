@@ -14,7 +14,7 @@ static void	init_hash_args(t_hash_args *hash_args)
 ** just return (if  given arg is an option)
 */
 
-static int	is_arg_not_an_option(char *arg, t_hash_args *hash_args)
+static int		is_arg_not_an_option(char *arg, t_hash_args *hash_args)
 {
 	if ((arg[0] != '-' || (arg[0] == '-' && !arg[1]))
 		&& hash_args->state == get_opt)
@@ -27,7 +27,7 @@ static int	is_arg_not_an_option(char *arg, t_hash_args *hash_args)
 ** just check at the end of parsing if every needed args was found
 */
 
-static int	last_args_check(t_hash_state state)
+static int		last_args_check(t_hash_state state)
 {
 	if (state == get_hash_path)
 	{
@@ -45,7 +45,7 @@ static int	last_args_check(t_hash_state state)
 ** if not, print usage
 */
 
-static int	get_hash_opt(char *arg, t_hash_args *hash_args)
+static int		get_hash_opt(char *arg, t_hash_args *hash_args)
 {
 	int	i;
 
@@ -79,7 +79,7 @@ static int	get_hash_opt(char *arg, t_hash_args *hash_args)
 ** return 0 if it failed
 */
 
-int			get_hash_args(char **argv, t_hash_args *hash_args)
+int				get_hash_args(char **argv, t_hash_args *hash_args)
 {
 	int			i;
 

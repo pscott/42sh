@@ -7,7 +7,7 @@
 #include "builtins.h"
 #include "line_editing.h"
 
-int		is_full_of_whitespaces(const char *input)
+int			is_full_of_whitespaces(const char *input)
 {
 	int		i;
 

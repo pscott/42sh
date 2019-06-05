@@ -16,7 +16,7 @@ static	size_t	get_ll_len(long long nb)
 	return (len);
 }
 
-static char	*lltoa_and_free(long long nb, char **to_free)
+static char		*lltoa_and_free(long long nb, char **to_free)
 {
 	char		*str;
 	int			len;
@@ -43,7 +43,7 @@ static char	*lltoa_and_free(long long nb, char **to_free)
 	return (str);
 }
 
-static char	*dup_for_arith_exp(char *str, size_t i, size_t index)
+static char		*dup_for_arith_exp(char *str, size_t i, size_t index)
 {
 	char	*new_str;
 
@@ -52,13 +52,13 @@ static char	*dup_for_arith_exp(char *str, size_t i, size_t index)
 	return (new_str);
 }
 
-static char	free_str_return_char(char **str, char c)
+static char		free_str_return_char(char **str, char c)
 {
 	ft_strdel(str);
 	return (c);
 }
 
-static char	expand_lowest_arith_exp(char **str, t_vars *vars)
+static char		expand_lowest_arith_exp(char **str, t_vars *vars)
 {
 	size_t		i;
 	size_t		index[2];
@@ -87,7 +87,7 @@ static char	expand_lowest_arith_exp(char **str, t_vars *vars)
 	return (0);
 }
 
-int		parse_arith_exp(char **str, t_vars *vars)
+int				parse_arith_exp(char **str, t_vars *vars)
 {
 	size_t		i;
 	char		escaped;

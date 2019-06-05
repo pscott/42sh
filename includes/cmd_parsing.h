@@ -23,11 +23,11 @@ int				parse_dollars_str(char **str, t_vars *vars);
 ** substitute_utils
 */
 
-int			is_terminated(const char *open_pattern,
-				const char *close_pattern, const char *str);
-int			is_matched(const char *str, const char *begin_match,
-				const char *end_match);
-int			substitute_slice(char **old_str, size_t index[2],
+int				is_terminated(const char *open_pattern,
+					const char *close_pattern, const char *str);
+int				is_matched(const char *str, const char *begin_match,
+					const char *end_match);
+int				substitute_slice(char **old_str, size_t index[2],
 				const char *to_sub);
 
 char			*get_var_name(char *str);

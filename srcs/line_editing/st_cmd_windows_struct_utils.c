@@ -1,7 +1,5 @@
 #include "line_editing.h"
 #include <sys/ioctl.h>
-#include "history.h"
-#include "ast.h"
 
 /*
 **	Updates the window struct passed as a parameter by calling the ioctl
@@ -23,7 +21,7 @@ void			update_window_struct(struct winsize *window)
 	if (ioctl(STDIN_FILENO, TIOCGWINSZ, window) == -1)
 	{
 		ft_dprintf(2, "error ioctl: exiting!\n");
-		clean_exit(1);
+		clean_exit(1, 0);
 	}
 }
 

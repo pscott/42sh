@@ -9,42 +9,9 @@
 **	Use check_builtins before calling exec_builtins
 */
 
-static int	exec_builtins_2(char **argv, t_vars *vars, t_cmd_id cmd_id)
-{
-	int			ret;
-
-	if (cmd_id == cmd_hash)
-	{
-		vars->cmd_value = case_hash(argv, vars);
-		ret = 1;
-	}
-	else if (cmd_id == cmd_setenv)
-	{
-		vars->cmd_value = case_setenv(argv, &vars->env_vars);
-		ret = 1;
-	}
-	else if (cmd_id == cmd_unsetenv)
-	{
-		vars->cmd_value = case_unsetenv(argv, vars);
-		ret = 1;
-	}
-	else if (cmd_id == cmd_echo)
-	{
-		vars->cmd_value = case_echo(argv);
-		ret = 1;
-	}
-	else
-		ret = 0;
-	return (ret);
-}
-
-/*
-**	TO DO : env is not supposed to do that, to fix
-*/
-
 int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 {
-	int			ret;
+	int				ret;
 
 	if (cmd_id == cmd_exit)
 		ret = case_exit(argv, &vars->cmd_value);
@@ -54,17 +21,19 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 		ret = 1;
 	}
 	else if (cmd_id == cmd_cd)
-	{
-		vars->cmd_value = case_cd(argv, &vars->env_vars);
-		ret = 1;
-	}
+		ret = case_cd(argv, &vars->env_vars);
 	else if (cmd_id == cmd_type)
-	{
-		vars->cmd_value = case_type(argv, vars);
-		ret = 1;
-	}
+		ret = case_type(argv, vars);
+	else if (cmd_id == cmd_hash)
+		ret = case_hash(argv, vars);
+	else if (cmd_id == cmd_setenv)
+		ret = case_setenv(argv, vars);
+	else if (cmd_id == cmd_unsetenv)
+		ret = case_unsetenv(argv, vars);
+	else if (cmd_id == cmd_echo)
+		ret = case_echo(argv);
 	else
-		ret = exec_builtins_2(argv, vars, cmd_id);
+		ret = 0;
 	ft_free_ntab(argv);
 	return (ret);
 }

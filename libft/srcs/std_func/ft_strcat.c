@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 17:57:03 by pscott            #+#    #+#             */
-/*   Updated: 2019/04/18 17:57:16 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/05 12:00:17 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strcat(char *restrict s1, const char *restrict s2)
 
 	if (!s2)
 		return (s1);
+	if (!s1)
+		return (NULL);
 	i = 0;
 	while (s1[i])
 		i++;

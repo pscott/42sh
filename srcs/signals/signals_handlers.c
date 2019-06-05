@@ -72,7 +72,7 @@ void			sigcont_handler(int signo)
 
 	(void)signo;
 	if ((ret = setup_terminal_settings()) > 0)
-		clean_exit(ret);
+		clean_exit(ret, 0);
 	st_cmd = get_st_cmd(NULL);
 	st_cmd = get_first_st_cmd(st_cmd);
 	write_from_start(st_cmd);

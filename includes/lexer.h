@@ -2,8 +2,6 @@
 # define LEXER_H
 
 # include "ftsh.h"
-# include <stdlib.h>
-# include "libft.h"
 
 # define OP_CHART_SIZE 19
 # define DEBUG_PARSER 0
@@ -11,7 +9,7 @@
 /*
 ** TK_EAT should always be 0
 ** then in increasing order:
-** Words (simple word, Monochar, Squot, Dquot) 
+** Words (simple word, Monochar, Squot, Dquot)
 ** Redirections
 ** Pipe
 ** AND OR

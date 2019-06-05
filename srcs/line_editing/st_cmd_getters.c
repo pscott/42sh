@@ -1,7 +1,4 @@
 #include "line_editing.h"
-#include <sys/ioctl.h>
-#include "history.h"
-#include "ast.h"
 
 /*
 **	Singleton function to set or retrieve st_cmd address

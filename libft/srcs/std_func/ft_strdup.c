@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:53:19 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/04 16:47:50 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/05 12:03:41 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strdup(const char *s1)
 {
 	char *res;
 
+	if (!s1)
+		return (NULL);
 	if (!(res = ft_strnew(ft_strlen(s1))))
 		return (NULL);
 	return (ft_strcpy(res, s1));

@@ -51,7 +51,7 @@ int		exec_ast(t_ast *root, t_vars *vars)
 	int	ret;
 
 	if (!root)
-		return (0);
+		return (1);
 	if (root->token->type == tk_semi)
 	{
 		if ((ret = exec_ast(root->left, vars)) > 0)
@@ -59,9 +59,15 @@ int		exec_ast(t_ast *root, t_vars *vars)
 		return (exec_ast(root->right, vars));
 	}
 	else if (root->token->type == tk_and)
-		return (exec_ast(root->left, vars) || exec_ast(root->right, vars));
+	{
+		ret = exec_ast(root->left, vars);
+		return (ret ? ret : exec_ast(root->right, vars));
+	}
 	else if (root->token->type == tk_or)
-		return (exec_ast(root->left, vars) && exec_ast(root->right, vars));
+	{
+		ret = exec_ast(root->left, vars);
+		return (ret ? exec_ast(root->right, vars) : ret);
+	}
 	else
 		return (parse_cmdline(root->token, vars));
 }

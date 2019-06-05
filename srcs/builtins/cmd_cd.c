@@ -1,7 +1,6 @@
 #include "builtins.h"
 #include "env.h"
 #include "errors.h"
-#include "ftsh.h"
 #include <sys/stat.h>
 #include <limits.h>
 
@@ -10,33 +9,34 @@
 **	Returns 0 on success, else returns 1.
 */
 
-static int	change_environ(char *new_pwd, char ***env)
+static int	change_environ(char *new_wd, char ***env)
 {
 	char			*old_pwd;
 	char			*pwd;
 	int				ret;
 
 	ft_initialize_str(&pwd, &old_pwd, NULL, NULL);
-	if (!(old_pwd = getcwd(NULL, 0)))
-		return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
-	set_env_var("OLDPWD", old_pwd, env);
-	ft_strdel(&old_pwd);
-	if ((ret = chdir(new_pwd)) == -1)
-		print_errors(ERR_CHDIR, ERR_CHDIR_STR, new_pwd);
+	if ((old_pwd = get_directory("PWD", (const char**)*env)))
+	{
+		set_env_var("OLDPWD", old_pwd, env);
+		ft_strdel(&old_pwd);
+	}
+	if ((ret = chdir(new_wd)) == -1)
+		print_errors(ERR_CHDIR, ERR_CHDIR_STR, new_wd);
 	if (!(pwd = getcwd(NULL, 0)))
 		return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
 	set_env_var("PWD", pwd, env);
-	ft_strdel(&new_pwd);
+	ft_strdel(&new_wd);
 	ft_strdel(&pwd);
 	return (ret);
 }
 
-static int	check_cd_usage(char **t)
+static int	check_cd_usage(char **argv)
 {
 	int				i;
 
 	i = 0;
-	while (t[i])
+	while (argv[i])
 		i++;
 	if (i > 2)
 	{
@@ -62,7 +62,7 @@ static int	is_error(char *dest)
 		return (0);
 }
 
-static	int	del_and_return_cd(char **dest, int ret)
+static int	del_and_return_cd(char **dest, int ret)
 {
 	ft_strdel(dest);
 	return (ret);
@@ -73,27 +73,27 @@ static	int	del_and_return_cd(char **dest, int ret)
 **	the corresponding error value.
 */
 
-int			case_cd(char **t, char ***env)
+int			case_cd(char **argv, char ***env)
 {
 	char			*dest;
 	int				ret;
 
-	if (check_cd_usage(t))
+	if (check_cd_usage(argv))
 		return (1);
-	if (!(t[1]))
+	if (!(argv[1]))
 		dest = get_directory("HOME", (const char**)*env);
-	else if (ft_strncmp(t[1], "-", 2) == 0)
+	else if (ft_strncmp(argv[1], "-", 2) == 0)
 	{
 		if ((dest = get_directory("OLDPWD", (const char**)*env)))
 			ft_dprintf(1, "%s\n", dest);
 	}
-	else if (t[1][0] == '/')
+	else if (argv[1][0] == '/')
 	{
-		if (!(dest = ft_strdup(t[1])))
+		if (!(dest = ft_strdup(argv[1])))
 			ERROR_MEM;
 	}
 	else
-		dest = relative_directory(t[1], (const char**)*env);
+		dest = relative_directory(argv[1], (const char**)*env);
 	if ((ret = is_error(dest)) != 0)
 		return (del_and_return_cd(&dest, ret));
 	else

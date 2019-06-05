@@ -1,5 +1,4 @@
 #include "line_editing.h"
-#include "ast.h"
 
 /*
 **	Returns a freshly allocated st_txt with an allocated copy of the txt

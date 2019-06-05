@@ -2,7 +2,6 @@
 # define INPUT_H
 
 # include "ftsh.h"
-# include "libterm.h"
 
 /*
 **	INIT_TXT_SIE : for debug it's 2, but maybe change it to 32 later
@@ -32,7 +31,7 @@ typedef enum	e_input_mode
 {
 	regular,
 	heredoc
-}				t_input_mode;;
+}				t_input_mode;
 
 typedef struct			s_st_txt {
 	char				*txt;
@@ -58,35 +57,35 @@ typedef struct			s_st_cmd {
 }						t_st_cmd;
 
 int						handle_reverse_search_history(t_st_cmd *st_cmd,
-						size_t malloc_size, int prompt_size);
+		size_t malloc_size, int prompt_size);
 
 /*
 ** Handling input
 */
 
 int						is_valid_escape(char *str);
-t_bool					handle_input(t_st_cmd *st_cmd, t_vars *vars);
+int						handle_input(t_st_cmd *st_cmd, t_vars *vars);
 
 /*
 **	Input checking
 */
 
 int						checkers(t_st_cmd *st_cmd, t_vars *vars, char *buf,
-						int mode);
+		int mode);
 int						check_for_arrows(t_st_cmd *st_cmd, const char *buf);
 int						check_for_quit(t_st_cmd *st_cmd, const char *buf);
 int						check_for_enter(const char *buf);
 int						check_for_signal(const char *buf);
 int						check_for_delete(t_st_cmd *st_cmd, char *buf);
 int						check_for_search_histo(t_st_cmd *st_cmd,
-						const char *buf_received);
+		const char *buf_received);
 int						check_for_tab(t_st_cmd *st_cmd, const char *buf,
-						t_vars *vars, int mode);
+		t_vars *vars, int mode);
 int						check_for_words(t_st_cmd *st_cmd, const char *buf);
 char					*auto_completion(char *input, unsigned int len,
-						t_vars *vars);
+		t_vars *vars);
 char					*auto_completion_hdoc(char *input,
-						unsigned int len);
+		unsigned int len);
 
 /*
 **	Arrow movement
@@ -123,7 +122,7 @@ int						input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode);
 size_t					ft_printable_len(const char *str);
 char					*ft_strdup_print(const char *str);
 void					insert_str(t_st_cmd *st_cmd, const char *buf,
-						size_t printable_len);
+		size_t printable_len);
 
 /*
 **	st_txt functions
@@ -139,7 +138,7 @@ void					free_st_txt(t_st_txt **st_txt);
 t_st_prompt				*init_st_prompt(const char *prompt);
 void					print_prompt(t_st_cmd *st_cmd);
 void					print_prompt_search_histo(t_st_cmd *st_cmd,
-						const char *buf, int prompt_type);
+		const char *buf, int prompt_type);
 void					free_st_prompt(t_st_prompt **st_prompt);
 
 /*
@@ -151,7 +150,7 @@ t_st_cmd				*get_last_st_cmd(t_st_cmd *st_cmd);
 t_st_cmd				*get_st_cmd(t_st_cmd **new_struct);
 t_st_cmd				*init_st_cmd(const char **env);
 t_st_cmd				*append_st_cmd(t_st_cmd *st_cmd, const char *txt,
-						const char *prompt);
+		const char *prompt);
 t_st_cmd				*reset_st_cmd(t_st_cmd *old_st_cmd);
 t_st_cmd				*get_st_cmd(t_st_cmd **new_struct);
 t_st_cmd				*init_st_cmd(const char **env);

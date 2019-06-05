@@ -1,7 +1,5 @@
 #include "line_editing.h"
-#include <sys/ioctl.h>
 #include "history.h"
-#include "ast.h"
 
 t_st_cmd		*append_st_cmd(t_st_cmd *st_cmd, const char *txt,
 				const char *prompt)

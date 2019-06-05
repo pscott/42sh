@@ -1,11 +1,6 @@
 #ifndef EXP_ARITH_H
 # define EXP_ARITH_H
 
-# include <ctype.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
-
 /*
 **	All possible tokens
 */

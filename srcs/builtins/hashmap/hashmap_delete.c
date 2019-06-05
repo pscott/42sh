@@ -43,7 +43,7 @@ void		delete_hashmap(t_hashmap *hashmap)
 ** return 1 because norm
 */
 
-t_bool		replace_item(t_hash_item *item, const char *value)
+int			replace_item(t_hash_item *item, const char *value)
 {
 	if (!ft_strcmp(value, item->value))
 		item->count = 0;
@@ -63,7 +63,7 @@ t_bool		replace_item(t_hash_item *item, const char *value)
 ** without breaking the linked list if there's one
 */
 
-t_bool		pop_hashmap_item(const char *key, t_hashmap *hashmap)
+int			pop_hashmap_item(const char *key, t_hashmap *hashmap)
 {
 	size_t		index;
 	t_hash_item	*item_probe;
@@ -87,7 +87,7 @@ t_bool		pop_hashmap_item(const char *key, t_hashmap *hashmap)
 	return (1);
 }
 
-t_bool		reset_hashmap(t_hashmap **hashmap)
+int			reset_hashmap(t_hashmap **hashmap)
 {
 	t_hashmap	*new_map;
 

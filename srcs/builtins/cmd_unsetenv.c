@@ -1,6 +1,5 @@
-#include "ftsh.h"
-#include "env.h"
 #include "builtins.h"
+#include "env.h"
 
 /*
 **	Unsetenv accepts 1 argument or more, but not 0

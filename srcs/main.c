@@ -1,13 +1,11 @@
-#include "ftsh.h"
-#include "env.h"
-#include "lexer.h"
-#include "input.h"
-#include "history.h"
-#include "signals.h"
 #include "builtins.h"
 #include "line_editing.h"
+#include "hashmap.h"
+#include "env.h"
+#include "history.h"
+#include "signals.h"
 
-t_bool		is_full_of_whitespaces(const char *input)
+int			is_full_of_whitespaces(const char *input)
 {
 	int		i;
 
@@ -23,6 +21,25 @@ t_bool		is_full_of_whitespaces(const char *input)
 }
 
 /*
+**	Utility function to free all alloacted variables and reset the old
+**	terminal attributes.
+**	Returns the last cmd value.
+*/
+
+static int	free_variables(t_vars *vars, t_st_cmd *st_cmd)
+{
+	int	ret;
+
+	print_exit();
+	write_to_history(st_cmd, (const char **)vars->env_vars);
+	free_all_st_cmds(&st_cmd);
+	ret = vars->cmd_value;
+	free_vars(vars);
+	reset_terminal_settings();
+	return (ret);
+}
+
+/*
 **	Utility function to initalize the shell variables, the environement, and
 **	the last exit status.
 */
@@ -34,7 +51,7 @@ static int	init_vars(t_vars *vars, int argc, char **argv, char **env)
 	vars->hashmap = init_hashmap(INIT_HASH_SIZE);
 	vars->cmd_value = 0;
 	vars->shell_vars = NULL;
-	vars->verbose = 1;//should be 0 ?
+	vars->verbose = 1;
 	get_vars(vars);
 	if (!(vars->env_vars = init_env((const char **)env)))
 		return (1);
@@ -70,11 +87,6 @@ int			main(int argc, char **argv, char **env)
 			vars.cmd_value = handle_input(st_cmd, &vars);
 		st_cmd = reset_st_cmd(st_cmd);
 	}
-	print_exit();
-	write_to_history(st_cmd, (const char **)vars.env_vars);
-	free_all_st_cmds(&st_cmd);
-	ret = vars.cmd_value;
-	free_vars(&vars);
-	reset_terminal_settings();
+	ret = free_variables(&vars, st_cmd);
 	return (ret);
 }

@@ -1,9 +1,9 @@
 #include "hashmap.h"
 
-static t_bool	is_hashmap_empty(t_hashmap *hashmap)
+static int	is_hashmap_empty(t_hashmap *hashmap)
 {
-	t_bool		is_empty;
-	int			i;
+	int	is_empty;
+	int	i;
 
 	is_empty = 1;
 	i = -1;
@@ -17,7 +17,7 @@ static t_bool	is_hashmap_empty(t_hashmap *hashmap)
 	return (is_empty);
 }
 
-void			print_hashmap(t_hashmap *hashmap)
+void		print_hashmap(t_hashmap *hashmap)
 {
 	int			i;
 	t_hash_item	*item_probe;
@@ -37,8 +37,8 @@ void			print_hashmap(t_hashmap *hashmap)
 	}
 }
 
-t_bool			print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args
-				, int argc, char **argv)
+int			print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args,
+			int argc, char **argv)
 {
 	int			i;
 	const char	*value;
@@ -57,7 +57,7 @@ t_bool			print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args
 	return (0);
 }
 
-void			print_hashmap_l(t_hashmap *hashmap)
+void		print_hashmap_l(t_hashmap *hashmap)
 {
 	int			i;
 	t_hash_item	*item_probe;
@@ -76,8 +76,8 @@ void			print_hashmap_l(t_hashmap *hashmap)
 	}
 }
 
-t_bool			hash_builtin_print(t_hashmap *hashmap, t_hash_args *hash_args
-				, int argc, char **argv)
+int			hash_builtin_print(t_hashmap *hashmap, t_hash_args *hash_args,
+			int argc, char **argv)
 {
 	if (hash_args->opt & o_l)
 	{

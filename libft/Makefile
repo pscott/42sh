@@ -114,7 +114,11 @@ SRCS	:=	$(addprefix $(SRC_DIR)/,$(STD_FUNC_PATH))		\
 #Object ########################################################################
 OBJ_DIR		:=	objs
 OBJ_FILES	:=	$(C_FILES:.c=.o)
+DEPS		:=	$(OBJ_FILES:.o=.d)
 OBJS		:=	$(addprefix $(OBJ_DIR)/,$(OBJ_FILES))
+
+
+DEPENDENCIES	:= $(addprefix $(OBJ_DIR)/,$(DEPS))
 
 # Rules ########################################################################
 .PHONY: all fsa val rmh adh tag clean fclean re d norm test
@@ -137,7 +141,8 @@ $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 	ranlib $(NAME)
 
-$(OBJ_DIR)/%.o: %.c $(INCLS)
+-include $(DEPENDENCIES)
+$(OBJ_DIR)/%.o: %.c Makefile
 	@mkdir $(OBJ_DIR) 2> /dev/null || true
 	@$(CC) $(CFlAGS) $(INCL_CMD) -o $@ -c $<
 	@echo Compiling $@

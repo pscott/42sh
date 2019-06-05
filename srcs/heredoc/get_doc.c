@@ -1,6 +1,8 @@
+#include "input.h"
 #include "heredoc.h"
+#include "cmd_parsing.h"
 
-static void	apply_escape(t_st_cmd *st_cmd)
+static void		apply_escape(t_st_cmd *st_cmd)
 {
 	int				i;
 	unsigned char	is_real_escape;
@@ -33,7 +35,7 @@ static t_st_cmd	*init_get_doc(char **txt, t_vars *vars)
 	return (st_cmd);
 }
 
-static char	*get_heredoc_txt(t_st_cmd **st_cmd, char *txt, char *eof)
+static char		*get_heredoc_txt(t_st_cmd **st_cmd, char *txt, char *eof)
 {
 	char	*trimed_txt;
 	size_t	len;
@@ -47,7 +49,7 @@ static char	*get_heredoc_txt(t_st_cmd **st_cmd, char *txt, char *eof)
 	return (trimed_txt);
 }
 
-static char	*return_get_doc(char *txt, unsigned char is_eof_quoted,
+static char		*return_get_doc(char *txt, unsigned char is_eof_quoted,
 			t_vars *vars)
 {
 	char	*path;
@@ -69,7 +71,7 @@ static char	*return_get_doc(char *txt, unsigned char is_eof_quoted,
 ** and return the path to it
 */
 
-char		*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
+char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 {
 	char		*txt;
 	t_st_cmd	*st_cmd;

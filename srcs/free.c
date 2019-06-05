@@ -1,4 +1,5 @@
 #include "ftsh.h"
+#include "line_editing.h"
 #include "lexer.h"
 #include "ast.h"
 #include "heredoc.h"
@@ -25,6 +26,8 @@ static void	free_ast_node(t_ast *node)
 
 void		free_ast(t_ast *ast_root)
 {
+	if (!ast_root)
+		return ;
 	if (ast_root->left)
 		free_ast(ast_root->left);
 	if (ast_root->right)

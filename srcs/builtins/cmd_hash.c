@@ -1,4 +1,5 @@
 #include "ftsh.h"
+#include "hashmap.h"
 
 int		case_hash(char **argv, t_vars *vars)
 {

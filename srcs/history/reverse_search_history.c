@@ -44,14 +44,14 @@ static int		search_in_previous_entries(t_st_cmd **st_cmd, char *to_find)
 
 /*
 **	Looking for pattern "to_find" in st_cmd->hist_lst, reversely.
-**	First, if our st_txt is not empty (ie we already had a successful search
-**		or something was written when ctrl r was actived), we look for
-**	our pattern between the beginning of st_txt and our tracker.
+**	First, if our st_txt is not empty (i.e we already had a successful search
+**		or something was written when ctrl r was activated), we look for
+**		our pattern between the beginning of st_txt and our tracker.
 **	Then, if we did not find any match, we look for our pattern in
 **		previous history entries.
 **	The condition (tracker >= 0) is needed to protect from segmentation
-**		fault in case of various ctrl R. In this case, we first need to look
-**		for 'to_find' pattern between the beginning of st_txt and tracker -1.
+**		fault in case of various ctrl R : in this case, we first need to look
+**		for 'to_find' pattern between the beginning of st_txt and tracker - 1..
 **	Returns 1 if to_find is found
 **	Returns 0 if to_find is not found
 */
@@ -68,7 +68,7 @@ int				search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find, int tracker, ch
 	if (buf == 18)
 	{
 		if ((*st_cmd)->st_txt->txt && ((*st_cmd)->st_txt->txt[0] == '\0'))
-			return (0);
+			return (-1);
 		tracker--;
 	}
 	/*
@@ -127,6 +127,7 @@ int				handle_reverse_search_history(t_st_cmd *st_cmd,
 	char			*stock;
 	char			buf;
 	int				ret;
+	int				type_save;
 	char			escape[BUF_SIZE + 1];
 
 	init_vars_rsh_and_prompt(st_cmd, &malloc_size, &prompt_type, &stock);
@@ -144,10 +145,11 @@ int				handle_reverse_search_history(t_st_cmd *st_cmd,
 		}
 		else if (buf != 18)
 			realloc_stock(&stock, buf, &malloc_size);
+		type_save = prompt_type;
 	if (buf == '\x7f' && !stock[0])
 		prompt_type = 1;
-	else
-		prompt_type = search_reverse_in_histo(&st_cmd, stock, (int)(st_cmd->st_txt->tracker), buf);
+	else if ((prompt_type = search_reverse_in_histo(&st_cmd, stock, (int)(st_cmd->st_txt->tracker), buf)) == -1)
+		prompt_type = type_save;
 	print_prompt_search_histo(st_cmd, stock, prompt_type);
 	ft_bzero(escape, sizeof(escape));
 	}

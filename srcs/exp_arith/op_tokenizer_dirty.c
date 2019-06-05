@@ -4,12 +4,14 @@
 
 int		init_toks_dirty(t_tok **tokens, char *str)
 {
-	size_t i;
+	size_t	i;
+	size_t	len;
 
 	i = 0;
-	if (!(*tokens = (t_tok*)malloc(sizeof(t_tok) * (ft_strlen(str) + 1))))
+	len = ft_strlen(str);
+	if (!(*tokens = (t_tok*)malloc(sizeof(t_tok) * (len + 1))))
 		ERROR_MEM;
-	while (i <= ft_strlen(str))
+	while (i <= len)
 	{
 		(*tokens)[i].token = 0;
 		(*tokens)[i].value = 0;

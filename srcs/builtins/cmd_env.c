@@ -1,11 +1,15 @@
 #include "builtins.h"
 #include "env.h"
-#include "ftsh.h"
 #include "errors.h"
 #include "execution.h"
 #include "signals.h"
 
-static	int		env_access_check(char *cmd_path)
+/*
+**	Funciton that checks for access rights and returns the corresponding
+**	error values.
+*/
+
+static	int			env_access_check(char *cmd_path)
 {
 	int access;
 
@@ -20,14 +24,19 @@ static	int		env_access_check(char *cmd_path)
 	return (0);
 }
 
-static int		exec_env_bin(char *cmd_path, char **argv, char **new_env)
+/*
+**	Function that tries to execute the argv given as a parameter.
+**	Returns the exit status of the command or the error number if the command
+**	was not successfully executed.
+*/
+
+static int			exec_env_bin(char *cmd_path, char **argv, char **new_env)
 {
 	pid_t	pid;
 	int		status;
-	int		ret;
 
-	if ((ret = env_access_check(cmd_path)) > 0)
-		return (ret);
+	if ((status = env_access_check(cmd_path)) > 0)
+		return (status);
 	if ((pid = fork()) == -1)
 	{
 		ft_dprintf(2, "fork error\n");
@@ -45,25 +54,66 @@ static int		exec_env_bin(char *cmd_path, char **argv, char **new_env)
 		setup_terminal_settings();
 		signals_setup();
 		waitpid(pid, &status, 0);
-		ret = WIFSIGNALED(status) ? WTERMSIG(status) : WEXITSTATUS(status);
-		if (WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) != SIGINT && WTERMSIG(status) != SIGPIPE)
-				ft_dprintf(2, "process terminated, received signal : %d\n",
-						WTERMSIG(status));
-		}
+		status = exit_status(status);
+	}
+	return (status);
+}
+
+static int			copy_env_and_execute(char **argv, char **new_env,
+	int i)
+{
+	int		ret;
+	char	*cmd_path;
+
+	ret = 0;
+	if (!argv[i])
+		ft_print_ntab(new_env);
+	else
+	{
+		if (!(cmd_path = get_cmd_path(argv[i], new_env, 1)))
+			return (1);
+		ret = exec_env_bin(cmd_path, argv + i, new_env);
+		ft_strdel(&cmd_path);
 	}
 	return (ret);
 }
 
-int				case_env(char **argv, char ***env)
+static  int			setenv_arguments(char **argv, char ***new_env,
+	int i)
 {
-	int		i;
-	char	**new_env;
-	char	*before;
-	char	*after;
-	char	*cmd_path;
-	int		ret;
+	char				*before;
+	char				*after;
+
+	while (argv[i] && ft_strchr(argv[i], '='))
+	{
+		if (argv[i][0] == '=')
+		{
+			ft_dprintf(2, "env: %s: Invalid argument\n", argv[i]);
+			return (-1);
+		}
+		after = ft_strchr(argv[i], '=') + 1;
+		if (!(before = ft_strndup(argv[i], after - argv[i] - 1)))
+		{
+			ft_dprintf(2, "DSADSDASDSDS\n\n");
+			ERROR_MEM;
+		}
+		set_env_var(before, after, new_env);
+		ft_strdel(&before);
+		i++;
+	}
+	return (i);
+}
+
+/*
+**	POSIX compliant env builtin.
+**	`man env` ;)
+*/
+
+int					case_env(char **argv, char ***env)
+{
+	int					i;
+	char				**new_env;
+	int					ret;
 
 	i = 1;
 	ret = 0;
@@ -73,27 +123,12 @@ int				case_env(char **argv, char ***env)
 		i++;
 	}
 	else
-		new_env = ft_dup_ntab((const char **)(*env)); // protect
-	while (argv[i] && ft_strchr(argv[i], '='))
 	{
-		if (argv[i][0] == '=')
-		{
-			ft_dprintf(2, "env: %s: Invalid argument\n", argv[i]);
-			return (1);
-		}
-		after = ft_strchr(argv[i], '=') + 1;
-		if (!(before = ft_strndup(argv[i], after - argv[i] - 1)))
+		if (!(new_env = ft_dup_ntab((const char **)(*env))))
 			ERROR_MEM;
-		set_env_var(before, after, &new_env);
-		i++;
 	}
-	if (!argv[i])
-		ft_print_ntab(new_env);
-	else
-	{
-		if (!(cmd_path = get_cmd_path(argv + i, new_env, 1)))
-			return (1);
-		ret = exec_env_bin(cmd_path, argv + i, new_env);
-	}
+	if ((i = setenv_arguments(argv, &new_env, i)) >= 0)
+		ret = copy_env_and_execute(argv, new_env, i);
+	ft_free_ntab(new_env);
 	return (ret);
 }

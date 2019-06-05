@@ -50,7 +50,7 @@ static int			execute_argv(char **argv, t_vars *vars)
 		if (!(cmd_path = ft_strdup(cmd_path)))
 			ERROR_MEM;
 	}
-	else if ((cmd_path = get_cmd_path(argv, vars->env_vars, 1)))
+	else if ((cmd_path = get_cmd_path(argv[0], vars->env_vars, 1)))
 		;
 	else
 	{

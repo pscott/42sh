@@ -35,9 +35,8 @@ char				*find_path(char *file, char **paths)
 	char			*possible_path;
 	char			*path_w_slash;
 
-	//enzo added "|| !paths" for hashmap NO PATH FOUND behavior
 	if (!ft_strncmp(".", file, 2) || !ft_strncmp("..", file, 3) || !paths)
-		return (NULL); // not sure for '.', as it is a real program
+		return (NULL);
 	i = 0;
 	while (paths[i])
 	{
@@ -70,12 +69,12 @@ static void			print_error_message(int access, const char *str)
 
 /*
 **	Returns a freshly allocated string containing the path corresponding
-**	to argv[0]. If no path is found in the PATH variable, or the file is not
-**	accessible, or not executable, returns NULL.
+**	to the string parameter. If no path is found in the PATH variable, or the
+**	file is not accessible, or not executable, returns NULL.
 **	Verbose parameter prints error messages.
 */
 
-char				*get_cmd_path(char **argv, char **env, int verbose)
+char				*get_cmd_path(char *str, char **env, int verbose)
 {
 	char			**paths;
 	char			*path_line;
@@ -84,22 +83,20 @@ char				*get_cmd_path(char **argv, char **env, int verbose)
 
 	ft_initialize_str(&path_line, &path, NULL, NULL);
 	paths = NULL;
-	if (ft_strchr(argv[0], '/'))
-		path = ft_strdup(argv[0]);
-	else if (!(path_line = get_envline_value("PATH", env)))
-		path = ft_strdup(argv[0]);
-	else
+	if (!ft_strchr(str, '/') || !(path_line = get_envline_value("PATH", env)))
 	{
-		if (!(paths = ft_strsplit(path_line, ":")))
+		if (!(path = ft_strdup(str)))
 			ERROR_MEM;
 	}
-	if (!path && !(path = find_path(argv[0], paths)))
+	else if (!(paths = ft_strsplit(path_line, ":")))
+		ERROR_MEM;
+	if (!path && !(path = find_path(str, paths)))
 		;
 	ft_free_ntab(paths);
 	access = check_access(path);
 	if (access == 0)
 		return (path);
 	else if (verbose)
-		print_error_message(access, argv[0]);
+		print_error_message(access, str);
 	return (NULL);
 }

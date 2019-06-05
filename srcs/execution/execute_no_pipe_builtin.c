@@ -120,7 +120,7 @@ int				execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
 		ret = -1;
 	else
 	{
-		if ((cmd_path = get_cmd_path(argv, vars->env_vars, 0)))
+		if ((cmd_path = get_cmd_path(argv[0], vars->env_vars, 0)))
 		{
 			add_to_hashmap(argv[0], cmd_path, &vars->hashmap);
 			check_hashmap(argv[0], vars->hashmap, hash_exec);

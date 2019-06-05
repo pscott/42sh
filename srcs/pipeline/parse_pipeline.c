@@ -78,13 +78,7 @@ static	int		fork_pipes(int num_simple_commands, t_token *beg, t_vars *vars)
 	else
 	{
 		waitpid(pid, &status, 0);
-		ret = WIFSIGNALED(status) ? WTERMSIG(status) : WEXITSTATUS(status);
-		if (WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) != SIGINT && WTERMSIG(status) != SIGPIPE)
-				ft_dprintf(2, "process terminated, received signal : %d\n",
-						WTERMSIG(status));
-		}
+		ret = exit_status(status);
 		if (num_simple_commands != 1)
 			close(fd[0]);
 		while ((pid = wait(&status)) > 0)

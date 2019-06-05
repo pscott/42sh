@@ -7,10 +7,10 @@
 **	Separates words in the string, filling the argv with the different words
 */
 
-static void			apply_ifs(const char *string, char **argv, unsigned int *i)
+static void			apply_ifs(const char *string, char **argv, int *i)
 {
 	char			**words;
-	unsigned int	j;
+	int	j;
 
 	if (!(words = ft_strsplit(string, IFS)))
 		ERROR_MEM;
@@ -32,9 +32,9 @@ static void			apply_ifs(const char *string, char **argv, unsigned int *i)
 **	that should not be in argv (tk_eat or type >= tk_pipe)
 */
 
-static t_token		*fill_argv(t_token *token, char **argv, unsigned int *i)
+static t_token		*fill_argv(t_token *token, char **argv, int *i)
 {
-	unsigned int incremented;
+	int incremented;
 
 	incremented = 0;
 	while (is_argv_token(token))
@@ -58,10 +58,10 @@ static t_token		*fill_argv(t_token *token, char **argv, unsigned int *i)
 **	Returns the freshly allocated argv.
 */
 
-static char			**create_argv(t_token *token_head, unsigned int argv_len)
+static char			**create_argv(t_token *token_head, int argv_len)
 {
 	char			**argv;
-	unsigned int	i;
+	int	i;
 
 	if (!(argv = (char**)malloc(sizeof(*argv) * (argv_len + 1))))
 		ERROR_MEM;
@@ -82,10 +82,10 @@ static char			**create_argv(t_token *token_head, unsigned int argv_len)
 **	and changes the address of probe_token accordingly.
 */
 
-static unsigned int	token_length(t_token **probe)
+static int	token_length(t_token **probe)
 {
-	unsigned int	argv_len;
-	unsigned int	words_len;
+	int	argv_len;
+	int	words_len;
 	char			**words;
 
 	argv_len = 0;
@@ -117,7 +117,7 @@ static unsigned int	token_length(t_token **probe)
 
 int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 {
-	unsigned int	argv_len;
+	int	argv_len;
 	t_token			*probe;
 
 	if (!(probe = token_head))

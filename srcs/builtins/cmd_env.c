@@ -3,6 +3,7 @@
 #include "ftsh.h"
 #include "errors.h"
 #include "execution.h"
+#include "signals.h"
 
 static	int		env_access_check(char *cmd_path)
 {
@@ -19,13 +20,14 @@ static	int		env_access_check(char *cmd_path)
 	return (0);
 }
 
-static	void	exec_env_bin(char *cmd_path, char **argv, char **new_env)
+static int		exec_env_bin(char *cmd_path, char **argv, char **new_env)
 {
 	pid_t	pid;
 	int		status;
+	int		ret;
 
-	if (env_access_check(cmd_path))
-		return ;
+	if ((ret = env_access_check(cmd_path)) > 0)
+		return (ret);
 	if ((pid = fork()) == -1)
 	{
 		ft_dprintf(2, "fork error\n");
@@ -33,34 +35,45 @@ static	void	exec_env_bin(char *cmd_path, char **argv, char **new_env)
 	}
 	else if (pid == 0)
 	{
+		reset_terminal_settings();
 		execve(cmd_path, (char*const*)argv, (char*const*)new_env);
 		print_errors(ERR_EXECUTE, ERR_EXECUTE_STR, cmd_path);
 		clean_exit(1, 0);
 	}
 	else
 	{
+		setup_terminal_settings();
+		signals_setup();
 		waitpid(pid, &status, 0);
+		ret = WIFSIGNALED(status) ? WTERMSIG(status) : WEXITSTATUS(status);
+		if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) != SIGINT && WTERMSIG(status) != SIGPIPE)
+				ft_dprintf(2, "process terminated, received signal : %d\n",
+						WTERMSIG(status));
+		}
 	}
+	return (ret);
 }
 
-int				case_env(char **argv, char ***env, t_vars *vars)
+int				case_env(char **argv, char ***env)
 {
 	int		i;
 	char	**new_env;
 	char	*before;
 	char	*after;
 	char	*cmd_path;
-	int		cmd;
-	char	**argv_cpy;
+	int		ret;
 
 	i = 1;
+	ret = 0;
 	if (argv[1] && !ft_strcmp(argv[1], "-i"))
 	{
 		new_env = NULL;
 		i++;
 	}
 	else
-		new_env = ft_dup_ntab((const char **)(*env));
+		new_env = ft_dup_ntab((const char **)(*env)); // protect
 	while (argv[i] && ft_strchr(argv[i], '='))
 	{
 		if (argv[i][0] == '=')
@@ -76,16 +89,11 @@ int				case_env(char **argv, char ***env, t_vars *vars)
 	}
 	if (!argv[i])
 		ft_print_ntab(new_env);
-	else if ((cmd = check_builtins(argv + i)))
-	{
-		argv_cpy = ft_dup_ntab((const char **)argv + i);
-		return (exec_builtins(argv_cpy, vars, cmd));
-	}
 	else
 	{
 		if (!(cmd_path = get_cmd_path(argv + i, new_env, 1)))
 			return (1);
-		exec_env_bin(cmd_path, argv + i, new_env);
+		ret = exec_env_bin(cmd_path, argv + i, new_env);
 	}
-	return (0);
+	return (ret);
 }

@@ -16,10 +16,7 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 	if (cmd_id == cmd_exit)
 		ret = case_exit(argv, &vars->cmd_value);
 	else if (cmd_id == cmd_env)
-	{
-		vars->cmd_value = case_env(argv, &vars->env_vars, vars);
-		ret = 1;
-	}
+		ret = case_env(argv, &vars->env_vars);
 	else if (cmd_id == cmd_cd)
 		ret = case_cd(argv, &vars->env_vars);
 	else if (cmd_id == cmd_type)

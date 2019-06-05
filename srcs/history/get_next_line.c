@@ -24,6 +24,7 @@ static int		return_val(char **line, char **content)
 	char			*next_nl;
 	char			*tmp;
 
+	tmp = NULL;
 	if (!*content)
 		return (0);
 	if (**content == 0)

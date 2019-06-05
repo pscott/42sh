@@ -65,7 +65,7 @@ static int	check_usage_setenv(char **argv)
 **	Setenv buitin : add or modify a variable in the env array
 */
 
-int			case_setenv(char **argv, char ***env)
+int			case_setenv(char **argv, t_vars *vars)
 {
 	int ret;
 
@@ -73,6 +73,6 @@ int			case_setenv(char **argv, char ***env)
 		return (1);
 	if ((ret = check_errors_setenv(argv)))
 		return (print_errors_setenv(ret));
-	set_env_var(argv[1], argv[2], env);
+	set_env_var(argv[1], argv[2], &vars->env_vars);
 	return (0);
 }

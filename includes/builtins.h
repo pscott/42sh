@@ -29,7 +29,7 @@ void	print_exit(void);
 int		case_exit(char **argv, int *exitno);
 int		case_env(char **argv, char ***env, t_vars *vars);
 int		case_type(char **argv, t_vars *vars);
-int		case_setenv(char **argv, char ***env);
+int		case_setenv(char **argv, t_vars *vars);
 int		case_unsetenv(char **argv, t_vars *vars);
 int		case_echo(char **argv);
 

@@ -1,5 +1,4 @@
 #include "line_editing.h"
-#include "ast.h"
 
 /*
 **	Returns a freshly allocated st_prompt with an allocated copy of the prompt

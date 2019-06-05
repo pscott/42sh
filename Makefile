@@ -5,6 +5,7 @@ NAME	:=	42sh
 OPT		:=	
 CC		:=	gcc
 CFLAGS	:=	-Wall -Wextra #-Werror
+MMD		:=	-MMD
 
 DEBUG_FLAG	:=	-g
 FSA_FLAGS	:=	$(DEBUG_FLAG) -fsanitize=address
@@ -32,6 +33,7 @@ INCL_FILES	:=	ftsh.h lexer.h ast.h auto_completion.h input.h history.h \
 				signals.h hashmap.h heredoc.h exp_arith.h env.h
 
 INCLS		:=	$(addprefix includes/,$(INCL_FILES))
+
 
 # Directories ##################################################################
 SRC_DIR	:=	srcs
@@ -89,12 +91,11 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c 	#srcs subfiles names
 						handle_input_hist.c reverse_search_history.c \
 						return_search_history.c write_history.c
 	SIGNALS_FILES	:=	signals_handlers.c signals_setup.c
-	LINE_EDIT_FILES		:=	st_cmd_editing.c st_prompt.c st_txt.c writing.c \
+	LINE_EDIT_FILES	:=	st_cmd_editing.c st_prompt.c st_txt.c writing.c \
 						t_vars.c st_cmd_getters.c st_cmd_windows_struct_utils.c
-						#delete.c txt_cat.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c \
 						cmd_type.c cmd_setenv.c cmd_unsetenv.c cmd_echo.c \
-						cmd_exit_utils.c cmd_cd_utils.c
+						cmd_exit_utils.c cmd_cd_utils.c cmd_env.c
 	REDIR_FILES		:=	redir_dgreat.c redir_fd_great.c fd_utils.c\
 						redir_great.c redir_less.c parse_redirections.c\
 						redir_fd_less.c
@@ -177,7 +178,12 @@ SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
 #Object ########################################################################
 OBJ_DIR		:=	objs
 OBJ_FILES	:=	$(C_FILES:.c=.o)
+DEPS		:=	$(OBJ_FILES:.o=.d)
 OBJS		:=	$(addprefix $(OBJ_DIR)/,$(OBJ_FILES))
+
+
+DEPENDENCIES	:= $(addprefix $(OBJ_DIR)/,$(DEPS))
+
 
 # Rules ########################################################################
 .PHONY: all fsa val rmh adh tag clean fclean re d norm test ask_libft
@@ -215,10 +221,11 @@ adh: rmh
 $(NAME): $(OBJS) libft/libft.a libterm/libterm.a
 	$(CC) $(CFLAGS) $(INCL_CMD) $^ -o $@ $(LIB_INCL)
 
-$(OBJ_DIR)/%.o: %.c $(INCLS) Makefile
+-include $(DEPENDENCIES)
+$(OBJ_DIR)/%.o: %.c Makefile
 	@mkdir $(OBJ_DIR) 2> /dev/null || true
-	@$(CC) $(CFLAGS) $(INCL_CMD) -o $@ -c $<
 	@echo Compiling $@
+	@$(CC) $(CFLAGS) $(MMD) $(INCL_CMD) -o $@ -c $<
 
 tags:
 	ctags -R .

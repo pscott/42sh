@@ -2,18 +2,14 @@
 # define LEXER_H
 
 # include "ftsh.h"
-# include <stdlib.h>
-# include "libft.h"
 
 # define OP_CHART_SIZE 19
 # define DEBUG_PARSER 0
 
-typedef unsigned char	t_bool;
-
 /*
 ** TK_EAT should always be 0
 ** then in increasing order:
-** Words (simple word, Squot, Dquot, Monochar ?)
+** Words (simple word, Monochar, Squot, Dquot)
 ** Redirections
 ** Pipe
 ** AND OR
@@ -62,7 +58,7 @@ typedef enum			e_lexer_state
 }						t_lexer_state;
 
 /*
-**	For debugging : remove it afterwards
+**	For debugging: remove it afterwards
 */
 
 void					print_token(t_token *token);
@@ -74,9 +70,9 @@ void					print_op_table(t_operation *op_chart);
 */
 
 t_token					*create_token(char *cmdline, size_t size,
-						t_token_type type);
+	t_token_type type);
 int						lexer(char *cmdline, t_token **token_head,
-						t_vars *vars);
+	t_vars *vars);
 
 /*
 ** lexer utils
@@ -85,10 +81,10 @@ int						lexer(char *cmdline, t_token **token_head,
 int						is_argv_token(t_token *probe);
 int						is_simple_cmd_token(t_token *probe);
 int						is_logic_or_pipe(t_token *token);
-int						is_two_ctrlop_or_redir_following(t_token *prev_token
-						, t_token *current_token);
-int						token_list_start_with_ctrl_op(t_token *prev_token
-						, t_token *current_token);
+int						is_two_ctrlop_or_redir_following(t_token *prev_token,
+	t_token *current_token);
+int						token_list_start_with_ctrl_op(t_token *prev_token,
+	t_token *current_token);
 int						is_redir_token(t_token *token);
 int						is_ctrl_op_token(t_token *token);
 t_token					*copy_tokens(t_token *token_head);
@@ -99,14 +95,14 @@ t_token					*copy_tokens(t_token *token_head);
 
 t_token					*get_token(char **cmdline, t_operation *op_chart);
 t_token					*create_token(char *cmdline, size_t size,
-						t_token_type type);
+	t_token_type type);
 
 /*
 ** Lexer_op_chart.c
 */
 
 t_token					*get_op_chart_token(char **cmdline,
-						t_operation *op_chart);
+	t_operation *op_chart);
 t_operation				*get_op_chart(void);
 
 /*

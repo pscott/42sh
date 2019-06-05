@@ -31,15 +31,19 @@ void		shift_chars_left(char *str, unsigned int shift_no)
 void		delete_left(t_st_cmd *st_cmd)
 {
 	t_st_txt	*st_txt;
+	size_t		tmp;
 
 	st_txt = st_cmd->st_txt;
 	st_txt->data_size -= 1;
 	st_txt->tracker--;
+	tmp = st_txt->tracker;
 	get_pos(st_cmd, st_cmd->st_txt->tracker);
 	reposition_cursor(st_cmd);
 	execute_str(CLEAR_BELOW); // need to erase more probably... ?
 	shift_chars_left(&st_txt->txt[st_txt->tracker], 1);
-	write_line(st_cmd); // should be write everything
+	write_st_cmd(st_cmd);
+	st_txt->tracker = tmp;
+	get_pos(st_cmd, st_txt->tracker);
 }
 
 /*
@@ -50,12 +54,15 @@ void		delete_left(t_st_cmd *st_cmd)
 void		delete_right(t_st_cmd *st_cmd)
 {
 	t_st_txt	*st_txt;
+	size_t		tmp;
 
 	st_txt = st_cmd->st_txt;
 	st_txt->data_size -= 1;
+	tmp = st_txt->tracker;
 	get_pos(st_cmd, st_cmd->st_txt->tracker);
 	execute_str(CLEAR_BELOW);
 	shift_chars_left(&st_txt->txt[st_txt->tracker], 1);
-	write_line(st_cmd);
-	get_pos(st_cmd, st_cmd->st_txt->tracker);
+	write_st_cmd(st_cmd);
+	st_txt->tracker = tmp;
+	get_pos(st_cmd, st_txt->tracker);
 }

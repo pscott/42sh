@@ -1,7 +1,7 @@
-#include "ftsh.h"
 #include "builtins.h"
 #include "execution.h"
 #include "cmd_parsing.h"
+#include "hashmap.h"
 
 /*
 **	Utility function for execute_no_pipe_builtin
@@ -41,7 +41,7 @@ static void		execute_exit(int exitno)
 {
 	print_exit();
 	save_reset_stdfd(0);
-	clean_exit(exitno);
+	clean_exit(exitno, 0);
 }
 
 /*
@@ -56,20 +56,17 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 
 	if ((ret = parse_expands(token_head, vars)) > 0)
 		return (ret);
-	if ((ret = parse_redirections(token_head, 1)) > 0) // would need to be special and to save fd in list
-		return (ret);
+	if ((ret = parse_redirections(token_head, 1)) > 0)
+		return (ret); // would need to be special and to save fd in list
 	argv = NULL;
 	get_argv_from_token_lst(token_head, &argv); // protect ?
 	reset_terminal_settings();
 	ret = exec_builtins(argv, vars, cmd_id);
 	save_reset_stdfd(0);
-	if (cmd_id == cmd_exit)
-	{
-		if (ret == 1)
-			execute_exit(vars->cmd_value);
-	}
+	if (cmd_id == cmd_exit && ret == 1)
+		execute_exit(vars->cmd_value);
 	setup_terminal_settings();
-	return (0);
+	return (ret);
 }
 
 /*
@@ -106,7 +103,7 @@ static char		**fake_argv(t_token *token_head, t_vars *vars)
 **	Else (argv[0] is NOT a builtin) returns -1.
 */
 
-int			execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
+int				execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
 {
 	char					**argv;
 	unsigned int			cmd_id;

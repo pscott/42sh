@@ -1,13 +1,14 @@
 #ifndef ERRORS_H
 # define ERRORS_H
 # include "lexer.h"
-# define ERR_CMD 2
+
+# define ERR_CMD 127
 # define ERR_CMD_STR "error: command not found"
 
 # define ERR_GNL 3
 # define ERR_GNL_STR "error: get_next_line() failed"
 
-# define ERR_NOEXIST 4
+# define ERR_NOEXIST 1
 # define ERR_NOEXIST_STR "error: no such file or directory"
 
 # define ERR_FORK 5

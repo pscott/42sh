@@ -1,5 +1,4 @@
 #include "ftsh.h"
-#include "builtins.h"
 
 int		case_echo(char **argv)
 {

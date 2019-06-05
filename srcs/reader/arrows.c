@@ -1,6 +1,13 @@
 #include "input.h"
 #include "line_editing.h"
 
+/*
+**	Updates the relative pos struct according to the tracker passed as a
+**	parameter.
+**	Usually used to either calculate a temporary pos, or called before using
+**	reposition_cursor.
+*/
+
 void	get_pos(t_st_cmd *st_cmd, size_t tracker)
 {
 	size_t i;

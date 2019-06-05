@@ -78,30 +78,37 @@ static char			**create_argv(t_token *token_head, unsigned int argv_len)
 
 /*
 **	Utility function for get_argv_from_token_lst
-**	Returns the number of words contained in the token.
-**	If token is a tk_word, separates words according to IFS.
-**	Else returns 1
+**	Returns the number of separated words until the next token_eat or pipe,
+**	and changes the address of probe_token accordingly.
 */
 
-static unsigned int	token_length(t_token *probe)
+static unsigned int	token_length(t_token **probe)
 {
 	unsigned int	argv_len;
+	unsigned int	words_len;
 	char			**words;
 
-	if (probe->type != tk_word)
-		return (1);
-	else
+	argv_len = 0;
+	while (is_argv_token(*probe))
 	{
-		if (!(words = ft_strsplit(probe->content, IFS)))
-			ERROR_MEM;
-		argv_len = ft_ntab_len((const char**)words);
-		ft_free_ntab(words);
-		return (argv_len);
+		if ((*probe)->type == tk_word)
+		{
+			if (!(words = ft_strsplit((*probe)->content, IFS)))
+				ERROR_MEM;
+			words_len = ft_ntab_len((const char**)words);
+			words_len = words_len ? words_len : 1;
+			ft_free_ntab(words);
+		}
+		else
+			words_len = 1;
+		argv_len += argv_len ? words_len - 1 : words_len;
+		*probe = (*probe)->next;
 	}
+	return (argv_len);
 }
 
 /*
-** outdated
+**	outdated
 **	Returns a freshly allocated array of strings corresponding to the argv
 **	parameter that should be passed on to the execve function.
 **	Should be called after have used parse_expands and parse_redirections
@@ -119,9 +126,7 @@ int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 	while (probe)
 	{
 		if (is_argv_token(probe))
-			argv_len += token_length(probe);
-		while (is_argv_token(probe))
-			probe = probe->next;
+			argv_len += token_length(&probe);
 		while (probe && probe->type == tk_eat)
 			probe = probe->next;
 		if (!probe || probe->type > tk_redirection)

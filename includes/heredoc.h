@@ -3,9 +3,6 @@
 
 # include "ftsh.h"
 # include "lexer.h"
-# include "input.h"
-# include "cmd_parsing.h"
-# include "errors.h"
 
 # define HEREDOC_FILENAME "/tmp/.tmp_heredoc"
 # define MAX_INT_LEN 10
@@ -13,7 +10,7 @@
 # define ERR_PARSE_EOF 2
 
 char	*eof_join(char *eof, t_token *token);
-t_bool	parse_heredoc(t_token *token_head, t_vars *vars);
+int		parse_heredoc(t_token *token_head, t_vars *vars);
 char	*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars);
 char	*write_heredoc_in_file(char **txt);
 char	*free_get_doc(char *txt, t_st_cmd *st_cmd, char *eof);

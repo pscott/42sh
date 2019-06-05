@@ -1,15 +1,16 @@
 #ifndef AUTO_COMPLETION_H
 # define AUTO_COMPLETION_H
 
+# include "ftsh.h"
+# include <dirent.h>
+# include <sys/stat.h>
+# include <sys/ioctl.h>
+
 # define MAX_DISPLAY 80
 # define PATH_MAX 4096
 # define NAME_MAX 4096
 # define BUFF_SIZE 256
 # define MAX_FD 4864
-# include <dirent.h>
-# include <sys/stat.h>
-# include <sys/ioctl.h>
-# include "ftsh.h"
 
 typedef struct				s_auto_comp
 {

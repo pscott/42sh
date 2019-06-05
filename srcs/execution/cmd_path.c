@@ -36,8 +36,8 @@ char				*find_path(char *file, char **paths)
 	char			*path_w_slash;
 
 	//enzo added "|| !paths" for hashmap NO PATH FOUND behavior
-	if (!ft_strncmp(".", file, 2) || !ft_strncmp("..", file, 3) || !paths)// not sure for '.', as it is a real program
-		return (NULL);
+	if (!ft_strncmp(".", file, 2) || !ft_strncmp("..", file, 3) || !paths)
+		return (NULL); // not sure for '.', as it is a real program
 	i = 0;
 	while (paths[i])
 	{

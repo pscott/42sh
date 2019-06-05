@@ -1,4 +1,3 @@
-#include "ftsh.h"
 #include "builtins.h"
 
 int		ft_atol(const char *str)

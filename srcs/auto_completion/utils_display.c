@@ -84,6 +84,9 @@ int					is_display(unsigned int count)
 		if (c == 'n' || c == 'N' || c == 127)
 			return (1);
 		else if (c == 'y' || c == 'Y' || c == 32)
+		{
+			write(1, "\n", 1);
 			return (0);
+		}
 	}
 }

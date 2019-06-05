@@ -34,7 +34,10 @@ int			switch_and_return(char buf, t_st_cmd *st_cmd)
 
 	tmp = st_cmd->st_txt->tracker;
 	if (buf == 3)
+	{
+		st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 		return (interrupt_search(st_cmd));
+	}
 	free_st_prompt(&st_cmd->st_prompt);
 	st_cmd->st_prompt = init_st_prompt(NULL);
 	if (buf == '\r' || buf == '\n')
@@ -55,5 +58,8 @@ int			switch_and_return(char buf, t_st_cmd *st_cmd)
 	if (buf == '\r' || buf == '\n')
 		return (case_return_newline(st_cmd));
 	else
+	{
+		st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 		return (quit_case);
+	}
 }

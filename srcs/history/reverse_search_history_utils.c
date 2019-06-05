@@ -28,19 +28,20 @@ int		strstr_adapted(const char *haystack, const char *needle)
 	return (0);
 }
 
-int		init_vars_reverse_search_histo
-		(size_t *malloc_size, int *prompt_type, char **stock)
+int		init_vars_rsh_and_prompt
+		(t_st_cmd *st_cmd, size_t *malloc_size, int *prompt_type, char **stock)
 {
 	*malloc_size = 256;
 	*prompt_type = 0;
 	if (!(*stock = ft_strnew(*malloc_size + 1)))
 		ERROR_MEM;
+	print_prompt_search_histo(st_cmd, *stock, *prompt_type);
 	return (0);
 }
 
-void	realloc_stock(char **stock, char buf, size_t malloc_size)
+void	realloc_stock(char **stock, char buf, size_t *malloc_size)
 {
-	(*stock) = ft_realloc((*stock), ft_strlen((*stock)) - 1, &malloc_size, 1);
+	(*stock) = ft_realloc((*stock), ft_strlen((*stock)) - 1, malloc_size, 1);
 	(*stock)[ft_strlen((*stock))] = buf;
 }
 

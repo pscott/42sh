@@ -9,7 +9,7 @@
 # include <unistd.h>
 # include "hashmap.h"
 
-# define ERROR_MEM clean_exit(1)
+# define ERROR_MEM clean_exit(1, 1)
 # define SHELL_NAME "42sh"
 
 /*
@@ -31,7 +31,7 @@ void		save_reset_stdfd(int mode);
 
 t_bool		is_full_of_whitespaces(const char *input);
 
-void		clean_exit(int exitno);
+void		clean_exit(int exitno, int malloc_error);
 
 /*
 **	Debug

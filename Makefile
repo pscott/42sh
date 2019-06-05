@@ -249,4 +249,7 @@ d: all
 	@$(OPT) ./$(NAME)
 
 norm:
-	norminette $(SRCS) | grep -b1 "Error" | grep -v -e "C++ comment" -e "42 header"
+	norminette $(SRCS) | grep -v -e "C++ comment" -e "42 header"\
+		| grep -B 1 "Error"
+	norminette $(INCLS) | grep -v -e "C++ comment" -e "42 header"\
+		| grep -B 1 "Error"

@@ -20,7 +20,10 @@ void		redirect(int old_fd, int new_fd, int save)
 				close(old_fd);
 		}
 		else
+		{
 			ft_dprintf(2, "42sh: error: dup2 failed\n");
+			clean_exit(1, 0);
+		}
 	}
 }
 

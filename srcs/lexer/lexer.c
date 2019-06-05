@@ -22,7 +22,6 @@ static int	error_unsupported_token(t_token *token, int return_val)
 static int	add_token_to_list(t_token *current_token, t_token *prev_token,
 	t_token **token_head, t_vars *vars)
 {
-	t_token	*probe;
 
 	(void)vars;
 	if (current_token->type == tk_unsupported)
@@ -31,14 +30,13 @@ static int	add_token_to_list(t_token *current_token, t_token *prev_token,
 		|| is_two_ctrlop_or_redir_following(prev_token, current_token))
 		return (0);
 	if (!(*token_head))
-	{
 		*token_head = current_token;
-		return (1);
+	else
+	{
+		while (prev_token->next)
+			prev_token = prev_token->next;
+		prev_token->next = current_token;
 	}
-	probe = *token_head;
-	while (probe->next)
-		probe = probe->next;
-	probe->next = current_token;
 	return (1);
 }
 

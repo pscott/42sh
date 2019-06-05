@@ -51,10 +51,8 @@ t_token		*get_op_chart_token(char **cmdline, t_operation *op_chart)
 		if (!ft_strncmp(*cmdline, op_chart[i].str, op_chart[i].size))
 		{
 			if (!(token = create_token(*cmdline, op_chart[i].size,
-							op_chart[i].type)))
-			{
+						op_chart[i].type)))
 				return (NULL);
-			}
 			*cmdline = *cmdline + op_chart[i].size;
 			return (token);
 		}

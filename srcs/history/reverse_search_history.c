@@ -71,35 +71,17 @@ int				search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find, int tracker, ch
 			return (-1);
 		tracker--;
 	}
-	/*
-	ft_printf("{%s}", (*st_cmd)->hist_lst->txt);
-	sleep(1);
-	*/
-	/*
-	ft_printf("tracker %d", tracker);
-	sleep(1);
-	*/
 	if (tracker >= 0)
 	{
 		if (search_in_current_entry(st_cmd, to_find, tracker))
 		{
 			return (0);
 		}
-		
-	/*	
-	ft_printf("{%s}", (*st_cmd)->hist_lst->txt);
-	sleep(1);
-	*/
-		
 	}
 	if (((*st_cmd)->hist_lst) && (*st_cmd)->hist_lst->prev)
 			(*st_cmd)->hist_lst = (*st_cmd)->hist_lst->prev;
 			
 	ret = search_in_previous_entries(st_cmd, to_find);
-	/*
-	if (txt_save == (*st_cmd)->st_txt && tracker_save == (*st_cmd)->st_txt->tracker)
-		ret = 1;
-		*/
 	return (ret);
 }
 
@@ -114,6 +96,21 @@ static int	handle_quitting_chars_and_bcksp(char buf, char **stock)
 	}
 	return (0);
 }
+
+
+
+static int	check_exit_and_realloc(size_t *malloc_size, char buf, char escape[BUF_SIZE + 1], char **stock)
+{
+	if (buf !=  18 && (ft_strlen(escape) > 1 || is_quit_char(buf)))
+	{
+		if (handle_quitting_chars_and_bcksp(buf, stock))
+			return (1);
+	}
+	else if (buf != 18)
+		realloc_stock(stock, buf, malloc_size);
+	return (0);
+}
+
 
 /*
 **	If buf_received == ctrlr, reverse-i-search in historic
@@ -138,20 +135,15 @@ int				handle_reverse_search_history(t_st_cmd *st_cmd,
 		if (is_valid_escape(escape) == 0)
 			continue ;
 		buf = escape[0];
-		if (buf != 18 && (ft_strlen(escape) > 1 || is_quit_char(buf)))
-		{
-			if (handle_quitting_chars_and_bcksp(buf, &stock))
-				return (switch_and_return(buf, st_cmd));
-		}
-		else if (buf != 18)
-			realloc_stock(&stock, buf, &malloc_size);
+		if (check_exit_and_realloc(&malloc_size, buf, escape, &stock))
+			return (switch_and_return(buf, st_cmd));
 		type_save = prompt_type;
-	if (buf == '\x7f' && !stock[0])
-		prompt_type = 1;
-	else if ((prompt_type = search_reverse_in_histo(&st_cmd, stock, (int)(st_cmd->st_txt->tracker), buf)) == -1)
-		prompt_type = type_save;
-	print_prompt_search_histo(st_cmd, stock, prompt_type);
-	ft_bzero(escape, sizeof(escape));
+		if (buf == '\x7f' && !stock[0])
+			prompt_type = 1;
+		else if ((prompt_type = search_reverse_in_histo(&st_cmd, stock, (int)(st_cmd->st_txt->tracker), buf)) == -1)
+			prompt_type = type_save;
+		print_prompt_search_histo(st_cmd, stock, prompt_type);
+		ft_bzero(escape, sizeof(escape));
 	}
 	return (0);
 }

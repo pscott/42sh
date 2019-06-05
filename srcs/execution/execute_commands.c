@@ -35,7 +35,7 @@ static int			access_and_exec(char *cmd_path, char **argv,
 **	number.
 */
 
-static int		execute_argv(char **argv, t_vars *vars)
+static int			execute_argv(char **argv, t_vars *vars)
 {
 	int				cmd;
 	char			*cmd_path;
@@ -67,7 +67,7 @@ static int		execute_argv(char **argv, t_vars *vars)
 **	Returns 0 if it executed properly ; else returns 1.
 */
 
-int				parse_and_exec(t_token *token_head, int in,
+int					parse_and_exec(t_token *token_head, int in,
 					int out, t_vars *vars)
 {
 	char			**argv;

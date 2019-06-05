@@ -8,7 +8,7 @@
 **	Should not return NULL because it is called n - 1 times
 */
 
-static	t_token	*get_next_simple_command(t_token *begin)
+static			t_token	*get_next_simple_command(t_token *begin)
 {
 	while (is_simple_cmd_token(begin))
 		begin = begin->next;
@@ -28,7 +28,7 @@ static	int		error_message(const char *cause)
 }
 
 /*
-** OUTDATED
+**	OUTDATED
 **	Manages all pipes and fds, while handing the simple command to parse_redir
 **	for redirection parsing and execution. Note that i < n - 1, because piping
 **	the last command is never needed.
@@ -82,7 +82,8 @@ static	int		fork_pipes(int num_simple_commands, t_token *beg, t_vars *vars)
 		if (WIFSIGNALED(status))
 		{
 			if (WTERMSIG(status) != SIGINT && WTERMSIG(status) != SIGPIPE)
-				ft_dprintf(2, "process terminated, received signal : %d\n", WTERMSIG(status));
+				ft_dprintf(2, "process terminated, received signal : %d\n",
+						WTERMSIG(status));
 		}
 		if (num_simple_commands != 1)
 			close(fd[0]);
@@ -99,7 +100,7 @@ static	int		fork_pipes(int num_simple_commands, t_token *beg, t_vars *vars)
 ** then hands the token list to fork_pipes to handle pipes.
 */
 
-int			parse_cmdline(t_token *token, t_vars *vars)
+int				parse_cmdline(t_token *token, t_vars *vars)
 {
 	int		num_simple_commands;
 	t_token *probe;

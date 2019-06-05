@@ -35,7 +35,9 @@ static int		return_val(char **line, char **content)
 	if (next_nl != NULL)
 	{
 		*next_nl = 0;
-		if (!(*line = ft_strdup(*content)) || !(tmp = ft_strdup(next_nl + 1)))
+		if (!(tmp = ft_strdup(next_nl + 1)))
+			ERROR_MEM;
+		if (!(*line = ft_strdup(*content)))
 			ERROR_MEM;
 		ft_strdel(content);
 		*content = tmp;

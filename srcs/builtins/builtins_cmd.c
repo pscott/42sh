@@ -20,7 +20,7 @@ static int	exec_builtins_2(char **argv, t_vars *vars, t_cmd_id cmd_id)
 	}
 	else if (cmd_id == cmd_setenv)
 	{
-		vars->cmd_value = case_setenv(argv, vars);
+		vars->cmd_value = case_setenv(argv, &vars->env_vars);
 		ret = 1;
 	}
 	else if (cmd_id == cmd_unsetenv)
@@ -50,7 +50,7 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 		ret = case_exit(argv, &vars->cmd_value);
 	else if (cmd_id == cmd_env)
 	{
-		ft_print_ntab(vars->env_vars);
+		vars->cmd_value = case_env(argv, &vars->env_vars, vars);
 		ret = 1;
 	}
 	else if (cmd_id == cmd_cd)

@@ -1,6 +1,6 @@
 #include "hashmap.h"
 
-static int	is_prime(unsigned int nb)
+static int		is_prime(unsigned int nb)
 {
 	int	i;
 

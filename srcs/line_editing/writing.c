@@ -83,13 +83,13 @@ int			write_line(t_st_cmd *cmd)
 {
 	size_t		i;
 
-	if (isatty(STDIN_FILENO) == 0)
+	if (!(i = 0) && isatty(STDIN_FILENO) == 0)
 		return (0);
-	i = -1;
-	while ((cmd->st_txt->tracker + ++i) < cmd->st_txt->data_size
+	while ((cmd->st_txt->tracker + i) < cmd->st_txt->data_size
 		&& cmd->st_txt->txt[cmd->st_txt->tracker + i] != '\n')
 	{
 		write(STDIN_FILENO, &cmd->st_txt->txt[cmd->st_txt->tracker + i], 1);
+		i++;
 		get_pos(cmd, cmd->st_txt->data_size - 1);
 		if ((cmd->start_pos.row + cmd->relative_pos.row)
 			> cmd->window->ws_row

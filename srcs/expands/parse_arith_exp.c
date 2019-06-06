@@ -52,12 +52,6 @@ static char		*dup_for_arith_exp(char *str, size_t i, size_t index)
 	return (new_str);
 }
 
-static char		free_str_return_char(char **str, char c)
-{
-	ft_strdel(str);
-	return (c);
-}
-
 static char		expand_lowest_arith_exp(char **str, t_vars *vars)
 {
 	size_t		i;
@@ -76,7 +70,7 @@ static char		expand_lowest_arith_exp(char **str, t_vars *vars)
 			index[1] = i + 1;
 			arith_str = dup_for_arith_exp(*str, i, index[0]);
 			if (expansion_arith(arith_str, &arith_result, vars))
-				return (free_str_return_char(&arith_str, -1));
+				return (ft_free_str_return_char(&arith_str, -1));
 			arith_str = lltoa_and_free(arith_result, &arith_str);
 			substitute_slice(str, index, arith_str);
 			ft_strdel(&arith_str);

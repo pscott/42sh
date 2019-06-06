@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 16:25:39 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/05 12:01:08 by aschoenh         ###   ########.fr       */
+/*   Updated: 2019/06/06 12:48:10 by aschoenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ char			*ft_itoa(int n);
 char			*ft_realloc(char *data, size_t current_data_size,
 		size_t *current_malloc_size, size_t append_size);
 void			ft_free_ntab(char **tabs);
+char			ft_free_str_return_char(char **str, char c);
 void			ft_print_ntab(char **tabs);
 char			**ft_dup_ntab(const char **tabs);
 int				ft_ntab_len(const char **tabs);

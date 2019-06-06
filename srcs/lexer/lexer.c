@@ -22,7 +22,6 @@ static int	error_unsupported_token(t_token *token, int return_val)
 static int	add_token_to_list(t_token *current_token, t_token *prev_token,
 	t_token **token_head, t_vars *vars)
 {
-
 	(void)vars;
 	if (current_token->type == tk_unsupported)
 		return (error_unsupported_token(current_token, 0));

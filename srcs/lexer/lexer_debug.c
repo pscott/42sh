@@ -2,6 +2,7 @@
 #include "lexer.h"
 
 //TODO tej me before last push
+
 void	print_token(t_token *token)//debug
 {
 	if (!token)
@@ -17,8 +18,8 @@ void	print_token_list(t_token *token_head)//debug
 	probe = token_head;
 	while (probe)
 	{
-		//printf("probe->next add: %p\n", probe);
 		print_token(probe);
+		//printf("probe->next add: %p\n", probe);
 		probe = probe->next;
 	}
 }

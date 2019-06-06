@@ -9,8 +9,8 @@
 
 static void			apply_ifs(const char *string, char **argv, int *i)
 {
-	char	**words;
-	int		j;
+	char			**words;
+	int				j;
 
 	if (!(words = ft_strsplit(string, IFS)))
 		ERROR_MEM;
@@ -34,7 +34,7 @@ static void			apply_ifs(const char *string, char **argv, int *i)
 
 static t_token		*fill_argv(t_token *token, char **argv, int *i)
 {
-	int	incremented;
+	int				incremented;
 
 	incremented = 0;
 	while (is_argv_token(token))
@@ -82,7 +82,7 @@ static char			**create_argv(t_token *token_head, int argv_len)
 **	and changes the address of probe_token accordingly.
 */
 
-static int	token_length(t_token **probe)
+static int			token_length(t_token **probe)
 {
 	int				argv_len;
 	int				words_len;

@@ -46,7 +46,7 @@ static void		insert_expansion(char *user, char **str)
 			if (!(expansion = ft_strdup(infos->pw_dir)))
 				ERROR_MEM;
 			ft_strdel(str);
-			if (!(*str = ft_strjoin(expansion, tmp_end)))
+			if (!(*str = ft_strjoin_free_left(expansion, tmp_end)))
 				ERROR_MEM;
 			ft_strdel(&tmp_end);
 		}

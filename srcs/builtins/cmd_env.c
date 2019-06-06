@@ -119,7 +119,6 @@ int					case_env(char **argv, char ***env)
 		new_env = NULL;
 	else
 	{
-		i++;
 		if (!(new_env = ft_dup_ntab((const char **)(*env))))
 			clean_exit(1, 1);
 	}

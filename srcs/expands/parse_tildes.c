@@ -11,12 +11,15 @@
 
 int				replace_tilde(char **str, const char **env)
 {
+	t_vars			*vars;
 	char			*new_str;
 	char			*home_str;
 
 	if (!(home_str = get_envline_value("HOME", (char **)env)))
 	{
-		ft_putendl("TMP: NO HOME VAR");//TODO
+		vars = get_vars(NULL);
+		if (vars->verbose)
+			ft_dprintf(2, "error: HOME not set\n");
 		return (0);
 	}
 	if (!(new_str = ft_strnew(ft_strlen(home_str) + ft_strlen(*str) - 1)))

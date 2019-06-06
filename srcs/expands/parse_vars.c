@@ -2,7 +2,7 @@
 #include "env.h"
 
 static void			substitute_env_var(char **str, size_t *i
-					, const char *var_name, t_vars *vars)
+	, const char *var_name, t_vars *vars)
 {
 	const char	*var_value;
 	size_t		index[2];
@@ -19,7 +19,7 @@ static void			substitute_env_var(char **str, size_t *i
 }
 
 static void			substitute_param(char **str, size_t *i
-					, const char *var_name, t_vars *vars)
+	, const char *var_name, t_vars *vars)
 {
 	const char	*var_value;
 	size_t		index[2];
@@ -35,7 +35,7 @@ static void			substitute_param(char **str, size_t *i
 	ft_strdel((char**)&var_name);
 }
 
-static const char 	*bad_substitution(const char *str, t_vars *vars)//TODO make verbose mod ?
+static const char	*bad_substitution(const char *str, t_vars *vars)
 {
 	if (vars->verbose)
 	{
@@ -58,29 +58,13 @@ static const char	*get_param_sub_name(const char *str, t_vars *vars)
 	}
 	if (i == 2 && str[i] == '}')
 		return (bad_substitution(str, vars));
-	if (str[i] == '}')//check me
+	if (str[i] == '}')
 	{
 		if (!(var_name = ft_strndup(&str[2], i - 2)))
 			ERROR_MEM;
 		return (var_name);
 	}
 	return (NULL);
-}
-
-char				*get_var_name(char *str)
-{		
-	size_t		i;
-	char		*var_name;
-
-	str++;
-	i = 0;
-	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
-		i++;
-	if (i == 0)
-		return (NULL);
-	if (!(var_name = ft_strndup(str, i)))
-		ERROR_MEM;
-	return (var_name);
 }
 
 /*
@@ -103,8 +87,8 @@ int					parse_vars(char **str, t_vars *vars)
 		if (!escaped && !ft_strncmp("${", (*str) + i, 2)
 				&& is_terminated("${", "}", (*str) + i))
 		{
-			if (!(var_name = get_param_sub_name((*str) + i, vars)))//this print 'bad sub'//TODO add vars for verbose
-				return (0);
+			if (!(var_name = get_param_sub_name((*str) + i, vars)))
+				return (1);
 			substitute_param(str, &i, var_name, vars);
 		}
 		else if (!escaped && (*str)[i] == '$'
@@ -116,5 +100,5 @@ int					parse_vars(char **str, t_vars *vars)
 			escaped = 0;
 		i++;
 	}
-	return (1);
+	return (0);
 }

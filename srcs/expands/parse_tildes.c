@@ -11,12 +11,15 @@
 
 int				replace_tilde(char **str, const char **env)
 {
+	t_vars			*vars;
 	char			*new_str;
 	char			*home_str;
 
 	if (!(home_str = get_envline_value("HOME", (char **)env)))
 	{
-		ft_putendl("TMP: NO HOME VAR");//TODO
+		vars = get_vars(NULL);
+		if (vars->verbose)
+			ft_dprintf(2, "error: HOME not set\n");
 		return (0);
 	}
 	if (!(new_str = ft_strnew(ft_strlen(home_str) + ft_strlen(*str) - 1)))
@@ -30,25 +33,22 @@ int				replace_tilde(char **str, const char **env)
 
 static void		insert_expansion(char *user, char **str)
 {
-	char			*tmp_end;
 	char			*expansion;
 	struct passwd	*infos;
 
-	ft_initialize_str(&tmp_end, &expansion, NULL, NULL);
+	expansion = NULL;
 	if (!(infos = getpwnam(user)))
 		return ;
 	else if (infos && infos->pw_dir)
 	{
 		if (is_slashed(*str))
 		{
-			tmp_end = ft_strsub(*str, ft_strlen_char(*str, '/'),
-					ft_strlen(*str));
 			if (!(expansion = ft_strdup(infos->pw_dir)))
 				ERROR_MEM;
 			ft_strdel(str);
-			if (!(*str = ft_strjoin(expansion, tmp_end)))
+			if (!(*str = ft_strjoin_free_left(expansion,
+						*str + ft_strlen_char(*str, '/'))))
 				ERROR_MEM;
-			ft_strdel(&tmp_end);
 		}
 		else
 		{
@@ -115,5 +115,5 @@ int				parse_tildes(t_token *token_head, const char **env)
 		prev_token = curr_token;
 		curr_token = curr_token->next;
 	}
-	return (1);//tmp
+	return (1);
 }

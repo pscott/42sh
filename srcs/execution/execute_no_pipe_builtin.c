@@ -57,9 +57,9 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	if ((ret = parse_expands(token_head, vars)) > 0)
 		return (ret);
 	if ((ret = parse_redirections(token_head, 1)) > 0)
-		return (ret); // would need to be special and to save fd in list
+		return (ret);
 	argv = NULL;
-	get_argv_from_token_lst(token_head, &argv); // protect ?
+	get_argv_from_token_lst(token_head, &argv);
 	reset_terminal_settings();
 	ret = exec_builtins(argv, vars, cmd_id);
 	save_reset_stdfd(0);

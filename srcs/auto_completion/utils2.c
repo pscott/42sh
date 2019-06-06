@@ -20,7 +20,7 @@ int				get_needed_values
 	start_actual_word = len;
 	*str = NULL;
 	*to_find_full = NULL;
-	if (!(*str = ft_strndup(input, len)))
+	if (!(*str = ft_strndup(input, len + 1)))
 		clean_exit(1, 1);
 	if (!(*to_find_full = ft_strndup(input, len)))
 		clean_exit(1, 1);

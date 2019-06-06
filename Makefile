@@ -58,10 +58,10 @@ SRC_DIR	:=	srcs
 
 	#list of all srcs subdirectories
 	SRC_SUBDIRS	:=	$(ENV_DIR) $(ERRORS_DIR) $(LEXER_DIR) $(PARSER_DIR) \
-					$(PIPELINE_DIR) $(READER_DIR) $(HISTORY_DIR) $(EXPANDS_DIR) \
-				   	$(SIGNALS_DIR) $(LINE_EDIT_DIR) $(BUILTINS_DIR) $(REDIR_DIR) \
-					$(EXEC_DIR) $(AUTO_COMP_DIR) $(EXP_ARITH_DIR) \
-					$(HEREDOC_DIR) \
+					$(PIPELINE_DIR) $(READER_DIR) $(HISTORY_DIR) \
+					$(EXPANDS_DIR) $(SIGNALS_DIR) $(LINE_EDIT_DIR) \
+					$(BUILTINS_DIR) $(REDIR_DIR) $(EXEC_DIR) $(AUTO_COMP_DIR) \
+					$(EXP_ARITH_DIR) $(HEREDOC_DIR) \
 					$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_DIR))
 
 
@@ -69,7 +69,7 @@ SRC_DIR	:=	srcs
 VPATH	:=	$(SRC_DIR) $(addprefix $(SRC_DIR)/,$(SRC_SUBDIRS))
 
 # Srcs file names ##############################################################
-SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c	#srcs subfiles names
+SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 	ENV_FILES		:=	environ_set.c environ_utils.c init_env.c shlvl.c\
 						environ_unset.c
 	ERRORS_FILES	:=	errors.c print_errors.c error_exit.c
@@ -77,12 +77,11 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c	#srcs subf
 						lexer_debug.c copy_token_list.c lexer_escape_tools.c \
 						check_special_token.c
 	PARSER_FILES	:=	token_parser.c token_parser_utils.c
-	PIPELINE_FILES	:=	parse_pipeline.c  \
-						check_token_type.c
+	PIPELINE_FILES	:=	parse_pipeline.c check_token_type.c
 	READER_FILES	:=	check_sig_del_arrow.c prompt.c \
 						input_loop.c cursor_position.c input_utils.c \
-						check_enter_quit_hist.c  txt_cat.c \
-						 checkers.c check_words.c check_tab.c
+						check_enter_quit_hist.c txt_cat.c \
+						checkers.c check_words.c check_tab.c
 	EXPANDS_FILES	:=	parse_expands.c parse_tildes.c parse_vars.c \
 						parse_quotes.c parse_arith_exp.c \
 						substitute_utils.c parse_tildes_utils.c get_var_name.c
@@ -93,14 +92,15 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c	#srcs subf
 						reverse_search_history_utils.c
 	SIGNALS_FILES	:=	signals_handlers.c signals_setup.c
 	LINE_EDIT_FILES	:=	st_cmd_editing.c st_prompt.c st_txt.c writing.c \
-						t_vars.c st_cmd_getters.c st_cmd_windows_struct_utils.c\
+						t_vars.c st_cmd_getters.c \
+						st_cmd_windows_struct_utils.c \
 						jump_words.c delete.c arrows.c go_up.c go_down.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c \
 						cmd_type.c cmd_setenv.c cmd_unsetenv.c cmd_echo.c \
 						cmd_exit_utils.c cmd_cd_utils.c cmd_env.c \
 						cmd_env_check.c
-	REDIR_FILES		:=	redir_dgreat.c redir_fd_great.c fd_utils.c\
-						redir_great.c redir_less.c parse_redirections.c\
+	REDIR_FILES		:=	redir_dgreat.c redir_fd_great.c fd_utils.c \
+						redir_great.c redir_less.c parse_redirections.c \
 						redir_fd_less.c
 	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c \
 						execute_no_pipe_builtin.c exit_status.c
@@ -111,29 +111,30 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c	#srcs subf
 						display_auto_comp.c get_exe_names.c \
 						get_next_line_a_c.c get_path_file.c \
 						home_dirs_first_arg.c space_first_arg.c tilde_users.c \
-						utils.c	utils2.c utils_display.c auto_completion_hdoc.c \
+						utils.c	utils2.c utils_display.c \
+						auto_completion_hdoc.c \
 						get_all_match.c formating_ret.c
-	HASHMAP_FILES	:=	find_next_prime.c hash_main.c hashfun.c hashmap.c\
-						hashmap_alloc.c hashmap_delete.c hashmap_print.c\
+	HASHMAP_FILES	:=	find_next_prime.c hash_main.c hashfun.c hashmap.c \
+						hashmap_alloc.c hashmap_delete.c hashmap_print.c \
 						get_hash_args.c hashmap_errors.c
 	EXP_ARITH_FILES	:=	build_list.c check_errors.c create_op_link.c \
 						exec_op_list.c exec_op_list_2.c exec_op_list_3.c \
-						expansion_arith.c free_list.c array_utils.c\
+						expansion_arith.c free_list.c array_utils.c \
 						free_tokens.c ft_atoll.c ft_lltoa.c get_op_token.c \
 						is_oper.c op_tokenizer.c op_tokenizer_clean.c \
 						op_tokenizer_clean_2.c op_tokenizer_dirty.c \
 						op_tokenizer_utils.c put_op_link.c ft_isempty.c
-
 	HEREDOC_FILES	:=	heredoc.c heredoc_utils.c get_doc.c save_heredoc.c
 
 
 
 #list of all .c files
-C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES)\
-			$(PARSER_FILES) $(PIPELINE_FILES) $(READER_FILES) $(HISTORY_FILES) \
-			$(EXPANDS_FILES) $(SIGNALS_FILES) $(LINE_EDIT_FILES) $(BUILTINS_FILES) \
-			$(REDIR_FILES) $(EXEC_FILES) $(HASHMAP_FILES) $(AUTO_COMP_FILES) \
-			$(EXP_ARITH_FILES) $(HEREDOC_FILES)
+C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES) \
+			$(PARSER_FILES) $(PIPELINE_FILES) $(READER_FILES) \
+			$(HISTORY_FILES) $(EXPANDS_FILES) $(SIGNALS_FILES) \
+			$(LINE_EDIT_FILES) $(BUILTINS_FILES) $(REDIR_FILES) $(EXEC_FILES) \
+			$(HASHMAP_FILES) $(AUTO_COMP_FILES) $(EXP_ARITH_FILES) \
+			$(HEREDOC_FILES)
 
 # Complete path of each .c files ###############################################
 SRC_PATH			:=	$(addprefix $(SRC_DIR)/,$(SRC_FILES))
@@ -146,7 +147,7 @@ READER_PATH			:=	$(addprefix $(READER_DIR)/,$(READER_FILES))
 EXPANDS_PATH		:=	$(addprefix $(EXPANDS_DIR)/,$(EXPANDS_FILES))
 HISTORY_PATH		:=	$(addprefix $(HISTORY_DIR)/,$(HISTORY_FILES))
 SIGNALS_PATH		:=	$(addprefix $(SIGNALS_DIR)/,$(SIGNALS_FILES))
-LINE_EDIT_PATH			:=	$(addprefix $(LINE_EDIT_DIR)/,$(LINE_EDIT_FILES))
+LINE_EDIT_PATH		:=	$(addprefix $(LINE_EDIT_DIR)/,$(LINE_EDIT_FILES))
 BUILTINS_PATH		:=	$(addprefix $(BUILTINS_DIR)/,$(BUILTINS_FILES))
 AUTO_COMP_PATH		:=	$(addprefix $(AUTO_COMP_DIR)/,$(AUTO_COMP_FILES))
 REDIR_PATH			:=	$(addprefix $(REDIR_DIR)/,$(REDIR_FILES))
@@ -197,12 +198,12 @@ ask_libs: ask_libft ask_libterm
 
 ask_libft:
 	@$(MAKE) -qC libft ; if [ $$? != "0" ] ; then\
-		$(MAKE) -j -C libft;\
+		$(MAKE)  -C libft;\
 		fi
 
 ask_libterm:
 	@$(MAKE) -qC libterm child; if [ $$? != "0" ] ; then\
-		$(MAKE) -j -C libterm;\
+		$(MAKE)  -C libterm;\
 		fi
 
 $(LIBS): ask_libs

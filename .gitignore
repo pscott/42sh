@@ -5,6 +5,7 @@
 *dSYM
 *.o
 *.a
+*.d
 *.bak
 tags
 sandbox

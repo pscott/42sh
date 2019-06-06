@@ -103,8 +103,8 @@ int					parse_vars(char **str, t_vars *vars)
 		if (!escaped && !ft_strncmp("${", (*str) + i, 2)
 				&& is_terminated("${", "}", (*str) + i))
 		{
-			if (!(var_name = get_param_sub_name((*str) + i, vars)))//this print 'bad sub'//TODO add vars for verbose
-				return (0);
+			if (!(var_name = get_param_sub_name((*str) + i, vars)))
+				return (1);
 			substitute_param(str, &i, var_name, vars);
 		}
 		else if (!escaped && (*str)[i] == '$'
@@ -116,5 +116,5 @@ int					parse_vars(char **str, t_vars *vars)
 			escaped = 0;
 		i++;
 	}
-	return (1);
+	return (0);
 }

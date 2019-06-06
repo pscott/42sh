@@ -9,9 +9,9 @@
 
 int			parse_dollars_str(char **str, t_vars *vars)
 {
-	if (!(parse_vars(str, vars)))
+	if (parse_vars(str, vars) > 0)
 		return (1);
-	if (!(parse_arith_exp(str, vars)))
+	if (parse_arith_exp(str, vars) > 0)
 		return (1);
 	return (0);
 }

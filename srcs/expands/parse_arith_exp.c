@@ -103,7 +103,7 @@ int				parse_arith_exp(char **str, t_vars *vars)
 			while ((arith_expand_ret = expand_lowest_arith_exp(str, vars)))
 			{
 				if (arith_expand_ret == -1)
-					return (0);//bad sub
+					return (1);
 			}
 		}
 		else if ((*str)[i] == '\\')
@@ -111,6 +111,6 @@ int				parse_arith_exp(char **str, t_vars *vars)
 		else
 			escaped = 0;
 		i++;
-	}//no need to check if empty for arith_exp
-	return (1);
+	}
+	return (0);
 }

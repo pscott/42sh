@@ -14,9 +14,12 @@ static void	delete_endline(t_st_cmd *st_cmd)
 	t_st_txt *line;
 
 	line = st_cmd->st_txt;
-	ft_bzero(line->txt,
+	ft_bzero(line->txt + line->tracker,
 		sizeof((*line->txt) * (line->data_size - line->tracker)));
-	line->data_size -= line->data_size - line->tracker;
+	if (line->data_size > line->tracker)
+		line->data_size -= line->data_size - line->tracker;
+	else
+		line->data_size = 0;
 	execute_str(CLEAR_BELOW);
 }
 

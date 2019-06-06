@@ -12,7 +12,7 @@ void	switch_st_cmd(t_st_cmd *st_cmd, char *newcmd)
 {
 	size_t		len;
 	t_st_txt	*st_txt;
-	char		*trunc_newcmd;		
+	char		*trunc_newcmd;
 
 	if ((len = ft_strlen(newcmd)) > 0)
 	{

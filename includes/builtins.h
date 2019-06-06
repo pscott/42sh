@@ -49,4 +49,10 @@ char	*get_directory(const char *env_key, const char **env);
 char	*get_cwd_value(const char **env);
 char	*relative_directory(const char *path, const char **env);
 
+/*
+**	Env utils
+*/
+
+int		check_env_flags(char **argv, int *pos);
+
 #endif

@@ -99,9 +99,9 @@ t_token			*get_token(char **cmdline, t_operation *op_chart)
 		return (get_monochar(cmdline));
 	else if (ft_is_white_space(**cmdline))
 		return (get_eat_token(cmdline));
-	else if ((ft_strnlen(*cmdline, 3) > 3) && !ft_strncmp(*cmdline, "$((", 3))
+	else if ((ft_strnlen(*cmdline, 3) == 3) && !ft_strncmp(*cmdline, "$((", 3))
 		return (check_arith_exp_token(cmdline));
-	else if ((ft_strnlen(*cmdline, 2) > 2) && !ft_strncmp(*cmdline, "${", 2))
+	else if ((ft_strnlen(*cmdline, 2) == 2) && !ft_strncmp(*cmdline, "${", 2))
 		return (check_param_sub_token(cmdline));
 	else if ((token = get_op_chart_token(cmdline, op_chart)))
 		return (token);

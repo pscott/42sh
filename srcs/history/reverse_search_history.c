@@ -1,14 +1,16 @@
 #include "input.h"
 #include "history.h"
 
-static int		search_in_current_entry(t_st_cmd **st_cmd, char *to_find, size_t tracker)
+static int		search_in_current_entry(t_st_cmd **st_cmd,
+	char *to_find, size_t tracker)
 {
 	if ((*st_cmd)->st_txt->txt != NULL && (*st_cmd)->st_txt->txt[0] != '\0')
 	{
-		if (to_find && to_find[0] && ft_strrnstr((*st_cmd)->st_txt->txt, to_find, tracker))
+		if (to_find && to_find[0] && ft_strrnstr((*st_cmd)->st_txt->txt,
+				to_find, tracker))
 		{
-			(*st_cmd)->st_txt->tracker = ft_strlen((*st_cmd)->st_txt->txt) -
-				ft_strlen(ft_strrnstr((*st_cmd)->st_txt->txt, to_find, tracker));
+			(*st_cmd)->st_txt->tracker = ft_strlen((*st_cmd)->st_txt->txt)
+			- ft_strlen(ft_strrnstr((*st_cmd)->st_txt->txt, to_find, tracker));
 			return (1);
 		}
 	}
@@ -19,7 +21,8 @@ static int		search_in_previous_entries(t_st_cmd **st_cmd, char *to_find)
 {
 	while ((*st_cmd)->hist_lst)
 	{
-		if (to_find && to_find[0] && strstr_adapted((*st_cmd)->hist_lst->txt, to_find))
+		if (to_find && to_find[0]
+			&& strstr_adapted((*st_cmd)->hist_lst->txt, to_find))
 		{
 			ft_strdel(&(*st_cmd)->st_txt->txt);
 			if (!((*st_cmd)->st_txt->txt = ft_strndup((*st_cmd)->hist_lst->txt,
@@ -34,7 +37,7 @@ static int		search_in_previous_entries(t_st_cmd **st_cmd, char *to_find)
 			(*st_cmd)->hist_lst = (*st_cmd)->hist_lst->prev;
 		else
 			break ;
-		}
+	}
 	return (1);
 }
 
@@ -52,12 +55,12 @@ static int		search_in_previous_entries(t_st_cmd **st_cmd, char *to_find)
 **	Returns 0 if to_find is not found
 */
 
-int				search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find, int tracker, char buf)
+static int		search_reverse_in_histo(t_st_cmd **st_cmd,
+	char *to_find, int tracker, char buf)
 {
 	int			ret;
 	size_t		tracker_save;
 	t_st_txt	*txt_save;
-
 
 	tracker_save = (*st_cmd)->st_txt->tracker;
 	txt_save = (*st_cmd)->st_txt;
@@ -75,38 +78,23 @@ int				search_reverse_in_histo(t_st_cmd **st_cmd, char *to_find, int tracker, ch
 		}
 	}
 	if (((*st_cmd)->hist_lst) && (*st_cmd)->hist_lst->prev)
-			(*st_cmd)->hist_lst = (*st_cmd)->hist_lst->prev;
-			
+		(*st_cmd)->hist_lst = (*st_cmd)->hist_lst->prev;
 	ret = search_in_previous_entries(st_cmd, to_find);
 	return (ret);
 }
 
-static int	handle_quitting_chars_and_bcksp(char buf, char **stock)
+static void		search_and_get_good_type(t_st_cmd **st_cmd,
+	char *stock, char buf, int *prompt_type)
 {
-	if (buf == '\x7f' && (*stock)[0])
-		(*stock)[ft_strlen(*stock) - 1] = '\0';
-	else if (buf != '\x7f')
-	{
-		ft_strdel(stock);
-		return (1);
-	}
-	return (0);
+	int			type_save;
+
+	type_save = *prompt_type;
+	if (buf == '\x7f' && !stock[0])
+		*prompt_type = 1;
+	else if ((*prompt_type = search_reverse_in_histo(st_cmd, stock,
+				(int)((*st_cmd)->st_txt->tracker), buf)) == -1)
+		*prompt_type = type_save;
 }
-
-
-
-static int	check_exit_and_realloc(size_t *malloc_size, char buf, char escape[BUF_SIZE + 1], char **stock)
-{
-	if (buf !=  18 && (ft_strlen(escape) > 1 || is_quit_char(buf)))
-	{
-		if (handle_quitting_chars_and_bcksp(buf, stock))
-			return (1);
-	}
-	else if (buf != 18)
-		realloc_stock(stock, buf, malloc_size);
-	return (0);
-}
-
 
 /*
 **	If buf_received == ctrlr, reverse-i-search in historic
@@ -117,11 +105,10 @@ static int	check_exit_and_realloc(size_t *malloc_size, char buf, char escape[BUF
 int				handle_reverse_search_history(t_st_cmd *st_cmd,
 		size_t malloc_size, int prompt_type)
 {
-	char			*stock;
-	char			buf;
-	int				ret;
-	int				type_save;
-	char			escape[BUF_SIZE + 1];
+	char		*stock;
+	char		buf;
+	int			ret;
+	char		escape[BUF_SIZE + 1];
 
 	init_vars_rsh_and_prompt(st_cmd, &malloc_size, &prompt_type, &stock);
 	ft_bzero(escape, sizeof(escape));
@@ -133,11 +120,7 @@ int				handle_reverse_search_history(t_st_cmd *st_cmd,
 		buf = escape[0];
 		if (check_exit_and_realloc(&malloc_size, buf, escape, &stock))
 			return (switch_and_return(buf, st_cmd));
-		type_save = prompt_type;
-		if (buf == '\x7f' && !stock[0])
-			prompt_type = 1;
-		else if ((prompt_type = search_reverse_in_histo(&st_cmd, stock, (int)(st_cmd->st_txt->tracker), buf)) == -1)
-			prompt_type = type_save;
+		search_and_get_good_type(&st_cmd, stock, buf, &prompt_type);
 		print_prompt_search_histo(st_cmd, stock, prompt_type);
 		ft_bzero(escape, sizeof(escape));
 	}

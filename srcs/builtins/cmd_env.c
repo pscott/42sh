@@ -78,8 +78,8 @@ static int			copy_env_and_execute(char **argv, char **new_env,
 	return (ret);
 }
 
-static  int			setenv_arguments(char **argv, char ***new_env,
-	int i)
+static int			setenv_arguments(char **argv, char ***new_env,
+					int i)
 {
 	char				*before;
 	char				*after;
@@ -112,15 +112,14 @@ int					case_env(char **argv, char ***env)
 	char				**new_env;
 	int					ret;
 
-	i = 1;
-	ret = 0;
-	if (argv[1] && !ft_strcmp(argv[1], "-i"))
-	{
+	ret = check_env_flags(argv, &i);
+	if (ret == -1)
+		return (1);
+	else if (ret == 1)
 		new_env = NULL;
-		i++;
-	}
 	else
 	{
+		i++;
 		if (!(new_env = ft_dup_ntab((const char **)(*env))))
 			ERROR_MEM;
 	}

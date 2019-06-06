@@ -15,6 +15,7 @@
 
 t_vars		*get_vars(t_vars *new_vars);
 void		free_vars(t_vars *vars);
+int			init_vars(t_vars *vars, int argc, char **argv, char **env);
 
 /*
 **	File descriptors funcs

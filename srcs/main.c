@@ -1,7 +1,6 @@
 #include "builtins.h"
 #include "line_editing.h"
 #include "hashmap.h"
-#include "env.h"
 #include "history.h"
 #include "signals.h"
 
@@ -37,25 +36,6 @@ static int	free_variables(t_vars *vars, t_st_cmd *st_cmd)
 	free_vars(vars);
 	reset_terminal_settings();
 	return (ret);
-}
-
-/*
-**	Utility function to initalize the shell variables, the environement, and
-**	the last exit status.
-*/
-
-static int	init_vars(t_vars *vars, int argc, char **argv, char **env)
-{
-	(void)argc;
-	(void)argv;
-	vars->hashmap = init_hashmap(INIT_HASH_SIZE);
-	vars->cmd_value = 0;
-	vars->shell_vars = NULL;
-	vars->verbose = 1;
-	get_vars(vars);
-	if (!(vars->env_vars = init_env((const char **)env)))
-		return (1);
-	return (0);
 }
 
 /*

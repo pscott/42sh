@@ -31,6 +31,8 @@ static int	cmp_special_keys_versus_own_len(char *buf)
 			|| ft_strncmp(buf, DEL, DEL_LEN + 1) == 0
 			|| ft_strncmp(buf, ALT_UP, ALT_UP_LEN + 1) == 0
 			|| ft_strncmp(buf, ALT_DOWN, ALT_DOWN_LEN + 1) == 0
+			|| ft_strncmp(buf, ALT_RIGHT, ALT_RIGHT_LEN + 1) == 0
+			|| ft_strncmp(buf, ALT_LEFT, ALT_LEFT_LEN + 1) == 0
 			|| ft_strncmp(buf, ALT_X, ALT_X_LEN + 1) == 0
 			|| ft_strncmp(buf, ALT_C, ALT_C_LEN + 1) == 0
 			|| ft_strncmp(buf, ALT_V, ALT_V_LEN + 1) == 0)
@@ -47,6 +49,8 @@ static int	cmp_special_keys_versus_buf_len(char *buf, int len)
 			|| ft_strncmp(buf, DEL, len) == 0
 			|| ft_strncmp(buf, ALT_UP, len) == 0
 			|| ft_strncmp(buf, ALT_DOWN, len) == 0
+			|| ft_strncmp(buf, ALT_RIGHT, len) == 0
+			|| ft_strncmp(buf, ALT_LEFT, len) == 0
 			|| ft_strncmp(buf, ALT_X, len) == 0
 			|| ft_strncmp(buf, ALT_C, len) == 0
 			|| ft_strncmp(buf, ALT_V, len) == 0)

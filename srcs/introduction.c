@@ -2,20 +2,21 @@
 
 void		print_introduction(void)
 {
-	ft_printf("            ____  _     _     \n");
-	ft_printf("           |___ \\/ |___| |__  \n");
-	ft_printf("             __) | / __| '_ \\ \n");
-	ft_printf("            / __/| \\__ \\ | | |\n");
-	ft_printf("           |_____|_|___/_| |_|\n\n");
-	ft_printf("`Left arrow` to move the cursor to the left\n");
-	ft_printf("'Right arrow` to move the cursor to the right\n");
-	ft_printf("`Home` to move the cursor to the beginning of the line\n");
-	ft_printf("`End` to move the cursor to the end of the line\n");
-	ft_printf("`Up arrow` to display the previous history entry\n");
-	ft_printf("`Down arrow` to display the next history entry\n");
-	ft_printf("`Ctrl + b` to move the cursor to the previous word\n");
-	ft_printf("`Ctrl + f` to move the cursor to the next word\n");
-	ft_printf("`Ctrl + r` to search a command in the history\n");
-	ft_printf("`Option + up` to move one line up\n");
-	ft_printf("`Option + down` to move one line down\n");
+	ft_printf(
+	"            ____  _     _     \n"
+	"           |___ \\/ |___| |__  \n"
+	"             __) | / __| '_ \\ \n"
+	"            / __/| \\__ \\ | | |\n"
+	"           |_____|_|___/_| |_|\n\n"
+	"`Left arrow` to move the cursor to the left\n"
+	"`Right arrow` to move the cursor to the right\n"
+	"`Home` to move the cursor to the beginning of the line\n"
+	"`End` to move the cursor to the end of the line\n"
+	"`Up arrow` to display the previous history entry\n"
+	"`Down arrow` to display the next history entry\n"
+	"`Ctrl + b` to move the cursor to the previous word\n"
+	"`Ctrl + f` to move the cursor to the next word\n"
+	"`Ctrl + r` to search a command in the history\n"
+	"`Option + up` to move one line up\n"
+	"`Option + down` to move one line down\n");
 }

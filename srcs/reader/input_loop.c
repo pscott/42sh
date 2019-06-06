@@ -28,7 +28,12 @@ static int	cmp_special_keys_versus_own_len(char *buf)
 			|| ft_strncmp(buf, DOWNARROW, ARROW_LEN + 1) == 0
 			|| ft_strncmp(buf, HOME, HOME_LEN + 1) == 0
 			|| ft_strncmp(buf, END, END_LEN + 1) == 0
-			|| ft_strncmp(buf, DEL, DEL_LEN + 1) == 0)
+			|| ft_strncmp(buf, DEL, DEL_LEN + 1) == 0
+			|| ft_strncmp(buf, ALT_UP, ALT_UP_LEN + 1) == 0
+			|| ft_strncmp(buf, ALT_DOWN, ALT_DOWN_LEN + 1) == 0
+			|| ft_strncmp(buf, ALT_X, ALT_X_LEN + 1) == 0
+			|| ft_strncmp(buf, ALT_C, ALT_C_LEN + 1) == 0
+			|| ft_strncmp(buf, ALT_V, ALT_V_LEN + 1) == 0)
 		return (1);
 	return (0);
 }
@@ -39,7 +44,12 @@ static int	cmp_special_keys_versus_buf_len(char *buf, int len)
 			|| ft_strncmp(buf, LEFTARROW, len) == 0
 			|| ft_strncmp(buf, UPARROW, len) == 0
 			|| ft_strncmp(buf, DOWNARROW, len) == 0
-			|| ft_strncmp(buf, DEL, len) == 0)
+			|| ft_strncmp(buf, DEL, len) == 0
+			|| ft_strncmp(buf, ALT_UP, len) == 0
+			|| ft_strncmp(buf, ALT_DOWN, len) == 0
+			|| ft_strncmp(buf, ALT_X, len) == 0
+			|| ft_strncmp(buf, ALT_C, len) == 0
+			|| ft_strncmp(buf, ALT_V, len) == 0)
 		return (1);
 	return (0);
 }

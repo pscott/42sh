@@ -51,6 +51,7 @@ char				*auto_completion_x_arg(const char *input,
 	t_auto_comp		*match;
 
 	initialize_str(&to_find, &path, &r_str, &tmp);
+	
 	match = NULL;
 	if (input && input[0] == '~' && (!input[1] || input[1] != '/'))
 		return (r_str = users_passwd(input));
@@ -58,13 +59,13 @@ char				*auto_completion_x_arg(const char *input,
 		tmp = ft_strndup(input, ft_strlen(input)
 			- ft_strlen(ft_strrchr(input, '/') + 1));
 	get_path_file_and_to_find(input, &path, &to_find);
-	if (!to_find[0] || ft_is_white_space(to_find[0]))
+	if (to_find && (!to_find[0] || ft_is_white_space(to_find[0])))
 		find_all_except_dots(path, &match);
 	else
 		get_all_match(path, &match, to_find, to_find_and_next_char);
 	if (match)
 		r_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
-	else if (!(r_str = ft_strdup(to_find)))
+	else if (to_find && !(r_str = ft_strdup(to_find)))
 		clean_exit(1, 1);
 	get_good_ret_str(&r_str, tmp);
 	free_four_strings(&tmp, NULL, &path, &to_find);

@@ -36,11 +36,12 @@ static void	add_env_var(char *var_name, char *var_value, char ***env)
 	env_len = ft_ntab_len((const char **)*env);
 	if (!(new_env = (char**)malloc(sizeof(char**) * (env_len + 2))))
 		ERROR_MEM;
-	i = -1;
-	while ((*env)[++i])
+	i = 0;
+	while (*env && (*env)[i])
 	{
 		if (!(new_env[i] = ft_strdup((*env)[i])))
 			ERROR_MEM;
+		i++;
 	}
 	if (!(new_env[i] = (char*)malloc(sizeof(char*))))
 		ERROR_MEM;

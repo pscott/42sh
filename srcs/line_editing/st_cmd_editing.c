@@ -59,12 +59,9 @@ t_st_cmd		*init_st_cmd(const char **env)
 	st_cmd->st_txt = init_st_txt(NULL);
 	st_cmd->st_prompt = init_st_prompt(NULL);
 	st_cmd->window = init_window_struct();
-	if (isatty(STDIN_FILENO))
-	{
-		init_relative_pos(st_cmd);
-		st_cmd->hist_lst = get_history(env);
-		st_cmd->hist_lst = insert_right(st_cmd->hist_lst, "last", 0);
-	}
+	init_relative_pos(st_cmd);
+	st_cmd->hist_lst = get_history(env);
+	st_cmd->hist_lst = insert_right(st_cmd->hist_lst, "last", 0);
 	st_cmd->next = NULL;
 	st_cmd->prev = NULL;
 	return (st_cmd);

@@ -5,6 +5,8 @@ t_hist_lst	*create_hist_lst(const char *line, char keep)
 {
 	t_hist_lst	*res;
 
+	if (!(isatty(STDIN_FILENO)))
+		return (NULL);
 	if (!(res = (t_hist_lst*)malloc(sizeof(*res))))
 		clean_exit(1, 1);
 	if (!(res->txt = ft_strdup(line)))
@@ -22,8 +24,6 @@ void		free_hist_lst(t_hist_lst *hist_lst)
 	t_hist_lst *tmp;
 	t_hist_lst *probe;
 
-	if (isatty(STDIN_FILENO) == 0)
-		return ;
 	if (!hist_lst)
 		return ;
 	probe = get_begin_lst(hist_lst);

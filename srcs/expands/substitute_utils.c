@@ -6,7 +6,6 @@ int	is_terminated(const char *open_pattern,
 {
 	size_t	i;
 	size_t	close_len;
-	size_t	len;
 
 	i = open_pattern ? ft_strlen(open_pattern) : 0;
 	if (i > ft_strlen(str))

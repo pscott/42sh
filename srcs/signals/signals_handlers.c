@@ -34,12 +34,7 @@ void			sigint_handler(int signo)
 	vars = get_vars(NULL);
 	vars->cmd_value = 1;
 	if (isatty(STDIN_FILENO))
-	{
 		write(STDERR, "^C", 2);
-		st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
-		get_pos(st_cmd, st_cmd->st_txt->data_size);
-		reposition_cursor(st_cmd);
-	}
 	execute_str(PRINT_LINE);
 	execute_str(BEGIN_LINE);
 	execute_str(CLEAR_BELOW);

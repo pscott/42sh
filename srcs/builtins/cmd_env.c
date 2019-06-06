@@ -51,7 +51,7 @@ static int			exec_env_bin(char *cmd_path, char **argv, char **new_env)
 	}
 	else
 	{
-		setup_terminal_settings(0);
+		setup_terminal_settings();
 		signals_setup();
 		waitpid(pid, &status, 0);
 		status = exit_status(status);

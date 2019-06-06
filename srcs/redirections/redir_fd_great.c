@@ -9,7 +9,7 @@ static	int		errors_fd_great(char *tk, int err, int fd)
 		ft_dprintf(STDERR_FILENO, "42sh: %s: ambiguous redirect\n", tk);
 	else if (err == 2)
 		ft_dprintf(2, "42sh: %d: bad file descriptor\n", fd);
-	return (0);
+	return (1);
 }
 
 static	int		check_redirect(char *str)
@@ -54,7 +54,7 @@ int				redir_fd_great(t_token *redir, t_token *prev, int mode)
 
 	if ((old_fd = check_fd_prev(prev)) < 0)
 		old_fd = STDOUT_FILENO;
-	if (old_fd > 4863)
+	if (old_fd > 9)
 		return (errors_fd_great(NULL, 2, old_fd));
 	next = redir->next;
 	while (next->type == tk_eat)
@@ -65,7 +65,7 @@ int				redir_fd_great(t_token *redir, t_token *prev, int mode)
 		new_fd = change_token_close(next);
 	else
 		new_fd = ft_atoi(next->content);
-	if (new_fd != -1 && fstat(new_fd, &buf) == -1)
+	if (new_fd > 9 || (new_fd != -1 && fstat(new_fd, &buf) == -1))
 		return (errors_fd_great(NULL, 2, new_fd));
 	redirect(new_fd, old_fd, mode);
 	redir->type = tk_eat;

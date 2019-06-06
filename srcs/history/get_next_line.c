@@ -19,19 +19,33 @@ static char		*ft_strjoinfree(char **s1, char *s2)
 	return (s3);
 }
 
+static int		check_content_value(char **content)
+{
+	if (!*content)
+		return (1);
+	if (**content == 0)
+	{
+		ft_strdel(content);
+		return (1);
+	}
+	return (0);
+}
+
+static void		dup_line(char **line, char **content)
+{
+	if (!(*line = ft_strdup(*content)))
+		ERROR_MEM;
+	**content = 0;
+}
+
 static int		return_val(char **line, char **content)
 {
 	char			*next_nl;
 	char			*tmp;
 
 	tmp = NULL;
-	if (!*content)
+	if (check_content_value(content))
 		return (0);
-	if (**content == 0)
-	{
-		ft_strdel(content);
-		return (0);
-	}
 	next_nl = ft_strchr(*content, '\n');
 	if (next_nl != NULL)
 	{
@@ -46,9 +60,7 @@ static int		return_val(char **line, char **content)
 	}
 	if (ft_strlen(*content) > 0)
 	{
-		if (!(*line = ft_strdup(*content)))
-			ERROR_MEM;
-		**content = 0;
+		dup_line(line, content);
 		return (1);
 	}
 	return (0);

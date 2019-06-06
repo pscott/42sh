@@ -90,6 +90,11 @@ int			lexer(char *cmdline, t_token **token_head, t_vars *vars)
 	{
 		if (!(current_token = get_token(&cmdline, op_chart)))
 			return (lex_cont_read);
+		if (!prev_token && current_token->type == tk_eat)
+		{
+			free_token_list(current_token);
+			continue ;
+		}
 		if (!(add_token_to_list(current_token, prev_token, token_head, vars)))
 			return (lex_fail);
 		if (current_token->type != tk_eat)

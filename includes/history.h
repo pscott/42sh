@@ -37,7 +37,7 @@ t_hist_lst				*get_end_lst(t_hist_lst *hist_lst);
 t_hist_lst				*get_begin_lst(t_hist_lst *hist_lst);
 
 /*
-**	Getting previous history and next history and dislpaying it on screen
+**	Getting previous history and next history and displaying it on screen
 */
 
 void					get_previous_history(t_st_cmd *st_cmd);
@@ -48,7 +48,8 @@ void					adjust_history(t_st_cmd *st_cmd, const char *line,
 void					free_hist_lst(t_hist_lst *hist_lst);
 
 void					switch_st_cmd(t_st_cmd *st_cmd, char *newcmd);
-int						switch_and_return(char buf, t_st_cmd *st_cmd);
+int						switch_and_return(t_st_cmd *st_cmd, char buf, char escape[BUF_SIZE + 1]);
+int						print_prompt_search_history(t_st_cmd *st_cmd);
 
 /*
 **	Reverse Search History functions

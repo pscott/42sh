@@ -51,7 +51,6 @@ char				*auto_completion_x_arg(const char *input,
 	t_auto_comp		*match;
 
 	initialize_str(&to_find, &path, &r_str, &tmp);
-	
 	match = NULL;
 	if (input && input[0] == '~' && (!input[1] || input[1] != '/'))
 		return (r_str = users_passwd(input));

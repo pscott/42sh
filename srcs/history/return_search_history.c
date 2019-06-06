@@ -66,3 +66,15 @@ int			switch_and_return(char buf, t_st_cmd *st_cmd)
 	free(newcmd);
 	return (get_good_case_to_ret(buf, st_cmd));
 }
+
+int			handle_quitting_chars_and_bcksp(char buf, char **stock)
+{
+	if (buf == '\x7f' && (*stock)[0])
+		(*stock)[ft_strlen(*stock) - 1] = '\0';
+	else if (buf != '\x7f')
+	{
+		ft_strdel(stock);
+		return (1);
+	}
+	return (0);
+}

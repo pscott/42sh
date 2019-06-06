@@ -55,7 +55,7 @@ static int		search_in_previous_entries(t_st_cmd **st_cmd, char *to_find)
 **	Returns 0 if to_find is not found
 */
 
-int				search_reverse_in_histo(t_st_cmd **st_cmd,
+static int		search_reverse_in_histo(t_st_cmd **st_cmd,
 	char *to_find, int tracker, char buf)
 {
 	int			ret;
@@ -83,29 +83,17 @@ int				search_reverse_in_histo(t_st_cmd **st_cmd,
 	return (ret);
 }
 
-static int		handle_quitting_chars_and_bcksp(char buf, char **stock)
+static void		search_and_get_good_type(t_st_cmd **st_cmd,
+	char *stock, char buf, int *prompt_type)
 {
-	if (buf == '\x7f' && (*stock)[0])
-		(*stock)[ft_strlen(*stock) - 1] = '\0';
-	else if (buf != '\x7f')
-	{
-		ft_strdel(stock);
-		return (1);
-	}
-	return (0);
-}
+	int			type_save;
 
-static int		check_exit_and_realloc(size_t *malloc_size,
-		char buf, char escape[BUF_SIZE + 1], char **stock)
-{
-	if (buf != 18 && (ft_strlen(escape) > 1 || is_quit_char(buf)))
-	{
-		if (handle_quitting_chars_and_bcksp(buf, stock))
-			return (1);
-	}
-	else if (buf != 18)
-		realloc_stock(stock, buf, malloc_size);
-	return (0);
+	type_save = *prompt_type;
+	if (buf == '\x7f' && !stock[0])
+		*prompt_type = 1;
+	else if ((*prompt_type = search_reverse_in_histo(st_cmd, stock,
+				(int)((*st_cmd)->st_txt->tracker), buf)) == -1)
+		*prompt_type = type_save;
 }
 
 /*
@@ -120,7 +108,6 @@ int				handle_reverse_search_history(t_st_cmd *st_cmd,
 	char		*stock;
 	char		buf;
 	int			ret;
-	int			type_save;
 	char		escape[BUF_SIZE + 1];
 
 	init_vars_rsh_and_prompt(st_cmd, &malloc_size, &prompt_type, &stock);
@@ -133,12 +120,7 @@ int				handle_reverse_search_history(t_st_cmd *st_cmd,
 		buf = escape[0];
 		if (check_exit_and_realloc(&malloc_size, buf, escape, &stock))
 			return (switch_and_return(buf, st_cmd));
-		type_save = prompt_type;
-		if (buf == '\x7f' && !stock[0])
-			prompt_type = 1;
-		else if ((prompt_type = search_reverse_in_histo(&st_cmd, stock,
-					(int)(st_cmd->st_txt->tracker), buf)) == -1)
-			prompt_type = type_save;
+		search_and_get_good_type(&st_cmd, stock, buf, &prompt_type);
 		print_prompt_search_histo(st_cmd, stock, prompt_type);
 		ft_bzero(escape, sizeof(escape));
 	}

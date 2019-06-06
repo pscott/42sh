@@ -55,3 +55,16 @@ int		is_quit_char(char buf)
 		return (1);
 	return (0);
 }
+
+int		check_exit_and_realloc(size_t *malloc_size,
+	char buf, char escape[BUF_SIZE + 1], char **stock)
+{
+	if (buf != 18 && (ft_strlen(escape) > 1 || is_quit_char(buf)))
+	{
+		if (handle_quitting_chars_and_bcksp(buf, stock))
+			return (1);
+	}
+	else if (buf != 18)
+		realloc_stock(stock, buf, malloc_size);
+	return (0);
+}

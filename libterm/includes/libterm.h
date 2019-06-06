@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/04 18:30:10 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/06 16:52:09 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,18 @@
 # define CTRL_C_LEN 1
 # define CTRL_R "\x12"
 # define CTRL_R_LEN 1
+
+# define ALT_X "-30 -119 -120"
+# define ALT_X_LEN
+# define ALT_C "-61 -89"
+# define ALT_C_LEN
+# define ALT_V "-30 -120 -108"
+# define ALT_V_LEN
+
+# define ALT_UP "\x1b\x1b\x5b\x41"
+# define ALT_UP_LEN 4
+# define ALT_DOWN "\x1b\x1b\x5b\x42"
+# define ALT_DOWN_LEN 4
 
 /*
 ** Previous terminal settings are saved in a global, and restored on exit.

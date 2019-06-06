@@ -9,13 +9,13 @@ static int	print_errors_setenv(int err)
 {
 	if (err == 2)
 	{
-		ft_dprintf(STDERR_FILENO, "setenv: Variable name must begin");
-		ft_dprintf(STDERR_FILENO, " with a letter\n");
+		ft_dprintf(STDERR_FILENO,
+			"setenv: Variable name must begin with a letter\n");
 	}
 	if (err == 3)
 	{
-		ft_dprintf(STDERR_FILENO, "setenv: Variable name must contain");
-		ft_dprintf(STDERR_FILENO, " alphanumeric characters\n");
+		ft_dprintf(STDERR_FILENO,
+			"setenv: Variable name must contain alphanumeric characters\n");
 	}
 	return (1);
 }

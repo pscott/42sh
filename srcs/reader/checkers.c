@@ -43,7 +43,8 @@ static int	check_for_arrows_delete_tab_words(t_st_cmd *st_cmd,
 {
 	if (check_for_arrows(st_cmd, buf) || check_for_delete(st_cmd, buf)
 		|| check_for_words(st_cmd, buf)
-		|| check_for_tab(st_cmd, buf, vars, mode))
+		|| check_for_tab(st_cmd, buf, vars, mode)
+		|| check_for_copy_paste(st_cmd, buf, vars))
 		return (1);
 	return (0);
 }

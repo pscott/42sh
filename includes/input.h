@@ -77,6 +77,8 @@ int						check_for_quit(t_st_cmd *st_cmd, const char *buf);
 int						check_for_enter(const char *buf);
 int						check_for_signal(const char *buf);
 int						check_for_delete(t_st_cmd *st_cmd, char *buf);
+int						check_for_copy_paste(t_st_cmd *st_cmd, char *buf,
+		t_vars *vars);
 int						check_for_search_histo(t_st_cmd *st_cmd,
 		const char *buf_received);
 int						check_for_tab(t_st_cmd *st_cmd, const char *buf,

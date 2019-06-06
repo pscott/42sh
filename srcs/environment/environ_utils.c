@@ -56,6 +56,8 @@ char	*get_envline_value(char *search, char **env)
 	int		i;
 	int		offset;
 
+	if (!search)
+		return (NULL);
 	i = -1;
 	while (env[++i])
 	{
@@ -76,6 +78,8 @@ char	*get_envline(char *search, char **env)
 	int		i;
 
 	i = -1;
+	if (!search)
+		return (NULL);
 	while (env[++i])
 	{
 		if (ft_strcmp_before_c(search, env[i], '='))

@@ -110,7 +110,7 @@ int				execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
 	int						ret;
 	char					*cmd_path;
 
-	if (!(argv = fake_argv(token_head, vars)))
+	if (!(argv = fake_argv(token_head, vars)) || !argv[0])
 		return (-1);
 	if (ft_strchr(argv[0], '/'))
 		ret = -1;

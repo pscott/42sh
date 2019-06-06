@@ -93,10 +93,7 @@ static  int			setenv_arguments(char **argv, char ***new_env,
 		}
 		after = ft_strchr(argv[i], '=') + 1;
 		if (!(before = ft_strndup(argv[i], after - argv[i] - 1)))
-		{
-			ft_dprintf(2, "DSADSDASDSDS\n\n");
 			ERROR_MEM;
-		}
 		set_env_var(before, after, new_env);
 		ft_strdel(&before);
 		i++;

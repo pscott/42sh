@@ -50,7 +50,7 @@ static int			execute_argv(char **argv, t_vars *vars)
 	t_cmd_id		cmd_id;
 	char			*cmd_path;
 
-	if (!argv)
+	if (!argv || !argv[0])
 		return (1);
 	else if (ft_strchr(argv[0], '/'))
 		cmd_path = ft_strdup(argv[0]);

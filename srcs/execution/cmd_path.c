@@ -29,7 +29,7 @@ int					check_access(const char *file)
 **	NULL.
 */
 
-char				*find_path(char *file, char **paths)
+char				*find_path(const char *file, char **paths)
 {
 	unsigned int	i;
 	char			*possible_path;
@@ -68,22 +68,23 @@ static void			print_error_message(int access, const char *str)
 }
 
 /*
-**	Returns a freshly allocated string containing the path corresponding
-**	to the string parameter. If no path is found in the PATH variable, or the
-**	file is not accessible, or not executable, returns NULL.
-**	Verbose parameter prints error messages.
+**	Utility function to get the path
 */
 
-char				*get_cmd_path(char *str, char **env, int verbose)
+static char			*get_full_path(const char *str, char **env)
 {
-	char			**paths;
-	char			*path_line;
-	char			*path;
-	int				access;
+	char	*path;
+	char	*path_line;
+	char	**paths;
 
-	ft_initialize_str(&path_line, &path, NULL, NULL);
+	path = NULL;
 	paths = NULL;
-	if (!ft_strchr(str, '/') && !(path_line = get_envline_value("PATH", env)))
+	if (ft_strchr(str, '/'))
+	{
+		if (!(path = ft_strdup(str)))
+			ERROR_MEM;
+	}
+	else if (!(path_line = get_envline_value("PATH", env)))
 	{
 		if (!(path = ft_strdup(str)))
 			ERROR_MEM;
@@ -93,6 +94,22 @@ char				*get_cmd_path(char *str, char **env, int verbose)
 	if (!path && !(path = find_path(str, paths)))
 		;
 	ft_free_ntab(paths);
+	return (path);
+}
+
+/*
+**	Returns a freshly allocated string containing the path corresponding
+**	to the string parameter. If no path is found in the PATH variable, or the
+**	file is not accessible, or not executable, returns NULL.
+**	Verbose parameter prints error messages.
+*/
+
+char				*get_cmd_path(const char *str, char **env, int verbose)
+{
+	char			*path;
+	int				access;
+
+	path = get_full_path(str, env);
 	access = check_access(path);
 	if (access == 0)
 		return (path);

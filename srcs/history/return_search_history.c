@@ -54,7 +54,7 @@ int			switch_and_return(char buf, t_st_cmd *st_cmd)
 	else
 		newcmd = ft_strdup(st_cmd->st_txt->txt);
 	if (!newcmd)
-		ERROR_MEM;
+		clean_exit(1, 1);
 	vars = get_vars(NULL);
 	move_cursor(st_cmd->start_pos.col, st_cmd->start_pos.row);
 	ft_printf("%s%s%s", vars->cmd_value ? RED : GREEN,

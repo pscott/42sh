@@ -52,7 +52,7 @@ static	int			change_vars_value(char ***vars, t_op *lst, long long var)
 	char	*ptr;
 
 	if (!(ptr = ft_lltoa(var)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	set_env_var(lst->varname, ptr, vars);
 	free(ptr);
 	return (0);

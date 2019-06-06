@@ -6,7 +6,7 @@ static int				get_needed_values_to_create_match_link
 	char			*filename;
 
 	if (!(filename = ft_strjoin(directory, ent->d_name)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	if (access(filename, X_OK) == 0)
 	{
 		if (ent->d_type && ent->d_type == DT_DIR)
@@ -14,7 +14,7 @@ static int				get_needed_values_to_create_match_link
 		else
 			*tmp = ft_strdup(ent->d_name);
 		if (!(*tmp))
-			ERROR_MEM;
+			clean_exit(1, 1);
 		ft_strdel(&filename);
 		return (0);
 	}
@@ -54,10 +54,10 @@ static int				get_path_and_to_find_local
 	if ((*to_find = ft_strrchr(str, '/') + 1))
 	{
 		if (!(*path = ft_strndup(str, ft_strlen(str) - ft_strlen(*to_find))))
-			ERROR_MEM;
+			clean_exit(1, 1);
 	}
 	else if (!(*path = ft_strdup(str)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	return (0);
 }
 
@@ -73,7 +73,7 @@ char					*search_dirs_and_exe(const char *str)
 	match = NULL;
 	get_path_and_to_find_local(&to_find, &path, str);
 	if (find_matching_dirs_and_exe_even_hidden(path, &match, to_find))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	if (match)
 	{
 		while (match->prev)
@@ -81,7 +81,7 @@ char					*search_dirs_and_exe(const char *str)
 		ret_tmp = get_ret_or_display_matches(match, to_find,
 				ft_strlen(to_find));
 		if (!(ret_str = ft_strjoin(path, ret_tmp)))
-			ERROR_MEM;
+			clean_exit(1, 1);
 		ft_strdel(&ret_tmp);
 	}
 	ft_strdel(&path);

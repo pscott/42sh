@@ -93,7 +93,7 @@ static int			setenv_arguments(char **argv, char ***new_env,
 		}
 		after = ft_strchr(argv[i], '=') + 1;
 		if (!(before = ft_strndup(argv[i], after - argv[i] - 1)))
-			ERROR_MEM;
+			clean_exit(1, 1);
 		set_env_var(before, after, new_env);
 		ft_strdel(&before);
 		i++;
@@ -121,7 +121,7 @@ int					case_env(char **argv, char ***env)
 	{
 		i++;
 		if (!(new_env = ft_dup_ntab((const char **)(*env))))
-			ERROR_MEM;
+			clean_exit(1, 1);
 	}
 	if ((i = setenv_arguments(argv, &new_env, i)) >= 0)
 		ret = copy_env_and_execute(argv, new_env, i);

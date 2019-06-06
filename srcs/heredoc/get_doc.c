@@ -29,7 +29,7 @@ static t_st_cmd	*init_get_doc(char **txt, t_vars *vars)
 	st_cmd = init_st_cmd((const char **)vars->env_vars);
 	ft_strdel(&st_cmd->st_txt->txt);
 	if (!(st_cmd->st_txt->txt = ft_strdup("\n")))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	st_cmd = append_st_cmd(st_cmd, "", "heredoc> ");
 	*txt = NULL;
 	return (st_cmd);
@@ -43,7 +43,7 @@ static char		*get_heredoc_txt(t_st_cmd **st_cmd, char *txt, char *eof)
 	free_all_st_cmds(st_cmd);
 	len = ft_strlen(txt) - ft_strlen(eof) - 2;
 	if (!(trimed_txt = ft_strndup(&txt[1], len)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	ft_strdel(&txt);
 	ft_strdel(&eof);
 	return (trimed_txt);

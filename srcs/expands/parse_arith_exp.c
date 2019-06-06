@@ -24,7 +24,7 @@ static char		*lltoa_and_free(long long nb, char **to_free)
 	ft_strdel(to_free);
 	len = get_ll_len(nb);
 	if (!(str = ft_strnew(len)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	if (nb == 0)
 	{
 		str[0] = '0';
@@ -48,7 +48,7 @@ static char		*dup_for_arith_exp(char *str, size_t i, size_t index)
 	char	*new_str;
 
 	if (!(new_str = ft_strndup(str + index + 3, i - (index + 3))))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	return (new_str);
 }
 

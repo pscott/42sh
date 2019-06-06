@@ -37,7 +37,7 @@ char				*get_dirs_first_arg(const char *directory, const char *str,
 	match = NULL;
 	ret_str = NULL;
 	if (!(to_find = ft_strdup(str)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	find_matching_dirs(directory, &match, to_find);
 	if (match)
 		ret_str = get_ret_or_display_matches(match, to_find, len);

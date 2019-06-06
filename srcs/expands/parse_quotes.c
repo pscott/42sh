@@ -16,7 +16,7 @@ static int		expand_squotes(t_token *token_head)
 		if (!(token_head->content =
 				ft_strndup((const char*)&(*(token_head->content + 1)),
 					ft_strlen(token_head->content) - 2)))
-			ERROR_MEM;
+			clean_exit(1, 1);
 		ft_strdel(&old_content);
 		return (1);
 	}
@@ -58,7 +58,7 @@ static int		expand_dquotes(t_token *token_head)
 	old_len = ft_strlen(token_head->content);
 	new_len = get_new_len(token_head->content, old_len);
 	if (!(new_str = ft_strnew(new_len)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	i = 1;
 	j = 0;
 	while (i < new_len + 1)

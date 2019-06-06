@@ -130,7 +130,7 @@ char		*get_ret_or_display_matches(t_auto_comp *match,
 			is_empty_last_c = 1;
 		if (!(ret_str = ft_strndup(match->name, len + diff_len
 						- is_empty_last_c)))
-			ERROR_MEM;
+			clean_exit(1, 1);
 	}
 	else
 	{

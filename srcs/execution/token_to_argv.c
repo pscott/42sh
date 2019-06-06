@@ -13,12 +13,12 @@ static void			apply_ifs(const char *string, char **argv, int *i)
 	int				j;
 
 	if (!(words = ft_strsplit(string, IFS)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	j = 0;
 	while (words[j])
 	{
 		if (!(argv[*i] = ft_strjoin_free_left(argv[*i], words[j])))
-			ERROR_MEM;
+			clean_exit(1, 1);
 		j++;
 		(*i)++;
 	}
@@ -44,7 +44,7 @@ static t_token		*fill_argv(t_token *token, char **argv, int *i)
 		else
 		{
 			if (!(argv[*i] = ft_strjoin_free_left(argv[*i], token->content)))
-				ERROR_MEM;
+				clean_exit(1, 1);
 		}
 		incremented = 1;
 		token = token->next;
@@ -64,7 +64,7 @@ static char			**create_argv(t_token *token_head, int argv_len)
 	int				i;
 
 	if (!(argv = (char**)malloc(sizeof(*argv) * (argv_len + 1))))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	ft_bzero(argv, sizeof(*argv) * (argv_len + 1));
 	i = 0;
 	while (i < argv_len)
@@ -94,7 +94,7 @@ static int			token_length(t_token **probe)
 		if ((*probe)->type == tk_word)
 		{
 			if (!(words = ft_strsplit((*probe)->content, IFS)))
-				ERROR_MEM;
+				clean_exit(1, 1);
 			words_len = ft_ntab_len((const char**)words);
 			words_len = words_len ? words_len : 1;
 			ft_free_ntab(words);

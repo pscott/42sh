@@ -20,7 +20,7 @@ void	switch_st_cmd(t_st_cmd *st_cmd, char *newcmd)
 			len--;
 	}
 	if (!(trunc_newcmd = ft_strndup(newcmd, len)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	st_txt = st_cmd->st_txt;
 	go_to_start(st_cmd);
 	reposition_cursor(st_cmd);
@@ -50,7 +50,7 @@ void	get_previous_history(t_st_cmd *st_cmd)
 	{
 		free(st_cmd->hist_lst->cpy);
 		if (!(st_cmd->hist_lst->cpy = ft_strdup(st_cmd->st_txt->txt)))
-			ERROR_MEM;
+			clean_exit(1, 1);
 		st_cmd->hist_lst = st_cmd->hist_lst->prev;
 		switch_st_cmd(st_cmd, st_cmd->hist_lst->cpy);
 	}
@@ -71,7 +71,7 @@ void	get_next_history(t_st_cmd *st_cmd)
 	{
 		free(st_cmd->hist_lst->cpy);
 		if (!(st_cmd->hist_lst->cpy = ft_strdup(st_cmd->st_txt->txt)))
-			ERROR_MEM;
+			clean_exit(1, 1);
 		st_cmd->hist_lst = st_cmd->hist_lst->next;
 		switch_st_cmd(st_cmd, st_cmd->hist_lst->cpy);
 	}

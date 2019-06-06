@@ -21,9 +21,9 @@ int				get_needed_values
 	*str = NULL;
 	*to_find_full = NULL;
 	if (!(*str = ft_strndup(input, len)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	if (!(*to_find_full = ft_strndup(input, len)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	if (len > 0 && ft_is_white_space((*to_find_full)[len - 1]))
 		start_actual_word--;
 	while (start_actual_word > 0
@@ -46,7 +46,7 @@ int				get_path(char ***path, t_vars *vars)
 		return (0);
 	}
 	if (!(*path = ft_strsplit(tmpath, ":")))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	return (0);
 }
 

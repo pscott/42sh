@@ -20,7 +20,7 @@ static int			find_all_except_dots(const char *directory,
 			else
 				tmp = ft_strjoin(ent->d_name, " ");
 			if (!tmp)
-				ERROR_MEM;
+				clean_exit(1, 1);
 			create_match_link(match, tmp);
 			ft_strdel(&tmp);
 		}
@@ -36,7 +36,7 @@ void				get_good_ret_str(char **ret_str, char *tmp)
 
 	tmp2 = NULL;
 	if (!(tmp2 = ft_strjoin(tmp, *ret_str)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	ft_strdel(ret_str);
 	*ret_str = tmp2;
 }
@@ -65,7 +65,7 @@ char				*auto_completion_x_arg(const char *input,
 	if (match)
 		r_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
 	else if (!(r_str = ft_strdup(to_find)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	get_good_ret_str(&r_str, tmp);
 	free_four_strings(&tmp, NULL, &path, &to_find);
 	return (r_str);

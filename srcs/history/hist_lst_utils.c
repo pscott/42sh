@@ -6,11 +6,11 @@ t_hist_lst	*create_hist_lst(const char *line, char keep)
 	t_hist_lst	*res;
 
 	if (!(res = (t_hist_lst*)malloc(sizeof(*res))))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	if (!(res->txt = ft_strdup(line)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	if (!(res->cpy = ft_strdup(line)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	res->keep = keep;
 	res->prev = NULL;
 	res->next = NULL;

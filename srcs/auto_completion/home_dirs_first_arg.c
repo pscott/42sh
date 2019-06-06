@@ -39,9 +39,9 @@ static char			*search_dirs_home_first_arg(const char *directory,
 	match = NULL;
 	ret_str = NULL;
 	if (!(to_find = ft_strdup(str)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	if (find_matching_home_dirs(directory, &match, to_find))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	if (match)
 		ret_str = get_ret_or_display_matches(match, to_find,
 				ft_strlen(to_find));
@@ -63,12 +63,12 @@ char				*home_directory_first_arg(const char *to_find)
 	if (to_find && to_find[0] && ft_strchr(to_find, '/'))
 		if (!(tmp2 = ft_strndup(to_find, ft_strlen(to_find)
 				- ft_strlen(ft_strrchr(to_find, '/') + 1))))
-			ERROR_MEM;
+			clean_exit(1, 1);
 	get_path_file_and_to_find(to_find, &path, &tmp);
 	ret_str = search_dirs_home_first_arg(path, tmp);
 	ft_strdel(&tmp);
 	if (!(tmp = ft_strjoin(tmp2, ret_str)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	ft_strdel(&path);
 	ft_strdel(&ret_str);
 	ft_strdel(&tmp2);

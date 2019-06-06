@@ -34,7 +34,7 @@ int		init_vars_rsh_and_prompt(t_st_cmd *st_cmd,
 	*malloc_size = 256;
 	*prompt_type = 0;
 	if (!(*stock = ft_strnew(*malloc_size + 1)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	print_prompt_search_histo(st_cmd, *stock, *prompt_type);
 	return (0);
 }

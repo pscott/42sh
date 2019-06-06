@@ -70,7 +70,7 @@ t_token	*create_token(char *cmdline, size_t size, t_token_type type)
 
 	if (!(new_token = (t_token*)malloc(sizeof(t_token))))
 	{
-		ERROR_MEM;
+		clean_exit(1, 1);
 		return (NULL);
 	}
 	new_token->size = size;
@@ -79,7 +79,7 @@ t_token	*create_token(char *cmdline, size_t size, t_token_type type)
 	if (!(new_token->content = ft_strndup(cmdline, size)))
 	{
 		ft_memdel((void*)&new_token);
-		ERROR_MEM;
+		clean_exit(1, 1);
 		return (NULL);
 	}
 	return (new_token);

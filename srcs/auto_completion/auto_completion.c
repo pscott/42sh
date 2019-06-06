@@ -39,7 +39,7 @@ char				*handle_first_arg_dot_tilde(int type, const char *to_find)
 	{
 		if ((!ft_strcmp(to_find, ".") || !ft_strcmp(to_find, ".."))
 			&& !(ret = ft_strjoin(to_find, "/")))
-			ERROR_MEM;
+			clean_exit(1, 1);
 	}
 	else if (type == 6)
 		ret = home_directory_first_arg(to_find);
@@ -59,7 +59,7 @@ static char			*handle_first_bin(t_vars *vars, const char *to_find,
 		if (!ft_strncmp(to_find, ".", 2) || !ft_strncmp(to_find, "..", 3))
 		{
 			if (!(ret = ft_strjoin(to_find, "/")))
-				ERROR_MEM;
+				clean_exit(1, 1);
 		}
 		else if (!ft_strchr(to_find, '/'))
 			ret = get_dirs_first_arg(".", to_find, ft_strlen(to_find));

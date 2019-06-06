@@ -18,7 +18,7 @@ char	*get_directory(const char *env_key, const char **env)
 		return (NULL);
 	}
 	if (!(dest = ft_strdup(dest)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	return (dest);
 }
 
@@ -30,7 +30,7 @@ char	*get_cwd_value(const char **env)
 	if ((cwd = get_envline_value("PWD", (char**)env)))
 	{
 		if (!(cwd = ft_strdup(cwd)))
-			ERROR_MEM;
+			clean_exit(1, 1);
 	}
 	else if (!(cwd = getcwd(NULL, 0)))
 	{
@@ -53,11 +53,11 @@ char	*relative_directory(const char *path, const char **env)
 	else
 	{
 		if (!(tmp = ft_strjoin(cwd, "/")))
-			ERROR_MEM;
+			clean_exit(1, 1);
 		ft_strdel(&cwd);
 	}
 	if (!(dest = ft_strjoin(tmp, path)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	ft_strdel(&tmp);
 	return (dest);
 }

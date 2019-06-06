@@ -13,7 +13,7 @@ t_ast	*create_ast_node(t_token *new_token, t_ast *left, t_ast *right)
 	t_ast	*new_node;
 
 	if (!(new_node = (t_ast*)malloc(sizeof(*new_node))))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	new_node->token = new_token;
 	new_node->left = left;
 	new_node->right = right;

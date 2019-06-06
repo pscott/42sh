@@ -68,7 +68,7 @@ t_token			*check_param_sub_token(char **cmdline)
 		return (NULL);
 	i++;
 	if (!(token = create_token(*cmdline, i, tk_word)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	*cmdline = *cmdline + i;
 	return (token);
 }

@@ -33,7 +33,7 @@ static	int		change_token_close(t_token *next)
 	char	*new;
 
 	if (!(new = ft_strdup(next->content + 1)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	next->content = new;
 	if (is_full_of_whitespaces(next->content))
 		next->type = tk_eat;

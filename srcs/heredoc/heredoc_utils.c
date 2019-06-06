@@ -8,7 +8,7 @@ static char	*remove_quot(char *str)
 
 	str_len = ft_strlen(str);
 	if (!(new = ft_strnew(str_len - 2)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	ft_strncpy(new, &str[1], str_len - 2);
 	return (new);
 }
@@ -18,7 +18,7 @@ static char	*strjoin_free(char *str_join, char *str_add)
 	char	*tmp_str;
 
 	if (!(tmp_str = ft_strjoin(str_join, str_add)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	ft_strdel(&str_join);
 	return (tmp_str);
 }
@@ -32,14 +32,14 @@ static char	*eof_init(t_token *token)
 	if (token->type == tk_word || token->type == tk_monoc)
 	{
 		if (!(eof = ft_strdup(token->content)))
-			ERROR_MEM;
+			clean_exit(1, 1);
 	}
 	else if (token->type == tk_sq_str || token->type == tk_dq_str)
 	{
 		if (!(tmp_str = remove_quot(token->content)))
-			ERROR_MEM;
+			clean_exit(1, 1);
 		if (!(eof = ft_strdup(tmp_str)))
-			ERROR_MEM;
+			clean_exit(1, 1);
 		ft_strdel(&tmp_str);
 	}
 	return (eof);
@@ -64,7 +64,7 @@ char		*eof_join(char *eof, t_token *token)
 		else if (token->type == tk_sq_str || token->type == tk_dq_str)
 		{
 			if (!(tmp_str = remove_quot(token->content)))
-				ERROR_MEM;
+				clean_exit(1, 1);
 			eof = strjoin_free(eof, tmp_str);
 			ft_strdel(&tmp_str);
 		}

@@ -17,7 +17,7 @@ void	set_shlvl(char ***env)
 		shlvl = ft_atoi(value);
 		shlvl = shlvl <= 0 ? 1 : shlvl + 1;
 		if (!(tmp = ft_itoa(shlvl)))
-			ERROR_MEM;
+			clean_exit(1, 1);
 		set_env_var("SHLVL", tmp, env);
 		ft_memdel((void*)&tmp);
 	}

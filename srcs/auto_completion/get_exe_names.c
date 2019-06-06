@@ -8,10 +8,10 @@ static int			get_filename(const char *next, const char *to_find,
 			|| ft_is_white_space(next[ft_strlen(to_find)]))
 	{
 		if (!(*filename = ft_strjoin(ent->d_name, " ")))
-			ERROR_MEM;
+			clean_exit(1, 1);
 	}
 	else if (!(*filename = ft_strdup(ent->d_name)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	return (0);
 }
 
@@ -63,7 +63,7 @@ char				*rm_spaces_path(const char *str)
 	if (!str)
 		return (NULL);
 	if (!(ret = ft_strnew(ft_strlen(str))))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	while (str[i])
 	{
 		if (str[i] == '\\' && str[i + 1] != '\\')

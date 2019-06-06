@@ -20,7 +20,7 @@ static int			get_all(const char *directory,
 			else
 				tmp = ft_strjoin(ent->d_name, " ");
 			if (!tmp)
-				ERROR_MEM;
+				clean_exit(1, 1);
 			create_match_link(match, tmp);
 			ft_strdel(&tmp);
 		}
@@ -53,7 +53,7 @@ static char			*get_match_and_display_hdoc(const char *input,
 	if (match)
 		r_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
 	else if (!(r_str = ft_strdup(to_find)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	get_good_ret_str(&r_str, tmp);
 	free_four_strings(&tmp, NULL, &path, &to_find);
 	return (r_str);

@@ -90,7 +90,7 @@ int			case_cd(char **argv, char ***env)
 	else if (argv[1][0] == '/')
 	{
 		if (!(dest = ft_strdup(argv[1])))
-			ERROR_MEM;
+			clean_exit(1, 1);
 	}
 	else
 		dest = relative_directory(argv[1], (const char**)*env);

@@ -14,7 +14,7 @@ char	*concatenate_txt(t_st_cmd *st_cmd)
 	{
 		tmp = input;
 		if (!(input = ft_strjoin(input, st_cmd->st_txt->txt)))
-			ERROR_MEM;
+			clean_exit(1, 1);
 		ft_strdel(&tmp);
 		st_cmd = st_cmd->next;
 	}

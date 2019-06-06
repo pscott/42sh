@@ -36,7 +36,7 @@ void			unset_env_var(char *var_name, char ***env)
 		return ;
 	env_len = ft_ntab_len((const char **)*env);
 	if (!(new_env = (char**)malloc(sizeof(char**) * (env_len - 1 + 1))))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	delete_env_index(todel, *env, &new_env);
 	free(*env);
 	*env = new_env;

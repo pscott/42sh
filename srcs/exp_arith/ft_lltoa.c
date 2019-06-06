@@ -28,7 +28,7 @@ char			*ft_lltoa(long long n)
 	if (n < 0)
 		i++;
 	if (!(s = (char *)malloc(sizeof(char) * (i + 1))))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	s[i--] = '\0';
 	n = n * sign;
 	while (i >= 0)

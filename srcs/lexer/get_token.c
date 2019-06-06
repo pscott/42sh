@@ -25,7 +25,7 @@ static t_token	*get_dquot_token(char **cmdline)
 	if ((*cmdline)[i] == 0)
 		return (NULL);
 	if (!(token = create_token(*cmdline, ++i, tk_dq_str)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	*cmdline = *cmdline + i;
 	return (token);
 }
@@ -41,7 +41,7 @@ static t_token	*get_squot_token(char **cmdline)
 	if ((*cmdline)[i] == 0)
 		return (NULL);
 	if (!(token = create_token(*cmdline, ++i, tk_sq_str)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	*cmdline = *cmdline + i;
 	return (token);
 }
@@ -59,7 +59,7 @@ static t_token	*get_regular_token(char **cmdline)
 		i++;
 	}
 	if (!(token = create_token(*cmdline, i, tk_word)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	*cmdline = *cmdline + i;
 	return (token);
 }

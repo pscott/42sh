@@ -50,9 +50,9 @@ void	insert_str(t_st_cmd *st_cmd, const char *buf,
 
 	st_txt = st_cmd->st_txt;
 	if (!(printable_buf = ft_strdup_print(buf)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	if (!(end_line = ft_strdup(&st_txt->txt[st_txt->tracker])))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	ft_strcpy(&st_txt->txt[st_txt->tracker + print_len], end_line);
 	ft_strdel(&end_line);
 	ft_strncpy(&st_txt->txt[st_txt->tracker], printable_buf, print_len);

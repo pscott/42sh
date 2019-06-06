@@ -38,7 +38,7 @@ static t_token			*replace_heredoc_tokens(t_token *probe,
 {
 	ft_strdel(&probe->content);
 	if (!(probe->content = ft_strdup("<")))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	probe->type = tk_redirection;
 	probe = probe->next;
 	while (probe->type == tk_eat)
@@ -46,7 +46,7 @@ static t_token			*replace_heredoc_tokens(t_token *probe,
 	probe->type = tk_word;
 	ft_strdel(&probe->content);
 	if (!(probe->content = ft_strdup(path)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	probe = probe->next;
 	while (probe && probe->type >= tk_word && probe->type < tk_redirection)
 	{

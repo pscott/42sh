@@ -36,7 +36,7 @@ unsigned int		get_max_len(t_auto_comp *match)
 			ft_strdel(&save_max);
 			max = ft_strlen(tmp->name);
 			if (!(save_max = ft_strdup(tmp->name)))
-				ERROR_MEM;
+				clean_exit(1, 1);
 		}
 	}
 	if (save_max && save_max[ft_strlen(save_max) - 1] != ' ')
@@ -65,7 +65,7 @@ void				print_spaces(const char *s, unsigned int cols)
 			count++;
 	}
 	if (count > 0 && !(spaces = (char *)malloc(sizeof(char) * (count + 1))))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	spaces[count] = '\0';
 	ft_memset(spaces, ' ', count);
 	ft_putstr(spaces);

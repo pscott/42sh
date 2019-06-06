@@ -61,7 +61,7 @@ static const char	*get_param_sub_name(const char *str, t_vars *vars)
 	if (str[i] == '}')
 	{
 		if (!(var_name = ft_strndup(&str[2], i - 2)))
-			ERROR_MEM;
+			clean_exit(1, 1);
 		return (var_name);
 	}
 	return (NULL);

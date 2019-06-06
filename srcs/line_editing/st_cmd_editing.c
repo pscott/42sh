@@ -7,7 +7,7 @@ t_st_cmd		*append_st_cmd(t_st_cmd *st_cmd, const char *txt,
 	t_st_cmd	*new;
 
 	if (!(new = (t_st_cmd*)malloc(sizeof(*new))))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	new->st_txt = init_st_txt((const char*)txt);
 	new->st_prompt = init_st_prompt(prompt);
 	new->window = st_cmd->window;
@@ -26,7 +26,7 @@ t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd)
 	t_st_cmd	*left_cmd;
 
 	if (!(st_cmd = (t_st_cmd*)malloc(sizeof(*st_cmd))))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	st_cmd->st_txt = init_st_txt(NULL);
 	st_cmd->st_prompt = init_st_prompt(NULL);
 	retrieve_pos(&st_cmd->start_pos);
@@ -55,7 +55,7 @@ t_st_cmd		*init_st_cmd(const char **env)
 	t_st_cmd	*st_cmd;
 
 	if (!(st_cmd = (t_st_cmd*)malloc(sizeof(*st_cmd))))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	st_cmd->st_txt = init_st_txt(NULL);
 	st_cmd->st_prompt = init_st_prompt(NULL);
 	st_cmd->window = init_window_struct();

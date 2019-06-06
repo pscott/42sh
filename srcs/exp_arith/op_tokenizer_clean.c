@@ -7,7 +7,7 @@ int		init_toks_clean(t_tok *d, t_tok **c)
 
 	k = 0;
 	if (!(*c = (t_tok*)malloc(sizeof(t_tok) * (get_tok_len(d) + 1))))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	while (k <= get_tok_len(d))
 	{
 		(*c)[k].token = 0;

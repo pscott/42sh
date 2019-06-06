@@ -59,7 +59,7 @@ static int			execute_argv(char **argv, t_vars *vars)
 	else if ((cmd_path = check_hashmap(argv[0], vars->hashmap, hash_check)))
 	{
 		if (!(cmd_path = ft_strdup(cmd_path)))
-			ERROR_MEM;
+			clean_exit(1, 1);
 	}
 	else if ((cmd_path = get_cmd_path(argv[0], vars->env_vars, 1)))
 		;

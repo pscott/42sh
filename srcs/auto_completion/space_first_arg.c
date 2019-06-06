@@ -41,7 +41,7 @@ int					find_exe_space(char **path, t_auto_comp **match)
 int					find_all_var_and_exe(char **path, t_auto_comp **match)
 {
 	if (find_exe_space(path, match))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	return (0);
 }
 
@@ -53,9 +53,9 @@ char				*auto_completion_space(t_vars *vars)
 	path = NULL;
 	match = NULL;
 	if (get_path(&path, vars))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	if (find_all_var_and_exe(path, &match))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	if (path)
 		ft_free_ntab(path);
 	if (match)

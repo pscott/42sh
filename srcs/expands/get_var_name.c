@@ -12,6 +12,6 @@ char				*get_var_name(char *str)
 	if (i == 0)
 		return (NULL);
 	if (!(var_name = ft_strndup(str, i)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	return (var_name);
 }

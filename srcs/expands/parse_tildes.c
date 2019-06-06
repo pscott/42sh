@@ -23,7 +23,7 @@ int				replace_tilde(char **str, const char **env)
 		return (0);
 	}
 	if (!(new_str = ft_strnew(ft_strlen(home_str) + ft_strlen(*str) - 1)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	ft_strcpy(new_str, home_str);
 	ft_strcat(new_str, *str + 1);
 	ft_memdel((void*)str);
@@ -44,17 +44,17 @@ static void		insert_expansion(char *user, char **str)
 		if (is_slashed(*str))
 		{
 			if (!(expansion = ft_strdup(infos->pw_dir)))
-				ERROR_MEM;
+				clean_exit(1, 1);
 			ft_strdel(str);
 			if (!(*str = ft_strjoin_free_left(expansion,
 						*str + ft_strlen_char(*str, '/'))))
-				ERROR_MEM;
+				clean_exit(1, 1);
 		}
 		else
 		{
 			ft_strdel(str);
 			if (!(*str = ft_strdup(infos->pw_dir)))
-				ERROR_MEM;
+				clean_exit(1, 1);
 		}
 	}
 }
@@ -67,12 +67,12 @@ static char		*get_to_find_exp_tilde_user(char **str)
 	if (!ft_strchr(*str, '/'))
 	{
 		if (!(ret = ft_strdup((*str) + 1)))
-			ERROR_MEM;
+			clean_exit(1, 1);
 	}
 	else
 	{
 		if (!(ret = ft_strndup((*str) + 1, ft_strlen_char(*str, '/') - 1)))
-			ERROR_MEM;
+			clean_exit(1, 1);
 	}
 	return (ret);
 }

@@ -35,7 +35,7 @@ struct winsize	*init_window_struct(void)
 	struct winsize	*window;
 
 	if (!(window = malloc(sizeof(*window))))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	update_window_struct(window);
 	return (window);
 }

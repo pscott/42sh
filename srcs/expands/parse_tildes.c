@@ -41,8 +41,7 @@ static void		insert_expansion(char *user, char **str)
 	{
 		if (is_slashed(*str))
 		{
-			tmp_end = ft_strsub(*str, ft_strlen_char(*str, '/'),
-					ft_strlen(*str));
+			tmp_end = ft_strdup(*str + ft_strlen_char(*str, '/'));
 			if (!(expansion = ft_strdup(infos->pw_dir)))
 				ERROR_MEM;
 			ft_strdel(str);

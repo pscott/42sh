@@ -53,7 +53,7 @@ int			main(int argc, char **argv, char **env)
 
 	if (isatty(STDIN_FILENO))
 		print_introduction();
-	if (setup_terminal_settings() > 0)
+	if (setup_terminal_settings(1) > 0)
 		return (EXIT_FAILURE);
 	if (init_vars(&vars, argc, argv, env) == 1)
 		return (EXIT_FAILURE);

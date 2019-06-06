@@ -49,7 +49,7 @@ static int		exec_last_cmd(t_token *begin, int ints[2], int fd[2],
 		while ((pid = wait(&status)) > 0)
 			;
 		signals_setup();
-		setup_terminal_settings();
+		setup_terminal_settings(0);
 	}
 	return (ret);
 }

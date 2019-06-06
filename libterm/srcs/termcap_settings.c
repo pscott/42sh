@@ -6,11 +6,26 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/04 16:48:47 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/06 19:14:25 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libterm.h"
+
+static int	open_and_dup_tty(int need_dup)
+{
+	int new_tty;
+
+	if (need_dup)
+	{
+		if ((new_tty = open(ttyname(STDIN_FILENO), O_WRONLY)) < 0)
+			return (-1);
+		if ((dup2(STDIN_FILENO, new_tty) < 0))
+			return (1);
+		close(new_tty);
+	}
+	return (0);
+}
 
 int			reset_terminal_settings(void)
 {
@@ -42,7 +57,7 @@ static int	set_non_canonical_mode(struct termios *tattr)
 **	Else returns error number.
 */
 
-int			setup_terminal_settings(void)
+int			setup_terminal_settings(int need_dup)
 {
 	char			term_buffer[2048];
 	char			*termtype;
@@ -50,10 +65,8 @@ int			setup_terminal_settings(void)
 	struct termios	tattr;
 	int				new_tty;
 
-	if ((new_tty = open(ttyname(STDIN_FILENO), O_WRONLY)) < 0)
-		return (-1);
-	if ((dup2(STDIN_FILENO, new_tty) < 0))
-		return (1);
+	if ((res = open_and_dup_tty(need_dup)))
+		return (res);
 	if ((tcgetattr(STDIN_FILENO, &g_saved_attr) == -1))
 		return (err_getattr());
 	if ((termtype = getenv("TERM")) == NULL)
@@ -68,5 +81,5 @@ int			setup_terminal_settings(void)
 		return (err_caps());
 	if (set_non_canonical_mode(&tattr) == 0)
 		return (1);
-	return (close(new_tty));
+	return (0);
 }

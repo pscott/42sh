@@ -14,12 +14,12 @@ void		print_introduction(void)
 	"`End` to move the cursor to the end of the line\n"
 	"`Up arrow` to display the previous history entry\n"
 	"`Down arrow` to display the next history entry\n"
-	"`Ctrl + b` to move the cursor to the previous word\n"
-	"`Ctrl + f` to move the cursor to the next word\n"
 	"`Ctrl + r` to search a command in the history\n"
-	"`Option + up` to move one line up\n"
+	"`Option + up arrow` to move one line up\n"
+	"`Option + down arrow` to move one line down\n"
+	"`Option + left arrow` to move one word left\n"
+	"`Option + right arrow` to move one word right\n"
 	"`Option + c` to copy the current line from the cursor to the end\n"
 	"`Option + x` to cut the current line from the cursor to the end\n"
-	"`Option + v` to paste the saved line where the cursor is\n"
-	"`Option + down` to move one line down\n");
+	"`Option + v` to paste the saved line where the cursor is\n");
 }

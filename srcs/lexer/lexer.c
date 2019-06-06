@@ -32,9 +32,12 @@ static int	add_token_to_list(t_token *current_token, t_token *prev_token,
 		*token_head = current_token;
 	else
 	{
-		while (prev_token->next)
-			prev_token = prev_token->next;
-		prev_token->next = current_token;
+		if (prev_token)
+		{
+			while (prev_token->next)
+				prev_token = prev_token->next;
+			prev_token->next = current_token;
+		}
 	}
 	return (1);
 }

@@ -37,7 +37,7 @@ int		get_envline_index(char *search, char **env)
 	i = -1;
 	if (!env)
 		return (-1);
-	while (env[++i])
+	while (env && env[++i])
 	{
 		if (ft_strcmp_before_c(search, env[i], '='))
 			return (i);
@@ -57,7 +57,7 @@ char	*get_envline_value(char *search, char **env)
 	int		offset;
 
 	i = -1;
-	while (env[++i])
+	while (env && env[++i])
 	{
 		if ((offset = ft_strcmp_before_c(search, env[i], '=')))
 			return (&(env[i][offset + 1]));
@@ -76,7 +76,7 @@ char	*get_envline(char *search, char **env)
 	int		i;
 
 	i = -1;
-	while (env[++i])
+	while (env && env[++i])
 	{
 		if (ft_strcmp_before_c(search, env[i], '='))
 			return (env[i]);

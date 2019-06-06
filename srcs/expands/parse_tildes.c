@@ -33,24 +33,22 @@ int				replace_tilde(char **str, const char **env)
 
 static void		insert_expansion(char *user, char **str)
 {
-	char			*tmp_end;
 	char			*expansion;
 	struct passwd	*infos;
 
-	ft_initialize_str(&tmp_end, &expansion, NULL, NULL);
+	expansion = NULL;
 	if (!(infos = getpwnam(user)))
 		return ;
 	else if (infos && infos->pw_dir)
 	{
 		if (is_slashed(*str))
 		{
-			tmp_end = ft_strdup(*str + ft_strlen_char(*str, '/'));
 			if (!(expansion = ft_strdup(infos->pw_dir)))
 				ERROR_MEM;
 			ft_strdel(str);
-			if (!(*str = ft_strjoin_free_left(expansion, tmp_end)))
+			if (!(*str = ft_strjoin_free_left(expansion,
+						*str + ft_strlen_char(*str, '/'))))
 				ERROR_MEM;
-			ft_strdel(&tmp_end);
 		}
 		else
 		{
@@ -117,5 +115,5 @@ int				parse_tildes(t_token *token_head, const char **env)
 		prev_token = curr_token;
 		curr_token = curr_token->next;
 	}
-	return (1);//tmp
+	return (1);
 }

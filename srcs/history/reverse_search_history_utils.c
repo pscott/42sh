@@ -28,8 +28,8 @@ int		strstr_adapted(const char *haystack, const char *needle)
 	return (0);
 }
 
-int		init_vars_rsh_and_prompt
-		(t_st_cmd *st_cmd, size_t *malloc_size, int *prompt_type, char **stock)
+int		init_vars_rsh_and_prompt(t_st_cmd *st_cmd,
+		size_t *malloc_size, int *prompt_type, char **stock)
 {
 	*malloc_size = 256;
 	*prompt_type = 0;
@@ -50,7 +50,7 @@ void	realloc_stock(char **stock, char buf, size_t *malloc_size)
 
 int		is_quit_char(char buf)
 {
-	if (buf != 18  && buf != ' '
+	if (buf != 18 && buf != ' '
 		&& ft_isprint(buf) == 0)
 		return (1);
 	return (0);

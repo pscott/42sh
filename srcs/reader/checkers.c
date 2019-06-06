@@ -6,7 +6,7 @@
 **	Inserts some text in the current st_cmd
 */
 
-static void	insert_txt(t_st_cmd *st_cmd, const char *buf)
+void	insert_txt(t_st_cmd *st_cmd, const char *buf)
 {
 	t_st_txt	*st_txt;
 	size_t		print_len;

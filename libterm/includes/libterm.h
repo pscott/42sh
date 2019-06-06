@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/06 17:12:56 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/06 18:02:39 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@
 # define CTRL_R "\x12"
 # define CTRL_R_LEN 1
 
-# define ALT_X "-30 -119 -120"
-# define ALT_X_LEN
-# define ALT_C "-61 -89"
-# define ALT_C_LEN
-# define ALT_V "-30 -120 -108"
-# define ALT_V_LEN
+# define ALT_X "\xe2\x89\x88"
+# define ALT_X_LEN 3
+# define ALT_C "\xc3\xa7"
+# define ALT_C_LEN 2
+# define ALT_V "\xe2\x88\x9a"
+# define ALT_V_LEN 3
 
 # define ALT_UP "\x1b\x1b\x5b\x41"
 # define ALT_UP_LEN 4

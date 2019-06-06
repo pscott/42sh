@@ -65,6 +65,7 @@ int						handle_reverse_search_history(t_st_cmd *st_cmd,
 
 int						is_valid_escape(char *str);
 int						handle_input(t_st_cmd *st_cmd, t_vars *vars);
+void					insert_txt(t_st_cmd *st_cmd, const char *buf);
 
 /*
 **	Input checking

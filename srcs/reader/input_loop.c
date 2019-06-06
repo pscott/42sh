@@ -66,8 +66,8 @@ static int	cmp_special_keys_versus_buf_len(char *buf, int len)
 
 int			is_valid_escape(char *buf)
 {
-	int		len;
-	int		last;
+	unsigned int		len;
+	unsigned int		last;
 
 	len = ft_strlen(buf);
 	if (len >= BUF_SIZE)
@@ -79,7 +79,6 @@ int			is_valid_escape(char *buf)
 		ft_bzero(&buf[1], BUF_SIZE);
 		return (-1);
 	}
-	last = len > 0 ? len - 1 : 0;
 	if (cmp_special_keys_versus_own_len(buf))
 		return (1);
 	if (cmp_special_keys_versus_buf_len(buf, len))
@@ -95,19 +94,19 @@ int			is_valid_escape(char *buf)
 
 int			input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)
 {
-	char	buf[BUF_SIZE + 1];
-	char	c;
-	int		ret;
+	char				buf[BUF_SIZE + 1];
+	unsigned char		c;
+	int					ret;
 
 	ft_bzero(buf, sizeof(buf));
 	print_prompt(st_cmd);
 	while ((ret = read(STDIN_FILENO, &c, 1)) > 0)
 	{
 		buf[ft_strlen(buf)] = c;
-		//magic_print(buf);
 		if (is_valid_escape(buf) == 0)
 			continue ;
 		ret = checkers(st_cmd, vars, buf, mode);
+		//magic_print(buf);
 		if (ret == input_stop)
 			return (-1);
 		else if (ret == input_break)

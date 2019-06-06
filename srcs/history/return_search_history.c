@@ -27,23 +27,42 @@ static int	case_return_newline(t_st_cmd *st_cmd)
 	return (enter_case);
 }
 
-static int	get_good_case_to_ret(char buf, t_st_cmd *st_cmd)
+static int	get_good_case_to_ret(char buf,
+	t_st_cmd **st_cmd, char escape[BUF_SIZE + 1])
 {
 	if (buf == '\r' || buf == '\n')
-		return (case_return_newline(st_cmd));
+		return (case_return_newline(*st_cmd));
 	else
 	{
-		st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
+		if (!ft_strncmp(escape, LEFTARROW, ARROW_LEN + 1))
+		{
+			if ((*st_cmd)->st_txt->tracker > 0)
+				--(*st_cmd)->st_txt->tracker;
+		}
+		else if (!ft_strncmp(escape, RIGHTARROW, ARROW_LEN + 1))
+			++(*st_cmd)->st_txt->tracker;
+		else if (!ft_strncmp(escape, DOWNARROW, ARROW_LEN + 1))
+		{
+			if ((*st_cmd)->hist_lst->next && (*st_cmd)->hist_lst->next->next)
+				get_next_history(*st_cmd);
+		}
+		else if (!ft_strncmp(escape, UPARROW, ARROW_LEN + 1))
+		{
+			if ((*st_cmd)->hist_lst->prev)
+				get_previous_history(*st_cmd);
+		}
 		return (quit_case);
 	}
 }
 
-int			switch_and_return(char buf, t_st_cmd *st_cmd)
+int			switch_and_return(t_st_cmd *st_cmd,
+	char buf, char escape[BUF_SIZE + 1])
 {
 	char	*newcmd;
-	t_vars	*vars;
 	size_t	tmp;
+	int		ret;
 
+	ret = get_good_case_to_ret(buf, &st_cmd, escape);
 	tmp = st_cmd->st_txt->tracker;
 	if (buf == 3)
 		return (interrupt_search(st_cmd));
@@ -55,16 +74,13 @@ int			switch_and_return(char buf, t_st_cmd *st_cmd)
 		newcmd = ft_strdup(st_cmd->st_txt->txt);
 	if (!newcmd)
 		clean_exit(1, 1);
-	vars = get_vars(NULL);
-	move_cursor(st_cmd->start_pos.col, st_cmd->start_pos.row);
-	ft_printf("%s%s%s", vars->cmd_value ? RED : GREEN,
-			st_cmd->st_prompt->prompt, FG_DFL);
+	print_prompt_search_history(st_cmd);
 	switch_st_cmd(st_cmd, newcmd);
 	st_cmd->st_txt->tracker = tmp;
 	get_pos(st_cmd, st_cmd->st_txt->tracker);
 	reposition_cursor(st_cmd);
 	free(newcmd);
-	return (get_good_case_to_ret(buf, st_cmd));
+	return (ret);
 }
 
 int			handle_quitting_chars_and_bcksp(char buf, char **stock)

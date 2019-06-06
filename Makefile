@@ -90,7 +90,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c 	#srcs subfiles names
 						getters.c switch_history.c insertion.c \
 						handle_input_hist.c reverse_search_history.c \
 						return_search_history.c write_history.c \
-						reverse_search_history_utils.c
+						reverse_search_history_utils.c \
+						print_prompt_search_history.c
 	SIGNALS_FILES	:=	signals_handlers.c signals_setup.c
 	LINE_EDIT_FILES	:=	st_cmd_editing.c st_prompt.c st_txt.c writing.c \
 						t_vars.c st_cmd_getters.c st_cmd_windows_struct_utils.c

@@ -60,7 +60,7 @@ int			checkers(t_st_cmd *st_cmd, t_vars *vars, char *buf, int mode)
 	{
 		if (ret == ctrl_c_case)
 			return (input_stop);
-		if (ret == enter_case || ret == ctrl_c_case)
+		if (ret == enter_case)
 			return (input_break);
 	}
 	else if ((ret = check_for_quit(st_cmd, buf)) == 1)

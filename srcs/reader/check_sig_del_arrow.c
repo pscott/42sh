@@ -25,6 +25,10 @@ int		check_for_arrows(t_st_cmd *st_cmd, const char *buf)
 	else if (ft_strncmp(buf, END, END_LEN + 1) == 0
 		|| ft_strncmp(buf, "\x05", 2) == 0)
 		go_to_end(st_cmd);
+	else if (ft_strncmp(buf, "\x15", 2) == 0)
+		go_up(st_cmd);
+	else if (ft_strncmp(buf, "\x09", 2) == 0)
+		go_down(st_cmd);
 	else
 		return (0);
 	return (1);

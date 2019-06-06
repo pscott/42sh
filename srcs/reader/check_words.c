@@ -1,4 +1,4 @@
-#include "input.h"
+#include "line_editing.h"
 
 int	check_for_words(t_st_cmd *st_cmd, const char *buf)
 {

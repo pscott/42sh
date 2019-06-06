@@ -18,8 +18,8 @@ static void			substitute_env_var(char **str, size_t *i
 	ft_strdel((char**)&var_name);
 }
 
-static void			substitute_param(char **str, size_t *i
-	, const char *var_name, t_vars *vars)
+static void			substitute_param(char **str, size_t *i,
+	const char *var_name, t_vars *vars)
 {
 	const char	*var_value;
 	size_t		index[2];
@@ -91,13 +91,13 @@ int					parse_vars(char **str, t_vars *vars)
 				return (1);
 			substitute_param(str, &i, var_name, vars);
 		}
+		else if (!escaped && !ft_strncmp("$?", (*str) + i, 2))
+			substitute_cmd_value(str, &i, vars);
 		else if (!escaped && (*str)[i] == '$'
 				&& (var_name = get_var_name((*str) + i)))
 			substitute_env_var(str, &i, var_name, vars);
-		else if ((*str)[i] == '\\')
-			escaped = (escaped) ? 0 : 1;
 		else
-			escaped = 0;
+			escaped = set_escaped(escaped, (*str)[i]);
 		i++;
 	}
 	return (0);

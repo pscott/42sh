@@ -33,6 +33,8 @@ char			*get_var_name(char *str);
 int				replace_tilde(char **str, const char **env);
 int				is_valid_tilde(const char *str, t_token *prev_token);
 int				is_slashed(const char *str);
+int				set_escaped(int escpaed, char c);
+void			substitute_cmd_value(char **str, size_t *i, t_vars *vars);
 
 /*
 **	Redirections parsing

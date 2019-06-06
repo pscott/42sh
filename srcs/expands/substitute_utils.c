@@ -1,7 +1,7 @@
 #include "ftsh.h"
 #include "cmd_parsing.h"
 
-int	is_terminated(const char *open_pattern,
+int		is_terminated(const char *open_pattern,
 	const char *close_pattern, const char *str)
 {
 	size_t	i;
@@ -26,8 +26,8 @@ int	is_terminated(const char *open_pattern,
 ** return 1 if '$((' is matched with a '))'
 */
 
-int	is_matched(const char *str
-		, const char *begin_match, const char *end_match)
+int		is_matched(const char *str, const char *begin_match,
+	const char *end_match)
 {
 	size_t			i;
 	unsigned int	braces_count;
@@ -64,7 +64,7 @@ int	is_matched(const char *str
 **	=   aaaMichel/aaa
 */
 
-int	substitute_slice(char **old_str, size_t index[2], const char *to_sub)
+int		substitute_slice(char **old_str, size_t index[2], const char *to_sub)
 {
 	size_t	new_len;
 	size_t	to_sub_len;
@@ -83,4 +83,26 @@ int	substitute_slice(char **old_str, size_t index[2], const char *to_sub)
 	ft_strdel(old_str);
 	*old_str = new_str;
 	return (1);
+}
+
+void	substitute_cmd_value(char **str, size_t *i, t_vars *vars)
+{
+	char	*nb_str;
+	size_t	index[2];
+
+	if (!(nb_str = ft_itoa(vars->cmd_value)))
+		ERROR_MEM;
+	index[0] = *i;
+	index[1] = *i + 1;
+	substitute_slice(str, index, nb_str);
+	ft_strdel(&nb_str);
+}
+
+int		set_escaped(int escaped, char c)
+{
+	if (c == '\\')
+		escaped = (escaped) ? 0 : 1;
+	else
+		escaped = 0;
+	return (escaped);
 }

@@ -5,7 +5,7 @@ void		print_introduction(void)
 	ft_printf(
 	"            ____  _     _     \n"
 	"           |___ \\/ |___| |__  \n"
-	"             __) | / __| '_ \\ \n"
+	"             __) | / __|  _ \\ \n"
 	"            / __/| \\__ \\ | | |\n"
 	"           |_____|_|___/_| |_|\n\n"
 	"`Left arrow` to move the cursor to the left\n"

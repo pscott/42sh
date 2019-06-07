@@ -7,6 +7,7 @@
 # include <sys/types.h>
 
 # define ERROR_MEM clean_exit(1, 1)
+# define OUTPUT_FD 10
 # define SHELL_NAME "42sh"
 
 /*

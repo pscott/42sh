@@ -46,10 +46,10 @@ void		print_hist_lst(t_hist_lst *hist_lst)
 	t_hist_lst *probe;
 
 	probe = get_begin_lst(hist_lst);
-	ft_printf("--- PRINTING LST --- \n");
+	ft_dprintf(10, "--- PRINTING LST --- \n");
 	while (probe)
 	{
-		ft_printf("PROBE: TXT: {%s}\n", probe->txt);
+		ft_dprintf(10, "PROBE: TXT: {%s}\n", probe->txt);
 		probe = probe->next;
 	}
 }

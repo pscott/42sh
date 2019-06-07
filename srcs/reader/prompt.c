@@ -41,10 +41,10 @@ void			print_prompt(t_st_cmd *st_cmd)
 		zsh_newline(st_cmd);
 		retrieve_pos(&st_cmd->start_pos);
 		if (vars->cmd_value)
-			ft_printf("%s", RED);
+			ft_dprintf(10, "%s", RED);
 		else
-			ft_printf("%s", GREEN);
-		ft_printf("%s%s", st_cmd->st_prompt->prompt, FG_DFL);
+			ft_dprintf(10, "%s", GREEN);
+		ft_dprintf(10, "%s%s", st_cmd->st_prompt->prompt, FG_DFL);
 		update_prompt_pos(st_cmd);
 		get_pos(st_cmd, 0);
 		reposition_cursor(st_cmd);
@@ -87,7 +87,7 @@ void			print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf,
 		tmp = st_cmd->st_txt->tracker;
 		st_cmd->st_txt->tracker = 0;
 		init_relative_pos(st_cmd);
-		ft_printf("%s", st_cmd->st_prompt->prompt);
+		ft_dprintf(10, "%s", st_cmd->st_prompt->prompt);
 		write_st_cmd(st_cmd);
 		st_cmd->st_txt->tracker = tmp;
 		get_pos(st_cmd, st_cmd->st_txt->tracker);

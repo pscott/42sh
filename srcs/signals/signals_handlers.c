@@ -34,7 +34,7 @@ void			sigint_handler(int signo)
 	vars = get_vars(NULL);
 	vars->cmd_value = 1;
 	if (isatty(STDIN_FILENO))
-		write(STDERR, "^C", 2);
+		write(OUTPUT_FD, "^C", 2);
 	execute_str(PRINT_LINE);
 	execute_str(BEGIN_LINE);
 	execute_str(CLEAR_BELOW);

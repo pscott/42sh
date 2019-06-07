@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/22 14:10:57 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/07 14:41:02 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	get_pos(char *pos_str)
 
 	while (ft_atoi(pos_str + 2) == 0)
 	{
-		tputs(GET_POS, 1, ft_putchar);
+		write(0, GET_POS, 4);
 		if (isatty(STDIN_FILENO))
 		{
 			if ((len = read(STDIN_FILENO, pos_str, 50)) < 0)

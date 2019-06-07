@@ -70,7 +70,7 @@ int						parse_heredoc(t_token *token_head, t_vars *vars)
 {
 	t_token			*token_probe;
 	char			*eof;
-	int				is_eof_quoted;
+	unsigned char	is_eof_quoted;
 	char			*path;
 
 	token_probe = token_head;

@@ -8,8 +8,8 @@
 
 static void	replace_env_var(char *var_name, char *var_value, char **env_line)
 {
-	int		new_len;
-	int		var_name_len;
+	size_t	new_len;
+	size_t	var_name_len;
 
 	ft_memdel((void*)&(*env_line));
 	new_len = ft_strlen(var_name) + ft_strlen(var_value) + 1;
@@ -30,11 +30,11 @@ static void	replace_env_var(char *var_name, char *var_value, char **env_line)
 static void	add_env_var(char *var_name, char *var_value, char ***env)
 {
 	char	**new_env;
-	int		env_len;
+	size_t	env_len;
 	int		i;
 
 	env_len = ft_ntab_len((const char **)*env);
-	if (!(new_env = (char**)malloc(sizeof(char**) * (env_len + 2))))
+	if (!(new_env = (char**)malloc((size_t)sizeof(char**) * (env_len + 2))))
 		clean_exit(1, 1);
 	i = 0;
 	while (*env && (*env)[i])

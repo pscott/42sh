@@ -18,7 +18,7 @@ static int	check_auto_complete(t_vars *vars, t_st_cmd *st_cmd,
 }
 
 static void	refresh_prompt_after_completion(t_st_cmd *st_cmd, char **tmp,
-	int len_tmp)
+	size_t len_tmp)
 {
 	ft_strdel(tmp);
 	execute_str(BEGIN_LINE);
@@ -36,7 +36,7 @@ int			check_for_tab(t_st_cmd *st_cmd, const char *buf,
 {
 	char	*tmp;
 	char	*old_txt;
-	int		len_tmp;
+	size_t	len_tmp;
 
 	len_tmp = 0;
 	if (ft_strncmp(buf, "\t", 2) == 0 && isatty(STDIN_FILENO))

@@ -37,9 +37,9 @@ typedef struct			s_hash_args
 
 typedef enum			e_hash_opt
 {
-	o_l = 0B1,
-	o_d = 0B10,
-	o_r = 0B100
+	o_l = 0x01,
+	o_d,
+	o_r
 }						t_hash_opt;
 
 typedef enum			e_hash_state

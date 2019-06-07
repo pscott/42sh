@@ -112,7 +112,7 @@ static void	my_ft_list_sort(t_auto_comp **begin_list)
 }
 
 char		*get_ret_or_display_matches(t_auto_comp *match,
-			const char *to_find, unsigned int len)
+			const char *to_find, size_t len)
 {
 	int				diff_len;
 	char			*ret_str;

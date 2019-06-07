@@ -40,7 +40,7 @@ static int	cmp_special_keys_versus_own_len(char *buf)
 	return (0);
 }
 
-static int	cmp_special_keys_versus_buf_len(char *buf, int len)
+static int	cmp_special_keys_versus_buf_len(char *buf, size_t len)
 {
 	if (ft_strncmp(buf, RIGHTARROW, len) == 0
 			|| ft_strncmp(buf, LEFTARROW, len) == 0
@@ -66,8 +66,8 @@ static int	cmp_special_keys_versus_buf_len(char *buf, int len)
 
 int			is_valid_escape(char *buf)
 {
-	unsigned int		len;
-	unsigned int		last;
+	size_t		len;
+	size_t		last;
 
 	len = ft_strlen(buf);
 	if (len >= BUF_SIZE)
@@ -95,8 +95,8 @@ int			is_valid_escape(char *buf)
 int			input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)
 {
 	char				buf[BUF_SIZE + 1];
-	unsigned char		c;
-	int					ret;
+	char				c;
+	ssize_t				ret;
 
 	ft_bzero(buf, sizeof(buf));
 	print_prompt(st_cmd);

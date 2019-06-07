@@ -39,7 +39,7 @@ int							get_needed_values(const char *input,
 */
 
 char						*get_ret_or_display_matches(t_auto_comp *match,
-								const char *to_find, unsigned int len);
+								const char *to_find, size_t len);
 void						handler_is_display(int signo);
 void						print_spaces(const char *s, unsigned int cols);
 int							is_display(unsigned int count);

@@ -3,9 +3,11 @@
 
 static void		update_prompt_pos(t_st_cmd *st_cmd)
 {
-	int times;
+	unsigned long times;
 
-	times = st_cmd->st_prompt->size / st_cmd->window->ws_col;
+	times = 0;
+	if (st_cmd->window->ws_col)
+		times = st_cmd->st_prompt->size / st_cmd->window->ws_col;
 	while (times)
 	{
 		update_start_pos(st_cmd);
@@ -16,11 +18,11 @@ static void		update_prompt_pos(t_st_cmd *st_cmd)
 
 static void		zsh_newline(t_st_cmd *st_cmd)
 {
-	int		len;
+	size_t	len;
 	char	*zsh;
 
 	len = st_cmd->window->ws_col - 1 > 0 ? st_cmd->window->ws_col - 1 : 2;
-	if (!(zsh = malloc(sizeof(*zsh) * len)))
+	if (!(zsh = malloc((size_t)sizeof(*zsh) * len)))
 		clean_exit(1, 1);
 	ft_memset(zsh, ' ', len);
 	execute_str(HIGHLIGHT);
@@ -31,6 +33,7 @@ static void		zsh_newline(t_st_cmd *st_cmd)
 	execute_str(ERASE_ENDLINE);
 	ft_memdel((void*)&zsh);
 }
+
 void			print_prompt(t_st_cmd *st_cmd)
 {
 	t_vars		*vars;

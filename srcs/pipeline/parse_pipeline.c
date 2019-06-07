@@ -1,6 +1,7 @@
 #include "lexer.h"
 #include "signals.h"
 #include "execution.h"
+#include "cmd_parsing.h"
 
 /*
 **	Returns the next simple_command (the one after the next pipe), if there

@@ -2,10 +2,13 @@
 #include "env.h"
 #include "errors.h"
 
-static void	bzero_env(char **env, int size)
+static void	bzero_env(char **env, size_t size)
 {
-	while (size >= 0)
-		env[size--] = NULL;
+	size_t i;
+
+	i = 0;
+	while (i <= size)
+		env[i++] = NULL;
 }
 
 /*
@@ -18,12 +21,12 @@ static void	bzero_env(char **env, int size)
 
 static char	**create_minienv(void)
 {
-	int		init_lines;
+	size_t	init_lines;
 	char	**env;
 	char	*cwd;
 
 	init_lines = 2;
-	if (!(env = (char**)malloc(sizeof(char**) * (init_lines + 1))))
+	if (!(env = (char**)malloc((size_t)sizeof(char**) * (init_lines + 1))))
 		clean_exit(1, 1);
 	bzero_env(env, init_lines);
 	set_env_var("SHLVL", "1", &env);

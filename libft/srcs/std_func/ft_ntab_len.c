@@ -6,11 +6,13 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:47:18 by pscott            #+#    #+#             */
-/*   Updated: 2019/04/18 17:01:45 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/07 14:13:20 by mporzier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_ntab_len(const char **tab)
+#include "libft.h"
+
+size_t		ft_ntab_len(const char **tab)
 {
 	int	i;
 

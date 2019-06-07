@@ -1,5 +1,6 @@
 #include "input.h"
 #include "ftsh.h"
+#include "line_editing.h"
 
 size_t	ft_printable_len(const char *s1)
 {

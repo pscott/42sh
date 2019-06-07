@@ -35,20 +35,20 @@ typedef enum			e_token_type
 	tk_unsupported
 }						t_token_type;
 
-typedef struct			s_token
-{
-	char				*content;
-	size_t				size;
-	t_token_type		type;
-	struct s_token		*next;
-}						t_token;
-
 typedef struct			s_operation
 {
 	char				str[4];
 	unsigned char		size;
 	t_token_type		type;
 }						t_operation;
+
+typedef struct			s_token
+{
+	char				*content;
+	struct s_token		*next;
+	size_t				size;
+	t_token_type		type;
+}						t_token;
 
 typedef enum			e_lexer_state
 {

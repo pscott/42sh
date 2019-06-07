@@ -1,5 +1,6 @@
 #include "errors.h"
 #include "auto_completion.h"
+#include "input.h"
 
 static int			get_all(const char *directory,
 		t_auto_comp **match)

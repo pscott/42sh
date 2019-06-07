@@ -38,13 +38,33 @@ static void	pressed_enter(t_st_cmd *st_cmd, char *buf)
 	execute_str(PRINT_LINE);
 }
 
+/*
+**	
+*/
+
+static int	check_for_clear(t_st_cmd *st_cmd, char *buf)
+{
+	if (ft_strncmp(buf, "\x0c", 2) == 0)
+	{
+		execute_str(CLEAR);
+		st_cmd = get_first_st_cmd(st_cmd);
+		st_cmd->start_pos.row = 0;
+		write_from_start(st_cmd);
+		st_cmd = get_last_st_cmd(st_cmd);
+		get_pos(st_cmd, st_cmd->st_txt->tracker);
+		return (1);
+	}
+	return (0);
+}
+
 static int	check_for_arrows_delete_tab_words(t_st_cmd *st_cmd,
 			char *buf, t_vars *vars, int mode)
 {
 	if (check_for_arrows(st_cmd, buf) || check_for_delete(st_cmd, buf)
 		|| check_for_words(st_cmd, buf)
 		|| check_for_tab(st_cmd, buf, vars, mode)
-		|| check_for_copy_paste(st_cmd, buf, vars))
+		|| check_for_copy_paste(st_cmd, buf, vars)
+		|| check_for_clear(st_cmd, buf))
 		return (1);
 	return (0);
 }

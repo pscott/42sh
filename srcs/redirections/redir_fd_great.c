@@ -34,6 +34,7 @@ static	int		change_token_close(t_token *next)
 
 	if (!(new = ft_strdup(next->content + 1)))
 		clean_exit(1, 1);
+	ft_strdel(&next->content);
 	next->content = new;
 	if (is_full_of_whitespaces(next->content))
 		next->type = tk_eat;

@@ -24,9 +24,9 @@ static void		zsh_newline(t_st_cmd *st_cmd)
 		clean_exit(1, 1);
 	ft_memset(zsh, ' ', len);
 	execute_str(HIGHLIGHT);
-	write(1, "%", 1);
+	write(OUTPUT_FD, "%", 1);
 	execute_str(NO_HIGHLIGHT);
-	write(1, zsh, len);
+	write(OUTPUT_FD, zsh, len);
 	execute_str(BEGIN_LINE);
 	execute_str(ERASE_ENDLINE);
 	ft_memdel((void*)&zsh);
@@ -41,10 +41,10 @@ void			print_prompt(t_st_cmd *st_cmd)
 		zsh_newline(st_cmd);
 		retrieve_pos(&st_cmd->start_pos);
 		if (vars->cmd_value)
-			ft_dprintf(10, "%s", RED);
+			ft_dprintf(OUTPUT_FD, "%s", RED);
 		else
-			ft_dprintf(10, "%s", GREEN);
-		ft_dprintf(10, "%s%s", st_cmd->st_prompt->prompt, FG_DFL);
+			ft_dprintf(OUTPUT_FD, "%s", GREEN);
+		ft_dprintf(OUTPUT_FD, "%s%s", st_cmd->st_prompt->prompt, FG_DFL);
 		update_prompt_pos(st_cmd);
 		get_pos(st_cmd, 0);
 		reposition_cursor(st_cmd);
@@ -87,7 +87,7 @@ void			print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf,
 		tmp = st_cmd->st_txt->tracker;
 		st_cmd->st_txt->tracker = 0;
 		init_relative_pos(st_cmd);
-		ft_dprintf(10, "%s", st_cmd->st_prompt->prompt);
+		ft_dprintf(OUTPUT_FD, "%s", st_cmd->st_prompt->prompt);
 		write_st_cmd(st_cmd);
 		st_cmd->st_txt->tracker = tmp;
 		get_pos(st_cmd, st_cmd->st_txt->tracker);

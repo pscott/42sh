@@ -11,7 +11,7 @@ void			sig_handler(int signo)
 {
 	execute_str(CLEAR_BELOW);
 	reset_terminal_settings();
-	ft_dprintf(STDERR, "Interrupted by signal: %d\n", signo);
+	ft_dprintf(STDERR_FILENO, "Interrupted by signal: %d\n", signo);
 	exit(signo);
 }
 
@@ -93,5 +93,5 @@ void			sigtstp_handler(int signo)
 	execute_str(CLEAR_BELOW);
 	reset_terminal_settings();
 	signal(SIGTSTP, SIG_DFL);
-	ioctl(STDIN, TIOCSTI, "\x1a");
+	ioctl(STDIN_FILENO, TIOCSTI, "\x1a");
 }

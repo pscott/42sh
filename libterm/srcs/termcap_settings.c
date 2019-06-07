@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/07 14:44:29 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/07 16:14:07 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	open_and_dup_tty(void)
 	{
 		if ((new_tty = open(name, O_WRONLY)) < 0)
 			return (-1);
-		if ((dup2(new_tty, 10) < 0))
+		if ((dup2(new_tty, OUTPUT_FD) < 0))
 			return (1);
 		close(new_tty);
 		return (0);

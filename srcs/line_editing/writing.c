@@ -87,7 +87,7 @@ int			write_line(t_st_cmd *cmd)
 	while ((cmd->st_txt->tracker + i) < cmd->st_txt->data_size
 		&& cmd->st_txt->txt[cmd->st_txt->tracker + i] != '\n')
 	{
-		write(STDIN_FILENO, &cmd->st_txt->txt[cmd->st_txt->tracker + i++], 1);
+		write(OUTPUT_FD, &cmd->st_txt->txt[cmd->st_txt->tracker + i++], 1);
 		get_pos(cmd, cmd->st_txt->data_size - 1);
 		if ((cmd->start_pos.row + cmd->relative_pos.row)
 			> cmd->window->ws_row

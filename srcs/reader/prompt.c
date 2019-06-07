@@ -46,7 +46,7 @@ void			print_prompt(t_st_cmd *st_cmd)
 			ft_printf("%s", GREEN);
 		ft_printf("%s%s", st_cmd->st_prompt->prompt, FG_DFL);
 		update_prompt_pos(st_cmd);
-		get_pos(st_cmd, st_cmd->st_txt->tracker);
+		get_pos(st_cmd, 0);
 		reposition_cursor(st_cmd);
 	}
 }

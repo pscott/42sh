@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/06 20:58:24 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/07 09:14:54 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@
 # define ALT_RIGHT_LEN 4
 # define ALT_LEFT "\x1b\x1b\x5b\x44"
 # define ALT_LEFT_LEN 4
-
-
 
 /*
 ** Previous terminal settings are saved in a global, and restored on exit.

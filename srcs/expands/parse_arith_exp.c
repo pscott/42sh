@@ -19,6 +19,7 @@ static char		expand_lowest_arith_exp(char **str, t_vars *vars)
 
 	i = 0;
 	arith_result = 0;
+	ft_bzero(index, sizeof(index));
 	while ((*str)[i])
 	{
 		if (!(ft_strncmp("$((", *str + i, 3)))

@@ -25,11 +25,11 @@ int					case_type(char **argv, t_vars *vars)
 	while (argv[++i])
 	{
 		if (check_builtins(&argv[i]))
-			ft_printf("%s is a shell builtin\n", argv[i]);
+			ft_dprintf(10, "%s is a shell builtin\n", argv[i]);
 		else if ((path = check_hashmap(argv[i], vars->hashmap, hash_check)))
-			ft_printf("%s is hashed (%s)\n", argv[i], path);
+			ft_dprintf(10, "%s is hashed (%s)\n", argv[i], path);
 		else if ((path = get_cmd_path(argv[i], vars->env_vars, 0)))
-			ft_printf("%s is %s\n", argv[i], path);
+			ft_dprintf(10, "%s is %s\n", argv[i], path);
 		else
 		{
 			print_error(argv[i]);

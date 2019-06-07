@@ -54,7 +54,6 @@ t_op					*build_op_list(t_tok *tks)
 {
 	t_op				*new;
 	t_op				*lst;
-	t_op				*prout;
 	unsigned	int		i;
 
 	i = 0;
@@ -70,7 +69,6 @@ t_op					*build_op_list(t_tok *tks)
 			put_lst_new(&lst, &new);
 		else
 			put_lst_higher(&lst, &new);
-		prout = lst;
 		i++;
 	}
 	return (lst);

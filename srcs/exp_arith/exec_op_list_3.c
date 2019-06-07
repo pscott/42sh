@@ -32,3 +32,9 @@ long long		return_set_err(int *err, int error)
 	*err = error;
 	return (0);
 }
+
+void			initialize_long_long(long long *n1, long long *n2)
+{
+	*n1 = 0;
+	*n2 = 0;
+}

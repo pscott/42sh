@@ -2,6 +2,7 @@
 #include "input.h"
 #include "cmd_parsing.h"
 #include "line_editing.h"
+#include "env.h"
 
 int					open_history(const char **env, int options)
 {
@@ -10,6 +11,8 @@ int					open_history(const char **env, int options)
 
 	if (!(hist_file = ft_strdup(HIST_FILE)))
 		clean_exit(1, 1);
+	if (get_envline("HOME", (char **)env) == NULL)
+		return (-1);
 	replace_tilde(&hist_file, env);
 	if ((fd = open(hist_file, options, 0640)) == -1)
 	{

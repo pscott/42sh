@@ -120,7 +120,8 @@ int					get_path_file_and_to_find(const char *arg, char **path,
 			clean_exit(1, 1);
 		if (!(*to_find = ft_strnew(0)))
 			clean_exit(1, 1);
-		ft_strdel(&pwd);
 	}
+	if (pwd)
+		ft_strdel(&pwd);
 	return (0);
 }

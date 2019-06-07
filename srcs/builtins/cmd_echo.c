@@ -7,7 +7,7 @@ int		case_echo(char **argv)
 	i = 1;
 	while (argv[i])
 	{
-		ft_dprintf(1, "%s", argv[i]);
+		ft_dprintf(STDIN_FILENO, "%s", argv[i]);
 		i++;
 		if (argv[i])
 			ft_putchar(' ');

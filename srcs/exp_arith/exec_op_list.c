@@ -32,6 +32,7 @@ long long			exec(t_op *lst, int *err, char ***vars)
 	long long nb1;
 	long long nb2;
 
+	initialize_long_long(&nb1, &nb2);
 	if (!lst->left && !lst->right)
 		return (lonely_number(lst, vars));
 	else if (check_err_numbers(lst))

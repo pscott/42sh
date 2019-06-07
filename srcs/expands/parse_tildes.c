@@ -100,7 +100,6 @@ int				parse_tildes(t_token *token_head, const char **env)
 
 	curr_token = token_head;
 	prev_token = NULL;
-	ret = 0;
 	while (curr_token)
 	{
 		if (curr_token->type == tk_word

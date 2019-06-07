@@ -23,7 +23,6 @@ char	*ft_strdup_print(const char *s1)
 	size_t	len;
 	size_t	i;
 
-	i = 0;
 	if (!(res = ft_strnew(ft_printable_len(s1))))
 		return (NULL);
 	i = 0;

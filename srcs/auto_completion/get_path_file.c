@@ -103,7 +103,6 @@ int					get_path_file_and_to_find(const char *arg, char **path,
 	int				i;
 
 	initialize_str(&pwd, &pwd, path, NULL);
-	i = 0;
 	i = ft_strlen(arg) - ft_strlen(ft_strrchr(arg, '/'));
 	pwd = getcwd(pwd, PATH_MAX);
 	if ((arg)[0] == '~' && (arg)[1] == '/')

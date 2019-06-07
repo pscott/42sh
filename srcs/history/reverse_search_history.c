@@ -59,10 +59,8 @@ static int		search_reverse_in_histo(t_st_cmd **st_cmd,
 	char *to_find, int tracker, char buf)
 {
 	int			ret;
-	size_t		tracker_save;
 	t_st_txt	*txt_save;
 
-	tracker_save = (*st_cmd)->st_txt->tracker;
 	txt_save = (*st_cmd)->st_txt;
 	if (buf == 18)
 	{

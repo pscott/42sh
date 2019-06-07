@@ -8,6 +8,8 @@
 
 void		redirect(int old_fd, int new_fd, int save)
 {
+	if (save == -1)
+		return ;
 	if (save)
 		save_reset_stdfd(1);
 	if (old_fd == -1)

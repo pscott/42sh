@@ -236,7 +236,7 @@ $(OBJ_DIR)/%.o: %.c Makefile
 tags:
 	ctags -R .
 
-print-%  : ; @echo $* = $($*)
+#print-%  : ; @echo $* = $($*)
 
 clean: 
 	$(MAKE) clean -C libft

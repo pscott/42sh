@@ -26,7 +26,7 @@ t_vars	*get_vars(t_vars *new_vars)
 **	the last exit status.
 */
 
-int	init_vars(t_vars *vars, int argc, char **argv, char **env)
+int		init_vars(t_vars *vars, int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
@@ -40,4 +40,3 @@ int	init_vars(t_vars *vars, int argc, char **argv, char **env)
 		return (1);
 	return (0);
 }
-

@@ -14,8 +14,6 @@ static void	bzero_env(char **env, int size)
 ** set SHLVL=1 and PWD
 ** and return it
 **
-** getcwd can fail in other way than clean_exit(1, 1)/ Axel : je rajoute un print
-** error + une condition pour le set env var 3lignes + bas
 */
 
 static char	**create_minienv(void)

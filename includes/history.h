@@ -48,7 +48,8 @@ void					adjust_history(t_st_cmd *st_cmd, const char *line,
 void					free_hist_lst(t_hist_lst *hist_lst);
 
 void					switch_st_cmd(t_st_cmd *st_cmd, char *newcmd);
-int						switch_and_return(t_st_cmd *st_cmd, char buf, char escape[BUF_SIZE + 1]);
+int						switch_and_return(t_st_cmd *st_cmd, char buf,
+		char escape[BUF_SIZE + 1]);
 int						print_prompt_search_history(t_st_cmd *st_cmd);
 
 /*

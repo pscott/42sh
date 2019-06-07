@@ -37,7 +37,7 @@ static void	copy_endline(t_st_cmd *st_cmd, t_vars *vars)
 **	Checks for copy, paste and cut characters.
 */
 
-int		check_for_copy_paste(t_st_cmd *st_cmd, char *buf, t_vars *vars)
+int			check_for_copy_paste(t_st_cmd *st_cmd, char *buf, t_vars *vars)
 {
 	if (ft_strncmp(buf, ALT_X, ALT_X_LEN + 1) == 0)
 	{

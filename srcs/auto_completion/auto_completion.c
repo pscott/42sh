@@ -1,5 +1,6 @@
 #include "errors.h"
 #include "auto_completion.h"
+#include "input.h"
 
 static int			is_first_arg_and_exec(const char *str,
 					unsigned int cursor_pos, unsigned int start_actual_word)
@@ -30,7 +31,7 @@ static int			is_first_arg_and_exec(const char *str,
 	}
 }
 
-char				*handle_first_arg_dot_tilde(int type, const char *to_find)
+static	char		*handle_first_arg_dot_tilde(int type, const char *to_find)
 {
 	char			*ret;
 

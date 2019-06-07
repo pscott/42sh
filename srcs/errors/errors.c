@@ -1,6 +1,7 @@
 #include "ftsh.h"
 #include "lexer.h"
 #include "line_editing.h"
+#include "errors.h"
 
 static int		is_newline_token(t_token *token)
 {

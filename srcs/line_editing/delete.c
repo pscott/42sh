@@ -5,7 +5,7 @@
 **	Moves every character in the string `shift_no' bytes to the left
 */
 
-void		shift_chars_left(char *str, unsigned int shift_no)
+static	void	shift_chars_left(char *str, unsigned int shift_no)
 {
 	size_t i;
 
@@ -28,7 +28,7 @@ void		shift_chars_left(char *str, unsigned int shift_no)
 **	pressing backspace on a regular shell.
 */
 
-void		delete_left(t_st_cmd *st_cmd)
+void			delete_left(t_st_cmd *st_cmd)
 {
 	t_st_txt	*st_txt;
 	size_t		tmp;
@@ -51,7 +51,7 @@ void		delete_left(t_st_cmd *st_cmd)
 **	pressing delete on a regular shell.
 */
 
-void		delete_right(t_st_cmd *st_cmd)
+void			delete_right(t_st_cmd *st_cmd)
 {
 	t_st_txt	*st_txt;
 	size_t		tmp;

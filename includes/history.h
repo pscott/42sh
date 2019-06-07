@@ -6,12 +6,13 @@
 # define HIST_FILE "~/.42sh_history"
 # define HIST_SIZE 500
 
-typedef struct			s_hist_lst {
+typedef struct			s_hist_lst
+{
+	struct s_hist_lst	*prev;
 	char				*txt;
+	struct s_hist_lst	*next;
 	char				*cpy;
 	char				keep;
-	struct s_hist_lst	*prev;
-	struct s_hist_lst	*next;
 }						t_hist_lst;
 
 /*

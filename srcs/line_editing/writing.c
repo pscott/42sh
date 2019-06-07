@@ -5,7 +5,7 @@
 **	remainder of the line.
 */
 
-int			move_down(t_st_cmd *st_cmd)
+static	int	move_down(t_st_cmd *st_cmd)
 {
 	if (isatty(STDIN_FILENO) == 0)
 		return (0);
@@ -79,7 +79,7 @@ void		write_from_start(t_st_cmd *st_cmd)
 **	current line.
 */
 
-int			write_line(t_st_cmd *cmd)
+size_t		write_line(t_st_cmd *cmd)
 {
 	size_t		i;
 

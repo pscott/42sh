@@ -23,7 +23,7 @@ void					reposition_cursor(t_st_cmd *st_cmd);
 /*
 **	Writing functions
 */
-int						write_line(t_st_cmd *st_cmd);
+size_t					write_line(t_st_cmd *st_cmd);
 void					write_st_cmd(t_st_cmd *st_cmd);
 void					write_from_start(t_st_cmd *st_cmd);
 

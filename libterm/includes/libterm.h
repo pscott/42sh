@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/07 09:14:54 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/07 13:55:19 by mporzier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,34 +89,35 @@
 ** Previous terminal settings are saved in a global, and restored on exit.
 */
 
-struct termios	g_saved_attr;
+static struct termios	g_saved_attr;
 
 /*
 ** Settings-related functions
 */
 
-int				setup_terminal_settings(void);
-int				reset_terminal_settings(void);
-int				check_caps(void);
+int						setup_terminal_settings(void);
+int						reset_terminal_settings(void);
+int						check_caps(void);
 
 /*
 ** Executes the corresponding termcap string
 */
 
-int				execute_str(char *cap);
+int						execute_str(char *cap);
 
 /*
 ** Error functions
 */
-int				err_getattr(void);
-int				err_not_terminal(void);
-int				err_no_env(void);
-int				err_setattr(void);
-int				err_resetattr(void);
-int				err_noentry(void);
-int				err_no_database(void);
-int				err_no_env(void);
-int				err_tgoto(char *cap);
-int				err_caps(void);
+
+int						err_getattr(void);
+int						err_not_terminal(void);
+int						err_no_env(void);
+int						err_setattr(void);
+int						err_resetattr(void);
+int						err_noentry(void);
+int						err_no_database(void);
+int						err_no_env(void);
+int						err_tgoto(char *cap);
+int						err_caps(void);
 
 #endif

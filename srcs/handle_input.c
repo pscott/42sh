@@ -3,8 +3,8 @@
 #include "ast.h"
 #include "history.h"
 
-int			continue_reading(t_token *token_head, t_st_cmd **st_cmd,
-		char **input, t_vars *vars)
+static	int		continue_reading(t_token *token_head, t_st_cmd **st_cmd,
+				char **input, t_vars *vars)
 {
 	free_token_list(token_head);
 	adjust_history(*st_cmd, *input, 0);
@@ -34,7 +34,7 @@ int			continue_reading(t_token *token_head, t_st_cmd **st_cmd,
 ** 5. free ast
 */
 
-int			handle_input(t_st_cmd *st_cmd, t_vars *vars)
+int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 {
 	t_ast			*ast_root;
 	t_token			*token_head;

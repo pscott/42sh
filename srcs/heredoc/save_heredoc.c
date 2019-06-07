@@ -15,7 +15,7 @@ static char	*get_heredoc_filename(unsigned int file_key)
 	if (!(path = ft_strnew(ft_strlen(HEREDOC_FILENAME) + MAX_INT_LEN)))
 		clean_exit(1, 1);
 	ft_strcpy(path, HEREDOC_FILENAME);
-	if (!(file_key_str = ft_itoa(file_key)))
+	if (!(file_key_str = ft_itoa((int)file_key)))
 		clean_exit(1, 1);
 	ft_strcpy(&path[ft_strlen(HEREDOC_FILENAME)], file_key_str);
 	ft_memdel((void*)&file_key_str);

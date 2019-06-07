@@ -8,7 +8,7 @@ static int	error_unsupported_token(t_token *token, int return_val)
 {
 	if (!token)
 		return (return_val);
-	ft_dprintf(2, "%s: `%s' is not unsupported.\n", SHELL_NAME, token->content);
+	ft_dprintf(2, "%s: `%s' is not supported.\n", SHELL_NAME, token->content);
 	free_token_list(token);
 	return (return_val);
 }
@@ -85,6 +85,7 @@ int			lexer(char *cmdline, t_token **token_head, t_vars *vars)
 	t_operation	*op_chart;
 	t_token		*prev_token;
 
+	current_token = NULL;
 	init_lexer(&op_chart, token_head, &prev_token);
 	while (cmdline && *cmdline)
 	{

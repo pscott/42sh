@@ -1,6 +1,7 @@
 #include "ftsh.h"
 #include "input.h"
 #include "history.h"
+#include "line_editing.h"
 
 void		update_start_pos(t_st_cmd *st_cmd)
 {

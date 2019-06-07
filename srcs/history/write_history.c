@@ -18,7 +18,7 @@ static t_hist_lst	*get_hist_size_start(t_hist_lst *hist_lst)
 }
 
 static void			actual_writing_to_history(t_hist_lst *hist_lst,
-					int id, int fd)
+					size_t id, int fd)
 {
 	int				i;
 

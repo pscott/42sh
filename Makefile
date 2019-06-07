@@ -4,7 +4,7 @@
 NAME	:=	42sh
 OPT		:=	
 CC		:=	gcc
-CFLAGS	:=	-Wall -Wextra #-Werror
+CFLAGS	:=	-Wall -Wextra -Werror
 MMD		:=	-MMD
 
 DEBUG_FLAG	:=	-g

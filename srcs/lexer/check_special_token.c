@@ -3,14 +3,14 @@
 #include "input.h"
 
 static void		modif_ints(unsigned int *braces_count, int braces_to_add,
-	int *i, int i_to_add)
+				int *i, int i_to_add)
 {
 	*braces_count += braces_to_add;
 	*i += i_to_add;
 }
 
 static t_token	*last_check_arith_exp(char **cmdline, int i,
-	unsigned int braces_count)
+				unsigned int braces_count)
 {
 	t_token	*token;
 

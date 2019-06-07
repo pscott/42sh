@@ -1,4 +1,5 @@
 #include "ftsh.h"
+#include "env.h"
 
 /*
 ** ft_strcmp_before_c
@@ -6,7 +7,7 @@
 ** return 0 otherwise
 */
 
-int		ft_strcmp_before_c(char *search, char *str, char c)
+static	int		ft_strcmp_before_c(char *search, char *str, char c)
 {
 	int		i;
 
@@ -30,7 +31,7 @@ int		ft_strcmp_before_c(char *search, char *str, char c)
 ** return -1 if not found
 */
 
-int		get_envline_index(char *search, char **env)
+int				get_envline_index(char *search, char **env)
 {
 	int	i;
 
@@ -51,7 +52,7 @@ int		get_envline_index(char *search, char **env)
 ** return NULL otherwise
 */
 
-char	*get_envline_value(char *search, char **env)
+char			*get_envline_value(char *search, char **env)
 {
 	int		i;
 	int		offset;
@@ -73,7 +74,7 @@ char	*get_envline_value(char *search, char **env)
 ** return NULL otherwise
 */
 
-char	*get_envline(char *search, char **env)
+char			*get_envline(char *search, char **env)
 {
 	int		i;
 

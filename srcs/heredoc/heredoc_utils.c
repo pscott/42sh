@@ -4,7 +4,7 @@
 static char	*remove_quot(char *str)
 {
 	char			*new;
-	unsigned int	str_len;
+	size_t			str_len;
 
 	str_len = ft_strlen(str);
 	if (!(new = ft_strnew(str_len - 2)))

@@ -28,14 +28,14 @@ static	void	delete_env_index(int todel, char **env, char ***new_env)
 
 void			unset_env_var(char *var_name, char ***env)
 {
-	int		env_len;
+	size_t	env_len;
 	int		todel;
 	char	**new_env;
 
 	if ((todel = get_envline_index(var_name, *env)) == -1)
 		return ;
 	env_len = ft_ntab_len((const char **)*env);
-	if (!(new_env = (char**)malloc(sizeof(char**) * (env_len - 1 + 1))))
+	if (!(new_env = (char**)malloc((size_t)sizeof(char**) * (env_len - 1 + 1))))
 		clean_exit(1, 1);
 	delete_env_index(todel, *env, &new_env);
 	free(*env);

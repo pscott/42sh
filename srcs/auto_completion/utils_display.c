@@ -25,7 +25,6 @@ unsigned int		get_max_len(t_auto_comp *match)
 
 	if (!match)
 		return (0);
-	max = 0;
 	save_max = NULL;
 	tmp = match;
 	max = ft_strlen(tmp->name);

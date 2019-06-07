@@ -4,6 +4,8 @@
 
 static void	bzero_env(char **env, int size)
 {
+	if (!env)
+		return ;
 	while (size >= 0)
 		env[size--] = NULL;
 }
@@ -23,7 +25,7 @@ static char	**create_minienv(void)
 	char	*cwd;
 
 	init_lines = 2;
-	if (!(env = (char**)malloc(sizeof(char**) * (init_lines + 1))))
+	if (!(env = (char**)malloc(sizeof(char*) * (init_lines + 1))))
 		clean_exit(1, 1);
 	bzero_env(env, init_lines);
 	set_env_var("SHLVL", "1", &env);

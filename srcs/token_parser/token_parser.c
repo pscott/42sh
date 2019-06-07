@@ -87,16 +87,15 @@ static int		add_node_to_ast(t_token **token_head, t_ast **ast_root)
 {
 	t_token	*token_probe;
 	t_token	*token_prev;
-	t_ast	*ast_probe;
 
 	token_probe = *token_head;
-	ast_probe = *ast_root;
 	token_prev = NULL;
 	if (!find_next_ctrl_op(&token_probe, &token_prev))
 		return (add_last_node_to_ast(token_head, ast_root));
 	else
 	{
-		token_prev->next = NULL;
+		if (token_prev)
+			token_prev->next = NULL;
 		if (!(insert_ast_node(create_ast_node(*token_head, NULL, NULL)
 						, ast_root)))
 			return (0);

@@ -119,5 +119,6 @@ long long			check_err_numbers(t_op *lst);
 
 char				*get_value_index(int i, char **env);
 int					ft_str_isempty(const char *s);
+void				initialize_long_long(long long *n1, long long *n2);
 
 #endif

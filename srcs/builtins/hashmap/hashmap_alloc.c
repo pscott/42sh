@@ -11,19 +11,22 @@ t_hash_item	*create_new_item(const char *key, const char *value)
 
 	if (!(new_item = (t_hash_item*)malloc(sizeof(*new_item))))
 		clean_exit(1, 1);
-	if (!(new_item->key = ft_strdup(key)))
+	else if (new_item)
 	{
-		ft_memdel((void*)&new_item);
-		clean_exit(1, 1);
+		if (!(new_item->key = ft_strdup(key)))
+		{
+			ft_memdel((void*)&new_item);
+			clean_exit(1, 1);
+		}
+		if (!(new_item->value = ft_strdup(value)))
+		{
+			ft_memdel((void*)&new_item->key);
+			ft_memdel((void*)&new_item);
+			clean_exit(1, 1);
+		}
+		new_item->count = 0;
+		new_item->next = NULL;
 	}
-	if (!(new_item->value = ft_strdup(value)))
-	{
-		ft_memdel((void*)&new_item->key);
-		ft_memdel((void*)&new_item);
-		clean_exit(1, 1);
-	}
-	new_item->count = 0;
-	new_item->next = NULL;
 	return (new_item);
 }
 

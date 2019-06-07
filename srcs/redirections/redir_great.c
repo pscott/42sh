@@ -7,7 +7,7 @@
 **	Else returns error number
 */
 
-int		redir_great(t_token *redir, t_token *prev, int mode)
+int		redir_great(t_token *redir, t_token *prev, int save)
 {
 	int		old_fd;
 	t_token	*next;
@@ -29,7 +29,7 @@ int		redir_great(t_token *redir, t_token *prev, int mode)
 		ft_dprintf(2, "error opening file : %s\n", next->content);
 		return (1);
 	}
-	redirect(new_fd, old_fd, mode);
+	redirect(new_fd, old_fd, save);
 	redir->type = tk_eat;
 	next->type = tk_eat;
 	return (0);

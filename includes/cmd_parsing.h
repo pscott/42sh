@@ -35,6 +35,7 @@ int				is_valid_tilde(const char *str, t_token *prev_token);
 int				is_slashed(const char *str);
 int				set_escaped(int escpaed, char c);
 void			substitute_cmd_value(char **str, size_t *i, t_vars *vars);
+char			*lltoa_and_free(long long nb, char **to_free);
 
 /*
 **	Redirections parsing

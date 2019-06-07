@@ -55,8 +55,7 @@ int			main(int argc, char **argv, char **env)
 		return (EXIT_FAILURE);
 	if (init_vars(&vars, argc, argv, env) == 1)
 		return (EXIT_FAILURE);
-	if (isatty(STDIN_FILENO))
-		print_introduction();
+	print_introduction();
 	signals_setup();
 	st_cmd = init_st_cmd((const char **)vars.env_vars);
 	get_st_cmd(&st_cmd);

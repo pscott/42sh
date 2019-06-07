@@ -25,7 +25,6 @@ unsigned int		get_max_len(t_auto_comp *match)
 
 	if (!match)
 		return (0);
-	max = 0;
 	save_max = NULL;
 	tmp = match;
 	max = ft_strlen(tmp->name);
@@ -77,7 +76,7 @@ int					is_display(unsigned int count)
 	char			c;
 
 	ft_putchar('\n');
-	ft_printf("Display all %u possibilities? (y or n)", count);
+	ft_dprintf(OUTPUT_FD, "Display all %u possibilities? (y or n)", count);
 	while (1)
 	{
 		read(0, &c, 1);

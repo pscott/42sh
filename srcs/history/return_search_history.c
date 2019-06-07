@@ -9,8 +9,7 @@ static int	interrupt_search(t_st_cmd *st_cmd)
 		st_cmd->st_txt->txt[0] = ' ';
 	get_pos(st_cmd, st_cmd->st_txt->tracker);
 	reposition_cursor(st_cmd);
-	if (isatty(STDIN_FILENO))
-		write(STDIN_FILENO, "^C", 2);
+	ft_putstr_fd("^C", OUTPUT_FD);
 	execute_str(PRINT_LINE);
 	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 	return (ctrl_c_case);

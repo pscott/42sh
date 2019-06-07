@@ -57,11 +57,9 @@ static int	display_various(t_auto_comp *match, char **ret,
 static int	lst_match_more_than_to_find(t_auto_comp *match, unsigned int len)
 {
 	int				ret;
-	int				len_to_find;
 	t_auto_comp		*curr;
 
 	ret = 0;
-	len_to_find = 0;
 	while (match->prev)
 		match = match->prev;
 	curr = match;

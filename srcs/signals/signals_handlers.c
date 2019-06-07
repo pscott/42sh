@@ -11,7 +11,7 @@ void			sig_handler(int signo)
 {
 	execute_str(CLEAR_BELOW);
 	reset_terminal_settings();
-	ft_dprintf(STDERR, "Interrupted by signal: %d\n", signo);
+	ft_dprintf(STDERR_FILENO, "Interrupted by signal: %d\n", signo);
 	exit(signo);
 }
 
@@ -30,11 +30,10 @@ void			sigint_handler(int signo)
 	(void)signo;
 	st_cmd = get_st_cmd(NULL);
 	*st_cmd->st_txt->txt = '\x03';
-	st_cmd = get_last_st_cmd(st_cmd);
 	vars = get_vars(NULL);
 	vars->cmd_value = 1;
 	if (isatty(STDIN_FILENO))
-		write(STDERR, "^C", 2);
+		write(OUTPUT_FD, "^C", 2);
 	execute_str(PRINT_LINE);
 	execute_str(BEGIN_LINE);
 	execute_str(CLEAR_BELOW);
@@ -47,16 +46,17 @@ void			sigint_handler(int signo)
 
 void			sigwinch_handler(int signo)
 {
-	t_st_cmd	*st_cmd;
+	t_st_cmd		*first_cmd;
+	t_st_cmd		*current_cmd;
 
 	(void)signo;
-	st_cmd = get_st_cmd(NULL);
-	update_window_struct(st_cmd->window);
-	go_back_to_start(st_cmd);
-	st_cmd = get_first_st_cmd(st_cmd);
-	write_from_start(st_cmd);
-	get_pos(st_cmd, st_cmd->st_txt->tracker);
-	reposition_cursor(st_cmd);
+	first_cmd = get_st_cmd(NULL);
+	current_cmd = get_last_st_cmd(first_cmd);
+	update_window_struct(current_cmd->window);
+	go_back_to_start(current_cmd);
+	write_from_start(first_cmd);
+	get_pos(current_cmd, current_cmd->st_txt->tracker);
+	reposition_cursor(current_cmd);
 	signal(SIGWINCH, sigwinch_handler);
 }
 
@@ -92,5 +92,5 @@ void			sigtstp_handler(int signo)
 	execute_str(CLEAR_BELOW);
 	reset_terminal_settings();
 	signal(SIGTSTP, SIG_DFL);
-	ioctl(STDIN, TIOCSTI, "\x1a");
+	ioctl(STDIN_FILENO, TIOCSTI, "\x1a");
 }

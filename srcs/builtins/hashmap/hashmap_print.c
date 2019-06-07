@@ -24,14 +24,14 @@ void		print_hashmap(t_hashmap *hashmap)
 
 	if (is_hashmap_empty(hashmap))
 		return ;
-	ft_printf("hits\tcommand\n");
+	ft_dprintf(OUTPUT_FD, "hits\tcommand\n");
 	i = -1;
 	while (++i < (int)hashmap->size)
 	{
 		item_probe = hashmap->items[i];
 		while (item_probe)
 		{
-			ft_printf("%4d\t%s\n", item_probe->count, item_probe->value);
+			ft_dprintf(OUTPUT_FD, "%4d\t%s\n", item_probe->count, item_probe->value);
 			item_probe = item_probe->next;
 		}
 	}
@@ -47,7 +47,7 @@ int			print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args,
 	while (++i < argc)
 	{
 		if ((value = check_hashmap(argv[i], hashmap, hash_check)))
-			ft_printf("hash -p %s %s\n", value, argv[i]);
+			ft_dprintf(OUTPUT_FD, "hash -p %s %s\n", value, argv[i]);
 		else
 		{
 			ft_dprintf(STDERR_FILENO, "hash: %s: not found\n", argv[i]);
@@ -70,7 +70,7 @@ void		print_hashmap_l(t_hashmap *hashmap)
 		item_probe = hashmap->items[i];
 		while (item_probe)
 		{
-			ft_printf("hash -p %s %s\n", item_probe->value, item_probe->key);
+			ft_dprintf(OUTPUT_FD, "hash -p %s %s\n", item_probe->value, item_probe->key);
 			item_probe = item_probe->next;
 		}
 	}

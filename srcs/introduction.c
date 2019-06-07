@@ -2,7 +2,7 @@
 
 void		print_introduction(void)
 {
-	ft_printf(
+	ft_dprintf(OUTPUT_FD, 
 	"            ____  _     _     \n"
 	"           |___ \\/ |___| |__  \n"
 	"             __) | / __|  _ \\ \n"

@@ -6,11 +6,16 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/22 14:12:03 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/07 16:14:19 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libterm.h"
+
+int		put_special_fd(int c)
+{
+	return (write(13, &c, 1));
+}
 
 int		execute_str(char *cap)
 {
@@ -23,7 +28,7 @@ int		execute_str(char *cap)
 	ap = buf;
 	if (cap && (cap_str = tgetstr(cap, &ap)))
 	{
-		tputs(buf, 1, ft_putchar);
+		tputs(buf, 1, put_special_fd);
 		return (1);
 	}
 	else

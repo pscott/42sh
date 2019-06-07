@@ -58,7 +58,8 @@ static void	init_lexer(t_operation **op_chart, t_token **token_head,
 static int	lexer_final_check(t_token *current_token, t_token *prev_token)
 {
 	if (is_logic_or_pipe(current_token)
-		|| (is_logic_or_pipe(prev_token) && current_token->type == tk_eat))
+		|| (is_logic_or_pipe(prev_token) && current_token
+				&& current_token->type == tk_eat))
 		return (lex_cont_read);
 	else if (prev_token && is_redir_token(prev_token)
 		&& (!current_token->type || is_redir_token(current_token)))
@@ -86,6 +87,7 @@ int			lexer(char *cmdline, t_token **token_head, t_vars *vars)
 	t_token		*prev_token;
 
 	current_token = NULL;
+	prev_token = NULL;
 	init_lexer(&op_chart, token_head, &prev_token);
 	while (cmdline && *cmdline)
 	{

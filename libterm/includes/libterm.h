@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/07 13:55:19 by mporzier         ###   ########.fr       */
+/*   Updated: 2019/06/07 16:55:20 by mporzier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@
 ** FILE DESCRIPTORS
 */
 
-# define STDIN 0
-# define STDOUT 1
-# define STDERR 2
+# define OUTPUT_FD 13
 # define ESC "\x1b"
 
 /*
@@ -104,6 +102,7 @@ int						check_caps(void);
 */
 
 int						execute_str(char *cap);
+int						put_special_fd(int c);
 
 /*
 ** Error functions

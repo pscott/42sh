@@ -63,7 +63,6 @@ int					get_var_value(t_op *lst, long long *nb, char ***vars)
 	long long	var;
 	char		*ptr;
 
-	var = 0;
 	if (lst->varid == -2)
 		*nb = lst->value;
 	else

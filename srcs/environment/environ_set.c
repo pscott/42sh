@@ -11,13 +11,17 @@ static void	replace_env_var(char *var_name, char *var_value, char **env_line)
 	size_t	new_len;
 	size_t	var_name_len;
 
-	ft_memdel((void*)&(*env_line));
+	if (!env_line || !*env_line)
+		return ;
+	if (env_line && *env_line)
+		ft_memdel((void*)env_line);
 	new_len = ft_strlen(var_name) + ft_strlen(var_value) + 1;
 	if (!(*env_line = ft_strnew(new_len)))
 		clean_exit(1, 1);
 	ft_strcpy(*env_line, var_name);
 	var_name_len = ft_strlen(var_name);
-	(*env_line)[var_name_len] = '=';
+	if (*env_line)
+		(*env_line)[var_name_len] = '=';
 	if (var_value)
 		ft_strcpy(&(*env_line)[var_name_len + 1], var_value);
 }
@@ -34,8 +38,11 @@ static void	add_env_var(char *var_name, char *var_value, char ***env)
 	int		i;
 
 	env_len = ft_ntab_len((const char **)*env);
-	if (!(new_env = (char**)malloc((size_t)sizeof(char**) * (env_len + 2))))
+	if (!(new_env = (char**)malloc(sizeof(char*) * (env_len + 2))))
+	{
 		clean_exit(1, 1);
+		return ;
+	}
 	i = 0;
 	while (*env && (*env)[i])
 	{
@@ -43,9 +50,8 @@ static void	add_env_var(char *var_name, char *var_value, char ***env)
 			clean_exit(1, 1);
 		i++;
 	}
-	if (!(new_env[i] = (char*)malloc(sizeof(char*))))
-		clean_exit(1, 1);
-	replace_env_var(var_name, var_value, &new_env[i]);
+	new_env[i] = NULL;
+	replace_env_var(var_name, var_value, &(new_env[i]));
 	new_env[i + 1] = NULL;
 	ft_free_ntab(*env);
 	*env = new_env;

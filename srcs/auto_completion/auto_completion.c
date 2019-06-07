@@ -8,7 +8,7 @@ static int			is_first_arg_and_exec(const char *str,
 	unsigned int	i;
 
 	i = 0;
-	if (cursor_pos == 0)
+	if (cursor_pos == 0 || str[cursor_pos - 1] == '&')
 		return (2);
 	else
 		cursor_pos--;

@@ -28,8 +28,7 @@ int				get_exit_value(char **argv)
 
 void			print_exit(void)
 {
-	if (isatty(STDIN_FILENO))
-		ft_dprintf(2, "exit\n");
+	ft_dprintf(OUTPUT_FD, "exit\n");
 }
 
 static int		check_validity_args(char **argv, int *exitno)

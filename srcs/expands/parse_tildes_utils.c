@@ -21,7 +21,6 @@ int	is_slashed(const char *str)
 	int		len;
 
 	len = ft_strlen(str) - 1;
-	ptr = NULL;
 	if ((ptr = ft_strchr(str, '/')))
 	{
 		while (ptr && *ptr)

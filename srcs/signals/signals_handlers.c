@@ -30,7 +30,6 @@ void			sigint_handler(int signo)
 	(void)signo;
 	st_cmd = get_st_cmd(NULL);
 	*st_cmd->st_txt->txt = '\x03';
-	st_cmd = get_last_st_cmd(st_cmd);
 	vars = get_vars(NULL);
 	vars->cmd_value = 1;
 	if (isatty(STDIN_FILENO))

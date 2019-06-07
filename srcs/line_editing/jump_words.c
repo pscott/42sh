@@ -64,9 +64,8 @@ static void	get_prev_word(t_st_cmd *st_cmd)
 
 int			jump_words(t_st_cmd *st_cmd, int num)
 {
-	char			*begin;
-
-	begin = st_cmd->st_txt->txt;
+	if (num == -2147463648)
+		return (0);
 	if (num >= 0)
 	{
 		while (num)
@@ -75,8 +74,6 @@ int			jump_words(t_st_cmd *st_cmd, int num)
 			num--;
 		}
 	}
-	else if (num == -2147463648)
-		num = -1;
 	else
 	{
 		while (num)
@@ -86,5 +83,5 @@ int			jump_words(t_st_cmd *st_cmd, int num)
 		}
 	}
 	get_pos(st_cmd, st_cmd->st_txt->tracker);
-	return (1);
+	return (num);
 }

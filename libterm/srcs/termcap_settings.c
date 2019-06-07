@@ -21,13 +21,13 @@ static int	open_and_dup_tty(void)
 	if (name)
 	{
 		if ((new_tty = open(name, O_WRONLY)) < 0)
-			return (-1);
+			return (1);
 		if ((dup2(new_tty, OUTPUT_FD) < 0))
 			return (1);
 		close(new_tty);
 		return (0);
 	}
-	return (1);
+	return (-1);
 }
 
 int			reset_terminal_settings(void)

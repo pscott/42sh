@@ -4,36 +4,6 @@
 #include "hashmap.h"
 
 /*
-**	Utility function for execute_no_pipe_builtin
-**	Changes token types as if parse_redirections was called, but does not
-**	actually perform redirections.
-*/
-
-static void		fake_redir_parser(t_token *token_head)
-{
-	t_token					*current;
-	t_token					*prev;
-	t_token					*next;
-
-	current = token_head;
-	if (!current)
-		return ;
-	prev = NULL;
-	while (is_simple_cmd_token(current))
-	{
-		if (current->type == tk_redirection)
-		{
-			next = current->next;
-			while (next->type == tk_eat)
-				next = next->next;
-			current->type = tk_eat;
-			next->type = tk_eat;
-		}
-		current = current->next;
-	}
-}
-
-/*
 **	Utility function to actually exit
 */
 
@@ -51,12 +21,12 @@ static void		execute_exit(int exitno)
 
 static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 {
-	char					**argv;
-	int						ret;
+	char	**argv;
+	int		ret;
 
 	if ((ret = parse_expands(token_head, vars)) > 0)
 		return (ret);
-	if ((ret = parse_redirections(token_head, 1)) > 0)
+	if ((ret = parse_redirections(token_head, 1) > 0))
 		return (ret);
 	argv = NULL;
 	get_argv_from_token_lst(token_head, &argv);
@@ -81,7 +51,7 @@ static char		**fake_argv(t_token *token_head, t_vars *vars)
 	vars->verbose = 0;
 	cpy = copy_tokens(token_head);
 	parse_expands(cpy, vars);
-	fake_redir_parser(cpy);
+	parse_redirections(cpy, -1);
 	get_argv_from_token_lst(cpy, &argv);
 	free_token_list(cpy);
 	vars->verbose = 1;

@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/06 20:59:56 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/07 10:27:03 by mporzier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,20 @@
 
 static int	open_and_dup_tty(void)
 {
-	int new_tty;
+	int		new_tty;
+	char	*name;
 
-	if ((new_tty = open(ttyname(STDIN_FILENO), O_WRONLY)) < 0)
-		return (-1);
-	if ((dup2(STDIN_FILENO, new_tty) < 0))
-		return (1);
-	close(new_tty);
-	return (0);
+	name = ttyname(STDIN_FILENO);
+	if (name)
+	{
+		if ((new_tty = open(name, O_WRONLY)) < 0)
+			return (-1);
+		if ((dup2(STDIN_FILENO, new_tty) < 0))
+			return (1);
+		close(new_tty);
+		return (0);
+	}
+	return (1);
 }
 
 int			reset_terminal_settings(void)

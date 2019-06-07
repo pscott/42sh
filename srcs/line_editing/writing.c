@@ -66,7 +66,6 @@ void		write_from_start(t_st_cmd *st_cmd)
 		if ((st_cmd = st_cmd->next))
 		{
 			get_pos(st_cmd, st_cmd->st_txt->data_size);
-			move_down(st_cmd);
 			execute_str(PRINT_LINE);
 			execute_str(BEGIN_LINE);
 		}

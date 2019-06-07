@@ -41,7 +41,7 @@ static int				get_users_list(t_auto_comp **match, const char *to_find)
 	while (((ret = get_next_line_a_c(fd, &line)) != -1))
 	{
 		if (line && line[0] && line[0] != '#' && (!to_find[0]
-					|| !strncmp(to_find, line, ft_strlen(to_find))))
+					|| !ft_strncmp(to_find, line, ft_strlen(to_find))))
 		{
 			get_user_name(&users, line);
 			if (users == NULL)

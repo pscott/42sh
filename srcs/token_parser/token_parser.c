@@ -94,7 +94,8 @@ static int		add_node_to_ast(t_token **token_head, t_ast **ast_root)
 		return (add_last_node_to_ast(token_head, ast_root));
 	else
 	{
-		token_prev->next = NULL;
+		if (token_prev)
+			token_prev->next = NULL;
 		if (!(insert_ast_node(create_ast_node(*token_head, NULL, NULL)
 						, ast_root)))
 			return (0);

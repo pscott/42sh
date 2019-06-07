@@ -1,48 +1,6 @@
 #include "cmd_parsing.h"
 #include "exp_arith.h"
 
-static	size_t	get_ll_len(long long nb)
-{
-	size_t	len;
-
-	len = (nb < 0) ? 1 : 0;
-	if (nb == 0)
-		return (1);
-	while (nb)
-	{
-		len++;
-		nb = nb / 10;
-	}
-	return (len);
-}
-
-static char		*lltoa_and_free(long long nb, char **to_free)
-{
-	char		*str;
-	int			len;
-
-	ft_strdel(to_free);
-	len = get_ll_len(nb);
-	if (!(str = ft_strnew(len)))
-		clean_exit(1, 1);
-	if (nb == 0)
-	{
-		str[0] = '0';
-		return (str);
-	}
-	if (nb < 0)
-	{
-		str[0] = '-';
-		nb = nb * -1;
-	}
-	while (nb)
-	{
-		str[len-- - 1] = nb % 10 + '0';
-		nb = nb / 10;
-	}
-	return (str);
-}
-
 static char		*dup_for_arith_exp(char *str, size_t i, size_t index)
 {
 	char	*new_str;
@@ -61,6 +19,7 @@ static char		expand_lowest_arith_exp(char **str, t_vars *vars)
 
 	i = 0;
 	arith_result = 0;
+	ft_bzero(index, sizeof(index));
 	while ((*str)[i])
 	{
 		if (!(ft_strncmp("$((", *str + i, 3)))

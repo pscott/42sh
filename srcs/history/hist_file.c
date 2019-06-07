@@ -55,7 +55,7 @@ t_hist_lst			*get_history(const char **env)
 	t_hist_lst		*hist_lst;
 	int				fd;
 
-	if (isatty(STDIN_FILENO) == 0)
+	if (isatty(OUTPUT_FD) == 0)
 		return (NULL);
 	if ((fd = open_history(env, O_RDONLY)) < 0)
 		return (NULL);

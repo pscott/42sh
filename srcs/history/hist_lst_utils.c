@@ -5,7 +5,7 @@ t_hist_lst	*create_hist_lst(const char *line, char keep)
 {
 	t_hist_lst	*res;
 
-	if (!(isatty(STDIN_FILENO)))
+	if (!(isatty(OUTPUT_FD)))
 		return (NULL);
 	if (!(res = (t_hist_lst*)malloc(sizeof(*res))))
 		clean_exit(1, 1);

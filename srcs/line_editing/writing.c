@@ -7,7 +7,7 @@
 
 static	int	move_down(t_st_cmd *st_cmd)
 {
-	if (isatty(STDIN_FILENO) == 0)
+	if (isatty(OUTPUT_FD) == 0)
 		return (0);
 	if (st_cmd->start_pos.row + st_cmd->relative_pos.row
 			>= st_cmd->window->ws_row)
@@ -29,7 +29,7 @@ void		go_back_to_start(t_st_cmd *st_cmd)
 {
 	int		row;
 
-	if (isatty(STDIN_FILENO) == 0)
+	if (isatty(OUTPUT_FD) == 0)
 		return ;
 	while (st_cmd)
 	{
@@ -50,7 +50,7 @@ void		write_from_start(t_st_cmd *st_cmd)
 {
 	size_t tmp;
 
-	if (isatty(STDIN_FILENO) == 0)
+	if (isatty(OUTPUT_FD) == 0)
 		return ;
 	st_cmd = get_first_st_cmd(st_cmd);
 	while (st_cmd)
@@ -82,7 +82,7 @@ size_t		write_line(t_st_cmd *cmd)
 {
 	size_t		i;
 
-	if (!(i = 0) && isatty(STDIN_FILENO) == 0)
+	if (!(i = 0) && isatty(OUTPUT_FD) == 0)
 		return (0);
 	while ((cmd->st_txt->tracker + i) < cmd->st_txt->data_size
 		&& cmd->st_txt->txt[cmd->st_txt->tracker + i] != '\n')
@@ -116,7 +116,7 @@ void		write_st_cmd(t_st_cmd *st_cmd)
 {
 	size_t	step;
 
-	if (isatty(STDIN_FILENO) == 0)
+	if (isatty(OUTPUT_FD) == 0)
 		return ;
 	while ((step = write_line(st_cmd)))
 	{

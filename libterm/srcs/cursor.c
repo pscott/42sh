@@ -46,7 +46,7 @@ static void	get_pos(char *pos_str)
 	while (ft_atoi(pos_str + 2) == 0)
 	{
 		tputs(GET_POS, 1, put_special_fd);
-		if (isatty(STDIN_FILENO))
+		if (isatty(OUTPUT_FD))
 		{
 			if ((len = read(STDIN_FILENO, pos_str, 50)) < 0)
 			{
@@ -65,7 +65,7 @@ void		retrieve_pos(t_pos *curr_pos)
 {
 	char	pos_str[50];
 
-	if (isatty(STDIN_FILENO) == 0)
+	if (isatty(OUTPUT_FD) == 0)
 		return ;
 	ft_bzero(pos_str, 50);
 	get_pos(pos_str);
@@ -78,7 +78,7 @@ int			move_cursor(int col, int row)
 	char	*gotostr;
 	char	*ap;
 
-	if (isatty(STDIN_FILENO) == 0)
+	if (isatty(OUTPUT_FD) == 0)
 		return (0);
 	sanitize_pos_values(&col, &row);
 	ft_bzero(buf, 50);
@@ -87,6 +87,6 @@ int			move_cursor(int col, int row)
 		return (err_tgoto(MOVE_CURSOR));
 	if (!(gotostr = tgoto(gotostr, col, row)))
 		return (err_tgoto(MOVE_CURSOR));
-	tputs(gotostr, 0, ft_putchar);
+	tputs(gotostr, 0, put_special_fd);
 	return (1);
 }

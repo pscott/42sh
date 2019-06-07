@@ -39,7 +39,7 @@ void			print_prompt(t_st_cmd *st_cmd)
 	t_vars		*vars;
 
 	vars = get_vars(NULL);
-	if (isatty(STDIN_FILENO))
+	if (isatty(OUTPUT_FD))
 	{
 		zsh_newline(st_cmd);
 		retrieve_pos(&st_cmd->start_pos);
@@ -83,7 +83,7 @@ void			print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf,
 {
 	size_t		tmp;
 
-	if (isatty(STDIN_FILENO))
+	if (isatty(OUTPUT_FD))
 	{
 		replace_prompt(st_cmd, buf, prompt_type);
 		move_cursor(st_cmd->start_pos.col, st_cmd->start_pos.row);

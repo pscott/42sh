@@ -8,7 +8,7 @@
 
 void			init_relative_pos(t_st_cmd *st_cmd)
 {
-	if (isatty(STDIN_FILENO) == 0)
+	if (isatty(OUTPUT_FD) == 0)
 		return ;
 	if (!st_cmd->window->ws_col)
 		return ;
@@ -18,7 +18,7 @@ void			init_relative_pos(t_st_cmd *st_cmd)
 
 void			update_window_struct(struct winsize *window)
 {
-	if (isatty(STDIN_FILENO) == 0)
+	if (isatty(OUTPUT_FD) == 0)
 		return ;
 	if (ioctl(STDIN_FILENO, TIOCGWINSZ, window) == -1)
 	{

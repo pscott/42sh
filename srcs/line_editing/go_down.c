@@ -2,7 +2,7 @@
 
 void	go_down(t_st_cmd *st_cmd)
 {
-	if (!isatty(STDIN_FILENO))
+	if (!isatty(OUTPUT_FD))
 		return ;
 	if (st_cmd->st_txt->tracker == st_cmd->st_txt->data_size)
 		ft_putstr(BELL);

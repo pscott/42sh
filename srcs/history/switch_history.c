@@ -42,7 +42,7 @@ void	switch_st_cmd(t_st_cmd *st_cmd, char *newcmd)
 
 void	get_previous_history(t_st_cmd *st_cmd)
 {
-	if (isatty(STDIN_FILENO) == 0)
+	if (isatty(OUTPUT_FD) == 0)
 		return ;
 	if (!st_cmd->hist_lst || !st_cmd->hist_lst->prev)
 		ft_putstr(BELL);
@@ -63,7 +63,7 @@ void	get_previous_history(t_st_cmd *st_cmd)
 
 void	get_next_history(t_st_cmd *st_cmd)
 {
-	if (isatty(STDIN_FILENO) == 0)
+	if (isatty(OUTPUT_FD) == 0)
 		return ;
 	if (!st_cmd->hist_lst || !st_cmd->hist_lst->next)
 		ft_putstr(BELL);

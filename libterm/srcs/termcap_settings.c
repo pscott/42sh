@@ -32,7 +32,7 @@ static int	open_and_dup_tty(void)
 
 int			reset_terminal_settings(void)
 {
-	if (isatty(STDIN_FILENO) == 0)
+	if (isatty(OUTPUT_FD) == 0)
 		return (1);
 	if ((tcsetattr(STDIN_FILENO, TCSANOW, &g_saved_attr) == -1))
 		return (err_resetattr());

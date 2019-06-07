@@ -32,7 +32,7 @@ void			sigint_handler(int signo)
 	*st_cmd->st_txt->txt = '\x03';
 	vars = get_vars(NULL);
 	vars->cmd_value = 1;
-	if (isatty(STDIN_FILENO))
+	if (isatty(OUTPUT_FD))
 		write(OUTPUT_FD, "^C", 2);
 	execute_str(PRINT_LINE);
 	execute_str(BEGIN_LINE);

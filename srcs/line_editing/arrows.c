@@ -12,8 +12,6 @@ void	get_pos(t_st_cmd *st_cmd, size_t tracker)
 {
 	size_t i;
 
-	if (isatty(STDIN_FILENO) == 0)
-		return ;
 	i = 0;
 	init_relative_pos(st_cmd);
 	if (tracker > st_cmd->st_txt->data_size)

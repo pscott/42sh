@@ -2,7 +2,7 @@
 #include "input.h"
 #include "history.h"
 
-void		update_start_pos(t_st_cmd *st_cmd) // might be useless
+void		update_start_pos(t_st_cmd *st_cmd)
 {
 	st_cmd = get_first_st_cmd(st_cmd);
 	while (st_cmd)

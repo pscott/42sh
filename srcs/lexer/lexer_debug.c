@@ -3,14 +3,14 @@
 
 //TODO tej me before last push
 
-void	print_token(t_token *token)//debug
+void	print_token(t_token *token)
 {
 	if (!token)
 		return ;
 	ft_dprintf(2, "_TOKEN_ type:%d {%s}\n", token->type, token->content);
 }
 
-void	print_token_list(t_token *token_head)//debug
+void	print_token_list(t_token *token_head)
 {
 	t_token	*probe;
 
@@ -19,7 +19,6 @@ void	print_token_list(t_token *token_head)//debug
 	while (probe)
 	{
 		print_token(probe);
-		//printf("probe->next add: %p\n", probe);
 		probe = probe->next;
 	}
 }

@@ -39,7 +39,7 @@ void		delete_left(t_st_cmd *st_cmd)
 	tmp = st_txt->tracker;
 	get_pos(st_cmd, st_cmd->st_txt->tracker);
 	reposition_cursor(st_cmd);
-	execute_str(CLEAR_BELOW); // need to erase more probably... ?
+	execute_str(CLEAR_BELOW);
 	shift_chars_left(&st_txt->txt[st_txt->tracker], 1);
 	write_st_cmd(st_cmd);
 	st_txt->tracker = tmp;

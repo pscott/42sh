@@ -42,7 +42,7 @@ char	*ft_strdup_print(const char *s1)
 }
 
 void	insert_str(t_st_cmd *st_cmd, const char *buf,
-		size_t print_len) // remove print_len
+		size_t print_len)
 {
 	char		*printable_buf;
 	t_st_txt	*st_txt;

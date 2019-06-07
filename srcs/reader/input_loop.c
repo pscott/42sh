@@ -10,14 +10,14 @@ void		magic_print(char *buf) // debug
 	int	i;
 
 	i = 0;
-	//execute_str(SAVE_CURSOR);
-	//move_cursor(0, 0);
+	execute_str(SAVE_CURSOR);
+	move_cursor(0, 0);
 	while (i < BUF_SIZE + 1)
 	{
 		ft_dprintf(2, "%-4d", buf[i]);
 		i++;
 	}
-	//execute_str(RESTORE_CURSOR);
+	execute_str(RESTORE_CURSOR);
 }
 
 static int	cmp_special_keys_versus_own_len(char *buf)
@@ -106,7 +106,6 @@ int			input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)
 		if (is_valid_escape(buf) == 0)
 			continue ;
 		ret = checkers(st_cmd, vars, buf, mode);
-		//magic_print(buf);
 		if (ret == input_stop)
 			return (-1);
 		else if (ret == input_break)

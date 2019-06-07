@@ -92,5 +92,5 @@ void			sigtstp_handler(int signo)
 	execute_str(CLEAR_BELOW);
 	reset_terminal_settings();
 	signal(SIGTSTP, SIG_DFL);
-	ioctl(STDIN, TIOCSTI, "\x1a"); // non-interactive ?
+	ioctl(STDIN, TIOCSTI, "\x1a");
 }

@@ -1,38 +1,55 @@
-#include "libterm.h"
 #include "input.h"
 #include "line_editing.h"
 
+static void		update_prompt_pos(t_st_cmd *st_cmd)
+{
+	int times;
+
+	times = st_cmd->st_prompt->size / st_cmd->window->ws_col;
+	while (times)
+	{
+		update_start_pos(st_cmd);
+		times--;
+	}
+}
+
+static void		zsh_newline(t_st_cmd *st_cmd)
+{
+	int		len;
+	char	*zsh;
+
+	len = st_cmd->window->ws_col - 1 > 0 ? st_cmd->window->ws_col - 1 : 2;
+	if (!(zsh = malloc(sizeof(*zsh) * len)))
+		clean_exit(1, 1);
+	ft_memset(zsh, ' ', len);
+	execute_str(HIGHLIGHT);
+	write(1, "%", 1);
+	execute_str(NO_HIGHLIGHT);
+	write(1, zsh, len);
+	execute_str(BEGIN_LINE);
+	execute_str(ERASE_ENDLINE);
+	ft_memdel((void*)&zsh);
+}
 void			print_prompt(t_st_cmd *st_cmd)
 {
-	char		*zsh;
-	int			len;
 	t_vars		*vars;
 
 	vars = get_vars(NULL);
 	if (isatty(STDIN_FILENO))
 	{
-		len = st_cmd->window->ws_col - 1 > 0 ? st_cmd->window->ws_col - 1 : 2;
-		if (!(zsh = malloc(sizeof(*zsh) * len)))
-			clean_exit(1, 1);
-		ft_memset(zsh, ' ', len);
-		execute_str(HIGHLIGHT);
-		write(1, "%", 1);
-		execute_str(NO_HIGHLIGHT);
-		write(1, zsh, len);
-		execute_str(BEGIN_LINE);
-		execute_str(ERASE_ENDLINE);
+		zsh_newline(st_cmd);
 		retrieve_pos(&st_cmd->start_pos);
 		if (vars->cmd_value)
 			ft_printf("%s", RED);
 		else
 			ft_printf("%s", GREEN);
 		ft_printf("%s%s", st_cmd->st_prompt->prompt, FG_DFL);
-		ft_memdel((void*)&zsh);
+		update_prompt_pos(st_cmd);
 	}
 }
 
 static void		replace_prompt(t_st_cmd *st_cmd, const char *buf,
-				int prompt_type)
+		int prompt_type)
 {
 	char		*new_prompt;
 	char		*tmp;
@@ -56,7 +73,7 @@ static void		replace_prompt(t_st_cmd *st_cmd, const char *buf,
 }
 
 void			print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf,
-				int prompt_type)
+		int prompt_type)
 {
 	size_t		tmp;
 

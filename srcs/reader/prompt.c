@@ -26,9 +26,9 @@ static void		zsh_newline(t_st_cmd *st_cmd)
 		clean_exit(1, 1);
 	ft_memset(zsh, ' ', len);
 	execute_str(HIGHLIGHT);
-	write(OUTPUT_FD, "%", 1);
+	write(TERM_FD, "%", 1);
 	execute_str(NO_HIGHLIGHT);
-	write(OUTPUT_FD, zsh, len);
+	write(TERM_FD, zsh, len);
 	execute_str(BEGIN_LINE);
 	execute_str(ERASE_ENDLINE);
 	ft_memdel((void*)&zsh);
@@ -39,15 +39,15 @@ void			print_prompt(t_st_cmd *st_cmd)
 	t_vars		*vars;
 
 	vars = get_vars(NULL);
-	if (isatty(OUTPUT_FD))
+	if (isatty(TERM_FD))
 	{
 		zsh_newline(st_cmd);
 		retrieve_pos(&st_cmd->start_pos);
 		if (vars->cmd_value)
-			ft_dprintf(OUTPUT_FD, "%s", RED);
+			ft_dprintf(TERM_FD, "%s", RED);
 		else
-			ft_dprintf(OUTPUT_FD, "%s", GREEN);
-		ft_dprintf(OUTPUT_FD, "%s%s", st_cmd->st_prompt->prompt, FG_DFL);
+			ft_dprintf(TERM_FD, "%s", GREEN);
+		ft_dprintf(TERM_FD, "%s%s", st_cmd->st_prompt->prompt, FG_DFL);
 		update_prompt_pos(st_cmd);
 		get_pos(st_cmd, 0);
 		reposition_cursor(st_cmd);
@@ -83,14 +83,14 @@ void			print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf,
 {
 	size_t		tmp;
 
-	if (isatty(OUTPUT_FD))
+	if (isatty(TERM_FD))
 	{
 		replace_prompt(st_cmd, buf, prompt_type);
 		move_cursor(st_cmd->start_pos.col, st_cmd->start_pos.row);
 		tmp = st_cmd->st_txt->tracker;
 		st_cmd->st_txt->tracker = 0;
 		init_relative_pos(st_cmd);
-		ft_dprintf(OUTPUT_FD, "%s", st_cmd->st_prompt->prompt);
+		ft_dprintf(TERM_FD, "%s", st_cmd->st_prompt->prompt);
 		write_st_cmd(st_cmd);
 		st_cmd->st_txt->tracker = tmp;
 		get_pos(st_cmd, st_cmd->st_txt->tracker);

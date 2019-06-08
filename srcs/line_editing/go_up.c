@@ -2,7 +2,7 @@
 
 void		go_up(t_st_cmd *st_cmd)
 {
-	if (!isatty(OUTPUT_FD))
+	if (!isatty(TERM_FD))
 		return ;
 	if (st_cmd->st_txt->tracker == 0)
 		ft_putstr(BELL);

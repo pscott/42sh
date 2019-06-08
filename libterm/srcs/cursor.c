@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/07 16:36:52 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/08 12:56:45 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,13 @@ static void	get_pos(char *pos_str)
 	while (ft_atoi(pos_str + 2) == 0)
 	{
 		tputs(GET_POS, 1, put_special_fd);
-		if (isatty(OUTPUT_FD))
+		if ((len = read(STDIN_FILENO, pos_str, 50)) < 0)
 		{
-			if ((len = read(STDIN_FILENO, pos_str, 50)) < 0)
-			{
-				ft_dprintf(2, "error: failed to read\n");
-				pos_str = NULL;
-				break ;
-			}
-			pos_str[len] = 0;
-		}
-		else
+			ft_dprintf(2, "error: failed to read\n");
+			pos_str = NULL;
 			break ;
+		}
+		pos_str[len] = 0;
 	}
 }
 
@@ -65,7 +60,7 @@ void		retrieve_pos(t_pos *curr_pos)
 {
 	char	pos_str[50];
 
-	if (isatty(OUTPUT_FD) == 0)
+	if (isatty(TERM_FD) == 0)
 		return ;
 	ft_bzero(pos_str, 50);
 	get_pos(pos_str);
@@ -78,7 +73,7 @@ int			move_cursor(int col, int row)
 	char	*gotostr;
 	char	*ap;
 
-	if (isatty(OUTPUT_FD) == 0)
+	if (isatty(TERM_FD) == 0)
 		return (0);
 	sanitize_pos_values(&col, &row);
 	ft_bzero(buf, 50);
@@ -88,5 +83,5 @@ int			move_cursor(int col, int row)
 	if (!(gotostr = tgoto(gotostr, col, row)))
 		return (err_tgoto(MOVE_CURSOR));
 	tputs(gotostr, 0, put_special_fd);
-	return (1);
+	return (0);
 }

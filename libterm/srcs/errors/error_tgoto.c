@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/05/22 14:11:36 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/08 12:49:30 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 int		err_tgoto(char *cap)
 {
 	ft_dprintf(2, "error: failed to use tgoto with \"%s\" cap.\n", cap);
-	return (0);
+	return (1);
 }

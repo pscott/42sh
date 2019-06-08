@@ -76,7 +76,7 @@ int					is_display(unsigned int count)
 	char			c;
 
 	ft_putchar('\n');
-	ft_dprintf(OUTPUT_FD, "Display all %u possibilities? (y or n)", count);
+	ft_dprintf(TERM_FD, "Display all %u possibilities? (y or n)", count);
 	while (1)
 	{
 		read(0, &c, 1);

@@ -31,7 +31,7 @@ void		adjust_history(t_st_cmd *st_cmd, const char *line, int keep)
 {
 	t_hist_lst *left;
 
-	if (isatty(OUTPUT_FD) == 0)
+	if (isatty(TERM_FD) == 0)
 		return ;
 	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 	left = st_cmd->hist_lst->prev;

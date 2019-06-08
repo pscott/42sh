@@ -5,7 +5,7 @@ t_hist_lst	*create_hist_lst(const char *line, char keep)
 {
 	t_hist_lst	*res;
 
-	if (!(isatty(OUTPUT_FD)))
+	if (!(isatty(TERM_FD)))
 		return (NULL);
 	if (!(res = (t_hist_lst*)malloc(sizeof(*res))))
 		clean_exit(1, 1);
@@ -46,10 +46,10 @@ void		print_hist_lst(t_hist_lst *hist_lst)
 	t_hist_lst *probe;
 
 	probe = get_begin_lst(hist_lst);
-	ft_dprintf(OUTPUT_FD, "--- PRINTING LST --- \n");
+	ft_dprintf(TERM_FD, "--- PRINTING LST --- \n");
 	while (probe)
 	{
-		ft_dprintf(OUTPUT_FD, "PROBE: TXT: {%s}\n", probe->txt);
+		ft_dprintf(TERM_FD, "PROBE: TXT: {%s}\n", probe->txt);
 		probe = probe->next;
 	}
 }

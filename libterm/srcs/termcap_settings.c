@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/07 16:43:08 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/08 12:56:35 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	open_and_dup_tty(void)
 	{
 		if ((new_tty = open(name, O_WRONLY)) < 0)
 			return (1);
-		if ((dup2(new_tty, OUTPUT_FD) < 0))
+		if ((dup2(new_tty, TERM_FD) < 0))
 			return (1);
 		close(new_tty);
 		return (0);
@@ -32,9 +32,9 @@ static int	open_and_dup_tty(void)
 
 int			reset_terminal_settings(void)
 {
-	if (isatty(OUTPUT_FD) == 0)
+	if (isatty(TERM_FD) == 0)
 		return (1);
-	if ((tcsetattr(STDIN_FILENO, TCSANOW, &g_saved_attr) == -1))
+	if ((tcsetattr(TERM_FD, TCSANOW, &g_saved_attr) == -1))
 		return (err_resetattr());
 	return (1);
 }
@@ -70,7 +70,7 @@ int			setup_terminal_settings(void)
 
 	if ((res = open_and_dup_tty()))
 		return (res);
-	if ((tcgetattr(STDIN_FILENO, &g_saved_attr) == -1))
+	if ((tcgetattr(TERM_FD, &g_saved_attr) == -1))
 		return (err_getattr());
 	if ((termtype = getenv("TERM")) == NULL)
 		return (err_no_env());

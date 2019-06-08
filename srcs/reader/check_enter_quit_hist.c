@@ -39,7 +39,7 @@ int		check_for_search_histo(t_st_cmd *st_cmd, const char *buf_received)
 {
 	if (ft_strncmp(buf_received, CTRL_R, 2) == 0)
 	{
-		if (isatty(OUTPUT_FD) == 0)
+		if (isatty(TERM_FD) == 0)
 			return (1);
 		else
 			return (handle_reverse_search_history(st_cmd, 0, 0));

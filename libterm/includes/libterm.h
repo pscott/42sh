@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/07 16:55:20 by mporzier         ###   ########.fr       */
+/*   Updated: 2019/06/08 12:52:50 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 ** FILE DESCRIPTORS
 */
 
-# define OUTPUT_FD 13
+# define TERM_FD 13
 # define ESC "\x1b"
 
 /*

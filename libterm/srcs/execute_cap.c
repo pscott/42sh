@@ -23,7 +23,7 @@ int		execute_str(char *cap)
 	char	*cap_str;
 	char	*ap;
 
-	if (isatty(OUTPUT_FD) == 0)
+	if (isatty(TERM_FD) == 0)
 		return (0);
 	ap = buf;
 	if (cap && (cap_str = tgetstr(cap, &ap)))

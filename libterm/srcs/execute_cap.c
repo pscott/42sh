@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/07 16:14:19 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/08 16:40:17 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		put_special_fd(int c)
 {
-	return (write(13, &c, 1));
+	return (write(TERM_FD, &c, 1));
 }
 
 int		execute_str(char *cap)

@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/08 12:56:35 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/08 18:22:52 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,43 @@
 static int	open_and_dup_tty(void)
 {
 	int		new_tty;
+	int		ret;
 	char	*name;
 
 	name = ttyname(STDIN_FILENO);
 	if (name)
 	{
+		ret = 0;
 		if ((new_tty = open(name, O_WRONLY)) < 0)
 			return (1);
 		if ((dup2(new_tty, TERM_FD) < 0))
-			return (1);
+			ret = 1;
 		close(new_tty);
-		return (0);
+		return (ret);
 	}
 	return (-1);
 }
 
 int			reset_terminal_settings(void)
 {
-	if (isatty(TERM_FD) == 0)
+	if (isatty(STDIN_FILENO) == 0)
 		return (1);
-	if ((tcsetattr(TERM_FD, TCSANOW, &g_saved_attr) == -1))
+	close(TERM_FD);
+	if ((tcsetattr(STDIN_FILENO, TCSADRAIN, &g_saved_attr) == -1))
 		return (err_resetattr());
 	return (1);
 }
 
 static int	set_non_canonical_mode(struct termios *tattr)
 {
-	tattr->c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR
-			| ICRNL | IXON);
-	tattr->c_lflag &= ~(ECHO | ECHONL | ICANON | IEXTEN | ISIG);
-	tattr->c_cflag &= ~(CSIZE | PARENB);
-	tattr->c_cflag |= CS8;
-	tattr->c_cc[VMIN] = 1;
-	tattr->c_cc[VTIME] = 0;
-	if (tcsetattr(0, TCSAFLUSH, tattr) == -1)
+	struct termios	term;
+
+	g_init = 1;
+	ft_memcpy(&term, tattr, sizeof(term));
+	term.c_lflag &= ~(ICANON | ECHO | ECHONL | ISIG);
+	term.c_cc[VMIN] = 1;
+	term.c_cc[VTIME] = 0;
+	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &term) == -1)
 		return (err_setattr());
 	return (1);
 }
@@ -65,12 +68,11 @@ int			setup_terminal_settings(void)
 	char			term_buffer[2048];
 	char			*termtype;
 	int				res;
-	struct termios	tattr;
 	int				new_tty;
 
 	if ((res = open_and_dup_tty()))
 		return (res);
-	if ((tcgetattr(TERM_FD, &g_saved_attr) == -1))
+	if ((!g_init) && (tcgetattr(STDIN_FILENO, &g_saved_attr) == -1))
 		return (err_getattr());
 	if ((termtype = getenv("TERM")) == NULL)
 		return (err_no_env());
@@ -78,11 +80,9 @@ int			setup_terminal_settings(void)
 		return (err_noentry());
 	else if (res == -1)
 		return (err_no_database());
-	if ((tcgetattr(STDIN_FILENO, &tattr) == -1))
-		return (err_getattr());
 	if (check_caps() == 0)
 		return (err_caps());
-	if (set_non_canonical_mode(&tattr) == 0)
+	if (set_non_canonical_mode(&g_saved_attr) == 0)
 		return (1);
 	return (0);
 }

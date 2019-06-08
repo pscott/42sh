@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:53:19 by pscott            #+#    #+#             */
-/*   Updated: 2019/04/04 14:53:24 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/08 16:06:48 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,17 @@ static	size_t	how_long(char const *s, char *c, size_t *j)
 	return (nb);
 }
 
+static char		**free_tab_return_null(char **tab)
+{
+	ft_free_ntab(tab);
+	return (NULL);
+}
+
 char			**ft_strsplit(char const *s, char *c)
 {
 	char	**tab;
 	size_t	i;
 	size_t	j;
-	size_t	k;
 
 	i = 0;
 	j = 0;
@@ -73,11 +78,10 @@ char			**ft_strsplit(char const *s, char *c)
 		return (NULL);
 	while (s[j])
 	{
-		k = 0;
 		if (!(how_long(s, c, &j)))
 			j++;
 		else if (!(tab[i] = ft_strnew(how_long(s, c, &j))))
-			return (NULL);
+			return (free_tab_return_null(tab));
 		else
 		{
 			ft_strncpy(tab[i], &s[j], how_long(s, c, &j));

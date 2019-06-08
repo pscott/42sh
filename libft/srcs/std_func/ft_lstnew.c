@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:53:19 by pscott            #+#    #+#             */
-/*   Updated: 2019/04/04 14:53:24 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/08 16:00:42 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ t_list	*ft_lstnew(void const *content, size_t content_size)
 	else
 	{
 		if (!(newl->content = malloc(sizeof(content))))
+		{
+			ft_memdel((void*)&newl);
 			return (NULL);
+		}
 		ft_memcpy((newl->content), content, content_size);
 		newl->content_size = content_size;
 	}

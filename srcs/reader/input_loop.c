@@ -5,21 +5,6 @@
 #include <limits.h>
 #include "errors.h"
 
-void		magic_print(char *buf) // debug
-{
-	int	i;
-
-	i = 0;
-	execute_str(SAVE_CURSOR);
-	move_cursor(0, 0);
-	while (i < BUF_SIZE + 1)
-	{
-		ft_dprintf(2, "%-4d", buf[i]);
-		i++;
-	}
-	execute_str(RESTORE_CURSOR);
-}
-
 static int	cmp_special_keys_versus_own_len(char *buf)
 {
 	if (ft_strncmp(buf, RIGHTARROW, ARROW_LEN + 1) == 0

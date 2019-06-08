@@ -44,7 +44,7 @@ static t_hist_lst	*construct_history(int fd)
 		hist_lst = insert_right(hist_lst, append_with_newline, 1);
 		ft_strdel(&append_with_newline);
 		if (++id > 1000)
-			break ; // error message saying "hey too many lines ? "
+			break ;
 	}
 	if (tmp)
 		ft_memdel((void*)&tmp);

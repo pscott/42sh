@@ -38,10 +38,6 @@ static void	pressed_enter(t_st_cmd *st_cmd, char *buf)
 	execute_str(PRINT_LINE);
 }
 
-/*
-**
-*/
-
 static int	check_for_clear(t_st_cmd *st_cmd, char *buf)
 {
 	if (ft_strncmp(buf, "\x0c", 2) == 0)

@@ -3,12 +3,15 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
-static	int		errors_fd_great(char *tk, int err, int fd)
+static	int		errors_fd_great(char *tk, int err, int fd, int mode)
 {
-	if (err == 1)
-		ft_dprintf(STDERR_FILENO, "42sh: %s: ambiguous redirect\n", tk);
-	else if (err == 2)
-		ft_dprintf(2, "42sh: %d: bad file descriptor\n", fd);
+	if (mode != -1)
+	{
+		if (err == 1)
+			ft_dprintf(STDERR_FILENO, "42sh: %s: ambiguous redirect\n", tk);
+		else if (err == 2)
+			ft_dprintf(STDERR_FILENO, "42sh: %d: bad file descriptor\n", fd);
+	}
 	return (1);
 }
 
@@ -56,18 +59,18 @@ int				redir_fd_less(t_token *redir, t_token *prev, int mode)
 	if ((old_fd = check_fd_prev(prev)) < 0)
 		old_fd = STDIN_FILENO;
 	if (old_fd > 9)
-		return (errors_fd_great(NULL, 2, old_fd));
+		return (errors_fd_great(NULL, 2, old_fd, mode));
 	next = redir->next;
 	while (next->type == tk_eat)
 		next = next->next;
 	if (check_redirect(next->content) == 1)
-		return (errors_fd_great(next->content, 1, 0));
+		return (errors_fd_great(next->content, 1, 0, mode));
 	else if (check_redirect(next->content) == -1)
 		new_fd = change_token_close(next);
 	else
 		new_fd = ft_atoi(next->content);
 	if (new_fd > 9 || (new_fd != -1 && fstat(new_fd, &buf) == -1))
-		return (errors_fd_great(NULL, 2, new_fd));
+		return (errors_fd_great(NULL, 2, new_fd, mode));
 	redirect(new_fd, old_fd, mode);
 	redir->type = tk_eat;
 	if (new_fd != -1)

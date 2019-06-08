@@ -27,6 +27,7 @@ static t_st_cmd	*init_get_doc(char **txt, t_vars *vars)
 	t_st_cmd *st_cmd;
 
 	st_cmd = init_st_cmd((const char **)vars->env_vars);
+	get_st_cmd(&st_cmd);
 	ft_strdel(&st_cmd->st_txt->txt);
 	if (!(st_cmd->st_txt->txt = ft_strdup("\n")))
 		clean_exit(1, 1);
@@ -75,9 +76,11 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 {
 	char		*txt;
 	t_st_cmd	*st_cmd;
+	t_st_cmd	*main_st_cmd;
 	int			len;
 	int			ret;
 
+	main_st_cmd = get_st_cmd(NULL);
 	st_cmd = init_get_doc(&txt, vars);
 	while (42)
 	{
@@ -95,5 +98,6 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 		ft_strdel(&txt);
 	}
 	txt = get_heredoc_txt(&st_cmd, txt, eof);
+	get_st_cmd(&main_st_cmd);
 	return (return_get_doc(txt, is_eof_quoted, vars));
 }

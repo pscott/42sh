@@ -49,4 +49,14 @@ int				redir_dgreat(t_token *redir, t_token *prev, int mode);
 int				redir_less(t_token *redir, t_token *prev, int mode);
 int				check_fd_prev(t_token *prev);
 
+/*
+** Errors
+*/
+
+
+int				bad_fd_error(int fd, int mode);
+int				ambi_redir_error(char *str, int mode);
+int				no_file_error(char *filename, int mode);
+int				open_error(char *filename, int mode);
+
 #endif

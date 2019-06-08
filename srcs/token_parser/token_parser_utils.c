@@ -54,8 +54,8 @@ int		exec_ast(t_ast *root, t_vars *vars)
 		return (1);
 	if (root->token->type == tk_semi)
 	{
-		if ((ret = exec_ast(root->left, vars)) > 0)
-			return (ret);
+		if ((ret = exec_ast(root->left, vars)) == 254 || ret == -2)
+			return (1);
 		return (exec_ast(root->right, vars));
 	}
 	else if (root->token->type == tk_and)

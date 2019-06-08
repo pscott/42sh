@@ -108,6 +108,7 @@ static	int		fork_pipes(int num_simple_commands, t_token *beg, t_vars *vars)
 	i = 0;
 	ints[0] = STDIN_FILENO;
 	ints[1] = num_simple_commands;
+	reset_terminal_settings();
 	while (i++ < num_simple_commands - 1)
 	{
 		if (pipe(fd))
@@ -147,7 +148,7 @@ int				parse_cmdline(t_token *token, t_vars *vars)
 		}
 	}
 	if ((num_simple_commands == 1)
-			&& (ret = execute_no_pipe_builtin(token, vars)) >= 0)
+		&& ((ret = check_no_pipe_builtin(token, vars)) >= 0 || ret == -2))
 		return (ret);
 	ret = fork_pipes(num_simple_commands, token, vars);
 	return (ret);

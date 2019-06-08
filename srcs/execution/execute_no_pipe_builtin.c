@@ -24,7 +24,7 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	char	**argv;
 	int		ret;
 
-	if ((ret = parse_expands(token_head, vars)) > 0)
+	if ((ret = parse_expands(token_head, vars)) != 0)
 		return (ret);
 	if ((ret = parse_redirections(token_head, 1) > 0))
 		return (ret);
@@ -71,7 +71,7 @@ static char		**fake_argv(t_token *token_head, t_vars *vars)
 **	Else (argv[0] is NOT a builtin) returns -1.
 */
 
-int				execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
+int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 {
 	char					**argv;
 	unsigned int			cmd_id;
@@ -79,7 +79,7 @@ int				execute_no_pipe_builtin(t_token *token_head, t_vars *vars)
 	char					*cmd_path;
 
 	if (!(argv = fake_argv(token_head, vars)) || !argv[0])
-		return (-1);
+		return (-2);
 	if (ft_strchr(argv[0], '/'))
 		ret = -1;
 	else if ((cmd_id = check_builtins(argv)))

@@ -86,9 +86,8 @@ int					parse_and_exec(t_token *token_head, int in,
 	redirect(in, STDIN_FILENO, 0);
 	redirect(out, STDOUT_FILENO, 0);
 	argv = NULL;
-	if ((ret = parse_expands(token_head, vars)) > 0)
+	if ((ret = parse_expands(token_head, vars)) != 0)
 		return (ret);
-	reset_terminal_settings();
 	if ((ret = parse_redirections(token_head, 0)) > 0)
 		return (ret);
 	if ((ret = get_argv_from_token_lst(token_head, &argv) > 0))

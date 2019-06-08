@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/08 12:56:45 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/08 18:21:43 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,26 @@ static void	sanitize_pos_values(int *col, int *row)
 		*row = 0;
 }
 
-static void	parse_pos(char *pos_str, t_pos *curr_pos)
+static int	is_good_format(char *pos_str, t_pos *curr_pos)
 {
-	char			*col_start;
+	char	*start;
+	char	*col_start;
 
-	if (!pos_str)
-	{
-		curr_pos->row = 0;
-		curr_pos->col = 0;
-	}
-	else
-	{
-		curr_pos->row = ft_atoi(pos_str + 2);
-		col_start = ft_strchr(pos_str + 3, ';');
-		curr_pos->col = col_start ? ft_atoi(col_start + 1) : 0;
-	}
+	if (!(start = ft_strchr(pos_str, 27)))
+		return (0);
+	curr_pos->row = ft_atoi(start + 2);
+	if (!(col_start = ft_strchr(pos_str, ';')))
+		return (0);
+	curr_pos->col = ft_atoi(col_start + 1);
+	return (1);
 }
 
-static void	get_pos(char *pos_str)
+static void	get_pos(char *pos_str, t_pos *curr_pos)
 {
 	int	len;
 
-	while (ft_atoi(pos_str + 2) == 0)
+	
+	while (!is_good_format(pos_str, curr_pos))
 	{
 		tputs(GET_POS, 1, put_special_fd);
 		if ((len = read(STDIN_FILENO, pos_str, 50)) < 0)
@@ -63,8 +61,7 @@ void		retrieve_pos(t_pos *curr_pos)
 	if (isatty(TERM_FD) == 0)
 		return ;
 	ft_bzero(pos_str, 50);
-	get_pos(pos_str);
-	parse_pos(pos_str, curr_pos);
+	get_pos(pos_str, curr_pos);
 }
 
 int			move_cursor(int col, int row)

@@ -10,6 +10,13 @@ static char		*dup_for_arith_exp(char *str, size_t i, size_t index)
 	return (new_str);
 }
 
+static void		set_arith_exp_variables(size_t *var1_name, size_t var1_value,
+		long long *var2_name, long long var2_value)
+{
+	*var1_name = var1_value;
+	*var2_name = var2_value;
+}
+
 static char		expand_lowest_arith_exp(char **str, t_vars *vars)
 {
 	size_t		i;
@@ -17,8 +24,7 @@ static char		expand_lowest_arith_exp(char **str, t_vars *vars)
 	long long	arith_result;
 	char		*arith_str;
 
-	i = 0;
-	arith_result = 0;
+	set_arith_exp_variables(&i, 0, &arith_result, 0);
 	ft_bzero(index, sizeof(index));
 	while ((*str)[i])
 	{

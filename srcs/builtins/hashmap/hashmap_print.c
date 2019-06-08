@@ -31,7 +31,8 @@ void		print_hashmap(t_hashmap *hashmap)
 		item_probe = hashmap->items[i];
 		while (item_probe)
 		{
-			ft_dprintf(TERM_FD, "%4d\t%s\n", item_probe->count, item_probe->value);
+			ft_dprintf(TERM_FD, "%4d\t%s\n",
+				item_probe->count, item_probe->value);
 			item_probe = item_probe->next;
 		}
 	}
@@ -70,7 +71,8 @@ void		print_hashmap_l(t_hashmap *hashmap)
 		item_probe = hashmap->items[i];
 		while (item_probe)
 		{
-			ft_dprintf(TERM_FD, "hash -p %s %s\n", item_probe->value, item_probe->key);
+			ft_dprintf(TERM_FD, "hash -p %s %s\n",
+				item_probe->value, item_probe->key);
 			item_probe = item_probe->next;
 		}
 	}

@@ -109,7 +109,7 @@ t_ast			*create_ast(t_token *token_head)
 	return (ast_root);
 }
 
-int		exec_ast(t_ast *root, t_vars *vars)
+int				exec_ast(t_ast *root, t_vars *vars)
 {
 	int	ret;
 

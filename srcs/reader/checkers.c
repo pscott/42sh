@@ -39,7 +39,7 @@ static void	pressed_enter(t_st_cmd *st_cmd, char *buf)
 }
 
 /*
-**	
+**
 */
 
 static int	check_for_clear(t_st_cmd *st_cmd, char *buf)

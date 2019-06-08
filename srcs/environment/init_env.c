@@ -18,7 +18,6 @@ static void	bzero_env(char **env, size_t size)
 ** malloc a minienv
 ** set SHLVL=1 and PWD
 ** and return it
-**
 */
 
 static char	**create_minienv(void)

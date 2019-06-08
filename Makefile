@@ -41,7 +41,7 @@ SRC_DIR	:=	srcs
 	ENV_DIR				:=	environment
 	ERRORS_DIR			:=	errors
 	LEXER_DIR			:=	lexer
-	PARSER_DIR			:=	token_parser
+	PARSER_DIR			:=	ast
 	PIPELINE_DIR		:=	pipeline
 	READER_DIR			:=	reader
 	EXPANDS_DIR			:=	expands
@@ -76,7 +76,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 	LEXER_FILES		:=	lexer.c lexer_tools.c lexer_op_chart.c get_token.c \
 						lexer_debug.c copy_token_list.c lexer_escape_tools.c \
 						check_special_token.c
-	PARSER_FILES	:=	token_parser.c token_parser_utils.c
+	PARSER_FILES	:=	ast.c ast_utils.c
 	PIPELINE_FILES	:=	parse_pipeline.c check_token_type.c
 	READER_FILES	:=	check_sig_del_arrow.c prompt.c \
 						input_loop.c cursor_position.c input_utils.c \

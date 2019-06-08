@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/08 18:21:43 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/08 21:49:01 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	get_pos(char *pos_str, t_pos *curr_pos)
 {
 	int	len;
 
-	
+
 	while (!is_good_format(pos_str, curr_pos))
 	{
 		tputs(GET_POS, 1, put_special_fd);

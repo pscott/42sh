@@ -69,11 +69,7 @@ int		exec_ast(t_ast *root, t_vars *vars)
 		return (ret ? exec_ast(root->right, vars) : ret);
 	}
 	else
-	{
-		if ((ret = parse_cmdline(root->token, vars)) && (ret == 254 || ret == -2))
-			return (1);
-		return (ret);
-	}
+		return (ret = parse_cmdline(root->token, vars));
 }
 
 void	print_ast(t_ast *root)

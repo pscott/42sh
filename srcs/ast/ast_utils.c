@@ -1,6 +1,5 @@
 #include "ftsh.h"
 #include "lexer.h"
-#include "cmd_parsing.h"
 #include "ast.h"
 
 /*
@@ -46,30 +45,25 @@ int		is_ctrl_op_token(t_token *token)
 	return (0);
 }
 
-int		exec_ast(t_ast *root, t_vars *vars)
-{
-	int	ret;
+/*
+** find_next_ctrl_op
+** move the given pointer:
+** - token_probe to the next ctrl_op or NULL if it's the end of token list
+** - token_prev to the last non-eat token encounter
+** return 0 if it reach the end of the token list
+** return 1 otherwise (token_probe is on an CTRL_OP token)
+*/
 
-	if (!root)
+int		find_next_ctrl_op(t_token **token_probe, t_token **token_prev)
+{
+	while (*token_probe && !(is_ctrl_op_token(*token_probe)))
+	{
+		*token_prev = *token_probe;
+		*token_probe = (*token_probe)->next;
+	}
+	if (*token_probe)
 		return (1);
-	if (root->token->type == tk_semi)
-	{
-		if ((ret = exec_ast(root->left, vars)) == 254 || ret == -2)
-			return (1);
-		return (exec_ast(root->right, vars));
-	}
-	else if (root->token->type == tk_and)
-	{
-		ret = exec_ast(root->left, vars);
-		return (ret ? ret : exec_ast(root->right, vars));
-	}
-	else if (root->token->type == tk_or)
-	{
-		ret = exec_ast(root->left, vars);
-		return (ret ? exec_ast(root->right, vars) : ret);
-	}
-	else
-		return (ret = parse_cmdline(root->token, vars));
+	return (0);
 }
 
 void	print_ast(t_ast *root)

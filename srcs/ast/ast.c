@@ -1,5 +1,6 @@
 #include "ftsh.h"
 #include "lexer.h"
+#include "cmd_parsing.h"
 #include "ast.h"
 
 /*
@@ -37,27 +38,6 @@ static int		insert_ast_node(t_ast *new_ast_node, t_ast **ast_root)
 }
 
 /*
-** find_next_ctrl_op
-** move the given pointer:
-** - token_probe to the next ctrl_op or NULL if it's the end of token list
-** - token_prev to the last non-eat token encounter
-** return 0 if it reach the end of the token list
-** return 1 otherwise (token_probe is on an CTRL_OP token)
-*/
-
-static int		find_next_ctrl_op(t_token **token_probe, t_token **token_prev)
-{
-	while (*token_probe && !(is_ctrl_op_token(*token_probe)))
-	{
-		*token_prev = *token_probe;
-		*token_probe = (*token_probe)->next;
-	}
-	if (*token_probe)
-		return (1);
-	return (0);
-}
-
-/*
 ** add_last_node_to_ast
 ** insert the last token list to ast, unless it is full of TK_EAT
 ** set token_head to NULL, so create_ast() can return the ast to handle_input()
@@ -67,8 +47,8 @@ static int		add_last_node_to_ast(t_token **token_head, t_ast **ast_root)
 {
 	if (!is_tklst_full_eat(*token_head))
 	{
-		if (!(insert_ast_node(create_ast_node(*token_head, NULL, NULL)
-						, ast_root)))
+		if (!(insert_ast_node(create_ast_node(*token_head, NULL, NULL),
+					ast_root)))
 			return (0);
 	}
 	else
@@ -96,13 +76,13 @@ static int		add_node_to_ast(t_token **token_head, t_ast **ast_root)
 	{
 		if (token_prev)
 			token_prev->next = NULL;
-		if (!(insert_ast_node(create_ast_node(*token_head, NULL, NULL)
-						, ast_root)))
+		if (!(insert_ast_node(create_ast_node(*token_head, NULL, NULL),
+					ast_root)))
 			return (0);
 		*token_head = token_probe->next;
 		token_probe->next = NULL;
-		if (!(insert_ast_node(create_ast_node(token_probe, NULL, NULL)
-						, ast_root)))
+		if (!(insert_ast_node(create_ast_node(token_probe, NULL, NULL),
+					ast_root)))
 			return (0);
 	}
 	return (1);
@@ -127,4 +107,30 @@ t_ast			*create_ast(t_token *token_head)
 			return (NULL);
 	}
 	return (ast_root);
+}
+
+int				exec_ast(t_ast *root, t_vars *vars)
+{
+	int	ret;
+
+	if (!root)
+		return (1);
+	if (root->token->type == tk_semi)
+	{
+		if ((ret = exec_ast(root->left, vars)) == 254 || ret == -2)
+			return (1);
+		return (exec_ast(root->right, vars));
+	}
+	else if (root->token->type == tk_and)
+	{
+		ret = exec_ast(root->left, vars);
+		return (ret ? ret : exec_ast(root->right, vars));
+	}
+	else if (root->token->type == tk_or)
+	{
+		ret = exec_ast(root->left, vars);
+		return (ret ? exec_ast(root->right, vars) : ret);
+	}
+	else
+		return (ret = parse_cmdline(root->token, vars));
 }

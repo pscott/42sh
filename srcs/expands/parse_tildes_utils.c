@@ -18,9 +18,7 @@ int	is_valid_tilde(const char *str, t_token *prev_token)
 int	is_slashed(const char *str)
 {
 	char	*ptr;
-	int		len;
 
-	len = ft_strlen(str) - 1;
 	if ((ptr = ft_strchr(str, '/')))
 	{
 		while (ptr && *ptr)

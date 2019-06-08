@@ -19,6 +19,8 @@ int					is_tklst_full_eat(t_token *token_head);
 void				free_ast(t_ast *ast_root);
 
 int					exec_ast(t_ast *ast_root, t_vars *vars);
+int					find_next_ctrl_op(t_token **token_probe,
+		t_token **token_prev);
 
 /*
 **	Debug

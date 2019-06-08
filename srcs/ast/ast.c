@@ -47,8 +47,8 @@ static int		add_last_node_to_ast(t_token **token_head, t_ast **ast_root)
 {
 	if (!is_tklst_full_eat(*token_head))
 	{
-		if (!(insert_ast_node(create_ast_node(*token_head, NULL, NULL)
-						, ast_root)))
+		if (!(insert_ast_node(create_ast_node(*token_head, NULL, NULL),
+					ast_root)))
 			return (0);
 	}
 	else
@@ -76,13 +76,13 @@ static int		add_node_to_ast(t_token **token_head, t_ast **ast_root)
 	{
 		if (token_prev)
 			token_prev->next = NULL;
-		if (!(insert_ast_node(create_ast_node(*token_head, NULL, NULL)
-						, ast_root)))
+		if (!(insert_ast_node(create_ast_node(*token_head, NULL, NULL),
+					ast_root)))
 			return (0);
 		*token_head = token_probe->next;
 		token_probe->next = NULL;
-		if (!(insert_ast_node(create_ast_node(token_probe, NULL, NULL)
-						, ast_root)))
+		if (!(insert_ast_node(create_ast_node(token_probe, NULL, NULL),
+					ast_root)))
 			return (0);
 	}
 	return (1);

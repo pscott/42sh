@@ -25,8 +25,9 @@ int		is_two_ctrlop_or_redir_following(t_token *prev_token,
 {
 	if (!prev_token)
 		return (0);
-	if (prev_token->type >= tk_redirection
-		&& current_token->type >= tk_redirection)
+	if ((is_redir_token(prev_token)
+			&& is_redir_token(current_token))
+		|| (prev_token->type >= tk_pipe && current_token->type >= tk_pipe))
 	{
 		syntax_error_near(current_token);
 		ft_memdel((void*)&current_token->content);

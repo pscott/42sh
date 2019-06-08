@@ -43,7 +43,8 @@ static t_hist_lst	*construct_history(int fd)
 		ft_strdel(&line);
 		hist_lst = insert_right(hist_lst, append_with_newline, 1);
 		ft_strdel(&append_with_newline);
-		id++;
+		if (++id > 1000)
+			break ; // error message saying "hey too many lines ? "
 	}
 	if (tmp)
 		ft_memdel((void*)&tmp);
@@ -57,7 +58,7 @@ t_hist_lst			*get_history(const char **env)
 
 	if (isatty(TERM_FD) == 0)
 		return (NULL);
-	if ((fd = open_history(env, O_RDONLY)) < 0)
+	if ((fd = open_history(env, O_RDONLY | O_NOFOLLOW)) < 0)
 		return (NULL);
 	hist_lst = construct_history(fd);
 	close(fd);

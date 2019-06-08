@@ -8,7 +8,7 @@
 */
 
 # define INIT_TXT_SIZE 2
-# define BUF_SIZE 4
+# define BUF_SIZE 50
 # define STD_PROMPT "42sh $ "
 # define PROMPT_REVERSE_I_SEARCH_SUCC "(reverse-i-search)"
 # define PROMPT_REVERSE_I_SEARCH_FAIL "(failed reverse-i-search)"

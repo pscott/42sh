@@ -20,13 +20,13 @@ static int	error_unsupported_token(t_token *token, int return_val)
 */
 
 static int	add_token_to_list(t_token *current_token, t_token *prev_token,
-	t_token **token_head, t_vars *vars)
+	t_token **token_head)
 {
-	(void)vars;
 	if (current_token->type == tk_unsupported)
 		return (error_unsupported_token(current_token, 0));
 	if (token_list_start_with_ctrl_op(prev_token, current_token)
-		|| is_two_ctrlop_or_redir_following(prev_token, current_token))
+		|| is_two_ctrlop_or_redir_following(prev_token, current_token)
+		|| is_ctrl_op_following_a_redir_token(prev_token, current_token))
 		return (0);
 	if (!(*token_head))
 		*token_head = current_token;
@@ -98,7 +98,7 @@ int			lexer(char *cmdline, t_token **token_head, t_vars *vars)
 			free_token_list(current_token);
 			continue ;
 		}
-		if (!(add_token_to_list(current_token, prev_token, token_head, vars)))
+		if (!(add_token_to_list(current_token, prev_token, token_head)))
 			return (lex_fail);
 		if (current_token->type != tk_eat)
 			prev_token = current_token;

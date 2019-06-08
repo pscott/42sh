@@ -1,4 +1,5 @@
 #include "ftsh.h"
+#include "errors.h"
 #include "lexer.h"
 #include "input.h"
 
@@ -71,4 +72,15 @@ t_token			*check_param_sub_token(char **cmdline)
 		clean_exit(1, 1);
 	*cmdline = *cmdline + i;
 	return (token);
+}
+
+int				is_ctrl_op_following_a_redir_token(t_token *prev,
+	t_token *curr)
+{
+	if (is_redir_token(prev) && curr->type >= tk_pipe)
+	{
+		syntax_error_near(curr);
+		return (1);
+	}
+	return (0);
 }

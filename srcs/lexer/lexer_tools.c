@@ -39,6 +39,8 @@ int		is_two_ctrlop_or_redir_following(t_token *prev_token,
 
 int		is_redir_token(t_token *token)
 {
+	if (!token)
+		return (0);
 	if (token->type > tk_dq_str && token->type <= tk_heredoc)
 		return (1);
 	return (0);

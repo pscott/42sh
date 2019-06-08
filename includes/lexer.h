@@ -117,6 +117,8 @@ void					free_token_list(t_token *token_head);
 
 t_token					*check_arith_exp_token(char **cmdline);
 t_token					*check_param_sub_token(char **cmdline);
+int						is_ctrl_op_following_a_redir_token(t_token *prev,
+	t_token *curr);
 
 /*
 ** lexer_escape_tools.c

@@ -53,7 +53,6 @@ int				check_fd_prev(t_token *prev);
 ** Errors
 */
 
-
 int				bad_fd_error(int fd, int mode);
 int				ambi_redir_error(char *str, int mode);
 int				no_file_error(char *filename, int mode);

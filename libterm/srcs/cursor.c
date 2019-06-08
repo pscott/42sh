@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/08 19:54:24 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/08 21:49:48 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	sanitize_pos_values(int *col, int *row)
 		*row = 0;
 }
 
-static int	fill_pos(char *pos_str, t_pos *curr_pos)
+static int	is_good_format(char *pos_str, t_pos *curr_pos)
 {
 	char	*start;
 	char	*col_start;
@@ -36,47 +36,14 @@ static int	fill_pos(char *pos_str, t_pos *curr_pos)
 	return (1);
 }
 
-int			is_valid_pos_format(char pos_str[POS_BUF_SIZE + 1])
-{
-	char	*start;
-	char	*col_start;
-
-	if (!(start = ft_strchr(pos_str, '\x1b')))
-		return (0);
-	if ((ft_strncmp(start, "\x1b\x5b", 2)))
-		return (0);
-	start += 2;
-	if (!(col_start = ft_strchr(pos_str, ';')))
-		return (0);
-	while (start < col_start)
-	{
-		if (!ft_isdigit(*start))
-			return (0);
-		start++;
-	}
-	if (!*start || start != col_start)
-		return (0);
-	col_start++;
-	while (*col_start)
-	{
-		if (!ft_isdigit(*col_start))
-			return (0);
-		if (*(col_start + 1) == 'R')
-			return (1);
-		col_start++;
-	}
-	return (0);
-}
-
-static void	get_pos(char *pos_str)
+static void	get_pos(char *pos_str, t_pos *curr_pos)
 {
 	int	len;
 
-	
-	while (!is_valid_pos_format(pos_str))
+	while (!is_good_format(pos_str, curr_pos))
 	{
 		tputs(GET_POS, 1, put_special_fd);
-		if ((len = read(STDIN_FILENO, pos_str, POS_BUF_SIZE)) < 0)
+		if ((len = read(STDIN_FILENO, pos_str, 50)) < 0)
 		{
 			ft_dprintf(2, "error: failed to read\n");
 			pos_str = NULL;
@@ -88,13 +55,12 @@ static void	get_pos(char *pos_str)
 
 void		retrieve_pos(t_pos *curr_pos)
 {
-	char	pos_str[POS_BUF_SIZE + 1];
+	char	pos_str[50];
 
 	if (isatty(TERM_FD) == 0)
 		return ;
-	ft_bzero(pos_str, POS_BUF_SIZE);
-	get_pos(pos_str);
-	fill_pos(pos_str, curr_pos);
+	ft_bzero(pos_str, 50);
+	get_pos(pos_str, curr_pos);
 }
 
 int			move_cursor(int col, int row)

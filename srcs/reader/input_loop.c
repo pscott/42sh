@@ -5,21 +5,6 @@
 #include <limits.h>
 #include "errors.h"
 
-void		magic_print(char *buf) // debug
-{
-	int	i;
-
-	i = 0;
-	execute_str(SAVE_CURSOR);
-	move_cursor(0, 0);
-	while (i < BUF_SIZE + 1)
-	{
-		ft_dprintf(2, "%-4d", buf[i]);
-		i++;
-	}
-	execute_str(RESTORE_CURSOR);
-}
-
 static int	cmp_special_keys_versus_own_len(char *buf)
 {
 	if (ft_strncmp(buf, RIGHTARROW, ARROW_LEN + 1) == 0
@@ -64,19 +49,22 @@ static int	cmp_special_keys_versus_buf_len(char *buf, size_t len)
 **	Returns 1 if buffer IS an escape sequence.
 */
 
-int			is_valid_escape(char *buf)
+int			is_valid_escape(char buf[BUF_SIZE + 1])
 {
 	size_t		len;
 	size_t		last;
 
 	len = ft_strlen(buf);
-	if (len >= BUF_SIZE)
-		return (-1);
+	if (len >= POS_BUF_SIZE || is_valid_pos_format(buf))
+	{
+		ft_bzero(buf, POS_BUF_SIZE + 1);
+		return (0);
+	}
 	last = len > 0 ? len - 1 : 0;
 	if (buf[last] == '\x03' || buf[last] == '\x04' || buf[last] == '\x1a')
 	{
 		*buf = buf[last];
-		ft_bzero(&buf[1], BUF_SIZE);
+		ft_bzero(&buf[1], POS_BUF_SIZE);
 		return (-1);
 	}
 	if (cmp_special_keys_versus_own_len(buf))
@@ -94,7 +82,7 @@ int			is_valid_escape(char *buf)
 
 int			input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)
 {
-	char				buf[BUF_SIZE + 1];
+	char				buf[POS_BUF_SIZE + 1];
 	char				c;
 	ssize_t				ret;
 

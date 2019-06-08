@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/08 18:22:52 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/08 19:08:04 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int			reset_terminal_settings(void)
 	if (isatty(STDIN_FILENO) == 0)
 		return (1);
 	close(TERM_FD);
-	if ((tcsetattr(STDIN_FILENO, TCSADRAIN, &g_saved_attr) == -1))
+	if ((tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_saved_attr) == -1))
 		return (err_resetattr());
 	return (1);
 }
@@ -51,7 +51,7 @@ static int	set_non_canonical_mode(struct termios *tattr)
 	term.c_lflag &= ~(ICANON | ECHO | ECHONL | ISIG);
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
-	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &term) == -1)
+	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &term) == -1)
 		return (err_setattr());
 	return (1);
 }
@@ -72,7 +72,7 @@ int			setup_terminal_settings(void)
 
 	if ((res = open_and_dup_tty()))
 		return (res);
-	if ((!g_init) && (tcgetattr(STDIN_FILENO, &g_saved_attr) == -1))
+	if (!g_init && (tcgetattr(STDIN_FILENO, &g_saved_attr) == -1))
 		return (err_getattr());
 	if ((termtype = getenv("TERM")) == NULL)
 		return (err_no_env());

@@ -18,43 +18,49 @@ size_t	ft_printable_len(const char *s1)
 	return (res);
 }
 
-char	*ft_strdup_print(const char *s1)
+static void	ft_strcpy_print(char *dest, const char *source)
 {
-	char	*res;
-	size_t	len;
 	size_t	i;
+	size_t	len;
 
-	if (!(res = ft_strnew(ft_printable_len(s1))))
-		return (NULL);
 	i = 0;
 	len = 0;
-	while (s1 && s1[i])
+	while (source && source[i])
 	{
-		if (ft_isprint(s1[i]) || s1[i] == '\n')
+		if (ft_isprint(source[i]) || source[i] == '\n')
 		{
-			res[len] = s1[i];
+			dest[len] = source[i];
 			len++;
 		}
 		i++;
 	}
-	res[len] = 0;
+	dest[len] = 0;
+}
+
+char	*ft_strdup_print(const char *s1)
+{
+	char	*res;
+
+	if (!(res = ft_strnew(ft_printable_len(s1))))
+		return (NULL);
+	ft_strcpy_print(res, s1);
 	return (res);
 }
+
+
 
 void	insert_str(t_st_cmd *st_cmd, const char *buf,
 		size_t print_len)
 {
-	char		*printable_buf;
 	t_st_txt	*st_txt;
+	char		printable_buf[BUF_SIZE + 1];
 	char		*end_line;
 
 	st_txt = st_cmd->st_txt;
-	if (!(printable_buf = ft_strdup_print(buf)))
-		clean_exit(1, 1);
+	ft_strcpy(printable_buf, buf);
 	if (!(end_line = ft_strdup(&st_txt->txt[st_txt->tracker])))
 		clean_exit(1, 1);
 	ft_strcpy(&st_txt->txt[st_txt->tracker + print_len], end_line);
 	ft_strdel(&end_line);
 	ft_strncpy(&st_txt->txt[st_txt->tracker], printable_buf, print_len);
-	free(printable_buf);
 }

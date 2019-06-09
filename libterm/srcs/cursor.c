@@ -57,7 +57,7 @@ void		retrieve_pos(t_pos *curr_pos)
 {
 	char	pos_str[50];
 
-	if (isatty(TERM_FD) == 0)
+	if (!g_isatty)
 		return ;
 	ft_bzero(pos_str, 50);
 	get_pos(pos_str, curr_pos);
@@ -69,8 +69,8 @@ int			move_cursor(int col, int row)
 	char	*gotostr;
 	char	*ap;
 
-	if (isatty(TERM_FD) == 0)
-		return (0);
+	if (!g_isatty)
+		return (1);
 	sanitize_pos_values(&col, &row);
 	ft_bzero(buf, 50);
 	ap = buf;

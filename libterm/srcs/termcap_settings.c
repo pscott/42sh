@@ -46,7 +46,7 @@ static int	set_non_canonical_mode(struct termios *tattr)
 {
 	struct termios	term;
 
-	g_init = 1;
+	g_isatty = 1;
 	ft_memcpy(&term, tattr, sizeof(term));
 	term.c_lflag &= ~(ICANON | ECHO | ECHONL | ISIG);
 	term.c_cc[VMIN] = 1;
@@ -72,7 +72,7 @@ int			setup_terminal_settings(void)
 
 	if ((res = open_and_dup_tty()))
 		return (res);
-	if ((!g_init) && (tcgetattr(STDIN_FILENO, &g_saved_attr) == -1))
+	if ((!g_isatty) && (tcgetattr(STDIN_FILENO, &g_saved_attr) == -1))
 		return (err_getattr());
 	if ((termtype = getenv("TERM")) == NULL)
 		return (err_no_env());

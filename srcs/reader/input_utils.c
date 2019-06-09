@@ -57,7 +57,7 @@ void	insert_str(t_st_cmd *st_cmd, const char *buf,
 	char		*end_line;
 
 	st_txt = st_cmd->st_txt;
-	ft_strcpy(printable_buf, buf);
+	ft_strcpy_print(printable_buf, buf);
 	if (!(end_line = ft_strdup(&st_txt->txt[st_txt->tracker])))
 		clean_exit(1, 1);
 	ft_strcpy(&st_txt->txt[st_txt->tracker + print_len], end_line);

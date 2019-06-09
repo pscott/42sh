@@ -30,7 +30,8 @@ typedef enum	e_search_case
 typedef enum	e_input_mode
 {
 	regular,
-	heredoc
+	heredoc,
+	continue_read
 }				t_input_mode;
 
 typedef struct			s_st_txt {
@@ -87,7 +88,7 @@ int						check_for_tab(t_st_cmd *st_cmd, const char *buf,
 int						check_for_words(t_st_cmd *st_cmd, const char *buf);
 char					*auto_completion(char *input, unsigned int len,
 		t_vars *vars);
-char					*auto_completion_hdoc(char *input,
+char					*auto_completion_spe(char *input,
 		unsigned int len);
 
 /*

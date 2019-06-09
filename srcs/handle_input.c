@@ -9,7 +9,7 @@ static	int		continue_reading(t_token *token_head, t_st_cmd **st_cmd,
 	free_token_list(token_head);
 	adjust_history(*st_cmd, *input, 0);
 	*st_cmd = append_st_cmd(*st_cmd, "", "cont > ");
-	if (input_loop(*st_cmd, vars, regular) < 1
+	if (input_loop(*st_cmd, vars, continue_read) < 1
 		|| !*(*st_cmd)->st_txt->txt)
 	{
 		ft_strdel(input);

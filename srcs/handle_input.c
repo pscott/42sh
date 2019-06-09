@@ -3,7 +3,7 @@
 #include "ast.h"
 #include "history.h"
 
-static	int		continue_reading(t_token *token_head, t_st_cmd **st_cmd,
+static int		continue_reading(t_token *token_head, t_st_cmd **st_cmd,
 				char **input, t_vars *vars)
 {
 	free_token_list(token_head);
@@ -23,6 +23,17 @@ static	int		continue_reading(t_token *token_head, t_st_cmd **st_cmd,
 		return (0);
 	}
 	return (1);
+}
+
+static int		handle_continue_reading(t_token *token_head, t_st_cmd **st_cmd,
+				char **input, t_vars *vars)
+{
+	int	ret;
+
+	ret = continue_reading(token_head, st_cmd, input, vars);
+	if (!isatty(TERM_FD))
+		ft_dprintf(2, "%s: unexpected end of file\n", SHELL_NAME);
+	return (ret);
 }
 
 /*
@@ -46,7 +57,7 @@ int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	input = concatenate_txt(st_cmd);
 	while ((lexer_ret = lexer(input, &token_head, vars)) == lex_cont_read)
 	{
-		ret = continue_reading(token_head, &st_cmd, &input, vars);
+		ret = handle_continue_reading(token_head, &st_cmd, &input, vars);
 		if (ret < 1)
 			return (ret);
 	}

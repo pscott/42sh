@@ -14,18 +14,19 @@ struct winsize			*init_window_struct(void);
 **	On-screen position functions
 */
 
+void					increment_pos(char to_write, t_pos *cursor_pos,
+	struct winsize *window);
 void					init_relative_pos(t_st_cmd *st_cmd);
-void					update_start_pos(t_st_cmd *st_cmd);
-void					get_pos(t_st_cmd *st_cmd, size_t tracker);
-void					go_back_to_start(t_st_cmd *st_cmd);
-void					reposition_cursor(t_st_cmd *st_cmd);
+t_st_cmd				*go_back_to_start(t_st_cmd *st_cmd);
+void					go_to_prompt_start(t_st_cmd *st_cmd);
+void					reposition_cursor(t_st_cmd *st_cmd, size_t new_tracker);
 
 /*
 **	Writing functions
 */
-size_t					write_line(t_st_cmd *st_cmd);
-void					write_st_cmd(t_st_cmd *st_cmd);
+
 void					write_from_start(t_st_cmd *st_cmd);
+void					write_st_cmd(t_st_cmd *st_cmd);
 
 /*
 **	Arrow movement

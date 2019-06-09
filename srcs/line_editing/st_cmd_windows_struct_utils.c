@@ -12,8 +12,8 @@ void			init_relative_pos(t_st_cmd *st_cmd)
 		return ;
 	if (!st_cmd->window->ws_col)
 		return ;
-	st_cmd->relative_pos.col = st_cmd->st_prompt->size % st_cmd->window->ws_col;
-	st_cmd->relative_pos.row = st_cmd->st_prompt->size / st_cmd->window->ws_col;
+	st_cmd->cursor_pos.col = st_cmd->st_prompt->size % st_cmd->window->ws_col;
+	st_cmd->cursor_pos.row = st_cmd->st_prompt->size / st_cmd->window->ws_col;
 }
 
 void			update_window_struct(struct winsize *window)

@@ -21,7 +21,7 @@ void		insert_txt(t_st_cmd *st_cmd, const char *buf)
 	tmp = st_txt->tracker + print_len;
 	write_st_cmd(st_cmd);
 	st_txt->tracker = tmp;
-	get_pos(st_cmd, st_cmd->st_txt->tracker);
+	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 }
 
 /*
@@ -32,10 +32,8 @@ static void	pressed_enter(t_st_cmd *st_cmd, char *buf)
 {
 	ft_strncpy(buf, "\n", 1);
 	st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;
-	get_pos(st_cmd, st_cmd->st_txt->tracker);
-	reposition_cursor(st_cmd);
+	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 	insert_txt(st_cmd, (const char*)buf);
-	execute_str(PRINT_LINE);
 }
 
 static int	check_for_clear(t_st_cmd *st_cmd, char *buf)
@@ -44,10 +42,7 @@ static int	check_for_clear(t_st_cmd *st_cmd, char *buf)
 	{
 		execute_str(CLEAR);
 		st_cmd = get_first_st_cmd(st_cmd);
-		st_cmd->start_pos.row = 0;
 		write_from_start(st_cmd);
-		st_cmd = get_last_st_cmd(st_cmd);
-		get_pos(st_cmd, st_cmd->st_txt->tracker);
 		return (1);
 	}
 	return (0);

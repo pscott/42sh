@@ -82,6 +82,6 @@ int			jump_words(t_st_cmd *st_cmd, int num)
 			num++;
 		}
 	}
-	get_pos(st_cmd, st_cmd->st_txt->tracker);
+	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 	return (num);
 }

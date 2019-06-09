@@ -1,21 +1,6 @@
 #include "input.h"
 #include "line_editing.h"
 
-static void		update_prompt_pos(t_st_cmd *st_cmd)
-{
-	unsigned long times;
-
-	times = 0;
-	if (st_cmd->window->ws_col)
-		times = st_cmd->st_prompt->size / st_cmd->window->ws_col;
-	while (times)
-	{
-		update_start_pos(st_cmd);
-		execute_str(SCROLL_DOWN);
-		times--;
-	}
-}
-
 static void		zsh_newline(t_st_cmd *st_cmd)
 {
 	size_t	len;
@@ -42,15 +27,12 @@ void			print_prompt(t_st_cmd *st_cmd)
 	if (isatty(STDIN_FILENO))
 	{
 		zsh_newline(st_cmd);
-		retrieve_pos(&st_cmd->start_pos);
+		init_relative_pos(st_cmd);
 		if (vars->cmd_value)
 			ft_dprintf(TERM_FD, "%s", RED);
 		else
 			ft_dprintf(TERM_FD, "%s", GREEN);
 		ft_dprintf(TERM_FD, "%s%s", st_cmd->st_prompt->prompt, FG_DFL);
-		update_prompt_pos(st_cmd);
-		get_pos(st_cmd, 0);
-		reposition_cursor(st_cmd);
 	}
 }
 
@@ -86,14 +68,12 @@ void			print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf,
 	if (isatty(STDIN_FILENO))
 	{
 		replace_prompt(st_cmd, buf, prompt_type);
-		move_cursor(st_cmd->start_pos.col, st_cmd->start_pos.row);
+		go_to_prompt_start(st_cmd);
 		tmp = st_cmd->st_txt->tracker;
 		st_cmd->st_txt->tracker = 0;
 		init_relative_pos(st_cmd);
 		ft_dprintf(TERM_FD, "%s", st_cmd->st_prompt->prompt);
 		write_st_cmd(st_cmd);
 		st_cmd->st_txt->tracker = tmp;
-		get_pos(st_cmd, st_cmd->st_txt->tracker);
-		reposition_cursor(st_cmd);
 	}
 }

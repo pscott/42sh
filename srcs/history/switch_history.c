@@ -22,15 +22,15 @@ void	switch_st_cmd(t_st_cmd *st_cmd, char *newcmd)
 	if (!(trunc_newcmd = ft_strndup(newcmd, len)))
 		clean_exit(1, 1);
 	st_txt = st_cmd->st_txt;
-	go_to_start(st_cmd);
-	reposition_cursor(st_cmd);
+	go_back_to_start(st_cmd);
 	execute_str(CLEAR_BELOW);
-	init_relative_pos(st_cmd);
 	free_st_txt(&st_txt);
 	st_cmd->st_txt = init_st_txt(trunc_newcmd);
+	init_relative_pos(st_cmd);
+	print_prompt(st_cmd);
 	write_st_cmd(st_cmd);
 	st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;
-	get_pos(st_cmd, st_cmd->st_txt->tracker);
+	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 	ft_memdel((void*)&trunc_newcmd);
 }
 

@@ -11,7 +11,6 @@ t_st_cmd		*append_st_cmd(t_st_cmd *st_cmd, const char *txt,
 	new->st_txt = init_st_txt((const char*)txt);
 	new->st_prompt = init_st_prompt(prompt);
 	new->window = st_cmd->window;
-	retrieve_pos(&new->start_pos);
 	init_relative_pos(new);
 	new->hist_lst = st_cmd->hist_lst;
 	st_cmd->next = new;
@@ -29,7 +28,6 @@ t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd)
 		clean_exit(1, 1);
 	st_cmd->st_txt = init_st_txt(NULL);
 	st_cmd->st_prompt = init_st_prompt(NULL);
-	retrieve_pos(&st_cmd->start_pos);
 	st_cmd->window = old_st_cmd->window;
 	init_relative_pos(st_cmd);
 	st_cmd->hist_lst = old_st_cmd->hist_lst;

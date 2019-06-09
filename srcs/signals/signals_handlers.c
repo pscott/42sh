@@ -34,7 +34,7 @@ void			sigint_handler(int signo)
 	vars->cmd_value = 1;
 	if (isatty(TERM_FD))
 		write(TERM_FD, "^C", 2);
-	execute_str(PRINT_LINE);
+	execute_str(MOVE_DOWN);
 	execute_str(BEGIN_LINE);
 	execute_str(CLEAR_BELOW);
 }
@@ -53,10 +53,8 @@ void			sigwinch_handler(int signo)
 	first_cmd = get_st_cmd(NULL);
 	current_cmd = get_last_st_cmd(first_cmd);
 	update_window_struct(current_cmd->window);
-	go_back_to_start(current_cmd);
 	write_from_start(first_cmd);
-	get_pos(current_cmd, current_cmd->st_txt->tracker);
-	reposition_cursor(current_cmd);
+	reposition_cursor(current_cmd, current_cmd->st_txt->tracker);
 	signal(SIGWINCH, sigwinch_handler);
 }
 
@@ -74,10 +72,8 @@ void			sigcont_handler(int signo)
 	if ((ret = setup_terminal_settings()) > 0)
 		clean_exit(ret, 0);
 	st_cmd = get_st_cmd(NULL);
-	st_cmd = get_first_st_cmd(st_cmd);
 	write_from_start(st_cmd);
-	get_pos(st_cmd, st_cmd->st_txt->tracker);
-	reposition_cursor(st_cmd);
+	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 }
 
 /*

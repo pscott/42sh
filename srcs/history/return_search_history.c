@@ -72,7 +72,6 @@ int			switch_and_return(t_st_cmd *st_cmd,
 		newcmd = ft_strdup(st_cmd->st_txt->txt);
 	if (!newcmd)
 		clean_exit(1, 1);
-	print_prompt_search_history(st_cmd);
 	switch_st_cmd(st_cmd, newcmd);
 	st_cmd->st_txt->tracker = tmp;
 	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);

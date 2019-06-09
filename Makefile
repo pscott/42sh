@@ -90,8 +90,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 						getters.c switch_history.c insertion.c \
 						handle_input_hist.c reverse_search_history.c \
 						return_search_history.c write_history.c \
-						reverse_search_history_utils.c \
-						print_prompt_search_history.c
+						reverse_search_history_utils.c
 	SIGNALS_FILES	:=	signals_handlers.c signals_setup.c
 	LINE_EDIT_FILES	:=	st_cmd_editing.c st_prompt.c st_txt.c writing.c \
 						t_vars.c st_cmd_getters.c cursor_position.c \
@@ -200,12 +199,12 @@ ask_libs: ask_libft ask_libterm
 
 ask_libft:
 	@$(MAKE) -qC libft ; if [ $$? != "0" ] ; then\
-		$(MAKE)  -C libft;\
+		$(MAKE) -j -C libft;\
 		fi
 
 ask_libterm:
 	@$(MAKE) -qC libterm child; if [ $$? != "0" ] ; then\
-		$(MAKE)  -C libterm;\
+		$(MAKE) -j -C libterm;\
 		fi
 
 $(LIBS): ask_libs

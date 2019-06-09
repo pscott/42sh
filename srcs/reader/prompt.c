@@ -67,8 +67,8 @@ void			print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf,
 
 	if (isatty(STDIN_FILENO))
 	{
-		replace_prompt(st_cmd, buf, prompt_type);
 		go_to_prompt_start(st_cmd);
+		replace_prompt(st_cmd, buf, prompt_type);
 		tmp = st_cmd->st_txt->tracker;
 		st_cmd->st_txt->tracker = 0;
 		init_relative_pos(st_cmd);

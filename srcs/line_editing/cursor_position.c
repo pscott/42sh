@@ -4,7 +4,7 @@
 void	increment_pos(char to_write, t_pos *new_pos, struct winsize *window)
 {
 	if (to_write == '\n' || to_write == '\r'
-			|| new_pos->col == window->ws_col)
+			|| new_pos->col == (window->ws_col - 1))
 		{
 			new_pos->col = 0;
 			new_pos->row += 1;
@@ -25,7 +25,9 @@ static void	merge_pos(t_pos *new_pos, t_pos *old_pos)
 
 	x = old_pos->col - new_pos->col;
 	y = old_pos->row - new_pos->row;
-	execute_str(INVISIBLE);
+	/*ft_dprintf(2, "NEW_POS: {col: %d, row: %d}\nOLD_POS: {col: %d, row: %d}\n", new_pos.col, new_pos.row, st_cmd->cursor_pos.col, st_cmd->cursor_pos.row);
+	sleep(1);*/
+	//execute_str(INVISIBLE);
 	while (x > 0)
 	{
 		execute_str(MOVE_LEFT);
@@ -46,7 +48,7 @@ static void	merge_pos(t_pos *new_pos, t_pos *old_pos)
 		execute_str(MOVE_DOWN);
 		y++;
 	}
-	execute_str(VISIBLE);
+	//execute_str(VISIBLE);
 	old_pos->col = new_pos->col;
 	old_pos->row = new_pos->row;
 }

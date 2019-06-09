@@ -11,6 +11,8 @@ void	write_char(t_st_cmd *st_cmd)
 
 	to_write = st_cmd->st_txt->txt[st_cmd->st_txt->tracker];
 	write(TERM_FD, &to_write, 1);
+	if (st_cmd->cursor_pos.col == st_cmd->window->ws_col - 1)
+		execute_str(MOVE_DOWN);
 	increment_pos(to_write, &st_cmd->cursor_pos, st_cmd->window);
 	st_cmd->st_txt->tracker++;
 }

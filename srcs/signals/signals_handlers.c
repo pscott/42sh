@@ -34,9 +34,9 @@ void			sigint_handler(int signo)
 	vars->cmd_value = 1;
 	if (isatty(TERM_FD))
 		write(TERM_FD, "^C", 2);
+	st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;
+	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 	execute_str(MOVE_DOWN);
-	execute_str(BEGIN_LINE);
-	execute_str(CLEAR_BELOW);
 }
 
 /*

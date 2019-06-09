@@ -30,7 +30,7 @@ void		insert_txt(t_st_cmd *st_cmd, const char *buf)
 
 static void	pressed_enter(t_st_cmd *st_cmd, char *buf)
 {
-	ft_strncpy(buf, "\n", 1);
+	buf[0] = '\n';
 	st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;
 	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 	insert_txt(st_cmd, (const char*)buf);

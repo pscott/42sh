@@ -28,10 +28,12 @@ void			sigint_handler(int signo)
 	t_vars		*vars;
 
 	(void)signo;
-	st_cmd = get_st_cmd(NULL);
-	*st_cmd->st_txt->txt = '\x03';
-	vars = get_vars(NULL);
-	vars->cmd_value = 1;
+	if ((st_cmd = get_st_cmd(NULL)))
+	{
+		*st_cmd->st_txt->txt = '\x03';
+		vars = get_vars(NULL);
+		vars->cmd_value = 1;
+	}
 	if (isatty(TERM_FD))
 		write(TERM_FD, "^C", 2);
 	execute_str(PRINT_LINE);
@@ -50,14 +52,16 @@ void			sigwinch_handler(int signo)
 	t_st_cmd		*current_cmd;
 
 	(void)signo;
-	first_cmd = get_st_cmd(NULL);
-	current_cmd = get_last_st_cmd(first_cmd);
-	update_window_struct(current_cmd->window);
-	go_back_to_start(current_cmd);
-	write_from_start(first_cmd);
-	get_pos(current_cmd, current_cmd->st_txt->tracker);
-	reposition_cursor(current_cmd);
-	signal(SIGWINCH, sigwinch_handler);
+	if ((first_cmd = get_st_cmd(NULL)))
+	{
+		current_cmd = get_last_st_cmd(first_cmd);
+		update_window_struct(current_cmd->window);
+		go_back_to_start(current_cmd);
+		write_from_start(first_cmd);
+		get_pos(current_cmd, current_cmd->st_txt->tracker);
+		reposition_cursor(current_cmd);
+		signal(SIGWINCH, sigwinch_handler);
+	}
 }
 
 /*
@@ -73,11 +77,13 @@ void			sigcont_handler(int signo)
 	(void)signo;
 	if ((ret = setup_terminal_settings()) > 0)
 		clean_exit(ret, 0);
-	st_cmd = get_st_cmd(NULL);
-	st_cmd = get_first_st_cmd(st_cmd);
-	write_from_start(st_cmd);
-	get_pos(st_cmd, st_cmd->st_txt->tracker);
-	reposition_cursor(st_cmd);
+	if ((st_cmd = get_st_cmd(NULL)))
+	{
+		st_cmd = get_first_st_cmd(st_cmd);
+		write_from_start(st_cmd);
+		get_pos(st_cmd, st_cmd->st_txt->tracker);
+		reposition_cursor(st_cmd);
+	}
 }
 
 /*

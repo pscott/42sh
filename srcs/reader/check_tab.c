@@ -10,8 +10,8 @@ static int	check_auto_complete(t_vars *vars, t_st_cmd *st_cmd,
 		&& (*tmp = auto_completion(st_cmd->st_txt->txt,
 				st_cmd->st_txt->tracker, vars)))
 		return (1);
-	else if (mode == heredoc
-		&& (*tmp = auto_completion_hdoc(st_cmd->st_txt->txt,
+	else if ((mode == heredoc || mode == continue_read)
+		&& (*tmp = auto_completion_spe(st_cmd->st_txt->txt,
 				st_cmd->st_txt->tracker)))
 		return (1);
 	return (0);

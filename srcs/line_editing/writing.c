@@ -40,7 +40,8 @@ void	write_st_cmd(t_st_cmd *st_cmd)
 
 void		write_from_start(t_st_cmd *st_cmd)
 {
-	size_t	tmp;
+	size_t		tmp;
+	t_st_cmd	*prev;
 
 	if (!isatty(STDIN_FILENO))
 		return ;
@@ -50,8 +51,10 @@ void		write_from_start(t_st_cmd *st_cmd)
 	while (st_cmd)
 	{
 		st_cmd->st_txt->tracker = 0;
+		print_prompt(st_cmd);
 		write_st_cmd(st_cmd);
+		prev = st_cmd;
 		st_cmd = st_cmd->next;
 	}
-	st_cmd->st_txt->tracker = tmp;
+	prev->st_txt->tracker = tmp;
 }

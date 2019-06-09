@@ -53,7 +53,7 @@ static void	merge_pos(t_pos *new_pos, t_pos *old_pos)
 	old_pos->row = new_pos->row;
 }
 
-static void	calculate_st_pos(t_st_cmd *st_cmd, size_t new_tracker, t_pos *new_pos)
+void	calculate_st_pos(t_st_cmd *st_cmd, size_t new_tracker, t_pos *new_pos)
 {
 	size_t	i;
 	char	to_write;

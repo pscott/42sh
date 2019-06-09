@@ -25,6 +25,7 @@ void					reposition_cursor(t_st_cmd *st_cmd, size_t new_tracker);
 **	Writing functions
 */
 
+void					calculate_st_pos(t_st_cmd *st_cmd, size_t new_tracker, t_pos *new_pos);
 void					write_from_start(t_st_cmd *st_cmd);
 void					write_st_cmd(t_st_cmd *st_cmd);
 

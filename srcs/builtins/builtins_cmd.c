@@ -31,6 +31,8 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 		ret = case_unsetenv(argv, vars);
 	else if (cmd_id == cmd_echo)
 		ret = case_echo(argv);
+	else if (cmd_id == cmd_fc)
+		ret = case_fc(argv);
 	else
 		ret = 0;
 	ft_free_ntab(argv);
@@ -60,5 +62,7 @@ int			check_builtins(char **argv)
 		return (cmd_unsetenv);
 	if (ft_strcmp(argv[0], "echo") == 0)
 		return (cmd_echo);
+	if (ft_strcmp(argv[0], "fc") == 0)
+		return (cmd_fc);
 	return (0);
 }

@@ -10,8 +10,7 @@ static int			is_first_arg_and_exec(const char *str,
 	i = 0;
 	if (cursor_pos == 0 || str[cursor_pos - 1] == '&')
 		return (2);
-	else
-		cursor_pos--;
+	cursor_pos--;
 	while (str && ft_is_white_space(str[i]) && i <= cursor_pos)
 		i++;
 	if (i < start_actual_word)

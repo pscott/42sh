@@ -40,8 +40,7 @@ int					find_exe_space(char **path, t_auto_comp **match)
 
 int					find_all_var_and_exe(char **path, t_auto_comp **match)
 {
-	if (find_exe_space(path, match))
-		clean_exit(1, 1);
+	find_exe_space(path, match);
 	return (0);
 }
 

@@ -44,7 +44,7 @@ void				initialize_str(char **s1, char **s2, char **s3,
 void				get_pwd_and_pwd_slash(char **pwd, char **pwd_slash)
 {
 	if (!(*pwd = getcwd(*pwd, PATH_MAX)))
-		clean_exit(1, 1);
+		return ;
 	if (!(*pwd_slash = ft_strjoin(*pwd, "/")))
 		clean_exit(1, 1);
 }

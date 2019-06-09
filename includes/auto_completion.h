@@ -62,6 +62,7 @@ char						*get_dirs_first_arg(const char *directory,
 								const char *str, unsigned int len);
 int							get_all_match(char *directory, t_auto_comp **match,
 								const char *to_find, const char *next);
+char						*protect_special_characters(const char *str);
 
 /*
 **	Utils functions

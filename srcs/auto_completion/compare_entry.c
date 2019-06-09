@@ -2,23 +2,27 @@
 
 int		compare_entry(const char *s, const char *n)
 {
-	int i;
-	int	j;
-	int	len;
+	int		i;
+	int		j;
+	int		len;
+	char	*clean;
 
 	i = 0;
 	j = 0;
 	if (!s)
 		return (1);
+	clean = protect_special_characters(n);
 	while (s && ft_is_white_space(s[i]))
 		i++;
 	len = ft_strlen(s - i + 1);
-	while (len-- && s && n[j] && s[i] == n[j])
+	while (len-- && s && clean[j] && s[i] == clean[j])
 	{
 		j++;
 		i++;
 	}
-	return (s[i] - n[j]);
+	j = clean[j];
+	ft_strdel(&clean);
+	return (s[i] - j);
 }
 
 int		compare_entry2(const char *s, const char *n)

@@ -24,12 +24,14 @@ int				get_needed_values
 		clean_exit(1, 1);
 	if (!(*to_find_full = ft_strndup(input, len)))
 		clean_exit(1, 1);
-	if (len > 0 && ft_is_white_space((*to_find_full)[len - 1]))
+	if (len > 0
+		&& ft_is_unslashed_metachar(*to_find_full, len - 1, white_space))
 		start_actual_word--;
 	while (start_actual_word > 0
-			&& !ft_is_white_space((*to_find_full)[start_actual_word]))
+		&& !ft_is_unslashed_metachar(*to_find_full,
+			start_actual_word, white_space))
 		start_actual_word--;
-	if (ft_is_white_space((*to_find_full)[start_actual_word]))
+	if (ft_is_unslashed_metachar(*to_find_full, start_actual_word, white_space))
 		start_actual_word++;
 	return (start_actual_word);
 }

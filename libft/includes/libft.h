@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 16:25:39 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/07 14:11:40 by mporzier         ###   ########.fr       */
+/*   Updated: 2019/06/09 15:58:02 by aschoenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ typedef	struct	s_list
 	struct s_list	*next;
 }				t_list;
 
+enum			{white_space = 1, parenth, quote};
+
 void			ft_bzero(void *s, size_t n);
 int				ft_isalpha(int c);
 unsigned int	ft_is_quote(char c);
@@ -33,6 +35,7 @@ int				ft_isdigit(int c);
 int				ft_isalnum(int c);
 int				ft_isascii(int c);
 int				ft_isprint(int c);
+int				ft_is_unslashed_metachar(char *s, int index, int type);
 int				ft_toupper(int c);
 int				ft_tolower(int c);
 int				ft_strcmp(const char *s1, const char *s2);

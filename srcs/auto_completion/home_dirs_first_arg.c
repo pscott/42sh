@@ -41,7 +41,7 @@ static char			*search_dirs_home_first_arg(const char *directory,
 	if (!(to_find = ft_strdup(str)))
 		clean_exit(1, 1);
 	if (find_matching_home_dirs(directory, &match, to_find))
-		clean_exit(1, 1);
+		return (to_find);
 	if (match)
 		ret_str = get_ret_or_display_matches(match, to_find,
 				ft_strlen(to_find));

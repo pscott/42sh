@@ -73,7 +73,7 @@ char					*search_dirs_and_exe(const char *str)
 	match = NULL;
 	get_path_and_to_find_local(&to_find, &path, str);
 	if (find_matching_dirs_and_exe_even_hidden(path, &match, to_find))
-		clean_exit(1, 1);
+		return (ret_str);
 	if (match)
 	{
 		while (match->prev)

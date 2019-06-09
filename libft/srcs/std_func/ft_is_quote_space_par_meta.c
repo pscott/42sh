@@ -6,9 +6,11 @@
 /*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 19:20:30 by aschoenh          #+#    #+#             */
-/*   Updated: 2019/06/03 14:21:37 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/09 16:01:57 by aschoenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 unsigned int	ft_is_quote(char c)
 {
@@ -37,5 +39,28 @@ unsigned int	ft_is_metachar(char c)
 		|| c == '\\' || c == ';' || c == '&'
 		|| c == '|' || c == '<' || c == '>')
 		return (1);
+	return (0);
+}
+
+int				ft_is_unslashed_metachar(char *s, int index, int type)
+{
+	if (s && s[0] && index > 0 && s[index])
+	{
+		if (type == white_space)
+		{
+			if (ft_is_white_space(s[index]) && s[index - 1] != '\\')
+				return (1);
+		}
+		else if (type == parenth)
+		{
+			if (ft_is_parenth(s[index] && s[index - 1] != '\\'))
+				return (1);
+		}
+		else if (type == quote)
+		{
+			if (ft_is_quote(s[index] && s[index - 1] != '\\'))
+				return (1);
+		}
+	}
 	return (0);
 }

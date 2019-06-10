@@ -16,7 +16,7 @@ static int		continue_reading(t_token *token_head, t_st_cmd **st_cmd,
 		return (-1);
 	}
 	ft_strdel(input);
-	*input = concatenate_txt(*st_cmd, 0);
+	*input = concatenate_txt(*st_cmd);
 	if (is_full_of_whitespaces(*input))
 	{
 		ft_strdel(input);
@@ -54,7 +54,7 @@ int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	char			*input;
 
 	token_head = NULL;
-	input = concatenate_txt(st_cmd, 0);
+	input = concatenate_txt(st_cmd);
 	while ((lexer_ret = lexer(input, &token_head, vars)) == lex_cont_read)
 	{
 		ret = handle_continue_reading(token_head, &st_cmd, &input, vars);

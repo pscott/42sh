@@ -75,23 +75,26 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 {
 	char		*txt;
 	t_st_cmd	*cmd;
+	t_st_cmd	*start_heredoc;
 	int			len;
 	int			ret;
 
-	cmd = get_st_cmd(NULL);
+	cmd = get_last_st_cmd(get_st_cmd(NULL));
 	txt = NULL;
 	cmd = append_st_cmd(cmd, "", "heredoc> ");
+	start_heredoc = cmd;
 	while (42)
 	{
 		if ((ret = input_loop(cmd, vars, heredoc)) < 1 || !*cmd->st_txt->txt)
 			return (free_get_doc(txt, eof));
 		if (!is_eof_quoted)
 			apply_escape(cmd);
-		txt = concatenate_txt(cmd, 1);
+		txt = concatenate_heredoc_txt(cmd, start_heredoc);
 		len = ft_strlen(txt) - ft_strlen(eof) - 1;
 		if (len > 0 && !ft_strncmp(&txt[len], eof, ft_strlen(eof))
 			&& txt[len - 1] == '\n' && txt[ft_strlen(txt) - 1] == '\n')
 			break ;
+		//adjust_history
 		cmd = append_st_cmd(cmd, "", "heredoc> ");
 		ft_strdel(&txt);
 	}

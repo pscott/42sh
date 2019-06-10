@@ -5,9 +5,11 @@ int		errors_fd_great(char *tk, int err, int fd, int mode)
 	if (mode != -1)
 	{
 		if (err == 1)
-			ft_dprintf(STDERR_FILENO, "42sh: %s: ambiguous redirect\n", tk);
+			ft_dprintf(STDERR_FILENO, SHELL_NAME ": %s: ambiguous redirect\n",
+				tk);
 		else if (err == 2)
-			ft_dprintf(STDERR_FILENO, "42sh: %d: bad file descriptor\n", fd);
+			ft_dprintf(STDERR_FILENO, SHELL_NAME ": %d: bad file descriptor\n",
+				fd);
 	}
 	return (1);
 }

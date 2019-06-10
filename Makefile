@@ -74,7 +74,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 						environ_unset.c
 	ERRORS_FILES	:=	errors.c print_errors.c error_exit.c
 	LEXER_FILES		:=	lexer.c lexer_tools.c lexer_op_chart.c get_token.c \
-						lexer_debug.c copy_token_list.c lexer_escape_tools.c \
+						copy_token_list.c lexer_escape_tools.c \
 						check_special_token.c
 	PARSER_FILES	:=	ast.c ast_utils.c
 	PIPELINE_FILES	:=	parse_pipeline.c check_token_type.c

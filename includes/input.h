@@ -3,11 +3,7 @@
 
 # include "ftsh.h"
 
-/*
-**	INIT_TXT_SIE : for debug it's 2, but maybe change it to 32 later
-*/
-
-# define INIT_TXT_SIZE 2
+# define INIT_TXT_SIZE 32
 # define BUF_SIZE 8
 # define STD_PROMPT "42sh $ "
 # define PROMPT_REVERSE_I_SEARCH_SUCC "(reverse-i-search)"

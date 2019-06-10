@@ -9,7 +9,7 @@ static	int		dup2_print_err(int old, int new)
 	int ret;
 
 	if ((ret = dup2(old, new)) == -1)
-		ft_dprintf(2, "42sh: error: dup2 failed\n");
+		ft_dprintf(2, SHELL_NAME ": error: dup2 failed\n");
 	return (ret);
 }
 

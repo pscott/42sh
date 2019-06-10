@@ -58,14 +58,6 @@ typedef enum			e_lexer_state
 }						t_lexer_state;
 
 /*
-**	For debugging: remove it afterwards
-*/
-
-void					print_token(t_token *token);
-void					print_token_list(t_token *token_head);
-void					print_op_table(t_operation *op_chart);
-
-/*
 ** lexer.c
 */
 

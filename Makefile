@@ -223,6 +223,8 @@ rmh:
 
 adh: rmh
 	vim -ns script/42header_add.keys $(SRCS) $(INCLS)
+	make -C $(LIBFT_DIR) adh
+	make -C $(LIBTERM_DIR) adh
 
 $(NAME): $(OBJS) libft/libft.a libterm/libterm.a
 	$(CC) $(CFLAGS) $(INCL_CMD) $^ -o $@ $(LIB_INCL)

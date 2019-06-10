@@ -95,6 +95,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 	LINE_EDIT_FILES	:=	st_cmd_editing.c st_prompt.c st_txt.c writing.c \
 						t_vars.c st_cmd_getters.c cursor_position.c \
 						st_cmd_windows_struct_utils.c \
+						reposition_cursor.c \
 						jump_words.c delete.c arrows.c go_up.c go_down.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c \
 						cmd_type.c cmd_setenv.c cmd_unsetenv.c cmd_echo.c \

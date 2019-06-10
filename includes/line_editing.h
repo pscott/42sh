@@ -19,13 +19,13 @@ void					increment_pos(char to_write, t_pos *cursor_pos,
 void					init_relative_pos(t_pos *cursor_pos, struct winsize *window, size_t prompt_size);
 t_st_cmd				*go_back_to_start(t_st_cmd *st_cmd);
 void					go_to_prompt_start(t_st_cmd *st_cmd);
+void					merge_pos(t_pos *new_pos, t_pos *old_pos);
 void					reposition_cursor(t_st_cmd *st_cmd, size_t new_tracker);
 
 /*
 **	Writing functions
 */
 
-void					calculate_st_pos(t_st_cmd *st_cmd, size_t new_tracker, t_pos *new_pos);
 void					write_from_start(t_st_cmd *st_cmd);
 void					write_st_cmd(t_st_cmd *st_cmd);
 

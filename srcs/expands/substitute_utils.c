@@ -91,7 +91,7 @@ void	substitute_cmd_value(char **str, size_t *i, t_vars *vars)
 	size_t	index[2];
 
 	if (!(nb_str = ft_itoa(vars->cmd_value)))
-		ERROR_MEM;
+		clean_exit(1, 1);
 	index[0] = *i;
 	index[1] = *i + 1;
 	substitute_slice(str, index, nb_str);

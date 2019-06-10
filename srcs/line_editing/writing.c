@@ -2,7 +2,6 @@
 
 /*
 **	Writes the char located at tracker, updating cursor_pos.
-**
 */
 
 void	write_char(t_st_cmd *st_cmd)

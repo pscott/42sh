@@ -29,8 +29,8 @@ static int		search_in_previous_entries(t_st_cmd **st_cmd, char *to_find)
 							ft_strlen((*st_cmd)->hist_lst->txt) - 1)))
 				clean_exit(1, 1);
 			(*st_cmd)->st_txt->data_size = ft_strlen((*st_cmd)->st_txt->txt);
-			(*st_cmd)->st_txt->tracker = ft_strlen((*st_cmd)->st_txt->txt) -
-				ft_strlen(ft_strrstr((*st_cmd)->st_txt->txt, to_find));
+			(*st_cmd)->st_txt->tracker = ft_strlen((*st_cmd)->st_txt->txt)
+				- ft_strlen(ft_strrstr((*st_cmd)->st_txt->txt, to_find));
 			return (0);
 		}
 		if ((*st_cmd)->hist_lst->prev)

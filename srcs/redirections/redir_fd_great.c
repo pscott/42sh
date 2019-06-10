@@ -69,11 +69,13 @@ int				redir_fd_great(t_token *redir, t_token *prev, int mode)
 		new_fd = change_token_close(next);
 	else
 		new_fd = ft_atoi(next->content);
-	if (new_fd > 9 || (new_fd != -1 && fstat(new_fd, &buf) == -1))
-		return (errors_fd_great(NULL, 2, new_fd, mode));
-	redirect(new_fd, old_fd, mode);
 	redir->type = tk_eat;
 	if (new_fd != -1)
 		next->type = tk_eat;
+	if (mode == -1)
+		return (0);
+	if (new_fd > 9 || (new_fd != -1 && fstat(new_fd, &buf) == -1))
+		return (errors_fd_great(NULL, 2, new_fd, mode));
+	redirect(new_fd, old_fd, mode);
 	return (0);
 }

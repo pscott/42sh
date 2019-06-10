@@ -20,11 +20,13 @@ int		redir_great(t_token *redir, t_token *prev, int mode)
 	next = redir->next;
 	while (next->type == tk_eat)
 		next = next->next;
+	redir->type = tk_eat;
+	next->type = tk_eat;
+	if (mode == -1)
+		return (0);
 	if ((new_fd = open(next->content, O_WRONLY | O_CREAT | O_TRUNC,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) < 0)
 		return (open_error(next->content, mode));
 	redirect(new_fd, old_fd, mode);
-	redir->type = tk_eat;
-	next->type = tk_eat;
 	return (0);
 }

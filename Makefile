@@ -220,6 +220,8 @@ val: $(SRCS) $(LIBS) $(INCLS)
 
 rmh:
 	./script/42header_c_rm.sh $(SRCS) $(INCLS)
+	make -C $(LIBFT_DIR) rmh
+	make -C $(LIBTERM_DIR) rmh
 
 adh: rmh
 	vim -ns script/42header_add.keys $(SRCS) $(INCLS)

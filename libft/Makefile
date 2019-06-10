@@ -70,10 +70,11 @@ SRC_FILES	:=	ft_printf.c getters.c isprint_special.c parse_struct.c			\
 							ft_strrchr.c ft_strrev.c ft_strsplit.c ft_strstr.c	\
 							ft_strtrim.c ft_tolower.c ft_toupper.c ft_itoa.c	\
 							ft_putchar_err.c ft_free_ntab.c ft_realloc.c		\
-							ft_dup_ntab.c ft_ntab_len.c ft_strndup.c \
+							ft_dup_ntab.c ft_ntab_len.c ft_strndup.c			\
 							ft_print_ntab.c ft_strlen_char.c ft_initialize_str.c\
-							ft_strrstr.c ft_strjoin_free_left.c ft_strrnstr.c \
-							ft_strnlen.c ft_free_str_return_char.c ft_max.c
+							ft_strrstr.c ft_strjoin_free_left.c ft_strrnstr.c	\
+							ft_strnlen.c ft_free_str_return_char.c ft_max.c		\
+							ft_is_quote_space_par_meta.c
 	CONVERSION_FILES	:=	conv_helper.c converters.c
 	FORMATS_FILES		:=	format_int.c format_char.c format_unsigned.c		\
 							format_string.c format_conv.c format_p.c			\
@@ -84,7 +85,6 @@ SRC_FILES	:=	ft_printf.c getters.c isprint_special.c parse_struct.c			\
 	HELPERS_FILES		:=	ft_atoi_move.c null_data.c ft_special_memset.c		\
 							utils.c values.c unsigned_helper.c choose_value.c	\
 							float_helper.c ft_strncat_move.c \
-							ft_is_quote_space_par_meta.c
 	INCREMENTERS_FILES	:=	increm_format.c increm_string.c 
 
 #list of all .c files

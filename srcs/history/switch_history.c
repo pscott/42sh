@@ -20,7 +20,7 @@ void	switch_st_cmd(t_st_cmd *st_cmd, char *newcmd)
 	}
 	if (!(trunc_newcmd = ft_strndup(newcmd, len)))
 		clean_exit(1, 1);
-	go_back_to_start(st_cmd);
+	go_to_prompt_start(st_cmd);
 	execute_str(CLEAR_BELOW);
 	free_st_txt(&st_cmd->st_txt);
 	st_cmd->st_txt = init_st_txt(trunc_newcmd);

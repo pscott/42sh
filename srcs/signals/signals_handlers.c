@@ -31,7 +31,8 @@ void			sigint_handler(int signo)
 	if (!(st_cmd = get_st_cmd(NULL)))
 		return ;
 	st_cmd = get_last_st_cmd(st_cmd);
-	*st_cmd->st_txt->txt = '\x03';
+	if (st_cmd->st_txt->txt)
+	   *st_cmd->st_txt->txt	= '\x03';
 	if ((vars = get_vars(NULL)))
 		vars->cmd_value = 1;
 	if (isatty(TERM_FD))

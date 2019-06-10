@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:54:40 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/10 12:25:38 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/10 12:37:19 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 ** FILE DESCRIPTORS
 */
 
-# define TERM_FD 42
+# define TERM_FD 54
 # define ESC "\x1b"
 
 /*

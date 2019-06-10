@@ -4,19 +4,13 @@
 **	Saving std fds : mode 1 is saving, mode 0 is restoring
 */
 
-static	int		dup_print_err(int fd)
+static	int		dup2_print_err(int old, int new)
 {
 	int ret;
 
-	if ((ret = dup(fd)) == -1)
-		ft_dprintf(2, "42sh: error: dup failed\n");
-	return (ret);
-}
-
-static	void	dup2_print_err(int old, int new)
-{
-	if (dup2(old, new) == -1)
+	if ((ret = dup2(old, new)) == -1)
 		ft_dprintf(2, "42sh: error: dup2 failed\n");
+	return (ret);
 }
 
 static	void	close_saves(int one, int two, int three)
@@ -36,9 +30,9 @@ void			save_reset_stdfd(int mode)
 	if (mode == 1 && lastmode != 1)
 	{
 		lastmode = 1;
-		in = dup_print_err(STDIN_FILENO);
-		out = dup_print_err(STDOUT_FILENO);
-		err = dup_print_err(STDERR_FILENO);
+		in = dup2_print_err(STDIN_FILENO, 10);
+		out = dup2_print_err(STDOUT_FILENO, 11);
+		err = dup2_print_err(STDERR_FILENO, 12);
 		lastmode = 1;
 	}
 	else if (mode == 0 && lastmode == 1)

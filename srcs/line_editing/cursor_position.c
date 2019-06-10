@@ -85,8 +85,6 @@ void		reposition_cursor(t_st_cmd *st_cmd, size_t new_tracker)
 	if (!isatty(STDIN_FILENO))
 		return ;
 	calculate_st_pos(st_cmd, new_tracker, &new_pos);
-	/*ft_dprintf(2, "NEW_POS: {col: %d, row: %d}\nOLD_POS: {col: %d, row: %d}\n", new_pos.col, new_pos.row, st_cmd->cursor_pos.col, st_cmd->cursor_pos.row);
-	sleep(1);*/
 	merge_pos(&new_pos, &st_cmd->cursor_pos);
 	st_cmd->st_txt->tracker = new_tracker;
 }

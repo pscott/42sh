@@ -88,7 +88,6 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 		if (!is_eof_quoted)
 			apply_escape(cmd);
 		txt = concatenate_txt(cmd, 1);
-		sleep(2);
 		len = ft_strlen(txt) - ft_strlen(eof) - 1;
 		if (len > 0 && !ft_strncmp(&txt[len], eof, ft_strlen(eof))
 			&& txt[len - 1] == '\n' && txt[ft_strlen(txt) - 1] == '\n')

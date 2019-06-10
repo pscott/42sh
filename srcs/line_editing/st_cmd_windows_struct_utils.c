@@ -9,12 +9,16 @@
 void			init_relative_pos(t_pos *cursor_pos, struct winsize *window,
 	size_t prompt_size)
 {
-	if (isatty(TERM_FD) == 0)
-		return ;
 	if (!window->ws_col)
-		return ;
-	cursor_pos->col = prompt_size % window->ws_col;
-	cursor_pos->row = prompt_size / window->ws_col;
+	{
+		cursor_pos->col = prompt_size;
+		cursor_pos->row = prompt_size;
+	}
+	else
+	{
+		cursor_pos->col = prompt_size % window->ws_col;
+		cursor_pos->row = prompt_size / window->ws_col;
+	}
 }
 
 void			update_window_struct(struct winsize *window)

@@ -61,7 +61,6 @@ static void	calculate_st_pos(t_st_cmd *st_cmd, size_t new_tracker,
 	i = 0;
 	if (!isatty(STDIN_FILENO) || !st_cmd->window->ws_col)
 		return ;
-	init_relative_pos(new_pos, st_cmd->window, st_cmd->st_prompt->size);
 	while (i < new_tracker)
 	{
 		to_write = st_cmd->st_txt->txt[i];
@@ -81,6 +80,7 @@ void		reposition_cursor(t_st_cmd *st_cmd, size_t new_tracker)
 
 	if (!isatty(STDIN_FILENO))
 		return ;
+	init_relative_pos(&new_pos, st_cmd->window, st_cmd->st_prompt->size);
 	calculate_st_pos(st_cmd, new_tracker, &new_pos);
 	merge_pos(&new_pos, &st_cmd->cursor_pos);
 	st_cmd->st_txt->tracker = new_tracker;

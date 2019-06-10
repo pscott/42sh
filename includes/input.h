@@ -59,7 +59,7 @@ typedef struct			s_st_cmd {
 }						t_st_cmd;
 
 int						handle_reverse_search_history(t_st_cmd *st_cmd,
-		size_t malloc_size, int prompt_size);
+		size_t malloc_size, int prompt_size, int mode);
 
 /*
 ** Handling input
@@ -83,7 +83,7 @@ int						check_for_delete(t_st_cmd *st_cmd, char *buf);
 int						check_for_copy_paste(t_st_cmd *st_cmd, char *buf,
 		t_vars *vars);
 int						check_for_search_histo(t_st_cmd *st_cmd,
-		const char *buf_received);
+		const char *buf_received, int mode);
 int						check_for_tab(t_st_cmd *st_cmd, const char *buf,
 		t_vars *vars, int mode);
 int						check_for_words(t_st_cmd *st_cmd, const char *buf);

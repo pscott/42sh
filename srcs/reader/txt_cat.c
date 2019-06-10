@@ -11,7 +11,8 @@ char	*concatenate_txt(t_st_cmd *st_cmd)
 	if (!st_cmd)
 		return (NULL);
 	st_cmd = get_first_st_cmd(st_cmd);
-	input = NULL;
+	if (!(input = ft_strdup("")))
+		clean_exit(1, 1);
 	while (st_cmd)
 	{
 		if (!(input = ft_strjoin_free_left(input, st_cmd->st_txt->txt)))

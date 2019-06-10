@@ -132,5 +132,5 @@ int				exec_ast(t_ast *root, t_vars *vars)
 		return (ret ? exec_ast(root->right, vars) : ret);
 	}
 	else
-		return (ret = parse_cmdline(root->token, vars));
+		return (parse_cmdline(root->token, vars));
 }

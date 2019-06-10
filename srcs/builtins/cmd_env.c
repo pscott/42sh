@@ -5,7 +5,7 @@
 #include "signals.h"
 
 /*
-**	Funciton that checks for access rights and returns the corresponding
+**	Function that checks for access rights and returns the corresponding
 **	error values.
 */
 

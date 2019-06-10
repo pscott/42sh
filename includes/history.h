@@ -3,7 +3,7 @@
 
 # include "input.h"
 
-# define HIST_FILE "~/.42sh_history"
+# define HIST_FILE "~/.21sh_history"
 # define HIST_SIZE 500
 
 typedef struct			s_hist_lst

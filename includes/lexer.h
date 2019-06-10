@@ -31,7 +31,6 @@ typedef enum			e_token_type
 	tk_or,
 	tk_amp,
 	tk_semi,
-	tk_42sh,
 	tk_unsupported
 }						t_token_type;
 

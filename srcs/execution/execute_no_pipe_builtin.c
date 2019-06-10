@@ -69,6 +69,7 @@ static char		**fake_argv(t_token *token_head, t_vars *vars)
 **			- if it got executed, returns 0.
 **			- if there was an error returns error number
 **	Else (argv[0] is NOT a builtin) returns -1.
+**	If execution should stop, returns -2
 */
 
 int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
@@ -79,7 +80,7 @@ int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 	char					*cmd_path;
 
 	if (!(argv = fake_argv(token_head, vars)) || !argv[0])
-		return (-2);
+		return (-1);
 	if (ft_strchr(argv[0], '/'))
 		ret = -1;
 	else if ((cmd_id = check_builtins(argv)))

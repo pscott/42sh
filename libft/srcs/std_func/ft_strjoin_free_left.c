@@ -16,7 +16,10 @@ char			*ft_strjoin_free_left(char *s1, const char *s2)
 		return (res);
 	}
 	if (!s1 || !s1[0])
+	{
+		ft_strdel(&s1);
 		return (ft_strdup(s2));
+	}
 	s1_len = ft_strlen(s1);
 	if (!(res = ft_strnew(s1_len + ft_strlen(s2))))
 		return (NULL);

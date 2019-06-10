@@ -128,8 +128,6 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 						op_tokenizer_utils.c put_op_link.c ft_isempty.c
 	HEREDOC_FILES	:=	heredoc.c heredoc_utils.c get_doc.c save_heredoc.c
 
-
-
 #list of all .c files
 C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES) \
 			$(PARSER_FILES) $(PIPELINE_FILES) $(READER_FILES) \
@@ -220,6 +218,8 @@ val: $(SRCS) $(LIBS) $(INCLS)
 
 rmh:
 	./script/42header_c_rm.sh $(SRCS) $(INCLS)
+	make -C $(LIBFT_DIR) rmh
+	make -C $(LIBTERM_DIR) rmh
 
 adh: rmh
 	vim -ns script/42header_add.keys $(SRCS) $(INCLS)

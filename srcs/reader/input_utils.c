@@ -2,7 +2,7 @@
 #include "ftsh.h"
 #include "line_editing.h"
 
-size_t	ft_printable_len(const char *s1)
+size_t		ft_printable_len(const char *s1)
 {
 	size_t	i;
 	size_t	res;
@@ -37,7 +37,7 @@ static void	ft_strcpy_print(char *dest, const char *source)
 	dest[len] = 0;
 }
 
-char	*ft_strdup_print(const char *s1)
+char		*ft_strdup_print(const char *s1)
 {
 	char	*res;
 
@@ -57,9 +57,8 @@ static char	*ft_strndup_print(const char *s1, size_t print_len)
 	return (res);
 }
 
-
-void	insert_str(t_st_cmd *st_cmd, const char *buf,
-		size_t print_len)
+void		insert_str(t_st_cmd *st_cmd, const char *buf,
+	size_t print_len)
 {
 	t_st_txt	*st_txt;
 	char		*print_buf;

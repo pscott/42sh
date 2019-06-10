@@ -29,7 +29,7 @@ static void	update_temporary_hist(t_hist_lst *hist_lst, const char *line)
 
 void		adjust_history(t_st_cmd *st_cmd, int keep)
 {
-	t_hist_lst *left;
+	t_hist_lst	*left;
 	char		*line;
 
 	if (isatty(TERM_FD) == 0)

@@ -78,5 +78,6 @@ void			print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf,
 		ft_dprintf(TERM_FD, "%s", st_cmd->st_prompt->prompt);
 		write_st_cmd(st_cmd);
 		st_cmd->st_txt->tracker = tmp;
+		reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 	}
 }

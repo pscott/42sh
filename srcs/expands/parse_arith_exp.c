@@ -54,6 +54,8 @@ int				parse_arith_exp(char **str, t_vars *vars)
 
 	i = 0;
 	escaped = 0;
+	if (!vars->verbose)
+		return (0);
 	while ((*str)[i])
 	{
 		if (!escaped && !ft_strncmp("$((", (*str) + i, 3)

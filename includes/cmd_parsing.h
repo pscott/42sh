@@ -55,7 +55,7 @@ int				check_fd_prev(t_token *prev);
 
 int				bad_fd_error(int fd, int mode);
 int				ambi_redir_error(char *str, int mode);
-int				get_new_fd(t_token *next, int mode);
+int				get_new_fd(t_token *next, int mode, int *new_fd);
 int				errors_fd_great(char *token, int err, int fd, int mode);
 int				check_redirects(char *str);
 int				change_token_close(t_token *next);

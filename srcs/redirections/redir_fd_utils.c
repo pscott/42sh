@@ -43,15 +43,22 @@ int		change_token_close(t_token *next)
 	return (-1);
 }
 
-int		get_new_fd(t_token *next, int mode)
-{
-	int	new_fd;
+/*
+**	Returns 0 on success, 1 on failure.
+**	Takes the address of new_fd and sets it to the correct new_fd.
+**	Undefined value for new_fd if there is an error.
+*/
 
+int		get_new_fd(t_token *next, int mode, int *new_fd)
+{
 	if (check_redirect(next->content) == 1)
-		return (errors_fd_great(next->content, 1, 0, mode));
+	{
+		errors_fd_great(next->content, 1, 0, mode);
+		return (1);
+	}
 	else if (check_redirect(next->content) == -1)
-		new_fd = change_token_close(next);
+		*new_fd = change_token_close(next);
 	else
-		new_fd = ft_atoi(next->content);
-	return (new_fd);
+		*new_fd = ft_atoi(next->content);
+	return (0);
 }

@@ -51,11 +51,11 @@ VPATH	:=	$(SRC_DIR) $(addprefix $(SRC_DIR)/,$(SRC_SUBDIRS))
 SRC_FILES	:=	ft_printf.c getters.c isprint_special.c parse_struct.c			\
 				set_data_len.c spec_init.c wildcard.c
 	#srcs subfiles names
-	STD_FUNC_FILES		:=	ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c	\
+	STD_FUNC_FILES		:=	ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c		\
 							ft_isascii.c ft_isdigit.c ft_isprint.c ft_lstadd.c	\
 							ft_lstappend.c ft_memmove.c ft_lstmap.c				\
-							ft_lstdel.c ft_lstdelone.c ft_lstiter.c				\
-							ft_lstnew.c ft_lstrmdup.c ft_lstsort.c				\
+							ft_lstdelone.c ft_lstiter.c							\
+							ft_lstnew.c ft_lstsort.c							\
 							ft_memalloc.c ft_memccpy.c ft_lstlen.c				\
 							ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memdel.c		\
 							ft_memset.c ft_putchar.c ft_putchar_fd.c			\
@@ -70,10 +70,11 @@ SRC_FILES	:=	ft_printf.c getters.c isprint_special.c parse_struct.c			\
 							ft_strrchr.c ft_strrev.c ft_strsplit.c ft_strstr.c	\
 							ft_strtrim.c ft_tolower.c ft_toupper.c ft_itoa.c	\
 							ft_putchar_err.c ft_free_ntab.c ft_realloc.c		\
-							ft_dup_ntab.c ft_ntab_len.c ft_strndup.c \
+							ft_dup_ntab.c ft_ntab_len.c ft_strndup.c			\
 							ft_print_ntab.c ft_strlen_char.c ft_initialize_str.c\
-							ft_strrstr.c ft_strjoin_free_left.c ft_strrnstr.c \
-							ft_strnlen.c ft_free_str_return_char.c ft_max.c
+							ft_strrstr.c ft_strjoin_free_left.c ft_strrnstr.c	\
+							ft_strnlen.c ft_free_str_return_char.c ft_max.c		\
+							ft_is_quote_space_par_meta.c
 	CONVERSION_FILES	:=	conv_helper.c converters.c
 	FORMATS_FILES		:=	format_int.c format_char.c format_unsigned.c		\
 							format_string.c format_conv.c format_p.c			\
@@ -83,8 +84,7 @@ SRC_FILES	:=	ft_printf.c getters.c isprint_special.c parse_struct.c			\
 	GET_LEN_FILES		:=	get_len.c get_ulen.c
 	HELPERS_FILES		:=	ft_atoi_move.c null_data.c ft_special_memset.c		\
 							utils.c values.c unsigned_helper.c choose_value.c	\
-							float_helper.c ft_strncat_move.c \
-							ft_is_quote_space_par_meta.c
+							float_helper.c ft_strncat_move.c
 	INCREMENTERS_FILES	:=	increm_format.c increm_string.c 
 
 #list of all .c files

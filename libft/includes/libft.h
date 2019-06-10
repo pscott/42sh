@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/04 16:25:39 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/09 18:14:05 by aschoenh         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef LIBFT_H
 # define LIBFT_H
 # include <string.h>
@@ -98,13 +86,11 @@ char			*ft_strrev(const char *s);
 t_list			*ft_lstnew(void const *content, size_t content_size);
 void			ft_lstadd(t_list **alst, t_list *new);
 void			ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
-void			ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 void			ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list			*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void			ft_lstsort(t_list **head);
 size_t			ft_lstlen(t_list **head);
 void			ft_lstappend(t_list **lst, t_list *new);
-void			ft_lstrmdup(t_list *lst);
 char			*ft_itoa(int n);
 char			*ft_realloc(char *data, size_t current_data_size,
 		size_t *current_malloc_size, size_t append_size);

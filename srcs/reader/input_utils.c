@@ -2,7 +2,7 @@
 #include "ftsh.h"
 #include "line_editing.h"
 
-size_t	ft_printable_len(const char *s1)
+size_t		ft_printable_len(const char *s1)
 {
 	size_t	i;
 	size_t	res;
@@ -37,7 +37,7 @@ static void	ft_strcpy_print(char *dest, const char *source)
 	dest[len] = 0;
 }
 
-char	*ft_strdup_print(const char *s1)
+char		*ft_strdup_print(const char *s1)
 {
 	char	*res;
 
@@ -47,20 +47,30 @@ char	*ft_strdup_print(const char *s1)
 	return (res);
 }
 
+static char	*ft_strndup_print(const char *s1, size_t print_len)
+{
+	char *res;
 
+	if (!(res = ft_strnew(print_len)))
+		return (NULL);
+	ft_strcpy_print(res, s1);
+	return (res);
+}
 
-void	insert_str(t_st_cmd *st_cmd, const char *buf,
-		size_t print_len)
+void		insert_str(t_st_cmd *st_cmd, const char *buf,
+	size_t print_len)
 {
 	t_st_txt	*st_txt;
-	char		printable_buf[BUF_SIZE + 1];
+	char		*print_buf;
 	char		*end_line;
 
 	st_txt = st_cmd->st_txt;
-	ft_strcpy_print(printable_buf, buf);
+	if (!(print_buf = ft_strndup_print(buf, print_len)))
+		clean_exit(1, 1);
 	if (!(end_line = ft_strdup(&st_txt->txt[st_txt->tracker])))
 		clean_exit(1, 1);
 	ft_strcpy(&st_txt->txt[st_txt->tracker + print_len], end_line);
 	ft_strdel(&end_line);
-	ft_strncpy(&st_txt->txt[st_txt->tracker], printable_buf, print_len);
+	ft_strncpy(&st_txt->txt[st_txt->tracker], print_buf, print_len);
+	ft_strdel(&print_buf);
 }

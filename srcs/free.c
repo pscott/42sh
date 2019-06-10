@@ -35,10 +35,9 @@ void		free_ast(t_ast *ast_root)
 	free_ast_node(ast_root);
 }
 
-char		*free_get_doc(char *txt, t_st_cmd *st_cmd, char *eof)
+char		*free_get_doc(char *txt, char *eof)
 {
 	ft_strdel(&txt);
-	free_all_st_cmds(&st_cmd);
 	ft_strdel(&eof);
 	return (NULL);
 }

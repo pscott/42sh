@@ -1,7 +1,7 @@
 ################################################################################
 
 # Basics #######################################################################
-NAME	:=	42sh
+NAME	:=	21sh
 OPT		:=	
 CC		:=	gcc
 CFLAGS	:=	-Wall -Wextra #-Werror
@@ -74,7 +74,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 						environ_unset.c
 	ERRORS_FILES	:=	errors.c print_errors.c error_exit.c
 	LEXER_FILES		:=	lexer.c lexer_tools.c lexer_op_chart.c get_token.c \
-						lexer_debug.c copy_token_list.c lexer_escape_tools.c \
+						copy_token_list.c lexer_escape_tools.c \
 						check_special_token.c
 	PARSER_FILES	:=	ast.c ast_utils.c
 	PIPELINE_FILES	:=	parse_pipeline.c check_token_type.c
@@ -95,6 +95,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 	LINE_EDIT_FILES	:=	st_cmd_editing.c st_prompt.c st_txt.c writing.c \
 						t_vars.c st_cmd_getters.c cursor_position.c \
 						st_cmd_windows_struct_utils.c \
+						reposition_cursor.c \
 						jump_words.c delete.c arrows.c go_up.c go_down.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c \
 						cmd_type.c cmd_setenv.c cmd_unsetenv.c cmd_echo.c \
@@ -102,7 +103,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 						cmd_env_check.c cmd_fc.c cmd_fc_init.c
 	REDIR_FILES		:=	redir_dgreat.c redir_fd_great.c fd_utils.c \
 						redir_great.c redir_less.c parse_redirections.c \
-						redir_fd_less.c redirections_errors.c
+						redir_fd_less.c redirections_errors.c redir_fd_utils.c \
+						close_open_fds.c
 	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c \
 						execute_no_pipe_builtin.c exit_status.c
 	AUTO_COMP_FILES	:=	auto_completion.c auto_completion_x_arg.c \
@@ -126,8 +128,6 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 						op_tokenizer_clean_2.c op_tokenizer_dirty.c \
 						op_tokenizer_utils.c put_op_link.c ft_isempty.c
 	HEREDOC_FILES	:=	heredoc.c heredoc_utils.c get_doc.c save_heredoc.c
-
-
 
 #list of all .c files
 C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES) \
@@ -219,9 +219,13 @@ val: $(SRCS) $(LIBS) $(INCLS)
 
 rmh:
 	./script/42header_c_rm.sh $(SRCS) $(INCLS)
+	make -C $(LIBFT_DIR) rmh
+	make -C $(LIBTERM_DIR) rmh
 
 adh: rmh
 	vim -ns script/42header_add.keys $(SRCS) $(INCLS)
+	make -C $(LIBFT_DIR) adh
+	make -C $(LIBTERM_DIR) adh
 
 $(NAME): $(OBJS) libft/libft.a libterm/libterm.a
 	$(CC) $(CFLAGS) $(INCL_CMD) $^ -o $@ $(LIB_INCL)

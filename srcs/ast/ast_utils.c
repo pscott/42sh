@@ -65,12 +65,3 @@ int		find_next_ctrl_op(t_token **token_probe, t_token **token_prev)
 		return (1);
 	return (0);
 }
-
-void	print_ast(t_ast *root)
-{
-	if (!root)
-		return ;
-	print_ast(root->left);
-	print_token_list(root->token);
-	print_ast(root->right);
-}

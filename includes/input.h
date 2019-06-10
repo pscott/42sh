@@ -3,15 +3,13 @@
 
 # include "ftsh.h"
 
-/*
-**	INIT_TXT_SIE : for debug it's 2, but maybe change it to 32 later
-*/
-
-# define INIT_TXT_SIZE 2
+# define INIT_TXT_SIZE 32
 # define BUF_SIZE 8
-# define STD_PROMPT "42sh $ "
+# define STD_PROMPT SHELL_NAME " $ "
 # define PROMPT_REVERSE_I_SEARCH_SUCC "(reverse-i-search)"
 # define PROMPT_REVERSE_I_SEARCH_FAIL "(failed reverse-i-search)"
+# define CONTINUE_PROMPT "cont> "
+# define HEREDOC_PROMPT "heredoc> "
 
 typedef enum	e_input
 {
@@ -57,7 +55,7 @@ typedef struct			s_st_cmd {
 }						t_st_cmd;
 
 int						handle_reverse_search_history(t_st_cmd *st_cmd,
-		size_t malloc_size, int prompt_size);
+		size_t malloc_size, int prompt_size, int mode);
 
 /*
 ** Handling input
@@ -81,7 +79,7 @@ int						check_for_delete(t_st_cmd *st_cmd, char *buf);
 int						check_for_copy_paste(t_st_cmd *st_cmd, char *buf,
 		t_vars *vars);
 int						check_for_search_histo(t_st_cmd *st_cmd,
-		const char *buf_received);
+		const char *buf_received, int mode);
 int						check_for_tab(t_st_cmd *st_cmd, const char *buf,
 		t_vars *vars, int mode);
 int						check_for_words(t_st_cmd *st_cmd, const char *buf);

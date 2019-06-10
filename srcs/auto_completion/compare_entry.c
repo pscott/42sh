@@ -14,8 +14,8 @@ int		compare_entry(const char *s, const char *n)
 	clean = protect_special_characters(n);
 	while (s && ft_is_white_space(s[i]))
 		i++;
-	len = ft_strlen(s - i + 1);
-	while (len-- && s && clean[j] && s[i] == clean[j])
+	len = ft_strlen(s) - i - 1;
+	while (len-- > 0 && s && clean[j] && s[i] == clean[j])
 	{
 		j++;
 		i++;

@@ -40,7 +40,7 @@ static int	check_cd_usage(char **argv)
 		i++;
 	if (i > 2)
 	{
-		ft_dprintf(2, "42sh: cd: too many arguments\n");
+		ft_dprintf(2, SHELL_NAME ": cd: too many arguments\n");
 		return (1);
 	}
 	return (0);

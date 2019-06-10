@@ -5,7 +5,7 @@
 static int	print_fd_error(int fd, int mode)
 {
 	if (mode != -1)
-		ft_dprintf(2, "42sh: %d: bad file descriptor\n", fd);
+		ft_dprintf(2, SHELL_NAME ": %d: bad file descriptor\n", fd);
 	return (1);
 }
 
@@ -27,15 +27,17 @@ int			redir_dgreat(t_token *redir, t_token *prev, int mode)
 	next = redir->next;
 	while (next->type == tk_eat)
 		next = next->next;
+	redir->type = tk_eat;
+	next->type = tk_eat;
+	if (mode == -1)
+		return (0);
 	if ((new_fd = open(next->content, O_WRONLY | O_CREAT | O_APPEND,
-			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) < 0)
+					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) < 0)
 	{
 		if (mode != -1)
 			ft_dprintf(2, "error opening file : %s\n", next->content);
 		return (1);
 	}
 	redirect(new_fd, old_fd, mode);
-	redir->type = tk_eat;
-	next->type = tk_eat;
 	return (0);
 }

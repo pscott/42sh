@@ -1,21 +1,42 @@
 #include "input.h"
 
+/*
+**	Returns a string containing all string contents in the st_cmd list.
+*/
+
 char	*concatenate_txt(t_st_cmd *st_cmd)
 {
 	char	*input;
-	char	*tmp;
 
 	if (!st_cmd)
 		return (NULL);
-	while (st_cmd->prev)
-		st_cmd = st_cmd->prev;
-	input = NULL;
+	st_cmd = get_first_st_cmd(st_cmd);
+	if (!(input = ft_strdup("")))
+		clean_exit(1, 1);
 	while (st_cmd)
 	{
-		tmp = input;
-		if (!(input = ft_strjoin(input, st_cmd->st_txt->txt)))
+		if (!(input = ft_strjoin_free_left(input, st_cmd->st_txt->txt)))
 			clean_exit(1, 1);
-		ft_strdel(&tmp);
+		st_cmd = st_cmd->next;
+	}
+	return (input);
+}
+
+char	*concatenate_heredoc_txt(t_st_cmd *st_cmd, t_st_cmd *start)
+{
+	char	*input;
+
+	if (!st_cmd)
+		return (NULL);
+	st_cmd = get_first_st_cmd(st_cmd);
+	while (st_cmd != start)
+		st_cmd = st_cmd->next;
+	if (!(input = ft_strdup("\n")))
+		clean_exit(1, 1);
+	while (st_cmd)
+	{
+		if (!(input = ft_strjoin_free_left(input, st_cmd->st_txt->txt)))
+			clean_exit(1, 1);
 		st_cmd = st_cmd->next;
 	}
 	return (input);

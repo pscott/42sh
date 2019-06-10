@@ -7,8 +7,8 @@ static int		continue_reading(t_token *token_head, t_st_cmd **st_cmd,
 				char **input, t_vars *vars)
 {
 	free_token_list(token_head);
-	adjust_history(*st_cmd, *input, 0);
-	*st_cmd = append_st_cmd(*st_cmd, "", "cont > ");
+	adjust_history(*st_cmd, 0);
+	*st_cmd = append_st_cmd(*st_cmd, "", CONTINUE_PROMPT);
 	if (input_loop(*st_cmd, vars, continue_read) < 1
 		|| !*(*st_cmd)->st_txt->txt)
 	{
@@ -61,7 +61,7 @@ int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		if (ret < 1)
 			return (ret);
 	}
-	adjust_history(st_cmd, input, 1);
+	adjust_history(st_cmd, 1);
 	ft_strdel(&input);
 	if (lexer_ret == lex_fail)
 	{

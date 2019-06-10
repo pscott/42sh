@@ -3,7 +3,7 @@
 
 # include "input.h"
 
-# define HIST_FILE "~/.42sh_history"
+# define HIST_FILE "~/.21sh_history"
 # define HIST_SIZE 500
 
 typedef struct			s_hist_lst
@@ -51,13 +51,12 @@ t_hist_lst				*get_begin_lst(t_hist_lst *hist_lst);
 void					get_previous_history(t_st_cmd *st_cmd);
 void					get_next_history(t_st_cmd *st_cmd);
 
-void					adjust_history(t_st_cmd *st_cmd, const char *line,
-						int keep);
+void					adjust_history(t_st_cmd *st_cmd, int keep);
 void					free_hist_lst(t_hist_lst *hist_lst);
 
 void					switch_st_cmd(t_st_cmd *st_cmd, char *newcmd);
 int						switch_and_return(t_st_cmd *st_cmd, char buf,
-		char escape[BUF_SIZE + 1]);
+		char escape[BUF_SIZE + 1], int mode);
 int						print_prompt_search_history(t_st_cmd *st_cmd);
 
 /*

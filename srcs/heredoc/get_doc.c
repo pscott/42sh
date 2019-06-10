@@ -1,5 +1,6 @@
 #include "input.h"
 #include "heredoc.h"
+#include "history.h"
 #include "cmd_parsing.h"
 
 static void		apply_escape(t_st_cmd *st_cmd)
@@ -22,26 +23,11 @@ static void		apply_escape(t_st_cmd *st_cmd)
 	}
 }
 
-static t_st_cmd	*init_get_doc(char **txt, t_vars *vars)
-{
-	t_st_cmd *st_cmd;
-
-	st_cmd = init_st_cmd((const char **)vars->env_vars);
-	get_st_cmd(&st_cmd);
-	ft_strdel(&st_cmd->st_txt->txt);
-	if (!(st_cmd->st_txt->txt = ft_strdup("\n")))
-		clean_exit(1, 1);
-	st_cmd = append_st_cmd(st_cmd, "", "heredoc> ");
-	*txt = NULL;
-	return (st_cmd);
-}
-
-static char		*get_heredoc_txt(t_st_cmd **st_cmd, char *txt, char *eof)
+static char		*get_heredoc_txt(char *txt, char *eof)
 {
 	char	*trimed_txt;
 	size_t	len;
 
-	free_all_st_cmds(st_cmd);
 	len = ft_strlen(txt) - ft_strlen(eof) - 2;
 	if (!(trimed_txt = ft_strndup(&txt[1], len)))
 		clean_exit(1, 1);
@@ -65,6 +51,14 @@ static char		*return_get_doc(char *txt, unsigned char is_eof_quoted,
 	return (path);
 }
 
+static void		init_get_doc(t_st_cmd **cmd, char **txt, t_st_cmd **heredoc)
+{
+	*cmd = get_last_st_cmd(get_st_cmd(NULL));
+	*txt = NULL;
+	*cmd = append_st_cmd(*cmd, "", HEREDOC_PROMPT);
+	*heredoc = *cmd;
+}
+
 /*
 ** get_doc
 ** read the input from user until a line contain only 'eof' string
@@ -76,27 +70,24 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 {
 	char		*txt;
 	t_st_cmd	*cmd;
-	t_st_cmd	*main_st_cmd;
+	t_st_cmd	*start_heredoc;
 	int			len;
-	int			ret;
 
-	main_st_cmd = get_st_cmd(NULL);
-	cmd = init_get_doc(&txt, vars);
+	init_get_doc(&cmd, &txt, &start_heredoc);
 	while (42)
 	{
-		if ((ret = input_loop(cmd, vars, heredoc)) < 1 || !*cmd->st_txt->txt)
-			return (free_get_doc(txt, cmd, eof));
+		if ((len = input_loop(cmd, vars, heredoc)) < 1 || !*cmd->st_txt->txt)
+			return (free_get_doc(txt, eof));
 		if (!is_eof_quoted)
 			apply_escape(cmd);
-		txt = concatenate_txt(cmd);
+		txt = concatenate_heredoc_txt(cmd, start_heredoc);
 		len = ft_strlen(txt) - ft_strlen(eof) - 1;
 		if (len > 0 && !ft_strncmp(&txt[len], eof, ft_strlen(eof))
 			&& txt[len - 1] == '\n' && txt[ft_strlen(txt) - 1] == '\n')
 			break ;
-		cmd = append_st_cmd(cmd, "", "heredoc> ");
+		cmd = append_st_cmd(cmd, "", HEREDOC_PROMPT);
 		ft_strdel(&txt);
 	}
-	txt = get_heredoc_txt(&cmd, txt, eof);
-	get_st_cmd(&main_st_cmd);
+	txt = get_heredoc_txt(txt, eof);
 	return (return_get_doc(txt, is_eof_quoted, vars));
 }

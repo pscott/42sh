@@ -20,11 +20,12 @@ void	switch_st_cmd(t_st_cmd *st_cmd, char *newcmd)
 	}
 	if (!(trunc_newcmd = ft_strndup(newcmd, len)))
 		clean_exit(1, 1);
-	go_back_to_start(st_cmd);
+	go_to_prompt_start(st_cmd);
 	execute_str(CLEAR_BELOW);
 	free_st_txt(&st_cmd->st_txt);
 	st_cmd->st_txt = init_st_txt(trunc_newcmd);
-	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window, st_cmd->st_prompt->size);
+	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
+		st_cmd->st_prompt->size);
 	print_prompt(st_cmd);
 	write_st_cmd(st_cmd);
 	st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;

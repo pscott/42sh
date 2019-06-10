@@ -2,7 +2,6 @@
 
 /*
 **	Writes the char located at tracker, updating cursor_pos.
-**
 */
 
 void	write_char(t_st_cmd *st_cmd)
@@ -17,11 +16,9 @@ void	write_char(t_st_cmd *st_cmd)
 	st_cmd->st_txt->tracker++;
 }
 
-
 /*
 **	Writes the st_cmd starting from TRACKER position.
 **	Moves the tracker and updates the cursor_position.
-**	
 */
 
 void	write_st_cmd(t_st_cmd *st_cmd)
@@ -38,7 +35,7 @@ void	write_st_cmd(t_st_cmd *st_cmd)
 ** then writes everything.
 */
 
-void		write_from_start(t_st_cmd *st_cmd)
+void	write_from_start(t_st_cmd *st_cmd)
 {
 	size_t		tmp;
 	t_st_cmd	*prev;
@@ -46,6 +43,7 @@ void		write_from_start(t_st_cmd *st_cmd)
 	if (!isatty(STDIN_FILENO))
 		return ;
 	tmp = st_cmd->st_txt->tracker;
+	prev = NULL;
 	st_cmd = go_back_to_start(st_cmd);
 	execute_str(CLEAR_BELOW);
 	while (st_cmd)
@@ -56,5 +54,6 @@ void		write_from_start(t_st_cmd *st_cmd)
 		prev = st_cmd;
 		st_cmd = st_cmd->next;
 	}
-	prev->st_txt->tracker = tmp;
+	if (prev && prev->st_txt)
+		prev->st_txt->tracker = tmp;
 }

@@ -14,7 +14,8 @@ char	*get_directory(const char *env_key, const char **env)
 	dest = NULL;
 	if (!(dest = get_envline_value((char*)env_key, (char**)env)))
 	{
-		print_errors(ERR_NOT_SET, ERR_NOT_SET_STR, (char*)env_key);
+		if (ft_strncmp(env_key, "PWD", 4))
+			print_errors(ERR_NOT_SET, ERR_NOT_SET_STR, (char*)env_key);
 		return (NULL);
 	}
 	if (!(dest = ft_strdup(dest)))

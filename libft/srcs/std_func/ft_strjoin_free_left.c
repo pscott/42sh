@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 17:26:29 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/03 17:31:34 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/10 14:55:06 by aschoenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ char			*ft_strjoin_free_left(char *s1, const char *s2)
 	char			*res;
 	unsigned int	s1_len;
 
-	if (!s2)
+	if (!s2 || !s2[0])
 	{
 		res = ft_strdup(s1);
 		ft_strdel(&s1);
 		return (res);
 	}
-	if (!s1)
+	if (!s1 || !s1[0])
 		return (ft_strdup(s2));
 	s1_len = ft_strlen(s1);
 	if (!(res = ft_strnew(s1_len + ft_strlen(s2))))

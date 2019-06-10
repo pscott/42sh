@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   space_first_arg.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/10 19:01:46 by aschoenh          #+#    #+#             */
+/*   Updated: 2019/06/10 20:22:16 by aschoenh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "auto_completion.h"
 
 int					get_everything_from_path(char *path, t_auto_comp **match)
@@ -52,7 +64,7 @@ char				*auto_completion_space(t_vars *vars)
 	path = NULL;
 	match = NULL;
 	if (get_path(&path, vars))
-		clean_exit(1, 1);
+		return (NULL);
 	if (find_all_var_and_exe(path, &match))
 		clean_exit(1, 1);
 	if (path)

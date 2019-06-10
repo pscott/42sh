@@ -13,9 +13,9 @@ static int		expand_squotes(t_token *token_head)
 	if (*token_head->content == '\'' || *token_head->content == '"')
 	{
 		old_content = token_head->content;
-		if (!(token_head->content
-				= ft_strndup((const char*)&(*(token_head->content + 1))
-					, ft_strlen(token_head->content) - 2)))
+		if (!(token_head->content =
+				ft_strndup((const char*)&(*(token_head->content + 1)),
+					ft_strlen(token_head->content) - 2)))
 			clean_exit(1, 1);
 		ft_strdel(&old_content);
 		return (1);

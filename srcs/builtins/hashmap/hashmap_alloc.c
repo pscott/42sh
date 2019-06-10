@@ -43,8 +43,8 @@ t_hashmap	*init_hashmap(size_t size)
 
 	if (!(new_table = (t_hashmap*)malloc(sizeof(*new_table))))
 		clean_exit(1, 1);
-	if (!(new_table->items
-			= (t_hash_item**)malloc(sizeof(t_hash_item*) * size)))
+	if (!(new_table->items =
+			(t_hash_item**)malloc(sizeof(t_hash_item*) * size)))
 	{
 		ft_memdel((void*)&new_table);
 		clean_exit(1, 1);

@@ -17,11 +17,9 @@ void	write_char(t_st_cmd *st_cmd)
 	st_cmd->st_txt->tracker++;
 }
 
-
 /*
 **	Writes the st_cmd starting from TRACKER position.
 **	Moves the tracker and updates the cursor_position.
-**	
 */
 
 void	write_st_cmd(t_st_cmd *st_cmd)
@@ -38,7 +36,7 @@ void	write_st_cmd(t_st_cmd *st_cmd)
 ** then writes everything.
 */
 
-void		write_from_start(t_st_cmd *st_cmd)
+void	write_from_start(t_st_cmd *st_cmd)
 {
 	size_t		tmp;
 	t_st_cmd	*prev;

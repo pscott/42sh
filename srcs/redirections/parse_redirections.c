@@ -16,7 +16,6 @@ void		redirect(int old_fd, int new_fd, int save)
 		close(new_fd);
 	else if (old_fd != new_fd)
 	{
-		printf("%d | %d | %d\n", old_fd, new_fd, save);
 		if (dup2(old_fd, new_fd) != -1)
 		{
 			if (old_fd > 2)

@@ -1,5 +1,6 @@
 #include "input.h"
 #include "heredoc.h"
+#include "history.h"
 #include "cmd_parsing.h"
 
 static void		apply_escape(t_st_cmd *st_cmd)
@@ -81,7 +82,7 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 
 	cmd = get_last_st_cmd(get_st_cmd(NULL));
 	txt = NULL;
-	cmd = append_st_cmd(cmd, "", "heredoc> ");
+	cmd = append_st_cmd(cmd, "", HEREDOC_PROMPT);
 	start_heredoc = cmd;
 	while (42)
 	{
@@ -94,10 +95,11 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 		if (len > 0 && !ft_strncmp(&txt[len], eof, ft_strlen(eof))
 			&& txt[len - 1] == '\n' && txt[ft_strlen(txt) - 1] == '\n')
 			break ;
-		//adjust_history
-		cmd = append_st_cmd(cmd, "", "heredoc> ");
+		adjust_history(cmd, 0);
+		cmd = append_st_cmd(cmd, "", HEREDOC_PROMPT);
 		ft_strdel(&txt);
 	}
 	txt = get_heredoc_txt(txt, eof);
+	adjust_history(cmd, 1);
 	return (return_get_doc(txt, is_eof_quoted, vars));
 }

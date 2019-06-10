@@ -27,12 +27,14 @@ static void	update_temporary_hist(t_hist_lst *hist_lst, const char *line)
 **	If keep is 1, replace the temporary content with a definitive content.
 */
 
-void		adjust_history(t_st_cmd *st_cmd, const char *line, int keep)
+void		adjust_history(t_st_cmd *st_cmd, int keep)
 {
 	t_hist_lst *left;
+	char		*line;
 
 	if (isatty(TERM_FD) == 0)
 		return ;
+	line = concatenate_txt(st_cmd);
 	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 	left = st_cmd->hist_lst->prev;
 	if (keep == 0)
@@ -51,4 +53,5 @@ void		adjust_history(t_st_cmd *st_cmd, const char *line, int keep)
 	}
 	else
 		insert_left(st_cmd->hist_lst, line, keep);
+	ft_strdel(&line);
 }

@@ -4,6 +4,7 @@
 # include "ftsh.h"
 # include "lexer.h"
 
+# define HEREDOC_PROMPT "heredoc> "
 # define HEREDOC_FILENAME "/tmp/.tmp_heredoc"
 # define MAX_INT_LEN 10
 # define UINT_MAX 4294967295

@@ -1,5 +1,9 @@
 #include "input.h"
 
+/*
+**	Returns a string containing all string contents in the st_cmd list.
+*/
+
 char	*concatenate_txt(t_st_cmd *st_cmd)
 {
 	char	*input;

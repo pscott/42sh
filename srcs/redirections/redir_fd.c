@@ -53,4 +53,3 @@ int		get_new_fd(t_token *next, int mode)
 		new_fd = ft_atoi(next->content);
 	return (new_fd);
 }
-

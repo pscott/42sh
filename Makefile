@@ -103,7 +103,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 						cmd_env_check.c
 	REDIR_FILES		:=	redir_dgreat.c redir_fd_great.c fd_utils.c \
 						redir_great.c redir_less.c parse_redirections.c \
-						redir_fd_less.c redirections_errors.c redir_fd.c
+						redir_fd_less.c redirections_errors.c redir_fd_utils.c
 	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c \
 						execute_no_pipe_builtin.c exit_status.c
 	AUTO_COMP_FILES	:=	auto_completion.c auto_completion_x_arg.c \

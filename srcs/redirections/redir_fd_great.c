@@ -22,9 +22,9 @@ int				redir_fd_great(t_token *redir, t_token *prev, int mode)
 	next = redir->next;
 	while (next->type == tk_eat)
 		next = next->next;
+	if ((new_fd = get_new_fd(next, mode)) < 0)
+		return (1);
 	redir->type = tk_eat;
-	if ((new_fd = get_new_fd(next, mode)) > 0)
-		return (new_fd);
 	if (new_fd != -1)
 		next->type = tk_eat;
 	if (mode == -1)

@@ -67,7 +67,7 @@ int			checkers(t_st_cmd *st_cmd, t_vars *vars, char *buf, int mode)
 		return (ret);
 	else if (check_for_arrows_delete_tab_words(st_cmd, buf, vars, mode))
 		;
-	else if ((ret = check_for_search_histo(st_cmd, buf)))
+	else if ((ret = check_for_search_histo(st_cmd, buf, mode)))
 	{
 		if (ret == ctrl_c_case)
 			return (input_stop);

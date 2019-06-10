@@ -54,7 +54,7 @@ static int	get_good_case_to_ret(char buf,
 }
 
 int			switch_and_return(t_st_cmd *st_cmd,
-	char buf, char escape[BUF_SIZE + 1])
+	char buf, char escape[BUF_SIZE + 1], int mode)
 {
 	char	*newcmd;
 	size_t	tmp;
@@ -65,7 +65,12 @@ int			switch_and_return(t_st_cmd *st_cmd,
 	if (buf == 3)
 		return (interrupt_search(st_cmd));
 	free_st_prompt(&st_cmd->st_prompt);
-	st_cmd->st_prompt = init_st_prompt(NULL);
+	if (mode == regular)
+		st_cmd->st_prompt = init_st_prompt(NULL);
+	else if (mode == heredoc)
+		st_cmd->st_prompt = init_st_prompt(HEREDOC_PROMPT);
+	else if (mode == continue_read)
+		st_cmd->st_prompt = init_st_prompt(CONTINUE_PROMPT);
 	if (buf == '\r' || buf == '\n')
 		newcmd = ft_strjoin(st_cmd->st_txt->txt, "\n");
 	else

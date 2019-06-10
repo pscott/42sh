@@ -33,6 +33,7 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	ret = exec_builtins(argv, vars, cmd_id);
 	if (cmd_id == cmd_exit && ret == 1)
 		execute_exit(vars->cmd_value);
+	save_close_openfds(0, 0);
 	save_reset_stdfd(0);
 	return (ret);
 }

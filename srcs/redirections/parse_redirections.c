@@ -1,12 +1,20 @@
 #include "lexer.h"
 #include "cmd_parsing.h"
 
+static	void	save_close_fds(int new_fd, int old_fd)
+{
+	if (old_fd > 2)
+		save_close_openfds(old_fd, 1);
+	if (new_fd > 2)
+		save_close_openfds(new_fd, 1);
+}
+
 /*
 **	Applies the redirection : example : redirect(2, 0) will make fd 2 become
 **	STDIN
 */
 
-void		redirect(int old_fd, int new_fd, int save)
+void			redirect(int old_fd, int new_fd, int save)
 {
 	if (save == -1)
 		return ;
@@ -18,6 +26,8 @@ void		redirect(int old_fd, int new_fd, int save)
 	{
 		if (dup2(old_fd, new_fd) != -1)
 		{
+			if (save)
+				save_close_fds(new_fd, old_fd);
 			if (old_fd > 2)
 				close(old_fd);
 		}
@@ -34,7 +44,7 @@ void		redirect(int old_fd, int new_fd, int save)
 **	Returns -1 if it is not.
 */
 
-int			check_fd_prev(t_token *prev)
+int				check_fd_prev(t_token *prev)
 {
 	int				i;
 
@@ -61,7 +71,7 @@ int			check_fd_prev(t_token *prev)
 **	Returns 0 on success, > 0 on fail.
 */
 
-static int	apply_redirections(t_token *redir,
+static int		apply_redirections(t_token *redir,
 		t_token *prev, int in_fork)
 {
 	if (!redir)
@@ -88,7 +98,7 @@ static int	apply_redirections(t_token *redir,
 **	Returns error number on failure
 */
 
-int			parse_redirections(t_token *token_head, int in_fork)
+int				parse_redirections(t_token *token_head, int in_fork)
 {
 	t_token	*current;
 	t_token	*prev;

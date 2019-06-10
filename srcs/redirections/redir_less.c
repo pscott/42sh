@@ -23,6 +23,8 @@ int			redir_less(t_token *redir, t_token *prev, int mode)
 		next = next->next;
 	redir->type = tk_eat;
 	next->type = tk_eat;
+	if (mode == -1)
+		return (0);
 	if ((new_fd = open(next->content, O_RDONLY)) < 0)
 		return (no_file_error(next->content, mode));
 	redirect(new_fd, old_fd, mode);

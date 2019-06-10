@@ -115,5 +115,6 @@ char				*get_cmd_path(const char *str, char **env, int verbose)
 		return (path);
 	else if (verbose)
 		print_error_message(access, str);
+	ft_strdel(&path);
 	return (NULL);
 }

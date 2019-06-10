@@ -46,14 +46,14 @@ void			sigint_handler(int signo)
 
 void			sigwinch_handler(int signo)
 {
-	t_st_cmd		*first_cmd;
 	t_st_cmd		*current_cmd;
 
 	(void)signo;
-	first_cmd = get_st_cmd(NULL);
-	current_cmd = get_last_st_cmd(first_cmd);
+	signal(SIGWINCH, SIG_IGN);
+	current_cmd = get_st_cmd(NULL);
+	current_cmd = get_last_st_cmd(current_cmd);
 	update_window_struct(current_cmd->window);
-	write_from_start(first_cmd);
+	write_from_start(current_cmd);
 	reposition_cursor(current_cmd, current_cmd->st_txt->tracker);
 	signal(SIGWINCH, sigwinch_handler);
 }

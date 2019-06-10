@@ -109,7 +109,7 @@ t_st_cmd	*go_back_to_start(t_st_cmd *st_cmd)
 	while (st_cmd->prev)
 	{
 		go_to_prompt_start(st_cmd);
-		execute_str(MOVE_UP);
+		st_cmd = st_cmd->prev;
 	}
 	go_to_prompt_start(st_cmd);
 	return (st_cmd);

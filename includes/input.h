@@ -126,7 +126,7 @@ t_st_cmd				*append_st_cmd(t_st_cmd *st_cmd, const char *txt,
 t_st_cmd				*reset_st_cmd(t_st_cmd *old_st_cmd);
 t_st_cmd				*get_st_cmd(t_st_cmd **new_struct);
 t_st_cmd				*init_st_cmd(const char **env);
-char					*concatenate_txt(t_st_cmd *st_cmd);
+char					*concatenate_txt(t_st_cmd *st_cmd, int heredoc);
 void					free_st_cmd(t_st_cmd *st_cmd);
 void					free_all_st_cmds(t_st_cmd **st_cmd);
 

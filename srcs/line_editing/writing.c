@@ -46,6 +46,7 @@ void		write_from_start(t_st_cmd *st_cmd)
 	if (!isatty(STDIN_FILENO))
 		return ;
 	tmp = st_cmd->st_txt->tracker;
+	prev = NULL;
 	st_cmd = go_back_to_start(st_cmd);
 	execute_str(CLEAR_BELOW);
 	while (st_cmd)
@@ -56,5 +57,6 @@ void		write_from_start(t_st_cmd *st_cmd)
 		prev = st_cmd;
 		st_cmd = st_cmd->next;
 	}
-	prev->st_txt->tracker = tmp;
+	if (prev && prev->st_txt)
+		prev->st_txt->tracker = tmp;
 }

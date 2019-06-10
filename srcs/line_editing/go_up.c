@@ -10,5 +10,4 @@ void		go_up(t_st_cmd *st_cmd)
 		st_cmd->st_txt->tracker = 0;
 	else
 		st_cmd->st_txt->tracker -= st_cmd->window->ws_col;
-	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 }

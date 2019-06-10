@@ -62,6 +62,11 @@ static void	get_prev_word(t_st_cmd *st_cmd)
 	}
 }
 
+/*
+**	Jumps the number of words provided by the num int.
+**	Does not reposition cursor.
+*/
+
 int			jump_words(t_st_cmd *st_cmd, int num)
 {
 	if (num == -2147463648)
@@ -82,6 +87,5 @@ int			jump_words(t_st_cmd *st_cmd, int num)
 			num++;
 		}
 	}
-	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 	return (num);
 }

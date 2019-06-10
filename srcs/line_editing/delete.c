@@ -42,7 +42,6 @@ void			delete_left(t_st_cmd *st_cmd)
 	shift_chars_left(&st_txt->txt[st_txt->tracker], 1);
 	write_st_cmd(st_cmd);
 	st_txt->tracker = tmp;
-	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 }
 
 /*
@@ -63,5 +62,4 @@ void			delete_right(t_st_cmd *st_cmd)
 	shift_chars_left(&st_txt->txt[st_txt->tracker], 1);
 	write_st_cmd(st_cmd);
 	st_txt->tracker = tmp;
-	reposition_cursor(st_cmd, st_txt->tracker);
 }

@@ -27,7 +27,6 @@ static void	refresh_prompt_after_completion(t_st_cmd *st_cmd, char **tmp,
 	st_cmd->st_txt->tracker = 0;
 	write_st_cmd(st_cmd);
 	st_cmd->st_txt->tracker = len_tmp;
-	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 }
 
 int			check_for_tab(t_st_cmd *st_cmd, const char *buf,

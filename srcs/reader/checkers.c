@@ -21,7 +21,6 @@ void		insert_txt(t_st_cmd *st_cmd, const char *buf)
 	tmp = st_txt->tracker + print_len;
 	write_st_cmd(st_cmd);
 	st_txt->tracker = tmp;
-	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 }
 
 /*

@@ -11,5 +11,4 @@ void	go_down(t_st_cmd *st_cmd)
 		st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;
 	else
 		st_cmd->st_txt->tracker += st_cmd->window->ws_col;
-	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 }

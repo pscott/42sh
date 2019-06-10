@@ -74,7 +74,6 @@ int			switch_and_return(t_st_cmd *st_cmd,
 		clean_exit(1, 1);
 	switch_st_cmd(st_cmd, newcmd);
 	st_cmd->st_txt->tracker = tmp;
-	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 	free(newcmd);
 	return (ret);
 }

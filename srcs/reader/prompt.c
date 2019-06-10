@@ -27,7 +27,8 @@ void			print_prompt(t_st_cmd *st_cmd)
 	if (isatty(STDIN_FILENO))
 	{
 		zsh_newline(st_cmd);
-		init_relative_pos(st_cmd);
+		init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
+			st_cmd->st_prompt->size);
 		if (vars->cmd_value)
 			ft_dprintf(TERM_FD, "%s", RED);
 		else
@@ -72,7 +73,8 @@ void			print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf,
 		replace_prompt(st_cmd, buf, prompt_type);
 		tmp = st_cmd->st_txt->tracker;
 		st_cmd->st_txt->tracker = 0;
-		init_relative_pos(st_cmd);
+		init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
+			st_cmd->st_prompt->size);
 		ft_dprintf(TERM_FD, "%s", st_cmd->st_prompt->prompt);
 		write_st_cmd(st_cmd);
 		st_cmd->st_txt->tracker = tmp;

@@ -1,7 +1,8 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include "input.h"
+# include "ftsh.h"
+# include "history.h"
 
 typedef enum	e_cd_error {
 	args_nb = 1,

@@ -11,11 +11,4 @@ typedef struct			s_vars
 	int					verbose;
 }						t_vars;
 
-typedef struct			s_st_fc
-{
-	char				flags[4];
-	char				*first;
-	char				*last;
-}						t_st_fc;
-
 #endif

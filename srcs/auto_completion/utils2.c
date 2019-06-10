@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/10 19:01:46 by aschoenh          #+#    #+#             */
+/*   Updated: 2019/06/10 20:21:04 by aschoenh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "auto_completion.h"
 #include "env.h"
 
@@ -45,7 +57,7 @@ int				get_path(char ***path, t_vars *vars)
 	if (!(tmpath = get_envline_value("PATH", vars->env_vars)))
 	{
 		*path = NULL;
-		return (0);
+		return (1);
 	}
 	if (!(*path = ft_strsplit(tmpath, ":")))
 		clean_exit(1, 1);

@@ -68,17 +68,24 @@ static int		fc_parse_flags(t_st_fc *st_fc, char **argv)
 		i--;
 	return (i);
 }
+/*
+int				fc_parse_operands(t_st_fc *st_fc, char **args, int i)
+{
 
+}
+*/
 int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 {
 	int			i;
-	int			index_operand;
+	int			start_operand;
 
 	i = 5;
+	(void)st_cmd;
 	while (--i > -1)
 		(*st_fc).flags[i] = '.';
-	index_operand = fc_parse_flags(st_fc, argv);
-	ft_printf("\nindex : %d, flags : %s", index_operand, st_fc->flags);
+	start_operand = fc_parse_flags(st_fc, argv);
+//	fc_parse_operands(st_fc, argv, start_operand);
+	ft_printf("\nindex : %d, flags : %s", start_operand, st_fc->flags);
 	sleep(1);
 	return (0);
 }

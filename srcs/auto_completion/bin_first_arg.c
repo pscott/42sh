@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bin_first_arg.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/10 19:01:45 by aschoenh          #+#    #+#             */
+/*   Updated: 2019/06/10 20:21:29 by aschoenh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "auto_completion.h"
 
 char				*auto_completion_bin(t_vars *vars,
@@ -11,7 +23,8 @@ char				*auto_completion_bin(t_vars *vars,
 	match = NULL;
 	ret_str = NULL;
 	path = NULL;
-	get_path(&path, vars);
+	if (get_path(&path, vars))
+		return (NULL);
 	if (!(to_find = ft_strdup(str)))
 		clean_exit(1, 1);
 	get_matching_exe(path, &match, to_find, to_find_and_next_char);

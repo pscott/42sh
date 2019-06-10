@@ -84,7 +84,7 @@ SRC_FILES	:=	ft_printf.c getters.c isprint_special.c parse_struct.c			\
 	GET_LEN_FILES		:=	get_len.c get_ulen.c
 	HELPERS_FILES		:=	ft_atoi_move.c null_data.c ft_special_memset.c		\
 							utils.c values.c unsigned_helper.c choose_value.c	\
-							float_helper.c ft_strncat_move.c \
+							float_helper.c ft_strncat_move.c
 	INCREMENTERS_FILES	:=	increm_format.c increm_string.c 
 
 #list of all .c files

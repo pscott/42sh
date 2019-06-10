@@ -99,7 +99,7 @@ static void		search_and_get_good_type(t_st_cmd **st_cmd,
 */
 
 int				handle_reverse_search_history(t_st_cmd *st_cmd,
-		size_t malloc_size, int prompt_type)
+		size_t malloc_size, int prompt_type, int mode)
 {
 	char		*stock;
 	char		buf;
@@ -115,7 +115,7 @@ int				handle_reverse_search_history(t_st_cmd *st_cmd,
 			continue ;
 		buf = escape[0];
 		if (check_exit_and_realloc(&malloc_size, buf, escape, &stock))
-			return (switch_and_return(st_cmd, buf, escape));
+			return (switch_and_return(st_cmd, buf, escape, mode));
 		search_and_get_good_type(&st_cmd, stock, buf, &prompt_type);
 		print_prompt_search_histo(st_cmd, stock, prompt_type);
 		ft_bzero(escape, sizeof(escape));

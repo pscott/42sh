@@ -35,14 +35,15 @@ int		check_for_quit(t_st_cmd *st_cmd, const char *buf)
 **		loop is broken
 */
 
-int		check_for_search_histo(t_st_cmd *st_cmd, const char *buf_received)
+int		check_for_search_histo(t_st_cmd *st_cmd, const char *buf_received,
+	int mode)
 {
 	if (ft_strncmp(buf_received, CTRL_R, 2) == 0)
 	{
 		if (isatty(TERM_FD) == 0)
 			return (1);
 		else
-			return (handle_reverse_search_history(st_cmd, 0, 0));
+			return (handle_reverse_search_history(st_cmd, 0, 0, mode));
 	}
 	else
 		return (0);

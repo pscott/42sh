@@ -12,6 +12,8 @@
 # define STD_PROMPT "42sh $ "
 # define PROMPT_REVERSE_I_SEARCH_SUCC "(reverse-i-search)"
 # define PROMPT_REVERSE_I_SEARCH_FAIL "(failed reverse-i-search)"
+# define CONTINUE_PROMPT "cont> "
+# define HEREDOC_PROMPT "heredoc> "
 
 typedef enum	e_input
 {

@@ -36,7 +36,7 @@ static void		apply_escape(t_st_cmd *st_cmd)
 	return (st_cmd);
 }*/
 
-static char		*get_heredoc_txt(t_st_cmd **st_cmd, char *txt, char *eof)
+static char		*get_heredoc_txt(char *txt, char *eof)
 {
 	char	*trimed_txt;
 	size_t	len;
@@ -84,7 +84,7 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 	while (42)
 	{
 		if ((ret = input_loop(cmd, vars, heredoc)) < 1 || !*cmd->st_txt->txt)
-			return (free_get_doc(txt, cmd, eof));
+			return (free_get_doc(txt, eof));
 		if (!is_eof_quoted)
 			apply_escape(cmd);
 		txt = concatenate_txt(cmd, 1);
@@ -96,6 +96,6 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 		cmd = append_st_cmd(cmd, "", "heredoc> ");
 		ft_strdel(&txt);
 	}
-	txt = get_heredoc_txt(&cmd, txt, eof);
+	txt = get_heredoc_txt(txt, eof);
 	return (return_get_doc(txt, is_eof_quoted, vars));
 }

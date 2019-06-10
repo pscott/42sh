@@ -79,7 +79,7 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 	int			ret;
 
 	cmd = get_st_cmd(NULL);
-	txt = concatenate_txt(cmd, 1);
+	txt = NULL;
 	cmd = append_st_cmd(cmd, "", "heredoc> ");
 	while (42)
 	{

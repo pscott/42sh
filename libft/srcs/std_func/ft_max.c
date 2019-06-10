@@ -6,12 +6,9 @@
 /*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 18:12:58 by aschoenh          #+#    #+#             */
-/*   Updated: 2019/06/09 18:14:46 by aschoenh         ###   ########.fr       */
+/*   Updated: 2019/06/10 14:50:22 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "libft.h"
-
 
 int		ft_max(const int a, const int b)
 {

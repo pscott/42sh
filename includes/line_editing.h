@@ -16,7 +16,8 @@ struct winsize			*init_window_struct(void);
 
 void					increment_pos(char to_write, t_pos *cursor_pos,
 	struct winsize *window);
-void					init_relative_pos(t_pos *cursor_pos, struct winsize *window, size_t prompt_size);
+void					init_relative_pos(t_pos *cursor_pos,
+	struct winsize *window, size_t prompt_size);
 t_st_cmd				*go_back_to_start(t_st_cmd *st_cmd);
 void					go_to_prompt_start(t_st_cmd *st_cmd);
 void					merge_pos(t_pos *new_pos, t_pos *old_pos);

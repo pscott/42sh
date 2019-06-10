@@ -23,20 +23,6 @@ static void		apply_escape(t_st_cmd *st_cmd)
 	}
 }
 
-/*static t_st_cmd	*init_get_doc(char **txt, t_vars *vars)
-{
-	t_st_cmd *st_cmd;
-
-	st_cmd = init_st_cmd((const char **)vars->env_vars);
-	get_st_cmd(&st_cmd);
-	ft_strdel(&st_cmd->st_txt->txt);
-	if (!(st_cmd->st_txt->txt = ft_strdup("\n")))
-		clean_exit(1, 1);
-	st_cmd = append_st_cmd(st_cmd, "", "heredoc> ");
-	*txt = NULL;
-	return (st_cmd);
-}*/
-
 static char		*get_heredoc_txt(char *txt, char *eof)
 {
 	char	*trimed_txt;
@@ -65,6 +51,14 @@ static char		*return_get_doc(char *txt, unsigned char is_eof_quoted,
 	return (path);
 }
 
+static void		init_get_doc(t_st_cmd **cmd, char **txt, t_st_cmd **heredoc)
+{
+	*cmd = get_last_st_cmd(get_st_cmd(NULL));
+	*txt = NULL;
+	*cmd = append_st_cmd(*cmd, "", HEREDOC_PROMPT);
+	*heredoc = *cmd;
+}
+
 /*
 ** get_doc
 ** read the input from user until a line contain only 'eof' string
@@ -78,15 +72,11 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 	t_st_cmd	*cmd;
 	t_st_cmd	*start_heredoc;
 	int			len;
-	int			ret;
 
-	cmd = get_last_st_cmd(get_st_cmd(NULL));
-	txt = NULL;
-	cmd = append_st_cmd(cmd, "", HEREDOC_PROMPT);
-	start_heredoc = cmd;
+	init_get_doc(&cmd, &txt, &start_heredoc);
 	while (42)
 	{
-		if ((ret = input_loop(cmd, vars, heredoc)) < 1 || !*cmd->st_txt->txt)
+		if ((len = input_loop(cmd, vars, heredoc)) < 1 || !*cmd->st_txt->txt)
 			return (free_get_doc(txt, eof));
 		if (!is_eof_quoted)
 			apply_escape(cmd);

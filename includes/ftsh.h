@@ -7,7 +7,7 @@
 # include <sys/types.h>
 
 # define ERROR_MEM clean_exit(1, 1)
-# define SHELL_NAME "42sh"
+# define SHELL_NAME "21sh"
 
 /*
 **	t_vars utility functions

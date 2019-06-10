@@ -5,7 +5,7 @@
 
 # define INIT_TXT_SIZE 32
 # define BUF_SIZE 8
-# define STD_PROMPT "42sh $ "
+# define STD_PROMPT SHELL_NAME " $ "
 # define PROMPT_REVERSE_I_SEARCH_SUCC "(reverse-i-search)"
 # define PROMPT_REVERSE_I_SEARCH_FAIL "(failed reverse-i-search)"
 # define CONTINUE_PROMPT "cont> "

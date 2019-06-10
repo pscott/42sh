@@ -14,21 +14,30 @@ int				error_fc(char c, int type)
 
 static int		is_valid_option(char c)
 {
-	if (ft_strchr("selnr", c))
-		return (1);
-	return (0);
+	if (!ft_strchr("selnr", c))
+		return (0);
+	return (1);
+
 }
 
-static int		is_new_or_important_option(char flag[4], char c)
+static int		is_valid_and_valuable_option(char flag[4], char c)
 {
 	if (ft_strchr(flag, c))
 		return (0);//opti depending on how flags interact
 	if (c != 's' && ft_strchr(flag, 's'))
 		return (0);
+	/*
 	if (c == 'l' && ft_strchr(flags, 'e'))
 		return (0);
+		*/
 	return (1);
 }
+
+/*
+**	Parses FC flags, while preventing bad flag association.
+**	Returns (1) if an error occurs.
+**	Else, returns (i), the index of the first operand.
+*/
 
 static int		fc_parse_flags(t_st_fc *st_fc, char **argv)
 {
@@ -46,26 +55,30 @@ static int		fc_parse_flags(t_st_fc *st_fc, char **argv)
 			while (argv[i][++j])
 			{
 				if (!is_valid_option(argv[i][j]))
-					return (error_fc(argv[i][j], invalid_option));
-				if (is_new_or_important_option(st_fc->flags, argv[i][j]))
+				{
+					error_fc(argv[i][j], invalid_option);//return error directement
+					return (1);
+				}
+				if (is_valid_and_valuable_option(st_fc->flags, argv[i][j]))
 					st_fc->flags[++k] = argv[i][j];
 			}
 		}
 	}
-	if (argv[i])
+	if (argv[i])// is argv[i] == "--" ? 
 		i--;
-	ft_dprintf(2,"%s",  st_fc->flags);
 	return (i);
 }
 
 int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 {
 	int			i;
-	int			index_arg;
+	int			index_operand;
 
 	i = 5;
 	while (--i > -1)
 		(*st_fc).flags[i] = '.';
-	index_arg = fc_parse_flags(st_fc, argv);
+	index_operand = fc_parse_flags(st_fc, argv);
+	ft_printf("\nindex : %d, flags : %s", index_operand, st_fc->flags);
+	sleep(1);
 	return (0);
 }

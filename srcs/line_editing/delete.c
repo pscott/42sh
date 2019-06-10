@@ -37,13 +37,11 @@ void			delete_left(t_st_cmd *st_cmd)
 	st_txt->data_size -= 1;
 	st_txt->tracker--;
 	tmp = st_txt->tracker;
-	get_pos(st_cmd, st_cmd->st_txt->tracker);
-	reposition_cursor(st_cmd);
+	reposition_cursor(st_cmd, st_txt->tracker);
 	execute_str(CLEAR_BELOW);
 	shift_chars_left(&st_txt->txt[st_txt->tracker], 1);
 	write_st_cmd(st_cmd);
 	st_txt->tracker = tmp;
-	get_pos(st_cmd, st_txt->tracker);
 }
 
 /*
@@ -59,10 +57,9 @@ void			delete_right(t_st_cmd *st_cmd)
 	st_txt = st_cmd->st_txt;
 	st_txt->data_size -= 1;
 	tmp = st_txt->tracker;
-	get_pos(st_cmd, st_cmd->st_txt->tracker);
+	reposition_cursor(st_cmd, st_txt->tracker);
 	execute_str(CLEAR_BELOW);
 	shift_chars_left(&st_txt->txt[st_txt->tracker], 1);
 	write_st_cmd(st_cmd);
 	st_txt->tracker = tmp;
-	get_pos(st_cmd, st_txt->tracker);
 }

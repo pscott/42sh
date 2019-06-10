@@ -6,7 +6,7 @@
 /*   By: pscott <pscott@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 09:15:06 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/07 09:15:06 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/09 18:53:06 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,18 @@
 static void		fill_res(char ***res)
 {
 	if (!((*res)[0] = ft_strdup(BEGIN_LINE))
-		|| !((*res)[1] = ft_strdup(LEFT_CORNER))
-		|| !((*res)[2] = ft_strdup(MOVE_CURSOR))
+		|| !((*res)[1] = ft_strdup(INVISIBLE))
+		|| !((*res)[2] = ft_strdup(VISIBLE))
 		|| !((*res)[3] = ft_strdup(CLEAR))
-		|| !((*res)[4] = ft_strdup(SAVE_CURSOR))
-		|| !((*res)[5] = ft_strdup(CLEAR_BELOW))
-		|| !((*res)[6] = ft_strdup(RESTORE_CURSOR))
-		|| !((*res)[7] = ft_strdup(INVISIBLE))
-		|| !((*res)[8] = ft_strdup(VISIBLE))
-		|| !((*res)[9] = ft_strdup(PRINT_LINE))
-		|| !((*res)[10] = ft_strdup(ERASE_ENDLINE))
-		|| !((*res)[11] = ft_strdup(HIGHLIGHT))
-		|| !((*res)[12] = ft_strdup(NO_HIGHLIGHT))
-		|| !((*res)[13] = ft_strdup(UNDERLINE))
-		|| !((*res)[14] = ft_strdup(NO_UNDERLINE))
-		|| !((*res)[15] = ft_strdup(SCROLL_DOWN))
-		|| !((*res)[16] = ft_strdup(MOVE_UP)))
+		|| !((*res)[4] = ft_strdup(CLEAR_BELOW))
+		|| !((*res)[5] = ft_strdup(MOVE_DOWN))
+		|| !((*res)[6] = ft_strdup(ERASE_ENDLINE))
+		|| !((*res)[7] = ft_strdup(HIGHLIGHT))
+		|| !((*res)[8] = ft_strdup(NO_HIGHLIGHT))
+		|| !((*res)[9] = ft_strdup(SCROLL_DOWN))
+		|| !((*res)[10] = ft_strdup(MOVE_UP))
+		|| !((*res)[11] = ft_strdup(MOVE_RIGHT))
+		|| !((*res)[12] = ft_strdup(MOVE_LEFT)))
 	{
 		ft_free_ntab(*res);
 		*res = NULL;

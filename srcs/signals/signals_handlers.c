@@ -28,17 +28,17 @@ void			sigint_handler(int signo)
 	t_vars		*vars;
 
 	(void)signo;
-	if ((st_cmd = get_st_cmd(NULL)))
-	{
-		*st_cmd->st_txt->txt = '\x03';
-		vars = get_vars(NULL);
+	if (!(st_cmd = get_st_cmd(NULL)))
+		return ;
+	st_cmd = get_last_st_cmd(st_cmd);
+	*st_cmd->st_txt->txt = '\x03';
+	if ((vars = get_vars(NULL)))
 		vars->cmd_value = 1;
-	}
 	if (isatty(TERM_FD))
 		write(TERM_FD, "^C", 2);
-	execute_str(PRINT_LINE);
-	execute_str(BEGIN_LINE);
-	execute_str(CLEAR_BELOW);
+	st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;
+	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
+	execute_str(MOVE_DOWN);
 }
 
 /*
@@ -48,20 +48,17 @@ void			sigint_handler(int signo)
 
 void			sigwinch_handler(int signo)
 {
-	t_st_cmd		*first_cmd;
 	t_st_cmd		*current_cmd;
 
 	(void)signo;
-	if ((first_cmd = get_st_cmd(NULL)))
-	{
-		current_cmd = get_last_st_cmd(first_cmd);
-		update_window_struct(current_cmd->window);
-		go_back_to_start(current_cmd);
-		write_from_start(first_cmd);
-		get_pos(current_cmd, current_cmd->st_txt->tracker);
-		reposition_cursor(current_cmd);
-		signal(SIGWINCH, sigwinch_handler);
-	}
+	signal(SIGWINCH, SIG_IGN);
+	if (!(current_cmd = get_st_cmd(NULL)))
+		return ;
+	current_cmd = get_last_st_cmd(current_cmd);
+	update_window_struct(current_cmd->window);
+	write_from_start(current_cmd);
+	reposition_cursor(current_cmd, current_cmd->st_txt->tracker);
+	signal(SIGWINCH, sigwinch_handler);
 }
 
 /*
@@ -72,18 +69,14 @@ void			sigwinch_handler(int signo)
 void			sigcont_handler(int signo)
 {
 	t_st_cmd	*st_cmd;
-	int			ret;
 
 	(void)signo;
-	if ((ret = setup_terminal_settings()) > 0)
-		clean_exit(ret, 0);
-	if ((st_cmd = get_st_cmd(NULL)))
-	{
-		st_cmd = get_first_st_cmd(st_cmd);
-		write_from_start(st_cmd);
-		get_pos(st_cmd, st_cmd->st_txt->tracker);
-		reposition_cursor(st_cmd);
-	}
+	setup_terminal_settings();
+	if (!(st_cmd = get_st_cmd(NULL)))
+		return ;
+	st_cmd = get_last_st_cmd(st_cmd);
+	write_from_start(st_cmd);
+	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 }
 
 /*

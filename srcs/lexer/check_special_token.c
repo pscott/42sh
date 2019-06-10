@@ -80,6 +80,7 @@ int				is_ctrl_op_following_a_redir_token(t_token *prev,
 	if (is_redir_token(prev) && curr->type >= tk_pipe)
 	{
 		syntax_error_near(curr);
+		free_token_list(curr);
 		return (1);
 	}
 	return (0);

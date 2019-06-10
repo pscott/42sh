@@ -7,10 +7,9 @@ static int	interrupt_search(t_st_cmd *st_cmd)
 {
 	if (!(st_cmd->st_txt->txt[0]))
 		st_cmd->st_txt->txt[0] = ' ';
-	get_pos(st_cmd, st_cmd->st_txt->tracker);
-	reposition_cursor(st_cmd);
+	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 	ft_putstr_fd("^C", TERM_FD);
-	execute_str(PRINT_LINE);
+	execute_str(MOVE_DOWN);
 	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 	return (ctrl_c_case);
 }
@@ -22,7 +21,7 @@ static int	case_return_newline(t_st_cmd *st_cmd)
 	st_cmd->st_txt->txt = ft_realloc(st_cmd->st_txt->txt,
 			st_cmd->st_txt->data_size, &st_cmd->st_txt->malloc_size, 1);
 	st_cmd->st_txt->txt[st_cmd->st_txt->data_size] = '\n';
-	execute_str(PRINT_LINE);
+	execute_str(MOVE_DOWN);
 	return (enter_case);
 }
 
@@ -73,11 +72,8 @@ int			switch_and_return(t_st_cmd *st_cmd,
 		newcmd = ft_strdup(st_cmd->st_txt->txt);
 	if (!newcmd)
 		clean_exit(1, 1);
-	print_prompt_search_history(st_cmd);
 	switch_st_cmd(st_cmd, newcmd);
 	st_cmd->st_txt->tracker = tmp;
-	get_pos(st_cmd, st_cmd->st_txt->tracker);
-	reposition_cursor(st_cmd);
 	free(newcmd);
 	return (ret);
 }

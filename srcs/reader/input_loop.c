@@ -95,7 +95,7 @@ int			input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)
 			return (-1);
 		else if (ret == input_break)
 			break ;
-		reposition_cursor(st_cmd);
+		reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 		ft_bzero(buf, sizeof(buf));
 	}
 	if (st_cmd->st_txt->data_size > INT_MAX)

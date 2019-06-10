@@ -23,12 +23,10 @@ static void	refresh_prompt_after_completion(t_st_cmd *st_cmd, char **tmp,
 	ft_strdel(tmp);
 	execute_str(BEGIN_LINE);
 	execute_str(CLEAR_BELOW);
-	retrieve_pos(&st_cmd->start_pos);
 	print_prompt(st_cmd);
 	st_cmd->st_txt->tracker = 0;
 	write_st_cmd(st_cmd);
 	st_cmd->st_txt->tracker = len_tmp;
-	get_pos(st_cmd, st_cmd->st_txt->tracker);
 }
 
 int			check_for_tab(t_st_cmd *st_cmd, const char *buf,

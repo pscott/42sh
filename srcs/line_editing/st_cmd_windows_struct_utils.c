@@ -6,14 +6,15 @@
 **	function. Exits if it fails.
 */
 
-void			init_relative_pos(t_st_cmd *st_cmd)
+void			init_relative_pos(t_pos *cursor_pos, struct winsize *window,
+	size_t prompt_size)
 {
 	if (isatty(TERM_FD) == 0)
 		return ;
-	if (!st_cmd->window->ws_col)
+	if (!window->ws_col)
 		return ;
-	st_cmd->relative_pos.col = st_cmd->st_prompt->size % st_cmd->window->ws_col;
-	st_cmd->relative_pos.row = st_cmd->st_prompt->size / st_cmd->window->ws_col;
+	cursor_pos->col = prompt_size % window->ws_col;
+	cursor_pos->row = prompt_size / window->ws_col;
 }
 
 void			update_window_struct(struct winsize *window)

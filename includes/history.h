@@ -18,7 +18,23 @@ typedef struct			s_hist_lst
 typedef struct			s_st_fc
 {
 	char				flag[4];
+	char				*first;
+	int					i_first;
+	char				*last;
+	int					i_last;
+	char				*old_ptrn;
+	char				*new_ptrn;
+	char				*editor;
 }						t_st_fc;
+
+typedef enum			e_fc_error
+{
+	invalid_option = 1,
+	invalid_mix,
+	editor_unspecified,
+	path_unspecified,
+	cmd_not_found
+}						t_fc_error;
 /*
 **	Retrieving and writing history to/from a file
 */
@@ -73,5 +89,15 @@ int						check_exit_and_realloc(size_t *malloc_size,
 							char **stock);
 int						handle_quitting_chars_and_bcksp(char buf,
 							char **stock);
+
+/*
+**	FC functions
+*/
+
+int						init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv);
+int						parse_editor_fc(char **argv, int i);
+int						error_fc(char *s, int i, int type, t_st_fc *st_fc);
+int						is_valid_mix(char flag[4], char c);
+int						is_valid_option(char c);
 
 #endif

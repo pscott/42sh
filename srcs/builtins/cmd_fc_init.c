@@ -12,19 +12,23 @@ void			print_usage_fc(void)
 	ft_dprintf(fd, "OR  fc -s [old=new] [first]");
 }
 
-int				error_fc(char *s, int i, int type)
+int				error_fc(char *s, int i, int type, t_st_fc *st_fc)
 {
+	int			len;
+
+	ft_dprintf(STDERR_FILENO, "fc: -");
 	if (type == invalid_option)
 	{
-		ft_dprintf(STDERR_FILENO, "fc: -%c: invalid option\n", s[i]);
+		ft_dprintf(STDERR_FILENO, "%c: invalid option\n", s[i]);
 	}
 	else if (type == invalid_mix)
 	{
-		ft_dprintf(STDERR_FILENO, "fc: %s: invalid option mix\n", s);
+		len = ft_strlen_char(st_fc->flag, '.');
+		st_fc->flag[len] = s[i];
+		write(STDERR_FILENO, st_fc->flag, len + 1);
+		ft_dprintf(STDERR_FILENO, ": invalid mix\n");
 	}
 	print_usage_fc();
-	ft_dprintf(STDERR_FILENO, "fc: usage: fc [-e name] [-lnr] [first] [last] ");
-	ft_dprintf(STDERR_FILENO, "or fc -s [pat=rep] [command]");
 	return (1);
 }
 
@@ -68,7 +72,7 @@ static int		fc_parse_flags(t_st_fc *st_fc, char **argv)
 	int			is_val;
 
 	i = 0;
-	while (argv[++i] && !ft_strncmp(argv[i], "--", 3))
+	while (argv[++i] && ft_strncmp(argv[i], "--", 3))
 	{
 		if (argv[i][0] == '-')
 		{
@@ -77,16 +81,17 @@ static int		fc_parse_flags(t_st_fc *st_fc, char **argv)
 			while (argv[i][++j])
 			{
 				if (!is_valid_option(argv[i][j]))
-					return (error_fc(argv[i], j, invalid_option));//return error directement
+					return (error_fc(argv[i], j, invalid_option, st_fc));//return error directement
 				if (((is_val = is_valid_and_valuable_mix(st_fc->flag, argv[i][j]))) == 1)
 					st_fc->flag[++k] = argv[i][j];
 				else if (is_val == -1)
-					return (error_fc(argv[i], j, invalid_mix));
+					return (error_fc(argv[i], j, invalid_mix, st_fc));
 			}
 		}
 	}
 	if (argv[i])// is argv[i] == "--" ? 
 		i--;
+	ft_printf("\nindex : %d, flags : %s", i, st_fc->flag);
 	return (i);
 }
 /*
@@ -106,7 +111,6 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 		(*st_fc).flag[i] = '.';
 	start_operand = fc_parse_flags(st_fc, argv);
 //	fc_parse_operands(st_fc, argv, start_operand);
-	ft_printf("\nindex : %d, flags : %s", start_operand, st_fc->flag);
 	sleep(1);
 	return (0);
 }

@@ -59,8 +59,7 @@ static int			exec_env_bin(char *cmd_path, char **argv, char **new_env)
 	return (status);
 }
 
-static int			copy_env_and_execute(char **argv, char **old_env,
-	char **new_env, int i)
+static int			copy_env_and_execute(char **argv, char **new_env, int i)
 {
 	int		ret;
 	char	*cmd_path;
@@ -70,9 +69,9 @@ static int			copy_env_and_execute(char **argv, char **old_env,
 		ft_print_ntab(new_env);
 	else
 	{
-		if (!(cmd_path = get_cmd_path(argv[i], old_env, 1)))
+		if (!(cmd_path = get_cmd_path(argv[i], new_env, 1)))
 			return (1);
-		ret = exec_env_bin(cmd_path, argv + i, old_env);
+		ret = exec_env_bin(cmd_path, argv + i, new_env);
 		ft_strdel(&cmd_path);
 	}
 	return (ret);
@@ -123,7 +122,7 @@ int					case_env(char **argv, char ***env)
 			clean_exit(1, 1);
 	}
 	if ((i = setenv_arguments(argv, &new_env, i)) >= 0)
-		ret = copy_env_and_execute(argv, *env, new_env, i);
+		ret = copy_env_and_execute(argv, new_env, i);
 	ft_free_ntab(new_env);
 	return (ret);
 }

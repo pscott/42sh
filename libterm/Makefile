@@ -69,16 +69,10 @@ DEPENDENCIES	:= $(addprefix $(OBJ_DIR)/,$(DEPS))
 # Rules ########################################################################
 .PHONY: all fsa val rmh adh tag clean fclean re d norm test ask_libft ask_libs
 
-all: ask_libs $(NAME) Makefile libterm.a
+all: $(LIBFT_A) $(OBJ_DIR) $(NAME) Makefile libterm.a
 
-ask_libs: ask_libft
-
-child: $(NAME) tag Makefile
-
-ask_libft:
-	@$(MAKE) -qC $(LIBFT_DIR) ; if [ $$? != "0" ] ; then\
-		$(MAKE) -j -C $(LIBFT_DIR) ;\
-		fi
+$(LIBFT_A): FORCE
+	@$(MAKE) -C $(LIBFT_DIR) -j
 
 fsa: $(SRCS) $(LIBS)
 	$(CC) $(CFLAGS) $(FSA_FLAGS) $(INCL_CMD) $(LIB_INCL) $(SRCS) -o $(NAME)
@@ -100,9 +94,11 @@ $(NAME): $(OBJS) $(INCLS) $(LIBS)
 
 -include $(DEPENDENCIES)
 $(OBJ_DIR)/%.o: %.c Makefile
-	@mkdir $(OBJ_DIR) 2> /dev/null || true
 	@$(CC) $(CFlAGS) $(INCL_CMD) -o $@ -c $<
 	@echo Compiling $@
+
+$(OBJ_DIR):
+	@mkdir $(OBJ_DIR)
 
 tag:
 	@ctags -R .
@@ -120,6 +116,8 @@ re: fclean all
 
 d: all
 	$(OPT) ./a.out
+
+FORCE:
 
 norm: adh
 	norminette $(SRCS)

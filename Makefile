@@ -193,21 +193,13 @@ DEPENDENCIES	:= $(addprefix $(OBJ_DIR)/,$(DEPS))
 # Rules ########################################################################
 .PHONY: all fsa val rmh adh tag clean fclean re d norm test ask_libft
 
-all: $(NAME) ask_libs
+all: $(LIBFT_A) $(LIBTERM_A) $(OBJ_DIR) $(NAME)
 
-ask_libs: ask_libft ask_libterm
+$(LIBFT_A): FORCE
+	@make -C $(LIBFT_DIR)
 
-ask_libft:
-	@$(MAKE) -qC libft ; if [ $$? != "0" ] ; then\
-		$(MAKE) -j -C libft;\
-		fi
-
-ask_libterm:
-	@$(MAKE) -qC libterm child; if [ $$? != "0" ] ; then\
-		$(MAKE) -j -C libterm;\
-		fi
-
-$(LIBS): ask_libs
+$(LIBTERM_A): FORCE
+	@make -C $(LIBTERM_DIR)
 
 fsa: $(SRCS) $(LIBS) $(INCLS)
 	$(CC) $(CFLAGS) $(FSA_FLAGS) $(INCL_CMD) $(LIB_INCL) $(SRCS) -o $(NAME)
@@ -232,9 +224,11 @@ $(NAME): $(OBJS) libft/libft.a libterm/libterm.a
 
 -include $(DEPENDENCIES)
 $(OBJ_DIR)/%.o: %.c Makefile
-	@mkdir $(OBJ_DIR) 2> /dev/null || true
 	@echo Compiling $@
 	@$(CC) $(CFLAGS) $(MMD) $(INCL_CMD) -o $@ -c $<
+
+$(OBJ_DIR):
+	@mkdir $(OBJ_DIR)
 
 tags:
 	ctags -R .
@@ -251,6 +245,8 @@ fclean: clean
 	$(MAKE) fclean -C libterm
 	$(RM) $(NAME)
 	$(RM) -r $(NAME).dSYM
+
+FORCE:
 
 re: fclean all
 

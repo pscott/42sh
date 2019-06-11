@@ -12,13 +12,6 @@ VAL_FLAGS	:=	--leak-check=full --track-origins=yes --show-leak-kinds=all		\
 
 SCRIPT_PATH	:= ../script
 
-# Libraries	####################################################################
-LIB_INCL	:=	
-LIBFT_A		:=	
-LIBTERM_A	:=	
-
-LIBS		:= 
-
 # Includes #####################################################################
 INCL_DIRS	:=	includes
 INCL_CMD	:=	$(addprefix -I,$(INCL_DIRS))
@@ -124,7 +117,7 @@ DEPENDENCIES	:= $(addprefix $(OBJ_DIR)/,$(DEPS))
 # Rules ########################################################################
 .PHONY: all fsa val rmh adh tag clean fclean re d norm test
 
-all: $(NAME) Makefile libft.a
+all: $(OBJ_DIR) $(NAME) Makefile libft.a
 
 fsa: $(SRCS)
 	$(CC) $(CFLAGS) $(FSA_FLAGS) $(INCL_CMD) $(LIB_INCL) $(SRCS) -o $(NAME)
@@ -144,9 +137,11 @@ $(NAME): $(OBJS)
 
 -include $(DEPENDENCIES)
 $(OBJ_DIR)/%.o: %.c Makefile
-	@mkdir $(OBJ_DIR) 2> /dev/null || true
 	@$(CC) $(CFlAGS) $(INCL_CMD) -o $@ -c $<
 	@echo Compiling $@
+
+$(OBJ_DIR):
+	@mkdir $(OBJ_DIR) 2> /dev/null || true
 
 tag:
 	@ctags -R .

@@ -1,4 +1,5 @@
 #include "hashmap.h"
+#include <limits.h>
 
 static int		is_prime(unsigned int nb)
 {
@@ -26,7 +27,7 @@ static int		is_prime(unsigned int nb)
 
 unsigned int	find_next_prime(unsigned int nb)
 {
-	while (++nb)
+	while (++nb && nb <= UINT_MAX)
 	{
 		if (is_prime(nb))
 			return (nb);
@@ -34,6 +35,7 @@ unsigned int	find_next_prime(unsigned int nb)
 	return (0);
 }
 
+//delete me
 unsigned int	find_prev_prime(unsigned int nb)
 {
 	if (nb < 5)

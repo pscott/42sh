@@ -68,7 +68,11 @@ t_hashmap	*resize_up_hashmap(t_hashmap *old_map)
 	size_t		new_size;
 	t_hashmap	*new_map;
 
-	new_size = (size_t)find_next_prime(old_map->size);
+	if (!(new_size = (size_t)find_next_prime(old_map->size)))
+	{
+		ft_dprintf(STDERR_FILENO, "%s: Couldn't add to hashmap.\n");
+		return (old_map);
+	}
 	if (!(new_map = init_hashmap(new_size)))
 		clean_exit(1, 1);
 	cpy_hashmap(old_map, &new_map);
@@ -76,6 +80,7 @@ t_hashmap	*resize_up_hashmap(t_hashmap *old_map)
 	return (new_map);
 }
 
+//delete me
 t_hashmap	*resize_down_hashmap(t_hashmap *old_map)
 {
 	size_t		new_size;

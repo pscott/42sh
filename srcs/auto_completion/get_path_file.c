@@ -104,7 +104,6 @@ int					get_path_file_and_to_find(const char *arg, char **path,
 
 	initialize_str(&pwd, &pwd, path, NULL);
 	i = ft_strlen(arg) - ft_strlen(ft_strrchr(arg, '/'));
-	pwd = getcwd(pwd, PATH_MAX);
 	if ((arg)[0] == '~' && (arg)[1] == '/')
 		get_path_user(i, arg, path, to_find);
 	else if (arg[0] && !i)
@@ -115,12 +114,13 @@ int					get_path_file_and_to_find(const char *arg, char **path,
 		get_path_reg(i, arg, path, to_find);
 	else
 	{
-		if (pwd && !(*path = ft_strdup(pwd)))
+		if (!(pwd = getcwd(pwd, PATH_MAX)))
+			return (1);
+		else if (!(*path = ft_strdup(pwd)))
 			clean_exit(1, 1);
 		if (!(*to_find = ft_strnew(0)))
 			clean_exit(1, 1);
-	}
-	if (pwd)
 		ft_strdel(&pwd);
+	}
 	return (0);
 }

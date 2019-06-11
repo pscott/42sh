@@ -78,8 +78,8 @@ static int		fc_parse_flags(t_st_fc *st_fc, char **argv)
 			{
 				if (!is_valid_option(argv[i][j]))
 					return (error_fc(argv[i], j, invalid_option));//return error directement
-				if (((is_val = is_valid_and_valuable_mix(st_fc->flags, argv[i][j]))) == 1)
-					st_fc->flags[++k] = argv[i][j];
+				if (((is_val = is_valid_and_valuable_mix(st_fc->flag, argv[i][j]))) == 1)
+					st_fc->flag[++k] = argv[i][j];
 				else if (is_val == -1)
 					return (error_fc(argv[i], j, invalid_mix));
 			}
@@ -103,10 +103,10 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 	i = 5;
 	(void)st_cmd;
 	while (--i > -1)
-		(*st_fc).flags[i] = '.';
+		(*st_fc).flag[i] = '.';
 	start_operand = fc_parse_flags(st_fc, argv);
 //	fc_parse_operands(st_fc, argv, start_operand);
-	ft_printf("\nindex : %d, flags : %s", start_operand, st_fc->flags);
+	ft_printf("\nindex : %d, flags : %s", start_operand, st_fc->flag);
 	sleep(1);
 	return (0);
 }

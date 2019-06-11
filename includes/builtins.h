@@ -18,6 +18,7 @@ typedef enum	e_cmd_id {
 	cmd_unsetenv,
 	cmd_hash,
 	cmd_type,
+	cmd_fc
 }				t_cmd_id;
 
 typedef enum	e_fc_error{
@@ -38,6 +39,7 @@ int		case_type(char **argv, t_vars *vars);
 int		case_setenv(char **argv, t_vars *vars);
 int		case_unsetenv(char **argv, t_vars *vars);
 int		case_echo(char **argv);
+int		case_fc(char **argv);
 
 /*
 **	Exit utils
@@ -61,4 +63,9 @@ char	*relative_directory(const char *path, const char **env);
 
 int		check_env_flags(char **argv, int *pos);
 
+/*
+**	FC utils
+*/
+
+int		init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv);
 #endif

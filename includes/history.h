@@ -15,6 +15,10 @@ typedef struct			s_hist_lst
 	char				keep;
 }						t_hist_lst;
 
+typedef struct			s_st_fc
+{
+	char				flag[4];
+}						t_st_fc;
 /*
 **	Retrieving and writing history to/from a file
 */

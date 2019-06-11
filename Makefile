@@ -100,7 +100,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c \
 						cmd_type.c cmd_setenv.c cmd_unsetenv.c cmd_echo.c \
 						cmd_exit_utils.c cmd_cd_utils.c cmd_env.c \
-						cmd_env_check.c 
+						cmd_env_check.c cmd_fc.c cmd_fc_init.c
 	REDIR_FILES		:=	redir_dgreat.c redir_fd_great.c fd_utils.c \
 						redir_great.c redir_less.c parse_redirections.c \
 						redir_fd_less.c redirections_errors.c redir_fd_utils.c \

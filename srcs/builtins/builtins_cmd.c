@@ -13,6 +13,8 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 {
 	int				ret;
 
+	ft_dprintf(2, "%s", "UOUOUO");
+	sleep(1);
 	if (!argv)
 		ret = 1;
 	else if (cmd_id == cmd_exit)
@@ -31,8 +33,8 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 		ret = case_unsetenv(argv, vars);
 	else if (cmd_id == cmd_echo)
 		ret = case_echo(argv);
-//	else if (cmd_id == cmd_fc)
-//		ret = case_fc(argv);
+	else if (cmd_id == cmd_fc)
+		ret = case_fc(argv);
 	else
 		ret = 0;
 	ft_free_ntab(argv);
@@ -46,6 +48,8 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 
 int			check_builtins(char **argv)
 {
+	ft_dprintf(2, "%s", "UOUOUO");
+	sleep(1);
 	if (ft_strcmp(argv[0], "exit") == 0)
 		return (cmd_exit);
 	if (ft_strcmp(argv[0], "env") == 0)
@@ -62,7 +66,7 @@ int			check_builtins(char **argv)
 		return (cmd_unsetenv);
 	if (ft_strcmp(argv[0], "echo") == 0)
 		return (cmd_echo);
-//	if (ft_strcmp(argv[0], "fc") == 0)
-//		return (cmd_fc);
+	if (ft_strcmp(argv[0], "fc") == 0)
+		return (cmd_fc);
 	return (0);
 }

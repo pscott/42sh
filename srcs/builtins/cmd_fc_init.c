@@ -1,12 +1,28 @@
 #include "ftsh.h"
 #include "builtins.h"
 
-int				error_fc(char c, int type)
+void			print_usage_fc(void)
+{
+	int			fd;
+
+	fd = STDERR_FILENO;
+	ft_dprintf(fd, "fc: usage:\n");
+	ft_dprintf(fd, "    fc [-r] [-e editor] [first [last]]\n");
+	ft_dprintf(fd, "OR  fc -l [-nr] [first [last]]\n");
+	ft_dprintf(fd, "OR  fc -s [old=new] [first]");
+}
+
+int				error_fc(char *s, int i, int type)
 {
 	if (type == invalid_option)
 	{
-		ft_dprintf(STDERR_FILENO, "fc: -%c: invalid option\n", c);
+		ft_dprintf(STDERR_FILENO, "fc: -%c: invalid option\n", s[i]);
 	}
+	else if (type == invalid_mix)
+	{
+		ft_dprintf(STDERR_FILENO, "fc: %s: invalid option mix\n", s);
+	}
+	print_usage_fc();
 	ft_dprintf(STDERR_FILENO, "fc: usage: fc [-e name] [-lnr] [first] [last] ");
 	ft_dprintf(STDERR_FILENO, "or fc -s [pat=rep] [command]");
 	return (1);
@@ -20,16 +36,21 @@ static int		is_valid_option(char c)
 
 }
 
-static int		is_valid_and_valuable_option(char flag[4], char c)
+static int		is_valid_and_valuable_mix(char flag[4], char c)
 {
 	if (ft_strchr(flag, c))
 		return (0);//opti depending on how flags interact
 	if (c != 's' && ft_strchr(flag, 's'))
-		return (0);
-	/*
-	if (c == 'l' && ft_strchr(flags, 'e'))
-		return (0);
-		*/
+		return (-1);
+	if (c == 'e' && (ft_strchr(flag, 'l') || ft_strchr(flag, 'n')))
+		return (-1);
+	if (c == 's' &&  flag[0] != '.')
+		return (-1);
+	if (c == 'e' && (ft_strchr(flag, 'l') || ft_strchr(flag, 'n')
+			|| ft_strchr(flag, 's')))
+		return (-1);
+	if (c == 'l' && ft_strchr(flag, 'e'))
+		return (-1);
 	return (1);
 }
 
@@ -44,9 +65,10 @@ static int		fc_parse_flags(t_st_fc *st_fc, char **argv)
 	int			i;
 	int			j;
 	int			k;
+	int			is_val;
 
 	i = 0;
-	while (argv[++i] && !ft_strequ(argv[i], "--"))
+	while (argv[++i] && !ft_strncmp(argv[i], "--", 3))
 	{
 		if (argv[i][0] == '-')
 		{
@@ -55,12 +77,11 @@ static int		fc_parse_flags(t_st_fc *st_fc, char **argv)
 			while (argv[i][++j])
 			{
 				if (!is_valid_option(argv[i][j]))
-				{
-					error_fc(argv[i][j], invalid_option);//return error directement
-					return (1);
-				}
-				if (is_valid_and_valuable_option(st_fc->flags, argv[i][j]))
+					return (error_fc(argv[i], j, invalid_option));//return error directement
+				if (((is_val = is_valid_and_valuable_mix(st_fc->flags, argv[i][j]))) == 1)
 					st_fc->flags[++k] = argv[i][j];
+				else if (is_val == -1)
+					return (error_fc(argv[i], j, invalid_mix));
 			}
 		}
 	}

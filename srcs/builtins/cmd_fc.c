@@ -10,6 +10,9 @@ int					case_fc(char **argv)
 
 	ft_bzero(&st_fc, sizeof(st_fc));
 	st_cmd = get_st_cmd(NULL);
+
+	ft_putendl("IO)");
+	sleep(1);
 	init_st_fc(st_cmd, &st_fc, argv);
 	ret = 0;
 	/*

@@ -13,16 +13,16 @@ int					open_history(const char **env, int options)
 		clean_exit(1, 1);
 	if (get_envline("HOME", (char **)env) == NULL)
 	{
-		ft_strdel(&hists_file);
+		ft_strdel(&hist_file);
 		return (-1);
 	}
 	replace_tilde(&hist_file, env);
 	if ((fd = open(hist_file, options, 0640)) == -1)
 	{
-		ft_strdel(&hists_file);
+		ft_strdel(&hist_file);
 		return (-1);
 	}
-	ft_strdel(&hists_file);
+	ft_strdel(&hist_file);
 	return (fd);
 }
 

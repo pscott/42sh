@@ -12,14 +12,17 @@ int					open_history(const char **env, int options)
 	if (!(hist_file = ft_strdup(HIST_FILE)))
 		clean_exit(1, 1);
 	if (get_envline("HOME", (char **)env) == NULL)
+	{
+		ft_strdel(&hists_file);
 		return (-1);
+	}
 	replace_tilde(&hist_file, env);
 	if ((fd = open(hist_file, options, 0640)) == -1)
 	{
-		ft_memdel((void*)&hist_file);
+		ft_strdel(&hists_file);
 		return (-1);
 	}
-	ft_memdel((void*)&hist_file);
+	ft_strdel(&hists_file);
 	return (fd);
 }
 
@@ -46,8 +49,7 @@ static t_hist_lst	*construct_history(int fd)
 		if (++id > 1000)
 			break ;
 	}
-	if (tmp)
-		ft_memdel((void*)&tmp);
+	ft_strdel(&tmp);
 	return (hist_lst);
 }
 

@@ -78,7 +78,7 @@ static int			copy_env_and_execute(char **argv, char **new_env, int i)
 }
 
 static int			setenv_arguments(char **argv, char ***new_env,
-					int i)
+		int i)
 {
 	char				*before;
 	char				*after;
@@ -118,7 +118,9 @@ int					case_env(char **argv, char ***env)
 		new_env = NULL;
 	else
 	{
-		if (!(new_env = ft_dup_ntab((const char **)(*env))))
+		if (!env || !*env || !**env)
+			new_env = NULL;
+		else if (!(new_env = ft_dup_ntab((const char **)(*env))))
 			clean_exit(1, 1);
 	}
 	if ((i = setenv_arguments(argv, &new_env, i)) >= 0)

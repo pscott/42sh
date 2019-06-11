@@ -1,5 +1,6 @@
 #include "ftsh.h"
 #include "env.h"
+#include "hashmap.h"
 
 /*
 ** replace_env_var
@@ -9,20 +10,26 @@
 static void	replace_env_var(char *var_name, char *var_value, char **env_line)
 {
 	size_t	new_len;
+	t_vars	*vars;
 	size_t	var_name_len;
 
 	if (!env_line)
 		return ;
 	ft_memdel((void*)env_line);
-	new_len = ft_strlen(var_name) + ft_strlen(var_value) + 1;
+	var_name_len = ft_strlen(var_name);
+	new_len = var_name_len + ft_strlen(var_value) + 1;
 	if (!(*env_line = ft_strnew(new_len)))
 		clean_exit(1, 1);
 	ft_strcpy(*env_line, var_name);
-	var_name_len = ft_strlen(var_name);
 	if (*env_line)
 		(*env_line)[var_name_len] = '=';
 	if (var_value)
 		ft_strcpy(&(*env_line)[var_name_len + 1], var_value);
+	if (ft_strncmp(var_name, "PATH", 5) == 0)
+	{
+		vars = get_vars(NULL);
+		reset_hashmap(&vars->hashmap);
+	}
 }
 
 /*

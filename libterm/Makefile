@@ -72,7 +72,8 @@ DEPENDENCIES	:= $(addprefix $(OBJ_DIR)/,$(DEPS))
 all: $(LIBFT_A) $(OBJ_DIR) $(NAME) Makefile libterm.a
 
 $(LIBFT_A): FORCE
-	@$(MAKE) -C $(LIBFT_DIR) -j
+	@$(MAKE) -C $(LIBFT_DIR) -j >/dev/null
+
 
 fsa: $(SRCS) $(LIBS)
 	$(CC) $(CFLAGS) $(FSA_FLAGS) $(INCL_CMD) $(LIB_INCL) $(SRCS) -o $(NAME)

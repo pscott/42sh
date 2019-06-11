@@ -20,7 +20,7 @@ The code is written to be [norme compliant](https://cdn.intra.42.fr/pdf/pdf/960/
 - Redirections (`>`, `>>`, `<`, `<<`, `>&`, `&<`)
 - Pipes and logic operators (`|`, `&&`, `||`)
 - Command separator (`;`)
-- Posix compliant builtins (`alias`, `cd`, `echo`, `exit`, `hash`, `type`, `set`, `unset`)
+- Posix compliant builtins (`cd`, `echo`, `exit`, `hash`, `type`, `set`, `unset`)
 - Job control (`jobs`, `fg`,  `bg`,  `&`)
 - Quotes and backslashes (`'`, `"`, `/`)
 - Arithmetic expansion (`$((a + b))`)

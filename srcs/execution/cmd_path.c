@@ -35,7 +35,8 @@ char				*find_path(const char *file, char **paths)
 	char			*possible_path;
 	char			*path_w_slash;
 
-	if (!ft_strncmp(".", file, 2) || !ft_strncmp("..", file, 3) || !paths)
+	if (!*file || !ft_strncmp(".", file, 2) || !ft_strncmp("..", file, 3)
+		|| !paths)
 		return (NULL);
 	i = 0;
 	while (paths[i])

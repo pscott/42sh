@@ -9,16 +9,15 @@ char			*ft_strjoin_free_left(char *s1, const char *s2)
 	char			*res;
 	unsigned int	s1_len;
 
-	if (!s2 || !s2[0])
+	if (!s2 && !s1)
+		return (NULL);
+	if (!s1 && (!s2[0]))
+		return (ft_strdup(s2));
+	if (!s2 && (!s1[0]))
 	{
 		res = ft_strdup(s1);
 		ft_strdel(&s1);
 		return (res);
-	}
-	if (!s1 || !s1[0])
-	{
-		ft_strdel(&s1);
-		return (ft_strdup(s2));
 	}
 	s1_len = ft_strlen(s1);
 	if (!(res = ft_strnew(s1_len + ft_strlen(s2))))

@@ -13,8 +13,6 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 {
 	int				ret;
 
-	ft_dprintf(2, "%s", "UOUOUO");
-	sleep(1);
 	if (!argv)
 		ret = 1;
 	else if (cmd_id == cmd_exit)
@@ -48,8 +46,6 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 
 int			check_builtins(char **argv)
 {
-	ft_dprintf(2, "%s", "UOUOUO");
-	sleep(1);
 	if (ft_strcmp(argv[0], "exit") == 0)
 		return (cmd_exit);
 	if (ft_strcmp(argv[0], "env") == 0)

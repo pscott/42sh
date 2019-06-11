@@ -53,6 +53,7 @@ SRC_DIR	:=	srcs
 	REDIR_DIR			:=	redirections
 	EXEC_DIR			:=	execution
 	HASHMAP_DIR			:=	hashmap
+	FC_DIR				:=	fc
 	EXP_ARITH_DIR		:=	exp_arith
 	HEREDOC_DIR			:=	heredoc
 
@@ -62,7 +63,9 @@ SRC_DIR	:=	srcs
 					$(EXPANDS_DIR) $(SIGNALS_DIR) $(LINE_EDIT_DIR) \
 					$(BUILTINS_DIR) $(REDIR_DIR) $(EXEC_DIR) $(AUTO_COMP_DIR) \
 					$(EXP_ARITH_DIR) $(HEREDOC_DIR) \
-					$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_DIR))
+					$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_DIR))\
+					$(addprefix $(BUILTINS_DIR)/,$(FC_DIR))
+
 
 
 #VPATH specifies a list of directories that 'make' should search
@@ -100,7 +103,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c \
 						cmd_type.c cmd_setenv.c cmd_unsetenv.c cmd_echo.c \
 						cmd_exit_utils.c cmd_cd_utils.c cmd_env.c \
-						cmd_env_check.c cmd_fc.c cmd_fc_init.c
+						cmd_env_check.c 
 	REDIR_FILES		:=	redir_dgreat.c redir_fd_great.c fd_utils.c \
 						redir_great.c redir_less.c parse_redirections.c \
 						redir_fd_less.c redirections_errors.c redir_fd_utils.c \
@@ -120,6 +123,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 	HASHMAP_FILES	:=	find_next_prime.c hash_main.c hashfun.c hashmap.c \
 						hashmap_alloc.c hashmap_delete.c hashmap_print.c \
 						get_hash_args.c hashmap_errors.c
+	FC_FILES		:=	cmd_fc.c cmd_fc_init.c cmd_fc_errors.c \
+						cmd_fc_parsing_editor.c cmd_fc_parsing_flag_utils.c
 	EXP_ARITH_FILES	:=	build_list.c check_errors.c create_op_link.c \
 						exec_op_list.c exec_op_list_2.c exec_op_list_3.c \
 						expansion_arith.c free_list.c array_utils.c \
@@ -135,7 +140,7 @@ C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES) \
 			$(HISTORY_FILES) $(EXPANDS_FILES) $(SIGNALS_FILES) \
 			$(LINE_EDIT_FILES) $(BUILTINS_FILES) $(REDIR_FILES) $(EXEC_FILES) \
 			$(HASHMAP_FILES) $(AUTO_COMP_FILES) $(EXP_ARITH_FILES) \
-			$(HEREDOC_FILES)
+			$(HEREDOC_FILES) $(FC_FILES)
 
 # Complete path of each .c files ###############################################
 SRC_PATH			:=	$(addprefix $(SRC_DIR)/,$(SRC_FILES))
@@ -155,8 +160,10 @@ REDIR_PATH			:=	$(addprefix $(REDIR_DIR)/,$(REDIR_FILES))
 EXEC_PATH			:=	$(addprefix $(EXEC_DIR)/,$(EXEC_FILES))
 EXP_ARITH_PATH		:=	$(addprefix $(EXP_ARITH_DIR)/,$(EXP_ARITH_FILES))
 HASHMAP_PATH		:=	$(addprefix $(HASHMAP_DIR)/,$(HASHMAP_FILES))
+FC_PATH				:=	$(addprefix $(FC_DIR)/,$(FC_FILES))
 #	builtin/ + hashmap/*.c
 HASHMAP_PATH		:=	$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_PATH))
+FC_PATH				:=	$(addprefix $(FC_DIR)/,$(FC_PATH))
 HEREDOC_PATH		:=	$(addprefix $(HEREDOC_DIR)/,$(HEREDOC_FILES))
 
 
@@ -177,6 +184,7 @@ SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(EXEC_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(EXP_ARITH_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(HASHMAP_PATH)) \
+			$(addprefix $(SRC_DIR)/,$(FC_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(HEREDOC_PATH)) \
 			$(SRC_PATH)
 

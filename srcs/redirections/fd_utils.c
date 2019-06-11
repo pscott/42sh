@@ -1,4 +1,5 @@
 #include "ftsh.h"
+#include <sys/stat.h>
 
 /*
 **	Saving std fds : mode 1 is saving, mode 0 is restoring
@@ -6,8 +7,11 @@
 
 static	int		dup2_print_err(int old, int new)
 {
-	int ret;
+	int				ret;
+	struct	stat	buf;
 
+	if (fstat(old, &buf))
+		return (-1);
 	if ((ret = dup2(old, new)) == -1)
 		ft_dprintf(2, SHELL_NAME ": error: dup2 failed\n");
 	return (ret);
@@ -15,9 +19,12 @@ static	int		dup2_print_err(int old, int new)
 
 static	void	close_saves(int one, int two, int three)
 {
-	close(one);
-	close(two);
-	close(three);
+	if (one != -1)
+		close(one);
+	if (two != -1)
+		close(two);
+	if (three != -1)
+		close(three);
 }
 
 void			save_reset_stdfd(int mode)
@@ -37,6 +44,9 @@ void			save_reset_stdfd(int mode)
 	}
 	else if (mode == 0 && lastmode == 1)
 	{
+		close(0);
+		close(1);
+		close(2);
 		dup2_print_err(in, STDIN_FILENO);
 		dup2_print_err(out, STDOUT_FILENO);
 		dup2_print_err(err, STDERR_FILENO);

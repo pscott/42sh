@@ -20,7 +20,10 @@ typedef enum	e_cmd_id {
 	cmd_type,
 }				t_cmd_id;
 
-enum	{invalid_option};
+typedef enum	e_fc_error{
+	invalid_option = 1,
+	invalid_mix
+}				t_fc_error;
 
 int		check_builtins(char **argv);
 int		exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id);

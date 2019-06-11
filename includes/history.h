@@ -96,6 +96,8 @@ int						handle_quitting_chars_and_bcksp(char buf,
 
 int						init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv);
 int						parse_editor_fc(char **argv, int i);
+int						parse_case_s_fc(t_st_fc *st_fc, char **argv, int i);
+int						get_first_and_last(t_st_fc *st_fc, char **argv, int i);
 int						error_fc(char *s, int i, int type, t_st_fc *st_fc);
 int						is_valid_mix(char flag[4], char c);
 int						is_valid_option(char c);

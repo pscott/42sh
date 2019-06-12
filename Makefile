@@ -127,7 +127,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 						is_oper.c op_tokenizer.c op_tokenizer_clean.c \
 						op_tokenizer_clean_2.c op_tokenizer_dirty.c \
 						op_tokenizer_utils.c put_op_link.c ft_isempty.c
-	HEREDOC_FILES	:=	heredoc.c heredoc_utils.c get_doc.c save_heredoc.c
+	HEREDOC_FILES	:=	heredoc.c heredoc_utils.c get_doc.c save_heredoc.c \
+						clean_heredoc.c
 
 #list of all .c files
 C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES) \

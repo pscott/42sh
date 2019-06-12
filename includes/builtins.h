@@ -50,7 +50,10 @@ int		is_zero(char *str);
 
 char	*get_directory(const char *env_key, const char **env);
 char	*get_cwd_value(const char **env);
-char	*relative_directory(const char *path, const char **env);
+char	*relative_directory(const char *path, const char **env, int opt);
+int		get_cd_options(char **argv, int *pos);
+char	*cut_path_string(char *str, int slash);
+int		get_path(char ***path, t_vars *vars);
 
 /*
 **	Env utils

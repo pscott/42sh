@@ -9,7 +9,7 @@
 **	Returns 0 on success, else returns 1.
 */
 
-static int	change_environ(char *new_wd, char ***env)
+static int	change_environ(char *new_wd, char ***env, int opt)
 {
 	char			*old_pwd;
 	char			*pwd;
@@ -23,8 +23,16 @@ static int	change_environ(char *new_wd, char ***env)
 	}
 	if ((ret = chdir(new_wd)) == -1)
 		print_errors(ERR_CHDIR, ERR_CHDIR_STR, new_wd);
-	if (!(pwd = getcwd(NULL, 0)))
-		return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
+	if (opt == 'L' || opt == 0)
+	{
+		if (!(pwd = strdup(new_wd)))
+			clean_exit(1, 1);
+	}
+	else
+	{
+		if (!(pwd = getcwd(NULL, 0)))
+			return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
+	}
 	set_env_var("PWD", pwd, env);
 	ft_strdel(&new_wd);
 	ft_strdel(&pwd);
@@ -33,12 +41,27 @@ static int	change_environ(char *new_wd, char ***env)
 
 static int	check_cd_usage(char **argv)
 {
-	int				i;
+	int		i;
+	int		k;
 
-	i = 0;
-	while (argv[i])
+	i = 1;
+	k = 0;
+	while (argv[i] && argv[i][0] == '-'
+			&& !(argv[i][0] == '-' && argv[i][1] == '\0'))
+	{
+		if (!ft_strcmp(argv[i], "--"))
+		{
+			i++;
+			break ;
+		}
 		i++;
-	if (i > 2)
+	}
+	while (argv[i])
+	{
+		i++;
+		k++;
+	}
+	if (k > 1)
 	{
 		ft_dprintf(2, SHELL_NAME ": cd: too many arguments\n");
 		return (1);
@@ -77,25 +100,29 @@ int			case_cd(char **argv, char ***env)
 {
 	char			*dest;
 	int				ret;
+	char			opt;
+	int				pos;
 
+	if ((opt = get_cd_options(argv, &pos)) == -1)
+		return (1);
 	if (check_cd_usage(argv))
 		return (1);
-	if (!(argv[1]) || is_full_of_whitespaces(argv[1]))
+	if (!(argv[pos]))
 		dest = get_directory("HOME", (const char**)*env);
-	else if (ft_strncmp(argv[1], "-", 2) == 0)
+	else if (ft_strncmp(argv[pos], "-", 2) == 0)
 	{
 		if ((dest = get_directory("OLDPWD", (const char**)*env)))
 			ft_dprintf(1, "%s\n", dest);
 	}
-	else if (argv[1][0] == '/')
+	else if (argv[pos][0] == '/')
 	{
-		if (!(dest = ft_strdup(argv[1])))
+		if (!(dest = ft_strdup(argv[pos])))
 			clean_exit(1, 1);
 	}
 	else
-		dest = relative_directory(argv[1], (const char**)*env);
+		dest = relative_directory(argv[pos], (const char**)*env, opt);
 	if ((ret = is_error(dest)) != 0)
 		return (del_and_return_cd(&dest, ret));
 	else
-		return (change_environ(dest, env));
+		return (change_environ(dest, env, opt));
 }

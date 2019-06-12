@@ -153,6 +153,5 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 	ft_dprintf(2, "old: %s\nnew: %s\n", st_fc->old_ptrn, st_fc->new_ptrn);
 	ft_dprintf(2, "editor:%s\n", st_fc->editor);
 */	
-
 	return (0);
 }

@@ -18,8 +18,8 @@ typedef enum	e_cmd_id {
 	cmd_unsetenv,
 	cmd_hash,
 	cmd_type,
-	cmd_fc,
-	cmd_history
+	cmd_history,
+	cmd_fc
 }				t_cmd_id;
 
 int		check_builtins(char **argv);

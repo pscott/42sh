@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hashmap_alloc.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/12 15:38:06 by aschoenh          #+#    #+#             */
+/*   Updated: 2019/06/12 15:51:00 by aschoenh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "hashmap.h"
 
 /*
@@ -38,22 +50,21 @@ t_hash_item	*create_new_item(const char *key, const char *value)
 
 t_hashmap	*init_hashmap(int size)
 {
-	t_hashmap	*new_table;
+	t_hashmap	*new_t;
 	int			i;
 
-	if (!(new_table = (t_hashmap*)malloc(sizeof(*new_table))))
+	if (!(new_t = (t_hashmap*)malloc(sizeof(*new_t))))
 		clean_exit(1, 1);
-	if (!(new_table->items =
-			(t_hash_item**)malloc(sizeof(t_hash_item*) * size)))
+	if (!(new_t->items = (t_hash_item**)malloc(sizeof(t_hash_item*) * size)))
 	{
-		ft_memdel((void*)&new_table);
+		ft_memdel((void*)&new_t);
 		clean_exit(1, 1);
 	}
-	new_table->size = size;
+	new_t->size = size;
 	i = -1;
-	while (++i < new_table->size)
-		new_table->items[i] = NULL;
-	return (new_table);
+	while (++i < new_t->size)
+		new_t->items[i] = NULL;
+	return (new_t);
 }
 
 /*

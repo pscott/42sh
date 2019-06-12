@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fd_utils.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/12 15:38:05 by aschoenh          #+#    #+#             */
+/*   Updated: 2019/06/12 15:38:08 by aschoenh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ftsh.h"
 #include <sys/stat.h>
 
@@ -5,10 +17,10 @@
 **	Saving std fds : mode 1 is saving, mode 0 is restoring
 */
 
-static	int		dup2_print_err(int old, int new)
+static int		dup2_print_err(int old, int new)
 {
 	int				ret;
-	struct	stat	buf;
+	struct stat		buf;
 
 	if (fstat(old, &buf))
 		return (-1);
@@ -17,7 +29,7 @@ static	int		dup2_print_err(int old, int new)
 	return (ret);
 }
 
-static	void	close_saves(int one, int two, int three)
+static void		close_saves(int one, int two, int three)
 {
 	if (one != -1)
 		close(one);
@@ -44,9 +56,7 @@ void			save_reset_stdfd(int mode)
 	}
 	else if (mode == 0 && lastmode == 1)
 	{
-		close(0);
-		close(1);
-		close(2);
+		close_saves(0, 1, 2);
 		dup2_print_err(in, STDIN_FILENO);
 		dup2_print_err(out, STDOUT_FILENO);
 		dup2_print_err(err, STDERR_FILENO);

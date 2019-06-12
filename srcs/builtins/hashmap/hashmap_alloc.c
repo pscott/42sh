@@ -36,7 +36,7 @@ t_hash_item	*create_new_item(const char *key, const char *value)
 ** prime)
 */
 
-t_hashmap	*init_hashmap(size_t size)
+t_hashmap	*init_hashmap(int size)
 {
 	t_hashmap	*new_table;
 	int			i;
@@ -51,7 +51,7 @@ t_hashmap	*init_hashmap(size_t size)
 	}
 	new_table->size = size;
 	i = -1;
-	while (++i < (int)new_table->size)
+	while (++i < new_table->size)
 		new_table->items[i] = NULL;
 	return (new_table);
 }
@@ -65,28 +65,14 @@ t_hashmap	*init_hashmap(size_t size)
 
 t_hashmap	*resize_up_hashmap(t_hashmap *old_map)
 {
-	size_t		new_size;
+	int			new_size;
 	t_hashmap	*new_map;
 
-	if (!(new_size = (size_t)find_next_prime(old_map->size)))
+	if (!(new_size = find_next_prime(old_map->size)))
 	{
 		ft_dprintf(STDERR_FILENO, "%s: Couldn't add to hashmap.\n");
 		return (old_map);
 	}
-	if (!(new_map = init_hashmap(new_size)))
-		clean_exit(1, 1);
-	cpy_hashmap(old_map, &new_map);
-	delete_hashmap(old_map);
-	return (new_map);
-}
-
-//delete me
-t_hashmap	*resize_down_hashmap(t_hashmap *old_map)
-{
-	size_t		new_size;
-	t_hashmap	*new_map;
-
-	new_size = (size_t)find_prev_prime(old_map->size);
 	if (!(new_map = init_hashmap(new_size)))
 		clean_exit(1, 1);
 	cpy_hashmap(old_map, &new_map);
@@ -106,13 +92,16 @@ void		cpy_hashmap(t_hashmap *old_map, t_hashmap **new_map)
 	t_hash_item	*prev_probe;
 
 	i = -1;
-	while ((++i < (int)old_map->size) && (item_probe = old_map->items[i]))
+	while (++i < old_map->size)
 	{
-		while (item_probe)
+		if ((item_probe = old_map->items[i]))
 		{
-			prev_probe = item_probe;
-			item_probe = item_probe->next;
-			add_to_hashmap(prev_probe->key, prev_probe->value, new_map);
+			while (item_probe)
+			{
+				prev_probe = item_probe;
+				item_probe = item_probe->next;
+				add_to_hashmap(prev_probe->key, prev_probe->value, new_map);
+			}
 		}
 	}
 }

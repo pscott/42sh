@@ -14,12 +14,12 @@ static void	delete_hashmap_item(t_hash_item *item)
 
 void		delete_hashmap(t_hashmap *hashmap)
 {
-	int			i;
-	t_hash_item	*item_probe;
-	t_hash_item	*prev_probe;
+	int				i;
+	t_hash_item		*item_probe;
+	t_hash_item		*prev_probe;
 
 	i = -1;
-	while (++i < (int)hashmap->size)
+	while (++i < hashmap->size)
 	{
 		if (hashmap->items[i])
 		{
@@ -65,9 +65,9 @@ int			replace_item(t_hash_item *item, const char *value)
 
 int			pop_hashmap_item(const char *key, t_hashmap *hashmap)
 {
-	size_t		index;
-	t_hash_item	*item_probe;
-	t_hash_item	*prev_probe;
+	int				index;
+	t_hash_item		*item_probe;
+	t_hash_item		*prev_probe;
 
 	if (!check_hashmap(key, hashmap, hash_check))
 		return (0);

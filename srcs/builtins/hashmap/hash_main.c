@@ -25,7 +25,7 @@ static char	**get_hash_paths(char **env)
 */
 
 static int	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc,
-	char **argv)
+			char **argv)
 {
 	int		i;
 	int		return_value;
@@ -45,8 +45,12 @@ static int	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc,
 			return_value = 1;
 		}
 		else
+		{
 			add_to_hashmap(argv[i], value, &vars->hashmap);
+			ft_strdel(&value);
+		}
 	}
+	ft_free_ntab(paths);
 	return (return_value);
 }
 

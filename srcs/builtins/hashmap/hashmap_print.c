@@ -26,7 +26,7 @@ void		print_hashmap(t_hashmap *hashmap)
 		return ;
 	ft_dprintf(STDOUT_FILENO, "hits\tcommand\n");
 	i = -1;
-	while (++i < (int)hashmap->size)
+	while (++i < hashmap->size)
 	{
 		item_probe = hashmap->items[i];
 		while (item_probe)
@@ -43,8 +43,10 @@ int			print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args,
 {
 	int			i;
 	const char	*value;
+	int			ret;
 
 	i = hash_args->name_index - 1;
+	ret = 0;
 	while (++i < argc)
 	{
 		if ((value = check_hashmap(argv[i], hashmap, hash_check)))
@@ -52,10 +54,10 @@ int			print_hashmap_l_args(t_hashmap *hashmap, t_hash_args *hash_args,
 		else
 		{
 			ft_dprintf(STDERR_FILENO, "hash: %s: not found\n", argv[i]);
-			return (1);
+			ret = 1;
 		}
 	}
-	return (0);
+	return (ret);
 }
 
 void		print_hashmap_l(t_hashmap *hashmap)

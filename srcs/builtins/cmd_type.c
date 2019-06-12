@@ -8,6 +8,17 @@ static void			print_error(const char *arg)
 	ft_dprintf(2, ": type: %s: not found\n", arg);
 }
 
+static void			print_hash_case(char *arg, char *path)
+{
+	ft_dprintf(STDOUT_FILENO, "%s is hashed (%s)\n", arg, path);
+}
+
+static void			print_path_case(char *arg, char **path)
+{
+	ft_dprintf(STDOUT_FILENO, "%s is %s\n", arg, *path);
+	ft_strdel(path);
+}
+
 /*
 **	Returns 0 if it succesfully executed. Else returns 1.
 */
@@ -27,9 +38,9 @@ int					case_type(char **argv, t_vars *vars)
 		if (check_builtins(&argv[i]))
 			ft_dprintf(STDOUT_FILENO, "%s is a shell builtin\n", argv[i]);
 		else if ((path = check_hashmap(argv[i], vars->hashmap, hash_check)))
-			ft_dprintf(STDOUT_FILENO, "%s is hashed (%s)\n", argv[i], path);
+			print_hash_case(argv[i], path);
 		else if ((path = get_cmd_path(argv[i], vars->env_vars, 0)))
-			ft_dprintf(STDOUT_FILENO, "%s is %s\n", argv[i], path);
+			print_path_case(argv[i], &path);
 		else
 		{
 			print_error(argv[i]);

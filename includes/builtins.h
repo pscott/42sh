@@ -18,7 +18,8 @@ typedef enum	e_cmd_id {
 	cmd_unsetenv,
 	cmd_hash,
 	cmd_type,
-	cmd_fc
+	cmd_fc,
+	cmd_history
 }				t_cmd_id;
 
 int		check_builtins(char **argv);
@@ -35,6 +36,7 @@ int		case_setenv(char **argv, t_vars *vars);
 int		case_unsetenv(char **argv, t_vars *vars);
 int		case_echo(char **argv);
 int		case_fc(char **argv);
+int		case_history(char **argv);
 
 /*
 **	Exit utils

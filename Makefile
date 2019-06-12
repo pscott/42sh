@@ -103,7 +103,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c \
 						cmd_type.c cmd_setenv.c cmd_unsetenv.c cmd_echo.c \
 						cmd_exit_utils.c cmd_cd_utils.c cmd_env.c \
-						cmd_env_check.c 
+						cmd_env_check.c cmd_history.c 
 	REDIR_FILES		:=	redir_dgreat.c redir_fd_great.c fd_utils.c \
 						redir_great.c redir_less.c parse_redirections.c \
 						redir_fd_less.c redirections_errors.c redir_fd_utils.c \
@@ -164,7 +164,7 @@ HASHMAP_PATH		:=	$(addprefix $(HASHMAP_DIR)/,$(HASHMAP_FILES))
 FC_PATH				:=	$(addprefix $(FC_DIR)/,$(FC_FILES))
 #	builtin/ + hashmap/*.c
 HASHMAP_PATH		:=	$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_PATH))
-FC_PATH				:=	$(addprefix $(FC_DIR)/,$(FC_PATH))
+FC_PATH				:=	$(addprefix $(BUILTINS_DIR)/,$(FC_PATH))
 HEREDOC_PATH		:=	$(addprefix $(HEREDOC_DIR)/,$(HEREDOC_FILES))
 
 

@@ -39,7 +39,7 @@ typedef enum			e_fc_error
 **	Retrieving and writing history to/from a file
 */
 
-t_hist_lst				*get_history(const char **env);
+t_hist_lst				*get_history(const char **env, int *hist_len_var);
 int						open_history(const char **env, int options);
 int						write_to_history(t_st_cmd *st_cmd, const char **env);
 int						get_next_line(const int fd, char **line);

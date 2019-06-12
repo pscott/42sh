@@ -50,6 +50,7 @@ typedef struct			s_st_cmd {
 	struct winsize		*window;
 	struct s_st_prompt	*st_prompt;
 	struct s_hist_lst	*hist_lst;
+	int					*hist_len;
 	struct s_st_cmd		*next;
 	struct s_st_cmd		*prev;
 }						t_st_cmd;

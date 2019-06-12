@@ -7,7 +7,7 @@
 **	with the env_key paramter. If env_key is not found in env, returns NULL.
 */
 
-char	*get_directory(const char *env_key, const char **env)
+char			*get_directory(const char *env_key, const char **env)
 {
 	char			*dest;
 
@@ -23,7 +23,7 @@ char	*get_directory(const char *env_key, const char **env)
 	return (dest);
 }
 
-char	*get_cwd_value(const char **env)
+char			*get_cwd_value(const char **env)
 {
 	char			*cwd;
 
@@ -41,7 +41,7 @@ char	*get_cwd_value(const char **env)
 	return (cwd);
 }
 
-char	*relative_directory(const char *path, const char **env)
+char			*relative_directory(const char *path, const char **env, int opt)
 {
 	char			*cwd;
 	char			*tmp;
@@ -51,11 +51,14 @@ char	*relative_directory(const char *path, const char **env)
 	cwd = get_cwd_value(env);
 	if (cwd[0] && cwd[0] == '/' && !cwd[1])
 		tmp = cwd;
+	else if (!ft_strcmp(path, "..") && opt != 'P')
+		return (cut_path_string(cwd, 1));
 	else
 	{
 		if (!(tmp = ft_strjoin(cwd, "/")))
 			clean_exit(1, 1);
 		ft_strdel(&cwd);
+		tmp = cwd;
 	}
 	if (!(dest = ft_strjoin(tmp, path)))
 		clean_exit(1, 1);

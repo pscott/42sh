@@ -92,8 +92,3 @@ char			*cut_path_string(char *str, int slash)
 		clean_exit(1, 1);
 	return (new);
 }
-
-int				get_cdpath(char ***path, char ***env)
-{
-
-}

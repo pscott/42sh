@@ -80,7 +80,7 @@ int			case_cd(char **argv, char ***env)
 
 	if (check_cd_usage(argv))
 		return (1);
-	if (!(argv[1]))
+	if (!(argv[1]) || is_full_of_whitespaces(argv[1]))
 		dest = get_directory("HOME", (const char**)*env);
 	else if (ft_strncmp(argv[1], "-", 2) == 0)
 	{

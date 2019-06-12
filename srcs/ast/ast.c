@@ -13,27 +13,32 @@
 ** 4. insert right
 */
 
-static int		insert_ast_node(t_ast *new_ast_node, t_ast **ast_root)
+static int		insert_ast_node(t_ast *new, t_ast **root)
 {
-	if (!new_ast_node)
+	t_token_type new_type;
+	t_token_type root_type;
+
+	if (!new)
 		return (0);
-	if (!*(ast_root))
+	if (!*(root))
 	{
-		*ast_root = new_ast_node;
+		*root = new;
 		return (1);
 	}
-	if (new_ast_node->token->type >= (*ast_root)->token->type)
+	new_type = new->token->type == tk_or ? tk_and : new->token->type;
+	root_type = (*root)->token->type == tk_or ? tk_and : (*root)->token->type;
+	if (new_type >= root_type)
 	{
-		new_ast_node->left = *ast_root;
-		*ast_root = new_ast_node;
+		new->left = *root;
+		*root = new;
 		return (1);
 	}
 	else
 	{
-		if (!(*ast_root)->left)
-			return (insert_ast_node(new_ast_node, &(*ast_root)->left));
+		if (!(*root)->left)
+			return (insert_ast_node(new, &(*root)->left));
 		else
-			return (insert_ast_node(new_ast_node, &((*ast_root)->right)));
+			return (insert_ast_node(new, &((*root)->right)));
 	}
 }
 

@@ -10,6 +10,7 @@
 static void		execute_exit(int exitno)
 {
 	print_exit();
+	save_close_openfds(0, 0);
 	save_reset_stdfd(0);
 	clean_exit(exitno, 0);
 }
@@ -27,7 +28,11 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	if ((ret = parse_expands(token_head, vars)) != 0)
 		return (ret);
 	if ((ret = parse_redirections(token_head, 1) > 0))
+	{
+		save_close_openfds(0, 0);
+		save_reset_stdfd(0);
 		return (ret);
+	}
 	argv = NULL;
 	get_argv_from_token_lst(token_head, &argv);
 	ret = exec_builtins(argv, vars, cmd_id);

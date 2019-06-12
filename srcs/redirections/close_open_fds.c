@@ -30,6 +30,7 @@ static	void	del_fd_save(t_c_lst **lst)
 		ptr = (*lst)->next;
 		close((*lst)->fd);
 		free(*lst);
+		(*lst) = NULL;
 		(*lst) = ptr;
 	}
 }
@@ -41,5 +42,8 @@ void			save_close_openfds(int fd, int mode)
 	if (mode == 1)
 		create_fd_save(fd, &lst);
 	else
+	{
 		del_fd_save(&lst);
+		lst = NULL;
+	}
 }

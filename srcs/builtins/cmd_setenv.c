@@ -53,7 +53,7 @@ static int	check_usage_setenv(char **argv)
 	i = 0;
 	while (argv[i])
 		i++;
-	if (i > 3 || i < 2)
+	if (i > 3)
 	{
 		ft_dprintf(STDERR_FILENO, "usage: setenv VAR [VALUE]\n");
 		return (1);
@@ -69,6 +69,11 @@ int			case_setenv(char **argv, t_vars *vars)
 {
 	int ret;
 
+	if (!argv[1])
+	{
+		ft_print_ntab(vars->env_vars);
+		return (0);
+	}
 	if (check_usage_setenv(argv))
 		return (1);
 	if ((ret = check_errors_setenv(argv)))

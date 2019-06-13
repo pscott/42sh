@@ -71,7 +71,7 @@ void					insert_txt(t_st_cmd *st_cmd, const char *buf);
 
 int						checkers(t_st_cmd *st_cmd, t_vars *vars, char *buf,
 		int mode);
-int						check_for_arrows(t_st_cmd *st_cmd, const char *buf);
+int						check_for_arrows(t_st_cmd *st_cmd, const char *buf, t_vars *vars);
 int						check_for_quit(t_st_cmd *st_cmd, const char *buf);
 int						check_for_enter(const char *buf);
 int						check_for_signal(const char *buf);

@@ -51,7 +51,7 @@ static int	check_for_arrows_delete_tab_words(t_st_cmd *st_cmd,
 			char *buf, t_vars *vars, int mode)
 {
 	if (check_for_select_mode(st_cmd, buf, vars)
-		|| check_for_arrows(st_cmd, buf) 
+		|| check_for_arrows(st_cmd, buf, vars) 
 		|| check_for_words(st_cmd, buf)
 		|| check_for_tab(st_cmd, buf, vars, mode)
 		|| check_for_delete(st_cmd, buf)

@@ -9,25 +9,25 @@
 **	DOWNARROW, LEFTARROW, RIGHTARROW, HOME and END keys.
 */
 
-int		check_for_arrows(t_st_cmd *st_cmd, const char *buf)
+int		check_for_arrows(t_st_cmd *st_cmd, const char *buf, t_vars *vars)
 {
-	if (ft_strncmp(buf, RIGHTARROW, ARROW_LEN + 1) == 0)
+	if (ft_strequ(buf, RIGHTARROW))
 		move_arrow_right(st_cmd);
-	else if (ft_strncmp(buf, LEFTARROW, ARROW_LEN + 1) == 0)
+	else if (ft_strequ(buf, LEFTARROW))
 		move_arrow_left(st_cmd);
-	else if (ft_strncmp(buf, UPARROW, ARROW_LEN + 1) == 0)
+	else if (!vars->select_mode && ft_strequ(buf, UPARROW))
 		get_previous_history(st_cmd);
-	else if (ft_strncmp(buf, DOWNARROW, ARROW_LEN + 1) == 0)
+	else if (!vars->select_mode && ft_strequ(buf, DOWNARROW))
 		get_next_history(st_cmd);
-	else if (ft_strncmp(buf, HOME, HOME_LEN + 1) == 0
-		|| ft_strncmp(buf, "\x01", 2) == 0)
+	else if (ft_strequ(buf, HOME)
+		|| ft_strequ(buf, "\x01"))
 		go_to_start(st_cmd);
-	else if (ft_strncmp(buf, END, END_LEN + 1) == 0
-		|| ft_strncmp(buf, "\x05", 2) == 0)
+	else if (ft_strequ(buf, END)
+		|| ft_strequ(buf, "\x05"))
 		go_to_end(st_cmd);
-	else if (ft_strncmp(buf, ALT_UP, ALT_UP_LEN + 1) == 0)
+	else if (ft_strequ(buf, ALT_UP))
 		go_up(st_cmd);
-	else if (ft_strncmp(buf, ALT_DOWN, ALT_DOWN_LEN + 1) == 0)
+	else if (ft_strequ(buf, ALT_DOWN))
 		go_down(st_cmd);
 	else
 		return (0);

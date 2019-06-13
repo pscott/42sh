@@ -92,3 +92,31 @@ char			*cut_path_string(char *str, int slash)
 	ft_strdel(&str);
 	return (new);
 }
+
+/*
+**	Cut the last slash in the string
+*/
+
+char			*remove_last_slashs(char *dest)
+{
+	char	*new;
+	int		i;
+
+	i = 0;
+	while (dest[i])
+		i++;
+	if (i > 0)
+		i--;
+	if (dest[i] == '/')
+	{
+		while (i > 0 && dest[i] == '/')
+			i--;
+		if (dest[i] != '/')
+			i++;
+		if (!(new = ft_strndup(dest, i)))
+			clean_exit(1, 1);
+		ft_strdel(&dest);
+		return (new);
+	}
+	return (dest);
+}

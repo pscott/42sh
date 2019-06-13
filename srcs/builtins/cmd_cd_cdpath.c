@@ -33,6 +33,7 @@ static char		*find_cdpath(const char *file, char **paths)
 {
 	unsigned int	i;
 	char			*path_w_slash;
+	char			*possible_path;
 
 	if (!*file || !ft_strncmp(".", file, 2) || !ft_strncmp("..", file, 3)
 			|| !paths)
@@ -41,9 +42,15 @@ static char		*find_cdpath(const char *file, char **paths)
 	while (paths[i])
 	{
 		path_w_slash = join_path_slash(paths[i]);
-		if (check_access(path_w_slash) == 0)
+		if (!(possible_path = ft_strjoin(path_w_slash, file)))
+			clean_exit(1, 1);
+		if (check_access(possible_path) == 0)
+		{
+			ft_strdel(&possible_path);
 			return (path_w_slash);
+		}
 		ft_strdel(&path_w_slash);
+		ft_strdel(&possible_path);
 		i++;
 	}
 	return (NULL);
@@ -66,7 +73,7 @@ static int		get_cdpath(char ***path, char **env)
 }
 
 int				check_cdpath_var(const char *path, const char **env,
-		char **tmp)
+		char **tmp, int *check)
 {
 	char	**cdpath;
 
@@ -78,5 +85,6 @@ int				check_cdpath_var(const char *path, const char **env,
 		return (1);
 	}
 	ft_free_ntab(cdpath);
+	*check = 1;
 	return (0);
 }

@@ -9,11 +9,14 @@
 **	Returns 0 on success, else returns 1.
 */
 
-static int	change_environ(char *new_wd, char ***env, int opt)
+static int	change_environ(char *new_wd, char ***env, int opt, int cdpath)
 {
 	char			*old_pwd;
 	char			*pwd;
 	int				ret;
+	char buf[1000];
+
+	ft_bzero(&buf, 1000);
 
 	ft_initialize_str(&pwd, &old_pwd, NULL, NULL);
 	if ((old_pwd = get_directory("PWD", (const char**)*env)))
@@ -34,6 +37,8 @@ static int	change_environ(char *new_wd, char ***env, int opt)
 			return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
 	}
 	set_env_var("PWD", pwd, env);
+	if (cdpath)
+		ft_printf("%s\n", pwd);
 	ft_strdel(&new_wd);
 	ft_strdel(&pwd);
 	return (ret);
@@ -102,7 +107,9 @@ int			case_cd(char **argv, char ***env)
 	int				ret;
 	char			opt;
 	int				pos;
+	int				cdpath;
 
+	cdpath = 0;
 	if ((opt = get_cd_options(argv, &pos)) == -1)
 		return (1);
 	if (check_cd_usage(argv))
@@ -120,9 +127,11 @@ int			case_cd(char **argv, char ***env)
 			clean_exit(1, 1);
 	}
 	else
-		dest = relative_directory(argv[pos], (const char**)*env, opt);
+		dest = relative_directory(argv[pos], (const char**)*env, opt, &cdpath);
+	dest = remove_last_slashs(dest);
+	ft_printf("in cmd cd : %s\n", dest);
 	if ((ret = is_error(dest)) != 0)
 		return (del_and_return_cd(&dest, ret));
 	else
-		return (change_environ(dest, env, opt));
+		return (change_environ(dest, env, opt, cdpath));
 }

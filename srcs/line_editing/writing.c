@@ -7,9 +7,21 @@
 void	write_char(t_st_cmd *st_cmd)
 {
 	char	to_write;
+	int		selected;
+	t_vars	*vars;
 
+	vars = get_vars(NULL);
 	to_write = st_cmd->st_txt->txt[st_cmd->st_txt->tracker];
+	selected = vars->select_mode
+		&& ((st_cmd->st_txt->tracker >= vars->select_end
+			&& st_cmd->st_txt->tracker <= vars->select_start)
+		|| (st_cmd->st_txt->tracker >= vars->select_start
+			&&  st_cmd->st_txt->tracker <= vars->select_end));
+	if (selected)
+		execute_str(HIGHLIGHT);
 	write(TERM_FD, &to_write, 1);
+	if (selected)
+		execute_str(NO_HIGHLIGHT);
 	if (st_cmd->cursor_pos.col == st_cmd->window->ws_col - 1)
 		execute_str(MOVE_DOWN);
 	increment_pos(to_write, &st_cmd->cursor_pos, st_cmd->window);

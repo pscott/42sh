@@ -11,9 +11,9 @@ typedef struct			s_vars
 	int					cmd_value;
 	int					verbose;
 	char				*copy;
-	char				*select_start;
 	int					select_mode;
-	size_t				select_size;
+	size_t				select_start;
+	size_t				select_end;
 }						t_vars;
 
 #endif

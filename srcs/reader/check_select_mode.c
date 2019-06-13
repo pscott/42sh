@@ -63,12 +63,18 @@ int			check_for_select_mode(t_st_cmd *st_cmd, char *buf, t_vars *vars)
 {
 	if (ft_strequ(buf, F1_KEY))
 	{
-		if (vars->select_mode == 0)
-			vars->select_start = &st_cmd->st_txt->txt[st_cmd->st_txt->tracker];
 		vars->select_mode = !vars->select_mode;
+		if (vars->select_mode == 0)
+		{
+			reposition_cursor(st_cmd, 0);
+			write_st_cmd(st_cmd);
+			reposition_cursor(st_cmd, vars->select_end);
+		}
+		vars->select_start = st_cmd->st_txt->tracker;
+		vars->select_end = st_cmd->st_txt->tracker;
 		return (1);
 	}
-	if (vars->select_mode)
+	else if (vars->select_mode)
 	{
 		selector(st_cmd, buf, vars);
 		return (1);

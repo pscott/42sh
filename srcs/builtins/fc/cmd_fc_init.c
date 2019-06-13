@@ -23,7 +23,7 @@ static int		fc_parse_flags(t_st_fc *st_fc, char **argv)
 		while (argv[i][++j])
 		{
 			if (!is_valid_option(argv[i][j]))
-				return (error_fc(argv[i], j, invalid_option, st_fc));//return error directement
+				return (error_fc(argv[i], j, invalid_option, st_fc));
 			if (((is_val = is_valid_mix(st_fc->flag, argv[i][j]))) == 1)
 				st_fc->flag[++k] = argv[i][j];
 			else if (is_val == -1)
@@ -34,6 +34,12 @@ static int		fc_parse_flags(t_st_fc *st_fc, char **argv)
 		i++;
 	return (i);
 }
+
+/*
+**	Parse operands depending on activated flags.
+**	Return (0) on success.
+**	Returns (-1) if the editor asked cannot be found in PATH.
+*/
 
 static int		fc_parse_operands(t_st_fc *st_fc, char **argv, int i)
 {
@@ -56,6 +62,13 @@ static int		fc_parse_operands(t_st_fc *st_fc, char **argv, int i)
 		get_first_and_last(st_fc, argv, i);
 	return (0);
 }
+
+/*
+**	Get the index of a char *to_find in the history.
+**	Returns (i), the index, on success.
+**	Returns -1 on failure (i.e the index is invalid, such as -8945+2,
+**		which is considered as an option).
+*/
 
 static int	find_index_fc(t_st_cmd *st_cmd, char *to_find)
 {
@@ -96,6 +109,13 @@ static int	find_index_fc(t_st_cmd *st_cmd, char *to_find)
 	return (i);
 }
 
+/*
+**	Get the good values for index_first and index_last in our
+**		struct_fc (i.e i_last cannot be superior to hist_len...).
+**	Returns 0 on success.
+**	Returns 1 if find_index failed.
+*/
+
 static int		fc_parse_index(t_st_cmd *st_cmd, t_st_fc *st_fc)
 {
 	if (st_fc->flag[0] == 's')
@@ -103,12 +123,12 @@ static int		fc_parse_index(t_st_cmd *st_cmd, t_st_fc *st_fc)
 		if (!st_fc->first)
 			st_fc->i_first = (*st_cmd->hist_len) - 1;
 		else
-			st_fc->i_first = find_index_fc(st_cmd, st_fc->first);
+			st_fc->i_first = find_index_fc(st_cmd, st_fc->first);// chec -1
 	}
 	else
 	{
 		if (st_fc->first)
-			st_fc->i_first = find_index_fc(st_cmd, st_fc->first);
+			st_fc->i_first = find_index_fc(st_cmd, st_fc->first);// check -1
 		else
 		{
 			if (ft_strchr(st_fc->flag, 'l'))
@@ -122,7 +142,7 @@ static int		fc_parse_index(t_st_cmd *st_cmd, t_st_fc *st_fc)
 				st_fc->i_last = (*st_cmd->hist_len) - 1;
 		}
 		if (st_fc->last)
-			st_fc->i_last = find_index_fc(st_cmd, st_fc->last);
+			st_fc->i_last = find_index_fc(st_cmd, st_fc->last); // check -1
 		else if (ft_strchr(st_fc->flag, 'l'))
 			st_fc->i_last = (*st_cmd->hist_len) - 1;
 		else
@@ -131,6 +151,14 @@ static int		fc_parse_index(t_st_cmd *st_cmd, t_st_fc *st_fc)
 	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 	return (0);
 }
+
+/*
+**	Fill the struct_fc with adequate values : 
+**		flags, char *first & last, index first & last, pattern substitution,
+**		& editor used.
+**	Returns 0 on success.
+**	Returns 1 on failure.
+*/
 
 int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 {
@@ -147,11 +175,25 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 	if ((fc_parse_operands(st_fc, argv, start_operand)) == -1)
 		return (1);
 	fc_parse_index(st_cmd, st_fc);
-/*	
+	/*
 	ft_dprintf(2, "first: %s\nlast: %s\n", st_fc->first, st_fc->last);
 	ft_dprintf(2, "i_first: %d\ni_last: %d\n", st_fc->i_first, st_fc->i_last);
 	ft_dprintf(2, "old: %s\nnew: %s\n", st_fc->old_ptrn, st_fc->new_ptrn);
 	ft_dprintf(2, "editor:%s\n", st_fc->editor);
-*/	
+	*/
+	if (st_fc->i_first && st_fc->i_last && !ft_strchr(st_fc->flag, 's')
+		&& st_fc->i_first > st_fc->i_last
+		&& !ft_strchr(st_fc->flag, 'r'))
+	{
+		st_fc->i_first ^= st_fc->i_last;
+		st_fc->i_last ^= st_fc->i_first;
+		st_fc->i_first ^= st_fc->i_last;
+	}
+	/*
+	ft_dprintf(2, "first: %s\nlast: %s\n", st_fc->first, st_fc->last);
+	ft_dprintf(2, "i_first: %d\ni_last: %d\n", st_fc->i_first, st_fc->i_last);
+	ft_dprintf(2, "old: %s\nnew: %s\n", st_fc->old_ptrn, st_fc->new_ptrn);
+	ft_dprintf(2, "editor:%s\n", st_fc->editor);
+	*/
 	return (0);
 }

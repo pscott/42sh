@@ -6,7 +6,7 @@ int				parse_case_s_fc(t_st_fc *st_fc, char **argv, int i)
 {
 	int			len;
 
-	ft_dprintf(2, "%s %d\n\n", argv[i], i);
+//	ft_dprintf(2, "%s %d\n\n", argv[i], i);
 	if (ft_strchr(argv[i], '='))
 	{
 		len = ft_strlen_char(argv[i], '=');

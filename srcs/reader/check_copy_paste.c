@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   check_copy_paste.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/12 15:38:02 by aschoenh          #+#    #+#             */
-/*   Updated: 2019/06/12 15:54:23 by aschoenh         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ftsh.h"
 #include "line_editing.h"
 
@@ -40,7 +28,8 @@ static void	copy_endline(t_st_cmd *st_cmd, t_vars *vars)
 	ft_strdel(&vars->copy);
 	if (!st_cmd->st_txt->txt[st_cmd->st_txt->tracker])
 		ft_putstr(BELL);
-	else if (!(vars->copy = ft_strdup(st_cmd->st_txt->txt
+	else if (!(vars->copy =
+			ft_strdup(st_cmd->st_txt->txt
 				+ st_cmd->st_txt->tracker)))
 		clean_exit(1, 1);
 }

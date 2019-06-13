@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_quotes.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/12 15:38:02 by aschoenh          #+#    #+#             */
-/*   Updated: 2019/06/12 15:52:50 by aschoenh         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "lexer.h"
 #include "ast.h"
 
@@ -25,8 +13,8 @@ static int		expand_squotes(t_token *token_head)
 	if (*token_head->content == '\'' || *token_head->content == '"')
 	{
 		old_content = token_head->content;
-		if (!(token_head->content = ft_strndup(
-					(const char*)&(*(token_head->content + 1)),
+		if (!(token_head->content =
+				ft_strndup((const char*)&(*(token_head->content + 1)),
 					ft_strlen(token_head->content) - 2)))
 			clean_exit(1, 1);
 		ft_strdel(&old_content);

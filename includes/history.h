@@ -94,6 +94,10 @@ int						handle_quitting_chars_and_bcksp(char buf,
 **	FC functions
 */
 
+/*
+**			*	Lexing, parsing and utils functions
+*/
+
 int						init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv);
 int						parse_editor_fc(char **argv, int i);
 int						parse_case_s_fc(t_st_fc *st_fc, char **argv, int i);
@@ -101,5 +105,22 @@ int						get_first_and_last(t_st_fc *st_fc, char **argv, int i);
 int						error_fc(char *s, int i, int type, t_st_fc *st_fc);
 int						is_valid_mix(char flag[4], char c);
 int						is_valid_option(char c);
+
+/*
+**			*	Actual executing functions
+*/
+
+char					*fc_s_yes_old_yes_new(t_st_fc *st_fc, char *hist_curr,
+							int old_cmd_len);
+char					*fc_s_yes_old_no_new(t_st_fc *st_fc, char *hist_curr,
+							int old_cmd_len);
+char					*fc_s_no_old_yes_new(t_st_fc *st_fc,
+							int old_cmd_len);
+int						fc_edit_execute_cmd(char *file);
+int						fc_edit_open_editor(t_st_cmd *st_cmd, t_st_fc *st_fc,
+							char **tmp_file, int tmp_file_fd);
+int						fc_edit_open_file(t_st_cmd *st_cmd, t_st_fc *st_fc,
+							char **tmp_file);
+
 
 #endif

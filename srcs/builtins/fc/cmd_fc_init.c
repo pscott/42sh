@@ -111,7 +111,7 @@ static int	find_index_fc(t_st_cmd *st_cmd, char *to_find)
 
 /*
 **	Get the good values for index_first and index_last in our
-**		struct_fc (i.e i_last cannot be superior to hist_len...).
+**		struct_fc.
 **	Returns 0 on success.
 **	Returns 1 if find_index failed.
 */
@@ -154,7 +154,7 @@ static int		fc_parse_index(t_st_cmd *st_cmd, t_st_fc *st_fc)
 
 /*
 **	Fill the struct_fc with adequate values : 
-**		flags, char *first & last, index first & last, pattern substitution,
+**		flags, char *first & last, index first & last, pattern substitution
 **		& editor used.
 **	Returns 0 on success.
 **	Returns 1 on failure.
@@ -189,7 +189,11 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 		st_fc->i_last ^= st_fc->i_first;
 		st_fc->i_first ^= st_fc->i_last;
 	}
-	/*
+	if (st_fc->i_last > st_cmd->hist_len)
+		st_fc->i_last = st_cmd->hist_len;
+	
+
+		/*
 	ft_dprintf(2, "first: %s\nlast: %s\n", st_fc->first, st_fc->last);
 	ft_dprintf(2, "i_first: %d\ni_last: %d\n", st_fc->i_first, st_fc->i_last);
 	ft_dprintf(2, "old: %s\nnew: %s\n", st_fc->old_pattern, st_fc->new_pattern);

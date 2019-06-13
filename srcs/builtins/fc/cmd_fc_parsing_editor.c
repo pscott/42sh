@@ -12,9 +12,7 @@ static int		search_in_precise_path(char *path, char *to_find)
 	while ((ent = readdir(dir)))
 	{
 		if (!ft_strcmp(to_find, ent->d_name))
-		{
 			return (1);
-		}
 	}
 	if (closedir(dir) == -1)
 		return (0);

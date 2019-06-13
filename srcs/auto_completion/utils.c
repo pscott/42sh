@@ -4,7 +4,7 @@ unsigned int		get_cols_term(void)
 {
 	struct winsize	s;
 
-	ioctl(2, TIOCGWINSZ, &s);
+	update_window_struct(&s);
 	return (s.ws_col);
 }
 

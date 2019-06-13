@@ -54,6 +54,7 @@ char	*relative_directory(const char *path, const char **env, int opt);
 int		get_cd_options(char **argv, int *pos);
 char	*cut_path_string(char *str, int slash);
 int		get_path(char ***path, t_vars *vars);
+int		check_cdpath_var(const char *path, const char **env, char **tmp);
 
 /*
 **	Env utils

@@ -42,36 +42,6 @@ char			*get_cwd_value(const char **env)
 }
 
 /*
-**	Utils for CDPATH env value
-*/
-
-static int		get_cdpath(char ***path, char **env)
-{
-	char		*tmpath;
-
-	if (!env)
-		return (1);
-	if (!(tmpath = get_envline_value("CDPATH", env)))
-	{
-		*path = NULL;
-		return (1);
-	}
-	if (!(*path = ft_strsplit(tmpath, ":")))
-		clean_exit(1, 1);
-	return (0);
-}
-
-static int		check_cdpath_variable(const char *path, const char **env,
-		char **tmp)
-{
-	char	**cdpath;
-
-	if (get_cdpath(&cdpath, (char **)env))
-		return (1);
-	return (1);
-}
-
-/*
 **	Get the right path with getcwd call, for easier chdir execution
 */
 
@@ -89,16 +59,16 @@ char			*relative_directory(const char *path, const char **env, int opt)
 		return (cut_path_string(cwd, 1));
 	else
 	{
-		if (check_cdpath_variable(path, env, &tmp))
+		if (check_cdpath_var(path, env, &tmp))
 		{
 			if (!(tmp = ft_strjoin(cwd, "/")))
 				clean_exit(1, 1);
 			ft_strdel(&cwd);
-			tmp = cwd;
 		}
 	}
 	if (!(dest = ft_strjoin(tmp, path)))
 		clean_exit(1, 1);
 	ft_strdel(&tmp);
+	ft_strdel(&cwd);
 	return (dest);
 }

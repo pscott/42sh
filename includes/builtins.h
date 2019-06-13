@@ -57,7 +57,7 @@ char	*cut_path_string(char *str, int slash);
 int		get_path(char ***path, t_vars *vars);
 int		check_cdpath_var(const char *path, const char **env, char **tmp,
 		int *cdpath);
-char	*remove_last_slashs(char *dest);
+char	*format_path_string(char *dest);
 
 /*
 **	Env utils

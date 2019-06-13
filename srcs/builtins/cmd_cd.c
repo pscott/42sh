@@ -128,8 +128,11 @@ int			case_cd(char **argv, char ***env)
 	}
 	else
 		dest = relative_directory(argv[pos], (const char**)*env, opt, &cdpath);
-	dest = remove_last_slashs(dest);
-	ft_printf("in cmd cd : %s\n", dest);
+//	dest = format_path_string(dest);
+	ft_printf("Before format : %s\n", dest);
+	dest = format_path_string(dest);
+	ft_printf("After format : %s\n", dest);
+
 	if ((ret = is_error(dest)) != 0)
 		return (del_and_return_cd(&dest, ret));
 	else

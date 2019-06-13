@@ -7,12 +7,12 @@ int				parse_case_s_fc(t_st_fc *st_fc, char **argv, int i)
 	int			len;
 
 //	ft_dprintf(2, "%s %d\n\n", argv[i], i);
-	if (ft_strchr(argv[i], '='))
+	if (argv[i] && ft_strchr(argv[i], '='))
 	{
 		len = ft_strlen_char(argv[i], '=');
-		if (!(st_fc->old_ptrn = ft_strndup(argv[i], len)))
+		if (!(st_fc->old_pattern = ft_strndup(argv[i], len)))
 			clean_exit(1, 1);
-		if (!(st_fc->new_ptrn = ft_strdup(argv[i] + len + 1)))
+		if (!(st_fc->new_pattern = ft_strdup(argv[i] + len + 1)))
 			clean_exit(1, 1);
 		if (argv[i + 1])
 		{
@@ -20,7 +20,7 @@ int				parse_case_s_fc(t_st_fc *st_fc, char **argv, int i)
 				clean_exit(1, 1);
 		}
 	}
-	else
+	else if (argv[i])
 		if (!(st_fc->first = ft_strdup(argv[i])))
 			clean_exit(1, 1);
 	return (0);

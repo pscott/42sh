@@ -4,7 +4,7 @@
 # include "input.h"
 
 # define HIST_FILE "~/.21sh_history"
-# define HIST_SIZE 500
+# define HIST_SIZE 32767
 
 typedef struct			s_hist_lst
 {
@@ -22,8 +22,8 @@ typedef struct			s_st_fc
 	int					i_first;
 	char				*last;
 	int					i_last;
-	char				*old_ptrn;
-	char				*new_ptrn;
+	char				*old_pattern;
+	char				*new_pattern;
 	char				*editor;
 }						t_st_fc;
 

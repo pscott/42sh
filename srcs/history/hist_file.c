@@ -46,6 +46,7 @@ static t_hist_lst	*construct_history(int fd, int *hist_len)
 		ft_strdel(&line);
 		hist_lst = insert_right(hist_lst, append_with_newline, 1);
 		++(*hist_len);
+		ft_dprintf(2, "{{%d}}", *hist_len);
 		ft_strdel(&append_with_newline);
 		if (++id > 1000)
 			break ;
@@ -66,6 +67,7 @@ t_hist_lst			*get_history(const char **env, int *hist_len)
 	if ((fd = open_history(env, O_RDONLY | O_NOFOLLOW)) < 0)
 		return (NULL);
 	hist_lst = construct_history(fd, hist_len);
+		ft_dprintf(2, "||%d||", *hist_len);
 	close(fd);
 	return (hist_lst);
 }

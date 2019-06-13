@@ -72,7 +72,8 @@ SRC_DIR	:=	srcs
 VPATH	:=	$(SRC_DIR) $(addprefix $(SRC_DIR)/,$(SRC_SUBDIRS))
 
 # Srcs file names ##############################################################
-SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
+SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c \
+				tmp_file.c
 	ENV_FILES		:=	environ_set.c environ_utils.c init_env.c shlvl.c\
 						environ_unset.c
 	ERRORS_FILES	:=	errors.c print_errors.c error_exit.c
@@ -109,7 +110,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 						redir_fd_less.c redirections_errors.c redir_fd_utils.c \
 						close_open_fds.c
 	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c \
-						execute_no_pipe_builtin.c exit_status.c
+						execute_no_pipe_builtin.c exit_status.c exec_bin.c
 	AUTO_COMP_FILES	:=	auto_completion.c auto_completion_x_arg.c \
 						bin_first_arg.c compare_entry.c \
 						create_match_link.c del_match.c \

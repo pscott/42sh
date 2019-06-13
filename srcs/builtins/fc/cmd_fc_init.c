@@ -178,7 +178,7 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 	/*
 	ft_dprintf(2, "first: %s\nlast: %s\n", st_fc->first, st_fc->last);
 	ft_dprintf(2, "i_first: %d\ni_last: %d\n", st_fc->i_first, st_fc->i_last);
-	ft_dprintf(2, "old: %s\nnew: %s\n", st_fc->old_ptrn, st_fc->new_ptrn);
+	ft_dprintf(2, "old: %s\nnew: %s\n", st_fc->old_pattern, st_fc->new_pattern);
 	ft_dprintf(2, "editor:%s\n", st_fc->editor);
 	*/
 	if (st_fc->i_first && st_fc->i_last && !ft_strchr(st_fc->flag, 's')
@@ -192,7 +192,7 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 	/*
 	ft_dprintf(2, "first: %s\nlast: %s\n", st_fc->first, st_fc->last);
 	ft_dprintf(2, "i_first: %d\ni_last: %d\n", st_fc->i_first, st_fc->i_last);
-	ft_dprintf(2, "old: %s\nnew: %s\n", st_fc->old_ptrn, st_fc->new_ptrn);
+	ft_dprintf(2, "old: %s\nnew: %s\n", st_fc->old_pattern, st_fc->new_pattern);
 	ft_dprintf(2, "editor:%s\n", st_fc->editor);
 	*/
 	return (0);

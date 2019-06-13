@@ -107,6 +107,19 @@ static int			token_length(t_token **probe)
 	return (argv_len);
 }
 
+//TMP TMP TMP
+void	print_token_list(t_token *th)
+{
+	t_token	*probe;
+
+	probe = th;
+	while (probe)
+	{
+		ft_dprintf(2, "t:%d\t|%s|\n", probe->type, probe->content);
+		probe = probe->next;
+	}
+}
+
 /*
 **	outdated
 **	Returns a freshly allocated array of strings corresponding to the argv
@@ -115,6 +128,11 @@ static int			token_length(t_token **probe)
 **	on the token_head.
 */
 
+//TODO
+//i could parse assign before and pass the result through args,
+//if args_len = 0: apply assign on current vars->shell_vars; RETURN 1
+//if args_len > 0: apply assign on a tmp cpy; RETURN 0
+
 int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 {
 	int				argv_len;
@@ -122,9 +140,11 @@ int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 
 	if (!(probe = token_head))
 		return (1);
+	print_token_list(token_head);//test
 	argv_len = 0;
 	while (probe)
 	{
+		//TODO check if assign here ?
 		if (is_argv_token(probe))
 			argv_len += token_length(&probe);
 		while (probe && probe->type == tk_eat)
@@ -133,7 +153,10 @@ int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 			break ;
 	}
 	if (argv_len < 1)
+	{
+		ft_dprintf(2, "argv_len < 1\n");
 		return (1);
+	}
 	*argv = create_argv(token_head, argv_len);
 	return (0);
 }

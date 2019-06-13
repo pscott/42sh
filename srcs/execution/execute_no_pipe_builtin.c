@@ -58,10 +58,12 @@ static char		**fake_argv(t_token *token_head, t_vars *vars)
 	t_token					*cpy;
 	char					**argv;
 
+	ft_dprintf(2, "LSKDJFLSKDJFLSDKFJ\n");
 	argv = NULL;
 	vars->verbose = 0;
 	cpy = copy_tokens(token_head);
 	parse_expands(cpy, vars);
+	//parse_assignation(cpy, vars);
 	parse_redirections(cpy, -1);
 	get_argv_from_token_lst(cpy, &argv);
 	free_token_list(cpy);

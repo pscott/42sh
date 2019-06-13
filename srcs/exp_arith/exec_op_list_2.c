@@ -10,17 +10,18 @@ static	long long	calc_bas(long long nb1, long long nb2, int token, int *err)
 		return (nb1 - nb2);
 	if (token == TK_MULT)
 		return (nb1 * nb2);
-	if (token == TK_DIV)
+	if (token == TK_DIV || token == TK_MOD)
 	{
 		if (nb2 == 0)
 		{
 			*err = 4;
 			return (0);
 		}
-		return (nb1 / nb2);
+		if (token == TK_DIV)
+			return (nb1 / nb2);
+		else
+			return (nb1 % nb2);
 	}
-	if (token == TK_MOD)
-		return (nb1 % nb2);
 	return (0);
 }
 

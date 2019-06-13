@@ -1,6 +1,5 @@
 #include "builtins.h"
 
-
 /*
 **	Get right option for cd
 */
@@ -90,5 +89,6 @@ char			*cut_path_string(char *str, int slash)
 		i = 1;
 	if (!(new = ft_strndup(str, i)))
 		clean_exit(1, 1);
+	ft_strdel(&str);
 	return (new);
 }

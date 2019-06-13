@@ -67,7 +67,7 @@ SRC_FILES	:=	ft_printf.c getters.c isprint_special.c parse_struct.c			\
 							ft_print_ntab.c ft_strlen_char.c ft_initialize_str.c\
 							ft_strrstr.c ft_strjoin_free_left.c ft_strrnstr.c	\
 							ft_strnlen.c ft_free_str_return_char.c ft_max.c		\
-							ft_is_quote_space_par_meta.c
+							ft_is_quote_space_par_meta.c ft_min.c
 	CONVERSION_FILES	:=	conv_helper.c converters.c
 	FORMATS_FILES		:=	format_int.c format_char.c format_unsigned.c		\
 							format_string.c format_conv.c format_p.c			\

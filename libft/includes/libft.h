@@ -15,6 +15,7 @@ enum			{white_space = 1, parenth, quote};
 
 void			ft_bzero(void *s, size_t n);
 int				ft_max(const int a, const int b);
+int				ft_min(const int a, const int b);
 int				ft_isalpha(int c);
 unsigned int	ft_is_quote(char c);
 unsigned int	ft_is_white_space(char c);

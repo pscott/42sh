@@ -30,6 +30,8 @@ void			update_window_struct(struct winsize *window)
 		ft_dprintf(2, "error ioctl: exiting!\n");
 		clean_exit(1, 0);
 	}
+	window->ws_col = ft_max(window->ws_col, 0);
+	window->ws_row = ft_max(window->ws_col, 0);
 }
 
 /*

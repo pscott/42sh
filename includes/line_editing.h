@@ -49,6 +49,12 @@ void					delete_right(t_st_cmd *st_cmd);
 void					delete_left(t_st_cmd *st_cmd);
 
 /*
+**	Copy/paste
+*/
+
+void					selector(t_st_cmd *st_cmd, char *buf, t_vars *vars);
+
+/*
 **	Jump words
 */
 

@@ -34,26 +34,43 @@ static void	copy_endline(t_st_cmd *st_cmd, t_vars *vars)
 		clean_exit(1, 1);
 }
 
-/*
-**	Checks for copy, paste and cut characters.
-*/
-
-int			check_for_copy_paste(t_st_cmd *st_cmd, char *buf, t_vars *vars)
+static int tmp(t_st_cmd *st_cmd, char *buf, t_vars *vars)
 {
-	if (ft_strncmp(buf, ALT_X, ALT_X_LEN + 1) == 0)
+	if (ft_strequ(buf, ALT_X))
 	{
 		copy_endline(st_cmd, vars);
 		delete_endline(st_cmd);
 		return (1);
 	}
-	else if (ft_strncmp(buf, ALT_C, ALT_C_LEN + 1) == 0)
+	else if (ft_strequ(buf, ALT_C))
 	{
 		copy_endline(st_cmd, vars);
 		return (1);
 	}
-	else if (ft_strncmp(buf, ALT_V, ALT_V_LEN + 1) == 0)
+	else if (ft_strequ(buf, ALT_V))
 	{
 		paste_endline(st_cmd, vars);
+		return (1);
+	}
+	return (0);
+}
+
+/*
+**	Checks for copy, paste and cut characters.
+*/
+
+int			check_for_select_mode(t_st_cmd *st_cmd, char *buf, t_vars *vars)
+{
+	if (ft_strequ(buf, F1_KEY))
+	{
+		if (vars->select_mode == 0)
+			vars->select_start = &st_cmd->st_txt->txt[st_cmd->st_txt->tracker];
+		vars->select_mode = !vars->select_mode;
+		return (1);
+	}
+	if (vars->select_mode)
+	{
+		selector(st_cmd, buf, vars);
 		return (1);
 	}
 	return (0);

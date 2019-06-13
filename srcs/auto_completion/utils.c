@@ -1,3 +1,4 @@
+#include "line_editing.h"
 #include "auto_completion.h"
 
 unsigned int		get_cols_term(void)

@@ -71,6 +71,9 @@
 # define ALT_LEFT "\x1b\x1b\x5b\x44"
 # define ALT_LEFT_LEN 4
 
+# define F1_KEY "\033OP"
+# define F1_KEY_LEN 3
+
 /*
 ** Previous terminal settings are saved in a global, and restored on exit.
 */

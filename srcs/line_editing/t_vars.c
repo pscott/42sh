@@ -23,7 +23,6 @@ t_vars	*get_vars(t_vars *new_vars)
 
 void	reset_copy_vars(t_vars *vars)
 {
-	//ft_strdel(&vars->copy);
 	vars->select_mode = 0;
 	vars->select_start = 0;
 	vars->select_end = 0;

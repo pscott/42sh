@@ -1,7 +1,7 @@
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 
-#include <stdlib.h>
+# include <stdlib.h>
 
 typedef struct			s_vars
 {

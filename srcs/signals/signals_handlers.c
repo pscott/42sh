@@ -10,6 +10,7 @@
 void			sig_handler(int signo)
 {
 	execute_str(CLEAR_BELOW);
+	restore_init_cursor();
 	reset_terminal_settings();
 	ft_dprintf(STDERR_FILENO, "Interrupted by signal: %d\n", signo);
 	exit(signo);
@@ -40,6 +41,7 @@ void			sigint_handler(int signo)
 	reset_copy_vars(vars);
 	st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;
 	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
+	restore_init_cursor();
 	execute_str(MOVE_DOWN);
 }
 

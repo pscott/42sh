@@ -5,7 +5,7 @@
 **	Moves every character in the string `shift_no' bytes to the left
 */
 
-static	void	shift_chars_left(char *str, unsigned int shift_no)
+void	shift_chars_left(char *str, unsigned int shift_no)
 {
 	size_t i;
 

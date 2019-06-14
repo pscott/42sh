@@ -41,8 +41,10 @@ void		merge_pos(t_pos *new_pos, t_pos *old_pos)
 	if ((y = old_pos->row - new_pos->row) < 0)
 		old_pos->col = 0;
 	x = old_pos->col - new_pos->col;
+	execute_str(INVISIBLE);
 	move_vertically(y);
 	move_horizontally(x);
+	execute_str(VISIBLE);
 	old_pos->col = new_pos->col;
 	old_pos->row = new_pos->row;
 }

@@ -37,8 +37,10 @@ void	write_st_cmd(t_st_cmd *st_cmd)
 {
 	if (!isatty(STDIN_FILENO))
 		return ;
+	execute_str(INVISIBLE);
 	while (st_cmd->st_txt->tracker != st_cmd->st_txt->data_size)
 		write_char(st_cmd);
+	execute_str(VISIBLE);
 }
 
 /*

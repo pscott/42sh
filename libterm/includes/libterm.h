@@ -88,6 +88,7 @@ static int				g_isatty = 0;
 int						setup_terminal_settings(void);
 int						reset_terminal_settings(void);
 int						check_caps(void);
+void					restore_init_cursor(void);
 
 /*
 ** Executes the corresponding termcap string

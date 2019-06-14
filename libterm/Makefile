@@ -40,7 +40,8 @@ SRC_DIR	:=	srcs
 VPATH	:=	$(SRC_DIR) $(addprefix $(SRC_DIR)/,$(SRC_SUBDIRS))
 
 # Srcs file names ##############################################################
-SRC_FILES	:=	execute_cap.c termcap_settings.c check_caps.c
+SRC_FILES	:=	execute_cap.c termcap_settings.c check_caps.c \
+				restore_init_cursor.c
 	#srcs subfiles names
 	ERRORS_FILES	:=	error_attr.c error_caps.c error_getenv.c \
 						error_tgoto.c error_isatty.c error_tgetent.c

@@ -71,5 +71,5 @@ int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	ast_root = create_ast(token_head);
 	ret = exec_ast(ast_root, vars);
 	free_ast(ast_root);
-	return (ret);
+	return (ret == -2 ? 1 : ret);
 }

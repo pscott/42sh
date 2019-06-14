@@ -68,7 +68,58 @@ static void		remove_wrong_slashs(char **dest)
 }
 
 /*
-**	Remove the useless ./ in the string
+**	Remove the useless /../ in the string and the folder before
+*/
+
+static char		*remove_useless_dotdot(char *dest)
+{
+	char	*new;
+	int		i;
+
+	i = 0;
+	new = dest;
+	while (new[i])
+	{
+		printf("remove_dotdot : %s\n", new);
+		if (!ft_strncmp(new + i, "/../", 4))
+		{
+			if (i == 0 && new[i] == '/')
+				i++;
+			else
+				new = remove_n_char(new, i);
+			new = remove_n_char(new, i);
+			new = remove_n_char(new, i);
+			i--;
+			while (i >= 0 && new[i] != '/')
+			{
+				new = remove_n_char(new, i);
+				i--;
+			}
+			if (new[i] == '/')
+				new = remove_n_char(new, i);
+			i = 0;
+		}
+		i++;
+	}
+	ft_printf("remove dotdot after loop : %s\n", new);
+	if (i > 2)
+		i -= 3;
+	if (i > 0 && !ft_strncmp(new + i, "/..", 3))
+	{
+		new = remove_n_char(new, i);
+		new = remove_n_char(new, i);
+		new = remove_n_char(new, i);
+	}
+	else if (i == 0 && new[i] && new[i + 1] == '.')
+	{
+		new = remove_n_char(new, i + 1);
+		new = remove_n_char(new, i + 1);
+	}
+	return (new);
+}
+
+/*
+**	Remove the useless /./ in the string
 */
 
 static char		*remove_useless_dots(char *dest)
@@ -80,16 +131,25 @@ static char		*remove_useless_dots(char *dest)
 	new = dest;
 	while (new[i])
 	{
-		printf("%s\n", new);
-		if (i != 0 && new[i] && new[i + 1] && new[i] == '/'
-				&& new[i + 1] == '.')
+		printf("remove_dot : %s\n", new);
+		if (!ft_strncmp(new + i, "/./", 3))
 		{
 			new = remove_n_char(new, i);
 			new = remove_n_char(new, i);
 			i = 0;
 		}
-		i++;
+		else
+			i++;
 	}
+	if (i > 1)
+		i -= 2;
+	if (i > 0 && !ft_strncmp(new + i, "/.", 2))
+	{
+		new = remove_n_char(new, i);
+		new = remove_n_char(new, i);
+	}
+	else if (i == 0 && new[i] && new[i + 1] == '.')
+		new = remove_n_char(new, i + 1);
 	return (new);
 }
 
@@ -100,9 +160,11 @@ char			*format_path_string(char *dest)
 	printf("----------------------\n");
 	new = ft_strdup(dest);
 	remove_wrong_slashs(&new);
+	ft_printf("AFTER REMOVE SLASH : %s\n", new);
 	new = remove_useless_dots(new);
-	ft_printf("IN FORMAT PATH STRING : %s\n", new);
+	ft_printf("AFTER REMOVE DOTS : %s\n", new);
+	new = remove_useless_dotdot(new);
+	ft_printf("AFTER REMOVE DOTDOT : %s\n", new);
 	printf("----------------------\n");
-	ft_strdel(&dest);
 	return (new);
 }

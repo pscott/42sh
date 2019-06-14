@@ -109,6 +109,7 @@ int			case_cd(char **argv, char ***env)
 	int				pos;
 	int				cdpath;
 
+	ft_print_ntab(argv);
 	cdpath = 0;
 	if ((opt = get_cd_options(argv, &pos)) == -1)
 		return (1);
@@ -128,7 +129,7 @@ int			case_cd(char **argv, char ***env)
 	}
 	else
 		dest = relative_directory(argv[pos], (const char**)*env, opt, &cdpath);
-//	dest = format_path_string(dest);
+	printf("|%s|\n", argv[pos]);
 	ft_printf("Before format : %s\n", dest);
 	dest = format_path_string(dest);
 	ft_printf("After format : %s\n", dest);

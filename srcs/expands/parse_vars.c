@@ -44,11 +44,6 @@ static void			substitute_param(char **str, size_t *i,
 	ft_strdel((char**)&var_name);
 }
 
-/*
-**	the shell stop execution on a bad substitution,
-**	and set $? to 1
-*/
-
 static const char	*bad_substitution(const char *str, t_vars *vars)
 {
 	if (vars->verbose)

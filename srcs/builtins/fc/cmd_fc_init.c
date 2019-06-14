@@ -19,19 +19,23 @@ static int		fc_parse_flags(t_st_fc *st_fc, char **argv)
 	while (argv[++i] && argv[i][0] == '-' && ft_strncmp(argv[i], "--", 3))
 	{
 		j = 0;
-		k = -1;
+		k = 0;
 		while (argv[i][++j])
 		{
-			if (!is_valid_option(argv[i][j]))
+			if ((k = is_valid_option(argv[i], j)) == 0)
 				return (error_fc(argv[i], j, invalid_option, st_fc));
+			else if (k == 2)
+				break ;
 			if (((is_val = is_valid_mix(st_fc->flag, argv[i][j]))) == 1)
-				st_fc->flag[++k] = argv[i][j];
+				st_fc->flag[ft_strlen_char(st_fc->flag, '.')] = argv[i][j];
 			else if (is_val == -1)
 				return (error_fc(argv[i], j, invalid_mix, st_fc));
 		}
 	}
 	if (!ft_strcmp(argv[i], "--"))
 		i++;
+	if (k == 2)
+		i -= 1;
 	return (i);
 }
 
@@ -75,16 +79,17 @@ static int	find_index_fc(t_st_cmd *st_cmd, char *to_find)
 
 	i = 0;
 	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
+	ft_dprintf(2, "to_f %s, his %s", to_find, st_cmd->hist_lst->txt);
 	if (st_cmd->hist_lst)
 	{
-		if (ft_isdigit(to_find[0]) || to_find[0] == '-')
+		if (ft_isdigit(to_find[0]) || (to_find[0] == '-' && ft_strcmp(to_find, "--")))
 		{
 			if (to_find[0] == '-')
 			{
 				i = 0;
 				while (to_find[++i] && ft_isdigit(to_find[i]))
 					;
-				if (to_find[i])
+				if (to_find[i] && ft_strcmp(to_find, "--"))
 					return (error_fc(to_find, i, invalid_option, NULL));//invalid option -> considere comme une opton
 			}
 			nb = ft_atoi(to_find);
@@ -169,15 +174,18 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 		(*st_fc).flag[i] = '.';
 	if ((start_operand = fc_parse_flags(st_fc, argv)) == -1)
 		return (1);
+	ft_dprintf(2, "i_first: %d\ni_last: %d\n", st_fc->i_first, st_fc->i_last);
+	ft_dprintf(2, "start_ope: %d\n", start_operand);
+	sleep(2);
 	if ((fc_parse_operands(st_fc, argv, start_operand)) == -1)
 		return (1);
 	fc_parse_index(st_cmd, st_fc);
-	/*
+	
 	ft_dprintf(2, "first: %s\nlast: %s\n", st_fc->first, st_fc->last);
-	ft_dprintf(2, "i_first: %d\ni_last: %d\n", st_fc->i_first, st_fc->i_last);
+	ft_dprintf(2, "hist_len: %d\n", *st_cmd->hist_len);
 	ft_dprintf(2, "old: %s\nnew: %s\n", st_fc->old_pattern, st_fc->new_pattern);
 	ft_dprintf(2, "editor:%s\n", st_fc->editor);
-	*/
+	
 	if (st_fc->i_first && st_fc->i_last && !ft_strchr(st_fc->flag, 's')
 		&& st_fc->i_first > st_fc->i_last
 		&& !ft_strchr(st_fc->flag, 'r'))
@@ -190,11 +198,12 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 		st_fc->i_last = *st_cmd->hist_len;
 	
 
-		/*
+		
+	ft_dprintf(2, "-------------------------\n");
 	ft_dprintf(2, "first: %s\nlast: %s\n", st_fc->first, st_fc->last);
 	ft_dprintf(2, "i_first: %d\ni_last: %d\n", st_fc->i_first, st_fc->i_last);
 	ft_dprintf(2, "old: %s\nnew: %s\n", st_fc->old_pattern, st_fc->new_pattern);
 	ft_dprintf(2, "editor:%s\n", st_fc->editor);
-	*/
+	
 	return (0);
 }

@@ -21,22 +21,22 @@ static void			free_st_fc(t_st_fc *st_fc)
 int					case_fc_display(t_st_cmd *st_cmd, t_st_fc *st_fc)
 {
 	int				i_curr;
-	t_hist_lst		hist_curr;
+	t_hist_lst		*hist_curr;
 
 	
 	i_curr = st_fc->i_first;
-	hist_curr = (*st_cmd->hist_lst);
-	while (hist_curr.prev && i_curr--)
-		hist_curr = (*hist_curr.prev);
+	if (ft_strchr(st_fc->flag, 'r'))
+		return (fc_display_reverse(st_cmd, st_fc));
+	hist_curr = get_begin_lst(st_cmd->hist_lst);
 	i_curr = st_fc->i_first;
-	while (i_curr <= st_fc->i_last && hist_curr.next)// no need to check if i_last > hist_len ?
+	while (i_curr <= st_fc->i_last && hist_curr->next)// no need to check if i_last > hist_len ?
 	{
 		if (!ft_strchr(st_fc->flag, 'n'))
 			ft_putnbr(i_curr);
 		//case multi ligne?
-		ft_printf("\t%s", hist_curr.txt);
+		ft_dprintf(1, "\t%s", hist_curr->txt);
 		i_curr++;
-		hist_curr = (*hist_curr.next);
+		hist_curr = hist_curr->next;
 	}
 	return (0);
 }

@@ -107,7 +107,7 @@ int						parse_case_s_fc(t_st_fc *st_fc, char **argv, int i);
 int						get_first_and_last(t_st_fc *st_fc, char **argv, int i);
 int						error_fc(char *s, int i, int type, t_st_fc *st_fc);
 int						is_valid_mix(char flag[4], char c);
-int						is_valid_option(char c);
+int						is_valid_option(char *s, int i);
 
 /*
 **			*	Actual executing functions
@@ -124,6 +124,7 @@ int						fc_edit_open_editor(t_st_cmd *st_cmd, t_st_fc *st_fc,
 							char **tmp_file, int tmp_file_fd);
 int						fc_edit_open_file(t_st_cmd *st_cmd, t_st_fc *st_fc,
 							char **tmp_file);
+int						fc_display_reverse(t_st_cmd *st_cmd, t_st_fc *st_fc);
 
 
 #endif

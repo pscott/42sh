@@ -60,26 +60,3 @@ int					fc_edit_open_editor(t_st_cmd *st_cmd, t_st_fc *st_fc,
 	ft_free_ntab(argv);
 	return (ret);
 }
-
-int					fc_edit_execute_cmd(char *file)
-{
-	t_st_cmd		*new_st_cmd;
-	t_vars			*new_vars;
-	int				fd;
-
-	new_vars = get_vars(NULL);
-	new_st_cmd = init_st_cmd((const char **)new_vars->env_vars);
-	if ((fd = open(file, O_RDONLY)) == -1)
-		return (1);
-	while (get_next_line(fd, &(new_st_cmd->st_txt->txt)) > 0)
-	{
-		ft_printf("%s\n", new_st_cmd->st_txt->txt);
-		new_vars->cmd_value = handle_input(new_st_cmd, new_vars);
-		free_st_txt(&(new_st_cmd->st_txt));
-	}
-	free_st_cmd(new_st_cmd);
-	get_vars(new_vars);
-	if (close(fd) == -1)
-		return (1);
-	return (0);
-}

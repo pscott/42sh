@@ -54,10 +54,7 @@ static int		fc_parse_operands(t_st_fc *st_fc, char **argv, int i)
 		get_first_and_last(st_fc, argv, i_editor + 1);
 	}
 	else if (st_fc->flag[0] == 's')
-	{
-
 		return (parse_case_s_fc(st_fc, argv, i));
-	}
 	else
 		get_first_and_last(st_fc, argv, i);
 	return (0);
@@ -189,8 +186,8 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 		st_fc->i_last ^= st_fc->i_first;
 		st_fc->i_first ^= st_fc->i_last;
 	}
-	if (st_fc->i_last > st_cmd->hist_len)
-		st_fc->i_last = st_cmd->hist_len;
+	if (st_fc->i_last > *st_cmd->hist_len)
+		st_fc->i_last = *st_cmd->hist_len;
 	
 
 		/*

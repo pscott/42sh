@@ -6,6 +6,8 @@
 # define HIST_FILE "~/.21sh_history"
 # define HIST_SIZE 32767
 
+enum {edit, substitute};//norme no typedef?
+
 typedef struct			s_hist_lst
 {
 	struct s_hist_lst	*prev;
@@ -39,7 +41,7 @@ typedef enum			e_fc_error
 **	Retrieving and writing history to/from a file
 */
 
-t_hist_lst				*get_history(const char **env, int *hist_len_var);
+t_hist_lst				*get_history(const char **env);
 int						open_history(const char **env, int options);
 int						write_to_history(t_st_cmd *st_cmd, const char **env);
 int						get_next_line(const int fd, char **line);
@@ -56,6 +58,7 @@ t_hist_lst				*create_hist_lst(const char *line, char keep);
 void					print_hist_lst(t_hist_lst *hist_lst);
 t_hist_lst				*get_end_lst(t_hist_lst *hist_lst);
 t_hist_lst				*get_begin_lst(t_hist_lst *hist_lst);
+int						get_hist_len(t_hist_lst *hist_lst);
 
 /*
 **	Getting previous history and next history and displaying it on screen
@@ -116,7 +119,7 @@ char					*fc_s_yes_old_no_new(t_st_fc *st_fc, char *hist_curr,
 							int old_cmd_len);
 char					*fc_s_no_old_yes_new(t_st_fc *st_fc,
 							int old_cmd_len);
-int						fc_edit_execute_cmd(char *file);
+int						fc_execute_cmd(char *file, int type);
 int						fc_edit_open_editor(t_st_cmd *st_cmd, t_st_fc *st_fc,
 							char **tmp_file, int tmp_file_fd);
 int						fc_edit_open_file(t_st_cmd *st_cmd, t_st_fc *st_fc,

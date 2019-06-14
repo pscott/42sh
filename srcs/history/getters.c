@@ -20,3 +20,22 @@ t_hist_lst		*get_end_lst(t_hist_lst *hist_lst)
 			hist_lst = hist_lst->next;
 	return (hist_lst);
 }
+
+int				get_hist_len(t_hist_lst *hist_lst)
+{
+	int			i;
+
+	if (!hist_lst)
+		return (0);
+	else
+	{
+		i = 0;
+		hist_lst = get_begin_lst(hist_lst);
+		while (hist_lst->next)
+		{
+			i++;
+			hist_lst = hist_lst->next;
+		}
+		return (i);
+	}
+}

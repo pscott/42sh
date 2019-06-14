@@ -37,7 +37,6 @@ static int			exec_env_bin(char *cmd_path, char **argv, char **new_env)
 
 	if ((status = env_access_check(cmd_path)) > 0)
 		return (status);
-	ft_dprintf(2, "ODODSKDSO");
 	if ((pid = fork()) == -1)
 	{
 		ft_dprintf(2, "fork error\n");

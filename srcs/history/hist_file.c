@@ -26,7 +26,7 @@ int					open_history(const char **env, int options)
 	return (fd);
 }
 
-static t_hist_lst	*construct_history(int fd, int *hist_len)
+static t_hist_lst	*construct_history(int fd)
 {
 	size_t			id;
 	char			*tmp;
@@ -45,19 +45,15 @@ static t_hist_lst	*construct_history(int fd, int *hist_len)
 		append_with_newline = ft_strjoin(&line[6], "\n");
 		ft_strdel(&line);
 		hist_lst = insert_right(hist_lst, append_with_newline, 1);
-		++(*hist_len);
-//		ft_dprintf(2, "{{%d}}", *hist_len);
 		ft_strdel(&append_with_newline);
 		if (++id > 1000)
 			break ;
 	}
-	if (*hist_len != 0)
-		(*hist_len)--;
 	ft_strdel(&tmp);
 	return (hist_lst);
 }
 
-t_hist_lst			*get_history(const char **env, int *hist_len)
+t_hist_lst			*get_history(const char **env)
 {
 	t_hist_lst		*hist_lst;
 	int				fd;
@@ -66,8 +62,7 @@ t_hist_lst			*get_history(const char **env, int *hist_len)
 		return (NULL);
 	if ((fd = open_history(env, O_RDONLY | O_NOFOLLOW)) < 0)
 		return (NULL);
-	hist_lst = construct_history(fd, hist_len);
-		ft_dprintf(2, "||%d||", *hist_len);
+	hist_lst = construct_history(fd);
 	close(fd);
 	return (hist_lst);
 }

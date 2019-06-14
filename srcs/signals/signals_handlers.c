@@ -75,9 +75,7 @@ void			sigcont_handler(int signo)
 	setup_terminal_settings();
 	if (!(st_cmd = get_st_cmd(NULL)))
 		return ;
-	st_cmd = get_last_st_cmd(st_cmd);
-	write_from_start(st_cmd);
-	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
+	sigwinch_handler(signo);
 }
 
 /*

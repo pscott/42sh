@@ -1,15 +1,7 @@
 #include "ftsh.h"
 #include "line_editing.h"
 
-static void	paste_selection(t_st_cmd *st_cmd, t_vars *vars)
-{
-	if (!vars->copy || vars->select_mode)
-		ft_putstr(BELL);
-	else
-		insert_txt(st_cmd, vars->copy);
-}
-
-static void	delete_selection(t_st_cmd *st_cmd, t_vars *vars)
+static void		delete_selection(t_st_cmd *st_cmd, t_vars *vars)
 {
 	t_st_txt	*txt;
 	size_t		select_size;
@@ -17,8 +9,10 @@ static void	delete_selection(t_st_cmd *st_cmd, t_vars *vars)
 	size_t		highest;
 
 	txt = st_cmd->st_txt;
-	lowest = vars->select_start < vars->select_end ? vars->select_start : vars->select_end;
-	highest = vars->select_start < vars->select_end ? vars->select_end : vars->select_start;
+	lowest = vars->select_start < vars->select_end
+		? vars->select_start : vars->select_end;
+	highest = vars->select_start < vars->select_end
+		? vars->select_end : vars->select_start;
 	select_size = highest - lowest + 1;
 	shift_chars_left(&txt->txt[lowest], select_size);
 	if (vars->select_end > vars->select_start)
@@ -34,7 +28,7 @@ static void	delete_selection(t_st_cmd *st_cmd, t_vars *vars)
 		txt->data_size = 0;
 }
 
-static void	copy_selection(t_st_cmd *st_cmd, t_vars *vars)
+static void		copy_selection(t_st_cmd *st_cmd, t_vars *vars)
 {
 	size_t	highest;
 	size_t	lowest;
@@ -43,14 +37,16 @@ static void	copy_selection(t_st_cmd *st_cmd, t_vars *vars)
 
 	ft_strdel(&vars->copy);
 	txt = st_cmd->st_txt->txt;
-	lowest = vars->select_start < vars->select_end ? vars->select_start : vars->select_end;
-	highest = vars->select_start < vars->select_end ? vars->select_end : vars->select_start;
+	lowest = vars->select_start < vars->select_end
+		? vars->select_start : vars->select_end;
+	highest = vars->select_start < vars->select_end
+		? vars->select_end : vars->select_start;
 	size = highest - lowest + 1;
 	if (!(vars->copy = ft_strndup(&txt[lowest], size)))
 		clean_exit(1, 1);
 }
 
-static int check_for_copy(t_st_cmd *st_cmd, char *buf, t_vars *vars)
+static int		check_for_copy(t_st_cmd *st_cmd, char *buf, t_vars *vars)
 {
 	if (ft_strequ(buf, ALT_X))
 	{
@@ -76,12 +72,13 @@ static int check_for_copy(t_st_cmd *st_cmd, char *buf, t_vars *vars)
 **	Checks for copy, paste and cut characters.
 */
 
-int			check_for_select_mode(t_st_cmd *st_cmd, char *buf, t_vars *vars)
+int				check_for_select_mode(t_st_cmd *st_cmd, char *buf, t_vars *vars)
 {
 	size_t	tmp;
 	size_t	lowest;
 
-	lowest = vars->select_start < vars->select_end ? vars->select_start : vars->select_end;
+	lowest = vars->select_start < vars->select_end
+		? vars->select_start : vars->select_end;
 	if (ft_strequ(buf, F1_KEY) || check_for_copy(st_cmd, buf, vars))
 	{
 		if (ft_strequ(buf, F1_KEY))
@@ -98,15 +95,8 @@ int			check_for_select_mode(t_st_cmd *st_cmd, char *buf, t_vars *vars)
 		vars->select_end = st_cmd->st_txt->tracker;
 		return (1);
 	}
-	else if (ft_strequ(buf, ALT_V))
-	{
-		paste_selection(st_cmd, vars);
+	else if (check_select_paste(st_cmd, buf, vars))
 		return (1);
-	}
-	else if (vars->select_mode)
-	{
-		selector(st_cmd, buf, vars);
-		return (1);
-	}
-	return (0);
+	else
+		return (0);
 }

@@ -53,7 +53,7 @@ void					shift_chars_left(char *str, unsigned int shift_no);
 **	Copy/paste
 */
 
-int					selector(t_st_cmd *st_cmd, char *buf, t_vars *vars);
+int						selector(t_st_cmd *st_cmd, char *buf, t_vars *vars);
 
 /*
 **	Jump words

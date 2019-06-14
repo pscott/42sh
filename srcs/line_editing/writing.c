@@ -16,7 +16,7 @@ void	write_char(t_st_cmd *st_cmd)
 		&& ((st_cmd->st_txt->tracker >= vars->select_end
 			&& st_cmd->st_txt->tracker <= vars->select_start)
 		|| (st_cmd->st_txt->tracker >= vars->select_start
-			&&  st_cmd->st_txt->tracker <= vars->select_end));
+			&& st_cmd->st_txt->tracker <= vars->select_end));
 	if (selected)
 		execute_str(HIGHLIGHT);
 	write(TERM_FD, &to_write, 1);

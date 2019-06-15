@@ -18,16 +18,16 @@ int					fc_edit_open_file(t_st_cmd *st_cmd, t_st_fc *st_fc, char **tmp_file)
 		ft_strdel(tmp_file);
 		return (-1);
 	}
-	diff = *st_cmd->hist_len - st_fc->i_first;
+	diff = *st_cmd->hist_len - st_fc->i_first + 1;
 	hist_curr = get_end_lst(st_cmd->hist_lst);
 	while (diff--)
 		hist_curr = hist_curr->prev;
 	diff = st_fc->i_last - st_fc->i_first + 1;
-
-	while (diff-- && hist_curr->next->next)
+	while (diff--)
 	{
 		ft_dprintf(tmp_file_fd, "%s", hist_curr->txt);
-		hist_curr = hist_curr->next;
+		if (hist_curr->next)
+			hist_curr = hist_curr->next;
 	}
 	if (close(tmp_file_fd) == -1)
 		return (-1);

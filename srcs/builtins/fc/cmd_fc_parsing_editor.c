@@ -44,7 +44,7 @@ static int		find_editor_in_path(char **path, char *arg)
 
 }
 
-static int		get_editor_fc(char **argv, int i)
+static int		get_editor_fc(char *to_find)
 {
 	char		**path;
 	t_vars		*vars;
@@ -55,7 +55,7 @@ static int		get_editor_fc(char **argv, int i)
 	get_path(&path, vars);
 	if (path == NULL || *path == NULL)
 		return (-1);
-	ret = find_editor_in_path(path, argv[i + 1]);
+	ret = find_editor_in_path(path, to_find);
 
 	return (ret);
 }
@@ -64,23 +64,26 @@ int				parse_editor_fc(char **argv, int i)
 {
 	int			j;
 	int			ret;
+	int			final;
+	char		*to_find;
 
 	j = 0;
-	while (argv[j] && j < i)
+	if (argv[i] && ft_strnequ(argv[i], "-e", 2) && argv[i][2])
 	{
-		if (argv[j][0] == '-' && ft_strchr(argv[j], 'e'))
-		{
-			if (!argv[j + 1])
-				return (error_fc(NULL, 0, editor_unspecified, NULL));
-			if ((ret = get_editor_fc(argv, j)) == -1)
-				return (error_fc(argv[j + 1], 0, path_unspecified, NULL));
-			else if (ret == 0)
-				return (error_fc(argv[j + 1], 0, cmd_not_found, NULL));
-			else
-				return (j + 1);
-		}
-		j++;
+		final = i;
+		to_find = argv[i] + 2; 
 	}
-	return (0);
-
+	else if (!argv[i + 1])
+		return (error_fc_histo(NULL, 0, editor_unspecified, NULL));
+	else
+	{
+		final = i + 1;
+		to_find = argv[i + 1];
+	}
+	if ((ret = get_editor_fc(to_find)) == -1)
+		return (error_fc(to_find, 0, path_unspecified, NULL));
+	else if (ret == 0)
+		return (error_fc(to_find, 0, cmd_not_found, NULL));
+	else
+		return (final);
 }

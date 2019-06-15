@@ -22,14 +22,14 @@ static int		fc_parse_flags(t_st_fc *st_fc, char **argv)
 		k = 0;
 		while (argv[i][++j])
 		{
-			if ((k = is_valid_option(argv[i], j)) == 0)
-				return (error_fc(argv[i], j, invalid_option, st_fc));
+			if ((k = is_valid_option(argv[i], j)) == 0 && !ft_strnequ(argv[i], "-e", 2))
+				return (error_fc_histo(argv[i], j, invalid_option, st_fc));
 			else if (k == 2)
 				break ;
 			if (((is_val = is_valid_mix(st_fc->flag, argv[i][j]))) == 1)
 				st_fc->flag[ft_strlen_char(st_fc->flag, '.')] = argv[i][j];
 			else if (is_val == -1)
-				return (error_fc(argv[i], j, invalid_mix, st_fc));
+				return (error_fc_histo(argv[i], j, invalid_mix, st_fc));
 		}
 		if (k == 2)
 			break;
@@ -51,9 +51,13 @@ static int		fc_parse_operands(t_st_fc *st_fc, char **argv, int i)
 
 	if (ft_strchr(st_fc->flag, 'e'))
 	{
-		if ((i_editor = (parse_editor_fc(argv, i))) == -1)
+		if ((i_editor = (parse_editor_fc(argv, i - 1))) == -1)
 			return (-1);
-		if (!(st_fc->editor = ft_strtrim(argv[i_editor])))
+		if (ft_strnequ(argv[i_editor], "-e", 2))
+			st_fc->editor = ft_strtrim(argv[i_editor] + 2);
+		else
+			st_fc->editor = ft_strtrim(argv[i_editor]);
+		if (!(st_fc->editor))
 			clean_exit(1, 1);
 		get_first_and_last(st_fc, argv, i_editor + 1);
 	}
@@ -92,7 +96,7 @@ static int	find_index_fc(t_st_cmd *st_cmd, char *to_find)
 				while (to_find[++i] && ft_isdigit(to_find[i]))
 					;
 				if (to_find[i] && ft_strcmp(to_find, "--"))
-					return (error_fc(to_find, i, invalid_option, NULL));//invalid option -> considere comme une opton
+					return (error_fc_histo(to_find, i, invalid_option, NULL));//invalid option -> considere comme une opton
 			}
 			nb = ft_atoi(to_find);
 			if (nb < 0 && (*st_cmd->hist_len) + nb >= 0)
@@ -103,11 +107,14 @@ static int	find_index_fc(t_st_cmd *st_cmd, char *to_find)
 		}
 		i = (*st_cmd->hist_len);//HIST LEN EST PAS UPDATE apres chaque entry
 		len = ft_strlen(to_find);
-		while (st_cmd->hist_lst->prev && i-- > 0)// a checker 
+		while (st_cmd->hist_lst->prev && i >= 0)// a checker 
 		{
 			if (!ft_strncmp(to_find, st_cmd->hist_lst->txt, len))
 				break ;
 			st_cmd->hist_lst = st_cmd->hist_lst->prev;
+			if (i == 0)
+				return (error_fc(NULL, 0, out_of_range, NULL));
+			i--;
 		}
 	}
 	return (i);
@@ -125,14 +132,20 @@ static int		fc_parse_index(t_st_cmd *st_cmd, t_st_fc *st_fc)
 	if (st_fc->flag[0] == 's')
 	{
 		if (!st_fc->first)
-			st_fc->i_first = (*st_cmd->hist_len) - 1;
+			st_fc->i_first = (*st_cmd->hist_len);
 		else
-			st_fc->i_first = find_index_fc(st_cmd, st_fc->first);// chec -1
+		{
+			if ((st_fc->i_first = find_index_fc(st_cmd, st_fc->first)) == -1)// check -1
+				return (-1);
+		}
 	}
 	else
 	{
 		if (st_fc->first)
-			st_fc->i_first = find_index_fc(st_cmd, st_fc->first);// check -1
+		{
+			if ((st_fc->i_first = find_index_fc(st_cmd, st_fc->first)) == -1)// check -1
+				return (-1);
+		}
 		else
 		{
 			if (ft_strchr(st_fc->flag, 'l'))
@@ -140,13 +153,16 @@ static int		fc_parse_index(t_st_cmd *st_cmd, t_st_fc *st_fc)
 				if ((*st_cmd->hist_len) > 15)
 					st_fc->i_first = (*st_cmd->hist_len) - 15;
 				else
-					st_fc->i_first = 0;
+					st_fc->i_first = 1;
 			}
 			else
-				st_fc->i_last = (*st_cmd->hist_len) - 1;
+				st_fc->i_first = (*st_cmd->hist_len);
 		}
 		if (st_fc->last)
-			st_fc->i_last = find_index_fc(st_cmd, st_fc->last); // check -1
+		{
+			if ((st_fc->i_last = find_index_fc(st_cmd, st_fc->last)) == -1)// check -1
+				return (-1);
+		}
 		else if (ft_strchr(st_fc->flag, 'l'))
 			st_fc->i_last = (*st_cmd->hist_len) - 1;
 		else
@@ -170,24 +186,32 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 	int			start_operand;
 
 	i = 5;
-	if (!isatty(TERM_FD))
-		return (1);
 	while (--i > -1)
 		(*st_fc).flag[i] = '.';
 	if ((start_operand = fc_parse_flags(st_fc, argv)) == -1)
 		return (1);
-//	ft_dprintf(2, "\ni_first: %d\ni_last: %d\n", st_fc->i_first, st_fc->i_last);
-//	ft_dprintf(2, "start_ope: %d\n", start_operand);
 	if ((fc_parse_operands(st_fc, argv, start_operand)) == -1)
+	{
+		ft_dprintf(2, "SDKOSDKOSDAK");
 		return (1);
-	fc_parse_index(st_cmd, st_fc);
+	}
+	if (*st_cmd->hist_len == 0)
+		return (error_fc_index(st_fc->flag));
+	if ((fc_parse_index(st_cmd, st_fc)) == -1)
+		return (1);
 	
+
 	ft_dprintf(2, "first: %s\nlast: %s\n", st_fc->first, st_fc->last);
 	ft_dprintf(2, "hist_len: %d\n", *st_cmd->hist_len);
 	ft_dprintf(2, "i_first: %d\ni_last: %d\n", st_fc->i_first, st_fc->i_last);
 //	ft_dprintf(2, "old: %s\nnew: %s\n", st_fc->old_pattern, st_fc->new_pattern);
 //	ft_dprintf(2, "editor:%s\n", st_fc->editor);
 	
+//	ft_dprintf(2, "\ni_first: %d\ni_last: %d\n", st_fc->i_first, st_fc->i_last);
+//	ft_dprintf(2, "start_ope: %d\n", start_operand);
+
+
+
 	if (st_fc->i_first && st_fc->i_last && !ft_strchr(st_fc->flag, 's')
 		&& st_fc->i_first > st_fc->i_last
 		&& !ft_strchr(st_fc->flag, 'r'))

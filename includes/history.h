@@ -35,7 +35,9 @@ typedef enum			e_fc_error
 	invalid_mix,
 	editor_unspecified,
 	path_unspecified,
-	cmd_not_found
+	cmd_not_found,
+	no_cmd_found,
+	out_of_range
 }						t_fc_error;
 /*
 **	Retrieving and writing history to/from a file
@@ -59,6 +61,7 @@ void					print_hist_lst(t_hist_lst *hist_lst);
 t_hist_lst				*get_end_lst(t_hist_lst *hist_lst);
 t_hist_lst				*get_begin_lst(t_hist_lst *hist_lst);
 int						get_hist_len(t_hist_lst *hist_lst);
+t_hist_lst				*get_entry_lst(t_hist_lst *hist_lst, int index);
 
 /*
 **	Getting previous history and next history and displaying it on screen
@@ -106,6 +109,8 @@ int						parse_editor_fc(char **argv, int i);
 int						parse_case_s_fc(t_st_fc *st_fc, char **argv, int i);
 int						get_first_and_last(t_st_fc *st_fc, char **argv, int i);
 int						error_fc(char *s, int i, int type, t_st_fc *st_fc);
+int						error_fc_histo(char *s, int i, int type, t_st_fc *st_fc);
+int						error_fc_index(char *flag);
 int						is_valid_mix(char flag[4], char c);
 int						is_valid_option(char *s, int i);
 

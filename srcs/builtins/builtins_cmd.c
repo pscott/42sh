@@ -37,7 +37,6 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 		ret = case_history(argv);
 	else
 		ret = 0;
-	ft_free_ntab(argv);
 	return (ret);
 }
 

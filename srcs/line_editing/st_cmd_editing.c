@@ -13,6 +13,7 @@ t_st_cmd		*append_st_cmd(t_st_cmd *st_cmd, const char *txt,
 	new->window = st_cmd->window;
 	init_relative_pos(&new->cursor_pos, new->window, new->st_prompt->size);
 	new->hist_lst = st_cmd->hist_lst;
+	new->keep = st_cmd->keep;
 	st_cmd->next = new;
 	new->prev = st_cmd;
 	new->next = NULL;
@@ -31,6 +32,7 @@ t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd)
 	st_cmd->st_txt = init_st_txt(NULL);
 	st_cmd->st_prompt = init_st_prompt(NULL);
 	st_cmd->window = old_st_cmd->window;
+	st_cmd->keep = 1;
 	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
 		st_cmd->st_prompt->size);
 	st_cmd->hist_lst = old_st_cmd->hist_lst;
@@ -65,6 +67,7 @@ t_st_cmd		*init_st_cmd(const char **env)
 	st_cmd->st_txt = init_st_txt(NULL);
 	st_cmd->st_prompt = init_st_prompt(NULL);
 	st_cmd->window = init_window_struct();
+	st_cmd->keep = 1;
 	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
 		st_cmd->st_prompt->size);
 	if (!(hist_len_var = (int*)malloc(sizeof(int))))

@@ -57,6 +57,7 @@ typedef struct			s_st_cmd {
 	int					*hist_len;
 	struct s_st_cmd		*next;
 	struct s_st_cmd		*prev;
+	int					keep;
 }						t_st_cmd;
 
 int						handle_reverse_search_history(t_st_cmd *st_cmd,

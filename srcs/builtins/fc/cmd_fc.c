@@ -23,12 +23,11 @@ int					case_fc_display(t_st_cmd *st_cmd, t_st_fc *st_fc)
 	int				i_curr;
 	t_hist_lst		*hist_curr;
 
-	
 	i_curr = st_fc->i_first;
 	if (ft_strchr(st_fc->flag, 'r'))
 		return (fc_display_reverse(st_cmd, st_fc));
-	hist_curr = get_begin_lst(st_cmd->hist_lst);
 	i_curr = st_fc->i_first;
+	hist_curr = get_entry_lst(st_cmd->hist_lst, i_curr);
 	while (i_curr <= st_fc->i_last && hist_curr->next)// no need to check if i_last > hist_len ?
 	{
 		if (!ft_strchr(st_fc->flag, 'n'))
@@ -83,7 +82,7 @@ static int			case_fc_substitute(t_st_cmd *st_cmd, t_st_fc *st_fc)
 	histo_real_entry = ft_strndup(hist_curr->txt, old_cmd_len);
 	new_cmd = substitute_pattern(st_fc, histo_real_entry, old_cmd_len);
 	if (new_cmd && new_cmd[0])
-		fc_execute_cmd(new_cmd, substitute);
+		return (fc_execute_cmd(new_cmd, substitute));
 	return (0);
 }
 
@@ -100,8 +99,7 @@ static int			case_fc_editor(t_st_cmd *st_cmd, t_st_fc *st_fc)
 		ft_strdel(&tmp_file);
 		return (1);
 	}
-	fc_execute_cmd(tmp_file, edit);
-	return (0);
+	return (fc_execute_cmd(tmp_file, edit));
 }
 
 /*
@@ -118,10 +116,13 @@ int					case_fc(char **argv)
 
 	ft_bzero(&st_fc, sizeof(st_fc));
 	st_cmd = get_st_cmd(NULL);
+	st_cmd->keep = 0;
 
 	if ((ret = init_st_fc(st_cmd, &st_fc, argv)) == 1)
 	{
 		free_st_fc(&st_fc);
+		// dans ce cas la, si no command found & s append to historic
+		// ou si mauvaise option
 		return (ret);
 	}
 
@@ -133,13 +134,15 @@ int					case_fc(char **argv)
  
 */
 
-	/*
+	
 	if (st_fc.flag[0] == 's')
+		// si cmd not found : retourne 127 OK, pas histo
+		//
 		ret = case_fc_substitute(st_cmd, &st_fc);
+
 	else if (ft_strchr(st_fc.flag, 'l'))//only THIS case is put in history
 		ret = case_fc_display(st_cmd, &st_fc);
 	else
 		ret = case_fc_editor(st_cmd, &st_fc);
-		*/
 	return (ret);
 }

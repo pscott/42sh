@@ -61,15 +61,18 @@ int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		if (ret < 1)
 			return (ret);
 	}
-	adjust_history(st_cmd, 1);
 	ft_strdel(&input);
+	//	adjust_history(st_cmd, 1);
 	if (lexer_ret == lex_fail)
 	{
 		free_token_list(token_head);
+		adjust_history(st_cmd, 1);
 		return (lex_fail);
 	}
 	ast_root = create_ast(token_head);
 	ret = exec_ast(ast_root, vars);
+	if (st_cmd->keep)
+		adjust_history(st_cmd, 1);
 	free_ast(ast_root);
 	return (ret);
 }

@@ -29,7 +29,7 @@ int				get_hist_len(t_hist_lst *hist_lst)
 		return (0);
 	else
 	{
-		i = 0;
+		i = 1;
 		hist_lst = get_begin_lst(hist_lst);
 		while (hist_lst->next)
 		{
@@ -38,4 +38,13 @@ int				get_hist_len(t_hist_lst *hist_lst)
 		}
 		return (i - 1);
 	}
+}
+
+t_hist_lst		*get_entry_lst(t_hist_lst *hist_lst, int index)
+{
+	if (!(hist_lst = get_begin_lst(hist_lst)))
+		return (NULL);
+	while (index-- > 0)
+		hist_lst = hist_lst->next;
+	return (hist_lst);
 }

@@ -58,7 +58,6 @@ static char		**fake_argv(t_token *token_head, t_vars *vars)
 	t_token					*cpy;
 	char					**argv;
 
-	ft_dprintf(2, "LSKDJFLSKDJFLSDKFJ\n");
 	argv = NULL;
 	vars->verbose = 0;
 	cpy = copy_tokens(token_head);

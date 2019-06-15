@@ -140,7 +140,7 @@ int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 
 	if (!(probe = token_head))
 		return (1);
-	print_token_list(token_head);//test
+	//print_token_list(token_head);//test
 	argv_len = 0;
 	while (probe)
 	{
@@ -154,7 +154,7 @@ int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 	}
 	if (argv_len < 1)
 	{
-		ft_dprintf(2, "argv_len < 1\n");
+		//ft_dprintf(2, "argv_len < 1\n");
 		return (1);
 	}
 	*argv = create_argv(token_head, argv_len);

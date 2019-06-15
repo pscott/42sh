@@ -1,34 +1,55 @@
 #include "builtins.h"
 
 /*
-**	Remove the useless space in real time
+**	Removes the useless /../ in the string and the folder before
 */
 
-static char		*remove_n_char(char *str, size_t pos)
+static void		remove_string_dotdot(char **dest, int i)
 {
-	char	*new;
-	size_t	i;
-	size_t	k;
+	if (i == 0 && (*dest)[i] == '/')
+		i++;
+	else
+		(*dest) = remove_n_char((*dest), i);
+	(*dest) = remove_n_char((*dest), i);
+	(*dest) = remove_n_char((*dest), i);
+	i--;
+	while (i >= 0 && (*dest)[i] != '/')
+	{
+		(*dest) = remove_n_char((*dest), i);
+		i--;
+	}
+	if (i != 0)
+		(*dest) = remove_n_char((*dest), i);
+}
+
+/*
+**	Removes the ".." present in the string
+*/
+
+static void		remove_useless_dotdot(char **dest)
+{
+	int		i;
 
 	i = 0;
-	k = 0;
-	if (pos > ft_strlen(str))
-		return (str);
-	if (!(new = (char*)malloc(sizeof(char) * ft_strlen(str))))
-		clean_exit(1, 1);
-	ft_bzero(new, ft_strlen(str));
-	while (str[k])
+	while ((*dest)[i])
 	{
-		if (k == pos)
-			k++;
-		if (!str[k])
-			break ;
-		new[i] = str[k];
-		k++;
-		i++;
+		if (!ft_strncmp((*dest) + i, "/../", 4))
+		{
+			remove_string_dotdot(dest, i);
+			i = 0;
+		}
+		else
+			i++;
 	}
-	ft_strdel(&str);
-	return (new);
+	if (i > 2)
+		i -= 3;
+	if (i > 0 && !ft_strncmp((*dest) + i, "/..", 3))
+		remove_string_dotdot(dest, i);
+	else if (i == 0 && (*dest)[i] && (*dest)[i + 1] == '.')
+	{
+		(*dest) = remove_n_char((*dest), i + 1);
+		(*dest) = remove_n_char((*dest), i + 1);
+	}
 }
 
 /*
@@ -46,7 +67,6 @@ static void		remove_wrong_slashs(char **dest)
 	prev = 0;
 	while ((*dest)[i])
 	{
-	//	ft_printf("IN REMOVE WRONG SLASHS : %s\n", (*dest));
 		if (prev == '/' && (*dest)[i] == '/')
 		{
 			prev = (*dest)[i];
@@ -55,10 +75,7 @@ static void		remove_wrong_slashs(char **dest)
 			prev = 0;
 		}
 		else
-		{
-			prev = (*dest)[i];
-			i++;
-		}
+			prev = (*dest)[i++];
 	}
 	if (i > 0)
 		i -= 1;
@@ -67,86 +84,20 @@ static void		remove_wrong_slashs(char **dest)
 }
 
 /*
-**	Remove the useless /../ in the string and the folder before
-*/
-
-static char		*remove_useless_dotdot(char *dest)
-{
-	char	*new;
-	int		i;
-
-	i = 0;
-	new = dest;
-	while (new[i])
-	{
-	//	printf("remove_dotdot : %s\n", new);
-		if (!ft_strncmp(new + i, "/../", 4))
-		{
-			if (i == 0 && new[i] == '/')
-				i++;
-			else
-				new = remove_n_char(new, i);
-			new = remove_n_char(new, i);
-			new = remove_n_char(new, i);
-			i--;
-			while (i >= 0 && new[i] != '/')
-			{
-				new = remove_n_char(new, i);
-				i--;
-			}
-			if (new[i] == '/')
-				new = remove_n_char(new, i);
-			i = 0;
-		}
-		else
-			i++;
-	}
-//	ft_printf("remove dotdot after loop : %s\n", new);
-	if (i > 2)
-		i -= 3;
-	if (i > 0 && !ft_strncmp(new + i, "/..", 3))
-	{
-		if (i == 0 && new[i] == '/')
-			i++;
-		else
-			new = remove_n_char(new, i);
-		new = remove_n_char(new, i);
-		new = remove_n_char(new, i);
-		i--;
-		while (i >= 0 && new[i] != '/')
-		{
-			new = remove_n_char(new, i);
-			i--;
-		}
-		if (i != 0)
-			new = remove_n_char(new, i);
-	}
-	else if (i == 0 && new[i] && new[i + 1] == '.')
-	{
-		new = remove_n_char(new, i + 1);
-		new = remove_n_char(new, i + 1);
-	}
-	return (new);
-}
-
-/*
 **	Remove the useless /./ in the string
 */
 
-static char		*remove_useless_dots(char *dest)
+static void		remove_useless_dots(char **dest)
 {
-	char	*new;
 	int		i;
 
 	i = 0;
-	new = dest;
-	while (new[i])
+	while ((*dest)[i])
 	{
-//		printf("remove_dot : %s\n", new);
-		if (!ft_strncmp(new + i, "/./", 3))
+		if (!ft_strncmp((*dest) + i, "/./", 3))
 		{
-			new = remove_n_char(new, i);
-			new = remove_n_char(new, i);
+			(*dest) = remove_n_char((*dest), i);
+			(*dest) = remove_n_char((*dest), i);
 			i = 0;
 		}
 		else
@@ -154,30 +105,18 @@ static char		*remove_useless_dots(char *dest)
 	}
 	if (i > 1)
 		i -= 2;
-	if (i > 0 && !ft_strncmp(new + i, "/.", 2))
+	if (i > 0 && !ft_strncmp((*dest) + i, "/.", 2))
 	{
-		new = remove_n_char(new, i);
-		new = remove_n_char(new, i);
+		(*dest) = remove_n_char((*dest), i);
+		(*dest) = remove_n_char((*dest), i);
 	}
-	else if (i == 0 && new[i] && new[i + 1] == '.')
-		new = remove_n_char(new, i + 1);
-	return (new);
+	else if (i == 0 && (*dest)[i] && (*dest)[i + 1] == '.')
+		(*dest) = remove_n_char((*dest), i + 1);
 }
 
-char			*format_path_string(char *dest)
+void			format_path_string(char **dest)
 {
-	char	*new;
-
-//	ft_printf("----------------------\n");
-//	ft_printf("before format : %s\n", dest);
-	new = ft_strdup(dest);
-	remove_wrong_slashs(&new);
-//	ft_printf("AFTER REMOVE SLASH : %s\n", new);
-	new = remove_useless_dots(new);
-//	ft_printf("AFTER REMOVE DOTS : %s\n", new);
-	new = remove_useless_dotdot(new);
-//	ft_printf("AFTER REMOVE DOTDOT : %s\n", new);
-//	ft_printf("----------------------\n");
-	ft_strdel(&dest);
-	return (new);
+	remove_wrong_slashs(dest);
+	remove_useless_dots(dest);
+	remove_useless_dotdot(dest);
 }

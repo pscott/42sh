@@ -45,7 +45,7 @@ char			*get_cwd_value(const char **env)
 **	Get the right path with getcwd call, for easier chdir execution
 */
 
-char			*relative_directory(const char *path, const char **env, int opt,
+char			*relative_directory(const char *path, const char **env,
 		int *cdpath)
 {
 	char			*cwd;

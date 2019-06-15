@@ -133,11 +133,13 @@ int					case_fc(char **argv)
  
 */
 
+	/*
 	if (st_fc.flag[0] == 's')
 		ret = case_fc_substitute(st_cmd, &st_fc);
 	else if (ft_strchr(st_fc.flag, 'l'))//only THIS case is put in history
 		ret = case_fc_display(st_cmd, &st_fc);
 	else
 		ret = case_fc_editor(st_cmd, &st_fc);
+		*/
 	return (ret);
 }

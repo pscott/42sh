@@ -24,6 +24,7 @@ int				ft_isdigit(int c);
 int				ft_isalnum(int c);
 int				ft_isascii(int c);
 int				ft_isprint(int c);
+int				ft_isonly(const char *only, const char *s);
 int				ft_is_unslashed_metachar(char *s, int index, int type);
 int				ft_toupper(int c);
 int				ft_tolower(int c);

@@ -36,6 +36,6 @@ int				get_hist_len(t_hist_lst *hist_lst)
 			i++;
 			hist_lst = hist_lst->next;
 		}
-		return (i);
+		return (i - 1);
 	}
 }

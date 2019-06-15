@@ -3,17 +3,26 @@
 #include "signals.h"
 #include "history.h"
 
-/*
-** Handler function for terminating (aka dangerous) signals
-*/
-
-void			sig_handler(int signo)
+void			sigquit_handler(int signo)
 {
-	execute_str(CLEAR_BELOW);
+	t_st_cmd	*st_cmd;
+	t_vars		*vars;
+
+	(void)signo;
+	if (!(st_cmd = get_st_cmd(NULL)))
+		return ;
+	st_cmd = get_last_st_cmd(st_cmd);
+	if (st_cmd->st_txt->txt)
+		*st_cmd->st_txt->txt = '\x1c';
+	if ((vars = get_vars(NULL)))
+		vars->cmd_value = 1;
+	if (isatty(TERM_FD))
+		write(TERM_FD, "^\\", 2);
+	reset_copy_vars(vars);
+	st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;
+	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 	restore_init_cursor();
-	reset_terminal_settings();
-	ft_dprintf(STDERR_FILENO, "Interrupted by signal: %d\n", signo);
-	exit(signo);
+	execute_str(MOVE_DOWN);
 }
 
 /*

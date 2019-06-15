@@ -15,7 +15,7 @@ static int			find_matching_home_dirs(const char *directory,
 				&& (ft_strncmp("..", ent->d_name, 3)
 				&& ft_strncmp(".", ent->d_name, 2)))
 		{
-			if (ent->d_type && ent->d_type == DT_DIR)
+			if (check_if_slash(ent, directory, NULL))	
 			{
 				tmp = NULL;
 				tmp = ft_strjoin(ent->d_name, "/");

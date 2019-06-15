@@ -14,7 +14,7 @@ static int			find_matching_dirs(const char *directory,
 	{
 		if (!to_find || !to_find[0] || !compare_entry(to_find, ent->d_name))
 		{
-			if (ent->d_type && ent->d_type == DT_DIR)
+			if (check_if_slash(ent, directory, NULL))
 			{
 				tmp = ft_strjoin(ent->d_name, "/");
 				create_match_link(match, tmp);

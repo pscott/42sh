@@ -1,5 +1,34 @@
 #include "auto_completion.h"
 
+int						check_if_slash(struct dirent *ent,
+	const char *directory, const char *filename)
+{
+	char			buf[3];
+	char			*tmp;
+	int				ret;
+
+	ret = 0;
+	if (ent->d_type && ent->d_type == DT_DIR)
+		++ret;
+	else if (ent->d_type && ent->d_type == DT_LNK)
+	{
+		if (filename)
+		{
+			if (!(tmp = ft_strdup(filename)))
+				clean_exit(1, 1);
+		}
+		else
+		{
+			if (!(tmp = ft_strjoin(directory, ent->d_name)))
+				clean_exit(1, 1);
+		}
+		if (readlink(tmp, buf, 2))
+			++ret;
+		ft_strdel(&tmp);
+	}
+	return (ret);
+}
+
 static int				get_needed_values_to_create_match_link
 	(char **tmp, struct dirent *ent, const char *directory)
 {
@@ -9,7 +38,7 @@ static int				get_needed_values_to_create_match_link
 		clean_exit(1, 1);
 	if (access(filename, X_OK) == 0)
 	{
-		if (ent->d_type && ent->d_type == DT_DIR)
+		if (check_if_slash(ent, directory, filename))
 			*tmp = ft_strjoin(ent->d_name, "/");
 		else
 			*tmp = ft_strdup(ent->d_name);

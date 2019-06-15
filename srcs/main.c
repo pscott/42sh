@@ -3,6 +3,7 @@
 #include "hashmap.h"
 #include "history.h"
 #include "signals.h"
+#include "jobs.h"
 
 int			is_full_of_whitespaces(const char *input)
 {
@@ -51,12 +52,12 @@ int			main(int argc, char **argv, char **env)
 	t_vars			vars;
 	int				ret;
 
+	init_shell();
 	if (setup_terminal_settings() > 0)
 		return (EXIT_FAILURE);
 	if (init_vars(&vars, argc, argv, env) == 1)
 		return (EXIT_FAILURE);
 	print_introduction();
-	signals_setup();
 	st_cmd = init_st_cmd((const char **)vars.env_vars);
 	get_st_cmd(&st_cmd);
 	while (42)

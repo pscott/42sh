@@ -41,12 +41,24 @@ void		signals_setup(void)
 	signal(SIGSYS, sig_handler);
 	signal(SIGALRM, sig_handler);
 	signal(SIGTERM, sig_handler);
-	signal(SIGTTOU, sig_handler);
-	signal(SIGTTIN, sig_handler);
+	signal(SIGTTOU, SIG_IGN);
+	signal(SIGTTIN, SIG_IGN);
 	signal(SIGXCPU, sig_handler);
 	signal(SIGXFSZ, sig_handler);
 	signal(SIGVTALRM, sig_handler);
 	signal(SIGUSR1, sig_handler);
 	signal(SIGUSR2, sig_handler);
 	signal(SIGPROF, sig_handler);
+}
+
+void	reset_signals(void)
+{
+	int	i;
+
+	i = 0;
+	while (i < 32)
+	{
+		signal(i, SIG_DFL);
+		i++;
+	}
 }

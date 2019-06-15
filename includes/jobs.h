@@ -1,7 +1,8 @@
 #ifndef JOB_H
 # define JOB_H
 
-# include <stdlib.h>
+# include <ftsh.h>
+# include <libterm.h>
 # include <termios.h>
 
 
@@ -26,6 +27,9 @@ typedef struct		s_job
   int				stdin, stdout, stderr;  /* standard i/o channels */
 }					t_job;
 
-static t_job *g_first_job = NULL;
+static t_job	*g_first_job = NULL;
+static pid_t	g_shell_pgid;
+
+void			init_shell(void);
 
 #endif

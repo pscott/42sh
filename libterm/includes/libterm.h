@@ -80,6 +80,7 @@
 
 static struct termios	g_saved_attr;
 static int				g_isatty = 0;
+static int				g_shell_is_interactive;
 
 /*
 ** Settings-related functions

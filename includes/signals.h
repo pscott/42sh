@@ -11,5 +11,6 @@ void	sigwinch_handler(int signo);
 void	sigtstp_handler(int signo);
 void	sigquit_handler(int signo);
 void	signals_setup(void);
+void	reset_signals(void);
 
 #endif

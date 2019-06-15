@@ -117,6 +117,7 @@ int					case_fc(char **argv)
 	ft_bzero(&st_fc, sizeof(st_fc));
 	st_cmd = get_st_cmd(NULL);
 	st_cmd->keep = 0;
+	ft_dprintf(2, "{{{{%d}}}}", *st_cmd->hist_len);
 
 	if ((ret = init_st_fc(st_cmd, &st_fc, argv)) == 1)
 	{
@@ -141,7 +142,10 @@ int					case_fc(char **argv)
 		ret = case_fc_substitute(st_cmd, &st_fc);
 
 	else if (ft_strchr(st_fc.flag, 'l'))//only THIS case is put in history
+	{
 		ret = case_fc_display(st_cmd, &st_fc);
+		st_cmd->keep = 1;
+	}
 	else
 		ret = case_fc_editor(st_cmd, &st_fc);
 	return (ret);

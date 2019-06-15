@@ -100,22 +100,25 @@ static int	find_index_fc(t_st_cmd *st_cmd, char *to_find)
 			}
 			nb = ft_atoi(to_find);
 			if (nb < 0 && (*st_cmd->hist_len) + nb >= 0)
-				nb += (*st_cmd->hist_len);
+				nb += (*st_cmd->hist_len) + 1;
 			else if ((*st_cmd->hist_len) + nb < 0)
 				nb = 0;
 			return (nb);
 		}
-		i = (*st_cmd->hist_len);//HIST LEN EST PAS UPDATE apres chaque entry
+		i = (*st_cmd->hist_len) + 1;
 		len = ft_strlen(to_find);
-		while (st_cmd->hist_lst->prev && i >= 0)// a checker 
+		while (st_cmd->hist_lst->prev && i > 0)// a checker 
 		{
 			if (!ft_strncmp(to_find, st_cmd->hist_lst->txt, len))
 				break ;
 			st_cmd->hist_lst = st_cmd->hist_lst->prev;
 			if (i == 0)
-				return (error_fc(NULL, 0, out_of_range, NULL));
+				return (error_fc(NULL, 0, out_of_range, NULL));//put dans l'histo si l en tout cas
 			i--;
+			ft_dprintf(2, "{{%d}}", i);
 		}
+		if (i == 0)
+			++i;
 	}
 	return (i);
 }
@@ -164,7 +167,7 @@ static int		fc_parse_index(t_st_cmd *st_cmd, t_st_fc *st_fc)
 				return (-1);
 		}
 		else if (ft_strchr(st_fc->flag, 'l'))
-			st_fc->i_last = (*st_cmd->hist_len) - 1;
+			st_fc->i_last = (*st_cmd->hist_len);
 		else
 			st_fc->i_last = st_fc->i_first;
 	}
@@ -201,9 +204,11 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 		return (1);
 	
 
+	ft_dprintf(2, "-------------------------\n");
 	ft_dprintf(2, "first: %s\nlast: %s\n", st_fc->first, st_fc->last);
 	ft_dprintf(2, "hist_len: %d\n", *st_cmd->hist_len);
-	ft_dprintf(2, "i_first: %d\ni_last: %d\n", st_fc->i_first, st_fc->i_last);
+	ft_dprintf(2, "i_first: %d\ni_last: %d\n\n\n", st_fc->i_first, st_fc->i_last);
+	ft_dprintf(2, "-------------------------\n");
 //	ft_dprintf(2, "old: %s\nnew: %s\n", st_fc->old_pattern, st_fc->new_pattern);
 //	ft_dprintf(2, "editor:%s\n", st_fc->editor);
 	

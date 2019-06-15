@@ -46,6 +46,7 @@ static void		remove_wrong_slashs(char **dest)
 	prev = 0;
 	while ((*dest)[i])
 	{
+	//	ft_printf("IN REMOVE WRONG SLASHS : %s\n", (*dest));
 		if (prev == '/' && (*dest)[i] == '/')
 		{
 			prev = (*dest)[i];
@@ -54,16 +55,14 @@ static void		remove_wrong_slashs(char **dest)
 			prev = 0;
 		}
 		else
+		{
 			prev = (*dest)[i];
-		i++;
+			i++;
+		}
 	}
 	if (i > 0)
-		i--;
-	while (i > 0 && (*dest)[i] == ' ')
-		i--;
-	while ((*dest)[k] && ft_is_white_space((*dest)[k]))
-		k++;
-	if (k != i && (*dest)[i] == '/')
+		i -= 1;
+	if (i > 0 && !ft_strncmp((*dest) + i, "/", 1))
 		(*dest) = remove_n_char(*dest, i);
 }
 
@@ -80,7 +79,7 @@ static char		*remove_useless_dotdot(char *dest)
 	new = dest;
 	while (new[i])
 	{
-		printf("remove_dotdot : %s\n", new);
+	//	printf("remove_dotdot : %s\n", new);
 		if (!ft_strncmp(new + i, "/../", 4))
 		{
 			if (i == 0 && new[i] == '/')
@@ -99,16 +98,28 @@ static char		*remove_useless_dotdot(char *dest)
 				new = remove_n_char(new, i);
 			i = 0;
 		}
-		i++;
+		else
+			i++;
 	}
-	ft_printf("remove dotdot after loop : %s\n", new);
+//	ft_printf("remove dotdot after loop : %s\n", new);
 	if (i > 2)
 		i -= 3;
 	if (i > 0 && !ft_strncmp(new + i, "/..", 3))
 	{
+		if (i == 0 && new[i] == '/')
+			i++;
+		else
+			new = remove_n_char(new, i);
 		new = remove_n_char(new, i);
 		new = remove_n_char(new, i);
-		new = remove_n_char(new, i);
+		i--;
+		while (i >= 0 && new[i] != '/')
+		{
+			new = remove_n_char(new, i);
+			i--;
+		}
+		if (i != 0)
+			new = remove_n_char(new, i);
 	}
 	else if (i == 0 && new[i] && new[i + 1] == '.')
 	{
@@ -131,7 +142,7 @@ static char		*remove_useless_dots(char *dest)
 	new = dest;
 	while (new[i])
 	{
-		printf("remove_dot : %s\n", new);
+//		printf("remove_dot : %s\n", new);
 		if (!ft_strncmp(new + i, "/./", 3))
 		{
 			new = remove_n_char(new, i);
@@ -157,14 +168,16 @@ char			*format_path_string(char *dest)
 {
 	char	*new;
 
-	printf("----------------------\n");
+//	ft_printf("----------------------\n");
+//	ft_printf("before format : %s\n", dest);
 	new = ft_strdup(dest);
 	remove_wrong_slashs(&new);
-	ft_printf("AFTER REMOVE SLASH : %s\n", new);
+//	ft_printf("AFTER REMOVE SLASH : %s\n", new);
 	new = remove_useless_dots(new);
-	ft_printf("AFTER REMOVE DOTS : %s\n", new);
+//	ft_printf("AFTER REMOVE DOTS : %s\n", new);
 	new = remove_useless_dotdot(new);
-	ft_printf("AFTER REMOVE DOTDOT : %s\n", new);
-	printf("----------------------\n");
+//	ft_printf("AFTER REMOVE DOTDOT : %s\n", new);
+//	ft_printf("----------------------\n");
+	ft_strdel(&dest);
 	return (new);
 }

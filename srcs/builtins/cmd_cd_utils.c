@@ -54,23 +54,11 @@ char			*relative_directory(const char *path, const char **env, int opt,
 
 	ft_initialize_str(&cwd, &tmp, &dest, NULL);
 	cwd = get_cwd_value(env);
-	printf("CWD = %s\n", cwd);
-	if (cwd[0] && cwd[0] == '/' && !cwd[1])
-		tmp = cwd;
-	else if (!ft_strncmp(path, "..", 2) && opt != 'P')
+	if (check_cdpath_var(path, env, &tmp, cdpath))
 	{
-	//	return (cut_path_string(cwd, 1));
 		if (!(tmp = ft_strjoin(cwd, "/")))
 			clean_exit(1, 1);
-	}
-	else
-	{
-		if (check_cdpath_var(path, env, &tmp, cdpath))
-		{
-			if (!(tmp = ft_strjoin(cwd, "/")))
-				clean_exit(1, 1);
-			ft_strdel(&cwd);
-		}
+		ft_strdel(&cwd);
 	}
 	if (!(dest = ft_strjoin(tmp, path)))
 		clean_exit(1, 1);

@@ -9,18 +9,22 @@
 **	Returns 0 on success, else returns 1.
 */
 
-static int	change_environ(char *new_wd, char ***env, int opt, int cdpath)
+static int	change_environ(char *new_wd, char ***env, int opt, int cdpath,
+		int dot_arg)
 {
 	char			*old_pwd;
 	char			*pwd;
 	int				ret;
-	char buf[1000];
-
-	ft_bzero(&buf, 1000);
+	char			*tmp;
 
 	ft_initialize_str(&pwd, &old_pwd, NULL, NULL);
-	if ((old_pwd = get_directory("PWD", (const char**)*env)))
+	old_pwd = get_directory("PWD", (const char**)*env);
+	if (!old_pwd)
+		unset_env_var("OLDPWD", env);
+	else
 	{
+		if (dot_arg)
+			ft_printf("%s\n", get_envline_value("OLDPWD", *env));
 		set_env_var("OLDPWD", old_pwd, env);
 		ft_strdel(&old_pwd);
 	}
@@ -28,8 +32,24 @@ static int	change_environ(char *new_wd, char ***env, int opt, int cdpath)
 		print_errors(ERR_CHDIR, ERR_CHDIR_STR, new_wd);
 	if (opt == 'L' || opt == 0)
 	{
-		if (!(pwd = strdup(new_wd)))
-			clean_exit(1, 1);
+		if (new_wd[0] == '/')
+		{
+			if (!(pwd = strdup(new_wd)))
+				clean_exit(1, 1);
+		}
+		else
+		{
+			if ((pwd = get_envline_value("PWD", *env)))
+			{
+				if (!(tmp = ft_strjoin(pwd, "/")))
+					clean_exit(1, 1);
+				if (!(pwd = ft_strjoin(tmp, new_wd)))
+					clean_exit(1, 1);
+				ft_strdel(&tmp);
+			}
+			else if (!(pwd = getcwd(NULL, 0)))
+				return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
+		}
 	}
 	else
 	{
@@ -108,9 +128,10 @@ int			case_cd(char **argv, char ***env)
 	char			opt;
 	int				pos;
 	int				cdpath;
+	int				oldpwd;
 
-	ft_print_ntab(argv);
 	cdpath = 0;
+	oldpwd = 0;
 	if ((opt = get_cd_options(argv, &pos)) == -1)
 		return (1);
 	if (check_cd_usage(argv))
@@ -120,7 +141,7 @@ int			case_cd(char **argv, char ***env)
 	else if (ft_strncmp(argv[pos], "-", 2) == 0)
 	{
 		if ((dest = get_directory("OLDPWD", (const char**)*env)))
-			ft_dprintf(1, "%s\n", dest);
+			oldpwd = 1;
 	}
 	else if (argv[pos][0] == '/')
 	{
@@ -129,13 +150,13 @@ int			case_cd(char **argv, char ***env)
 	}
 	else
 		dest = relative_directory(argv[pos], (const char**)*env, opt, &cdpath);
-	printf("|%s|\n", argv[pos]);
-	ft_printf("Before format : %s\n", dest);
+	if (!dest)
+		return (1);
 	dest = format_path_string(dest);
-	ft_printf("After format : %s\n", dest);
-
 	if ((ret = is_error(dest)) != 0)
 		return (del_and_return_cd(&dest, ret));
 	else
-		return (change_environ(dest, env, opt, cdpath));
+	{
+		return (change_environ(dest, env, opt, cdpath, oldpwd));
+	}
 }

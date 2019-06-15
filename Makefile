@@ -30,7 +30,7 @@ INCL_CMD	:=	$(addprefix -I,$(INCL_DIR))
 INCL_FILES	:=	ftsh.h lexer.h ast.h auto_completion.h input.h history.h \
 				structures.h \
 				line_editing.h builtins.h errors.h cmd_parsing.h execution.h \
-				signals.h hashmap.h heredoc.h exp_arith.h env.h
+				signals.h hashmap.h heredoc.h exp_arith.h env.h jobs.h
 
 INCLS		:=	$(addprefix includes/,$(INCL_FILES))
 
@@ -55,13 +55,14 @@ SRC_DIR	:=	srcs
 	HASHMAP_DIR			:=	hashmap
 	EXP_ARITH_DIR		:=	exp_arith
 	HEREDOC_DIR			:=	heredoc
+	JOB_CTRL_DIR		:=	job_control
 
 	#list of all srcs subdirectories
 	SRC_SUBDIRS	:=	$(ENV_DIR) $(ERRORS_DIR) $(LEXER_DIR) $(PARSER_DIR) \
 					$(PIPELINE_DIR) $(READER_DIR) $(HISTORY_DIR) \
 					$(EXPANDS_DIR) $(SIGNALS_DIR) $(LINE_EDIT_DIR) \
 					$(BUILTINS_DIR) $(REDIR_DIR) $(EXEC_DIR) $(AUTO_COMP_DIR) \
-					$(EXP_ARITH_DIR) $(HEREDOC_DIR) \
+					$(EXP_ARITH_DIR) $(HEREDOC_DIR) $(JOB_CTRL_DIR) \
 					$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_DIR))
 
 
@@ -129,6 +130,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 						op_tokenizer_utils.c put_op_link.c ft_isempty.c
 	HEREDOC_FILES	:=	heredoc.c heredoc_utils.c get_doc.c save_heredoc.c \
 						clean_heredoc.c
+	JOB_CTRL_FILES	:=	job_utils.c
 
 #list of all .c files
 C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES) \
@@ -136,7 +138,7 @@ C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES) \
 			$(HISTORY_FILES) $(EXPANDS_FILES) $(SIGNALS_FILES) \
 			$(LINE_EDIT_FILES) $(BUILTINS_FILES) $(REDIR_FILES) $(EXEC_FILES) \
 			$(HASHMAP_FILES) $(AUTO_COMP_FILES) $(EXP_ARITH_FILES) \
-			$(HEREDOC_FILES)
+			$(HEREDOC_FILES) $(JOB_CTRL_FILES)
 
 # Complete path of each .c files ###############################################
 SRC_PATH			:=	$(addprefix $(SRC_DIR)/,$(SRC_FILES))
@@ -159,6 +161,7 @@ HASHMAP_PATH		:=	$(addprefix $(HASHMAP_DIR)/,$(HASHMAP_FILES))
 #	builtin/ + hashmap/*.c
 HASHMAP_PATH		:=	$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_PATH))
 HEREDOC_PATH		:=	$(addprefix $(HEREDOC_DIR)/,$(HEREDOC_FILES))
+JOB_CTRL_PATH		:=	$(addprefix $(JOB_CTRL_DIR)/,$(JOB_CTRL_FILES))
 
 
 #list of all "path/*.c"
@@ -179,6 +182,7 @@ SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(EXP_ARITH_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(HASHMAP_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(HEREDOC_PATH)) \
+			$(addprefix $(SRC_DIR)/,$(JOB_CTRL_PATH)) \
 			$(SRC_PATH)
 
 #Object ########################################################################

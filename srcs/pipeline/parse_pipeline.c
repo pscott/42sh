@@ -50,6 +50,7 @@ static int		exec_last_cmd(t_token *begin, int ints[2], int fd[2],
 		while ((pid = wait(&status)) > 0)
 			;
 		signals_setup();
+		execute_str(MOVE_DOWN);
 		setup_terminal_settings();
 	}
 	return (ret);

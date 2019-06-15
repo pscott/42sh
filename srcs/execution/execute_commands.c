@@ -3,6 +3,7 @@
 #include "cmd_parsing.h"
 #include "hashmap.h"
 #include "errors.h"
+#include "signals.h"
 
 static int			access_and_exec(char *cmd_path, char **argv,
 	const char **env)
@@ -83,6 +84,7 @@ int					parse_and_exec(t_token *token_head, int in,
 	char			**argv;
 	int				ret;
 
+	reset_signals();
 	redirect(in, STDIN_FILENO, 0);
 	redirect(out, STDOUT_FILENO, 0);
 	argv = NULL;

@@ -10,7 +10,7 @@ int			is_argv_token(t_token *probe)
 {
 	if (!probe)
 		return (0);
-	if (probe->type > tk_eat && probe->type < tk_pipe)
+	if (probe->type >= tk_word && probe->type < tk_pipe)
 		return (1);
 	return (0);
 }

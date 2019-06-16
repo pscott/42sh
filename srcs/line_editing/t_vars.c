@@ -27,10 +27,10 @@ static int	init_env_shellvars(t_vars *vars, char **env)
 		return (1);
 	if (!(vars->shell_vars = ft_dup_ntab((const char **)vars->env_vars)))
 		return (1);
-	set_default_shell_vars(vars);
 	//init some vars
 	//	-set all shell_vars to default value, unless they are already set
 	//	-export SHLVL, PWD
+	set_default_shell_vars(vars);
 	return (0);
 }
 

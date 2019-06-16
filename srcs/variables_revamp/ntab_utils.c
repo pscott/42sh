@@ -1,6 +1,6 @@
 #include "ftsh.h"
 
-char	**ft_ntab_new(size_t size)
+char	**ft_ntab_new(int size)
 {
 	char	**new_tab;
 	int		i;
@@ -17,7 +17,7 @@ char	**ft_ntab_new(size_t size)
 	return (new_tab);
 }
 
-void	cpy_ntab(char **new_tab, char **old_tab)
+void	cpy_ntab(char **new_tab, const char **old_tab)
 {
 	int		i;
 	int		old_tab_len;
@@ -28,6 +28,7 @@ void	cpy_ntab(char **new_tab, char **old_tab)
 	{
 		if (!(new_tab[i] = ft_strdup(old_tab[i])))
 			clean_exit(1, 1);
+		i++;
 	}
 }
 
@@ -36,7 +37,7 @@ void	cpy_ntab(char **new_tab, char **old_tab)
 ** return a new ntab with newline append to it
 */
 
-char	**append_line_to_ntab(char *new_line, char **old_tab)
+char	**append_line_to_ntab(char *new_line, const char **old_tab)
 {
 	char	**new_tab;
 	int		old_tab_len;
@@ -47,6 +48,6 @@ char	**append_line_to_ntab(char *new_line, char **old_tab)
 	if (!(new_tab[old_tab_len] = ft_strdup(new_line)))
 		clean_exit(1, 1);
 	new_tab[old_tab_len + 1] = NULL;
-	ft_free_ntab(old_tab);
+	ft_free_ntab((char**)old_tab);
 	return (new_tab);
 }

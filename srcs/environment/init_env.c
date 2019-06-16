@@ -26,6 +26,7 @@ static char	**create_minienv(void)
 	char	**env;
 	char	*cwd;
 
+	ft_dprintf(2, "IN create_minienv\n");
 	init_lines = 2;
 	if (!(env = (char**)malloc(sizeof(char*) * (init_lines + 1))))
 		clean_exit(1, 1);

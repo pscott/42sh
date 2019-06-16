@@ -1,26 +1,26 @@
-#include "ftsh.sh"
+#include "ftsh.h"
+#include "env.h"
 
 /*
 ** add_variables
 ** add or replace the varline corresponding to 'var_name=var_value;
 */
 
-void	add_variables(char *var_name, char *var_value, char ***tab)
+void	add_variables(char *var_name, char *var_value, char ***ntab)
 {
 	char	*new_str;
-	char	*old_str;
 	int		i;
 	
-	i = get_enline_index(var_name, *tab);
+	i = get_envline_index(var_name, *ntab);
 	new_str = concat_for_vartab(var_name, var_value);
 	if (i >= 0)
 	{
-		ft_strdel((*tab)[i]);
-		(*tab)[i] = new_str;
+		ft_strdel(&(*ntab)[i]);
+		(*ntab)[i] = new_str;
 	}
 	else
 	{
-		*tab = append_line_to_ntab(new_str, *tab);
+		*ntab = append_line_to_ntab(new_str, *ntab);
 		ft_strdel(&new_str);
 	}
 }
@@ -33,17 +33,12 @@ void	add_variables(char *var_name, char *var_value, char ***tab)
 
 int		str_equ_varname(char *search, char *varline)
 {
-	unsigned int	i;
 	unsigned int	search_len;
 
-	i = 0;
 	search_len = ft_strlen(search);
-	while (search[i] && varline[i] && search[i] == varline[i])
-	{
-		if (search[i] == '=')
-			return (i);
-		i++;
-	}
+	if (ft_strncmp(search, varline, search_len) == 0
+		&& varline[search_len] == '=')
+		return (search_len + 1);
 	return (0);
 }
 
@@ -53,34 +48,36 @@ int		str_equ_varname(char *search, char *varline)
 ** return NULL if not found
 */
 
-char	*get_varline_from_vartab(char *search, char **tab)
+char	*get_varline_from_vartab(char *search, char **ntab)
 {
 	unsigned int	i;
 
-	if (!search || !env)
+	if (!search || !ntab)
 		return (NULL);
 	i = 0;
-	while (tab[i])
+	while (ntab[i])
 	{
-		if (str_equ_varname(search, tab[i]))
-			return (tab[i]);
+		if (str_equ_varname(search, ntab[i]))
+			return (ntab[i]);
 		i++;
 	}
 	return (NULL);
 }
 
-char	*get_varline_value(char *search, char **tab)
+char	*get_varline_value(char *search, char **ntab)
 {
 	char	*varline;
 	char	*var_value;
+	int		i;
 
-	if (varline = get_varline_from_vartab(search, tab))
+	if ((varline = get_varline_from_vartab(search, ntab)))
 	{
+		i = 0;
 		while (varline[i] && varline[i] != '=')
 			i++;
 		if (varline[i] == '=')
 		{
-			if (!(var_value = ft_strdup(var_line + i + 1)))
+			if (!(var_value = ft_strdup(varline + i + 1)))
 				clean_exit(1, 1);
 			return (var_value);
 		}

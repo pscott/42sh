@@ -48,6 +48,47 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	return (ret);
 }
 
+////////////Move me//////////////////////
+static char	*get_var_value(t_token *token)
+{
+	char	*res_str;
+
+	res_str = NULL;
+	while (token && token->type >= tk_word && token->type <= tk_dq_str)
+	{
+		res_str = ft_strjoin_free_left(res_str, token->content);
+		token->type = tk_eat;
+		token = token->next;
+	}
+	ft_dprintf(2, "RES_STR: %s\n", res_str);
+	return (res_str);
+}
+
+//tricky cases:
+//	toto='tata'\d"bonsoir"
+static void	parse_assignation(t_token *token, t_vars *vars)
+{
+	char		*varline;
+	t_token		*prev;
+
+	(void)vars;
+	while (token)
+	{
+		if (token->type == tk_word && ft_strchr(token->content, '='))
+			//&& (!prev || prev->type == tk_eat))//useless, as i break if a token>tk_word is encounter
+		{
+			ft_printf("procs on %s\n", token->content);
+			varline = get_var_value(token);
+			//add varline to an assignation table ??
+		}
+		else if (token->type > tk_word)
+			break;
+		prev = token;
+		token = token->next;
+	}
+}
+/////////////////////////////////////
+
 /*
 **	Returns a freshly allocated `fake` argv, because redirections have not
 **	been applied.
@@ -62,8 +103,8 @@ static char		**fake_argv(t_token *token_head, t_vars *vars)
 	vars->verbose = 0;
 	cpy = copy_tokens(token_head);
 	parse_expands(cpy, vars);
-	//parse_assignation(cpy, vars);
 	parse_redirections(cpy, -1);
+	parse_assignation(cpy, vars);
 	get_argv_from_token_lst(cpy, &argv);
 	free_token_list(cpy);
 	vars->verbose = 1;
@@ -92,7 +133,13 @@ int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 	char					*cmd_path;
 
 	if (!(argv = fake_argv(token_head, vars)) || !argv[0])
+	{
+		ft_printf("EMPTY ARGV\n");//so add to shell_vars, else env
 		return (-1);
+	}
+	ft_printf("=======\n");
+	ft_print_ntab(argv);//debug
+	ft_printf("=======\n");
 	if (ft_strchr(argv[0], '/'))
 		ret = -1;
 	else if ((cmd_id = check_builtins(argv)))

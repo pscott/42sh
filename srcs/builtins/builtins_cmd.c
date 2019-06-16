@@ -33,6 +33,10 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 		ret = case_echo(argv);
 	else if (cmd_id == cmd_set)
 		ret = case_set(argv, vars);
+	else if (cmd_id == cmd_unset)
+		ret = case_unset(argv, vars);
+	else if (cmd_id == cmd_export)
+		ret = case_export(argv, vars);
 	else
 		ret = 0;
 	ft_free_ntab(argv);
@@ -64,5 +68,9 @@ int			check_builtins(char **argv)
 		return (cmd_echo);
 	if (ft_strcmp(argv[0], "set") == 0)
 		return (cmd_set);
+	if (ft_strcmp(argv[0], "unset") == 0)
+		return (cmd_unset);
+	if (ft_strcmp(argv[0], "export") == 0)
+		return (cmd_export);
 	return (0);
 }

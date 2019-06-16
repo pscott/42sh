@@ -38,6 +38,11 @@ void				unset_env_var(char *var_name, char ***env);
 void				set_default_shell_vars(t_vars *vars);
 void				add_variables(char *var_name, char *var_value, char ***ntab);
 char				*get_varline_from_vartab(char *search, char **ntab);
+char				*get_varline_value(char *search, char **ntab);
 char				*concat_for_vartab(char *var_name, char *var_value);
 char				**append_line_to_ntab(char *new_line, char **old_tab);
+char				**delete_line_ntab(int index_to_del, const char **old_tab);
+int					str_equ_varname(char *search, char *varline);
+char				*get_varline_name(char *varline);
+void				add_varline(char *varline, char ***ntab);
 #endif

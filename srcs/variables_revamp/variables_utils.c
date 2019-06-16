@@ -2,6 +2,28 @@
 #include "env.h"
 
 /*
+** add_varline
+** add (or replace if var_name already exist) to the given ntab
+*/
+
+void	add_varline(char *varline, char ***ntab)
+{
+	char	*var_name;
+	char	*var_value;
+
+	if ((var_name = get_varline_name(varline)))
+	{
+		if (!(var_value = ft_strdup(varline + ft_strlen(var_name) + 1)))
+			clean_exit(1, 1);
+		add_variables(var_name, var_value, ntab);
+		ft_strdel(&var_name);
+		ft_strdel(&var_value);
+	}
+	else
+		*ntab = append_line_to_ntab(varline, *ntab);
+}
+
+/*
 ** add_variables
 ** add or replace the varline corresponding to 'var_name=var_value;
 */
@@ -60,6 +82,23 @@ char	*get_varline_from_vartab(char *search, char **ntab)
 		if (str_equ_varname(search, ntab[i]))
 			return (ntab[i]);
 		i++;
+	}
+	return (NULL);
+}
+
+char	*get_varline_name(char *varline)
+{
+	int		i;
+	char	*var_name;
+
+	i = 0;
+	while (varline[i] && varline[i] != '=')
+		i++;
+	if (varline[i] == '=')
+	{
+		if (!(var_name = ft_strndup(varline, i)))
+			clean_exit(1, 1);
+		return (var_name);
 	}
 	return (NULL);
 }

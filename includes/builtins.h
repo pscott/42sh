@@ -44,7 +44,6 @@ typedef enum		e_cmd_test {
 	op_le,
 	op_sym_eq,
 	op_sym_noteq,
-//	op_mark,
 }					t_cmd_test;
 
 enum				{invalid_option};
@@ -89,6 +88,8 @@ int					check_env_flags(char **argv, int *pos);
 /*
 **	Test utils
 */
+
+char				**check_inv(char **argv, int *inv);
 
 int					test_flag_b(char *path, int *result);
 int					test_flag_c(char *path, int *result);

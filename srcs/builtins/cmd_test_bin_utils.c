@@ -2,7 +2,7 @@
 
 static int			error_too_long(char *str)
 {
-	ft_dprintf(2, "42sh: test: %s: integer expression expected", str);
+	ft_dprintf(2, "42sh: test: %s: integer expression expected\n", str);
 	return (2);
 }
 
@@ -25,7 +25,9 @@ static long long	ft_atoll_test(char *str, long long *value)
 	rep = 0;
 	while (s[i] >= '0' && s[i] <= '9' && s[i])
 	{
-		if (10 * rep + (s[i] - '0') > 9223372036854775807)
+		if ((neg == 1 && 10 * rep + (s[i] - '0') > 9223372036854775807)
+				|| (neg == -1
+					&& (10 * rep + (s[i] - '0') - 1) > 9223372036854775807))
 			return (2);
 		rep = 10 * rep + (s[i++] - '0');
 	}

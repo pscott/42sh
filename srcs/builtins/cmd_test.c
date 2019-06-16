@@ -52,10 +52,12 @@ static int		get_binary_option(char *arg)
 		return (op_lt);
 	else if (!ft_strcmp(arg, "-le"))
 		return (op_le);
-//	else if (!ft_strcmp(arg, "!"))
-//		return (op_mark);
 	return (-1);
 }
+
+/*
+**	Check errors : o is the gap due to the "!" operators if there are some
+*/
 
 static int		check_test_errors(char **argv, int ac)
 {
@@ -74,11 +76,10 @@ static int		check_test_errors(char **argv, int ac)
 	}
 	else if (ac == 4 && get_binary_option(argv[2]) == -1)
 	{
-		ft_dprintf(2, "42sh: test: %s: binary operator expected\n", argv[2]);
+		ft_dprintf(2, "42sh: test: %s: ", argv[2]);
+		ft_dprintf(2, "binary operator expected\n");
 		ret = 2;
 	}
-//	else if (ac == 4 && (check_number(argv[1]) || check_number(argv[3])))
-//		ft_dprintf(2, "42sh: test: %s: integer expression expected\n", str);
 	return (ret);
 }
 
@@ -135,9 +136,20 @@ static int		check_binary_values(char *right, char *left, int biflag,
 		return (test_flag_sym_eq(right, left, result));
 	else if (biflag == op_sym_noteq)
 		return (test_flag_sym_noteq(right, left, result));
-//	else if (biflag == op_sym_mark)
-//		return (test_flag_sym_mark(right, left, result));
 	return (2);
+}
+
+static int		free_newargv(char **newargv, int ret)
+{
+	ft_free_ntab(newargv);
+	return (ret);
+}
+
+static int		return_test_inv(int ret, int inv)
+{
+	if (inv % 2)
+		return (!ret);
+	return (ret);
 }
 
 int				case_test(char **argv)
@@ -146,24 +158,36 @@ int				case_test(char **argv)
 	int		ac;
 	int		uflag;
 	int		biflag;
+	int		inv;
+	char	**newargv;
 
 	ac = 0;
 	uflag = 0;
 	biflag = 0;
-	while (argv[ac])
+	newargv = check_inv(argv, &inv);
+	while (newargv[ac])
 		ac++;
-	if ((ret = check_test_errors(argv, ac)))
-		return (ret);
-	if (ac == 3)
-		uflag = get_unary_option(argv[1]);
+	if ((ret = check_test_errors(newargv, ac)))
+		return (free_newargv(newargv, ret));
+	if (ac == 1 || ac == 2)
+	{
+		if (!newargv[ac] || !newargv[ac][0])
+			return (free_newargv(newargv, return_test_inv(1, inv)));
+		return (free_newargv(newargv, 0));
+	}
+	else if (ac == 3)
+		uflag = get_unary_option(newargv[1]);
 	else if (ac == 4)
-		biflag = get_binary_option(argv[2]);
+		biflag = get_binary_option(newargv[2]);
 	if (uflag)
 	{
-		if (check_unary_values(argv[2], uflag, &ret) == 2)
-			return (2);
+		if (check_unary_values(newargv[2], uflag, &ret) == 2)
+			return (free_newargv(newargv, 2));
 	}
 	else if (biflag)
-		check_binary_values(argv[1], argv[3], biflag, &ret);
-	return (ret);
+	{
+		if (check_binary_values(newargv[1], newargv[3], biflag, &ret))
+			return (free_newargv(newargv, 2));
+	}
+	return (free_newargv(newargv, return_test_inv(ret, inv)));
 }

@@ -33,7 +33,7 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 	else if (cmd_id == cmd_echo)
 		ret = case_echo(argv);
 	else if (cmd_id == cmd_test)
-		ret = case_test(argv, &vars->env_vars);
+		ret = case_test(argv);
 	ft_free_ntab(argv);
 	return (ret);
 }

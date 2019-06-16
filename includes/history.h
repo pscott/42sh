@@ -124,7 +124,7 @@ char					*fc_s_yes_old_no_new(t_st_fc *st_fc, char *hist_curr,
 							int old_cmd_len);
 char					*fc_s_no_old_yes_new(t_st_fc *st_fc,
 							int old_cmd_len);
-int						fc_execute_cmd(char *file, int type);
+int						fc_execute_cmd(t_st_cmd *st_cmd, char *file, int type);
 int						fc_edit_open_editor(t_st_cmd *st_cmd, t_st_fc *st_fc,
 							char **tmp_file, int tmp_file_fd);
 int						fc_edit_open_file(t_st_cmd *st_cmd, t_st_fc *st_fc,

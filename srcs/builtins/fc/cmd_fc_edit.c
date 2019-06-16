@@ -45,7 +45,8 @@ int					fc_edit_open_editor(t_st_cmd *st_cmd, t_st_fc *st_fc,
 	(void)tmp_file_fd;
 	if (!(argv = (char**)malloc(sizeof(char*) * 3)))
 		return (1);
-	if (!(argv[0] = ft_strdup(st_fc->editor)))
+	if ((!st_fc->editor && !(argv[0] = ft_strdup("vim")))
+		|| (st_fc->editor && (!(argv[0] = ft_strdup(st_fc->editor)))))
 	{
 		free(argv);
 		return (1);

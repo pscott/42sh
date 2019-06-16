@@ -28,7 +28,7 @@ int					case_fc_display(t_st_cmd *st_cmd, t_st_fc *st_fc)
 		return (fc_display_reverse(st_cmd, st_fc));
 	i_curr = st_fc->i_first;
 	hist_curr = get_entry_lst(st_cmd->hist_lst, i_curr);
-	while (i_curr <= st_fc->i_last && hist_curr->next)// no need to check if i_last > hist_len ?
+	while (i_curr <= st_fc->i_last && hist_curr)// no need to check if i_last > hist_len ?
 	{
 		if (!ft_strchr(st_fc->flag, 'n'))
 			ft_putnbr(i_curr);
@@ -77,12 +77,11 @@ static int			case_fc_substitute(t_st_cmd *st_cmd, t_st_fc *st_fc)
 	hist_curr = st_cmd->hist_lst;
 	while (hist_curr->prev && diff--)
 		hist_curr = hist_curr->prev;
-	hist_curr = hist_curr->prev;//car maintenant, fc_s rentre dans l'histo et devrait pas --> REMOVE ENSUITE
 	old_cmd_len = ft_strlen_char(hist_curr->txt, '\n');
 	histo_real_entry = ft_strndup(hist_curr->txt, old_cmd_len);
 	new_cmd = substitute_pattern(st_fc, histo_real_entry, old_cmd_len);
 	if (new_cmd && new_cmd[0])
-		return (fc_execute_cmd(new_cmd, substitute));
+		return (fc_execute_cmd(st_cmd, new_cmd, substitute));
 	return (0);
 }
 
@@ -99,7 +98,7 @@ static int			case_fc_editor(t_st_cmd *st_cmd, t_st_fc *st_fc)
 		ft_strdel(&tmp_file);
 		return (1);
 	}
-	return (fc_execute_cmd(tmp_file, edit));
+	return (fc_execute_cmd(st_cmd, tmp_file, edit));
 }
 
 /*
@@ -117,11 +116,12 @@ int					case_fc(char **argv)
 	ft_bzero(&st_fc, sizeof(st_fc));
 	st_cmd = get_st_cmd(NULL);
 	st_cmd->keep = 0;
-	ft_dprintf(2, "{{{{%d}}}}", *st_cmd->hist_len);
+	//ft_dprintf(2, "{{{{%d}}}}", *st_cmd->hist_len);
 
-	if ((ret = init_st_fc(st_cmd, &st_fc, argv)) == 1)
+	if ((ret = init_st_fc(st_cmd, &st_fc, argv)) == 1 || ret == 2)
 	{
 		free_st_fc(&st_fc);
+		st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 		// dans ce cas la, si no command found & s append to historic
 		// ou si mauvaise option
 		return (ret);
@@ -137,14 +137,11 @@ int					case_fc(char **argv)
 
 	
 	if (st_fc.flag[0] == 's')
-		// si cmd not found : retourne 127 OK, pas histo
-		//
 		ret = case_fc_substitute(st_cmd, &st_fc);
-
 	else if (ft_strchr(st_fc.flag, 'l'))//only THIS case is put in history
 	{
-		ret = case_fc_display(st_cmd, &st_fc);
 		st_cmd->keep = 1;
+		ret = case_fc_display(st_cmd, &st_fc);
 	}
 	else
 		ret = case_fc_editor(st_cmd, &st_fc);

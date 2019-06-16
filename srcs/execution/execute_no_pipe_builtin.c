@@ -80,6 +80,10 @@ int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 	int						ret;
 	char					*cmd_path;
 
+	t_st_cmd				*st_cmd;
+
+	st_cmd = get_st_cmd(NULL);
+
 	if (!(argv = fake_argv(token_head, vars)) || !argv[0])
 		return (-1);
 	if (ft_strchr(argv[0], '/'))

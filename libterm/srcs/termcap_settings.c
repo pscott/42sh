@@ -57,13 +57,17 @@ int			setup_terminal_settings(void)
 	char			*termtype;
 	int				res;
 	int				new_tty;
+	char			default_term[15];
 
 	if ((res = open_and_dup_tty()))
 		return (res);
 	if ((!g_isatty) && (tcgetattr(STDIN_FILENO, &g_saved_attr) == -1))
 		return (err_getattr());
 	if ((termtype = getenv("TERM")) == NULL)
-		return (err_no_env());
+	{
+		ft_strcpy(default_term, "xterm-256color");
+		termtype = default_term;
+	}
 	if ((res = tgetent(term_buffer, termtype)) == 0)
 		return (err_noentry());
 	else if (res == -1)

@@ -2,6 +2,7 @@
 # define CMD_PARSING_H
 
 # include "lexer.h"
+# include <pwd.h>
 # define IFS " \t\n"
 
 int					parse_cmdline(t_token *token, t_vars *vars);
@@ -15,6 +16,7 @@ int					parse_tildes(t_token *token_head, const char **env);
 int					parse_vars(char **str, t_vars *vars);
 int					parse_arith_exp(char **str, t_vars *vars);
 int					parse_quotes(t_token *token_head);
+int					parse_bangs(t_token *token_head);
 int					parse_expands(t_token *token_head, t_vars *vars);
 int					parse_dollars_str(char **str, t_vars *vars);
 

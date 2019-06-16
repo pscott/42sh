@@ -46,6 +46,7 @@ int			parse_expands(t_token *token_head, t_vars *vars)
 	parse_tildes(token_head, (const char **)vars->env_vars);
 	if (parse_dollars(token_head, vars) > 0)
 		return (-2);
+	parse_bangs(token_head);
 	parse_quotes(token_head);
 	return (0);
 }

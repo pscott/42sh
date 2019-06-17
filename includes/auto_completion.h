@@ -94,5 +94,7 @@ int							format_finding_and_get_correct_ret(char **ret,
 								int start_actual_word, char *input,
 								unsigned int len);
 void						get_good_ret_str(char **ret_str, char *tmp);
+int							check_if_slash(struct dirent *ent,
+								const char *directory, const char *filename);
 
 #endif

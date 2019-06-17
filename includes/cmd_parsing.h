@@ -48,6 +48,8 @@ int					redir_fd_less(t_token *redir, t_token *prev, int mode);
 int					redir_dgreat(t_token *redir, t_token *prev, int mode);
 int					redir_less(t_token *redir, t_token *prev, int mode);
 int					check_fd_prev(t_token *prev);
+int					check_redirect(char *str);
+void				save_close_fds(int new_fd, int old_fd);
 
 /*
 ** Errors

@@ -11,6 +11,7 @@ int		launch_job(t_job *j, int foreground)
 
 	fds[0] = j->stdin;
 	p = j->first_process;
+	tcsetattr(j->stdin, TCSADRAIN, &g_saved_attr);
 	while (p)
 	{
 		if (p->next)

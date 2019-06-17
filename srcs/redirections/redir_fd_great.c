@@ -3,6 +3,21 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
+static int		get_new_fd_great(t_token *next, int mode, int *new_fd)
+{
+	if (check_redirect(next->content) == 1 && mode != -1)
+	{
+		if ((*new_fd = open(next->content, O_WRONLY | O_CREAT | O_TRUNC,
+						S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) < 0)
+			return (open_error(next->content, mode));
+	}
+	else if (check_redirect(next->content) == -1)
+		*new_fd = change_token_close(next);
+	else
+		*new_fd = ft_atoi(next->content);
+	return (0);
+}
+
 /*
 **	Returns 0 on success
 **	Else returns error number
@@ -22,7 +37,7 @@ int				redir_fd_great(t_token *redir, t_token *prev, int mode)
 	next = redir->next;
 	while (next->type == tk_eat)
 		next = next->next;
-	if (get_new_fd(next, mode, &new_fd))
+	if (get_new_fd_great(next, mode, &new_fd))
 		return (1);
 	redir->type = tk_eat;
 	if (new_fd != -1)

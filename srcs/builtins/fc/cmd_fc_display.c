@@ -12,8 +12,6 @@ int			fc_display_reverse(t_st_cmd *st_cmd, t_st_fc *st_fc)
 	i_curr = st_fc->i_last;
 	diff = *st_cmd->hist_len - st_fc->i_last;
 	hist_curr = get_entry_lst(st_cmd->hist_lst, i_curr);
-	if (!hist_curr->next)//
-		hist_curr = hist_curr->prev;// maxi scotch a changer
 	while (i_curr > 0 && i_curr >= st_fc->i_first)
 	{
 		if (!(ft_strchr(st_fc->flag, 'n')))

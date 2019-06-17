@@ -116,7 +116,6 @@ int					case_fc(char **argv)
 	ft_bzero(&st_fc, sizeof(st_fc));
 	st_cmd = get_st_cmd(NULL);
 	st_cmd->keep = 0;
-	//ft_dprintf(2, "{{{{%d}}}}", *st_cmd->hist_len);
 
 	if ((ret = init_st_fc(st_cmd, &st_fc, argv)) == 1 || ret == 2)
 	{

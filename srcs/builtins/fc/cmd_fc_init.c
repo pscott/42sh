@@ -92,18 +92,6 @@ static int	find_index_fc(t_st_cmd *st_cmd, char *flag, char *to_find)
 				&& ft_isonly("0123456789", to_find))
 			|| (to_find[0] == '+' && ft_isonly("0123456789", to_find)))
 		{
-			if (to_find[0] == '-')
-			{
-				i = 0;
-				while (to_find[++i] && ft_isdigit(to_find[i]))
-					;
-				if (to_find[i] && ft_strcmp(to_find, "--"))
-				{
-					//rentre pas dedans quand genre fc -l -- -9a
-					ft_dprintf(2, "lolilol");
-					return (error_fc_histo(to_find, i, invalid_option, NULL));//invalid option -> considere comme une opton             x = 2;
-				}
-			}
 			nb = ft_atoi(to_find);
 			if (nb < 0 && (*st_cmd->hist_len) + nb >= 0)
 				nb += (*st_cmd->hist_len);
@@ -117,7 +105,6 @@ static int	find_index_fc(t_st_cmd *st_cmd, char *flag, char *to_find)
 		len = ft_strlen(to_find);
 		while (st_cmd->hist_lst && i > 0)// a checker 
 		{
-			ft_dprintf(2, "search i : %s, %d\n", st_cmd->hist_lst->txt, i);
 			i--;
 			if (!ft_strncmp(to_find, st_cmd->hist_lst->txt, len))
 				break ;
@@ -162,8 +149,8 @@ static int		fc_parse_index(t_st_cmd *st_cmd, t_st_fc *st_fc)
 		{
 			if (ft_strchr(st_fc->flag, 'l'))
 			{
-				if ((*st_cmd->hist_len) > 16)
-					st_fc->i_first = (*st_cmd->hist_len) - 16;
+				if ((*st_cmd->hist_len) > 15)
+					st_fc->i_first = (*st_cmd->hist_len) - 15;
 				else
 					st_fc->i_first = 1;
 			}
@@ -207,21 +194,25 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 	if ((fc_parse_operands(st_fc, argv, start_operand)) == -1)
 		return (1);
 	if (*st_cmd->hist_len == 0)
-		return (error_fc_index(st_fc->flag));
+	{
+		error_fc_index(st_fc->flag);
+		return (1);
+	}
 	if ((fc_parse_index(st_cmd, st_fc)) == -1)
 		return (1);
 
-	/*==
+/*	
 	ft_dprintf(2, "-------------------------\n");
 	ft_dprintf(2, "first: %s\nlast: %s\n", st_fc->first, st_fc->last);
 	ft_dprintf(2, "i_first: %d\ni_last: %d\n\n\n", st_fc->i_first, st_fc->i_last);
 	
-*/
+
 
 	
 	ft_dprintf(2, "hist_len: %d\n", *st_cmd->hist_len);
 	
 	ft_dprintf(2, "-------------------------\n");
+*/	
 /*	
 	ft_dprintf(2, "old: %s\nnew: %s\n", st_fc->old_pattern, st_fc->new_pattern);
 	ft_dprintf(2, "editor:%s\n", st_fc->editor);
@@ -240,7 +231,7 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 		st_fc->i_first ^= st_fc->i_last;
 	}
 	if (st_fc->i_last > *st_cmd->hist_len)
-		st_fc->i_last = *st_cmd->hist_len;
+		st_fc->i_last = *st_cmd->hist_len ;
 	
 
 	

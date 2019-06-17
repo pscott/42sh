@@ -14,6 +14,7 @@ t_st_cmd		*append_st_cmd(t_st_cmd *st_cmd, const char *txt,
 	init_relative_pos(&new->cursor_pos, new->window, new->st_prompt->size);
 	new->hist_lst = st_cmd->hist_lst;
 	new->keep = st_cmd->keep;
+	new->cr = st_cmd->cr;
 	st_cmd->next = new;
 	new->prev = st_cmd;
 	new->next = NULL;
@@ -33,6 +34,7 @@ t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd)
 	st_cmd->keep = 1;
 	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
 		st_cmd->st_prompt->size);
+	st_cmd->cr = 0;
 	st_cmd->hist_lst = old_st_cmd->hist_lst;
 	st_cmd->hist_len = old_st_cmd->hist_len;
 	*st_cmd->hist_len = get_hist_len(st_cmd->hist_lst);
@@ -68,10 +70,11 @@ t_st_cmd		*init_st_cmd(const char **env)
 		st_cmd->st_prompt->size);
 	if (!(hist_len_var = (int*)malloc(sizeof(int))))
 		clean_exit(1, 1);
+	st_cmd->cr = 0;
 	st_cmd->hist_len = hist_len_var;
 	st_cmd->hist_lst = get_history(env);
+	st_cmd->hist_lst = insert_right(st_cmd->hist_lst, "", 0);
 	*hist_len_var = get_hist_len(st_cmd->hist_lst);
-	st_cmd->hist_lst = insert_right(st_cmd->hist_lst, "last", 0);
 	st_cmd->next = NULL;
 	st_cmd->prev = NULL;
 	return (st_cmd);
@@ -104,10 +107,8 @@ void			free_all_st_cmds(t_st_cmd **st_cmd)
 		return ;
 	probe = get_first_st_cmd(*st_cmd);
 	free_hist_lst(probe->hist_lst);
-	/*
 	if ((*st_cmd)->hist_len)
 		free((*st_cmd)->hist_len);
-		*/
 	free((*st_cmd)->window);
 	while (probe)
 	{

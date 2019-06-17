@@ -2,12 +2,15 @@
 #include "line_editing.h"
 #include "ast.h"
 #include "history.h"
+#include "cmd_parsing.h"
 
 static int		continue_reading(t_token *token_head, t_st_cmd **st_cmd,
 				char **input, t_vars *vars)
 {
 	free_token_list(token_head);
 	adjust_history(*st_cmd, 0);
+
+
 	*st_cmd = append_st_cmd(*st_cmd, "", CONTINUE_PROMPT);
 	if (input_loop(*st_cmd, vars, continue_read) < 1
 		|| !*(*st_cmd)->st_txt->txt)
@@ -54,15 +57,16 @@ int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	char			*input;
 
 	token_head = NULL;
-	input = concatenate_txt(st_cmd);
+	if (!(input = concatenate_txt(st_cmd)))
+		return (1);
 	while ((lexer_ret = lexer(input, &token_head, vars)) == lex_cont_read)
 	{
+		st_cmd->cr = 1;
 		ret = handle_continue_reading(token_head, &st_cmd, &input, vars);
 		if (ret < 1)
 			return (ret);
 	}
 	ft_strdel(&input);
-	//	adjust_history(st_cmd, 1);
 	if (lexer_ret == lex_fail)
 	{
 		free_token_list(token_head);

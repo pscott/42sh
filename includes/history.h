@@ -62,6 +62,7 @@ t_hist_lst				*get_end_lst(t_hist_lst *hist_lst);
 t_hist_lst				*get_begin_lst(t_hist_lst *hist_lst);
 int						get_hist_len(t_hist_lst *hist_lst);
 t_hist_lst				*get_entry_lst(t_hist_lst *hist_lst, int index);
+t_hist_lst				*get_entry_lst_word(t_hist_lst *hist_lst, char *word);
 
 /*
 **	Getting previous history and next history and displaying it on screen

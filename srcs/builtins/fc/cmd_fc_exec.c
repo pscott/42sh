@@ -8,7 +8,7 @@ static int			print_exec_and_free(t_st_cmd *st_cmd, t_vars *new_vars)
 	char			*tmp;
 
 	if (!(tmp = ft_strjoin(st_cmd->st_txt->txt, "\n")))
-			clean_exit(1, 1);
+		clean_exit(1, 1);
 	ft_dprintf(STDERR_FILENO, "%s\n", st_cmd->st_txt->txt);
 	new_vars->cmd_value = handle_input(st_cmd, new_vars);
 	st_cmd->hist_lst = insert_left(st_cmd->hist_lst, tmp, 1);

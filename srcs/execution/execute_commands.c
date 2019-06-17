@@ -79,14 +79,15 @@ static int			execute_argv(char **argv, t_vars *vars)
 */
 
 int					parse_and_exec(t_token *token_head, int in,
-	int out, t_vars *vars)
+	int out)
 {
 	char			**argv;
 	int				ret;
+	t_vars			*vars;
 
-	reset_signals();
 	redirect(in, STDIN_FILENO, 0);
 	redirect(out, STDOUT_FILENO, 0);
+	vars = get_vars(NULL);
 	argv = NULL;
 	if ((ret = parse_expands(token_head, vars)) != 0)
 		return (ret);

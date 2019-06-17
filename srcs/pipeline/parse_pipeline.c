@@ -115,7 +115,7 @@ static	int		fork_pipes(int num_simple_commands, t_token *beg, t_vars *vars)
 		if (pipe(fd))
 		{
 			write(2, "pipe error\n", 11);
-			clean_exit(-1, 0);
+			clean_exit(1, 0);
 		}
 		create_forks(&beg, ints, fd, vars);
 	}
@@ -123,21 +123,49 @@ static	int		fork_pipes(int num_simple_commands, t_token *beg, t_vars *vars)
 	return (ret);
 }
 
-/*
-** First counts the number of pipes and checks for correct pipe syntax
-** then hands the token list to fork_pipes to handle pipes.
-*/
+static t_token	*copy_tokens_from_to(t_token *from, t_token *to)
+{
+	t_token	*res;
+	t_token	*probe;
 
-int				parse_cmdline(t_token *token, t_vars *vars)
+	res = NULL;
+	probe = from;
+	while (probe && probe != to)
+	{
+		append_token(&res, create_token(probe->content, probe->size, probe->type));
+		probe = probe->next;
+	}
+	return (res);
+}
+
+static t_token	*copy_token_jobs(t_token *token)
+{
+	t_token *probe;
+
+	probe = token;
+	while (probe && probe->type < tk_amp)
+		probe = probe->next;
+	return (copy_tokens_from_to(token, probe));
+}
+
+static t_process *create_process_list(t_job *j)
+{
+}
+
+int				parse_cmdline(t_token *token)
 {
 	int		num_simple_commands;
 	t_token *probe;
+	t_job	*j;
 	int		ret;
 
 	if (!token)
 		return (0);
-	num_simple_commands = 1;
-	probe = token;
+	j = g_first_job;
+	while (j)
+		j = j->next;
+	j->token_list = copy_token_jobs(token);
+	j->first_process = create_process_list(j);
 	while (probe)
 	{
 		while (probe && is_simple_cmd_token(probe))
@@ -148,7 +176,7 @@ int				parse_cmdline(t_token *token, t_vars *vars)
 			num_simple_commands++;
 		}
 	}
-	if ((num_simple_commands == 1)
+	if ((num_simple_commands == 1) // number of processes
 		&& ((ret = check_no_pipe_builtin(token, vars)) >= 0 || ret == -2))
 		return (ret);
 	ret = fork_pipes(num_simple_commands, token, vars);

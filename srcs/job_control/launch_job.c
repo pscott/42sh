@@ -18,19 +18,19 @@ int		launch_job(t_job *j, int foreground)
 			if (pipe (mypipe) < 0)
 			{
 				ft_dprintf(2, "pipe failed\n");
-				exit (1);
+				exit(1);
 			}
 			fds[1] = mypipe[1];
 		}
 		else
 			fds[1] = j->stdout;
-		pid = fork ();
+		pid = fork();
 		if (pid == 0)
 			launch_process(p, j->pgid, fds, foreground);
 		else if (pid < 0)
 		{
 			ft_dprintf(2, "fork failed\n");
-			exit (1);
+			exit(1);
 		}
 		else
 		{
@@ -43,9 +43,9 @@ int		launch_job(t_job *j, int foreground)
 			}
 		}
 		if (fds[0] != j->stdin)
-			close (fds[0]);
+			close(fds[0]);
 		if (fds[1] != j->stdout)
-			close (fds[1]);
+			close(fds[1]);
 		fds[0] = mypipe[0];
 		p = p->next;
 	}

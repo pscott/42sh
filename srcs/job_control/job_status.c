@@ -32,11 +32,8 @@ int	mark_process_status(pid_t pid, int status)
 			}
 			j = j->next;
 		}
-		ft_dprintf(2, "No child process %d.\n", (int)pid);
-		return (-1);
 	}
-	else
-		return (-1);
+	return (-1);
 }
 
 void	update_status(void)

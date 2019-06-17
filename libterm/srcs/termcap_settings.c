@@ -41,6 +41,7 @@ static int	set_non_canonical_mode(struct termios *tattr)
 	term.c_cc[VTIME] = 0;
 	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &term) == -1)
 		return (err_setattr());
+	tcgetattr(STDIN_FILENO, &g_42sh_attr);
 	return (1);
 }
 
@@ -72,6 +73,5 @@ int			setup_terminal_settings(void)
 		return (err_caps());
 	if (set_non_canonical_mode(&g_saved_attr) == 0)
 		return (1);
-	ft_dprintf(2, "before return tty: %d\n", g_isatty);
 	return (0);
 }

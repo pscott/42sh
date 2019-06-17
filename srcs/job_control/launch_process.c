@@ -11,7 +11,8 @@ int	launch_process(t_process *p, pid_t pgid, int fds[2], int foreground)
 		pid = getpid();
 		if (pgid == 0)
 			pgid = pid;
-		setpgid(pid, pgid);
+		if (setpgid(pid, pgid) == -1)
+			clean_exit(1, 0);
 		if (foreground)
 			tcsetpgrp(TERM_FD, pgid);
 		reset_signals();

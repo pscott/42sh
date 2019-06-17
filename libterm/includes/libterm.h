@@ -79,6 +79,7 @@
 */
 
 extern struct termios	g_saved_attr;
+extern struct termios	g_42sh_attr;
 extern int				g_isatty;
 
 /*

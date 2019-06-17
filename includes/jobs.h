@@ -53,6 +53,7 @@ void			put_job_in_foreground(t_job *j, int cont);
 int				launch_job(t_job *j, int foreground);
 int				launch_process(t_process *p, pid_t pgid, int fds[2], int foreground);
 t_job			*create_job(t_token *tokens);
+t_job			*append_job(t_job **first_j, t_job *to_add);
 t_process		*create_process_list(t_token *token_list);
 int				get_processes_len(t_process *p);
 
@@ -71,6 +72,8 @@ int				mark_process_status(pid_t pid, int status);
 
 t_token			*copy_job_tokens(t_token *tokens);
 t_token			*copy_process_tokens(t_token *tokens);
+
+void			do_job_notification(void);
 
 /*
 **	Free functions

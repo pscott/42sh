@@ -56,5 +56,5 @@ int		launch_job(t_job *j, int foreground)
 		put_job_in_foreground(j, 0);
 	else
 		put_job_in_background(j, 0);
-	return (0); // missing signals
+	return (0);
 }

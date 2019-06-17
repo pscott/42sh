@@ -131,7 +131,7 @@ int				parse_cmdline(t_token *token, t_vars *vars, int foreground)
 
 	if (!token)
 		return (0);
-	j = create_job(token);
+	j = append_job(&g_first_job, create_job(token)); //  missing create job_list
 	p = create_process_list(token);
 	j->first_process = p;
 	if (foreground)

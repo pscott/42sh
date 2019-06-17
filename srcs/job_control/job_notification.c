@@ -29,5 +29,6 @@ void	do_job_notification(void)
 		}
 		else
 			jlast = j;
+		j = jnext;
 	}
 }

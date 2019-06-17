@@ -127,7 +127,10 @@ int				exec_ast(t_ast *root, t_vars *vars, int foreground)
 		return (exec_ast(root->right, vars, foreground));
 	}
 	else if (root->token->type == tk_amp)
-		return (exec_ast(root->left, vars, foreground));
+	{
+		exec_ast(root->left, vars, 0);
+		return (exec_ast(root->right, vars, foreground));
+	}
 	else if (root->token->type == tk_and)
 	{
 		ret = exec_ast(root->left, vars, foreground);

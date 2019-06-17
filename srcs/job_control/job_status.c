@@ -5,9 +5,10 @@ int	mark_process_status(pid_t pid, int status)
 	t_job		*j;
 	t_process	*p;
 
+	if (!(j = g_first_job))
+		return (1);
 	if (pid > 0)
 	{
-		j = g_first_job;
 		while (j)
 		{
 			p = j->first_process;
@@ -34,13 +35,8 @@ int	mark_process_status(pid_t pid, int status)
 		ft_dprintf(2, "No child process %d.\n", (int)pid);
 		return (-1);
 	}
-	else if (pid == 0)
-		return (-1);
 	else
-	{
-		ft_dprintf(2, SHELL_NAME ": error: waitpid failed\n");
 		return (-1);
-	}
 }
 
 void	update_status(void)

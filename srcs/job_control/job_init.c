@@ -4,6 +4,7 @@
 
 void	init_shell(void)
 {
+	g_first_job = NULL;
 	g_isatty = isatty(STDIN_FILENO);
 	if (g_isatty)
 	{

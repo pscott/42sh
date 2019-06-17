@@ -42,6 +42,24 @@ static int	free_variables(t_vars *vars, t_st_cmd *st_cmd)
 	return (ret);
 }
 
+
+void	print_jobs(t_job *j)
+{
+	t_token *probe;
+	ft_dprintf(2, "-- JOBS --\n");
+	while (j)
+	{
+		probe = j->token_list;
+		while (probe)
+		{
+			ft_dprintf(2, "%s\n", probe->content);
+			probe = probe->next;
+		}
+		ft_dprintf(2, "%p\n", j->first_process);
+		j = j->next;
+	}
+}
+
 /*
 **	Initialize variables, read input with input_loop.
 **	If reading input fails or first byte of input is 0, exits.
@@ -70,7 +88,9 @@ int			main(int argc, char **argv, char **env)
 			break ;
 		else if (ret > 0 && !is_full_of_whitespaces(st_cmd->st_txt->txt))
 			vars.cmd_value = handle_input(st_cmd, &vars);
+		do_job_notification();
 		st_cmd = reset_st_cmd(st_cmd);
+		ft_dprintf(2, "{%p}\n", g_first_job);
 	}
 	ret = free_variables(&vars, st_cmd);
 	return (ret);

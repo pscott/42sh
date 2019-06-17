@@ -27,6 +27,7 @@ void		free_job(t_job *j)
 	free_process_list(j->first_process);
 	ft_bzero(j, sizeof(*j));
 	free(j);
+	j = NULL;
 }
 
 void		free_job_list(t_job *j)

@@ -1,6 +1,7 @@
 #include "jobs.h"
+#include "execution.h"
 
-void	wait_for_job(t_job *j)
+int		wait_for_job(t_job *j)
 {
 	int		status;
 	pid_t	pid;
@@ -10,4 +11,5 @@ void	wait_for_job(t_job *j)
 		&& !job_is_stopped(j)
 		&& !job_is_completed(j))
 		pid = waitpid(WAIT_ANY, &status, WUNTRACED);
+	return (exit_status(status));
 }

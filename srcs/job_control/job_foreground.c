@@ -1,8 +1,10 @@
 #include "jobs.h"
 #include <signals.h>
 
-void	put_job_in_foreground(t_job *j, int cont)
+int		put_job_in_foreground(t_job *j, int cont)
 {
+	int	ret;
+
 	tcsetpgrp(TERM_FD, j->pgid);
 	if (cont)
 	{
@@ -11,8 +13,8 @@ void	put_job_in_foreground(t_job *j, int cont)
 			ft_dprintf(2, SHELL_NAME ": error with sending continue signal\n");
 	}
 	signals_setup(); // here or after wait ?
-	wait_for_job(j);
+	ret = wait_for_job(j);
 	tcsetpgrp(TERM_FD, g_shell_pgid);
 	tcgetattr(TERM_FD, &j->tmodes);
-	tcsetattr(TERM_FD, TCSADRAIN, &g_42sh_attr);
+	return (ret);
 }

@@ -47,7 +47,7 @@ t_process		*create_process(t_token *token_list);
 t_process		*append_process(t_process **first_process, t_process *to_add);
 
 void			put_job_in_background(t_job *j, int cont);
-void			put_job_in_foreground(t_job *j, int cont);
+int				put_job_in_foreground(t_job *j, int cont);
 
 
 int				launch_job(t_job *j, int foreground);
@@ -61,7 +61,7 @@ int				get_processes_len(t_process *p);
 **
 */
 
-void			wait_for_job(t_job *j);
+int				wait_for_job(t_job *j);
 void			update_status(void);
 
 int				job_is_completed(t_job *j);

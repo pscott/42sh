@@ -6,6 +6,7 @@ int		launch_job(t_job *j, int foreground)
 {
 	t_process	*p;
 	pid_t		pid;
+	int			ret;
 	int			mypipe[2];
 	int			fds[2];
 
@@ -51,11 +52,13 @@ int		launch_job(t_job *j, int foreground)
 		p = p->next;
 	}
 	format_job_info(j, "launched");
+	ret = 0;
 	if (!g_isatty)
-		wait_for_job(j);
+		ret = wait_for_job(j);
 	else if (foreground)
-		put_job_in_foreground(j, 0);
+		ret = put_job_in_foreground(j, 0);
 	else
 		put_job_in_background(j, 0);
-	return (0);
+	tcsetattr(TERM_FD, TCSADRAIN, &g_42sh_attr);
+	return (ret);
 }

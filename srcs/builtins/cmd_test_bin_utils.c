@@ -35,10 +35,24 @@ static long long	ft_atoll_test(char *str, long long *value)
 	return (0);
 }
 
+static int			check_chars_number(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int					check_longlong(char *str, long long *value)
 {
 	*value = 0;
-	if (ft_atoll_test(str, value))
+	if (check_chars_number(str) || ft_atoll_test(str, value))
 		return (error_too_long(str));
 	return (0);
 }

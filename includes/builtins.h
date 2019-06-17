@@ -91,21 +91,21 @@ int					check_env_flags(char **argv, int *pos);
 
 char				**check_inv(char **argv, int *inv);
 
-int					test_flag_b(char *path, int *result);
-int					test_flag_c(char *path, int *result);
-int					test_flag_d(char *path, int *result);
-int					test_flag_e(char *path, int *result);
-int					test_flag_f(char *path, int *result);
-int					test_flag_g(char *path, int *result);
-int					test_flag_cap_l(char *path, int *result);
-int					test_flag_p(char *path, int *result);
-int					test_flag_r(char *path, int *result);
-int					test_flag_cap_s(char *path, int *result);
-int					test_flag_s(char *path, int *result);
-int					test_flag_u(char *path, int *result);
-int					test_flag_w(char *path, int *result);
-int					test_flag_x(char *path, int *result);
-int					test_flag_z(char *path, int *result);
+int					test_flag_b(char *path);
+int					test_flag_c(char *path);
+int					test_flag_d(char *path);
+int					test_flag_e(char *path);
+int					test_flag_f(char *path);
+int					test_flag_g(char *path);
+int					test_flag_cap_l(char *path);
+int					test_flag_p(char *path);
+int					test_flag_r(char *path);
+int					test_flag_cap_s(char *path);
+int					test_flag_s(char *path);
+int					test_flag_u(char *path);
+int					test_flag_w(char *path);
+int					test_flag_x(char *path);
+int					test_flag_z(char *path);
 
 int					test_flag_sym_eq(char *left, char *right, int *result);
 int					test_flag_sym_noteq(char *left, char *right, int *result);
@@ -115,5 +115,11 @@ int					test_flag_ge(char *left, char *right, int *result);
 int					test_flag_lt(char *left, char *right, int *result);
 int					test_flag_le(char *left, char *right, int *result);
 int					check_longlong(char *str, long long *value);
+int					get_unary_option(char *arg);
+int					get_binary_option(char *arg);
+int					check_test_errors(char **argv, int ac);
+int					check_unary_values(char *path, int uflag);
+int					check_binary_values(char *right, char *left, int biflag,
+					int *result);
 
 #endif

@@ -15,6 +15,13 @@ static int		check_av_size(char **argv)
 	return (ac - i);
 }
 
+static void		init_ints(int *i, int *k, int *inv)
+{
+	*i = 1;
+	*k = 1;
+	*inv = 0;
+}
+
 char			**check_inv(char **argv, int *inv)
 {
 	int		i;
@@ -22,9 +29,7 @@ char			**check_inv(char **argv, int *inv)
 	int		size;
 	char	**newargv;
 
-	i = 1;
-	k = 1;
-	*inv = 0;
+	init_ints(&i, &k, inv);
 	size = check_av_size(argv);
 	if (!(newargv = (char**)malloc(sizeof(char*) * (size + 1))))
 		clean_exit(1, 1);
@@ -39,12 +44,8 @@ char			**check_inv(char **argv, int *inv)
 		i++;
 	}
 	while (argv[i])
-	{
-		if (!(newargv[k] = ft_strdup(argv[i])))
+		if (!(newargv[k++] = ft_strdup(argv[i++])))
 			clean_exit(1, 1);
-		k++;
-		i++;
-	}
 	newargv[size] = NULL;
 	return (newargv);
 }

@@ -103,7 +103,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 						cmd_env_check.c cmd_test.c cmd_test_bcdef.c \
 						cmd_test_glprs.c cmd_test_suwxz.c cmd_test_bin.c \
 						cmd_test_oper.c cmd_test_bin_utils.c \
-						cmd_test_opposite.c
+						cmd_test_opposite.c cmd_test_get_opt.c \
+						cmd_test_checks.c
 	REDIR_FILES		:=	redir_dgreat.c redir_fd_great.c fd_utils.c \
 						redir_great.c redir_less.c parse_redirections.c \
 						redir_fd_less.c redirections_errors.c redir_fd_utils.c \

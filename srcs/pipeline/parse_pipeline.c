@@ -149,7 +149,11 @@ int				parse_cmdline(t_token *token, t_vars *vars)
 	}
 	if ((num_simple_commands == 1)
 		&& ((ret = check_no_pipe_builtin(token, vars)) >= 0 || ret == -2))
+	{
+		vars->cmd_value = ret;
 		return (ret);
+	}
 	ret = fork_pipes(num_simple_commands, token, vars);
+	vars->cmd_value = ret;
 	return (ret);
 }

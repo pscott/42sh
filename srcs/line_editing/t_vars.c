@@ -45,6 +45,7 @@ int			init_vars(t_vars *vars, int argc, char **argv, char **env)
 	vars->shell_vars = NULL;
 	vars->verbose = 1;
 	vars->copy = NULL;
+	vars->assign_tab = NULL;
 	get_vars(vars);
 	if (init_env_shellvars(vars, env) == 1)
 		return (1);

@@ -116,8 +116,11 @@ char	*get_varline_value(char *search, char **ntab)
 			i++;
 		if (varline[i] == '=')
 		{
+			ft_dprintf(2, "dup for var_value:|%s|\n", varline + i + 1);
 			if (!(var_value = ft_strdup(varline + i + 1)))
 				clean_exit(1, 1);
+			if (var_value[0] == 0)
+				return (NULL);
 			return (var_value);
 		}
 	}

@@ -33,6 +33,7 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 		save_reset_stdfd(0);
 		return (ret);
 	}
+	parse_assignation(token_head, vars);
 	argv = NULL;
 	get_argv_from_token_lst(token_head, &argv);
 	ret = exec_builtins(argv, vars, cmd_id);
@@ -47,47 +48,6 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	save_reset_stdfd(0);
 	return (ret);
 }
-
-////////////Move me//////////////////////
-static char	*get_var_value(t_token *token)
-{
-	char	*res_str;
-
-	res_str = NULL;
-	while (token && token->type >= tk_word && token->type <= tk_dq_str)
-	{
-		res_str = ft_strjoin_free_left(res_str, token->content);
-		token->type = tk_eat;
-		token = token->next;
-	}
-	ft_dprintf(2, "RES_STR: %s\n", res_str);
-	return (res_str);
-}
-
-//tricky cases:
-//	toto='tata'\d"bonsoir"
-static void	parse_assignation(t_token *token, t_vars *vars)
-{
-	char		*varline;
-	t_token		*prev;
-
-	(void)vars;
-	while (token)
-	{
-		if (token->type == tk_word && ft_strchr(token->content, '='))
-			//&& (!prev || prev->type == tk_eat))//useless, as i break if a token>tk_word is encounter
-		{
-			ft_printf("procs on %s\n", token->content);
-			varline = get_var_value(token);
-			//add varline to an assignation table ??
-		}
-		else if (token->type > tk_word)
-			break;
-		prev = token;
-		token = token->next;
-	}
-}
-/////////////////////////////////////
 
 /*
 **	Returns a freshly allocated `fake` argv, because redirections have not
@@ -134,9 +94,11 @@ int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 
 	if (!(argv = fake_argv(token_head, vars)) || !argv[0])
 	{
-		ft_printf("EMPTY ARGV\n");//so add to shell_vars, else env
+		ft_printf("EMPTY ARGV\n");//so add to shell_vars
+		apply_assignation(vars->assign_tab, &vars->shell_vars);
 		return (-1);
 	}
+	//else add to env
 	ft_printf("=======\n");
 	ft_print_ntab(argv);//debug
 	ft_printf("=======\n");

@@ -9,6 +9,7 @@ typedef struct			s_vars
 	char				*copy;
 	int					cmd_value;
 	int					verbose;
+	char				**assign_tab;
 }						t_vars;
 
 #endif

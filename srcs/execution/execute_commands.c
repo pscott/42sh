@@ -88,10 +88,14 @@ int					parse_and_exec(t_token *token_head, int in,
 	argv = NULL;
 	if ((ret = parse_expands(token_head, vars)) != 0)
 		return (ret);
-	//TODO parse_assign() here
 	if ((ret = parse_redirections(token_head, 0)) > 0)
 		return (ret);
+	//TODO parse_assign() here
+	parse_assignation(token_head, vars);
 	if ((ret = get_argv_from_token_lst(token_head, &argv) > 0))
 		return (0);
+	ft_printf("*******\n");
+	ft_print_ntab(argv);//debug
+	ft_printf("*******\n");
 	return (execute_argv(argv, vars));
 }

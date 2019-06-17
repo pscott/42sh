@@ -1,16 +1,21 @@
 #include "cmd_parsing.h"
 #include "env.h"
 
-static void			substitute_env_var(char **str, size_t *i
-	, const char *var_name, t_vars *vars)
+static void			substitute_env_var(char **str, size_t *i,
+	const char *var_name, t_vars *vars)
 {
 	const char	*var_value;
 	size_t		index[2];
 	char		empty_char;
 
 	empty_char = 0;
-	if (!(var_value = get_envline_value((char *)var_name, vars->env_vars)))
-		var_value = &empty_char;
+	//if (!(var_value = get_envline_value((char *)var_name, vars->shell_vars)))
+	//{
+	//	ft_dprintf(2, "NO VALUE\n");
+	//	var_value = &empty_char;
+	//}
+	var_value = get_varline_value((char*)var_name, vars->shell_vars);//test
+	ft_dprintf(2, "VALUE|%s|\n", var_value);
 	index[0] = *i;
 	index[1] = *i + ft_strlen(var_name) + 0;
 	substitute_slice(str, index, var_value);
@@ -33,7 +38,7 @@ static void			substitute_param(char **str, size_t *i,
 	else
 	{
 		empty_char = 0;
-		if (!(var_value = get_envline_value((char *)var_name, vars->env_vars)))
+		if (!(var_value = get_envline_value((char *)var_name, vars->shell_vars)))
 			var_value = &empty_char;
 	}
 	index[0] = *i;
@@ -85,8 +90,8 @@ static const char	*get_param_sub_name(const char *str, t_vars *vars)
 /*
 ** parse_vars
 ** look through **str, to find '${' or '$'
-** return 0 on bad substitution with ${}
-** return 1 otherwise
+** return 1 on bad substitution with ${}
+** return 0 otherwise
 */
 
 int					parse_vars(char **str, t_vars *vars)

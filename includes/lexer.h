@@ -60,6 +60,7 @@ typedef enum			e_lexer_state
 ** lexer.c
 */
 
+t_token					*append_token(t_token **token_head, t_token *append);
 t_token					*create_token(char *cmdline, size_t size,
 	t_token_type type);
 int						lexer(char *cmdline, t_token **token_head,

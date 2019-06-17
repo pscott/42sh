@@ -1,6 +1,6 @@
 #include "jobs.h"
 
-void	mark_job_as_running(job *j)
+void	mark_job_as_running(t_job *j)
 {
 	t_process *p;
 
@@ -13,7 +13,7 @@ void	mark_job_as_running(job *j)
 	j->notified = 0;
 }
 
-void	continue_job(job *j, int foreground)
+void	continue_job(t_job *j, int foreground)
 {
 	mark_job_as_running(j);
 	if (foreground)

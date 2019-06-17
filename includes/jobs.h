@@ -6,7 +6,6 @@
 # include <termios.h>
 # include "lexer.h"
 
-
 typedef struct			s_process
 {
 	struct s_process	*next;       /* next process in pipeline */
@@ -25,10 +24,14 @@ typedef struct		s_job
   pid_t				pgid;                 /* process group ID */
   char				notified;              /* true if user told about stopped job */
   struct termios	tmodes;
+  int				stdin;
+  int				stdout;
+  int				stderr;
 }					t_job;
 
-static t_job	*g_first_job = NULL;
-static pid_t	g_shell_pgid;
+t_job	*g_first_job;
+pid_t	g_shell_pgid;
+int		g_shell_is_interactive;
 
 /*
 **	Jobs functions
@@ -40,9 +43,40 @@ void			init_shell(void);
 **	Processes functions
 */
 
-t_process		create_process(t_token *token_list, pid_t pid);
+t_process		*create_process(t_token *token_list);
 t_process		*append_process(t_process **first_process, t_process *to_add);
 
 void			put_job_in_background(t_job *j, int cont);
 void			put_job_in_foreground(t_job *j, int cont);
+
+
+int				launch_job(t_job *j, int foreground);
+int				launch_process(t_process *p, pid_t pgid, int fds[2], int foreground);
+t_job			*create_job(t_token *tokens);
+t_process		*create_process_list(t_token *token_list);
+int				get_processes_len(t_process *p);
+
+/*
+**
+*/
+
+void			wait_for_job(t_job *j);
+void			update_status(void);
+
+int				job_is_completed(t_job *j);
+void			format_job_info(t_job *j, const char *status);
+int				job_is_stopped(t_job *j);
+
+int				mark_process_status(pid_t pid, int status);
+
+t_token			*copy_job_tokens(t_token *tokens);
+t_token			*copy_process_tokens(t_token *tokens);
+
+/*
+**	Free functions
+*/
+
+void			free_job(t_job *j);
+void			free_job_list(t_job *j);
+
 #endif

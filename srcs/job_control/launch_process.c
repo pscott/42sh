@@ -1,6 +1,8 @@
 #include "jobs.h"
+#include "execution.h"
+#include "signals.h"
 
-void	launch_process(process *p, int fds[2], pid_t pgid, int foreground)
+int	launch_process(t_process *p, pid_t pgid, int fds[2], int foreground)
 {
 	pid_t pid;
 
@@ -11,8 +13,10 @@ void	launch_process(process *p, int fds[2], pid_t pgid, int foreground)
 			pgid = pid;
 		setpgid(pid, pgid);
 		if (foreground)
-			tcsetpgrp(g_shell_terminal, pgid);
+			tcsetpgrp(TERM_FD, pgid);
+		ft_dprintf(2, "resetting\n");
 		reset_signals();
 	}
-	parse_and_exec(p->token_list, fds[0], fd[1]);
+	parse_and_exec(p->token_list, fds[0], fds[1]);
+	return (0);
 }

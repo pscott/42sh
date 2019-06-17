@@ -8,6 +8,8 @@
 
 # define SHELL_NAME "21sh"
 
+extern int				g_isatty;
+extern struct termios	g_saved_attr;
 /*
 **	t_vars utility functions
 */

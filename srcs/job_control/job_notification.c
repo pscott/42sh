@@ -5,7 +5,6 @@ void	do_job_notification(void)
 	t_job		*j;
 	t_job		*jlast;
 	t_job		*jnext;
-	t_process	*p;
 
 	update_status();
 	jlast = NULL;

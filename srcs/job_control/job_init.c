@@ -4,8 +4,8 @@
 
 void	init_shell(void)
 {
-	g_shell_is_interactive = isatty(STDIN_FILENO);
-	if (g_shell_is_interactive)
+	g_isatty = isatty(STDIN_FILENO);
+	if (g_isatty)
 	{
 		while (tcgetpgrp(STDIN_FILENO) != (g_shell_pgid = getpgrp()))
 			kill(-g_shell_pgid, SIGTTIN);
@@ -18,4 +18,5 @@ void	init_shell(void)
 		}
 		tcsetpgrp(STDIN_FILENO, g_shell_pgid);
 	}
+	g_isatty = 0;
 }

@@ -5,6 +5,9 @@
 #include "signals.h"
 #include "jobs.h"
 
+int				g_isatty;
+struct termios	g_saved_attr;
+
 int			is_full_of_whitespaces(const char *input)
 {
 	int		i;

@@ -78,9 +78,8 @@
 ** Previous terminal settings are saved in a global, and restored on exit.
 */
 
-static struct termios	g_saved_attr;
-static int				g_isatty = 0;
-static int				g_shell_is_interactive;
+extern struct termios	g_saved_attr;
+extern int				g_isatty;
 
 /*
 ** Settings-related functions

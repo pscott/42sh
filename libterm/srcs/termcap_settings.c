@@ -72,5 +72,6 @@ int			setup_terminal_settings(void)
 		return (err_caps());
 	if (set_non_canonical_mode(&g_saved_attr) == 0)
 		return (1);
+	ft_dprintf(2, "before return tty: %d\n", g_isatty);
 	return (0);
 }

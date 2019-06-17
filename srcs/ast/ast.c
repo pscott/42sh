@@ -114,7 +114,7 @@ t_ast			*create_ast(t_token *token_head)
 	return (ast_root);
 }
 
-int				exec_ast(t_ast *root, t_vars *vars)
+int				exec_ast(t_ast *root, t_vars *vars, int foreground)
 {
 	int	ret;
 
@@ -122,20 +122,22 @@ int				exec_ast(t_ast *root, t_vars *vars)
 		return (1);
 	if (root->token->type == tk_semi)
 	{
-		if ((ret = exec_ast(root->left, vars)) == 254 || ret == -2)
+		if ((ret = exec_ast(root->left, vars, foreground)) == 254 || ret == -2)
 			return (1);
-		return (exec_ast(root->right, vars));
+		return (exec_ast(root->right, vars, foreground));
 	}
+	else if (root->token->type == tk_amp)
+		return (exec_ast(root->left, vars, foreground));
 	else if (root->token->type == tk_and)
 	{
-		ret = exec_ast(root->left, vars);
-		return (ret ? ret : exec_ast(root->right, vars));
+		ret = exec_ast(root->left, vars, foreground);
+		return (ret ? ret : exec_ast(root->right, vars, foreground));
 	}
 	else if (root->token->type == tk_or)
 	{
-		ret = exec_ast(root->left, vars);
-		return (ret ? exec_ast(root->right, vars) : ret);
+		ret = exec_ast(root->left, vars, foreground);
+		return (ret ? exec_ast(root->right, vars, foreground) : ret);
 	}
 	else
-		return (parse_cmdline(root->token, vars));
+		return (parse_cmdline(root->token, vars, foreground));
 }

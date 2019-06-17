@@ -69,7 +69,7 @@ int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		return (lex_fail);
 	}
 	ast_root = create_ast(token_head);
-	ret = exec_ast(ast_root, vars);
+	ret = exec_ast(ast_root, vars, 1);
 	free_ast(ast_root);
 	return (ret == -2 ? 1 : ret);
 }

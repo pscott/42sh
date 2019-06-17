@@ -2,6 +2,7 @@
 #include "signals.h"
 #include "execution.h"
 #include "cmd_parsing.h"
+#include "jobs.h"
 
 /*
 **	Returns the next simple_command (the one after the next pipe), if there
@@ -9,7 +10,7 @@
 **	Should not return NULL because it is called n - 1 times
 */
 
-static t_token	*get_next_simple_command(t_token *begin)
+t_token	*get_next_simple_command(t_token *begin)
 {
 	while (is_simple_cmd_token(begin))
 		begin = begin->next;
@@ -26,8 +27,7 @@ static t_token	*get_next_simple_command(t_token *begin)
 **	Had to use an array of ints for ints because of 42's norme.
 */
 
-static int		exec_last_cmd(t_token *begin, int ints[2], int fd[2],
-	t_vars *vars)
+static int		exec_last_cmd(t_token *begin, int ints[2], int fd[2])
 {
 	int		status;
 	pid_t	pid;
@@ -40,7 +40,7 @@ static int		exec_last_cmd(t_token *begin, int ints[2], int fd[2],
 		clean_exit(ret, 0);
 	}
 	else if (pid == 0)
-		clean_exit(parse_and_exec(begin, ints[0], STDOUT_FILENO, vars), 0);
+		clean_exit(parse_and_exec(begin, ints[0], STDOUT_FILENO), 0);
 	else
 	{
 		waitpid(pid, &status, 0);
@@ -63,8 +63,7 @@ static int		exec_last_cmd(t_token *begin, int ints[2], int fd[2],
 **	If it's a father, closes fd[1], and sets ints[0] to fd[0].
 */
 
-static void		create_forks(t_token **begin, int ints[2], int fd[2],
-	t_vars *vars)
+static void		create_forks(t_token **begin, int ints[2], int fd[2])
 {
 	int	pid;
 
@@ -76,7 +75,7 @@ static void		create_forks(t_token **begin, int ints[2], int fd[2],
 	else if (pid == 0)
 	{
 		close(fd[0]);
-		pid = parse_and_exec(*begin, ints[0], fd[1], vars);
+		pid = parse_and_exec(*begin, ints[0], fd[1]);
 		clean_exit(pid, 0);
 	}
 	else if (pid > 0)
@@ -99,7 +98,7 @@ static void		create_forks(t_token **begin, int ints[2], int fd[2],
 **	ints[1] was a variable called num_simple_commands.
 */
 
-static	int		fork_pipes(int num_simple_commands, t_token *beg, t_vars *vars)
+static	int		fork_pipes(int num_simple_commands, t_token *beg)
 {
 	int		i;
 	int		ints[2];
@@ -117,68 +116,31 @@ static	int		fork_pipes(int num_simple_commands, t_token *beg, t_vars *vars)
 			write(2, "pipe error\n", 11);
 			clean_exit(1, 0);
 		}
-		create_forks(&beg, ints, fd, vars);
+		create_forks(&beg, ints, fd);
 	}
-	ret = exec_last_cmd(beg, ints, fd, vars);
+	ret = exec_last_cmd(beg, ints, fd);
 	return (ret);
 }
 
-static t_token	*copy_tokens_from_to(t_token *from, t_token *to)
+int				parse_cmdline(t_token *token, t_vars *vars, int foreground)
 {
-	t_token	*res;
-	t_token	*probe;
-
-	res = NULL;
-	probe = from;
-	while (probe && probe != to)
-	{
-		append_token(&res, create_token(probe->content, probe->size, probe->type));
-		probe = probe->next;
-	}
-	return (res);
-}
-
-static t_token	*copy_token_jobs(t_token *token)
-{
-	t_token *probe;
-
-	probe = token;
-	while (probe && probe->type < tk_amp)
-		probe = probe->next;
-	return (copy_tokens_from_to(token, probe));
-}
-
-static t_process *create_process_list(t_job *j)
-{
-}
-
-int				parse_cmdline(t_token *token)
-{
-	int		num_simple_commands;
-	t_token *probe;
-	t_job	*j;
-	int		ret;
+	int			num_processes;
+	t_job		*j;
+	t_process	*p;
+	int			ret;
 
 	if (!token)
 		return (0);
-	j = g_first_job;
-	while (j)
-		j = j->next;
-	j->token_list = copy_token_jobs(token);
-	j->first_process = create_process_list(j);
-	while (probe)
+	j = create_job(token);
+	p = create_process_list(token);
+	j->first_process = p;
+	if (foreground)
 	{
-		while (probe && is_simple_cmd_token(probe))
-			probe = probe->next;
-		if (probe && probe->next && (probe->type == tk_pipe))
-		{
-			probe = probe->next;
-			num_simple_commands++;
-		}
+		num_processes = get_processes_len(p);
+		if ((num_processes == 1 && foreground)
+			&& ((ret = check_no_pipe_builtin(token, vars)) >= 0 || ret == -2))
+			return (ret);
 	}
-	if ((num_simple_commands == 1) // number of processes
-		&& ((ret = check_no_pipe_builtin(token, vars)) >= 0 || ret == -2))
-		return (ret);
-	ret = fork_pipes(num_simple_commands, token, vars);
+	ret = launch_job(j, foreground);
 	return (ret);
 }

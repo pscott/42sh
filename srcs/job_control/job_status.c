@@ -1,6 +1,6 @@
 #include "jobs.h"
 
-static int	mark_process_status(pid_t pid, int status)
+int	mark_process_status(pid_t pid, int status)
 {
 	t_job		*j;
 	t_process	*p;
@@ -17,7 +17,7 @@ static int	mark_process_status(pid_t pid, int status)
 				{
 					p->status = status;
 					if (WIFSTOPPED(status))
-						p_>stopped = 1;
+						p->stopped = 1;
 					else
 					{
 						p->completed = 1;
@@ -49,6 +49,6 @@ void	update_status(void)
 	pid_t	pid;
 
 	pid = waitpid(WAIT_ANY, &status, WUNTRACED | WNOHANG);
-	while (!mark_process_status(pid, &status))
+	while (!mark_process_status(pid, status))
 		pid = waitpid(WAIT_ANY, &status, WUNTRACED | WNOHANG);
 }

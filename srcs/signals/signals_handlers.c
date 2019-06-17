@@ -84,23 +84,9 @@ void			sigcont_handler(int signo)
 	t_st_cmd	*st_cmd;
 
 	(void)signo;
+	ft_dprintf(2, "CONTINUING\n");
 	setup_terminal_settings();
 	if (!(st_cmd = get_st_cmd(NULL)))
 		return ;
 	sigwinch_handler(signo);
-}
-
-/*
-**	SIGTSTP
-**	Clears the screen and resets terminal settings. Then resets the default
-**	behavior for signal and simulates the signal with ioctl
-*/
-
-void			sigtstp_handler(int signo)
-{
-	(void)signo;
-	execute_str(CLEAR_BELOW);
-	reset_terminal_settings();
-	signal(SIGTSTP, SIG_DFL);
-	ioctl(STDIN_FILENO, TIOCSTI, "\x1a");
 }

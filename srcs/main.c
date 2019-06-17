@@ -90,7 +90,6 @@ int			main(int argc, char **argv, char **env)
 			vars.cmd_value = handle_input(st_cmd, &vars);
 		do_job_notification();
 		st_cmd = reset_st_cmd(st_cmd);
-		ft_dprintf(2, "{%p}\n", g_first_job);
 	}
 	ret = free_variables(&vars, st_cmd);
 	return (ret);

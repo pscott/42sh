@@ -20,6 +20,17 @@ static void	update_temporary_hist(t_hist_lst *hist_lst, const char *line)
 	}
 }
 
+static int	is_fc(char *s)
+{
+	if (s && (ft_strstr(s, "fc")))
+	{
+		if (!ft_strstr(s, "-l"))
+			return (0);
+		return (1);
+	}
+	return (0);
+}
+
 /*
 **	Appends a history node to the left of the last history node.
 **	If keep is zero, simply works on left node and join the left node content
@@ -35,6 +46,9 @@ void		adjust_history(t_st_cmd *st_cmd, int keep)
 	if (!st_cmd->keep || isatty(TERM_FD) == 0 || !st_cmd->st_txt)
 		return ;
 	line = concatenate_txt(st_cmd);
+//	ft_dprintf(2, "ah : %s", line);
+//	if (is_fc(line))
+//		return ;
 	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 	left = st_cmd->hist_lst->prev;
 	if (keep == 0)

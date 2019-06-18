@@ -39,7 +39,7 @@ static int			exec_env_bin(char *cmd_path, char **argv, char **new_env)
 		return (status);
 	if ((pid = fork()) == -1)
 	{
-		ft_dprintf(2, "fork error\n");
+		write(2, "fork error\n", 11);
 		clean_exit(1, 0);
 	}
 	else if (pid == 0)

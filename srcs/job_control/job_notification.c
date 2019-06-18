@@ -14,7 +14,8 @@ void	do_job_notification(void)
 		jnext = j->next;
 		if (job_is_completed(j))
 		{
-			format_job_info(j, "completed");
+			if (j->notified == 0)
+				format_job_info(j, "completed");
 			if (jlast)
 				jlast->next = jnext;
 			else

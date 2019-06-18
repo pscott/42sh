@@ -2,6 +2,7 @@
 #include "lexer.h"
 #include "cmd_parsing.h"
 #include "ast.h"
+#include "jobs.h"
 
 /*
 ** insert_ast_node
@@ -114,7 +115,44 @@ t_ast			*create_ast(t_token *token_head)
 	return (ast_root);
 }
 
-int				exec_ast(t_ast *root, t_vars *vars, int foreground)
+static int background_case(t_ast *root, t_vars *vars, int fg)
+{
+	pid_t	pid;
+	t_job	*j;
+
+	if (fg)
+	{
+		j = append_job(&g_first_job, create_job(root->token)); // should be create_job with special token_list;
+		tcsetattr(j->stdin, TCSADRAIN, &g_saved_attr);
+		if ((pid = fork()) < 0)
+		{
+			write(2, "fork error\n", 11);
+			clean_exit(1, 0);
+		}
+		else if (pid == 0)
+		{
+			pid = getpid();
+			j->pgid = pid;
+			exit(exec_ast(root->left, vars, 0));
+		}
+		if (g_isatty)
+		{
+			j->first_process = create_process(j->token_list);
+			j->first_process->pid = pid;
+			j->pgid = pid;
+			setpgid(pid, j->pgid);
+		}
+		tcsetattr(j->stdin, TCSADRAIN, &g_42sh_attr);
+		return (exec_ast(root->right, vars, 1));
+	}
+	else
+	{
+		exec_ast(root->left, vars, 0);
+		return (exec_ast(root->right, vars, 0));
+	}
+}
+
+int				exec_ast(t_ast *root, t_vars *vars, int fg)
 {
 	int	ret;
 
@@ -122,25 +160,22 @@ int				exec_ast(t_ast *root, t_vars *vars, int foreground)
 		return (1);
 	if (root->token->type == tk_semi)
 	{
-		if ((ret = exec_ast(root->left, vars, foreground)) == 254 || ret == -2)
+		if ((ret = exec_ast(root->left, vars, fg)) == 254 || ret == -2)
 			return (1);
-		return (exec_ast(root->right, vars, foreground));
+		return (exec_ast(root->right, vars, fg));
 	}
 	else if (root->token->type == tk_amp)
-	{
-		exec_ast(root->left, vars, 0);
-		return (exec_ast(root->right, vars, foreground));
-	}
+		return (background_case(root, vars, fg));
 	else if (root->token->type == tk_and)
 	{
-		ret = exec_ast(root->left, vars, foreground);
-		return (ret ? ret : exec_ast(root->right, vars, foreground));
+		ret = exec_ast(root->left, vars, fg);
+		return (ret ? ret : exec_ast(root->right, vars, fg));
 	}
 	else if (root->token->type == tk_or)
 	{
-		ret = exec_ast(root->left, vars, foreground);
-		return (ret ? exec_ast(root->right, vars, foreground) : ret);
+		ret = exec_ast(root->left, vars, fg);
+		return (ret ? exec_ast(root->right, vars, fg) : ret);
 	}
 	else
-		return (parse_cmdline(root->token, vars, foreground));
+		return (parse_cmdline(root->token, vars, fg));
 }

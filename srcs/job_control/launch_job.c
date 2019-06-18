@@ -12,7 +12,8 @@ int		launch_job(t_job *j, int foreground)
 
 	fds[0] = j->stdin;
 	p = j->first_process;
-	tcsetattr(j->stdin, TCSADRAIN, &g_saved_attr);
+	if (foreground)
+		tcsetattr(j->stdin, TCSADRAIN, &g_saved_attr);
 	while (p)
 	{
 		if (p->next)
@@ -51,7 +52,6 @@ int		launch_job(t_job *j, int foreground)
 		fds[0] = mypipe[0];
 		p = p->next;
 	}
-	format_job_info(j, "launched");
 	ret = 0;
 	if (!g_isatty)
 		ret = wait_for_job(j);
@@ -59,6 +59,7 @@ int		launch_job(t_job *j, int foreground)
 		ret = put_job_in_foreground(j, 0);
 	else
 		put_job_in_background(j, 0);
-	tcsetattr(TERM_FD, TCSADRAIN, &g_42sh_attr);
+	if (foreground)
+		tcsetattr(j->stdin, TCSADRAIN, &g_42sh_attr);
 	return (ret);
 }

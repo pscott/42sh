@@ -21,7 +21,7 @@ t_token	*copy_job_tokens(t_token *start)
 	t_token *end;
 
 	end = start;
-	while (end && end->type < tk_amp)
+	while (end && end->type <= tk_amp)
 		end = end->next;
 	return (copy_tokens_from_to(start, end));
 }

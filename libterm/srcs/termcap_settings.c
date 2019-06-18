@@ -22,6 +22,7 @@ static int	open_and_dup_tty(void)
 
 int			reset_terminal_settings(void)
 {
+	ft_dprintf(2, "resetting\n");
 	if (isatty(STDIN_FILENO) == 0)
 		return (1);
 	close(TERM_FD);

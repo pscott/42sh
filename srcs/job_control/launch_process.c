@@ -2,7 +2,7 @@
 #include "execution.h"
 #include "signals.h"
 
-int	launch_process(t_process *p, pid_t pgid, int fds[2], int foreground)
+void	set_group_id(pid_t pgid, int foreground)
 {
 	pid_t pid;
 
@@ -12,11 +12,16 @@ int	launch_process(t_process *p, pid_t pgid, int fds[2], int foreground)
 		if (pgid == 0)
 			pgid = pid;
 		if (setpgid(pid, pgid) == -1)
-			clean_exit(1, 0);
+			exit(1);
 		if (foreground)
 			tcsetpgrp(TERM_FD, pgid);
-		reset_signals();
 	}
-	clean_exit(parse_and_exec(p->token_list, fds[0], fds[1]), 0);
-	return (0);
+}
+
+int	launch_process(t_process *p, pid_t pgid, int fds[2], int foreground)
+{
+	set_group_id(pgid, foreground);
+	reset_signals();
+	exit(parse_and_exec(p->token_list, fds[0], fds[1]));
+	return (1);
 }

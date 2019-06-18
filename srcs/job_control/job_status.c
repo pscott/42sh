@@ -20,12 +20,7 @@ int	mark_process_status(pid_t pid, int status)
 					if (WIFSTOPPED(status))
 						p->stopped = 1;
 					else
-					{
 						p->completed = 1;
-						if (WIFSIGNALED(status))
-							ft_dprintf(2, "%d: Terminated by signal %d\n",
-								(int)pid, WTERMSIG(p->status));
-					}
 					return (0);
 				}
 				p = p->next;

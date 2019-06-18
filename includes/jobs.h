@@ -52,11 +52,13 @@ int				put_job_in_foreground(t_job *j, int cont);
 
 int				launch_job(t_job *j, int foreground);
 int				launch_process(t_process *p, pid_t pgid, int fds[2], int foreground);
+void			set_group_id(pid_t pgid, int fg);
 t_job			*create_job(t_token *tokens);
 t_job			*append_job(t_job **first_j, t_job *to_add);
 t_process		*create_process_list(t_token *token_list);
 int				get_processes_len(t_process *p);
 
+char			*tokens_to_str(t_token *tokens);
 /*
 **
 */

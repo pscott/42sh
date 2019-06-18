@@ -17,8 +17,10 @@ int					parse_arith_exp(char **str, t_vars *vars);
 int					parse_quotes(t_token *token_head);
 int					parse_expands(t_token *token_head, t_vars *vars);
 int					parse_dollars_str(char **str, t_vars *vars);
-void				parse_assignation(t_token *token, t_vars *vars);
-void				apply_assignation(char **assign_tab, char ***vars_tab);
+//void				parse_assignation(t_token *token, t_vars *vars);
+int					parse_assignation(t_token *token, t_vars *vars);
+void				apply_assignation(char **assign_tab, t_vars *vars);
+void				apply_assignation_to_ntab(char **assign_tab, char ***ntab);
 
 /*
 ** substitute_utils

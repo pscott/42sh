@@ -2,6 +2,7 @@
 #include "execution.h"
 #include "cmd_parsing.h"
 #include "hashmap.h"
+#include "env.h"
 
 /*
 **	Utility function to actually exit
@@ -24,7 +25,11 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 {
 	char	**argv;
 	int		ret;
+	//char	**env_cpy;
+	char	**env_save;
+	int		have_assign;
 
+	have_assign = 0;
 	if ((ret = parse_expands(token_head, vars)) != 0)
 		return (ret);
 	if ((ret = parse_redirections(token_head, 1) > 0))
@@ -33,10 +38,22 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 		save_reset_stdfd(0);
 		return (ret);
 	}
-	parse_assignation(token_head, vars);
+	if ((have_assign = parse_assignation(token_head, vars)))//if ret = 1, make an env cpy
+	{
+		//save and make a cpy
+		env_save = get_ntab_cpy(vars->env_vars);
+		apply_assignation_to_ntab(vars->assign_tab, &vars->env_vars);
+	}
 	argv = NULL;
 	get_argv_from_token_lst(token_head, &argv);
 	ret = exec_builtins(argv, vars, cmd_id);
+	//restore old env
+	if (have_assign)
+	{
+		ft_free_ntab(vars->env_vars);
+		vars->env_vars = env_save;
+	}
+	//
 	if (cmd_id == cmd_exit)
 	{
 		if (ret == 1)
@@ -95,13 +112,12 @@ int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 	if (!(argv = fake_argv(token_head, vars)) || !argv[0])
 	{
 		ft_printf("EMPTY ARGV\n");//so add to shell_vars
-		apply_assignation(vars->assign_tab, &vars->shell_vars);
+		//apply_assignation(vars->assign_tab, &vars->shell_vars);
+		apply_assignation(vars->assign_tab, vars);
 		return (-1);
 	}
 	//else add to env
-	ft_printf("=======\n");
-	ft_print_ntab(argv);//debug
-	ft_printf("=======\n");
+	//test (BAD cause it should set env just for the given cmd)
 	if (ft_strchr(argv[0], '/'))
 		ret = -1;
 	else if ((cmd_id = check_builtins(argv)))

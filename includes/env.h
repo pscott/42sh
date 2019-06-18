@@ -45,4 +45,7 @@ char				**delete_line_ntab(int index_to_del, const char **old_tab);
 int					str_equ_varname(char *search, char *varline);
 char				*get_varline_name(char *varline);
 void				add_varline(char *varline, char ***ntab);
+char				*get_name_from_varline(char *varline);
+char				**get_ntab_cpy(char **src_tab);
+void				cpy_ntab(char **new_tab, const char **old_tab);
 #endif

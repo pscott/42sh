@@ -25,6 +25,26 @@ static	int		ft_strcmp_before_c(char *search, char *str, char c)
 		return (0);
 }
 
+char			*get_name_from_varline(char *varline)
+{
+	char	*varname;
+	int		i;
+
+	if (!varline)
+		return (NULL);
+	i = 0;
+	while (varline[i] && varline[i] != '=')
+		i++;
+	if (varline[i] == '=')
+	{
+		if (!(varname = ft_strndup(varline, i)))
+			clean_exit(1, 1);
+		return (varname);
+	}
+	else
+		return (NULL);
+}
+
 /*
 ** get_envline_index
 ** return the index of the searched variable

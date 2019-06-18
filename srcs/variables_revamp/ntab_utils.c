@@ -32,6 +32,17 @@ void	cpy_ntab(char **new_tab, const char **old_tab)
 	}
 }
 
+char	**get_ntab_cpy(const char **src_tab)
+{
+	char	**new_tab;
+	int		src_tab_len;
+
+	src_tab_len = ft_ntab_len(src_tab);
+	new_tab = ft_ntab_new(src_tab_len);
+	cpy_ntab(new_tab, src_tab);
+	return (new_tab);
+}
+
 /*
 ** append_line_to_ntab
 ** return a new ntab with newline append to it

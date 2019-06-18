@@ -39,7 +39,6 @@ static t_token		*fill_argv(t_token *token, char **argv, int *i)
 	incremented = 0;
 	while (is_argv_token(token))
 	{
-		ft_dprintf(2, "in FILL_ARGV: |%s|\n", token->content);
 		if (token->type == tk_word)
 			apply_ifs(token->content, argv, i);
 		else
@@ -49,7 +48,6 @@ static t_token		*fill_argv(t_token *token, char **argv, int *i)
 		}
 		if (ft_strlen(argv[*i]) == 0)//penzo test, need to do it before
 		{
-			ft_dprintf(2, "HEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYH\n");
 			ft_strdel(&argv[*i]);
 			argv[*i] = ft_strdup("");
 		}
@@ -103,7 +101,6 @@ static int			token_length(t_token **probe)
 			if (!(words = ft_strsplit((*probe)->content, IFS)))
 				clean_exit(1, 1);
 			words_len = ft_ntab_len((const char**)words);
-			ft_dprintf(2, "WORDS_LEN=%d\n", words_len);
 			words_len = words_len ? words_len : 1;
 			ft_free_ntab(words);
 		}
@@ -148,9 +145,6 @@ int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 
 	if (!(probe = token_head))
 		return (1);
-	ft_dprintf(2, "###############################\n");
-	print_token_list(token_head);//test
-	ft_dprintf(2, "###############################\n");
 	argv_len = 0;
 	while (probe)
 	{
@@ -159,7 +153,7 @@ int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 			&& probe->next
 			&& probe->next->type == tk_eat)
 		{
-			ft_dprintf(2, "ESCAPING\n");
+			//ft_dprintf(2, "ESCAPING\n");
 			probe->type = tk_eat;
 			probe = probe->next;
 		}
@@ -172,10 +166,10 @@ int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 	}
 	if (argv_len < 1)
 		return (1);
-	ft_printf("argv_len: %d\n", argv_len);
+	//ft_printf("argv_len: %d\n", argv_len);
 	*argv = create_argv(token_head, argv_len);
-	ft_printf("+++++++++++++++++++++\n");
-	ft_print_ntab(*argv);
-	ft_printf("+++++++++++++++++++++\n");
+	//ft_printf("+++++++++++++++++++++\n");
+	//ft_print_ntab(*argv);
+	//ft_printf("+++++++++++++++++++++\n");
 	return (0);
 }

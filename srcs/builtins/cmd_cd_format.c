@@ -119,4 +119,5 @@ void			format_path_string(char **dest)
 	remove_wrong_slashs(dest);
 	remove_useless_dots(dest);
 	remove_useless_dotdot(dest);
+	remove_wrong_slashs(dest);
 }

@@ -1,7 +1,6 @@
 #include "builtins.h"
 #include "env.h"
 #include "errors.h"
-#include <sys/stat.h>
 #include <limits.h>
 
 static int		check_cd_usage(char **argv)
@@ -31,22 +30,6 @@ static int		check_cd_usage(char **argv)
 	return (0);
 }
 
-static int		is_error(char *dest)
-{
-	struct stat		infos;
-
-	if (!dest)
-		return (1);
-	if (stat(dest, &infos) == -1)
-		return (print_errors(ERR_NOEXIST, ERR_NOEXIST_STR, dest));
-	else if (!S_ISDIR(infos.st_mode))
-		return (print_errors(ERR_NOTDIR, ERR_NOTDIR_STR, dest));
-	else if (access(dest, F_OK) == 0 && access(dest, X_OK) == -1)
-		return (print_errors(ERR_PERM, ERR_PERM_STR, dest));
-	else
-		return (0);
-}
-
 static char		*get_dest_path(char *arg, char ***env, int *display)
 {
 	char	*dest;
@@ -68,6 +51,21 @@ static char		*get_dest_path(char *arg, char ***env, int *display)
 	return (dest);
 }
 
+static int		check_path_too_long(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	if (str)
+		i = ft_strlen(str);
+	if (i > PATH_MAX)
+	{
+		ft_dprintf(2, "%s: cd: %s: File name too long\n", SHELL_NAME, str);
+		return (1);
+	}
+	return (0);
+}
+
 /*
 **	Returns 0 if it succesfully managed to change directory ; else returns
 **	the corresponding error value.
@@ -76,25 +74,29 @@ static char		*get_dest_path(char *arg, char ***env, int *display)
 int				case_cd(char **argv, char ***env)
 {
 	char			*dest;
-	int				ret;
 	char			opt;
 	int				pos;
 	int				display;
 
 	display = 0;
-	if ((opt = get_cd_options(argv, &pos)) == -1)
-		return (1);
 	if (check_cd_usage(argv))
+		return (1);
+	if ((opt = get_cd_options(argv, &pos)) == -1)
 		return (1);
 	dest = get_dest_path(argv[pos], env, &display);
 	if (!dest)
 		return (1);
 	if (opt != 'P')
 		format_path_string(&dest);
-	if ((ret = is_error(dest)) != 0)
+	if (check_full_access(&dest, argv[pos]))
 	{
 		ft_strdel(&dest);
-		return (ret);
+		return (1);
+	}
+	if (check_path_too_long(dest))
+	{
+		ft_strdel(&dest);
+		return (1);
 	}
 	else
 		return (change_environ(dest, env, opt, display));

@@ -8,7 +8,7 @@ char		*remove_n_char(char *str, size_t pos)
 
 	i = 0;
 	k = 0;
-	if (pos > ft_strlen(str))
+	if (pos >= ft_strlen(str))
 		return (str);
 	if (!(new = (char*)malloc(sizeof(char) * ft_strlen(str))))
 		clean_exit(1, 1);

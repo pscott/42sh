@@ -59,6 +59,7 @@ int		check_cdpath_var(const char *path, const char **env, char **tmp,
 void	format_path_string(char **dest);
 char	*remove_n_char(char *str, size_t pos);
 int		change_environ(char *new_wd, char ***env, int opt, int display);
+int		check_full_access(char **dest, char *msg);
 
 /*
 **	Env utils

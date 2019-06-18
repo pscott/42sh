@@ -31,7 +31,6 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	argv = NULL;
 	get_argv_from_token_lst(token_head, &argv);
 	ret = exec_builtins(argv, vars, cmd_id);
-	ft_free_ntab(argv);
 	if (cmd_id == cmd_exit && ret == 1)
 		execute_exit(vars->cmd_value);
 	save_close_openfds(0, 0);

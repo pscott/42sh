@@ -6,7 +6,7 @@
 /*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:01:46 by aschoenh          #+#    #+#             */
-/*   Updated: 2019/06/10 20:21:04 by aschoenh         ###   ########.fr       */
+/*   Updated: 2019/06/18 18:51:50 by aschoenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int				get_needed_values
 		start_actual_word--;
 	if (ft_is_unslashed_metachar(*to_find_full, start_actual_word, white_space))
 		start_actual_word++;
+	ft_dprintf(2, "{%d}", start_actual_word);
 	return (start_actual_word);
 }
 

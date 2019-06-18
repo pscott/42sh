@@ -3,7 +3,8 @@
 #include "builtins.h"
 #include "execution.h"
 
-int					fc_edit_open_file(t_st_cmd *st_cmd, t_st_fc *st_fc, char **tmp_file)
+int					fc_edit_open_file(t_st_cmd *st_cmd, t_st_fc *st_fc,
+	char **tmp_file)
 {
 	int				tmp_file_fd;
 	int				diff;
@@ -50,7 +51,7 @@ int					fc_edit_open_editor(t_st_cmd *st_cmd, t_st_fc *st_fc,
 	}
 	if (!(argv[1] = ft_strdup(*tmp_file)))
 	{
-		ft_free_ntab(tmp_file);
+		ft_strdel(tmp_file);
 		return (1);
 	}
 	argv[2] = NULL;

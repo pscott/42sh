@@ -7,50 +7,87 @@ static int			print_exec_and_free(t_st_cmd *st_cmd, t_vars *new_vars)
 {
 	char			*tmp;
 
-	if (st_cmd && st_cmd->st_txt && st_cmd->st_txt->txt && !st_cmd->st_txt->txt[0])
+	if (st_cmd && st_cmd->st_txt && st_cmd->st_txt->txt
+		&& !st_cmd->st_txt->txt[0])
 	{
 		ft_strdel(&(st_cmd->st_txt->txt));
 		new_vars->cmd_value = 1;
 		return (0);
 	}
-
 	if (!(tmp = ft_strjoin(st_cmd->st_txt->txt, "\n")))
 		clean_exit(1, 1);
 	ft_dprintf(STDERR_FILENO, "%s\n", st_cmd->st_txt->txt);
-	ft_dprintf(STDERR_FILENO, "print exec :|%s|", st_cmd->st_txt->txt);
 	new_vars->cmd_value = handle_input(st_cmd, new_vars);
 	st_cmd->hist_lst = insert_left(st_cmd->hist_lst, tmp, 1);
 	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 	if (st_cmd && st_cmd->st_txt && st_cmd->st_txt->txt)
 		ft_strdel(&(st_cmd->st_txt->txt));
+	ft_strdel(&tmp);
 	return (0);
+}
+
+static int			get_nbr_cr(int fd)
+{
+	char			*tmp;
+	int				ret;
+
+	ret = 0;
+	tmp = NULL;
+	while (get_next_line(fd, &tmp) > 0)
+	{
+		ret++;
+		ft_strdel(&tmp);
+	}
+	lseek(fd, 0, SEEK_SET);
+	return (ret);
+}
+
+static int			fc_execute_edit(t_st_cmd *st_cmd,
+	t_vars *new_vars, char *file)
+{
+	int				fd;
+	int				cr;
+	char			**tmp;
+	int				i;
+	int				ret;
+
+	if ((fd = open(file, O_RDONLY)) == -1)
+		return (1);
+	cr = get_nbr_cr(fd);
+	if (!(tmp = (char**)malloc(sizeof(char*) * (cr + 1))))
+		clean_exit(1, 1);
+	tmp[cr] = NULL;
+	i = 0;
+	while (get_next_line(fd, &(tmp[i])) > 0)
+		i++;
+	if (close(fd) == -1)
+		return (1);
+	i = 0;
+	while (tmp[i])
+	{
+		if (!(st_cmd->st_txt->txt = ft_strdup(tmp[i++])))
+			clean_exit(1, 1);
+		ret = print_exec_and_free(st_cmd, new_vars);
+	}
+	ft_free_ntab(tmp);
+	return (ret);
 }
 
 int					fc_execute_cmd(t_st_cmd *st_cmd, char *file, int type)
 {
 	t_vars			*new_vars;
-	int				fd;
 	int				ret;
-	static int 	count = 0;
+	static int		count = 0;
 
 	new_vars = get_vars(NULL);
+	ret = 0;
 	if (st_cmd && st_cmd->st_txt && st_cmd->st_txt->txt)
 		ft_strdel(&(st_cmd->st_txt->txt));
 	count++;
-	if (count > 4000)
-	{
-		count = 0;
+	if (count > 3000 && (count = 0))
 		return (1);
-	}
 	if (type == edit)
-	{
-		if ((fd = open(file, O_RDONLY)) == -1)
-			return (1);
-		while (get_next_line(fd, &(st_cmd->st_txt->txt)) > 0)
-			ret = print_exec_and_free(st_cmd, new_vars);
-		if (close(fd) == -1)
-			return (1);
-	}
+		ret = fc_execute_edit(st_cmd, new_vars, file);
 	else if (type == substitute)
 	{
 		if (!(st_cmd->st_txt->txt = ft_strdup(file)))

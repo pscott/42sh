@@ -114,6 +114,15 @@ int						error_fc_histo(char *s, int i, int type, t_st_fc *st_fc);
 int						error_fc_index(char *flag);
 int						is_valid_mix(char flag[4], char c);
 int						is_valid_option(char *s, int i);
+int						get_correct_nb(char *to_find, int hist_len);
+int						check_if_arg_is_digit(char *to_find);
+int						get_last(t_st_cmd *st_cmd, t_st_fc *st_fc);
+int						get_first_no_indication(t_st_cmd *st_cmd, t_st_fc *st_fc);
+void					swap_fc(t_st_fc *st_fc);
+void					set_ints_to_zero(int *a, int *b);
+int						find_index_fc(t_st_cmd *st_cmd, char *flag, char *to_find);
+
+
 
 /*
 **			*	Actual executing functions

@@ -128,7 +128,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c \
 	FC_FILES		:=	cmd_fc.c cmd_fc_init.c cmd_fc_errors.c \
 						cmd_fc_parsing_editor.c cmd_fc_parsing_flag_utils.c\
 						cmd_fc_parsing_operands_utils.c cmd_fc_substitute.c\
-						cmd_fc_edit.c cmd_fc_exec.c cmd_fc_display.c
+						cmd_fc_edit.c cmd_fc_exec.c cmd_fc_display.c\
+						cmd_fc_init_utils.c
 	EXP_ARITH_FILES	:=	build_list.c check_errors.c create_op_link.c \
 						exec_op_list.c exec_op_list_2.c exec_op_list_3.c \
 						expansion_arith.c free_list.c array_utils.c \

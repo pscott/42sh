@@ -25,7 +25,6 @@ int			is_valid_option(char *s, int i)
 		return (0);
 	}
 	return (1);
-
 }
 
 int			is_valid_mix(char flag[4], char c)
@@ -36,7 +35,7 @@ int			is_valid_mix(char flag[4], char c)
 		return (-1);
 	if (c == 'e' && (ft_strchr(flag, 'l') || ft_strchr(flag, 'n')))
 		return (-1);
-	if (c == 's' &&  flag[0] != '.')
+	if (c == 's' && flag[0] != '.')
 		return (-1);
 	if (c == 'e' && (ft_strchr(flag, 'l') || ft_strchr(flag, 'n')
 				|| ft_strchr(flag, 's')))
@@ -44,4 +43,10 @@ int			is_valid_mix(char flag[4], char c)
 	if (c == 'l' && ft_strchr(flag, 'e'))
 		return (-1);
 	return (1);
+}
+
+void		set_ints_to_zero(int *a, int *b)
+{
+	*a = 0;
+	*b = 0;
 }

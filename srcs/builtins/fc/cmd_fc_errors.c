@@ -17,8 +17,8 @@ int				error_fc(char *s, int i, int type, t_st_fc *st_fc)
 	(void)i;
 	(void)st_fc;
 	ft_dprintf(STDERR_FILENO, "%s: fc: ", SHELL_NAME);
-	if (type == path_unspecified)//pas lieu d'etre si PATH hardset dans inter varz
-		ft_dprintf(2, "-e: $PATH is not set: impossible to find editor '%s'\n", s);
+	if (type == path_unspecified)
+		ft_dprintf(2, "-e: $PATH unset: impossible to find editor '%s'\n", s);
 	else if (type == cmd_not_found)
 		ft_dprintf(2, "%s: command not found\n", s);
 	print_usage_fc();
@@ -42,7 +42,6 @@ int				error_fc_index(char *flag)
 	}
 	return (-1);
 }
-
 
 int				error_fc_histo(char *s, int i, int type, t_st_fc *st_fc)
 {

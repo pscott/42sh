@@ -17,7 +17,6 @@ static int		search_in_precise_path(char *path, char *to_find)
 	if (closedir(dir) == -1)
 		return (0);
 	return (0);
-
 }
 
 static int		find_editor_in_path(char **path, char *arg)
@@ -41,7 +40,6 @@ static int		find_editor_in_path(char **path, char *arg)
 	}
 	ft_strdel(&to_find);
 	return (ret);
-
 }
 
 static int		get_editor_fc(char *to_find)
@@ -56,7 +54,6 @@ static int		get_editor_fc(char *to_find)
 	if (path == NULL || *path == NULL)
 		return (-1);
 	ret = find_editor_in_path(path, to_find);
-
 	return (ret);
 }
 
@@ -71,7 +68,7 @@ int				parse_editor_fc(char **argv, int i)
 	if (argv[i] && ft_strnequ(argv[i], "-e", 2) && argv[i][2])
 	{
 		final = i;
-		to_find = argv[i] + 2; 
+		to_find = argv[i] + 2;
 	}
 	else if (!argv[i + 1])
 		return (error_fc_histo(NULL, 0, editor_unspecified, NULL));

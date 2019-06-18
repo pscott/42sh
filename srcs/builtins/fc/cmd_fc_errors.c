@@ -34,7 +34,6 @@ int				error_fc_index(char *flag)
 	if (flag[0] == 's')
 	{
 		ft_dprintf(2, "no command found\n");
-		st_cmd->keep = 1;
 	}
 	else if (!flag || (flag && (ft_strchr(flag, 'l') || ft_strchr(flag, 'e'))))
 	{

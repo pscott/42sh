@@ -55,7 +55,7 @@ t_hist_lst		*get_entry_lst_word(t_hist_lst *hist_lst, char *word)
 	
 	if (!(hist_lst = get_end_lst(hist_lst)))
 		return (NULL);
-	len = ft_strlen_char(word, '\n');
+	len = ft_strlen_chars(word, " \t\n\r&;|<>");
 	while (hist_lst)
 	{
 		if (ft_strnequ(hist_lst->txt, word, len))

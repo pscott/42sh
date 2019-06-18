@@ -201,7 +201,7 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 	if ((fc_parse_index(st_cmd, st_fc)) == -1)
 		return (1);
 
-/*	
+	
 	ft_dprintf(2, "-------------------------\n");
 	ft_dprintf(2, "first: %s\nlast: %s\n", st_fc->first, st_fc->last);
 	ft_dprintf(2, "i_first: %d\ni_last: %d\n\n\n", st_fc->i_first, st_fc->i_last);
@@ -212,7 +212,7 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 	ft_dprintf(2, "hist_len: %d\n", *st_cmd->hist_len);
 	
 	ft_dprintf(2, "-------------------------\n");
-*/	
+	
 /*	
 	ft_dprintf(2, "old: %s\nnew: %s\n", st_fc->old_pattern, st_fc->new_pattern);
 	ft_dprintf(2, "editor:%s\n", st_fc->editor);

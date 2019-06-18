@@ -13,7 +13,8 @@ static int			print_exec_and_free(t_st_cmd *st_cmd, t_vars *new_vars)
 	new_vars->cmd_value = handle_input(st_cmd, new_vars);
 	st_cmd->hist_lst = insert_left(st_cmd->hist_lst, tmp, 1);
 	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
-	free_st_txt(&(st_cmd->st_txt));
+	if (st_cmd && st_cmd->st_txt && st_cmd->st_txt->txt)
+		ft_strdel(&(st_cmd->st_txt->txt));
 	return (0);
 }
 
@@ -22,9 +23,17 @@ int					fc_execute_cmd(t_st_cmd *st_cmd, char *file, int type)
 	t_vars			*new_vars;
 	int				fd;
 	int				ret;
+	static int 	count = 0;
 
 	new_vars = get_vars(NULL);
-	free(st_cmd->st_txt->txt);
+	if (st_cmd && st_cmd->st_txt && st_cmd->st_txt->txt)
+		ft_strdel(&(st_cmd->st_txt->txt));
+	count++;
+	if (count > 4000)
+	{
+		count = 0;
+		return (1);
+	}
 	if (type == edit)
 	{
 		if ((fd = open(file, O_RDONLY)) == -1)

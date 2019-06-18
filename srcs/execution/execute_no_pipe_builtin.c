@@ -31,6 +31,7 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	argv = NULL;
 	get_argv_from_token_lst(token_head, &argv);
 	ret = exec_builtins(argv, vars, cmd_id);
+	ft_free_ntab(argv);
 	if (cmd_id == cmd_exit && ret == 1)
 		execute_exit(vars->cmd_value);
 	save_close_openfds(0, 0);
@@ -79,10 +80,6 @@ int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 	unsigned int			cmd_id;
 	int						ret;
 	char					*cmd_path;
-
-	t_st_cmd				*st_cmd;
-
-	st_cmd = get_st_cmd(NULL);
 
 	if (!(argv = fake_argv(token_head, vars)) || !argv[0])
 		return (-1);

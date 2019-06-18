@@ -94,7 +94,7 @@ static int	find_index_fc(t_st_cmd *st_cmd, char *flag, char *to_find)
 		{
 			nb = ft_atoi(to_find);
 			if (nb < 0 && (*st_cmd->hist_len) + nb >= 0)
-				nb += (*st_cmd->hist_len);
+				nb += (*st_cmd->hist_len) + 1;
 			else if ((*st_cmd->hist_len) + nb < 0)
 				nb = 1;
 			else if (nb == 0)
@@ -106,10 +106,10 @@ static int	find_index_fc(t_st_cmd *st_cmd, char *flag, char *to_find)
 		while (st_cmd->hist_lst && i > 0)// a checker 
 		{
 			i--;
-			if (!ft_strncmp(to_find, st_cmd->hist_lst->txt, len))
-				break ;
 			if (st_cmd->hist_lst->prev)
 				st_cmd->hist_lst = st_cmd->hist_lst->prev;
+			if (!ft_strncmp(to_find, st_cmd->hist_lst->txt, len))
+				break ;
 			if (i == 0)
 				return (error_fc_index(flag));//put dans l'histo si l en tout cas
 			// ne rentre pas dedans en cas de invalid first. doit return 1
@@ -201,7 +201,7 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 	if ((fc_parse_index(st_cmd, st_fc)) == -1)
 		return (1);
 
-	
+/*	
 	ft_dprintf(2, "-------------------------\n");
 	ft_dprintf(2, "first: %s\nlast: %s\n", st_fc->first, st_fc->last);
 	ft_dprintf(2, "i_first: %d\ni_last: %d\n\n\n", st_fc->i_first, st_fc->i_last);
@@ -209,10 +209,9 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 
 
 	
-	ft_dprintf(2, "hist_len: %d\n", *st_cmd->hist_len);
 	
 	ft_dprintf(2, "-------------------------\n");
-	
+*/	
 /*	
 	ft_dprintf(2, "old: %s\nnew: %s\n", st_fc->old_pattern, st_fc->new_pattern);
 	ft_dprintf(2, "editor:%s\n", st_fc->editor);
@@ -223,24 +222,26 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 */
 
 	if (st_fc->i_first && st_fc->i_last && !ft_strchr(st_fc->flag, 's')
-		&& st_fc->i_first > st_fc->i_last
-		&& !ft_strchr(st_fc->flag, 'r'))
+		&& st_fc->i_first > st_fc->i_last)
 	{
 		st_fc->i_first ^= st_fc->i_last;
 		st_fc->i_last ^= st_fc->i_first;
 		st_fc->i_first ^= st_fc->i_last;
+		if (!ft_strchr(st_fc->flag, 'r'))
+			st_fc->flag[ft_strlen(st_fc->flag)] = 'r';
 	}
 	if (st_fc->i_last > *st_cmd->hist_len)
 		st_fc->i_last = *st_cmd->hist_len ;
 	
 
 	
-	/*	
+/*	
 	ft_dprintf(2, "-------------------------\n");
+	ft_dprintf(2, "hist_len: %d\n", *st_cmd->hist_len);
 	ft_dprintf(2, "first: %s\nlast: %s\n", st_fc->first, st_fc->last);
 	ft_dprintf(2, "i_first: %d\ni_last: %d\n", st_fc->i_first, st_fc->i_last);
 	ft_dprintf(2, "old: %s\nnew: %s\n", st_fc->old_pattern, st_fc->new_pattern);
 	ft_dprintf(2, "editor:%s\n", st_fc->editor);
-	*/
+*/	
 	return (0);
 }

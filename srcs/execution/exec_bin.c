@@ -37,6 +37,7 @@ static int			exec_env_bin(char *cmd_path, char **argv, char **new_env)
 
 	if ((status = env_access_check(cmd_path)) > 0)
 		return (status);
+	tcsetattr(STDIN_FILENO, TCSADRAIN, &g_saved_attr);
 	if ((pid = fork()) == -1)
 	{
 		write(2, "fork error\n", 11);
@@ -44,14 +45,13 @@ static int			exec_env_bin(char *cmd_path, char **argv, char **new_env)
 	}
 	else if (pid == 0)
 	{
-		reset_terminal_settings();
 		execve(cmd_path, (char*const*)argv, (char*const*)new_env);
 		print_errors(ERR_EXECUTE, ERR_EXECUTE_STR, cmd_path);
 		clean_exit(1, 0);
 	}
 	else
 	{
-		setup_terminal_settings();
+		tcsetattr(STDIN_FILENO, TCSADRAIN, &g_saved_attr);
 		signals_setup();
 		waitpid(pid, &status, 0);
 		status = exit_status(status);

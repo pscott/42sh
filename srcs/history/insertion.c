@@ -16,11 +16,23 @@ t_hist_lst		*insert_left(t_hist_lst *hist_lst, const char *line, char keep)
 {
 	t_hist_lst	*probe;
 	t_hist_lst	*insert;
+	char		*tmp;
 
-//	if (is_fc(line))
-//		return (NULL);
+
+//	if (!(tmp = ft_strnew(ft_strlen(line))))
+//		clean_exit(1, 1);
+//	tmp = ft_strcpy(tmp, line);
+//	if (tmp[ft_strlen(tmp) - 1] != '\n')
+//	{
+//		write(2, "OK", 2);
+//		tmp[ft_strlen(tmp) - 1] = '\n';
+//	}
 	if (!(insert = create_hist_lst(line, keep)))
+	{
+//		free(tmp);
 		return (NULL);
+	}
+//	free(tmp);
 	if (!(probe = hist_lst))
 		return (insert);
 	else

@@ -93,7 +93,7 @@ static int			case_fc_editor(t_st_cmd *st_cmd, t_st_fc *st_fc)
 
 	if ((tmp_file_fd = fc_edit_open_file(st_cmd, st_fc, &tmp_file)) == -1)
 		return (1);
-	if ((fc_edit_open_editor(st_cmd, st_fc, &tmp_file, tmp_file_fd)) == 1)
+	if ((fc_edit_open_editor(st_cmd, st_fc, &tmp_file, tmp_file_fd)) != 0)
 	{
 		ft_strdel(&tmp_file);
 		return (1);

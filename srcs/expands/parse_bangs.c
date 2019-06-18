@@ -78,17 +78,12 @@ int				case_word(t_st_cmd *st_cmd, char **str, int *i, int mode)
 		return (1);
 	}
 	len = ft_strlen_chars(&((*str)[*i]), " \n\t\r;<>&|");
-	ft_dprintf(2, "str is : %s", &((*str)[*i]));
-	ft_dprintf(2, "len is : %d\n", len);
-
 	if (!(pattern = ft_strndup(insert->txt, ft_strlen_char(insert->txt, '\n'))))
 		clean_exit(1, 1);
-	ft_dprintf(2, "pattern is : %s|\n", pattern);
 	index[0] = *i - 1;
 	*i = *i + len - 1;
 	index[1] = *i;
 	substitute_slice(str, index, pattern);
-	ft_dprintf(2, "after substit, str is : %s", *str);
 	free(pattern);
 	return (0);
 }

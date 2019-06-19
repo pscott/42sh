@@ -55,7 +55,7 @@ static int			case_fc_substitute(t_st_cmd *st_cmd, t_st_fc *st_fc)
 	char			*histo_real_entry;
 
 	new_cmd = NULL;
-	diff = *st_cmd->hist_len - st_fc->i_first;
+	diff = *st_cmd->hist_len - st_fc->i_first + 1;
 	if (!st_cmd->hist_lst)
 		return (-1);
 	hist_curr = st_cmd->hist_lst;
@@ -64,8 +64,13 @@ static int			case_fc_substitute(t_st_cmd *st_cmd, t_st_fc *st_fc)
 	old_cmd_len = ft_strlen_char(hist_curr->txt, '\n');
 	histo_real_entry = ft_strndup(hist_curr->txt, old_cmd_len);
 	new_cmd = substitute_pattern(st_fc, histo_real_entry, old_cmd_len);
+	ft_strdel(&histo_real_entry);
 	if (new_cmd && new_cmd[0])
-		return (fc_execute_cmd(st_cmd, new_cmd, substitute));
+	{
+		diff = fc_execute_cmd(st_cmd, new_cmd, substitute);
+		ft_strdel(&new_cmd);
+		return (diff);
+	}
 	return (0);
 }
 

@@ -16,7 +16,7 @@ static int		fc_parse_flags(t_st_fc *st_fc, char **av)
 	int			is_val;
 
 	set_ints_to_zero(&i, &k);
-	while (av[++i] && av[i][0] == '-' && ft_strncmp(av[i], "--", 3) && k != 2)
+	while (k != 2 && av[++i] && av[i][0] == '-' && ft_strncmp(av[i], "--", 3))
 	{
 		set_ints_to_zero(&j, &k);
 		while (av[i][++j])
@@ -157,6 +157,8 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 		return (2);
 	if ((fc_parse_operands(st_fc, argv, start_operand)) == -1)
 		return (1);
+
+//	ft_dprintf(2, "{{%s}} et {{%s}", st_fc->first, st_fc->last);
 	if (*st_cmd->hist_len == 0)
 	{
 		error_fc_index(st_fc->flag);
@@ -164,6 +166,7 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 	}
 	if ((fc_parse_index(st_cmd, st_fc)) == -1)
 		return (1);
+//	ft_dprintf(2, "{{%d}} et {{%d}", st_fc->i_first, st_fc->last);
 	if (st_fc->i_first && st_fc->i_last && !ft_strchr(st_fc->flag, 's')
 			&& st_fc->i_first > st_fc->i_last)
 		swap_fc(st_fc);

@@ -4,15 +4,24 @@
 t_hist_lst	*create_hist_lst(const char *line, char keep)
 {
 	t_hist_lst	*res;
+	char		*tmp;
 
 	if (!(isatty(TERM_FD)))
 		return (NULL);
 	if (!(res = (t_hist_lst*)malloc(sizeof(*res))))
 		clean_exit(1, 1);
-	if (!(res->txt = ft_strdup(line)))
+	if (!ft_strchr(line, '\n'))
+	{
+		if (!(tmp = ft_strjoin(line, "\n")))
+			clean_exit(1, 1);
+	}
+	else if (!(tmp = ft_strdup(line)))
 		clean_exit(1, 1);
-	if (!(res->cpy = ft_strdup(line)))
+	if (!(res->txt = ft_strdup(tmp)))
 		clean_exit(1, 1);
+	if (!(res->cpy = ft_strdup(tmp)))
+		clean_exit(1, 1);
+	ft_strdel(&tmp);
 	res->keep = keep;
 	res->prev = NULL;
 	res->next = NULL;

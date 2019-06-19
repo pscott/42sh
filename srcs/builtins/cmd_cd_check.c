@@ -18,6 +18,11 @@ static void		remove_string_dotdot(char **dest, int *i)
 		if ((*dest)[*i] == '/')
 			break ;
 	}
+	while ((*dest)[*i])
+		(*i)++;
+	(*i)--;
+	if ((*dest)[*i] == '/')
+		*dest = remove_n_char(*dest, *i);
 }
 
 static int		is_error(char *dest, char *msg)

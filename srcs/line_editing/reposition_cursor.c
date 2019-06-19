@@ -61,11 +61,13 @@ static void	calculate_st_pos(t_st_cmd *st_cmd, size_t new_tracker,
 	char	to_write;
 
 	i = 0;
-	if (!isatty(STDIN_FILENO) || !st_cmd->window->ws_col)
+	if (!isatty(STDIN_FILENO) || st_cmd->window->ws_col < 1)
+		return ;
+	if (!st_cmd->st_txt || !st_cmd->st_txt->txt)
 		return ;
 	while (i < new_tracker)
 	{
-		to_write = st_cmd->st_txt->txt[i];
+			to_write = st_cmd->st_txt->txt[i];
 		increment_pos(to_write, new_pos, st_cmd->window);
 		i++;
 	}

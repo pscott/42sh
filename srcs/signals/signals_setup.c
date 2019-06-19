@@ -6,7 +6,7 @@
 ** Handler function for terminating (aka dangerous) signals
 */
 
-void			sig_handler(int signo)
+void	sig_handler(int signo)
 {
 	execute_str(CLEAR_BELOW);
 	restore_init_cursor();
@@ -23,7 +23,7 @@ void			sig_handler(int signo)
 ** INT signal does NOT exit the program.
 */
 
-void		signals_setup(void)
+void	signals_setup(void)
 {
 	signal(SIGWINCH, sigwinch_handler);
 	signal(SIGCONT, sigcont_handler);

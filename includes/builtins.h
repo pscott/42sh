@@ -50,7 +50,16 @@ int		is_zero(char *str);
 
 char	*get_directory(const char *env_key, const char **env);
 char	*get_cwd_value(const char **env);
-char	*relative_directory(const char *path, const char **env);
+char	*relative_directory(const char *path, const char **env, int *cdpath);
+int		get_cd_options(char **argv, int *pos);
+char	*cut_path_string(char *str, int slash);
+int		get_path(char ***path, t_vars *vars);
+int		check_cdpath_var(const char *path, const char **env, char **tmp,
+		int *cdpath);
+void	format_path_string(char **dest);
+char	*remove_n_char(char *str, size_t pos);
+int		change_environ(char *new_wd, char ***env, int opt, int display);
+int		check_full_access(char **dest, char *msg);
 
 /*
 **	Env utils

@@ -12,23 +12,23 @@ static	void			put_lst_new(t_op **lst, t_op **new)
 
 static	int				check_prio(int tok)
 {
-	if (tok == TK_NB)
+	if (tok == tk_nb)
 		return (1);
-	if (tok == TK_VARPLUS || tok == TK_PLUSVAR
-			|| tok == TK_VARMIN || tok == TK_MINVAR)
+	if (tok == tk_varplus || tok == tk_plusvar
+			|| tok == tk_varmin || tok == tk_minvar)
 		return (2);
-	if (tok == TK_ADD || tok == TK_SUB)
+	if (tok == tk_add || tok == tk_sub)
 		return (4);
-	if (tok == TK_MULT || tok == TK_DIV || tok == TK_MOD)
+	if (tok == tk_mult || tok == tk_div || tok == tk_mod)
 		return (3);
-	if (tok == TK_LESSEQ || tok == TK_MOREEQ
-			|| tok == TK_LESS || tok == TK_MORE)
+	if (tok == tk_lesseq || tok == tk_moreeq
+			|| tok == tk_less || tok == tk_more)
 		return (5);
-	if (tok == TK_EQ || tok == TK_NOTEQ)
+	if (tok == tk_eq || tok == tk_noteq)
 		return (6);
-	if (tok == TK_OPERAND)
+	if (tok == tk_operand)
 		return (7);
-	if (tok == TK_OPEROR)
+	if (tok == tk_operor)
 		return (8);
 	return (0);
 }
@@ -64,7 +64,7 @@ t_op					*build_op_list(t_tok *tks)
 			clean_exit(1, 1);
 		if (!(lst))
 			lst = new;
-		else if ((lst->token == TK_NB && new->token == TK_NB)
+		else if ((lst->token == tk_nb && new->token == tk_nb)
 				|| (check_prio(lst->token) > check_prio(new->token)))
 			put_lst_new(&lst, &new);
 		else

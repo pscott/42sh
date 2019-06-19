@@ -41,18 +41,13 @@ static char		*get_dest_path(char *arg, char ***env, int *display, char opt)
 		if ((dest = get_directory("OLDPWD", (const char**)*env)))
 				*display = 2;
 	}
-	else if (opt == 'P')
-	{
-		if (!(dest = getcwd(NULL, 0)))
-			print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL);
-	}
 	else if (arg[0] == '/')
 	{
 		if (!(dest = ft_strdup(arg)))
 			clean_exit(1, 1);
 	}
 	else
-		dest = relative_directory(arg, (const char**)*env, display);
+		dest = relative_directory(arg, (const char**)*env, display, opt);
 	return (dest);
 }
 

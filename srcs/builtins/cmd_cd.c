@@ -66,6 +66,12 @@ static int		check_path_too_long(char *str)
 	return (0);
 }
 
+static int		del_and_return(char **todel, int ret)
+{
+	ft_strdel(todel);
+	return (ret);
+}
+
 /*
 **	Returns 0 if it succesfully managed to change directory ; else returns
 **	the corresponding error value.
@@ -88,16 +94,8 @@ int				case_cd(char **argv, char ***env)
 		return (1);
 	if (opt != 'P')
 		format_path_string(&dest);
-	if (check_path_too_long(dest))
-	{
-		ft_strdel(&dest);
-		return (1);
-	}
-	if (check_full_access(&dest, argv[pos]))
-	{
-		ft_strdel(&dest);
-		return (1);
-	}
+	if (check_path_too_long(dest) || check_full_access(&dest, argv[pos]))
+		return (del_and_return(&dest, 1));
 	else
 		return (change_environ(dest, env, opt, display));
 }

@@ -67,11 +67,20 @@ static int		loop_access(char *dest, char *msg)
 	return (0);
 }
 
+static int		access_last_part(char **dest, char *msg, int i)
+{
+	if (!ft_strncmp(*dest + i, "/../", 4)
+			|| !ft_strcmp(*dest + i, "/.."))
+		remove_string_dotdot(dest, &i);
+	if (is_error(*dest, msg))
+		return (1);
+	return (0);
+}
+
 int				check_full_access(char **dest, char *msg)
 {
 	int		i;
 	int		k;
-	char	*tmp;
 
 	i = 0;
 	k = 0;
@@ -92,13 +101,5 @@ int				check_full_access(char **dest, char *msg)
 	}
 	while (i > 0 && (*dest)[i] != '/')
 		i--;
-	if (!ft_strncmp(*dest + i, "/../", 4)
-			|| !ft_strcmp(*dest + i, "/.."))
-		remove_string_dotdot(dest, &i);
-	if (is_error(*dest, msg))
-	{
-		ft_strdel(&tmp);
-		return (1);
-	}
-	return (0);
+	return (access_last_part(dest, msg, i));
 }

@@ -21,7 +21,7 @@ static void		remove_string_dotdot(char **dest, int *i)
 	while ((*dest)[*i])
 		(*i)++;
 	(*i)--;
-	if ((*dest)[*i] == '/')
+	if (*i && (*dest)[*i] == '/')
 		*dest = remove_n_char(*dest, *i);
 }
 

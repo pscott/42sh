@@ -41,7 +41,7 @@ static int	set_non_canonical_mode(struct termios *tattr)
 	term.c_cc[VTIME] = 0;
 	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &term) == -1)
 		return (err_setattr());
-	return (1);
+	return (0);
 }
 
 /*
@@ -70,7 +70,7 @@ int			setup_terminal_settings(void)
 		return (err_no_database());
 	if (check_caps() == 0)
 		return (err_caps());
-	if (set_non_canonical_mode(&g_saved_attr) == 0)
+	if (set_non_canonical_mode(&g_saved_attr) > 0)
 		return (1);
 	return (0);
 }

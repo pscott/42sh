@@ -7,7 +7,7 @@
 **	with the env_key paramter. If env_key is not found in env, returns NULL.
 */
 
-char	*get_directory(const char *env_key, const char **env)
+char			*get_directory(const char *env_key, const char **env)
 {
 	char			*dest;
 
@@ -23,7 +23,7 @@ char	*get_directory(const char *env_key, const char **env)
 	return (dest);
 }
 
-char	*get_cwd_value(const char **env)
+char			*get_cwd_value(const char **env)
 {
 	char			*cwd;
 
@@ -41,7 +41,12 @@ char	*get_cwd_value(const char **env)
 	return (cwd);
 }
 
-char	*relative_directory(const char *path, const char **env)
+/*
+**	Get the right path with getcwd call, for easier chdir execution
+*/
+
+char			*relative_directory(const char *path, const char **env,
+		int *cdpath)
 {
 	char			*cwd;
 	char			*tmp;
@@ -49,9 +54,7 @@ char	*relative_directory(const char *path, const char **env)
 
 	ft_initialize_str(&cwd, &tmp, &dest, NULL);
 	cwd = get_cwd_value(env);
-	if (cwd[0] && cwd[0] == '/' && !cwd[1])
-		tmp = cwd;
-	else
+	if (check_cdpath_var(path, env, &tmp, cdpath))
 	{
 		if (!(tmp = ft_strjoin(cwd, "/")))
 			clean_exit(1, 1);
@@ -59,6 +62,8 @@ char	*relative_directory(const char *path, const char **env)
 	}
 	if (!(dest = ft_strjoin(tmp, path)))
 		clean_exit(1, 1);
-	ft_strdel(&tmp);
+	if (tmp != cwd)
+		ft_strdel(&tmp);
+	ft_strdel(&cwd);
 	return (dest);
 }

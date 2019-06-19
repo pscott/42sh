@@ -67,7 +67,7 @@ static void	calculate_st_pos(t_st_cmd *st_cmd, size_t new_tracker,
 		return ;
 	while (i < new_tracker)
 	{
-			to_write = st_cmd->st_txt->txt[i];
+		to_write = st_cmd->st_txt->txt[i];
 		increment_pos(to_write, new_pos, st_cmd->window);
 		i++;
 	}

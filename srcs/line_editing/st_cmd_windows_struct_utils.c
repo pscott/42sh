@@ -9,6 +9,8 @@
 void			init_relative_pos(t_pos *cursor_pos, struct winsize *window,
 	size_t prompt_size)
 {
+	if (!window)
+		return ;
 	if (!window->ws_col)
 	{
 		cursor_pos->col = prompt_size;

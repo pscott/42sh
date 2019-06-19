@@ -10,6 +10,8 @@ void			shift_chars_left(char *str, unsigned int shift_no)
 	size_t i;
 
 	i = 0;
+	if (!str)
+		return ;
 	while (str[i] && str[i + shift_no])
 	{
 		str[i] = str[i + shift_no];

@@ -42,6 +42,7 @@ int		init_vars(t_vars *vars, int argc, char **argv, char **env)
 	vars->shell_vars = NULL;
 	vars->verbose = 1;
 	vars->copy = NULL;
+	vars->interrupted = 0;
 	reset_copy_vars(vars);
 	get_vars(vars);
 	if (!(vars->env_vars = init_env((const char **)env)))

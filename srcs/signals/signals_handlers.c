@@ -41,6 +41,7 @@ void			sigint_handler(int signo)
 	if (!(st_cmd = get_st_cmd(NULL)))
 		return ;
 	st_cmd = get_last_st_cmd(st_cmd);
+	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 	if (st_cmd->st_txt->txt)
 		*st_cmd->st_txt->txt = '\x03';
 	if ((vars = get_vars(NULL)))
@@ -48,6 +49,7 @@ void			sigint_handler(int signo)
 	if (isatty(TERM_FD))
 		write(TERM_FD, "^C", 2);
 	reset_copy_vars(vars);
+	vars->interrupted = 1;
 	st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;
 	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 	restore_init_cursor();

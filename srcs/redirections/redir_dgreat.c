@@ -5,7 +5,10 @@
 static int	print_fd_error(int fd, int mode)
 {
 	if (mode != -1)
-		ft_dprintf(2, SHELL_NAME ": %d: bad file descriptor\n", fd);
+	{
+		ft_dprintf(STDERR_FILENO, SHELL_NAME ": %d: bad file descriptor",fd);
+		ft_dprintf(STDERR_FILENO, " (must be less than 9)",fd);
+	}
 	return (1);
 }
 

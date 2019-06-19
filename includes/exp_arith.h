@@ -7,24 +7,24 @@
 
 typedef enum		e_arith_token
 {
-	TK_NB = 1,
-	TK_VARPLUS = 2,
-	TK_PLUSVAR = 3,
-	TK_VARMIN = 4,
-	TK_MINVAR = 5,
-	TK_ADD = 6,
-	TK_SUB = 7,
-	TK_MULT = 8,
-	TK_DIV = 9,
-	TK_MOD = 10,
-	TK_LESSEQ = 11,
-	TK_MOREEQ = 12,
-	TK_LESS = 13,
-	TK_MORE = 14,
-	TK_EQ = 15,
-	TK_NOTEQ = 16,
-	TK_OPERAND = 17,
-	TK_OPEROR = 18,
+	tk_nb = 1,
+	tk_varplus = 2,
+	tk_plusvar = 3,
+	tk_varmin = 4,
+	tk_minvar = 5,
+	tk_add = 6,
+	tk_sub = 7,
+	tk_mult = 8,
+	tk_div = 9,
+	tk_mod = 10,
+	tk_lesseq = 11,
+	tk_moreeq = 12,
+	tk_less = 13,
+	tk_more = 14,
+	tk_eq = 15,
+	tk_noteq = 16,
+	tk_operand = 17,
+	tk_operor = 18,
 }					t_arith_token;
 
 /*
@@ -114,7 +114,7 @@ long long			return_set_err(int *err, int error);
 long long			double_numbers(t_op *lst, int *err, char ***vars);
 long long			not_tok_nb(t_op *lst, int *err, long long *nb, char ***var);
 long long			exec(t_op *lst, int *err, char ***vars);
-long long			lonely_number(t_op *lst, char ***vars);
+long long			lonely_number(t_op *lst, int *err, char ***vars);
 long long			check_err_numbers(t_op *lst);
 
 char				*get_value_index(int i, char **env);

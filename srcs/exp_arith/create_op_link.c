@@ -8,7 +8,7 @@ static	t_op	*init_link(int token, long long value, t_tok link, t_op *new)
 	new->left = NULL;
 	new->token = token;
 	new->value = value;
-	if (token == TK_NB)
+	if (token == tk_nb)
 	{
 		if (link.varid == -2)
 		{

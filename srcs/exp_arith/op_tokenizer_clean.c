@@ -25,22 +25,22 @@ void	c_iter(t_tok *d, t_tok **c, int *i, int *k)
 {
 	if (*k != 0)
 	{
-		if (d[*i].token == TK_VARMIN)
+		if (d[*i].token == tk_varmin)
 			(*c)[*k - 1].end = -1;
-		if (d[*i].token == TK_VARPLUS)
+		if (d[*i].token == tk_varplus)
 			(*c)[*k - 1].end = 1;
 	}
-	if (d[*i].token == TK_PLUSVAR)
+	if (d[*i].token == tk_plusvar)
 		(*c)[*k].beg = 1;
-	if (d[*i].token == TK_MINVAR)
+	if (d[*i].token == tk_minvar)
 		(*c)[*k].beg = -1;
 }
 
 int		check_put_oper(int prev, t_tok *dirty, int i)
 {
-	if (prev == 'n' || (check_next_tok(dirty, i) != TK_NB
-				&& check_next_tok(dirty, i) != TK_PLUSVAR
-				&& check_next_tok(dirty, i) != TK_MINVAR))
+	if (prev == 'n' || (check_next_tok(dirty, i) != tk_nb
+				&& check_next_tok(dirty, i) != tk_plusvar
+				&& check_next_tok(dirty, i) != tk_minvar))
 		return (1);
 	return (0);
 }

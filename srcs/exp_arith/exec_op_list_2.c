@@ -4,20 +4,20 @@
 
 static	long long	calc_bas(long long nb1, long long nb2, int token, int *err)
 {
-	if (token == TK_ADD)
+	if (token == tk_add)
 		return (nb1 + nb2);
-	if (token == TK_SUB)
+	if (token == tk_sub)
 		return (nb1 - nb2);
-	if (token == TK_MULT)
+	if (token == tk_mult)
 		return (nb1 * nb2);
-	if (token == TK_DIV || token == TK_MOD)
+	if (token == tk_div || token == tk_mod)
 	{
 		if (nb2 == 0)
 		{
 			*err = 4;
 			return (0);
 		}
-		if (token == TK_DIV)
+		if (token == tk_div)
 			return (nb1 / nb2);
 		else
 			return (nb1 % nb2);
@@ -27,23 +27,23 @@ static	long long	calc_bas(long long nb1, long long nb2, int token, int *err)
 
 long long			calcul(long long nb1, long long nb2, int token, int *err)
 {
-	if (token >= TK_ADD && token <= TK_MOD)
+	if (token >= tk_add && token <= tk_mod)
 		return (calc_bas(nb1, nb2, token, err));
-	if (token == TK_LESSEQ)
+	if (token == tk_lesseq)
 		return ((nb1 <= nb2) ? 1 : 0);
-	if (token == TK_MOREEQ)
+	if (token == tk_moreeq)
 		return ((nb1 >= nb2) ? 1 : 0);
-	if (token == TK_LESS)
+	if (token == tk_less)
 		return ((nb1 < nb2) ? 1 : 0);
-	if (token == TK_MORE)
+	if (token == tk_more)
 		return ((nb1 > nb2) ? 1 : 0);
-	if (token == TK_EQ)
+	if (token == tk_eq)
 		return ((nb1 == nb2) ? 1 : 0);
-	if (token == TK_NOTEQ)
+	if (token == tk_noteq)
 		return ((nb1 != nb2) ? 1 : 0);
-	if (token == TK_OPERAND)
+	if (token == tk_operand)
 		return ((nb1 && nb2) ? 1 : 0);
-	if (token == TK_OPEROR)
+	if (token == tk_operor)
 		return ((nb1 || nb2) ? 1 : 0);
 	return (0);
 }

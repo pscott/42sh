@@ -52,7 +52,7 @@ t_hist_lst		*get_entry_lst(t_hist_lst *hist_lst, int index)
 t_hist_lst		*get_entry_lst_word(t_hist_lst *hist_lst, char *word)
 {
 	int			len;
-	
+
 	if (!(hist_lst = get_end_lst(hist_lst)))
 		return (NULL);
 	len = ft_strlen_chars(word, " \t\n\r&;|<>");

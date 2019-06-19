@@ -16,7 +16,7 @@ static int	is_valid_negative_operand(char *s)
 	return (2);
 }
 
-int			is_valid_option(char *s, int i)
+int			option(char *s, int i)
 {
 	if (!ft_strchr("selnr", s[i]))
 	{

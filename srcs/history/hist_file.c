@@ -39,12 +39,6 @@ static t_hist_lst	*construct_history(int fd)
 	tmp = NULL;
 	while ((get_next_line(fd, &tmp) > 0) && (tmp && ft_printable_len(tmp) > 6))
 	{
-		// this ?
-		if (ft_strstr(tmp, "fc -s") || (ft_strstr(tmp, "fc") && ft_strstr(tmp, "-e")))
-		{
-			ft_strdel(&tmp);
-			continue ;
-		}
 		if (!(line = ft_strdup_print(tmp)))
 			clean_exit(1, 1);
 		ft_strdel(&tmp);

@@ -26,7 +26,7 @@ static int			print_exec_and_free(t_st_cmd *st_cmd, t_vars *new_vars)
 	return (0);
 }
 
-static int			get_nbr_cr(int fd)
+static int			get_nbr_cr(int fd, int *i)
 {
 	char			*tmp;
 	int				ret;
@@ -39,6 +39,7 @@ static int			get_nbr_cr(int fd)
 		ft_strdel(&tmp);
 	}
 	lseek(fd, 0, SEEK_SET);
+	*i = 0;
 	return (ret);
 }
 
@@ -53,11 +54,10 @@ static int			fc_execute_edit(t_st_cmd *st_cmd,
 
 	if ((fd = open(file, O_RDONLY)) == -1)
 		return (1);
-	cr = get_nbr_cr(fd);
+	cr = get_nbr_cr(fd, &i);
 	if (!(tmp = (char**)malloc(sizeof(char*) * (cr + 1))))
 		clean_exit(1, 1);
 	tmp[cr] = NULL;
-	i = 0;
 	while (get_next_line(fd, &(tmp[i])) > 0)
 		i++;
 	if (close(fd) == -1)

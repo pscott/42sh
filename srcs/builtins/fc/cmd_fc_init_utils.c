@@ -52,6 +52,7 @@ int				get_first_no_indication(t_st_cmd *st_cmd, t_st_fc *st_fc)
 	}
 	else
 		st_fc->i_first = (*st_cmd->hist_len);
+	return (0);
 }
 
 void			swap_fc(t_st_fc *st_fc)

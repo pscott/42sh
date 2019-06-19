@@ -8,33 +8,30 @@
 **	Else, returns (i), the index of the first operand.
 */
 
-static int		fc_parse_flags(t_st_fc *st_fc, char **argv)
+static int		fc_parse_flags(t_st_fc *st_fc, char **av)
 {
 	int			i;
 	int			j;
 	int			k;
 	int			is_val;
 
-	i = 0;
-	while (argv[++i] && argv[i][0] == '-' && ft_strncmp(argv[i], "--", 3))
+	set_ints_to_zero(&i, &k);
+	while (av[++i] && av[i][0] == '-' && ft_strncmp(av[i], "--", 3) && k != 2)
 	{
 		set_ints_to_zero(&j, &k);
-		while (argv[i][++j])
+		while (av[i][++j])
 		{
-			if ((k = is_valid_option(argv[i], j)) == 0
-				&& !ft_strnequ(argv[i], "-e", 2))
-				return (error_fc_histo(argv[i], j, invalid_option, st_fc));
+			if (((k = option(av[i], j)) == 0) && !ft_strnequ(av[i], "-e", 2))
+				return (error_fc_histo(av[i], j, invalid_option, st_fc));
 			else if (k == 2)
 				break ;
-			if (((is_val = is_valid_mix(st_fc->flag, argv[i][j]))) == 1)
-				st_fc->flag[ft_strlen_char(st_fc->flag, '.')] = argv[i][j];
+			if (((is_val = is_valid_mix(st_fc->flag, av[i][j]))) == 1)
+				st_fc->flag[ft_strlen_char(st_fc->flag, '.')] = av[i][j];
 			else if (is_val == -1)
-				return (error_fc_histo(argv[i], j, invalid_mix, st_fc));
+				return (error_fc_histo(av[i], j, invalid_mix, st_fc));
 		}
-		if (k == 2)
-			break ;
 	}
-	if (!ft_strcmp(argv[i], "--"))
+	if (!ft_strcmp(av[i], "--"))
 		i++;
 	return (i);
 }
@@ -117,19 +114,16 @@ static int		fc_parse_index(t_st_cmd *st_cmd, t_st_fc *st_fc)
 	{
 		if (!st_fc->first)
 			st_fc->i_first = (*st_cmd->hist_len);
-		else
-		{
-			if ((st_fc->i_first = find_index_fc(st_cmd, st_fc->flag,
-							st_fc->first)) < 0)
-				return (st_fc->i_first);
-		}
+		else if ((st_fc->i_first = find_index_fc(st_cmd, st_fc->flag,
+					st_fc->first)) < 0)
+			return (st_fc->i_first);
 	}
 	else
 	{
 		if (st_fc->first)
 		{
 			if ((st_fc->i_first = find_index_fc(st_cmd, st_fc->flag,
-							st_fc->first)) < 0)
+						st_fc->first)) < 0)
 				return (st_fc->i_first);
 		}
 		else

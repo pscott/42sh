@@ -1,6 +1,20 @@
 #include "ftsh.h"
 #include "history.h"
 
+void			free_st_fc(t_st_fc *st_fc)
+{
+	if (st_fc->first)
+		free(st_fc->first);
+	if (st_fc->last)
+		free(st_fc->last);
+	if (st_fc->editor)
+		free(st_fc->editor);
+	if (st_fc->old_pattern)
+		free(st_fc->old_pattern);
+	if (st_fc->new_pattern)
+		free(st_fc->new_pattern);
+}
+
 static void		print_usage_fc(void)
 {
 	int			fd;

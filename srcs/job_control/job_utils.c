@@ -3,6 +3,7 @@
 /*
 **	Find the active job with the indicated pgid.
 */
+
 t_job 	*find_job(pid_t pgid)
 {
 	t_job *j;

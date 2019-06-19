@@ -19,5 +19,6 @@ char	*tokens_to_str(t_token *tokens)
 
 void		format_job_info(t_job *j, const char *status)
 {
-	ft_dprintf(STDERR_FILENO, "pid: %ld status: (%s) command: %s\n", (long)j->pgid, status, tokens_to_str(j->token_list));
+	if (!j->fg)
+		ft_dprintf(STDERR_FILENO, "[%d]%c %s %s\n", j->num, j->current, status, tokens_to_str(j->token_list));
 }

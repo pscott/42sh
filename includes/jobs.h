@@ -24,6 +24,9 @@ typedef struct		s_job
   pid_t				pgid;                 /* process group ID */
   char				notified;              /* true if user told about stopped job */
   struct termios	tmodes;
+  int				fg;
+  int				num;
+  char				current;
   int				stdin;
   int				stdout;
   int				stderr;
@@ -53,10 +56,12 @@ int				put_job_in_foreground(t_job *j, int cont);
 int				launch_job(t_job *j, int foreground);
 int				launch_process(t_process *p, pid_t pgid, int fds[2], int foreground);
 void			set_group_id(pid_t pgid, int fg);
-t_job			*create_job(t_token *tokens);
+t_job			*create_job(t_token *tokens, int fg, int num);
 t_job			*append_job(t_job **first_j, t_job *to_add);
 t_process		*create_process_list(t_token *token_list);
 int				get_processes_len(t_process *p);
+int				get_last_num(t_job *j);
+void			set_current(void);
 
 char			*tokens_to_str(t_token *tokens);
 /*
@@ -75,7 +80,7 @@ int				mark_process_status(pid_t pid, int status);
 t_token			*copy_job_tokens(t_token *tokens);
 t_token			*copy_process_tokens(t_token *tokens);
 
-void			do_job_notification(void);
+void			do_job_notification(int verbose);
 
 /*
 **	Free functions

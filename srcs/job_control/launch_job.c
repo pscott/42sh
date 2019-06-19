@@ -58,7 +58,7 @@ int		launch_job(t_job *j, int foreground)
 	else if (foreground)
 		ret = put_job_in_foreground(j, 0);
 	else
-		put_job_in_background(j, 0);
+		put_job_in_background(j, 0); // ret ?
 	if (foreground)
 		tcsetattr(j->stdin, TCSADRAIN, &g_42sh_attr);
 	return (ret);

@@ -122,7 +122,7 @@ static int background_case(t_ast *root, t_vars *vars, int fg)
 
 	if (fg)
 	{
-		j = append_job(&g_first_job, create_job(root->token)); // should be create_job with special token_list;
+		j = append_job(&g_first_job, create_job(root->token, 0, get_last_num(g_first_job) + 1)); // should be create_job with special token_list;
 		tcsetattr(j->stdin, TCSADRAIN, &g_saved_attr);
 		if ((pid = fork()) < 0)
 		{
@@ -137,12 +137,13 @@ static int background_case(t_ast *root, t_vars *vars, int fg)
 		}
 		if (g_isatty)
 		{
-			j->first_process = create_process(j->token_list);
+			j->first_process = create_process(j->token_list);// will change
 			j->first_process->pid = pid;
 			j->pgid = pid;
 			setpgid(pid, j->pgid);
 		}
 		tcsetattr(j->stdin, TCSADRAIN, &g_42sh_attr);
+		ft_dprintf(2, "[%d] %d\n", j->num, j->pgid);
 		return (exec_ast(root->right, vars, 1));
 	}
 	else

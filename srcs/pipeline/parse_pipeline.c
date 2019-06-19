@@ -28,33 +28,33 @@ t_token	*get_next_simple_command(t_token *begin)
 */
 
 /*static int		exec_last_cmd(t_token *begin, int ints[2], int fd[2])
-{
-	int		status;
-	pid_t	pid;
-	int		ret;
+  {
+  int		status;
+  pid_t	pid;
+  int		ret;
 
-	ret = 0;
-	if ((pid = fork()) == -1)
-	{
-		ft_dprintf(2, "fork error\n");
-		clean_exit(ret, 0);
-	}
-	else if (pid == 0)
-		clean_exit(parse_and_exec(begin, ints[0], STDOUT_FILENO), 0);
-	else
-	{
-		waitpid(pid, &status, 0);
-		ret = exit_status(status);
-		if (ints[1] != 1)
-			close(fd[0]);
-		while ((pid = wait(&status)) > 0)
-			;
-		signals_setup();
-		execute_str(MOVE_DOWN);
-		setup_terminal_settings();
-	}
-	return (ret);
-}*/
+  ret = 0;
+  if ((pid = fork()) == -1)
+  {
+  ft_dprintf(2, "fork error\n");
+  clean_exit(ret, 0);
+  }
+  else if (pid == 0)
+  clean_exit(parse_and_exec(begin, ints[0], STDOUT_FILENO), 0);
+  else
+  {
+  waitpid(pid, &status, 0);
+  ret = exit_status(status);
+  if (ints[1] != 1)
+  close(fd[0]);
+  while ((pid = wait(&status)) > 0)
+  ;
+  signals_setup();
+  execute_str(MOVE_DOWN);
+  setup_terminal_settings();
+  }
+  return (ret);
+  }*/
 
 /*
 **	Pipes fd.
@@ -64,29 +64,29 @@ t_token	*get_next_simple_command(t_token *begin)
 */
 
 /*static void		create_forks(t_token **begin, int ints[2], int fd[2])
-{
-	int	pid;
+  {
+  int	pid;
 
-	if ((pid = fork()) == -1)
-	{
-		write(2, "fork error\n", 11);
-		clean_exit(-1, 0);
-	}
-	else if (pid == 0)
-	{
-		close(fd[0]);
-		pid = parse_and_exec(*begin, ints[0], fd[1]);
-		clean_exit(pid, 0);
-	}
-	else if (pid > 0)
-	{
-		close(fd[1]);
-		if (ints[0] != STDIN_FILENO)
-			close(ints[0]);
-		ints[0] = fd[0];
-		*begin = get_next_simple_command(*begin);
-	}
-}*/
+  if ((pid = fork()) == -1)
+  {
+  write(2, "fork error\n", 11);
+  clean_exit(-1, 0);
+  }
+  else if (pid == 0)
+  {
+  close(fd[0]);
+  pid = parse_and_exec(*begin, ints[0], fd[1]);
+  clean_exit(pid, 0);
+  }
+  else if (pid > 0)
+  {
+  close(fd[1]);
+  if (ints[0] != STDIN_FILENO)
+  close(ints[0]);
+  ints[0] = fd[0];
+ *begin = get_next_simple_command(*begin);
+ }
+ }*/
 
 /*
 **	Manages all pipes and fds, while handing the simple command to
@@ -99,28 +99,28 @@ t_token	*get_next_simple_command(t_token *begin)
 */
 
 /*static	int		fork_pipes(int num_simple_commands, t_token *beg)
-{
-	int		i;
-	int		ints[2];
-	int		fd[2];
-	int		ret;
+  {
+  int		i;
+  int		ints[2];
+  int		fd[2];
+  int		ret;
 
-	i = 0;
-	ints[0] = STDIN_FILENO;
-	ints[1] = num_simple_commands;
-	reset_terminal_settings();
-	while (i++ < num_simple_commands - 1)
-	{
-		if (pipe(fd))
-		{
-			write(2, "pipe error\n", 11);
-			clean_exit(1, 0);
-		}
-		create_forks(&beg, ints, fd);
-	}
-	ret = exec_last_cmd(beg, ints, fd);
-	return (ret);
-}*/
+  i = 0;
+  ints[0] = STDIN_FILENO;
+  ints[1] = num_simple_commands;
+  reset_terminal_settings();
+  while (i++ < num_simple_commands - 1)
+  {
+  if (pipe(fd))
+  {
+  write(2, "pipe error\n", 11);
+  clean_exit(1, 0);
+  }
+  create_forks(&beg, ints, fd);
+  }
+  ret = exec_last_cmd(beg, ints, fd);
+  return (ret);
+  }*/
 
 int				parse_cmdline(t_token *token, t_vars *vars, int foreground)
 {
@@ -132,7 +132,7 @@ int				parse_cmdline(t_token *token, t_vars *vars, int foreground)
 	if (!token)
 		return (0);
 	if (foreground)
-		j = append_job(&g_first_job, create_job(token));
+		j = append_job(&g_first_job, create_job(token, foreground, get_last_num(g_first_job) + 1));
 	else
 	{
 		j = g_first_job;
@@ -141,13 +141,10 @@ int				parse_cmdline(t_token *token, t_vars *vars, int foreground)
 	}
 	p = create_process_list(token);
 	j->first_process = p;
-	if (foreground)
-	{
-		num_processes = get_processes_len(p);
-		if ((num_processes == 1 && foreground)
-			&& ((ret = check_no_pipe_builtin(token, vars)) >= 0 || ret == -2))
-			return (ret);
-	}
+	num_processes = get_processes_len(p);
+	if ((num_processes == 1 && foreground)
+			&& ((ret = check_no_pipe_builtin(token, vars, j)) >= 0 || ret == -2))
+		return (ret);
 	ret = launch_job(j, foreground);
 	return (ret);
 }

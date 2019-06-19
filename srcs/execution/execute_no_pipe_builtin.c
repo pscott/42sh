@@ -2,6 +2,8 @@
 #include "execution.h"
 #include "cmd_parsing.h"
 #include "hashmap.h"
+#include "jobs.h"
+
 
 /*
 **	Utility function to actually exit
@@ -20,11 +22,19 @@ static void		execute_exit(int exitno)
 **	Returns 0 on success : else returns error number
 */
 
-static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
+static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id, t_job *j)
 {
 	char	**argv;
 	int		ret;
+	pid_t	pid;
 
+	pid = getpid();
+	if (g_isatty)
+	{
+		if (!j->pgid)
+			j->pgid = pid;
+		setpgid(pid, j->pgid);
+	}
 	if ((ret = parse_expands(token_head, vars)) != 0)
 		return (ret);
 	if ((ret = parse_redirections(token_head, 1) > 0))
@@ -43,6 +53,7 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 		else
 			ret = vars->cmd_value;
 	}
+	j->first_process->completed = 1; // stopped ?
 	save_close_openfds(0, 0);
 	save_reset_stdfd(0);
 	return (ret);
@@ -83,7 +94,7 @@ static char		**fake_argv(t_token *token_head, t_vars *vars)
 **	If execution should stop, returns -2
 */
 
-int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
+int				check_no_pipe_builtin(t_token *token_head, t_vars *vars, t_job *j)
 {
 	char					**argv;
 	unsigned int			cmd_id;
@@ -95,7 +106,7 @@ int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 	if (ft_strchr(argv[0], '/'))
 		ret = -1;
 	else if ((cmd_id = check_builtins(argv)))
-		ret = no_pipe_builtin(token_head, vars, cmd_id);
+		ret = no_pipe_builtin(token_head, vars, cmd_id, j);
 	else if ((cmd_path = check_hashmap(argv[0], vars->hashmap, hash_exec)))
 		ret = -1;
 	else

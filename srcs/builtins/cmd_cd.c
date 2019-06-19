@@ -39,7 +39,7 @@ static char		*get_dest_path(char *arg, char ***env, int *display, char opt)
 	else if (ft_strncmp(arg, "-", 2) == 0)
 	{
 		if ((dest = get_directory("OLDPWD", (const char**)*env)))
-				*display = 2;
+			*display = 2;
 	}
 	else if (arg[0] == '/')
 	{

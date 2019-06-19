@@ -88,12 +88,12 @@ int				case_cd(char **argv, char ***env)
 		return (1);
 	if (opt != 'P')
 		format_path_string(&dest);
-	if (check_full_access(&dest, argv[pos]))
+	if (check_path_too_long(dest))
 	{
 		ft_strdel(&dest);
 		return (1);
 	}
-	if (check_path_too_long(dest))
+	if (check_full_access(&dest, argv[pos]))
 	{
 		ft_strdel(&dest);
 		return (1);

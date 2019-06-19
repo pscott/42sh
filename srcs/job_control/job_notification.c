@@ -32,7 +32,7 @@ void	do_job_notification(int verbose)
 		else
 		{
 			if (verbose)
-				format_job_info(j, "Running", " &");
+				format_job_info(j, "Running", "&");
 			jlast = j;
 		}
 		j = jnext;

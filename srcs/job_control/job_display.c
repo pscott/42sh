@@ -11,10 +11,7 @@ char	*tokens_to_str(t_token *token)
 		{
 			while (token && token->type == tk_eat)
 				token = token->next;
-			if (token)
-				res = ft_strjoin_free_left(res, " ");
-			else
-				return (res);
+			res = ft_strjoin_free_left(res, " ");
 		}
 		else
 		{
@@ -22,6 +19,7 @@ char	*tokens_to_str(t_token *token)
 			token = token->next;
 		}
 	}
+	res = ft_strjoin_free_left(res, " ");
 	return (res);
 }
 

@@ -1,5 +1,6 @@
 #include "lexer.h"
 #include "jobs.h"
+#include "cmd_parsing.h"
 
 t_token	*copy_tokens_from_to(t_token *from, t_token *to)
 {
@@ -24,25 +25,49 @@ char	*copy_ast_tokens(t_ast *root)
 		return (NULL);
 	if (!root->left)
 		return (tokens_to_str(root->token));
-	res = ft_strjoin_free_left(copy_ast_tokens(root->left), root->token->content);
-	res = ft_strjoin_free_left(res, copy_ast_tokens(root->right));
+	res = ft_strjoin_free_left(copy_ast_tokens(root->left), root->token->content); // protect
+	res = ft_strjoin_free_left(res, copy_ast_tokens(root->right)); // protect
+	return (res);
+}
+
+static char	*ntab_to_str(char **split)
+{
+	int		i;
+	char	*res;
+
+	i = 0;
+	res = NULL;
+	while (split[i])
+	{
+		if (!(res = ft_strjoin_free_left(res, split[i])))
+			clean_exit(1, 1);
+		if (!(res = ft_strjoin_free_left(res, " ")))
+			clean_exit(1, 1);
+		i++;
+	}
 	return (res);
 }
 
 char	*copy_job_tokens(t_ast *root)
 {
 	char	*res;
+	char	**split;
 	t_ast	*new_root;
 
 	if (!root)
 		return (NULL);
 	else if (!root->left)
-		return (copy_ast_tokens(root));
-	if (root->left->token->type == tk_amp)
+		new_root = root;
+	else if (root->left->token->type == tk_amp)
 		new_root = root->right;
 	else
 		new_root = root->left;
 	res = copy_ast_tokens(new_root);
+	if (!(split = ft_strsplit(res, IFS)))
+		clean_exit(1, 1);
+	ft_strdel(&res);
+	res = ntab_to_str(split);
+	ft_free_ntab(split);
 	return (res);
 }
 

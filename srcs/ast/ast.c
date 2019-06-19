@@ -115,11 +115,13 @@ t_ast			*create_ast(t_token *token_head)
 	return (ast_root);
 }
 
-static int	background_exec(t_ast *root, t_vars *vars)
+static int	background_exec(t_ast *root, t_vars *vars, int fg)
 {
 	pid_t	pid;
 	t_job	*j;
 
+	if (!root)
+		return (0);
 	j = append_job(&g_first_job, create_job(root->token, 0, get_last_num(g_first_job) + 1)); // should be create_job with special token_list;
 	tcsetattr(j->stdin, TCSADRAIN, &g_saved_attr);
 	if ((pid = fork()) < 0)
@@ -131,7 +133,10 @@ static int	background_exec(t_ast *root, t_vars *vars)
 	{
 		pid = getpid();
 		j->pgid = pid;
-		exit(exec_ast(root->left, vars, 0));
+		if (fg)
+			exit(exec_ast(root->left, vars, 0));
+		else
+			exit(exec_ast(root->right, vars, 0));
 	}
 	if (g_isatty)
 	{
@@ -145,21 +150,22 @@ static int	background_exec(t_ast *root, t_vars *vars)
 	return (0);
 }
 
-static int background_case(t_ast *root, t_vars *vars)
+static int background_case(t_ast *root, t_vars *vars, int fg)
 {
 	if (!root || !root->left)
 		return (1);
 	if (root->left->token->type == tk_amp)
 	{
-		background_case(root->left, vars);
-		return (background_exec(root->right, vars));
+		background_case(root->left, vars, 0);
+		background_exec(root->left, vars, 0);
 	}
 	else
 	{
-		background_exec(root, vars);
-		exec_ast(root->right, vars, 1);
-		return (0);
+		background_exec(root, vars, 1);
+		if (fg)
+			exec_ast(root->right, vars, 1);
 	}
+	return (0);
 }
 
 int				exec_ast(t_ast *root, t_vars *vars, int fg)
@@ -175,7 +181,7 @@ int				exec_ast(t_ast *root, t_vars *vars, int fg)
 		return (exec_ast(root->right, vars, fg));
 	}
 	else if (root->token->type == tk_amp)
-		return (background_case(root, vars));
+		return (background_case(root, vars, fg));
 	else if (root->token->type == tk_and)
 	{
 		ret = exec_ast(root->left, vars, fg);

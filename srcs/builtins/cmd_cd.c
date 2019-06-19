@@ -30,7 +30,7 @@ static int		check_cd_usage(char **argv)
 	return (0);
 }
 
-static char		*get_dest_path(char *arg, char ***env, int *display)
+static char		*get_dest_path(char *arg, char ***env, int *display, char opt)
 {
 	char	*dest;
 
@@ -39,7 +39,12 @@ static char		*get_dest_path(char *arg, char ***env, int *display)
 	else if (ft_strncmp(arg, "-", 2) == 0)
 	{
 		if ((dest = get_directory("OLDPWD", (const char**)*env)))
-			*display = 2;
+				*display = 2;
+	}
+	else if (opt == 'P')
+	{
+		if (!(dest = getcwd(NULL, 0)))
+			print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL);
 	}
 	else if (arg[0] == '/')
 	{
@@ -89,7 +94,7 @@ int				case_cd(char **argv, char ***env)
 		return (1);
 	if ((opt = get_cd_options(argv, &pos)) == -1)
 		return (1);
-	dest = get_dest_path(argv[pos], env, &display);
+	dest = get_dest_path(argv[pos], env, &display, opt);
 	if (!dest)
 		return (1);
 	if (opt != 'P')

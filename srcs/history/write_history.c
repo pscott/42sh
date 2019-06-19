@@ -42,7 +42,7 @@ int					write_to_history(t_st_cmd *st_cmd, const char **env)
 	size_t			id;
 	int				fd;
 
-	if (!(st_cmd->hist_lst) || isatty(TERM_FD) == 0)
+	if (isatty(TERM_FD) == 0 || !st_cmd || !(st_cmd->hist_lst))
 		return (0);
 	if ((fd = open_history(env, O_WRONLY | O_CREAT | O_TRUNC)) < 0)
 		return (0);

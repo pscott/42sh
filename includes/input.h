@@ -108,6 +108,7 @@ int						input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode);
 **	st_prompt functions
 */
 
+void					zsh_newline(t_st_cmd *st_cmd);
 t_st_prompt				*init_st_prompt(const char *prompt);
 void					print_prompt(t_st_cmd *st_cmd);
 void					print_prompt_search_histo(t_st_cmd *st_cmd,

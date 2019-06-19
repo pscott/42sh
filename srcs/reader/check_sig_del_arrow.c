@@ -36,11 +36,16 @@ int		check_for_arrows(t_st_cmd *st_cmd, const char *buf, t_vars *vars)
 
 int		check_for_signal(const char *buf)
 {
-	if (ft_strncmp(buf, CTRL_C, CTRL_C_LEN + 1) == 0)
+	if (ft_strequ(buf, CTRL_C))
 	{
 		sigint_handler(SIGINT);
 		return (input_stop);
 	}
+/*	else if (ft_strequ(buf, CTRL_Z))
+	{
+		sigtstp_handler(SIGTSTP);
+		return (input_continue);
+	}*/
 	return (0);
 }
 

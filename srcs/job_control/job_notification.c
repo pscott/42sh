@@ -25,6 +25,7 @@ void	do_job_notification(int verbose)
 		}
 		else if (job_is_stopped(j) && !j->notified)
 		{
+			j->fg = 0;
 			format_job_info(j, "Stopped", "");
 			j->notified = 1;
 			jlast = j;

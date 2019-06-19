@@ -1,6 +1,7 @@
 #include "input.h"
 #include "line_editing.h"
 #include "signals.h"
+#include "jobs.h"
 
 /*
 ** Handler function for terminating (aka dangerous) signals
@@ -22,6 +23,13 @@ void			sig_handler(int signo)
 ** All non-terminating signals are left untouched, except WINCH and CONT
 ** INT signal does NOT exit the program.
 */
+
+/*void	sigtstp_handler(int signo)
+{
+	(void)signo;
+	ft_dprintf(2, "hey\n");
+	put_last_job_in_background();
+}*/
 
 void		signals_setup(void)
 {

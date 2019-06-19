@@ -140,7 +140,7 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 	}
 	if (g_isatty)
 	{
-		j->first_process = create_process(NULL);// will change
+		j->first_process = create_process(root->token);// will change
 		j->first_process->pid = pid;
 		j->pgid = pid;
 		setpgid(pid, j->pgid);

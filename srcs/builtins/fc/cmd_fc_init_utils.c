@@ -11,7 +11,7 @@ int				get_correct_nb(char *to_find, int hist_len)
 		nb += hist_len + 1;
 	else if (hist_len + nb < 0)
 		nb = 1;
-	else if (nb == 0)
+	else if (nb == 0 || nb > hist_len)
 		nb = hist_len;
 	return (nb);
 }

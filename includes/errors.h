@@ -85,8 +85,8 @@
 # define ERR_MAX_INPUT 26
 # define ERR_MAX_INPUT_STR SN ": maximum input size exceeded"
 
-# define ERR_EVENT_NOT_FOUND 27
-# define ERR_EVENT_NOT_FOUND_STR SN ": event not found"
+# define ERR_NOT_FOUND 27
+# define ERR_NOT_FOUND_STR SN ": event not found"
 
 # define ERR_OPEN_FC_STR SN "fc: an open() error occured"
 

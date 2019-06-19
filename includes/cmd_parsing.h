@@ -21,6 +21,15 @@ int					parse_expands(t_token *token_head, t_vars *vars);
 int					parse_dollars_str(char **str, t_vars *vars);
 
 /*
+** Parse bangs utils
+*/
+
+void				refresh_i(int nb, int *i);
+int					is_quoted_sqt(char *s, int i);
+int					is_quoted_bang(char *s, int i);
+int					go_to_matching_sqt(char **str, int *i);
+
+/*
 ** substitute_utils
 */
 

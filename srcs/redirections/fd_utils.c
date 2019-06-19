@@ -8,7 +8,7 @@
 static	int		dup2_print_err(int old, int new)
 {
 	int				ret;
-	struct	stat	buf;
+	struct stat		buf;
 
 	if (fstat(old, &buf))
 		return (-1);

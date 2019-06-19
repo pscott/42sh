@@ -10,7 +10,7 @@ long long	ft_atoll(char *str)
 	char					*s;
 	unsigned long long int	i;
 	int						neg;
-	unsigned long long int	rep;
+	unsigned long long int	result;
 
 	s = (char *)str;
 	i = 0;
@@ -21,8 +21,8 @@ long long	ft_atoll(char *str)
 	if (s[i] == '-' || s[i] == '+')
 		if (s[i++] == '-')
 			neg = -1;
-	rep = 0;
+	result = 0;
 	while (s[i] >= '0' && s[i] <= '9' && s[i])
-		rep = 10 * rep + (s[i++] - '0');
-	return ((long long)rep * (long long)neg);
+		result = 10 * result + (s[i++] - '0');
+	return ((long long)result * (long long)neg);
 }

@@ -14,6 +14,7 @@ typedef struct			s_vars
 	int					select_mode;
 	size_t				select_start;
 	size_t				select_end;
+	int					interrupted;
 }						t_vars;
 
 #endif

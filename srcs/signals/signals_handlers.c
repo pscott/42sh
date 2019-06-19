@@ -49,6 +49,7 @@ void			sigint_handler(int signo)
 	if (isatty(TERM_FD))
 		write(TERM_FD, "^C", 2);
 	reset_copy_vars(vars);
+	vars->interrupted = 1;
 	st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;
 	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 	restore_init_cursor();

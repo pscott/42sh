@@ -115,41 +115,50 @@ t_ast			*create_ast(t_token *token_head)
 	return (ast_root);
 }
 
-static int background_case(t_ast *root, t_vars *vars, int fg)
+static int	background_exec(t_ast *root, t_vars *vars)
 {
 	pid_t	pid;
 	t_job	*j;
 
-	if (fg)
+	j = append_job(&g_first_job, create_job(root->token, 0, get_last_num(g_first_job) + 1)); // should be create_job with special token_list;
+	tcsetattr(j->stdin, TCSADRAIN, &g_saved_attr);
+	if ((pid = fork()) < 0)
 	{
-		j = append_job(&g_first_job, create_job(root->token, 0, get_last_num(g_first_job) + 1)); // should be create_job with special token_list;
-		tcsetattr(j->stdin, TCSADRAIN, &g_saved_attr);
-		if ((pid = fork()) < 0)
-		{
-			write(2, "fork error\n", 11);
-			clean_exit(1, 0);
-		}
-		else if (pid == 0)
-		{
-			pid = getpid();
-			j->pgid = pid;
-			exit(exec_ast(root->left, vars, 0));
-		}
-		if (g_isatty)
-		{
-			j->first_process = create_process(j->token_list);// will change
-			j->first_process->pid = pid;
-			j->pgid = pid;
-			setpgid(pid, j->pgid);
-		}
-		tcsetattr(j->stdin, TCSADRAIN, &g_42sh_attr);
-		ft_dprintf(2, "[%d] %d\n", j->num, j->pgid);
-		return (exec_ast(root->right, vars, 1));
+		write(2, "fork error\n", 11);
+		clean_exit(1, 0);
+	}
+	else if (pid == 0)
+	{
+		pid = getpid();
+		j->pgid = pid;
+		exit(exec_ast(root->left, vars, 0));
+	}
+	if (g_isatty)
+	{
+		j->first_process = create_process(j->token_list);// will change
+		j->first_process->pid = pid;
+		j->pgid = pid;
+		setpgid(pid, j->pgid);
+	}
+	tcsetattr(j->stdin, TCSADRAIN, &g_42sh_attr);
+	ft_dprintf(2, "[%d] %d\n", j->num, j->pgid);
+	return (0);
+}
+
+static int background_case(t_ast *root, t_vars *vars)
+{
+	if (!root || !root->left)
+		return (1);
+	if (root->left->token->type == tk_amp)
+	{
+		background_case(root->left, vars);
+		return (background_exec(root->right, vars));
 	}
 	else
 	{
-		exec_ast(root->left, vars, 0);
-		return (exec_ast(root->right, vars, 0));
+		background_exec(root, vars);
+		exec_ast(root->right, vars, 1);
+		return (0);
 	}
 }
 
@@ -166,7 +175,7 @@ int				exec_ast(t_ast *root, t_vars *vars, int fg)
 		return (exec_ast(root->right, vars, fg));
 	}
 	else if (root->token->type == tk_amp)
-		return (background_case(root, vars, fg));
+		return (background_case(root, vars));
 	else if (root->token->type == tk_and)
 	{
 		ret = exec_ast(root->left, vars, fg);

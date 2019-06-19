@@ -122,7 +122,7 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 
 	if (!root)
 		return (0);
-	j = append_job(&g_first_job, create_job(root->token, 0, get_last_num(g_first_job) + 1)); // should be create_job with special token_list;
+	j = append_job(&g_first_job, create_job(root, 0, get_last_num(g_first_job) + 1));
 	tcsetattr(j->stdin, TCSADRAIN, &g_saved_attr);
 	if ((pid = fork()) < 0)
 	{
@@ -140,13 +140,13 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 	}
 	if (g_isatty)
 	{
-		j->first_process = create_process(j->token_list);// will change
+		j->first_process = create_process(NULL);// will change
 		j->first_process->pid = pid;
 		j->pgid = pid;
 		setpgid(pid, j->pgid);
 	}
 	tcsetattr(j->stdin, TCSADRAIN, &g_42sh_attr);
-	ft_dprintf(2, "[%d] %d\n", j->num, j->pgid);
+	ft_dprintf(STDERR_FILENO, "[%d] %d\n", j->num, j->pgid);
 	return (0);
 }
 
@@ -193,5 +193,5 @@ int				exec_ast(t_ast *root, t_vars *vars, int fg)
 		return (ret ? exec_ast(root->right, vars, fg) : ret);
 	}
 	else
-		return (parse_cmdline(root->token, vars, fg));
+		return (parse_cmdline(root, vars, fg));
 }

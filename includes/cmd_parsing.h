@@ -2,9 +2,10 @@
 # define CMD_PARSING_H
 
 # include "lexer.h"
+# include "ast.h"
 # define IFS " \t\n"
 
-int					parse_cmdline(t_token *token, t_vars *vars, int foreground);
+int					parse_cmdline(t_ast *root, t_vars *vars, int foreground);
 void				redirect(int old_fd, int new_fd, int save);
 t_token				*get_next_simple_command(t_token *token);
 

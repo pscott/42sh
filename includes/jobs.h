@@ -5,6 +5,7 @@
 # include <libterm.h>
 # include <termios.h>
 # include "lexer.h"
+# include "ast.h"
 
 typedef struct			s_process
 {
@@ -19,7 +20,7 @@ typedef struct			s_process
 typedef struct		s_job
 {
   struct s_job		*next;           /* next active job */
-  t_token			*token_list;
+  char				*command;
   struct s_process	*first_process;     /* list of processes in this job */
   pid_t				pgid;                 /* process group ID */
   char				notified;              /* true if user told about stopped job */
@@ -56,7 +57,7 @@ int				put_job_in_foreground(t_job *j, int cont);
 int				launch_job(t_job *j, int foreground);
 int				launch_process(t_process *p, pid_t pgid, int fds[2], int foreground);
 void			set_group_id(pid_t pgid, int fg);
-t_job			*create_job(t_token *tokens, int fg, int num);
+t_job			*create_job(t_ast *root, int fg, int num);
 t_job			*append_job(t_job **first_j, t_job *to_add);
 t_process		*create_process_list(t_token *token_list);
 int				get_processes_len(t_process *p);
@@ -72,12 +73,12 @@ int				wait_for_job(t_job *j);
 void			update_status(void);
 
 int				job_is_completed(t_job *j);
-void			format_job_info(t_job *j, const char *status);
+void			format_job_info(t_job *j, const char *status, const char *bg);
 int				job_is_stopped(t_job *j);
 
 int				mark_process_status(pid_t pid, int status);
 
-t_token			*copy_job_tokens(t_token *tokens);
+char			*copy_job_tokens(t_ast *root);
 t_token			*copy_process_tokens(t_token *tokens);
 
 void			do_job_notification(int verbose);

@@ -87,6 +87,7 @@ extern int				g_isatty;
 */
 
 int						setup_terminal_settings(void);
+int						set_non_canonical_mode(struct termios *tattr);
 int						reset_terminal_settings(void);
 int						check_caps(void);
 void					restore_init_cursor(void);

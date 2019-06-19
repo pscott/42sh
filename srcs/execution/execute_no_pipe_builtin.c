@@ -3,6 +3,7 @@
 #include "cmd_parsing.h"
 #include "hashmap.h"
 #include "jobs.h"
+#include "time.h"
 
 
 /*
@@ -29,6 +30,7 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id, t_job
 	pid_t	pid;
 
 	pid = getpid();
+	reset_terminal_settings();
 	if (g_isatty)
 	{
 		if (!j->pgid)
@@ -53,6 +55,7 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id, t_job
 		else
 			ret = vars->cmd_value;
 	}
+	setup_terminal_settings();
 	j->first_process->completed = 1; // stopped ?
 	save_close_openfds(0, 0);
 	save_reset_stdfd(0);

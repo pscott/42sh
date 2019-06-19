@@ -22,7 +22,6 @@ static int	open_and_dup_tty(void)
 
 int			reset_terminal_settings(void)
 {
-	ft_dprintf(2, "resetting\n");
 	if (isatty(STDIN_FILENO) == 0)
 		return (1);
 	close(TERM_FD);
@@ -31,7 +30,7 @@ int			reset_terminal_settings(void)
 	return (1);
 }
 
-static int	set_non_canonical_mode(struct termios *tattr)
+int	set_non_canonical_mode(struct termios *tattr)
 {
 	struct termios	term;
 

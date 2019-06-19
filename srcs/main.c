@@ -43,24 +43,6 @@ static int	free_variables(t_vars *vars, t_st_cmd *st_cmd)
 	return (ret);
 }
 
-
-void	print_jobs(t_job *j)
-{
-	t_token *probe;
-	ft_dprintf(2, "-- JOBS --\n");
-	while (j)
-	{
-		probe = j->token_list;
-		while (probe)
-		{
-			ft_dprintf(2, "%s\n", probe->content);
-			probe = probe->next;
-		}
-		ft_dprintf(2, "%p\n", j->first_process);
-		j = j->next;
-	}
-}
-
 /*
 **	Initialize variables, read input with input_loop.
 **	If reading input fails or first byte of input is 0, exits.

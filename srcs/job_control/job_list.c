@@ -53,14 +53,14 @@ int		get_last_num(t_job *j)
 	return (j->num);
 }
 
-t_job	 *create_job(t_token *token_list, int fg, int num)
+t_job	 *create_job(t_ast *root, int fg, int num)
 {
 	t_job *j;
 
 	if (!(j = malloc(sizeof(t_job))))
 		clean_exit(1, 1);
 	ft_bzero(j, sizeof(t_job));
-	j->token_list = copy_job_tokens(token_list);;
+	j->command = copy_job_tokens(root);
 	j->fg = fg;
 	j->num = num; // care overflow on int ? 
 	j->stdin = STDIN_FILENO;

@@ -53,7 +53,7 @@ int		check_for_delete(t_st_cmd *st_cmd, char *buf)
 	if (ft_strncmp(buf, BACKSPACE, BACKSPACE_LEN + 1) == 0)
 	{
 		if (st_cmd->st_txt->tracker == 0)
-			ft_putstr(BELL);
+			write(STDIN_FILENO, BELL, 1);
 		else
 			delete_left(st_cmd);
 		return (1);
@@ -61,7 +61,7 @@ int		check_for_delete(t_st_cmd *st_cmd, char *buf)
 	else if (ft_strncmp(buf, DEL, DEL_LEN + 1) == 0)
 	{
 		if (st_cmd->st_txt->tracker >= st_cmd->st_txt->data_size)
-			ft_putstr(BELL);
+			write(STDIN_FILENO, BELL, 1);
 		else
 			delete_right(st_cmd);
 		return (1);

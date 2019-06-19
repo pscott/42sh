@@ -23,7 +23,7 @@ void		free_job(t_job *j)
 {
 	if (!j)
 		return ;
-	free_token_list(j->token_list);
+	ft_strdel(&j->command);
 	free_process_list(j->first_process);
 	ft_bzero(j, sizeof(*j));
 	free(j);

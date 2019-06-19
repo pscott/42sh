@@ -122,17 +122,18 @@ t_token	*get_next_simple_command(t_token *begin)
   return (ret);
   }*/
 
-int				parse_cmdline(t_token *token, t_vars *vars, int foreground)
+int				parse_cmdline(t_ast *root, t_vars *vars, int foreground)
 {
 	int			num_processes;
+	t_token		*token;
 	t_job		*j;
 	t_process	*p;
 	int			ret;
 
-	if (!token)
+	if (!(token = root->token))
 		return (0);
 	if (foreground)
-		j = append_job(&g_first_job, create_job(token, foreground, get_last_num(g_first_job) + 1));
+		j = append_job(&g_first_job, create_job(root, foreground, get_last_num(g_first_job) + 1));
 	else
 	{
 		j = g_first_job;

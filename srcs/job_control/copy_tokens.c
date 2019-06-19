@@ -16,21 +16,42 @@ t_token	*copy_tokens_from_to(t_token *from, t_token *to)
 	return (res);
 }
 
-t_token	*copy_job_tokens(t_token *start)
+char	*copy_ast_tokens(t_ast *root)
 {
-	t_token *end;
+	char *res;
 
-	end = start;
-	while (end && end->type <= tk_amp)
-		end = end->next;
-	return (copy_tokens_from_to(start, end));
+	if (!root)
+		return (NULL);
+	if (!root->left)
+		return (tokens_to_str(root->token));
+	res = ft_strjoin_free_left(copy_ast_tokens(root->left), root->token->content);
+	res = ft_strjoin_free_left(res, copy_ast_tokens(root->right));
+	return (res);
+}
+
+char	*copy_job_tokens(t_ast *root)
+{
+	char	*res;
+	t_ast	*new_root;
+
+	if (!root)
+		return (NULL);
+	else if (!root->left)
+		return (copy_ast_tokens(root));
+	if (root->left->token->type == tk_amp)
+		new_root = root->right;
+	else
+		new_root = root->left;
+	res = copy_ast_tokens(new_root);
+	return (res);
 }
 
 t_token	*copy_process_tokens(t_token *start)
 {
 	t_token *end;
 
-	end = start;
+	if (!(end = start))
+		return (NULL);
 	while (is_simple_cmd_token(end))
 		end = end->next;
 	return (copy_tokens_from_to(start, end));

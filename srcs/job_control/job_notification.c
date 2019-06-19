@@ -16,7 +16,7 @@ void	do_job_notification(int verbose)
 		if (job_is_completed(j))
 		{
 			if (j->notified == 0)
-				format_job_info(j, "Done");
+				format_job_info(j, "Done", "");
 			if (jlast)
 				jlast->next = jnext;
 			else
@@ -25,14 +25,14 @@ void	do_job_notification(int verbose)
 		}
 		else if (job_is_stopped(j) && !j->notified)
 		{
-			format_job_info(j, "Stopped");
+			format_job_info(j, "Stopped", "");
 			j->notified = 1;
 			jlast = j;
 		}
 		else
 		{
 			if (verbose)
-				format_job_info(j, "Running");
+				format_job_info(j, "Running", " &");
 			jlast = j;
 		}
 		j = jnext;

@@ -3,15 +3,18 @@
 #include "cmd_parsing.h"
 #include "hashmap.h"
 #include "errors.h"
+#include "env.h"
 
+//static int			access_and_exec(char *cmd_path, char **argv, int have_assign,
+//	const char **env)
 static int			access_and_exec(char *cmd_path, char **argv,
-	const char **env)
+	int have_assign, t_vars *vars)
 {
 	int				access;
 
 	if ((access = check_access(cmd_path)) == 0)
 	{
-		execve(cmd_path, (char*const*)argv, (char*const*)env);
+		execve(cmd_path, (char*const*)argv, (char*const*)vars->env_vars);
 		print_errors(ERR_EXECUTE, ERR_EXECUTE_STR, cmd_path);
 	}
 	else
@@ -23,6 +26,14 @@ static int			access_and_exec(char *cmd_path, char **argv,
 	}
 	ft_strdel(&cmd_path);
 	ft_free_ntab(argv);
+	//
+	if (have_assign)
+	{
+		ft_free_ntab(vars->env_vars);
+		vars->env_vars = get_ntab_cpy(vars->env_save);
+		ft_memdel_ntab(&vars->env_save);//test
+	}
+	//
 	return (access);
 }
 
@@ -45,7 +56,7 @@ static int			in_fork_builtin(char **argv, t_vars *vars,
 **	number.
 */
 
-static int			execute_argv(char **argv, t_vars *vars)
+static int			execute_argv(char **argv, int have_assign, t_vars *vars)
 {
 	t_cmd_id		cmd_id;
 	char			*cmd_path;
@@ -69,7 +80,7 @@ static int			execute_argv(char **argv, t_vars *vars)
 		ft_free_ntab(argv);
 		return (ERR_CMD);
 	}
-	return (access_and_exec(cmd_path, argv, (const char**)vars->env_vars));
+	return (access_and_exec(cmd_path, argv, have_assign, vars));
 }
 
 /*
@@ -82,6 +93,7 @@ int					parse_and_exec(t_token *token_head, int in,
 {
 	char			**argv;
 	int				ret;
+	int				have_assign;
 
 	redirect(in, STDIN_FILENO, 0);
 	redirect(out, STDOUT_FILENO, 0);
@@ -90,12 +102,15 @@ int					parse_and_exec(t_token *token_head, int in,
 		return (ret);
 	if ((ret = parse_redirections(token_head, 0)) > 0)
 		return (ret);
-	//TODO parse_assign() here
-	parse_assignation(token_head, vars);
+	//parse_assignation(token_head, vars);
+	if ((have_assign = parse_assignation(token_head, vars)))//if ret = 1, make an env cpy
+	{
+		//save and make a cpy
+		vars->env_save = get_ntab_cpy(vars->env_vars);
+		apply_assignation_to_ntab(vars->assign_tab, &vars->env_vars);
+	}
+	//
 	if ((ret = get_argv_from_token_lst(token_head, &argv) > 0))
 		return (0);
-	ft_printf("*******\n");
-	ft_print_ntab(argv);//debug
-	ft_printf("*******\n");
-	return (execute_argv(argv, vars));
+	return (execute_argv(argv, have_assign, vars));
 }

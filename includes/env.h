@@ -48,4 +48,5 @@ void				add_varline(char *varline, char ***ntab);
 char				*get_name_from_varline(char *varline);
 char				**get_ntab_cpy(char **src_tab);
 void				cpy_ntab(char **new_tab, const char **old_tab);
+void				ft_memdel_ntab(char ***ntab);
 #endif

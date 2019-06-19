@@ -1,5 +1,11 @@
 #include "ftsh.h"
 
+void	ft_memdel_ntab(char ***ntab)
+{
+	ft_free_ntab(*ntab);
+	*ntab = NULL;
+}
+
 char	**ft_ntab_new(int size)
 {
 	char	**new_tab;

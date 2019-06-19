@@ -40,6 +40,21 @@ static void	check_for_tilde(char **str, t_vars *vars)
 	}
 }
 
+static int		is_valid_varname(char *str)
+{
+	int	i;
+
+	if (str[0] == '=' || ft_isdigit(str[0]))
+		return (0);
+	i = -1;
+	while (str[++i] && str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+	}
+	return (1);
+}
+
 //tricky cases:
 //	toto='tata'\d"bonsoir"
 int		parse_assignation(t_token *token, t_vars *vars)
@@ -47,17 +62,14 @@ int		parse_assignation(t_token *token, t_vars *vars)
 	char	*varline;
 	int		ret;
 
-	//(void)vars;
 	ret = 0;
 	while (token)
 	{
-		if (token->type == tk_word && ft_strchr(token->content, '='))
+		if (token->type == tk_word && ft_strchr(token->content, '=')
+			&& is_valid_varname(token->content))
 		{
 			check_for_tilde(&token->content, vars);
 			varline = get_var_value(&token);
-			//if (token)//debug
-			//	ft_printf("AFTER proc |%s|\n", token->content);
-			//add varline to an assignation table ??
 			add_varline(varline, &vars->assign_tab);
 			ft_strdel(&varline);
 			ret = 1;
@@ -69,23 +81,6 @@ int		parse_assignation(t_token *token, t_vars *vars)
 	}
 	return (ret);
 }
-
-///void	apply_assignation(char **assign_tab, char ***vars_tab)
-///{
-///	int		i;
-///	t_vars	*vars;//i should not use the global
-///
-///	vars = get_vars(NULL);
-///	ft_dprintf(2, "in apply_ass\n");
-///	if (!assign_tab || !assign_tab[0])
-///		return ;
-///	i = 0;
-///	while (assign_tab[i])
-///	{
-///		add_varline(assign_tab[i], vars_tab);
-///		i++;
-///	}
-///}
 
 void	apply_assignation_to_ntab(char **assign_tab, char ***ntab)
 {

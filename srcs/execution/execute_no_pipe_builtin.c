@@ -25,8 +25,6 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 {
 	char	**argv;
 	int		ret;
-	//char	**env_cpy;
-	char	**env_save;
 	int		have_assign;
 
 	have_assign = 0;
@@ -41,7 +39,7 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	if ((have_assign = parse_assignation(token_head, vars)))//if ret = 1, make an env cpy
 	{
 		//save and make a cpy
-		env_save = get_ntab_cpy(vars->env_vars);
+		vars->env_save = get_ntab_cpy(vars->env_vars);
 		apply_assignation_to_ntab(vars->assign_tab, &vars->env_vars);
 	}
 	argv = NULL;
@@ -51,7 +49,8 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	if (have_assign)
 	{
 		ft_free_ntab(vars->env_vars);
-		vars->env_vars = env_save;
+		vars->env_vars = get_ntab_cpy(vars->env_save);
+		ft_memdel_ntab(&vars->env_save);//test
 	}
 	//
 	if (cmd_id == cmd_exit)

@@ -21,6 +21,7 @@ static void			substitute_env_var(char **str, size_t *i,
 	substitute_slice(str, index, var_value);
 	*i += ft_strlen(var_value) - 1;
 	ft_strdel((char**)&var_name);
+	ft_strdel((char**)&var_value);
 }
 
 static void			substitute_param(char **str, size_t *i,

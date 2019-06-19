@@ -5,6 +5,7 @@ typedef struct			s_vars
 {
 	char				**env_vars;
 	char				**shell_vars;
+	char				**env_save;
 	struct s_hashmap	*hashmap;
 	char				*copy;
 	int					cmd_value;

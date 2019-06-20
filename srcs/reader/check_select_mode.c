@@ -14,6 +14,8 @@ static void		delete_selection(t_st_cmd *st_cmd, t_vars *vars)
 	highest = vars->select_start < vars->select_end
 		? vars->select_end : vars->select_start;
 	select_size = highest - lowest + 1;
+	txt->txt = ft_realloc(txt->txt, txt->data_size,
+			&txt->malloc_size, select_size);
 	shift_chars_left(&txt->txt[lowest], select_size);
 	if (vars->select_end > vars->select_start)
 	{

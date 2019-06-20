@@ -1,0 +1,25 @@
+# unset toto before each test
+
+$> toto=tata
+$>
+
+$> toto=tata echo $toto
+$>
+
+$> toto=tata; echo $toto
+$> tata
+
+$> toto=tata cd .; echo $toto
+$>
+
+$> toto=tata ls | echo $toto
+$> 
+
+$> toto=tata; toto=bonsoir echo $toto
+$> tata
+
+$> "toto=tata"
+$> toto=tata: command not found
+
+set a variable toto=sdf\ sdf
+$> echo $toto

@@ -20,8 +20,8 @@ static void		delete_selection(t_st_cmd *st_cmd, t_vars *vars)
 	txt = st_cmd->st_txt;
 	lowest = vars->select_start < vars->select_end
 		? vars->select_start : vars->select_end;
-	highest = set_highest(ft_strlen(&txt->txt[lowest]), vars->select_start,
-			vars->select_end);
+	highest = set_highest(lowest + ft_strlen(&txt->txt[lowest]),
+			vars->select_start, vars->select_end);
 	select_size = highest - lowest + 1;
 	txt->txt = ft_realloc(txt->txt, txt->data_size,
 			&txt->malloc_size, select_size);
@@ -29,14 +29,14 @@ static void		delete_selection(t_st_cmd *st_cmd, t_vars *vars)
 	if (vars->select_end > vars->select_start)
 	{
 		if (txt->tracker > highest - lowest)
-			txt->tracker -= highest - lowest;
+			txt->tracker -= (highest - lowest);
 		else
 			txt->tracker = 0;
 	}
-	if (txt->data_size > select_size)
-		txt->data_size -= select_size;
-	else
-		txt->data_size = 0;
+	txt->data_size = txt->data_size > select_size
+		? txt->data_size - select_size : 0;
+	txt->data_size = txt->data_size > txt->tracker
+		? txt->data_size : txt->tracker;
 }
 
 static void		copy_selection(t_st_cmd *st_cmd, t_vars *vars)

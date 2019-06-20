@@ -196,9 +196,7 @@ DEPENDENCIES	:= $(addprefix $(OBJ_DIR)/,$(DEPS))
 # Rules ########################################################################
 .PHONY: all fsa val rmh adh tag clean fclean re d norm test ask_libft
 
-all: $(NAME)
-
-$(NAME): $(LIBFT_A) $(LIBTERM_A) $(OBJ_DIR) exec
+all: $(LIBFT_A) $(LIBTERM_A) $(OBJ_DIR) $(NAME)
 
 $(LIBFT_A): FORCE
 	@make -C $(LIBFT_DIR)
@@ -224,8 +222,8 @@ adh: rmh
 	make -C $(LIBFT_DIR) adh
 	make -C $(LIBTERM_DIR) adh
 
-exec: $(OBJS) libft/libft.a libterm/libterm.a
-	$(CC) $(CFLAGS) $(INCL_CMD) $^ -o $(NAME) $(LIB_INCL)
+$(NAME): $(OBJS) libft/libft.a libterm/libterm.a
+	$(CC) $(CFLAGS) $(INCL_CMD) $^ -o $@ $(LIB_INCL)
 
 -include $(DEPENDENCIES)
 $(OBJ_DIR)/%.o: %.c Makefile

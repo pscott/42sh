@@ -1,6 +1,15 @@
 #include "ftsh.h"
 #include "line_editing.h"
 
+static size_t	set_highest(size_t highest, size_t start, size_t end)
+{
+	if (end < start)
+		highest = highest > start ? start : highest;
+	else
+		highest = end;
+	return (highest);
+}
+
 static void		delete_selection(t_st_cmd *st_cmd, t_vars *vars)
 {
 	t_st_txt	*txt;
@@ -11,8 +20,8 @@ static void		delete_selection(t_st_cmd *st_cmd, t_vars *vars)
 	txt = st_cmd->st_txt;
 	lowest = vars->select_start < vars->select_end
 		? vars->select_start : vars->select_end;
-	highest = vars->select_start < vars->select_end
-		? vars->select_end : vars->select_start;
+	highest = set_highest(ft_strlen(&txt->txt[lowest]), vars->select_start,
+			vars->select_end);
 	select_size = highest - lowest + 1;
 	txt->txt = ft_realloc(txt->txt, txt->data_size,
 			&txt->malloc_size, select_size);

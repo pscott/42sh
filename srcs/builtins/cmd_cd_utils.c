@@ -53,7 +53,8 @@ char			*relative_directory(const char *path, const char **env,
 	char			*dest;
 
 	ft_initialize_str(&cwd, &tmp, &dest, NULL);
-	cwd = get_cwd_value(env, opt);
+	if (!(cwd = get_cwd_value(env, opt)))
+		return (NULL);
 	if (check_cdpath_var(path, env, &tmp, cdpath))
 	{
 		if (!(tmp = ft_strjoin(cwd, "/")))

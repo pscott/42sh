@@ -3,7 +3,10 @@
 int	bad_fd_error(int fd, int mode)
 {
 	if (mode != -1)
-		ft_dprintf(STDERR_FILENO, SHELL_NAME ": %d: bad file descriptor\n", fd);
+	{
+		ft_dprintf(STDERR_FILENO, SHELL_NAME ": %d: bad file descriptor", fd);
+		ft_dprintf(STDERR_FILENO, " (must be less than 9)", fd);
+	}
 	return (1);
 }
 
@@ -24,6 +27,6 @@ int	no_file_error(char *filename, int mode)
 int	open_error(char *filename, int mode)
 {
 	if (mode != -1)
-		ft_dprintf(2, "error opening file : %s\n", filename);
+		ft_dprintf(2, "error accessing or opening file : %s\n", filename);
 	return (1);
 }

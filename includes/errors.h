@@ -1,8 +1,9 @@
 #ifndef ERRORS_H
 # define ERRORS_H
-# define SN SHELL_NAME
 
 # include "lexer.h"
+
+# define SN SHELL_NAME
 
 # define ERR_CMD 127
 # define ERR_CMD_STR SN ": command not found"

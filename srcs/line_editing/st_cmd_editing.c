@@ -28,6 +28,7 @@ t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd, t_vars *vars)
 		clean_exit(1, 1);
 	st_cmd->st_txt = init_st_txt(NULL);
 	st_cmd->st_prompt = init_st_prompt(NULL);
+	update_window_struct(old_st_cmd->window);
 	st_cmd->window = old_st_cmd->window;
 	vars->interrupted = 0;
 	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,

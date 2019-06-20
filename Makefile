@@ -158,12 +158,12 @@ REDIR_PATH			:=	$(addprefix $(REDIR_DIR)/,$(REDIR_FILES))
 EXEC_PATH			:=	$(addprefix $(EXEC_DIR)/,$(EXEC_FILES))
 EXP_ARITH_PATH		:=	$(addprefix $(EXP_ARITH_DIR)/,$(EXP_ARITH_FILES))
 HASHMAP_PATH		:=	$(addprefix $(HASHMAP_DIR)/,$(HASHMAP_FILES))
-#	builtin/ + hashmap/*.c
+#	builtin/ + hashmap/.c
 HASHMAP_PATH		:=	$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_PATH))
 HEREDOC_PATH		:=	$(addprefix $(HEREDOC_DIR)/,$(HEREDOC_FILES))
 
 
-#list of all "path/*.c"
+#list of all "path/.c"
 SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(ERRORS_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(LEXER_PATH)) \
@@ -196,7 +196,7 @@ DEPENDENCIES	:= $(addprefix $(OBJ_DIR)/,$(DEPS))
 # Rules ########################################################################
 .PHONY: all fsa val rmh adh tag clean fclean re d norm test ask_libft
 
-all: $(LIBFT_A) $(LIBTERM_A) $(OBJ_DIR) $(NAME)
+all: $(LIBFT_A) $(LIBTERM_A) $(NAME)
 
 $(LIBFT_A): FORCE
 	@make -C $(LIBFT_DIR)
@@ -226,7 +226,7 @@ $(NAME): $(OBJS) libft/libft.a libterm/libterm.a
 	$(CC) $(CFLAGS) $(INCL_CMD) $^ -o $@ $(LIB_INCL)
 
 -include $(DEPENDENCIES)
-$(OBJ_DIR)/%.o: %.c Makefile
+$(OBJ_DIR)/%.o: %.c Makefile | $(OBJ_DIR)
 	@echo Compiling $@
 	@$(CC) $(CFLAGS) $(MMD) $(INCL_CMD) -o $@ -c $<
 
@@ -235,8 +235,6 @@ $(OBJ_DIR):
 
 tags:
 	ctags -R .
-
-#print-%  : ; @echo $* = $($*)
 
 clean: 
 	$(MAKE) clean -C libft

@@ -86,6 +86,13 @@ static int			execute_argv(char **argv, int have_assign, t_vars *vars)
 /*
 **	Parses expands and redirections, creates the argv and executes it.
 **	Returns 0 if it executed properly ; else returns 1.
+**
+**	if parse_assignation() find assignations:
+**	- copy current env into env_cpy
+**	- apply assignation to the cpy
+**	- exec
+**	- restore old env
+**	send 'have assign' to next exec func to restore env
 */
 
 int					parse_and_exec(t_token *token_head, int in,
@@ -102,14 +109,11 @@ int					parse_and_exec(t_token *token_head, int in,
 		return (ret);
 	if ((ret = parse_redirections(token_head, 0)) > 0)
 		return (ret);
-	//parse_assignation(token_head, vars);
-	if ((have_assign = parse_assignation(token_head, vars)))//if ret = 1, make an env cpy
+	if ((have_assign = parse_assignation(token_head, vars)))
 	{
-		//save and make a cpy
 		vars->env_save = get_ntab_cpy(vars->env_vars);
 		apply_assignation_to_ntab(vars->assign_tab, &vars->env_vars);
 	}
-	//
 	if ((ret = get_argv_from_token_lst(token_head, &argv) > 0))
 		return (0);
 	return (execute_argv(argv, have_assign, vars));

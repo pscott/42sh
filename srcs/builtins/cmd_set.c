@@ -8,7 +8,7 @@ int		case_set(char **argv, t_vars *vars)
 		ft_dprintf(2, "%s: set usage: set\n", SHELL_NAME);
 		return (1);
 	}
-	if (vars->shell_vars) 
+	if (vars->shell_vars)
 	{
 		ft_print_ntab(vars->shell_vars);
 		return (0);

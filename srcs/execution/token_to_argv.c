@@ -46,7 +46,7 @@ static t_token		*fill_argv(t_token *token, char **argv, int *i)
 			if (!(argv[*i] = ft_strjoin_free_left(argv[*i], token->content)))
 				clean_exit(1, 1);
 		}
-		if (ft_strlen(argv[*i]) == 0)//penzo test, need to do it before
+		if (ft_strlen(argv[*i]) == 0)
 		{
 			ft_strdel(&argv[*i]);
 			argv[*i] = ft_strdup("");

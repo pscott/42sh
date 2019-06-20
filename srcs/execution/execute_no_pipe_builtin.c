@@ -19,6 +19,12 @@ static void		execute_exit(int exitno)
 /*
 **	Parses expands, redirections, and executes builtin on the real token_list.
 **	Returns 0 on success : else returns error number
+**
+**	if parse_assignation() find assignations:
+**	- copy current env into env_cpy
+**	- apply assignation to the cpy
+**	- exec
+**	- restore old env
 */
 
 static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
@@ -27,7 +33,6 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	int		ret;
 	int		have_assign;
 
-	have_assign = 0;
 	if ((ret = parse_expands(token_head, vars)) != 0)
 		return (ret);
 	if ((ret = parse_redirections(token_head, 1) > 0))
@@ -36,23 +41,21 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 		save_reset_stdfd(0);
 		return (ret);
 	}
-	if ((have_assign = parse_assignation(token_head, vars)))//if ret = 1, make an env cpy
+	have_assign = 0;
+	if ((have_assign = parse_assignation(token_head, vars)))
 	{
-		//save and make a cpy
 		vars->env_save = get_ntab_cpy(vars->env_vars);
 		apply_assignation_to_ntab(vars->assign_tab, &vars->env_vars);
 	}
 	argv = NULL;
 	get_argv_from_token_lst(token_head, &argv);
 	ret = exec_builtins(argv, vars, cmd_id);
-	//restore old env
 	if (have_assign)
 	{
 		ft_free_ntab(vars->env_vars);
 		vars->env_vars = get_ntab_cpy(vars->env_save);
-		ft_memdel_ntab(&vars->env_save);//test
+		ft_memdel_ntab(&vars->env_save);
 	}
-	//
 	if (cmd_id == cmd_exit)
 	{
 		if (ret == 1)

@@ -35,7 +35,7 @@ int			case_export(char **argv, t_vars *vars)
 		else if ((value = get_varline_value(argv[i], vars->env_vars)))
 		{
 			add_variables(argv[i], value, &vars->shell_vars);
-			add_variables(argv[i], value, &vars->env_save);//test 
+			add_variables(argv[i], value, &vars->env_save);//test
 		}
 		else if ((value = get_varline_value(argv[i], vars->shell_vars)))
 			add_variables(argv[i], value, &vars->env_vars);

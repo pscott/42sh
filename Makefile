@@ -55,7 +55,6 @@ SRC_DIR	:=	srcs
 	HASHMAP_DIR			:=	hashmap
 	EXP_ARITH_DIR		:=	exp_arith
 	HEREDOC_DIR			:=	heredoc
-	TMP_VAR_DIR			:=	variables_revamp
 
 	#list of all srcs subdirectories
 	SRC_SUBDIRS	:=	$(ENV_DIR) $(ERRORS_DIR) $(LEXER_DIR) $(PARSER_DIR) \
@@ -72,7 +71,8 @@ VPATH	:=	$(SRC_DIR) $(addprefix $(SRC_DIR)/,$(SRC_SUBDIRS))
 # Srcs file names ##############################################################
 SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 	ENV_FILES		:=	environ_set.c environ_utils.c init_env.c shlvl.c\
-						environ_unset.c
+						environ_unset.c set_default_shell_vars.c \
+						variables_utils.c ntab_utils.c variables_utils2.c
 	ERRORS_FILES	:=	errors.c print_errors.c error_exit.c
 	LEXER_FILES		:=	lexer.c lexer_tools.c lexer_op_chart.c get_token.c \
 						copy_token_list.c lexer_escape_tools.c \
@@ -131,8 +131,6 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c introduction.c
 						op_tokenizer_utils.c put_op_link.c ft_isempty.c
 	HEREDOC_FILES	:=	heredoc.c heredoc_utils.c get_doc.c save_heredoc.c \
 						clean_heredoc.c
-	TMP_VAR_FILES	:=	set_default_shell_vars.c variables_utils.c \
-						ntab_utils.c
 
 #list of all .c files
 C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES) \

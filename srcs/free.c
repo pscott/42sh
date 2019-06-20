@@ -41,3 +41,9 @@ char		*free_get_doc(char *txt, char *eof)
 	ft_strdel(&eof);
 	return (NULL);
 }
+
+void	ft_memdel_ntab(char ***ntab)
+{
+	ft_free_ntab(*ntab);
+	*ntab = NULL;
+}

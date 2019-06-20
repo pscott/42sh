@@ -1,11 +1,5 @@
 #include "ftsh.h"
 
-void	ft_memdel_ntab(char ***ntab)
-{
-	ft_free_ntab(*ntab);
-	*ntab = NULL;
-}
-
 char	**ft_ntab_new(int size)
 {
 	char	**new_tab;
@@ -23,6 +17,11 @@ char	**ft_ntab_new(int size)
 	return (new_tab);
 }
 
+/*
+** cpy_ntab
+** copy a ntab to another already allocated ntab
+*/
+
 void	cpy_ntab(char **new_tab, const char **old_tab)
 {
 	int		i;
@@ -37,6 +36,11 @@ void	cpy_ntab(char **new_tab, const char **old_tab)
 		i++;
 	}
 }
+
+/*
+** get_ntab_cpy
+** copy and return a freshly allocatd ntab
+*/
 
 char	**get_ntab_cpy(const char **src_tab)
 {

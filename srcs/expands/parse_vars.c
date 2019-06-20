@@ -9,13 +9,7 @@ static void			substitute_env_var(char **str, size_t *i,
 	char		empty_char;
 
 	empty_char = 0;
-	//if (!(var_value = get_envline_value((char *)var_name, vars->shell_vars)))
-	//{
-	//	ft_dprintf(2, "NO VALUE\n");
-	//	var_value = &empty_char;
-	//}
-	var_value = get_varline_value((char*)var_name, vars->shell_vars);//test
-	ft_dprintf(2, "VALUE|%s|\n", var_value);
+	var_value = get_varline_value((char*)var_name, vars->shell_vars);
 	index[0] = *i;
 	index[1] = *i + ft_strlen(var_name) + 0;
 	substitute_slice(str, index, var_value);
@@ -25,29 +19,33 @@ static void			substitute_env_var(char **str, size_t *i,
 }
 
 static void			substitute_param(char **str, size_t *i,
-	const char *var_name, t_vars *vars)
+	const char *varname, t_vars *vars)
 {
 	const char	*var_value;
 	size_t		index[2];
 	char		empty_char;
+	int			is_allocated;
 
-	if (!ft_strncmp(var_name, "?", 2))
+	is_allocated = 0;
+	if (!ft_strncmp(varname, "?", 2))
 	{
 		if (!(var_value = ft_itoa(vars->cmd_value)))
 			clean_exit(1, 1);
+		is_allocated = 1;
 	}
 	else
 	{
 		empty_char = 0;
-		if (!(var_value = get_envline_value((char *)var_name, vars->shell_vars)))
+		if (!(var_value = get_envline_value((char*)varname, vars->shell_vars)))
 			var_value = &empty_char;
 	}
 	index[0] = *i;
-	index[1] = *i + ft_strlen(var_name) + 2;
+	index[1] = *i + ft_strlen(varname) + 2;
 	*i += ft_strlen(var_value) - 1;
 	substitute_slice(str, index, var_value);
-	ft_strdel((char**)&var_value);
-	ft_strdel((char**)&var_name);
+	if (is_allocated)
+		ft_strdel((char**)&var_value);
+	ft_strdel((char**)&varname);
 }
 
 static const char	*bad_substitution(const char *str, t_vars *vars)

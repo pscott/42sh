@@ -2,7 +2,12 @@
 #include "cmd_parsing.h"
 #include "env.h"
 
-static char	*get_var_value(t_token **token)
+/*
+** get_concatenate_varline
+** concat all token of the assignation to get a 'varline'
+*/
+
+static char	*get_concatenate_varline(t_token **token)
 {
 	char	*res_str;
 
@@ -15,6 +20,11 @@ static char	*get_var_value(t_token **token)
 	}
 	return (res_str);
 }
+
+/*
+** check_for_tilde
+** replace the tilde if it's the first char of the var_value
+*/
 
 static void	check_for_tilde(char **str, t_vars *vars)
 {
@@ -40,24 +50,17 @@ static void	check_for_tilde(char **str, t_vars *vars)
 	}
 }
 
-static int		is_valid_varname(char *str)
-{
-	int	i;
+/*
+** parse_assignation
+** is the main function of assignation
+** It parse the token list looking for assignation
+** concatenate all assignation token to get a 'varline'
+** add it to assign_tab
+**
+** return 0 if no assignation is found
+*/
 
-	if (str[0] == '=' || ft_isdigit(str[0]))
-		return (0);
-	i = -1;
-	while (str[++i] && str[i] != '=')
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
-	}
-	return (1);
-}
-
-//tricky cases:
-//	toto='tata'\d"bonsoir"
-int		parse_assignation(t_token *token, t_vars *vars)
+int			parse_assignation(t_token *token, t_vars *vars)
 {
 	char	*varline;
 	int		ret;
@@ -69,20 +72,25 @@ int		parse_assignation(t_token *token, t_vars *vars)
 			&& is_valid_varname(token->content))
 		{
 			check_for_tilde(&token->content, vars);
-			varline = get_var_value(&token);
+			varline = get_concatenate_varline(&token);
 			add_varline(varline, &vars->assign_tab);
 			ft_strdel(&varline);
 			ret = 1;
 		}
 		else if (token->type != tk_eat)
-			break;
+			break ;
 		if (token)
 			token = token->next;
 	}
 	return (ret);
 }
 
-void	apply_assignation_to_ntab(char **assign_tab, char ***ntab)
+/*
+**	apply_assignation_to_ntab
+**	apply all assign_tab to the given ntab
+*/
+
+void		apply_assignation_to_ntab(char **assign_tab, char ***ntab)
 {
 	int		i;
 
@@ -92,7 +100,14 @@ void	apply_assignation_to_ntab(char **assign_tab, char ***ntab)
 	while (assign_tab[++i])
 		add_varline(assign_tab[i], ntab);
 }
-void	apply_assignation(char **assign_tab, t_vars *vars)
+
+/*
+** apply_assignation
+** apply already parsed assignation to vars->shell_vars
+** If one of the variables is found in env: apply to env too
+*/
+
+void		apply_assignation(char **assign_tab, t_vars *vars)
 {
 	int		i;
 	char	*var_name;
@@ -106,9 +121,7 @@ void	apply_assignation(char **assign_tab, t_vars *vars)
 		if (!(var_name = get_name_from_varline(assign_tab[i])))
 			continue ;
 		if (get_envline(var_name, vars->env_vars))
-		{
 			add_varline(assign_tab[i], &vars->env_vars);
-		}
 		ft_strdel(&var_name);
 	}
 }

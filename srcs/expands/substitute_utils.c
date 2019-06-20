@@ -79,7 +79,6 @@ int		substitute_slice(char **old_str, size_t index[2], const char *to_sub)
 	ft_strncpy(&new_str[ft_strlen(new_str)], (*old_str) + index[1] + 1
 			, ft_strlen((*old_str) + index[1] + 1));
 	ft_strdel(old_str);
-	ft_dprintf(2, "new str|%s|\n", new_str);
 	*old_str = new_str;
 	return (1);
 }

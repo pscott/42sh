@@ -112,19 +112,6 @@ static int			token_length(t_token **probe)
 	return (argv_len);
 }
 
-//TMP TMP TMP
-void	print_token_list(t_token *th)
-{
-	t_token	*probe;
-
-	probe = th;
-	while (probe)
-	{
-		ft_dprintf(2, "t:%d\t|%s|\n", probe->type, probe->content);
-		probe = probe->next;
-	}
-}
-
 /*
 **	outdated
 **	Returns a freshly allocated array of strings corresponding to the argv
@@ -132,11 +119,6 @@ void	print_token_list(t_token *th)
 **	Should be called after have used parse_expands and parse_redirections
 **	on the token_head.
 */
-
-//TODO
-//i could parse assign before and pass the result through args,
-//if args_len = 0: apply assign on current vars->shell_vars; RETURN 1
-//if args_len > 0: apply assign on a tmp cpy; RETURN 0
 
 int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 {
@@ -153,7 +135,6 @@ int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 			&& probe->next
 			&& probe->next->type == tk_eat)
 		{
-			//ft_dprintf(2, "ESCAPING\n");
 			probe->type = tk_eat;
 			probe = probe->next;
 		}
@@ -166,10 +147,6 @@ int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 	}
 	if (argv_len < 1)
 		return (1);
-	//ft_printf("argv_len: %d\n", argv_len);
 	*argv = create_argv(token_head, argv_len);
-	//ft_printf("+++++++++++++++++++++\n");
-	//ft_print_ntab(*argv);
-	//ft_printf("+++++++++++++++++++++\n");
 	return (0);
 }

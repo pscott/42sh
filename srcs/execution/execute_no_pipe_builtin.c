@@ -102,6 +102,9 @@ static char		**fake_argv(t_token *token_head, t_vars *vars)
 **			- if there was an error returns error number
 **	Else (argv[0] is NOT a builtin) returns -1.
 **	If execution should stop, returns -2
+**
+**	If fake_argv() found no real argv:
+**	apply the assignation table to shell_vars (and env if 'exported')
 */
 
 int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
@@ -113,13 +116,9 @@ int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 
 	if (!(argv = fake_argv(token_head, vars)) || !argv[0])
 	{
-		ft_printf("EMPTY ARGV\n");//so add to shell_vars
-		//apply_assignation(vars->assign_tab, &vars->shell_vars);
 		apply_assignation(vars->assign_tab, vars);
 		return (-1);
 	}
-	//else add to env
-	//test (BAD cause it should set env just for the given cmd)
 	if (ft_strchr(argv[0], '/'))
 		ret = -1;
 	else if ((cmd_id = check_builtins(argv)))

@@ -25,12 +25,14 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 		ret = case_type(argv, vars);
 	else if (cmd_id == cmd_hash)
 		ret = case_hash(argv, vars);
-	else if (cmd_id == cmd_setenv)
-		ret = case_setenv(argv, vars);
-	else if (cmd_id == cmd_unsetenv)
-		ret = case_unsetenv(argv, vars);
 	else if (cmd_id == cmd_echo)
 		ret = case_echo(argv);
+	else if (cmd_id == cmd_set)
+		ret = case_set(argv, vars);
+	else if (cmd_id == cmd_unset)
+		ret = case_unset(argv, vars);
+	else if (cmd_id == cmd_export)
+		ret = case_export(argv, vars);
 	else
 		ret = 0;
 	ft_free_ntab(argv);
@@ -54,11 +56,13 @@ int			check_builtins(char **argv)
 		return (cmd_hash);
 	if (ft_strcmp(argv[0], "type") == 0)
 		return (cmd_type);
-	if (ft_strcmp(argv[0], "setenv") == 0)
-		return (cmd_setenv);
-	if (ft_strcmp(argv[0], "unsetenv") == 0)
-		return (cmd_unsetenv);
 	if (ft_strcmp(argv[0], "echo") == 0)
 		return (cmd_echo);
+	if (ft_strcmp(argv[0], "set") == 0)
+		return (cmd_set);
+	if (ft_strcmp(argv[0], "unset") == 0)
+		return (cmd_unset);
+	if (ft_strcmp(argv[0], "export") == 0)
+		return (cmd_export);
 	return (0);
 }

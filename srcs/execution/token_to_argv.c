@@ -20,6 +20,7 @@ static void			apply_ifs(const char *string, char **argv, int *i)
 		if (!(argv[*i] = ft_strjoin_free_left(argv[*i], words[j])))
 			clean_exit(1, 1);
 		j++;
+		filename_exp(&(argv[*i]));
 		(*i)++;
 	}
 	if (j)

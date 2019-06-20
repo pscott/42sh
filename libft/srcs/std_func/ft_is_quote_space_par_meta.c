@@ -2,7 +2,7 @@
 
 unsigned int	ft_is_quote(char c)
 {
-	if (c == '\'' || c == '"')
+	if (c == '\'' || c == '\"')
 		return (1);
 	return (0);
 }

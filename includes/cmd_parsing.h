@@ -2,7 +2,23 @@
 # define CMD_PARSING_H
 
 # include "lexer.h"
+# include <sys/dir.h>
 # define IFS " \t\n"
+
+typedef struct		s_st_glob
+{
+	char				*name;
+	struct s_st_glob	*next;
+	struct s_st_glob	*prev;
+}					t_st_glob;
+
+typedef struct		s_st_dir
+{
+	DIR				*dir;
+	struct dirent	*current;
+	char			*path;
+	char			*to_find;
+}					t_st_dir;
 
 int					parse_cmdline(t_token *token, t_vars *vars);
 void				redirect(int old_fd, int new_fd, int save);
@@ -17,7 +33,13 @@ int					parse_arith_exp(char **str, t_vars *vars);
 int					parse_quotes(t_token *token_head);
 int					parse_expands(t_token *token_head, t_vars *vars);
 int					parse_dollars_str(char **str, t_vars *vars);
+int					filename_exp(char **str);
 
+/*
+** Globing functions
+*/
+
+int					find_matchs(t_st_dir *st_dir, t_st_glob *st_glob, char *str);
 /*
 ** substitute_utils
 */

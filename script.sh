@@ -1,6 +1,6 @@
-#!/bin/sh
+Script started on Thu Jun 20 17:02:10 2019
+command: size srcs
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/size: srcs Is a directory
 
-while [ $? != 11 ]
-do
-	cat /dev/random | head -c 1000 > tmp ; cat tmp | ./42sh
-done
+
+Script done on Thu Jun 20 17:02:10 2019

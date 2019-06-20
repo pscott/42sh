@@ -30,7 +30,7 @@ INCL_CMD	:=	$(addprefix -I,$(INCL_DIR))
 INCL_FILES	:=	ftsh.h lexer.h ast.h auto_completion.h input.h history.h \
 				structures.h \
 				line_editing.h builtins.h errors.h cmd_parsing.h execution.h \
-				signals.h hashmap.h heredoc.h exp_arith.h env.h
+				signals.h hashmap.h heredoc.h exp_arith.h env.h re.h
 
 INCLS		:=	$(addprefix includes/,$(INCL_FILES))
 
@@ -85,7 +85,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c
 						check_select_mode.c selector.c check_select_paste.c
 	EXPANDS_FILES	:=	parse_expands.c parse_tildes.c parse_vars.c \
 						parse_quotes.c parse_arith_exp.c special_lltoa.c \
-						substitute_utils.c parse_tildes_utils.c get_var_name.c
+						substitute_utils.c parse_tildes_utils.c get_var_name.c \
+						filename_exp.c re.c
 	HISTORY_FILES	:=	hist_file.c get_next_line.c  hist_lst_utils.c \
 						getters.c switch_history.c insertion.c \
 						handle_input_hist.c reverse_search_history.c \

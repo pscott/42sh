@@ -24,13 +24,6 @@ void			sig_handler(int signo)
 ** INT signal does NOT exit the program.
 */
 
-/*void	sigtstp_handler(int signo)
-{
-	(void)signo;
-	ft_dprintf(2, "hey\n");
-	put_last_job_in_background();
-}*/
-
 void		signals_setup(void)
 {
 	signal(SIGWINCH, sigwinch_handler);

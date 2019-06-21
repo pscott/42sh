@@ -7,7 +7,7 @@ static void	free_process(t_process *p)
 	free(p);
 }
 
-static void	free_process_list(t_process *p)
+void	free_process_list(t_process *p)
 {
 	t_process *next;
 

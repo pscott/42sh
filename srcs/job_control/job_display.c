@@ -28,10 +28,7 @@ void		format_job_info(t_job *j, const char *status, const char *bg)
 {
 	t_st_cmd	*st_cmd;
 
-	if (!j->fg)
-	{
-		st_cmd = get_st_cmd(NULL);
-		zsh_newline(st_cmd);
-		ft_dprintf(STDOUT_FILENO, "[%d]%c status: %d %-20s %s%s\n", j->num, j->current, exit_status(j->status), status, j->command, bg);
-	}
+	st_cmd = get_st_cmd(NULL);
+	zsh_newline(st_cmd);
+	ft_dprintf(STDOUT_FILENO, "[%d]%c status: %d %-20s %s%s\n", j->num, j->current, exit_status(j->status), status, j->command, bg);
 }

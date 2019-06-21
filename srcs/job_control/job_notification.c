@@ -6,8 +6,8 @@ void	do_job_notification(int verbose)
 	t_job		*jlast;
 	t_job		*jnext;
 
-	update_status();
 	set_current();
+	update_status();
 	jlast = NULL;
 	j = g_first_job;
 	while (j)
@@ -15,7 +15,7 @@ void	do_job_notification(int verbose)
 		jnext = j->next;
 		if (job_is_completed(j))
 		{
-			if (j->notified == 0)
+			if (j->notified == 0 && !j->fg)
 				format_job_info(j, "Done", "");
 			if (jlast)
 				jlast->next = jnext;
@@ -25,14 +25,13 @@ void	do_job_notification(int verbose)
 		}
 		else if (job_is_stopped(j) && !j->notified)
 		{
-			j->fg = 0;
 			format_job_info(j, "Stopped", "");
 			j->notified = 1;
 			jlast = j;
 		}
 		else
 		{
-			if (verbose)
+			if (verbose && !j->fg)
 				format_job_info(j, "Running", "&");
 			jlast = j;
 		}

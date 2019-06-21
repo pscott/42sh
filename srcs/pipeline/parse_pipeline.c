@@ -132,6 +132,14 @@ int				parse_cmdline(t_ast *root, t_vars *vars, int foreground)
 
 	if (!(token = root->token))
 		return (0);
+	p = create_process_list(token);
+	num_processes = get_processes_len(p);
+	if ((num_processes == 1 && foreground)
+			&& ((ret = check_no_pipe_builtin(token, vars)) >= 0 || ret == -2))
+	{
+		free_process_list(p);
+		return (ret);
+	}
 	if (foreground)
 		j = append_job(&g_first_job, create_job(root, foreground, get_last_num(g_first_job) + 1));
 	else
@@ -140,12 +148,7 @@ int				parse_cmdline(t_ast *root, t_vars *vars, int foreground)
 		while (j && j->next) // job has been created by `&` previous fork
 			j = j->next;
 	}
-	p = create_process_list(token);
 	j->first_process = p;
-	num_processes = get_processes_len(p);
-	if ((num_processes == 1 && foreground)
-			&& ((ret = check_no_pipe_builtin(token, vars, j)) >= 0 || ret == -2))
-		return (ret);
 	ret = launch_job(j, foreground);
 	return (ret);
 }

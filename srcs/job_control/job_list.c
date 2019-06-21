@@ -10,14 +10,14 @@ void	set_current(void)
 	len = 0;
 	while (j)
 	{
-		if (!j->fg)
+		if (!j->fg || (!job_is_completed(j) && job_is_stopped(j)))
 			len++;
 		j = j->next;
 	}
 	j = g_first_job;
 	while (len > 2)
 	{
-		if (!j->fg)
+		if (!j->fg || (!job_is_completed(j) && job_is_stopped(j)))
 		{
 			j->current = ' ';
 			len--;
@@ -26,7 +26,7 @@ void	set_current(void)
 	}
 	while (len == 2)
 	{
-		if (!j->fg)
+		if (!j->fg || (!job_is_completed(j) && job_is_stopped(j)))
 		{
 			j->current = '-';
 			len--;
@@ -35,7 +35,7 @@ void	set_current(void)
 	}
 	while (len == 1)
 	{
-		if (!j->fg)
+		if (!j->fg || (!job_is_completed(j) && job_is_stopped(j)))
 		{
 			j->current = '+';
 			len--;

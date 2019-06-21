@@ -28,6 +28,7 @@ typedef struct		s_job
   int				status;
   struct termios	tmodes;
   int				fg;
+  int				bg;
   int				num;
   char				current;
   int				stdin;
@@ -94,6 +95,7 @@ t_job			*find_job_by_current(char current);
 */
 
 void			free_job(t_job *j);
+void			free_process_list(t_process *p);
 void			free_job_list(t_job *j);
 
 #endif

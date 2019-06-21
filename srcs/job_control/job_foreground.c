@@ -16,5 +16,6 @@ int		put_job_in_foreground(t_job *j, int cont)
 	ret = wait_for_job(j);
 	tcsetpgrp(TERM_FD, g_shell_pgid);
 	tcgetattr(TERM_FD, &j->tmodes);
+	tcsetattr(TERM_FD, TCSADRAIN, &g_42sh_attr);
 	return (ret);
 }

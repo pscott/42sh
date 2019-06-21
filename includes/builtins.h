@@ -19,7 +19,8 @@ typedef enum	e_cmd_id {
 	cmd_hash,
 	cmd_type,
 	cmd_jobs,
-	cmd_fg
+	cmd_fg,
+	cmd_bg
 }				t_cmd_id;
 
 enum	{invalid_option};
@@ -39,6 +40,7 @@ int		case_unsetenv(char **argv, t_vars *vars);
 int		case_echo(char **argv);
 int		case_jobs(char **argv);
 int		case_fg(char **argv);
+int		case_bg(char **argv);
 
 /*
 **	Exit utils

@@ -11,5 +11,11 @@ int		wait_for_job(t_job *j)
 		&& !job_is_stopped(j)
 		&& !job_is_completed(j))
 		pid = waitpid(WAIT_ANY, &status, WUNTRACED);
-	return (exit_status(status));
+	if (WIFSIGNALED(status)) // need function for proper error messages
+	{
+		if (j->fg && WTERMSIG(status) != SIGINT && WTERMSIG(status) != SIGPIPE)
+			ft_dprintf(2, "process terminated, received signal : %d\n",
+				WTERMSIG(status));
+	}
+	return (status);
 }

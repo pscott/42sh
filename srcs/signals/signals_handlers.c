@@ -46,6 +46,8 @@ void			sigint_handler(int signo)
 		vars->cmd_value = 1;
 	if (isatty(TERM_FD))
 		write(TERM_FD, "^C", 2);
+	if (st_cmd->st_txt->txt)
+		*st_cmd->st_txt->txt = '\x03';
 	reset_copy_vars(vars);
 	vars->interrupted = 1;
 	st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;

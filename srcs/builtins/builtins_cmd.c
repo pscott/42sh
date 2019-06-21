@@ -13,6 +13,7 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 {
 	int				ret;
 
+	ret = 0;
 	if (!argv)
 		ret = 1;
 	else if (cmd_id == cmd_exit)
@@ -27,6 +28,8 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 		ret = case_hash(argv, vars);
 	else if (cmd_id == cmd_echo)
 		ret = case_echo(argv);
+	else if (cmd_id == cmd_test)
+		ret = case_test(argv);
 	else if (cmd_id == cmd_set)
 		ret = case_set(argv, vars);
 	else if (cmd_id == cmd_unset)
@@ -58,6 +61,8 @@ int			check_builtins(char **argv)
 		return (cmd_type);
 	if (ft_strcmp(argv[0], "echo") == 0)
 		return (cmd_echo);
+	if (ft_strcmp(argv[0], "test") == 0)
+		return (cmd_test);
 	if (ft_strcmp(argv[0], "set") == 0)
 		return (cmd_set);
 	if (ft_strcmp(argv[0], "unset") == 0)

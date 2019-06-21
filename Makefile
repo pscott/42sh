@@ -102,7 +102,12 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c \
 						cmd_type.c cmd_echo.c \
 						cmd_exit_utils.c cmd_cd_utils.c cmd_env.c \
-						cmd_env_check.c cmd_cd_options.c cmd_cd_cdpath.c \
+						cmd_env_check.c cmd_test.c cmd_test_bcdef.c \
+						cmd_test_glprs.c cmd_test_suwxz.c cmd_test_bin.c \
+						cmd_test_oper.c cmd_test_bin_utils.c \
+						cmd_test_opposite.c cmd_test_get_opt.c \
+						cmd_test_checks.c
+						cmd_cd_options.c cmd_cd_cdpath.c \
 						cmd_cd_format.c cmd_cd_remove_char.c \
 						cmd_cd_change_env.c cmd_cd_check.c \
 						cmd_set.c cmd_unset.c cmd_export.c

@@ -18,8 +18,6 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 		ret = 1;
 	else if (cmd_id == cmd_exit)
 		ret = case_exit(argv, &vars->cmd_value);
-	else if (cmd_id == cmd_env)
-		ret = case_env(argv, &vars->env_vars);
 	else if (cmd_id == cmd_cd)
 		ret = case_cd(argv, &vars->env_vars);
 	else if (cmd_id == cmd_type)
@@ -51,8 +49,6 @@ int			check_builtins(char **argv)
 {
 	if (ft_strcmp(argv[0], "exit") == 0)
 		return (cmd_exit);
-	if (ft_strcmp(argv[0], "env") == 0)
-		return (cmd_env);
 	if (ft_strcmp(argv[0], "cd") == 0)
 		return (cmd_cd);
 	if (ft_strcmp(argv[0], "hash") == 0)

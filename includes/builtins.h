@@ -12,10 +12,7 @@ typedef enum		e_cd_error {
 typedef enum		e_cmd_id {
 	cmd_cd = 1,
 	cmd_echo,
-	cmd_env,
 	cmd_exit,
-	cmd_setenv,
-	cmd_unsetenv,
 	cmd_hash,
 	cmd_type,
 	cmd_test,
@@ -59,13 +56,12 @@ int					case_hash(char **argv, t_vars *vars);
 int					get_exit_value(char **argv);
 void				print_exit(void);
 int					case_exit(char **argv, int *exitno);
-int					case_env(char **argv, char ***env);
 int					case_type(char **argv, t_vars *vars);
 int					case_echo(char **argv);
 int					case_test(char **argv);
-int		      case_set(char **argv, t_vars *vars);
-int	      	case_unset(char **argv, t_vars *vars);
-int	      	case_export(char **argv, t_vars *vars);
+int					case_set(char **argv, t_vars *vars);
+int					case_unset(char **argv, t_vars *vars);
+int					case_export(char **argv, t_vars *vars);
 
 /*
 **	Exit utils

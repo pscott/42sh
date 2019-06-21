@@ -10,7 +10,11 @@
 static int	varline_case(char *argv, t_vars *vars)
 {
 	if (argv[0] == '=')
+	{
+		ft_dprintf(2, "%s: export: `%s': ", SHELL_NAME, argv);
+		ft_dprintf(2, "not a valid identifier\n");
 		return (1);
+	}
 	if (vars->env_save)
 		add_varline(argv, &vars->env_save);
 	else
@@ -25,9 +29,9 @@ int			case_export(char **argv, t_vars *vars)
 	char	*value;
 	int		ret;
 
-	i = 0;
+	i = 1;
 	ret = 0;
-	while (argv[++i])
+	while (argv[i])
 	{
 		value = NULL;
 		if (ft_strchr(argv[i], '=') && varline_case(argv[i], vars))
@@ -41,6 +45,7 @@ int			case_export(char **argv, t_vars *vars)
 			add_variables(argv[i], value, &vars->env_vars);
 		if (value)
 			ft_strdel(&value);
+		i++;
 	}
 	return (ret);
 }

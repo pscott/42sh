@@ -36,7 +36,7 @@ int		last_process_status(t_process *p)
 {
 	if (!p)
 		return (0);
-	hile (p->next)
+	while (p->next)
 		p = p->next;
 	return (p->status);
 }
@@ -53,6 +53,6 @@ void	update_status(void)
 	if (!(j = g_first_job))
 		return ;
 	status = last_process_status(j->first_process);
-	ft_dprintf(2, "updating, %d, %d\n", status, WTERMSIG(status));
+//	ft_dprintf(2, "updating, %d, %d\n", status, WTERMSIG(status));
 	j->status = last_process_status(j->first_process);
 }

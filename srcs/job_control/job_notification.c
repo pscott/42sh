@@ -23,7 +23,7 @@ void	do_job_notification(int verbose)
 				g_first_job = jnext;
 			free_job(j);
 		}
-		else if (job_is_stopped(j) && !j->notified)
+		else if (verbose || (job_is_stopped(j) && !j->notified))
 		{
 			format_job_info(j, "Stopped", "");
 			j->notified = 1;

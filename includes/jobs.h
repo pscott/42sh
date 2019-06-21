@@ -12,10 +12,9 @@ typedef struct			s_process
 	struct s_process	*next;       /* next process in pipeline */
 	t_token				*token_list;
 	pid_t				pid;                  /* process ID */
+	int					status;                 /* reported status value */
 	char				completed;             /* true if process has completed */
 	char				stopped;               /* true if process has stopped */
-	int					status;                 /* reported status value */
-	int					exit_status;
 }						t_process;
 
 typedef struct		s_job
@@ -23,17 +22,16 @@ typedef struct		s_job
   struct s_job		*next;           /* next active job */
   char				*command;
   struct s_process	*first_process;     /* list of processes in this job */
-  pid_t				pgid;                 /* process group ID */
-  char				notified;              /* true if user told about stopped job */
-  int				status;
-  struct termios	tmodes;
   int				fg;
-  int				bg;
   int				num;
-  char				current;
+  int				status;
   int				stdin;
   int				stdout;
   int				stderr;
+  pid_t				pgid;                 /* process group ID */
+  char				notified;              /* true if user told about stopped job */
+  char				current;
+  struct termios	tmodes;
 }					t_job;
 
 t_job	*g_first_job;
@@ -98,4 +96,6 @@ void			free_job(t_job *j);
 void			free_process_list(t_process *p);
 void			free_job_list(t_job *j);
 
+
+int				last_process_status(t_process *p);
 #endif

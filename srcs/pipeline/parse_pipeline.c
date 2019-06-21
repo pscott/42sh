@@ -122,7 +122,7 @@ t_token	*get_next_simple_command(t_token *begin)
   return (ret);
   }*/
 
-int				parse_cmdline(t_ast *root, t_vars *vars, int foreground)
+int				parse_cmdline(t_ast *root, t_vars *vars, int fg)
 {
 	int			num_processes;
 	t_token		*token;
@@ -134,14 +134,14 @@ int				parse_cmdline(t_ast *root, t_vars *vars, int foreground)
 		return (0);
 	p = create_process_list(token);
 	num_processes = get_processes_len(p);
-	if ((num_processes == 1 && foreground)
+	if ((num_processes == 1 && fg)
 			&& ((ret = check_no_pipe_builtin(token, vars)) >= 0 || ret == -2))
 	{
 		free_process_list(p);
 		return (ret);
 	}
-	if (foreground)
-		j = append_job(&g_first_job, create_job(root, foreground, get_last_num(g_first_job) + 1));
+	if (fg)
+		j = append_job(&g_first_job, create_job(root, fg, get_last_num(g_first_job) + 1));
 	else
 	{
 		j = g_first_job;
@@ -149,6 +149,6 @@ int				parse_cmdline(t_ast *root, t_vars *vars, int foreground)
 			j = j->next;
 	}
 	j->first_process = p;
-	ret = launch_job(j, foreground);
+	ret = launch_job(j, fg);
 	return (ret);
 }

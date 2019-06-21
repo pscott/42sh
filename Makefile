@@ -53,6 +53,8 @@ SRC_DIR	:=	srcs
 	REDIR_DIR			:=	redirections
 	EXEC_DIR			:=	execution
 	HASHMAP_DIR			:=	hashmap
+	CD_DIR				:=	cd
+	TEST_DIR			:=	test
 	EXP_ARITH_DIR		:=	exp_arith
 	HEREDOC_DIR			:=	heredoc
 
@@ -62,7 +64,10 @@ SRC_DIR	:=	srcs
 					$(EXPANDS_DIR) $(SIGNALS_DIR) $(LINE_EDIT_DIR) \
 					$(BUILTINS_DIR) $(REDIR_DIR) $(EXEC_DIR) $(AUTO_COMP_DIR) \
 					$(EXP_ARITH_DIR) $(HEREDOC_DIR) $(TMP_VAR_DIR) \
-					$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_DIR))
+					$(CD_DIR) $(TEST_DIR) \
+					$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_DIR)) \
+					$(addprefix $(BUILTINS_DIR)/,$(CD_DIR)) \
+					$(addprefix $(BUILTINS_DIR)/,$(TEST_DIR))
 
 
 #VPATH specifies a list of directories that 'make' should search
@@ -101,16 +106,16 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c
 						jump_words.c delete.c arrows.c go_up.c go_down.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c \
 						cmd_type.c cmd_echo.c \
-						cmd_exit_utils.c cmd_cd_utils.c cmd_env.c \
-						cmd_env_check.c cmd_test.c cmd_test_bcdef.c \
+						cmd_exit_utils.c cmd_env.c \
+						cmd_env_check.c cmd_test.c \
+						cmd_set.c cmd_unset.c cmd_export.c
+	CD_FILES		:=	cmd_cd_options.c cmd_cd_cdpath.c \
+						cmd_cd_format.c cmd_cd_remove_char.c \
+						cmd_cd_change_env.c cmd_cd_check.c cmd_cd_utils.c
+	TEST_FILES		:=	cmd_test.c cmd_test_bcdef.c cmd_test_checks.c\
 						cmd_test_glprs.c cmd_test_suwxz.c cmd_test_bin.c \
 						cmd_test_oper.c cmd_test_bin_utils.c \
-						cmd_test_opposite.c cmd_test_get_opt.c \
-						cmd_test_checks.c \
-						cmd_cd_options.c cmd_cd_cdpath.c \
-						cmd_cd_format.c cmd_cd_remove_char.c \
-						cmd_cd_change_env.c cmd_cd_check.c \
-						cmd_set.c cmd_unset.c cmd_export.c
+						cmd_test_opposite.c cmd_test_get_opt.c
 	REDIR_FILES		:=	redir_dgreat.c redir_fd_great.c fd_utils.c \
 						redir_great.c redir_less.c parse_redirections.c \
 						redir_fd_less.c redirections_errors.c redir_fd_utils.c \
@@ -146,7 +151,7 @@ C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES) \
 			$(HISTORY_FILES) $(EXPANDS_FILES) $(SIGNALS_FILES) \
 			$(LINE_EDIT_FILES) $(BUILTINS_FILES) $(REDIR_FILES) $(EXEC_FILES) \
 			$(HASHMAP_FILES) $(AUTO_COMP_FILES) $(EXP_ARITH_FILES) \
-			$(HEREDOC_FILES) $(TMP_VAR_FILES)
+			$(HEREDOC_FILES) $(CD_FILES) $(TEST_FILES) $(TMP_VAR_FILES)
 
 # Complete path of each .c files ###############################################
 SRC_PATH			:=	$(addprefix $(SRC_DIR)/,$(SRC_FILES))
@@ -166,8 +171,12 @@ REDIR_PATH			:=	$(addprefix $(REDIR_DIR)/,$(REDIR_FILES))
 EXEC_PATH			:=	$(addprefix $(EXEC_DIR)/,$(EXEC_FILES))
 EXP_ARITH_PATH		:=	$(addprefix $(EXP_ARITH_DIR)/,$(EXP_ARITH_FILES))
 HASHMAP_PATH		:=	$(addprefix $(HASHMAP_DIR)/,$(HASHMAP_FILES))
+CD_PATH				:=	$(addprefix $(CD_DIR)/,$(CD_FILES))
+TEST_PATH			:=	$(addprefix $(TEST_DIR)/,$(TEST_FILES))
 #	builtin/ + hashmap/*.c
 HASHMAP_PATH		:=	$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_PATH))
+CD_PATH				:=	$(addprefix $(BUILTINS_DIR)/,$(CD_PATH))
+TEST_PATH			:=	$(addprefix $(BUILTINS_DIR)/,$(TEST_PATH))
 HEREDOC_PATH		:=	$(addprefix $(HEREDOC_DIR)/,$(HEREDOC_FILES))
 TMP_VAR_PATH		:=	$(addprefix $(TMP_VAR_DIR)/,$(TMP_VAR_FILES))
 
@@ -190,6 +199,8 @@ SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(EXP_ARITH_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(HASHMAP_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(HEREDOC_PATH)) \
+			$(addprefix $(SRC_DIR)/,$(CD_PATH)) \
+			$(addprefix $(SRC_DIR)/,$(TEST_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(TMP_VAR_PATH)) \
 			$(SRC_PATH)
 

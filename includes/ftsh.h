@@ -6,7 +6,7 @@
 # include "libterm.h"
 # include <sys/types.h>
 
-# define SHELL_NAME "21sh"
+# define SHELL_NAME "42sh"
 
 /*
 **	t_vars utility functions

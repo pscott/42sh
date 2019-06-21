@@ -12,6 +12,7 @@ leaks.sh
 tags
 sandbox
 *.21sh_history
+*.42sh_history
 tmp_main.c
 objs
 cscope*

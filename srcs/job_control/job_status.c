@@ -18,10 +18,17 @@ int	mark_process_status(pid_t pid, int status)
 				if (p->pid == pid)
 				{
 					p->status = status;
+					ft_dprintf(2, "status in mark: %d\n", status);
 					if (WIFSTOPPED(status))
+					{
+						ft_dprintf(2, "it's stopped\n");
 						p->stopped = WSTOPSIG(status);
+					}
 					else
+					{
+						ft_dprintf(2, "completed\n");
 						p->completed = 1;
+					}
 					return (0);
 				}
 				p = p->next;
@@ -53,6 +60,5 @@ void	update_status(void)
 	if (!(j = g_first_job))
 		return ;
 	status = last_process_status(j->first_process);
-//	ft_dprintf(2, "updating, %d, %d\n", status, WTERMSIG(status));
 	j->status = last_process_status(j->first_process);
 }

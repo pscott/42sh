@@ -43,18 +43,6 @@ static int	free_variables(t_vars *vars, t_st_cmd *st_cmd)
 	return (ret);
 }
 
-/*static void reset_notif(void)
-{
-	t_job *j;
-
-	j = g_first_job;
-	while (j)
-	{
-		j->notified = 0;
-		j = j->next;
-	}
-}*/
-
 /*
 **	Initialize variables, read input with input_loop.
 **	If reading input fails or first byte of input is 0, exits.
@@ -84,7 +72,6 @@ int			main(int argc, char **argv, char **env)
 		else if (ret > 0 && !is_full_of_whitespaces(st_cmd->st_txt->txt))
 			vars.cmd_value = handle_input(st_cmd, &vars);
 		do_job_notification(0);
-		//reset_notif();
 		st_cmd = reset_st_cmd(st_cmd);
 	}
 	ret = free_variables(&vars, st_cmd);

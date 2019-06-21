@@ -3,6 +3,7 @@
 #include "cmd_parsing.h"
 #include "ast.h"
 #include "jobs.h"
+#include "execution.h"
 
 /*
 ** insert_ast_node
@@ -134,7 +135,12 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 		pid = getpid();
 		j->pgid = pid;
 		if (fg)
-			exit(exec_ast(root->left, vars, 0));
+		{
+			int ret;
+			ret = exec_ast(root->left, vars, 0);
+			ft_dprintf(2, "ret: %d\n", ret);
+			exit(ret);
+		}
 		else
 			exit(exec_ast(root->right, vars, 0));
 	}

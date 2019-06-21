@@ -94,7 +94,8 @@ int				case_cd(char **argv, char ***env)
 		return (1);
 	if (opt != 'P')
 		format_path_string(&dest);
-	if (check_path_too_long(dest) || check_full_access(&dest, argv[pos]))
+	if (check_path_too_long(dest) || (opt != 'P'
+				&& check_full_access(&dest, argv[pos])))
 		return (del_and_return(&dest, 1));
 	else
 		return (change_environ(dest, env, opt, display));

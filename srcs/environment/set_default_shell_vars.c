@@ -25,4 +25,5 @@ void	set_default_shell_vars(t_vars *vars)
 		add_variables("TERM", TERM_DEFAULT_VALUE, &vars->shell_vars);
 		add_variables("TERM", TERM_DEFAULT_VALUE, &vars->env_vars);
 	}
+	vars->env_save = NULL;
 }

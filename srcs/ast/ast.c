@@ -4,6 +4,7 @@
 #include "ast.h"
 #include "jobs.h"
 #include "execution.h"
+#include <signals.h>
 
 /*
 ** insert_ast_node
@@ -139,7 +140,14 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 			int ret;
 			ret = exec_ast(root->left, vars, 0);
 			ft_dprintf(2, "ret: %d\n", ret);
-			exit(ret);
+			if (WIFSTOPPED(ret))
+			{
+				kill(getpid(), WSTOPSIG(ret));
+			}
+			else if (WIFSIGNALED(ret))
+				kill(getpid(), WTERMSIG(ret));
+			ft_dprintf(2, "not exited");
+			exit(exit_status(ret));
 		}
 		else
 			exit(exec_ast(root->right, vars, 0));

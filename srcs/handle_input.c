@@ -2,6 +2,7 @@
 #include "line_editing.h"
 #include "ast.h"
 #include "history.h"
+#include "execution.h"
 
 static int		continue_reading(t_token *token_head, t_st_cmd **st_cmd,
 				char **input, t_vars *vars)
@@ -71,5 +72,5 @@ int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	ast_root = create_ast(token_head);
 	ret = exec_ast(ast_root, vars, 1);
 	free_ast(ast_root);
-	return (ret == -2 ? 1 : ret);
+	return (ret == -2 ? 1 : exit_status(ret));
 }

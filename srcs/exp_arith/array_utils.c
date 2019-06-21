@@ -3,7 +3,7 @@
 
 char	*get_value_index(int i, char **env)
 {
-	if (env[i])
+	if (env && env[i])
 		return (ft_strrchr(env[i], '=') + 1);
 	return (NULL);
 }

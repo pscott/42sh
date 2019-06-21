@@ -24,7 +24,7 @@ int		init_toks_dirty(t_tok **tokens, char *str)
 
 void	d_number(t_tok **tokens, size_t *i, int *k, char **str)
 {
-	(*tokens)[*k].token = TK_NB;
+	(*tokens)[*k].token = tk_nb;
 	(*tokens)[*k].value = ft_atoll(*str);
 	clean_done_token(*str + *i, get_nb_len(*str + *i));
 }
@@ -35,7 +35,7 @@ int		d_variable(t_tok **tks, t_integ *it, char **str, char ***vars)
 	char		*ptr;
 
 	(*tks)[it->k].value = 1;
-	(*tks)[it->k].token = TK_NB;
+	(*tks)[it->k].token = tk_nb;
 	if ((*str)[it->i] == '$')
 	{
 		(*tks)[it->k].value = 0;
@@ -72,7 +72,7 @@ void	d_operator(t_tok **t, size_t *i, int *k, char **s)
 		ret = get_op_token(*s + *i, -2, 0);
 	(*t)[*k].token = ret;
 	(*t)[*k].value = 0;
-	if (ret < TK_ADD)
+	if (ret < tk_add)
 		clean_done_token(*s + *i, 2);
 	else
 		clean_done_token(*s + *i, is_oper(*s + *i));

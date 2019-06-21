@@ -98,7 +98,7 @@ static void		create_forks(t_token **begin, int ints[2], int fd[2],
 **	ints[1] was a variable called num_simple_commands.
 */
 
-static	int		fork_pipes(int num_simple_commands, t_token *beg, t_vars *vars)
+static int		fork_pipes(int num_simple_commands, t_token *beg, t_vars *vars)
 {
 	int		i;
 	int		ints[2];

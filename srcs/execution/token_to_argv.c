@@ -46,6 +46,11 @@ static t_token		*fill_argv(t_token *token, char **argv, int *i)
 			if (!(argv[*i] = ft_strjoin_free_left(argv[*i], token->content)))
 				clean_exit(1, 1);
 		}
+		if (ft_strlen(argv[*i]) == 0)
+		{
+			ft_strdel(&argv[*i]);
+			argv[*i] = ft_strdup("");
+		}
 		incremented = 1;
 		token = token->next;
 	}
@@ -125,7 +130,15 @@ int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 	argv_len = 0;
 	while (probe)
 	{
-		if (is_argv_token(probe))
+		if (probe->type == tk_word
+			&& !ft_strlen(probe->content)
+			&& probe->next
+			&& probe->next->type == tk_eat)
+		{
+			probe->type = tk_eat;
+			probe = probe->next;
+		}
+		else if (is_argv_token(probe))
 			argv_len += token_length(&probe);
 		while (probe && probe->type == tk_eat)
 			probe = probe->next;

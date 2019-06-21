@@ -8,27 +8,27 @@
 static	int		get_op_token_2(char *str)
 {
 	if (!ft_strncmp(str, "||", 2))
-		return (TK_OPEROR);
+		return (tk_operor);
 	if (!ft_strncmp(str, "&&", 2))
-		return (TK_OPERAND);
+		return (tk_operand);
 	if (!ft_strncmp(str, "!=", 2))
-		return (TK_NOTEQ);
+		return (tk_noteq);
 	if (!ft_strncmp(str, "==", 2))
-		return (TK_EQ);
+		return (tk_eq);
 	if (!ft_strncmp(str, ">=", 2))
-		return (TK_MOREEQ);
+		return (tk_moreeq);
 	if (!ft_strncmp(str, "<=", 2))
-		return (TK_LESSEQ);
+		return (tk_lesseq);
 	if (!ft_strncmp(str, ">", 1))
-		return (TK_MORE);
+		return (tk_more);
 	if (!ft_strncmp(str, "<", 1))
-		return (TK_LESS);
+		return (tk_less);
 	if (!ft_strncmp(str, "%", 1))
-		return (TK_MOD);
+		return (tk_mod);
 	if (!ft_strncmp(str, "/", 1))
-		return (TK_DIV);
+		return (tk_div);
 	if (!ft_strncmp(str, "*", 1))
-		return (TK_MULT);
+		return (tk_mult);
 	return (0);
 }
 
@@ -54,18 +54,18 @@ int				get_op_token(char *str, int varid, int prev_prev_tk)
 	if ((ret = get_op_token_2(str)))
 		return (ret);
 	if (!ft_strncmp(str, "++", 2) && varid != -2 && (prev_prev_tk == 0
-			|| prev_prev_tk > TK_MINVAR || prev_prev_tk == TK_NB))
-		return (TK_VARPLUS);
+			|| prev_prev_tk > tk_minvar || prev_prev_tk == tk_nb))
+		return (tk_varplus);
 	if (!ft_strncmp(str, "++", 2) && ft_isalpha(pass_spaces(str + 2)))
-		return (TK_PLUSVAR);
+		return (tk_plusvar);
 	if (!ft_strncmp(str, "--", 2) && varid != -2 && (prev_prev_tk == 0
-			|| prev_prev_tk > TK_MINVAR || prev_prev_tk == TK_NB))
-		return (TK_VARMIN);
+			|| prev_prev_tk > tk_minvar || prev_prev_tk == tk_nb))
+		return (tk_varmin);
 	if (!ft_strncmp(str, "--", 2) && ft_isalpha(pass_spaces(str + 2)))
-		return (TK_MINVAR);
+		return (tk_minvar);
 	if (!ft_strncmp(str, "-", 1))
-		return (TK_SUB);
+		return (tk_sub);
 	if (!ft_strncmp(str, "+", 1))
-		return (TK_ADD);
+		return (tk_add);
 	return (0);
 }

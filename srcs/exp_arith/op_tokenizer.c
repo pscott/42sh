@@ -17,9 +17,9 @@ static	int		format_toks(t_tok *di, t_tok **cl)
 	init_toks_clean(di, cl);
 	while (di[v.i].token != 0)
 	{
-		if (di[v.i].token == TK_NB)
+		if (di[v.i].token == tk_nb)
 			c_number(di, cl, &v);
-		else if (di[v.i].token <= TK_MINVAR && di[v.i].token >= TK_VARPLUS)
+		else if (di[v.i].token <= tk_minvar && di[v.i].token >= tk_varplus)
 			c_iter(di, cl, (int*)&v.i, (int*)&v.k);
 		else
 			c_operator(di, cl, &v);

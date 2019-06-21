@@ -41,7 +41,7 @@ static int	set_non_canonical_mode(struct termios *tattr)
 	term.c_cc[VTIME] = 0;
 	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &term) == -1)
 		return (err_setattr());
-	return (1);
+	return (0);
 }
 
 /*
@@ -57,20 +57,24 @@ int			setup_terminal_settings(void)
 	char			*termtype;
 	int				res;
 	int				new_tty;
+	char			default_term[15];
 
 	if ((res = open_and_dup_tty()))
 		return (res);
 	if ((!g_isatty) && (tcgetattr(STDIN_FILENO, &g_saved_attr) == -1))
 		return (err_getattr());
 	if ((termtype = getenv("TERM")) == NULL)
-		return (err_no_env());
+	{
+		ft_strcpy(default_term, "xterm-256color");
+		termtype = default_term;
+	}
 	if ((res = tgetent(term_buffer, termtype)) == 0)
 		return (err_noentry());
 	else if (res == -1)
 		return (err_no_database());
 	if (check_caps() == 0)
 		return (err_caps());
-	if (set_non_canonical_mode(&g_saved_attr) == 0)
+	if (set_non_canonical_mode(&g_saved_attr) > 0)
 		return (1);
 	return (0);
 }

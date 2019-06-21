@@ -17,6 +17,9 @@ int					parse_arith_exp(char **str, t_vars *vars);
 int					parse_quotes(t_token *token_head);
 int					parse_expands(t_token *token_head, t_vars *vars);
 int					parse_dollars_str(char **str, t_vars *vars);
+int					parse_assignation(t_token *token, t_vars *vars);
+void				apply_assignation(char **assign_tab, t_vars *vars);
+void				apply_assignation_to_ntab(char **assign_tab, char ***ntab);
 
 /*
 ** substitute_utils
@@ -28,7 +31,7 @@ int					is_matched(const char *str, const char *begin_match,
 					const char *end_match);
 int					substitute_slice(char **old_str, size_t index[2],
 					const char *to_sub);
-
+int					is_valid_varname(char *str);
 char				*get_var_name(char *str);
 int					replace_tilde(char **str, const char **env);
 int					is_valid_tilde(const char *str, t_token *prev_token);
@@ -48,6 +51,8 @@ int					redir_fd_less(t_token *redir, t_token *prev, int mode);
 int					redir_dgreat(t_token *redir, t_token *prev, int mode);
 int					redir_less(t_token *redir, t_token *prev, int mode);
 int					check_fd_prev(t_token *prev);
+int					check_redirect(char *str);
+void				save_close_fds(int new_fd, int old_fd);
 
 /*
 ** Errors

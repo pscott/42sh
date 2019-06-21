@@ -36,12 +36,12 @@ int re_matchp(re_t pattern, const char* text)
 {
 	int		idx;
 
-ft_dprintf(2, "imn matchp :{%s}\n", text);
+ft_dprintf(2, "imn matchp :{%s}", text);
   if (pattern != 0)
   {
     {
      	idx = -1;
-      while (*text != '\0')
+      while (*text != '\0');
       {
         idx += 1;
         
@@ -232,12 +232,8 @@ static int matchquestion(regex_t p, regex_t* pattern, const char* text)
 
 static int matchpattern(regex_t* pattern, const char* text)
 {
-	while (*text != '\0')
+  do
   {
-	ft_dprintf (2, "{%lu},  {%s}\n", pattern[0].type, text);
-	sleep(1);
-	  if (pattern->ch != *text)
-		  break ;
     if (pattern[0].type == UNUSED)
     {
       return (matchquestion(pattern[0], &pattern[2], text));
@@ -246,10 +242,7 @@ static int matchpattern(regex_t* pattern, const char* text)
     {
       return (matchstar(pattern[0], &pattern[2], text));
     }
-	pattern++;
-	text++;
-
   }
-//  while ((text[0] != '\0') && matchone(*pattern++, *text++));
+  while ((text[0] != '\0') && matchone(*pattern++, *text++));
   return (0);
 }

@@ -7,6 +7,8 @@
 
 typedef struct		s_st_glob
 {
+	int					match;
+	int					keep;
 	char				*name;
 	struct s_st_glob	*next;
 	struct s_st_glob	*prev;
@@ -39,7 +41,9 @@ int					filename_exp(char **str);
 ** Globing functions
 */
 
-int					find_matchs(t_st_dir *st_dir, t_st_glob *st_glob, char *str);
+int					find_matchs(t_st_dir *st_dir);
+int					create_match_link_glob(t_st_glob **match, char *str, int m);
+
 /*
 ** substitute_utils
 */

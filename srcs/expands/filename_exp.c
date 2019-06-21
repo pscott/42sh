@@ -44,24 +44,98 @@ int			get_dir(t_st_dir *st_dir, char *str)
 
 }
 
+char		*create_string(t_st_glob *st_glob, int len)
+{
+	char	*ret;
+	char	*tmp;
+	char	*app;
+
+	while (st_glob->prev)
+		st_glob = st_glob->prev;
+	tmp = NULL;
+	ret = NULL;
+	while (st_glob)
+	{
+		if (st_glob->keep == 1)
+		{
+			if (!ret)
+				ret = ft_strdup(st_glob->name);
+			else
+			{
+				app = ft_strjoin(ret, " ");
+				tmp = ft_strjoin(app, st_glob->name);
+				ft_strdel(&ret);
+				ft_strdel(&app);
+				ret = ft_strdup(tmp); 
+				ft_strdel(&tmp);
+			}
+		}
+		st_glob = st_glob->next;
+	}
+	return (ret);
+}
+
+char		*from_list_to_string(t_st_glob *st_glob, t_st_dir *st_dir)
+{
+	t_st_glob	*first;
+	int			min;
+	int			len;
+
+	while (st_glob->prev)
+		st_glob = st_glob->prev;
+	first = st_glob;
+	min = first->match;
+	while ((first = first->next))
+	{
+		min = ft_min(min, first->match);
+	ft_dprintf(2, "in min||%s||%d\n", first->name, min);
+	}
+	len = 0;
+	while (first)
+	{
+
+		if (first->match == min/* && !ft_strncmp(st_dir->to_find, first->name, min + 1)*/)
+		{
+			first->keep = 1;
+			len += ft_strlen(first->name) + 1;
+		}
+		first = first->prev;
+	}
+	return (create_string(st_glob, len));
+}
 
 char		*globing(char *str)
 {
 //handle [*]
 	t_st_glob	*st_glob;
 	t_st_dir	*st_dir;
+	int			ret;
+	char		*matchs;			
+	int			ok;
 
 
 	if (!(st_glob = (t_st_glob *)malloc(sizeof(t_st_glob))))
 		clean_exit(1, 1);
+	st_glob = NULL;
 	if (!(st_dir = (t_st_dir *)malloc(sizeof(t_st_dir))))
 		clean_exit(1, 1);
 	if ((get_dir(st_dir, str)) == -1)
 		return (NULL);
+	ok = 0;
 	while ((st_dir->current = readdir(st_dir->dir)) != NULL)
+	//	&& ft_strncmp(st_dir->current->d_name, "..", 3)
+	//	&& ft_strncmp(st_dir->current->d_name, ".", 2))
 	{
-		find_matchs(st_dir, st_glob, str);
+		ret = find_matchs(st_dir);
+		if (ret >= 0)//except case !
+		{
+	ft_dprintf(2, "\n\||%s||%d\n", st_dir->current->d_name, ret);
+			ok = 1;
+			create_match_link_glob(&st_glob, st_dir->current->d_name, ret);
+		}	
 	}
+	if (st_glob)
+		matchs = from_list_to_string(st_glob, st_dir);
 	if ((closedir(st_dir->dir)) == -1)
 	{
 		free(st_dir->to_find);

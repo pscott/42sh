@@ -86,7 +86,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c
 	EXPANDS_FILES	:=	parse_expands.c parse_tildes.c parse_vars.c \
 						parse_quotes.c parse_arith_exp.c special_lltoa.c \
 						substitute_utils.c parse_tildes_utils.c get_var_name.c \
-						filename_exp.c re.c
+						filename_exp.c re.c create_match_link_glob.c
 	HISTORY_FILES	:=	hist_file.c get_next_line.c  hist_lst_utils.c \
 						getters.c switch_history.c insertion.c \
 						handle_input_hist.c reverse_search_history.c \

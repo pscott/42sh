@@ -86,6 +86,9 @@ t_token			*copy_process_tokens(t_token *tokens);
 
 void			do_job_notification(int verbose);
 
+t_job			*find_job_by_pgid(pid_t pgid);
+t_job			*find_job_by_current(char current);
+
 /*
 **	Free functions
 */

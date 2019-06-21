@@ -33,6 +33,8 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 		ret = case_echo(argv);
 	else if (cmd_id == cmd_jobs)
 		ret = case_jobs(argv);
+	else if (cmd_id == cmd_fg)
+		ret = case_fg(argv);
 	else
 		ret = 0;
 	ft_free_ntab(argv);
@@ -64,5 +66,7 @@ int			check_builtins(char **argv)
 		return (cmd_echo);
 	if (ft_strequ(argv[0], "jobs"))
 		return (cmd_jobs);
+	if (ft_strequ(argv[0], "fg"))
+		return (cmd_fg);
 	return (0);
 }

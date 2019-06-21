@@ -1,10 +1,24 @@
 #include "jobs.h"
 
+t_job	*find_job_by_current(char current)
+{
+	t_job *j;
+
+	j = g_first_job;
+	while (j)
+	{
+		if (j->current == current)
+			return (j);
+		j = j->next;
+	}
+	return (NULL);
+}
+
 /*
 **	Find the active job with the indicated pgid.
 */
 
-t_job 	*find_job(pid_t pgid)
+t_job 	*find_job_by_pgid(pid_t pgid)
 {
 	t_job *j;
 

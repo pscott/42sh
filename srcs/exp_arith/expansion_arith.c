@@ -43,11 +43,7 @@ int				expansion_arith(char *str, long long *result, t_vars *vars)
 	if (op_tokenizer(str, &tokens, &vars->shell_vars))
 		return (err_msgs(2, vars->verbose));
 	lst = build_op_list(tokens);
-	ft_print_ntab(vars->shell_vars);
-	printf("------------------------\n");
 	ret = exec_op_list(lst, &vars->shell_vars, result);
-	ft_print_ntab(vars->shell_vars);
-	printf("------------------------\n");
 	free_tokens(tokens, 0);
 	free_lst(lst, 0);
 	return (err_msgs(ret, vars->verbose));

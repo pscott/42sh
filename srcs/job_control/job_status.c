@@ -17,11 +17,14 @@ int	mark_process_status(pid_t pid, int status)
 			{
 				if (p->pid == pid)
 				{
-					ft_dprintf(2, "status: %d\n", status);
+					ft_dprintf(2, "pid: %d\n", pid);
 					p->status = status;
-					/*if (WIFCONTINUED(status))
-						p->stopped = 0;*/
-					if (WIFSTOPPED(status))
+					if (WIFCONTINUED(status))
+					{
+						ft_dprintf(2, "continued\n");
+						p->stopped = 0;
+					}
+					else if (WIFSTOPPED(status))
 					{
 						ft_dprintf(2, "stopped\n");
 						p->stopped = 1;
@@ -58,7 +61,7 @@ void	update_status(void)
 	int		opt;
 	pid_t	pid;
 
-	opt = WUNTRACED | WNOHANG;
+	opt = WUNTRACED | WNOHANG | WCONTINUED;
 	pid = waitpid(WAIT_ANY, &status, opt);
 	while (!mark_process_status(pid, status))
 		pid = waitpid(WAIT_ANY, &status, opt);

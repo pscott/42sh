@@ -52,10 +52,11 @@ void		signals_setup(void)
 	signal(SIGPROF, sig_handler);
 }
 
-static void	yoyo(int yo)
+/*static void	repeat(int signo)
 {
-	(void)yo;
-}
+	ft_dprintf(2, "killing\n");
+	kill(g_first_job->pgid, signo);
+}*/
 
 void	reset_signals(void)
 {
@@ -67,5 +68,4 @@ void	reset_signals(void)
 		signal(i, SIG_DFL);
 		i++;
 	}
-	signal(SIGCONT, yoyo);
 }

@@ -78,5 +78,5 @@ int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	if (st_cmd->keep)
 		adjust_history(st_cmd, 1);
 	free_ast(ast_root);
-	return (ret);
+	return (ret == -2 ? 1 : ret);
 }

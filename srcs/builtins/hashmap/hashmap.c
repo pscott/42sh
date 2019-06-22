@@ -1,7 +1,7 @@
 #include "hashmap.h"
 
 static void		move_on_bucket_list(t_hash_item **item_probe,
-			t_hash_item **prev_probe, unsigned int *list_len)
+				t_hash_item **prev_probe, int *list_len)
 {
 	*prev_probe = *item_probe;
 	*item_probe = (*item_probe)->next;
@@ -18,10 +18,10 @@ static void		move_on_bucket_list(t_hash_item **item_probe,
 
 int				add_to_hashmap(char *key, char *value, t_hashmap **hashmap)
 {
-	unsigned int	index;
-	t_hash_item		*item_probe;
-	t_hash_item		*prev_probe;
-	unsigned int	list_len;
+	int			index;
+	t_hash_item	*item_probe;
+	t_hash_item	*prev_probe;
+	int			list_len;
 
 	index = hashfun(key) % (*hashmap)->size;
 	item_probe = (*hashmap)->items[index];

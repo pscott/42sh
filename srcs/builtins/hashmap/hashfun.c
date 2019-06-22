@@ -9,14 +9,15 @@
 unsigned int	hashfun(const char *input)
 {
 	unsigned int	hash_address;
-	int				i;
+	unsigned int	i;
 
 	hash_address = 0;
-	i = -1;
-	while (input[++i])
+	i = 0;
+	while (input[i])
 	{
 		hash_address = input[i] + (hash_address << 6) + (hash_address << 16)
 			- hash_address;
+		i++;
 	}
 	return (hash_address);
 }

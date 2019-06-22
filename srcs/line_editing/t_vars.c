@@ -21,6 +21,13 @@ t_vars	*get_vars(t_vars *new_vars)
 	return (vars);
 }
 
+void	reset_copy_vars(t_vars *vars)
+{
+	vars->select_mode = 0;
+	vars->select_start = 0;
+	vars->select_end = 0;
+}
+
 /*
 **	Utility function to initalize the shell variables, the environement, and
 **	the last exit status.
@@ -35,6 +42,7 @@ int		init_vars(t_vars *vars, int argc, char **argv, char **env)
 	vars->shell_vars = NULL;
 	vars->verbose = 1;
 	vars->copy = NULL;
+	reset_copy_vars(vars);
 	get_vars(vars);
 	if (!(vars->env_vars = init_env((const char **)env)))
 		return (1);

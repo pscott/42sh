@@ -3,6 +3,19 @@
 #include "signals.h"
 
 /*
+** Handler function for terminating (aka dangerous) signals
+*/
+
+void			sig_handler(int signo)
+{
+	execute_str(CLEAR_BELOW);
+	restore_init_cursor();
+	reset_terminal_settings();
+	ft_dprintf(STDERR_FILENO, "Interrupted by signal: %d\n", signo);
+	exit(signo);
+}
+
+/*
 ** Setting up signal functions.
 ** KILL and STOP are not handled, and WILL leave you with a messy terminal
 ** Terminating (aka dangerous) signals reset the terminal, and then exit.
@@ -17,7 +30,7 @@ void		signals_setup(void)
 	signal(SIGTSTP, sigtstp_handler);
 	signal(SIGINT, sigint_handler);
 	signal(SIGHUP, sig_handler);
-	signal(SIGQUIT, sig_handler);
+	signal(SIGQUIT, sigquit_handler);
 	signal(SIGILL, sig_handler);
 	signal(SIGTRAP, sig_handler);
 	signal(SIGABRT, sig_handler);

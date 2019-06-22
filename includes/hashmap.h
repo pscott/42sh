@@ -16,13 +16,13 @@ typedef struct			s_hash_item
 {
 	char				*key;
 	char				*value;
-	size_t				count;
+	int					count;
 	struct s_hash_item	*next;
 }						t_hash_item;
 
 typedef struct			s_hashmap
 {
-	size_t				size;
+	int					size;
 	t_hash_item			**items;
 
 }						t_hashmap;
@@ -31,7 +31,7 @@ typedef struct			s_hash_args
 {
 	unsigned char		opt;
 	char				*path;
-	unsigned int		name_index;
+	int					name_index;
 	unsigned char		state;
 }						t_hash_args;
 
@@ -85,9 +85,8 @@ int						hash_builtin_print(t_hashmap *hashmap,
 */
 
 t_hash_item				*create_new_item(const char *key, const char *value);
-t_hashmap				*init_hashmap(size_t size);
+t_hashmap				*init_hashmap(int size);
 t_hashmap				*resize_up_hashmap(t_hashmap *old_map);
-t_hashmap				*resize_down_hashmap(t_hashmap *old_map);
 void					cpy_hashmap(t_hashmap *old_map, t_hashmap **new_map);
 
 /*
@@ -103,8 +102,7 @@ int						reset_hashmap(t_hashmap **hashmap);
 ** prime.c
 */
 
-unsigned int			find_next_prime(unsigned int nb);
-unsigned int			find_prev_prime(unsigned int nb);
+int						find_next_prime(int nb);
 
 /*
 ** hashmap_errors.c

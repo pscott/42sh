@@ -44,9 +44,7 @@ void			save_reset_stdfd(int mode)
 	}
 	else if (mode == 0 && lastmode == 1)
 	{
-		close(0);
-		close(1);
-		close(2);
+		close_saves(0, 1, 2);
 		dup2_print_err(in, STDIN_FILENO);
 		dup2_print_err(out, STDOUT_FILENO);
 		dup2_print_err(err, STDERR_FILENO);

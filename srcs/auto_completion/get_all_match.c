@@ -13,7 +13,7 @@ int		get_all_match(char *directory, t_auto_comp **match,
 	while ((ent = readdir(dir)))
 		if (!(compare_entry(to_find, ent->d_name)))
 		{
-			if (ent->d_type && ent->d_type == DT_DIR)
+			if (check_if_slash(ent, directory, NULL))
 				tmp = ft_strjoin(ent->d_name, "/");
 			else if (next[ft_strlen(next) - 1]
 				== to_find[ft_strlen(to_find) - 1])

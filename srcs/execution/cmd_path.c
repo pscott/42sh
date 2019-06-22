@@ -31,15 +31,15 @@ int					check_access(const char *file)
 
 char				*find_path(const char *file, char **paths)
 {
-	unsigned int	i;
-	char			*possible_path;
-	char			*path_w_slash;
+	int		i;
+	char	*possible_path;
+	char	*path_w_slash;
 
 	if (!*file || !ft_strncmp(".", file, 2) || !ft_strncmp("..", file, 3)
 		|| !paths)
 		return (NULL);
-	i = 0;
-	while (paths[i])
+	i = -1;
+	while (paths[++i])
 	{
 		if (!(path_w_slash = ft_strjoin(paths[i], "/")))
 			clean_exit(1, 1);
@@ -49,7 +49,6 @@ char				*find_path(const char *file, char **paths)
 		if (check_access(possible_path) == 0)
 			return (possible_path);
 		ft_strdel(&possible_path);
-		i++;
 	}
 	return (NULL);
 }

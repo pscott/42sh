@@ -61,6 +61,7 @@ int		launch_job(t_job *j, int foreground)
 	{
 		put_job_in_background(j, 0);
 		ret = wait_for_job(j);
+		ft_dprintf(2, "after wait_for_job\n");
 	}
 	if (foreground)
 		tcsetattr(j->stdin, TCSADRAIN, &g_42sh_attr);

@@ -1,24 +1,69 @@
 #include "jobs.h"
 
-static char	*get_signal_str(int sig)
+static const char	*sig_str_2(int signal)
 {
-	char	*msg;
-	char	*itoa;
+	if (signal == SIGSEGV)
+		return ("Segmentation fault: 11");
+	else if (signal == SIGSYS)
+		return ("Bad system call: 12");
+	else if (signal == SIGPIPE)
+		return ("Broken pipe: 13");
+	else if (signal == SIGALRM)
+		return ("Alarm clock: 14");
+	else if (signal == SIGTERM)
+		return ("Terminated: 15");
+	else if (signal == SIGXCPU)
+		return ("Cputime limit exceeded: 24");
+	else if (signal == SIGXFSZ)
+		return ("Filesize limit exceeded: 25");
+	else if (signal == SIGVTALRM)
+		return ("Virtual timer expired: 26");
+	else if (signal == SIGPROF)
+		return ("Profiling timer expired: 27");
+	else if (signal == SIGUSR1)
+		return ("User defined signal 1: 30");
+	else if (signal == SIGUSR2)
+		return ("User defined signal 2: 31");
+	return ("Undefined Signal");
+}
 
+static const char	*get_signal_str(int signal)
+{
+	if (signal == SIGHUP)
+		return ("Hangup: 1");
+	else if (signal == SIGINT)
+		return ("Interrupt: 2");
+	else if (signal == SIGQUIT)
+		return ("Quit: 3");
+	else if (signal == SIGILL)
+		return ("Illegal instruction: 4");
+	else if (signal == SIGTRAP)
+		return ("Trace/BPT trap: 5");
+	else if (signal == SIGABRT)
+		return ("Abort trap: 6");
+	else if (signal == SIGEMT)
+		return ("EMT trap: 7");
+	else if (signal == SIGFPE)
+		return ("Floating point exception: 8");
+	else if (signal == SIGKILL)
+		return ("Killed: 9");
+	else if (signal == SIGBUS)
+		return ("Bus error: 10");
+	else
+		return (sig_str_2(signal));
+}
+
+static const char	*get_stop_str(int sig)
+{
 	if (sig == SIGTTOU)
-		return(ft_strdup("Stopped (SIGTTOU)"));
+		return("Stopped (SIGTTOU)");
 	else if (sig == SIGTSTP)
-		return(ft_strdup("Stopped (SIGTSTP)"));
+		return("Stopped (SIGTSTP)");
 	else if (sig == SIGSTOP)
-		return(ft_strdup("Stopped (SIGSTOP)"));
+		return("Stopped (SIGSTOP)");
 	else if (sig == SIGTTIN)
-		return(ft_strdup("Stopped (SIGTTIN)"));
-	if (!(itoa = ft_itoa(sig)))
-		clean_exit(1, 1);
-	if (!(msg = ft_strjoin("Received signal: ", itoa)))
-		clean_exit(1, 1);
-	ft_strdel(&itoa);
-	return (msg);
+		return("Stopped (SIGTTIN)");
+	return ("Stopped");
 }
 
 static char	*get_exit_str(int status)
@@ -27,7 +72,7 @@ static char	*get_exit_str(int status)
 	char	*itoa;
 
 	if (WIFSIGNALED(status))
-		msg = get_signal_str(status);
+		msg = ft_strdup(get_signal_str(WTERMSIG(status))); // protect
 	else
 	{
 		if (WEXITSTATUS(status) == 0)
@@ -73,7 +118,7 @@ void		do_job_notification(int verbose)
 		}
 		else if ((job_is_stopped(j) && !j->notified))
 		{
-			format_job_info(j, "Stopped", ""); // need to change for sigttou etc
+			format_job_info(j, get_stop_str(WSTOPSIG(j->status)), ""); // need to change for sigttou etc
 			j->notified = 1;
 			jlast = j;
 		}

@@ -2,11 +2,17 @@
 
 static void reset_notif(void)
 {
-	t_job *j;
+	t_job		*j;
+	t_process	*p;
 
 	j = g_first_job;
 	while (j)
 	{
+		p = j->first_process;
+/*		while (p)
+		{
+			p = p->next;
+		}*/
 		j->notified = 0;
 		j = j->next;
 	}

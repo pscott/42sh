@@ -140,21 +140,12 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 		{
 			int ret;
 			ret = exec_ast(root->left, vars, 0);
-			ft_dprintf(2, "ret: %d\n", ret);
+			ft_dprintf(2, "back in ast\n");
 			if (WIFSTOPPED(ret))
-			{
-				ft_dprintf(2 , "killing\n");
-				ft_dprintf(2, ": %d :\n", kill(getpid(), WSTOPSIG(ret)));
-			}
+				kill(pid, WSTOPSIG(ret));
 			else if (WIFSIGNALED(ret))
-			{
-				ft_dprintf(2, "resetting ");
-//				ft_dprintf(2, "%d\n", tcsetattr(STDIN_FILENO, TCSADRAIN, &g_saved_attr));
-				ft_dprintf(2, "signaled: %d\n", WTERMSIG(ret));
-				kill(getpid(), 11);
-			}
-			ft_dprintf(2, "not exited");
-			exit(exit_status(ret));
+				kill(pid, WTERMSIG(ret));
+			exit(WEXITSTATUS(ret));
 		}
 		else
 			exit(exec_ast(root->right, vars, 0));

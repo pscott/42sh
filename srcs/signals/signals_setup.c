@@ -52,6 +52,13 @@ void		signals_setup(void)
 	signal(SIGPROF, sig_handler);
 }
 
+static void	yoyo(int yo)
+{
+	(void)yo;
+	ft_dprintf(2, "yoyo\n");
+	//kill(-getpid(), SIGCONT);
+}
+
 void	reset_signals(void)
 {
 	int	i;
@@ -62,4 +69,5 @@ void	reset_signals(void)
 		signal(i, SIG_DFL);
 		i++;
 	}
+	signal(SIGCONT, yoyo);
 }

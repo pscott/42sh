@@ -74,6 +74,13 @@ static int			fc_execute_edit(t_st_cmd *st_cmd,
 	return (ret);
 }
 
+static int			reset_count(int *count)
+{
+	write(2, "Stop messing with the history file!\n", 36);
+	*count = 0;
+	return (1);
+}
+
 int					fc_execute_cmd(t_st_cmd *st_cmd, char *file, int type)
 {
 	t_vars			*new_vars;
@@ -86,10 +93,7 @@ int					fc_execute_cmd(t_st_cmd *st_cmd, char *file, int type)
 		ft_strdel(&(st_cmd->st_txt->txt));
 	count++;
 	if (count > 50)
-	{
-		write(2, "Stop messing with the history file!\n", 36);	
-		return (!(count = 0));
-	}
+		return (reset_count(&count));
 	if (type == edit)
 		ret = fc_execute_edit(st_cmd, new_vars, file);
 	else if (type == substitute)

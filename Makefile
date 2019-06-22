@@ -4,7 +4,7 @@
 NAME	:=	21sh
 OPT		:=	
 CC		:=	gcc
-CFLAGS	:=	-Wall -Wextra # -pedantic  #-Werror
+CFLAGS	:=	-Wall -Wextra -o2# -pedantic  #-Werror
 MMD		:=	-MMD
 
 DEBUG_FLAG	:=	-g

@@ -122,12 +122,10 @@ static int		fc_parse_index(t_st_cmd *st_cmd, t_st_fc *st_fc)
 	}
 	else
 	{
-		if (st_fc->first)
-		{
-			if ((st_fc->i_first = find_index_fc(st_cmd, st_fc->flag,
-						st_fc->first)) < 0)
-				return (st_fc->i_first);
-		}
+		if (st_fc->first
+			&& ((st_fc->i_first = find_index_fc(st_cmd, st_fc->flag,
+						st_fc->first)) < 0))
+			return (st_fc->i_first);
 		else
 			get_first_no_indication(st_cmd, st_fc);
 		if ((ret = get_last(st_cmd, st_fc)) < 0)
@@ -164,13 +162,8 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 		error_fc_index(st_fc->flag);
 		return (1);
 	}
-
 	if ((fc_parse_index(st_cmd, st_fc)) == -1)
 		return (1);
-/*
-	ft_dprintf(2, "i_first %d i_last %d hist_len %d", st_fc->i_first, st_fc->i_last, *st_cmd->hist_len);
-	ft_dprintf(2, "i_first %d i_last %d hist_len %d", st_fc->i_first, st_fc->i_last, *st_cmd->hist_len);
-*/	
 	if (st_fc->i_first && st_fc->i_last && !ft_strchr(st_fc->flag, 's')
 			&& st_fc->i_first > st_fc->i_last)
 		swap_fc(st_fc);

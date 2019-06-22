@@ -26,6 +26,10 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 		ret = case_hash(argv, vars);
 	else if (cmd_id == cmd_echo)
 		ret = case_echo(argv);
+	else if (cmd_id == cmd_fc)
+		ret = case_fc(argv);
+	else if (cmd_id == cmd_history)
+		ret = case_history(argv);
 	else if (cmd_id == cmd_test)
 		ret = case_test(argv);
 	else if (cmd_id == cmd_set)
@@ -57,6 +61,10 @@ int			check_builtins(char **argv)
 		return (cmd_type);
 	if (ft_strcmp(argv[0], "echo") == 0)
 		return (cmd_echo);
+	if (ft_strcmp(argv[0], "fc") == 0)
+		return (cmd_fc);
+	if (ft_strcmp(argv[0], "history") == 0)
+		return (cmd_history);
 	if (ft_strcmp(argv[0], "test") == 0)
 		return (cmd_test);
 	if (ft_strcmp(argv[0], "set") == 0)

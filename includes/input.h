@@ -10,6 +10,10 @@
 # define PROMPT_REVERSE_I_SEARCH_FAIL "(failed reverse-i-search)"
 # define CONTINUE_PROMPT "cont> "
 # define HEREDOC_PROMPT "heredoc> "
+# define HEREDOC_FILENAME "/tmp/.tmp_heredoc"
+# define FC_EDIT_FILENAME "/tmp/.tmp_fc_edit"
+# define MAX_INT_LEN 10
+# define UINT_MAX 4294967295
 
 typedef enum	e_input
 {
@@ -50,8 +54,11 @@ typedef struct			s_st_cmd {
 	struct winsize		*window;
 	struct s_st_prompt	*st_prompt;
 	struct s_hist_lst	*hist_lst;
+	int					*hist_len;
 	struct s_st_cmd		*next;
 	struct s_st_cmd		*prev;
+	int					keep;
+	int					cr;
 }						t_st_cmd;
 
 int						handle_reverse_search_history(t_st_cmd *st_cmd,
@@ -131,4 +138,9 @@ char					*concatenate_txt(t_st_cmd *st_cmd);
 void					free_st_cmd(t_st_cmd *st_cmd);
 void					free_all_st_cmds(t_st_cmd **st_cmd);
 
+/*
+**	tmp files function
+*/
+
+char					*find_unique_filename(char *type);
 #endif

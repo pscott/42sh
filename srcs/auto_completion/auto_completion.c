@@ -80,6 +80,7 @@ char				*auto_completion(char *input, unsigned int len,
 
 	ret = NULL;
 	tmp = NULL;
+	ft_dprintf(2, "dsaodiso");
 	if (!input)
 		return (NULL);
 	start_actual_word = get_needed_values(input, len, &str, &to_find_full);

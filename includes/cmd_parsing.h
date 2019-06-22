@@ -2,6 +2,7 @@
 # define CMD_PARSING_H
 
 # include "lexer.h"
+# include <pwd.h>
 # define IFS " \t\n"
 
 int					parse_cmdline(t_token *token, t_vars *vars);
@@ -15,11 +16,21 @@ int					parse_tildes(t_token *token_head, const char **env);
 int					parse_vars(char **str, t_vars *vars);
 int					parse_arith_exp(char **str, t_vars *vars);
 int					parse_quotes(t_token *token_head);
+int					parse_bangs(t_token *token_head, int mode);
 int					parse_expands(t_token *token_head, t_vars *vars);
 int					parse_dollars_str(char **str, t_vars *vars);
 int					parse_assignation(t_token *token, t_vars *vars);
 void				apply_assignation(char **assign_tab, t_vars *vars);
 void				apply_assignation_to_ntab(char **assign_tab, char ***ntab);
+
+/*
+** Parse bangs utils
+*/
+
+void				refresh_i(int nb, int *i);
+int					is_quoted_sqt(char *s, int i);
+int					is_quoted_bang(char *s, int i);
+int					go_to_matching_sqt(char **str, int *i);
 
 /*
 ** substitute_utils
@@ -34,6 +45,7 @@ int					substitute_slice(char **old_str, size_t index[2],
 int					is_valid_varname(char *str);
 char				*get_var_name(char *str);
 int					replace_tilde(char **str, const char **env);
+int					replace_bang(char **str, int mode);
 int					is_valid_tilde(const char *str, t_token *prev_token);
 int					is_slashed(const char *str);
 int					set_escaped(int escpaed, char c);

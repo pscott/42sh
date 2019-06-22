@@ -232,7 +232,7 @@ adh: rmh
 	make -C $(LIBTERM_DIR) adh
 
 $(NAME): $(OBJS) libft/libft.a libterm/libterm.a
-	$(CC) $(CFLAGS) $(INCL_CMD) $^ -o $@ $(LIB_INCL)
+	@$(CC) $(CFLAGS) $(INCL_CMD) $^ -o $@ $(LIB_INCL)
 
 -include $(DEPENDENCIES)
 $(OBJ_DIR)/%.o: %.c Makefile | $(OBJ_DIR)

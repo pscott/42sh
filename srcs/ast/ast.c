@@ -136,9 +136,9 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 
 	if (!root)
 		return (0);
+	j = append_job(&g_first_job, create_job(root, 0, get_last_num(g_first_job) + 1));
 	if (root->left && root->left->token->type >= tk_and)
 	{
-		j = append_job(&g_first_job, create_job(root, 0, get_last_num(g_first_job) + 1));
 		j->forked = 1;
 		if ((pid = fork()) < 0)
 		{
@@ -172,6 +172,8 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 		}
 		ft_dprintf(STDERR_FILENO, "[%d] %d\n", j->num, j->pgid);
 	}
+	else
+		return (exec_ast(root->left, vars, 0));
 	return (0);
 }
 

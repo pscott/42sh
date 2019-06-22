@@ -4,6 +4,21 @@
 #include "cmd_parsing.h"
 #include "jobs.h"
 
+static pid_t	get_last_pid(t_job *j)
+{
+	t_process	*p;
+	pid_t		res;
+	
+	if (!j)
+		return (-1);
+	p = j->first_process;
+	while (p)
+	{
+		res = p->pid;
+		p = p->next;
+	}
+	return (res);
+}
 /*
 **	Returns the next simple_command (the one after the next pipe), if there
 **	is one.
@@ -48,6 +63,8 @@ int				parse_cmdline(t_ast *root, t_vars *vars, int fg)
 	}
 	j->first_process = p;
 	ret = launch_job(j, fg);
+	if (!fg && !j->forked)
+		ft_dprintf(STDERR_FILENO, "[%d] %d\n", j->num, get_last_pid(j));
 	vars->cmd_value = ret;
 	return (ret);
 }

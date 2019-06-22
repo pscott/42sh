@@ -31,7 +31,7 @@ void	signals_setup(void)
 	signal(SIGTSTP, SIG_IGN);
 	signal(SIGINT, sigint_handler);
 	signal(SIGHUP, sig_handler);
-	signal(SIGQUIT, sigquit_handler);
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGILL, sig_handler);
 	signal(SIGTRAP, sig_handler);
 	signal(SIGABRT, sig_handler);

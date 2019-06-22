@@ -6,7 +6,7 @@
 /*   By: pscott <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/22 18:33:43 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/22 19:42:23 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/22 19:50:55 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 
 	if (!root)
 		return (0);
-	if (root->token->type >= tk_and)
+	if (root->left && root->left->token->type >= tk_and)
 	{
 		j = append_job(&g_first_job, create_job(root, 0, get_last_num(g_first_job) + 1));
 		j->forked = 1;

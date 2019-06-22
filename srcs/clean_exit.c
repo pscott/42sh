@@ -11,6 +11,7 @@ void	clean_exit(int exitno, int malloc_error)
 	t_st_cmd	*st_cmd;
 	t_vars		*vars;
 
+	ft_dprintf(2, "cleaning\n");
 	if (!malloc_error)
 	{
 		st_cmd = get_st_cmd(NULL);

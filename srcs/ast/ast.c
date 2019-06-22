@@ -125,7 +125,7 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 	if (!root)
 		return (0);
 	j = append_job(&g_first_job, create_job(root, 0, get_last_num(g_first_job) + 1));
-	tcsetattr(j->stdin, TCSADRAIN, &g_saved_attr);
+//	tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_saved_attr);
 	if ((pid = fork()) < 0)
 	{
 		write(2, "fork error\n", 11);
@@ -133,6 +133,7 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 	}
 	else if (pid == 0)
 	{
+		reset_signals();
 		pid = getpid();
 		j->pgid = pid;
 		if (fg)
@@ -142,10 +143,16 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 			ft_dprintf(2, "ret: %d\n", ret);
 			if (WIFSTOPPED(ret))
 			{
-				kill(getpid(), WSTOPSIG(ret));
+				ft_dprintf(2 , "killing\n");
+				ft_dprintf(2, ": %d :\n", kill(getpid(), WSTOPSIG(ret)));
 			}
 			else if (WIFSIGNALED(ret))
-				kill(getpid(), WTERMSIG(ret));
+			{
+				ft_dprintf(2, "resetting ");
+//				ft_dprintf(2, "%d\n", tcsetattr(STDIN_FILENO, TCSADRAIN, &g_saved_attr));
+				ft_dprintf(2, "signaled: %d\n", WTERMSIG(ret));
+				kill(getpid(), 11);
+			}
 			ft_dprintf(2, "not exited");
 			exit(exit_status(ret));
 		}
@@ -159,7 +166,7 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 		j->pgid = pid;
 		setpgid(pid, j->pgid);
 	}
-	tcsetattr(j->stdin, TCSADRAIN, &g_42sh_attr);
+	//tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_42sh_attr);
 	ft_dprintf(STDERR_FILENO, "[%d] %d\n", j->num, j->pgid);
 	return (0);
 }

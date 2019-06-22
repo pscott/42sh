@@ -29,6 +29,7 @@ typedef struct		s_job
   int				stdout;
   int				stderr;
   pid_t				pgid;                 /* process group ID */
+  char				forked;
   char				notified;              /* true if user told about stopped job */
   char				current;
   struct termios	tmodes;

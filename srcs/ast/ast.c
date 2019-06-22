@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pscott <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/22 18:33:43 by pscott            #+#    #+#             */
+/*   Updated: 2019/06/22 18:55:23 by pscott           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ftsh.h"
 #include "lexer.h"
 #include "cmd_parsing.h"
@@ -56,7 +68,7 @@ static int		add_last_node_to_ast(t_token **token_head, t_ast **ast_root)
 	if (!is_tklst_full_eat(*token_head))
 	{
 		if (!(insert_ast_node(create_ast_node(*token_head, NULL, NULL),
-					ast_root)))
+						ast_root)))
 			return (0);
 	}
 	else
@@ -85,12 +97,12 @@ static int		add_node_to_ast(t_token **token_head, t_ast **ast_root)
 		if (token_prev)
 			token_prev->next = NULL;
 		if (!(insert_ast_node(create_ast_node(*token_head, NULL, NULL),
-					ast_root)))
+						ast_root)))
 			return (0);
 		*token_head = token_probe->next;
 		token_probe->next = NULL;
 		if (!(insert_ast_node(create_ast_node(token_probe, NULL, NULL),
-					ast_root)))
+						ast_root)))
 			return (0);
 	}
 	return (1);
@@ -124,41 +136,43 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 
 	if (!root)
 		return (0);
-	j = append_job(&g_first_job, create_job(root, 0, get_last_num(g_first_job) + 1));
-//	tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_saved_attr);
-	if ((pid = fork()) < 0)
+	if (root->token->type >= tk_and)
 	{
-		write(2, "fork error\n", 11);
-		clean_exit(1, 0);
-	}
-	else if (pid == 0)
-	{
-		reset_signals();
-		pid = getpid();
-		j->pgid = pid;
-		if (fg)
+		j = append_job(&g_first_job, create_job(root, 0, get_last_num(g_first_job) + 1));
+		j->forked = 1;
+		if ((pid = fork()) < 0)
 		{
-			int ret;
-			ret = exec_ast(root->left, vars, 0);
-			ft_dprintf(2, "back in ast\n");
-			if (WIFSTOPPED(ret))
-				kill(pid, WSTOPSIG(ret));
-			else if (WIFSIGNALED(ret))
-				kill(pid, WTERMSIG(ret));
-			exit(WEXITSTATUS(ret));
+			write(2, "fork error\n", 11);
+			clean_exit(1, 0);
 		}
-		else
-			exit(exec_ast(root->right, vars, 0));
+		else if (pid == 0)
+		{
+			reset_signals();
+			pid = getpid();
+			j->pgid = pid;
+			if (fg)
+			{
+				int ret;
+				ret = exec_ast(root->left, vars, 0);
+				ft_dprintf(2, "back in ast\n");
+				if (WIFSTOPPED(ret))
+					kill(pid, WSTOPSIG(ret));
+				else if (WIFSIGNALED(ret))
+					kill(pid, WTERMSIG(ret));
+				exit(WEXITSTATUS(ret));
+			}
+			else
+				exit(exec_ast(root->right, vars, 0));
+		}
+		if (g_isatty)
+		{
+			j->first_process = create_process(root->token);// will change
+			j->first_process->pid = pid;
+			j->pgid = pid;
+			setpgid(pid, j->pgid);
+		}
+		ft_dprintf(STDERR_FILENO, "[%d] %d\n", j->num, j->pgid);
 	}
-	if (g_isatty)
-	{
-		j->first_process = create_process(root->token);// will change
-		j->first_process->pid = pid;
-		j->pgid = pid;
-		setpgid(pid, j->pgid);
-	}
-	//tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_42sh_attr);
-	ft_dprintf(STDERR_FILENO, "[%d] %d\n", j->num, j->pgid);
 	return (0);
 }
 

@@ -60,8 +60,8 @@ int		launch_job(t_job *j, int foreground)
 	else
 	{
 		put_job_in_background(j, 0);
-		//ret = special_wait(j, WUNTRACED | WCONTINUED);
-		//ft_dprintf(2, "after wait_for_job\n");
+		if (j->forked)
+			ret = wait_for_job(j, 0);
 	}
 	if (foreground)
 		tcsetattr(j->stdin, TCSADRAIN, &g_42sh_attr);

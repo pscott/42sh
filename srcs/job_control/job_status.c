@@ -17,24 +17,16 @@ int	mark_process_status(pid_t pid, int status)
 			{
 				if (p->pid == pid)
 				{
-					ft_dprintf(2, "pid: %d\n", pid);
 					p->status = status;
 					if (WIFCONTINUED(status))
-					{
-						ft_dprintf(2, "continued\n");
 						p->stopped = 0;
-					}
 					else if (WIFSTOPPED(status))
 					{
-						ft_dprintf(2, "stopped\n");
 						p->stopped = 1;
 						j->fg = 0;
 					}
 					else
-					{
-						ft_dprintf(2, "completed\n");
 						p->completed = 1;
-					}
 					return (0);
 				}
 				p = p->next;

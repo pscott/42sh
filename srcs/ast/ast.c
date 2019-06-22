@@ -6,7 +6,7 @@
 /*   By: pscott <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/22 18:33:43 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/22 19:32:59 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/22 19:42:23 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 			{
 				int ret;
 				ret = exec_ast(root->left, vars, 0);
-				ft_dprintf(2, "back in ast\n");
 				if (WIFSTOPPED(ret))
 					kill(pid, WSTOPSIG(ret));
 				else if (WIFSIGNALED(ret))
@@ -200,7 +199,7 @@ int				exec_ast(t_ast *root, t_vars *vars, int fg)
 
 	if (!root)
 		return (0);
-	if (vars->interrupted)
+	if (fg && vars->interrupted)
 		return (1);
 	if (root->token->type == tk_semi)
 	{

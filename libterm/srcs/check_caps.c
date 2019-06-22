@@ -40,7 +40,7 @@ int				check_caps(void)
 
 	if (!(caps = create_cap_array()))
 	{
-		ft_putstr_fd("error: failed to allocate memory\n", 2);
+		write(2, "error: failed to allocate memory\n", 33);
 		exit(1);
 	}
 	i = 0;

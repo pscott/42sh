@@ -71,9 +71,7 @@ int		substitute_slice(char **old_str, size_t index[2], const char *to_sub)
 	char	*new_str;
 
 	to_sub_len = ft_strlen(to_sub);
-	new_len = ft_strlen(*old_str)
-		+ to_sub_len
-		- (index[1] - index[0]);
+	new_len = ft_strlen(*old_str) + to_sub_len - (index[1] - index[0]);
 	if (!(new_str = ft_strnew(new_len + 1)))
 		clean_exit(1, 1);
 	ft_strncpy(new_str, *old_str, index[0]);

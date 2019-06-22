@@ -21,6 +21,12 @@ t_st_cmd		*append_st_cmd(t_st_cmd *st_cmd, const char *txt,
 	return (new);
 }
 
+static void		init_values(int *keep, int *cr)
+{
+	*keep = 1;
+	*cr = 0;
+}
+
 t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd)
 {
 	t_st_cmd	*st_cmd;
@@ -31,10 +37,9 @@ t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd)
 	st_cmd->st_txt = init_st_txt(NULL);
 	st_cmd->st_prompt = init_st_prompt(NULL);
 	st_cmd->window = old_st_cmd->window;
-	st_cmd->keep = 1;
+	init_values(&st_cmd->keep, &st_cmd->cr);
 	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
 		st_cmd->st_prompt->size);
-	st_cmd->cr = 0;
 	st_cmd->hist_lst = old_st_cmd->hist_lst;
 	st_cmd->hist_len = old_st_cmd->hist_len;
 	*st_cmd->hist_len = get_hist_len(st_cmd->hist_lst);
@@ -78,42 +83,4 @@ t_st_cmd		*init_st_cmd(const char **env)
 	st_cmd->next = NULL;
 	st_cmd->prev = NULL;
 	return (st_cmd);
-}
-
-/*
-**	Frees the st_cmd, WITHOUT freeing history.
-*/
-
-void			free_st_cmd(t_st_cmd *st_cmd)
-{
-	if (!st_cmd)
-		return ;
-	free_st_txt(&st_cmd->st_txt);
-	free_st_prompt(&st_cmd->st_prompt);
-	ft_memdel((void*)&st_cmd);
-}
-
-/*
-**	Goes back to the beginning of the st_cmd list and frees every node in there.
-**	Frees history.
-*/
-
-void			free_all_st_cmds(t_st_cmd **st_cmd)
-{
-	t_st_cmd	*probe;
-	t_st_cmd	*tmp;
-
-	if (!st_cmd || !(*st_cmd))
-		return ;
-	probe = get_first_st_cmd(*st_cmd);
-	free_hist_lst(probe->hist_lst);
-	if ((*st_cmd)->hist_len)
-		free((*st_cmd)->hist_len);
-	free((*st_cmd)->window);
-	while (probe)
-	{
-		tmp = probe;
-		probe = probe->next;
-		free_st_cmd(tmp);
-	}
 }

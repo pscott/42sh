@@ -1,24 +1,7 @@
 #include "cmd_parsing.h"
 #include "env.h"
 
-static void			substitute_env_var(char **str, size_t *i
-	, const char *var_name, t_vars *vars)
-{
-	const char	*var_value;
-	size_t		index[2];
-	char		empty_char;
-
-	empty_char = 0;
-	if (!(var_value = get_envline_value((char *)var_name, vars->env_vars)))
-		var_value = &empty_char;
-	index[0] = *i;
-	index[1] = *i + ft_strlen(var_name) + 0;
-	substitute_slice(str, index, var_value);
-	*i += ft_strlen(var_value) - 1;
-	ft_strdel((char**)&var_name);
-}
-
-static void			substitute_param(char **str, size_t *i,
+static void			substitute_env_var(char **str, size_t *i,
 	const char *var_name, t_vars *vars)
 {
 	const char	*var_value;
@@ -26,21 +9,51 @@ static void			substitute_param(char **str, size_t *i,
 	char		empty_char;
 
 	empty_char = 0;
-	if (!(var_value = get_envline_value((char *)var_name, vars->env_vars)))
-		var_value = &empty_char;
+	var_value = get_varline_value((char*)var_name, vars->shell_vars);
 	index[0] = *i;
-	index[1] = *i + ft_strlen(var_name) + 2;
+	index[1] = *i + ft_strlen(var_name) + 0;
+	substitute_slice(str, index, var_value);
+	*i += ft_strlen(var_value) - 1;
+	ft_strdel((char**)&var_name);
+	ft_strdel((char**)&var_value);
+}
+
+static void			substitute_param(char **str, size_t *i,
+	const char *varname, t_vars *vars)
+{
+	const char	*var_value;
+	size_t		index[2];
+	char		empty_char;
+	int			is_allocated;
+
+	is_allocated = 0;
+	if (!ft_strncmp(varname, "?", 2))
+	{
+		if (!(var_value = ft_itoa(vars->cmd_value)))
+			clean_exit(1, 1);
+		is_allocated = 1;
+	}
+	else
+	{
+		empty_char = 0;
+		if (!(var_value = get_envline_value((char*)varname, vars->shell_vars)))
+			var_value = &empty_char;
+	}
+	index[0] = *i;
+	index[1] = *i + ft_strlen(varname) + 2;
 	*i += ft_strlen(var_value) - 1;
 	substitute_slice(str, index, var_value);
-	ft_strdel((char**)&var_name);
+	if (is_allocated)
+		ft_strdel((char**)&var_value);
+	ft_strdel((char**)&varname);
 }
 
 static const char	*bad_substitution(const char *str, t_vars *vars)
 {
 	if (vars->verbose)
 	{
-		ft_dprintf(STDERR_FILENO, "%s: %s: bad substitution\n"
-			, SHELL_NAME, str);
+		ft_dprintf(STDERR_FILENO, "%s: %s: bad substitution\n",
+			SHELL_NAME, str);
 	}
 	return (NULL);
 }
@@ -51,6 +64,12 @@ static const char	*get_param_sub_name(const char *str, t_vars *vars)
 	const char	*var_name;
 
 	i = 1;
+	if (!ft_strncmp(str, "${?}", 4))
+	{
+		if (!(var_name = ft_strdup("?")))
+			clean_exit(1, 1);
+		return (var_name);
+	}
 	while (str[++i] && str[i] != '}')
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
@@ -70,8 +89,8 @@ static const char	*get_param_sub_name(const char *str, t_vars *vars)
 /*
 ** parse_vars
 ** look through **str, to find '${' or '$'
-** return 0 on bad substitution with ${}
-** return 1 otherwise
+** return 1 on bad substitution with ${}
+** return 0 otherwise
 */
 
 int					parse_vars(char **str, t_vars *vars)

@@ -2,7 +2,7 @@
 #include "env.h"
 #include "hashmap.h"
 
-void	free_vars(t_vars *vars)
+void		free_vars(t_vars *vars)
 {
 	if (!vars)
 		return ;
@@ -12,7 +12,7 @@ void	free_vars(t_vars *vars)
 	delete_hashmap(vars->hashmap);
 }
 
-t_vars	*get_vars(t_vars *new_vars)
+t_vars		*get_vars(t_vars *new_vars)
 {
 	static t_vars *vars = NULL;
 
@@ -21,11 +21,21 @@ t_vars	*get_vars(t_vars *new_vars)
 	return (vars);
 }
 
-void	reset_copy_vars(t_vars *vars)
+void		reset_copy_vars(t_vars *vars)
 {
 	vars->select_mode = 0;
 	vars->select_start = 0;
 	vars->select_end = 0;
+}
+
+static int	init_env_shellvars(t_vars *vars, char **env)
+{
+	if (!(vars->env_vars = init_env((const char **)env)))
+		return (1);
+	if (!(vars->shell_vars = ft_dup_ntab((const char **)vars->env_vars)))
+		return (1);
+	set_default_shell_vars(vars);
+	return (0);
 }
 
 /*
@@ -33,7 +43,7 @@ void	reset_copy_vars(t_vars *vars)
 **	the last exit status.
 */
 
-int		init_vars(t_vars *vars, int argc, char **argv, char **env)
+int			init_vars(t_vars *vars, int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
@@ -43,8 +53,9 @@ int		init_vars(t_vars *vars, int argc, char **argv, char **env)
 	vars->verbose = 1;
 	vars->copy = NULL;
 	reset_copy_vars(vars);
+	vars->assign_tab = NULL;
 	get_vars(vars);
-	if (!(vars->env_vars = init_env((const char **)env)))
+	if (init_env_shellvars(vars, env) == 1)
 		return (1);
 	return (0);
 }

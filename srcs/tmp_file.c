@@ -46,7 +46,7 @@ char		*find_unique_filename(char *type)
 			else if (ft_strequ(type, FC_EDIT_FILENAME))
 				ft_dprintf(2,
 					"%s: can't create history edit temporary file(max UINT)\n",
-					SHELL_NAME);	
+					SHELL_NAME);
 			return (NULL);
 		}
 		file_key++;

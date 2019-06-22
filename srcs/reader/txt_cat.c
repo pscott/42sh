@@ -15,7 +15,7 @@ char	*concatenate_txt(t_st_cmd *st_cmd)
 	if (!(input = ft_strdup("")))
 		clean_exit(1, 1);
 	while (st_cmd)
-	{	
+	{
 		if (replace_bang(&(st_cmd->st_txt->txt), 1))
 		{
 			free(input);

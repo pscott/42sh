@@ -19,6 +19,9 @@ int					parse_quotes(t_token *token_head);
 int					parse_bangs(t_token *token_head, int mode);
 int					parse_expands(t_token *token_head, t_vars *vars);
 int					parse_dollars_str(char **str, t_vars *vars);
+int					parse_assignation(t_token *token, t_vars *vars);
+void				apply_assignation(char **assign_tab, t_vars *vars);
+void				apply_assignation_to_ntab(char **assign_tab, char ***ntab);
 
 /*
 ** Parse bangs utils
@@ -39,7 +42,7 @@ int					is_matched(const char *str, const char *begin_match,
 					const char *end_match);
 int					substitute_slice(char **old_str, size_t index[2],
 					const char *to_sub);
-
+int					is_valid_varname(char *str);
 char				*get_var_name(char *str);
 int					replace_tilde(char **str, const char **env);
 int					replace_bang(char **str, int mode);

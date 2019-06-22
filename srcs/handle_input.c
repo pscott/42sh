@@ -9,8 +9,6 @@ static int		continue_reading(t_token *token_head, t_st_cmd **st_cmd,
 {
 	free_token_list(token_head);
 	adjust_history(*st_cmd, 0);
-
-
 	*st_cmd = append_st_cmd(*st_cmd, "", CONTINUE_PROMPT);
 	if (input_loop(*st_cmd, vars, continue_read) < 1
 		|| !*(*st_cmd)->st_txt->txt)
@@ -39,6 +37,20 @@ static int		handle_continue_reading(t_token *token_head, t_st_cmd **st_cmd,
 	return (ret);
 }
 
+static int		handle_execution(t_st_cmd *st_cmd, t_token *token_head,
+	t_vars *vars)
+{
+	int			ret;
+	t_ast		*ast_root;
+
+	ast_root = create_ast(token_head);
+	ret = exec_ast(ast_root, vars);
+	if (st_cmd->keep)
+		adjust_history(st_cmd, 1);
+	free_ast(ast_root);
+	return (ret);
+}
+
 /*
 ** handle_input
 ** 1. get token_list from input
@@ -50,7 +62,6 @@ static int		handle_continue_reading(t_token *token_head, t_st_cmd **st_cmd,
 
 int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 {
-	t_ast			*ast_root;
 	t_token			*token_head;
 	int				lexer_ret;
 	int				ret;
@@ -73,10 +84,6 @@ int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		adjust_history(st_cmd, 1);
 		return (lex_fail);
 	}
-	ast_root = create_ast(token_head);
-	ret = exec_ast(ast_root, vars);
-	if (st_cmd->keep)
-		adjust_history(st_cmd, 1);
-	free_ast(ast_root);
+	ret = handle_execution(st_cmd, token_head, vars);
 	return (ret == -2 ? 1 : ret);
 }

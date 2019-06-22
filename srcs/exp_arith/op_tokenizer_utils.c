@@ -48,8 +48,8 @@ int			is_var(char *str)
 
 int			check_next_tok(t_tok *dirty, int i)
 {
-	while (dirty[i].token != 0 && (dirty[i].token == TK_ADD
-				|| dirty[i].token == TK_SUB))
+	while (dirty[i].token != 0 && (dirty[i].token == tk_add
+				|| dirty[i].token == tk_sub))
 		i++;
 	return (dirty[i].token);
 }

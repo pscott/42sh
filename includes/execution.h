@@ -8,7 +8,7 @@ int			get_argv_from_token_lst(t_token *token, char ***argv);
 int			parse_and_exec(t_token *token_head, int in, int out, t_vars *vars);
 int			check_no_pipe_builtin(t_token *begin, t_vars *vars);
 int			check_access(const char *file);
-char		*find_path(char *file, char **paths);
+char		*find_path(const char *file, char **paths);
 int			exit_status(int status);
 int			exec_bin(char **argv);
 

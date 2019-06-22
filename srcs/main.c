@@ -55,9 +55,8 @@ int			main(int argc, char **argv, char **env)
 		return (EXIT_FAILURE);
 	if (init_vars(&vars, argc, argv, env) == 1)
 		return (EXIT_FAILURE);
-	print_introduction();
 	signals_setup();
-	st_cmd = init_st_cmd((const char **)vars.env_vars);
+	st_cmd = init_st_cmd((const char **)vars.shell_vars);
 	get_st_cmd(&st_cmd);
 	while (42)
 	{

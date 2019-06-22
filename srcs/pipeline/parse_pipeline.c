@@ -98,7 +98,7 @@ static void		create_forks(t_token **begin, int ints[2], int fd[2],
 **	ints[1] was a variable called num_simple_commands.
 */
 
-static	int		fork_pipes(int num_simple_commands, t_token *beg, t_vars *vars)
+static int		fork_pipes(int num_simple_commands, t_token *beg, t_vars *vars)
 {
 	int		i;
 	int		ints[2];
@@ -149,7 +149,11 @@ int				parse_cmdline(t_token *token, t_vars *vars)
 	}
 	if ((num_simple_commands == 1)
 		&& ((ret = check_no_pipe_builtin(token, vars)) >= 0 || ret == -2))
+	{
+		vars->cmd_value = ret;
 		return (ret);
+	}
 	ret = fork_pipes(num_simple_commands, token, vars);
+	vars->cmd_value = ret;
 	return (ret);
 }

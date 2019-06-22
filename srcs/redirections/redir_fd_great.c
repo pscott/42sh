@@ -49,6 +49,12 @@ static void		great_redirect(int old_fd, int new_fd, int save, int left)
 	}
 }
 
+static void		double_redir(int *left, int *old_fd)
+{
+	*left = 1;
+	*old_fd = STDOUT_FILENO;
+}
+
 /*
 **	Returns 0 on success
 **	Else returns error number
@@ -64,10 +70,7 @@ int				redir_fd_great(t_token *redir, t_token *prev, int mode)
 
 	left = 0;
 	if ((old_fd = check_fd_prev(prev)) < 0)
-	{
-		left = 1;
-		old_fd = STDOUT_FILENO;
-	}
+		double_redir(&left, &old_fd);
 	if (old_fd > 9)
 		return (errors_fd_great(NULL, 2, old_fd, mode));
 	next = redir->next;

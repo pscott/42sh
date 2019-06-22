@@ -5,7 +5,7 @@ static	long long	case_nb1(t_op *lst, long long *nb1, int *err, char ***vars)
 {
 	if (lst->left)
 		get_var_value(lst->left, nb1, vars);
-	if (lst->left && lst->left->token == TK_NB
+	if (lst->left && lst->left->token == tk_nb
 			&& (lst->left->left || lst->left->right))
 	{
 		*err = 3;
@@ -18,7 +18,7 @@ static	long long	case_nb2(t_op *lst, long long *nb2, int *err, char ***vars)
 {
 	if (lst->right)
 		get_var_value(lst->right, nb2, vars);
-	if (lst->right && lst->right->token == TK_NB
+	if (lst->right && lst->right->token == tk_nb
 			&& (lst->right->left || lst->right->right))
 	{
 		*err = 3;
@@ -34,23 +34,23 @@ long long			exec(t_op *lst, int *err, char ***vars)
 
 	initialize_long_long(&nb1, &nb2);
 	if (!lst->left && !lst->right)
-		return (lonely_number(lst, vars));
+		return (lonely_number(lst, err, vars));
 	else if (check_err_numbers(lst))
 		return (double_numbers(lst, err, vars));
-	if (lst->token == TK_OPERAND || lst->token == TK_OPEROR)
+	if (lst->token == tk_operand || lst->token == tk_operor)
 		return (oper_and_or(lst, err, vars));
-	if (lst->left && lst->left->token != TK_NB
+	if (lst->left && lst->left->token != tk_nb
 			&& not_tok_nb(lst->left, err, &nb1, vars))
 		return (0);
-	else if (lst->left && lst->left->token == TK_NB)
+	else if (lst->left && lst->left->token == tk_nb)
 		if (case_nb1(lst, &nb1, err, vars))
 			return (0);
-	if (lst->token > TK_MINVAR && (!lst->right || !lst->left))
+	if (lst->token > tk_minvar && (!lst->right || !lst->left))
 		return (return_set_err(err, 5));
-	if (lst->right && lst->right->token != TK_NB
+	if (lst->right && lst->right->token != tk_nb
 			&& not_tok_nb(lst->right, err, &nb2, vars))
 		return (0);
-	else if (lst->right && lst->right->token == TK_NB)
+	else if (lst->right && lst->right->token == tk_nb)
 		if (case_nb2(lst, &nb2, err, vars))
 			return (0);
 	return (calcul(nb1, nb2, lst->token, err));
@@ -60,7 +60,7 @@ long long			oper_and_or(t_op *lst, int *err, char ***vars)
 {
 	if (!lst->left || !lst->right)
 		return (return_set_err(err, 5));
-	if (lst->token == TK_OPERAND)
+	if (lst->token == tk_operand)
 	{
 		if (exec(lst->left, err, vars))
 		{

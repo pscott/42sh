@@ -22,7 +22,7 @@ void			syntax_error_near(t_token *token)
 	int			fd;
 
 	fd = STDERR_FILENO;
-	if (is_newline_token(token))
+	if (token->content && is_newline_token(token))
 		str = ft_strdup("newline");
 	else
 		str = ft_strdup(token->content);

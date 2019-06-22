@@ -74,10 +74,14 @@ char		*fc_s_yes_old_no_new(t_st_fc *st_fc, char *hist_curr,
 		if (ft_strnequ(&(hist_curr[i]), st_fc->old_pattern, old_pattern_len))
 			pattern_occurence++;
 	new_cmd_len = old_cmd_len - pattern_occurence * old_pattern_len;
+	if (new_cmd_len == 1)
+		new_cmd_len = old_cmd_len;
 	if (!(new_cmd = ft_strnew(new_cmd_len + 1)))
 		clean_exit(1, 1);
 	fill_new_cmd_yes_old_no_new(&new_cmd, hist_curr,
 		st_fc->old_pattern, new_cmd_len);
+	if (new_cmd && !new_cmd[0])
+		new_cmd = ft_strcpy(new_cmd, hist_curr);
 	return (new_cmd);
 }
 

@@ -69,7 +69,6 @@ int					exec_bin(char **argv)
 	vars = get_vars(NULL);
 	if (!vars)
 		return (1);
-	ret = 0;
 	i = 0;
 	if (!(cmd_path = get_cmd_path(argv[i], vars->env_vars, 1)))
 		return (1);

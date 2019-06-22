@@ -26,7 +26,7 @@ static int			print_exec_and_free(t_st_cmd *st_cmd, t_vars *new_vars)
 	return (0);
 }
 
-static int			get_nbr_cr(int fd, int *i)
+static int			get_nbr_cr(int fd, int *i, int *r)
 {
 	char			*tmp;
 	int				ret;
@@ -40,6 +40,7 @@ static int			get_nbr_cr(int fd, int *i)
 	}
 	lseek(fd, 0, SEEK_SET);
 	*i = 0;
+	*r = -1;
 	return (ret);
 }
 
@@ -54,7 +55,7 @@ static int			fc_execute_edit(t_st_cmd *st_cmd,
 
 	if ((fd = open(file, O_RDONLY)) == -1)
 		return (1);
-	cr = get_nbr_cr(fd, &i);
+	cr = get_nbr_cr(fd, &i, &ret);
 	if (!(tmp = (char**)malloc(sizeof(char*) * (cr + 1))))
 		clean_exit(1, 1);
 	tmp[cr] = NULL;
@@ -84,8 +85,11 @@ int					fc_execute_cmd(t_st_cmd *st_cmd, char *file, int type)
 	if (st_cmd && st_cmd->st_txt && st_cmd->st_txt->txt)
 		ft_strdel(&(st_cmd->st_txt->txt));
 	count++;
-	if (count > 3000 && (count = 0))
-		return (1);
+	if (count > 50)
+	{
+		write(2, "Stop messing with the history file!\n", 36);	
+		return (!(count = 0));
+	}
 	if (type == edit)
 		ret = fc_execute_edit(st_cmd, new_vars, file);
 	else if (type == substitute)

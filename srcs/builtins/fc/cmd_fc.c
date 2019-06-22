@@ -8,7 +8,6 @@ int					case_fc_display(t_st_cmd *st_cmd, t_st_fc *st_fc)
 	int				i_curr;
 	t_hist_lst		*hist_curr;
 
-	i_curr = st_fc->i_first;
 	if (ft_strchr(st_fc->flag, 'r'))
 		return (fc_display_reverse(st_cmd, st_fc));
 	i_curr = st_fc->i_first;

@@ -17,16 +17,25 @@ int					fc_edit_open_file(t_st_cmd *st_cmd, t_st_fc *st_fc,
 		ft_strdel(tmp_file);
 		return (print_errors(-1, ERR_OPEN_FC_STR, NULL));
 	}
-	diff = *st_cmd->hist_len - st_fc->i_first + 1;
+
+
+	if (!ft_strchr(st_fc->flag, 'r'))
+		diff = *st_cmd->hist_len - st_fc->i_first + 1;
+	else
+		diff = *st_cmd->hist_len - st_fc->i_last + 1;
+
 	hist_curr = get_end_lst(st_cmd->hist_lst);
 	while (diff--)
 		hist_curr = hist_curr->prev;
+	ft_dprintf(2, "oioio %s\n", hist_curr->txt);
 	diff = st_fc->i_last - st_fc->i_first + 1;
 	while (diff--)
 	{
 		ft_dprintf(tmp_file_fd, "%s", hist_curr->txt);
-		if (hist_curr->next)
+		if (!ft_strchr(st_fc->flag, 'r') && hist_curr->next)
 			hist_curr = hist_curr->next;
+		else if (hist_curr->prev)
+			hist_curr = hist_curr->prev;
 	}
 	if (close(tmp_file_fd) == -1)
 		return (-1);
@@ -45,15 +54,9 @@ int					fc_edit_open_editor(t_st_cmd *st_cmd, t_st_fc *st_fc,
 		return (1);
 	if ((!st_fc->editor && !(argv[0] = ft_strdup("vim")))
 		|| (st_fc->editor && (!(argv[0] = ft_strdup(st_fc->editor)))))
-	{
-		free(argv);
-		return (1);
-	}
+		clean_exit(1, 1);
 	if (!(argv[1] = ft_strdup(*tmp_file)))
-	{
-		ft_strdel(tmp_file);
-		return (1);
-	}
+		clean_exit(1, 1);
 	argv[2] = NULL;
 	ret = exec_bin(argv);
 	ft_free_ntab(argv);

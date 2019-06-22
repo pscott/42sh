@@ -5,14 +5,22 @@
 int				get_correct_nb(char *to_find, int hist_len)
 {
 	int			nb;
+	int			i;
+	char		*corr;
 
-	nb = ft_atoi(to_find);
+	i = -1;
+	while (to_find[++i] == 0)
+		;
+	if (!(corr = ft_strndup(to_find + i, 5)))
+		clean_exit(1, 1);
+	nb = ft_atoi(corr);
 	if (nb < 0 && hist_len + nb >= 0)
 		nb += hist_len + 1;
 	else if (hist_len + nb < 0)
 		nb = 1;
 	else if (nb == 0 || nb > hist_len)
 		nb = hist_len;
+	free(corr);
 	return (nb);
 }
 

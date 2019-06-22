@@ -7,10 +7,8 @@ int			fc_display_reverse(t_st_cmd *st_cmd, t_st_fc *st_fc)
 {
 	int				i_curr;
 	t_hist_lst		*hist_curr;
-	int				diff;
 
 	i_curr = st_fc->i_last;
-	diff = *st_cmd->hist_len - st_fc->i_last;
 	hist_curr = get_entry_lst(st_cmd->hist_lst, i_curr);
 	while (i_curr > 0 && i_curr >= st_fc->i_first)
 	{

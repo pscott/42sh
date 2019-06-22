@@ -68,12 +68,10 @@ static int		get_editor_fc(char *to_find)
 
 int				parse_editor_fc(char **argv, int i)
 {
-	int			j;
 	int			ret;
 	int			final;
 	char		*to_find;
 
-	j = 0;
 	if (argv[i] && ft_strnequ(argv[i], "-e", 2) && argv[i][2])
 	{
 		final = i;

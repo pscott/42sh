@@ -49,10 +49,12 @@ int				error_fc_index(char *flag)
 	{
 		ft_dprintf(2, "no command found\n");
 	}
-	else if (!flag || (flag && (ft_strchr(flag, 'l') || ft_strchr(flag, 'e'))))
+	else if (!flag || flag[0] == '.'
+		|| (flag && (ft_strchr(flag, 'l') || ft_strchr(flag, 'e'))))
 	{
 		ft_dprintf(2, "history specification out of range\n");
-		st_cmd->keep = 1;
+		if (!ft_strchr(flag, 'e') && flag[0] != '.')
+			st_cmd->keep = 1;
 	}
 	return (-1);
 }

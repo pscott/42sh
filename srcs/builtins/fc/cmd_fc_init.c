@@ -76,14 +76,16 @@ int				find_index_fc(t_st_cmd *st_cmd, char *flag, char *to_find)
 {
 	int			i;
 
+	i = -1;
 	if (st_cmd->hist_lst)
 	{
+		st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 		if (check_if_arg_is_digit(to_find))
 			return (get_correct_nb(to_find, *st_cmd->hist_len));
 		else
 		{
 			i = (*st_cmd->hist_len) + 1;
-			while (st_cmd->hist_lst && --i > 0)
+			while (st_cmd->hist_lst && --i >= 0)
 			{
 				if (st_cmd->hist_lst->prev)
 					st_cmd->hist_lst = st_cmd->hist_lst->prev;
@@ -109,6 +111,7 @@ static int		fc_parse_index(t_st_cmd *st_cmd, t_st_fc *st_fc)
 {
 	int			ret;
 
+	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 	if (st_fc->flag[0] == 's')
 	{
 		if (!st_fc->first)
@@ -161,8 +164,13 @@ int				init_st_fc(t_st_cmd *st_cmd, t_st_fc *st_fc, char **argv)
 		error_fc_index(st_fc->flag);
 		return (1);
 	}
+
 	if ((fc_parse_index(st_cmd, st_fc)) == -1)
 		return (1);
+/*
+	ft_dprintf(2, "i_first %d i_last %d hist_len %d", st_fc->i_first, st_fc->i_last, *st_cmd->hist_len);
+	ft_dprintf(2, "i_first %d i_last %d hist_len %d", st_fc->i_first, st_fc->i_last, *st_cmd->hist_len);
+*/	
 	if (st_fc->i_first && st_fc->i_last && !ft_strchr(st_fc->flag, 's')
 			&& st_fc->i_first > st_fc->i_last)
 		swap_fc(st_fc);

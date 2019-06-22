@@ -106,15 +106,16 @@ void				insert_clean_token(t_tok *d, t_tok **c, t_integ *v);
 int					c_number(t_tok *d, t_tok **c, t_integ *v);
 void				c_operator(t_tok *d, t_tok **c, t_integ *v);
 
-int					exec_op_list(t_op *lst, char ***vars, long long *result);
-int					get_var_value(t_op *lst, long long *nb, char ***vars);
+int					exec_op_list(t_op *lst, t_vars *vars, long long *result);
+int					get_var_value(t_op *lst, long long *nb, t_vars *vars);
 long long			calcul(long long nb1, long long nb2, int token, int *error);
-long long			oper_and_or(t_op *lst, int *err, char ***vars);
+long long			oper_and_or(t_op *lst, int *err, t_vars *vars);
 long long			return_set_err(int *err, int error);
-long long			double_numbers(t_op *lst, int *err, char ***vars);
-long long			not_tok_nb(t_op *lst, int *err, long long *nb, char ***var);
-long long			exec(t_op *lst, int *err, char ***vars);
-long long			lonely_number(t_op *lst, int *err, char ***vars);
+long long			double_numbers(t_op *lst, int *err, t_vars *vars);
+long long			not_tok_nb(t_op *lst, int *err, long long *nb,
+					t_vars *vars);
+long long			exec(t_op *lst, int *err, t_vars *vars);
+long long			lonely_number(t_op *lst, int *err, t_vars *vars);
 long long			check_err_numbers(t_op *lst);
 
 char				*get_value_index(int i, char **env);

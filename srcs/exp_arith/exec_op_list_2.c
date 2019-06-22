@@ -48,18 +48,22 @@ long long			calcul(long long nb1, long long nb2, int token, int *err)
 	return (0);
 }
 
-static	int			change_vars_value(char ***vars, t_op *lst, long long var)
+static	int			change_vars_value(t_vars *vars, t_op *lst, long long var)
 {
 	char	*ptr;
 
 	if (!(ptr = ft_lltoa(var)))
 		clean_exit(1, 1);
-	set_env_var(lst->varname, ptr, vars);
+	set_env_var(lst->varname, ptr, &vars->shell_vars);
+	if (get_envline_index(lst->varname, vars->env_vars) != -1)
+		set_env_var(lst->varname, ptr, &vars->env_vars);
+	if (get_envline_index(lst->varname, vars->env_exported) != -1)
+		set_env_var(lst->varname, ptr, &vars->env_exported);
 	free(ptr);
 	return (0);
 }
 
-int					get_var_value(t_op *lst, long long *nb, char ***vars)
+int					get_var_value(t_op *lst, long long *nb, t_vars *vars)
 {
 	long long	var;
 	char		*ptr;
@@ -70,7 +74,7 @@ int					get_var_value(t_op *lst, long long *nb, char ***vars)
 	{
 		if (lst->varid != -1)
 		{
-			if ((ptr = get_value_index(lst->varid, *vars)))
+			if ((ptr = get_value_index(lst->varid, vars->shell_vars)))
 				*nb = (ft_atoll(ptr) + lst->beg) * lst->value;
 			var = ft_atoll(ptr) + lst->beg + lst->end;
 		}
@@ -79,14 +83,15 @@ int					get_var_value(t_op *lst, long long *nb, char ***vars)
 			*nb = lst->beg * lst->value;
 			var = *nb + lst->end;
 		}
-		if (lst->varid > -1 || (lst->varid == -1 && var != 0))
+		if ((lst->varid > -1 || (lst->varid == -1 && var != 0))
+				&& lst->end != 0)
 			if (change_vars_value(vars, lst, var))
 				return (1);
 	}
 	return (0);
 }
 
-long long			double_numbers(t_op *lst, int *err, char ***vars)
+long long			double_numbers(t_op *lst, int *err, t_vars *vars)
 {
 	long long nb;
 

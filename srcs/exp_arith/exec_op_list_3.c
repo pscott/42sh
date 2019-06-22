@@ -10,7 +10,7 @@ long long		check_err_numbers(t_op *lst)
 	return (0);
 }
 
-long long		not_tok_nb(t_op *lst, int *err, long long *nb, char ***vars)
+long long		not_tok_nb(t_op *lst, int *err, long long *nb, t_vars *vars)
 {
 	*nb = exec(lst, err, vars);
 	if (*err != 0)
@@ -18,7 +18,7 @@ long long		not_tok_nb(t_op *lst, int *err, long long *nb, char ***vars)
 	return (0);
 }
 
-long long		lonely_number(t_op *lst, int *err, char ***vars)
+long long		lonely_number(t_op *lst, int *err, t_vars *vars)
 {
 	long long nb;
 

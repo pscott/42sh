@@ -1,7 +1,7 @@
 #include "ftsh.h"
 #include "exp_arith.h"
 
-static	long long	case_nb1(t_op *lst, long long *nb1, int *err, char ***vars)
+static	long long	case_nb1(t_op *lst, long long *nb1, int *err, t_vars *vars)
 {
 	if (lst->left)
 		get_var_value(lst->left, nb1, vars);
@@ -14,7 +14,7 @@ static	long long	case_nb1(t_op *lst, long long *nb1, int *err, char ***vars)
 	return (0);
 }
 
-static	long long	case_nb2(t_op *lst, long long *nb2, int *err, char ***vars)
+static	long long	case_nb2(t_op *lst, long long *nb2, int *err, t_vars *vars)
 {
 	if (lst->right)
 		get_var_value(lst->right, nb2, vars);
@@ -27,7 +27,7 @@ static	long long	case_nb2(t_op *lst, long long *nb2, int *err, char ***vars)
 	return (0);
 }
 
-long long			exec(t_op *lst, int *err, char ***vars)
+long long			exec(t_op *lst, int *err, t_vars *vars)
 {
 	long long nb1;
 	long long nb2;
@@ -56,7 +56,7 @@ long long			exec(t_op *lst, int *err, char ***vars)
 	return (calcul(nb1, nb2, lst->token, err));
 }
 
-long long			oper_and_or(t_op *lst, int *err, char ***vars)
+long long			oper_and_or(t_op *lst, int *err, t_vars *vars)
 {
 	if (!lst->left || !lst->right)
 		return (return_set_err(err, 5));
@@ -82,7 +82,7 @@ long long			oper_and_or(t_op *lst, int *err, char ***vars)
 **	Ast execution : recursively handles vars and ops, increments the vars
 */
 
-int					exec_op_list(t_op *lst, char ***vars, long long *result)
+int					exec_op_list(t_op *lst, t_vars *vars, long long *result)
 {
 	int			error;
 

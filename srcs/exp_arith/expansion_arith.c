@@ -1,5 +1,6 @@
 #include "ftsh.h"
 #include "exp_arith.h"
+#include "env.h"
 
 /*
 **	Arithmetic expansion errors
@@ -43,7 +44,7 @@ int				expansion_arith(char *str, long long *result, t_vars *vars)
 	if (op_tokenizer(str, &tokens, &vars->shell_vars))
 		return (err_msgs(2, vars->verbose));
 	lst = build_op_list(tokens);
-	ret = exec_op_list(lst, &vars->shell_vars, result);
+	ret = exec_op_list(lst, vars, result);
 	free_tokens(tokens, 0);
 	free_lst(lst, 0);
 	return (err_msgs(ret, vars->verbose));

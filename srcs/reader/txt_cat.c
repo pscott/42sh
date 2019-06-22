@@ -1,4 +1,5 @@
 #include "input.h"
+#include "cmd_parsing.h"
 
 /*
 **	Returns a string containing all string contents in the st_cmd list.
@@ -15,6 +16,11 @@ char	*concatenate_txt(t_st_cmd *st_cmd)
 		clean_exit(1, 1);
 	while (st_cmd)
 	{
+		if (replace_bang(&(st_cmd->st_txt->txt), 1))
+		{
+			free(input);
+			return (NULL);
+		}
 		if (!(input = ft_strjoin_free_left(input, st_cmd->st_txt->txt)))
 			clean_exit(1, 1);
 		st_cmd = st_cmd->next;

@@ -36,7 +36,7 @@ static int		exec_last_cmd(t_token *begin, int ints[2], int fd[2],
 	ret = 0;
 	if ((pid = fork()) == -1)
 	{
-		ft_dprintf(2, "fork error\n");
+		write(2, "fork error\n", 11);
 		clean_exit(ret, 0);
 	}
 	else if (pid == 0)

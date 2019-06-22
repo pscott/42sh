@@ -46,7 +46,7 @@ static t_hist_lst	*construct_history(int fd)
 		ft_strdel(&line);
 		hist_lst = insert_right(hist_lst, append_with_newline, 1);
 		ft_strdel(&append_with_newline);
-		if (++id > 1000)
+		if (++id > HIST_SIZE - 2)
 			break ;
 	}
 	ft_strdel(&tmp);

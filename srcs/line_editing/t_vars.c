@@ -22,7 +22,7 @@ t_vars		*get_vars(t_vars *new_vars)
 	return (vars);
 }
 
-void	reset_copy_vars(t_vars *vars)
+void		reset_copy_vars(t_vars *vars)
 {
 	vars->select_mode = 0;
 	vars->select_start = 0;

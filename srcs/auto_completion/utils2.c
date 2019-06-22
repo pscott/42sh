@@ -33,6 +33,7 @@ int				get_needed_values
 		start_actual_word--;
 	if (ft_is_unslashed_metachar(*to_find_full, start_actual_word, white_space))
 		start_actual_word++;
+	ft_dprintf(2, "{%d}", start_actual_word);
 	return (start_actual_word);
 }
 

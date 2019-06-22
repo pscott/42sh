@@ -30,7 +30,7 @@ static void			actual_writing_to_history(t_hist_lst *hist_lst,
 		if (hist_lst->txt[i] == '\n' && hist_lst->txt[i + 1] != 0)
 		{
 			id++;
-			ft_dprintf(fd, "%4d  ", id);
+			ft_dprintf(fd, "%5d  ", id);
 		}
 		i++;
 	}

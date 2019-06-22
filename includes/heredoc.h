@@ -4,9 +4,6 @@
 # include "ftsh.h"
 # include "lexer.h"
 
-# define HEREDOC_FILENAME "/tmp/.tmp_heredoc"
-# define MAX_INT_LEN 10
-# define UINT_MAX 4294967295
 # define ERR_PARSE_EOF 2
 
 char	*eof_join(char *eof, t_token *token);

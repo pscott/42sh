@@ -32,7 +32,7 @@ void		adjust_history(t_st_cmd *st_cmd, int keep)
 	t_hist_lst	*left;
 	char		*line;
 
-	if (isatty(TERM_FD) == 0)
+	if (!st_cmd->keep || isatty(TERM_FD) == 0 || !st_cmd->st_txt)
 		return ;
 	line = concatenate_txt(st_cmd);
 	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);

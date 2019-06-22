@@ -6,6 +6,8 @@ t_hist_lst		*insert_left(t_hist_lst *hist_lst, const char *line, char keep)
 	t_hist_lst	*probe;
 	t_hist_lst	*insert;
 
+	if (!line || !line[0])
+		return (hist_lst);
 	if (!(insert = create_hist_lst(line, keep)))
 		return (NULL);
 	if (!(probe = hist_lst))

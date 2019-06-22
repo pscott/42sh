@@ -85,6 +85,11 @@
 # define ERR_MAX_INPUT 26
 # define ERR_MAX_INPUT_STR SN ": maximum input size exceeded"
 
+# define ERR_NOT_FOUND 27
+# define ERR_NOT_FOUND_STR SN ": event not found"
+
+# define ERR_OPEN_FC_STR SN "fc: an open() error occured"
+
 void	error_exit(int errno, const char *str_err, const char *err_file);
 int		print_errors(int errno, const char *err_str, const char *err_file);
 void	syntax_error_near(t_token *token);

@@ -41,11 +41,6 @@ int		check_for_signal(const char *buf)
 		sigint_handler(SIGINT);
 		return (input_stop);
 	}
-/*	else if (ft_strequ(buf, CTRL_Z))
-	{
-		sigtstp_handler(SIGTSTP);
-		return (input_continue);
-	}*/
 	return (0);
 }
 

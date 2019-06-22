@@ -6,7 +6,7 @@
 /*   By: pscott <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/22 18:33:43 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/22 18:57:44 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/22 19:32:59 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,11 +214,15 @@ int				exec_ast(t_ast *root, t_vars *vars, int fg)
 	else if (root->token->type == tk_and)
 	{
 		ret = exec_ast(root->left, vars, fg);
+		if (WIFSIGNALED(ret))
+			vars->interrupted = WTERMSIG(ret) == SIGINT ? 1 : 0;
 		return (ret ? ret : exec_ast(root->right, vars, fg));
 	}
 	else if (root->token->type == tk_or)
 	{
 		ret = exec_ast(root->left, vars, fg);
+		if (WIFSIGNALED(ret))
+			vars->interrupted = WTERMSIG(ret) == SIGINT ? 1 : 0;
 		return (ret ? exec_ast(root->right, vars, fg) : ret);
 	}
 	else

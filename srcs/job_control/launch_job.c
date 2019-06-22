@@ -54,13 +54,13 @@ int		launch_job(t_job *j, int foreground)
 	}
 	ret = 0;
 	if (!g_isatty)
-		ret = wait_for_job(j);
+		ret = wait_for_job(j, 0);
 	else if (foreground)
 		ret = put_job_in_foreground(j, 0);
 	else
 	{
 		put_job_in_background(j, 0);
-		ret = wait_for_job(j);
+		ret = wait_for_job(j, WUNTRACED);
 		ft_dprintf(2, "after wait_for_job\n");
 	}
 	if (foreground)

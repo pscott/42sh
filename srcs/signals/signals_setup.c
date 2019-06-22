@@ -55,8 +55,6 @@ void		signals_setup(void)
 static void	yoyo(int yo)
 {
 	(void)yo;
-	ft_dprintf(2, "yoyo\n");
-	//kill(-getpid(), SIGCONT);
 }
 
 void	reset_signals(void)

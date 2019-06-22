@@ -22,9 +22,16 @@ int	mark_process_status(pid_t pid, int status)
 					/*if (WIFCONTINUED(status))
 						p->stopped = 0;*/
 					if (WIFSTOPPED(status))
+					{
+						ft_dprintf(2, "stopped\n");
 						p->stopped = 1;
+						j->fg = 0;
+					}
 					else
+					{
+						ft_dprintf(2, "completed\n");
 						p->completed = 1;
+					}
 					return (0);
 				}
 				p = p->next;

@@ -102,9 +102,10 @@ void		do_job_notification(int verbose)
 	while (j)
 	{
 		jnext = j->next;
+		ft_dprintf(2, "j->fg: %d\n", j->fg);
 		if (job_is_completed(j))
 		{
-			if (j->notified == 0 && !j->fg)
+			if (!j->fg)
 			{
 				msg = get_exit_str(j->status);
 				format_job_info(j, msg, "");

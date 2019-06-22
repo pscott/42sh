@@ -71,7 +71,7 @@ char			*tokens_to_str(t_token *tokens);
 **
 */
 
-int				wait_for_job(t_job *j);
+int				wait_for_job(t_job *j, int opt);
 void			update_status(void);
 
 int				job_is_completed(t_job *j);

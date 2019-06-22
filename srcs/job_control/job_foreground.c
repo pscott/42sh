@@ -13,7 +13,7 @@ int		put_job_in_foreground(t_job *j, int cont)
 			ft_dprintf(2, SHELL_NAME ": error with sending continue signal\n");
 	}
 	j->fg = 1;
-	ret = wait_for_job(j);
+	ret = wait_for_job(j, WUNTRACED);
 	tcsetpgrp(TERM_FD, g_shell_pgid);
 	tcgetattr(TERM_FD, &j->tmodes);
 	tcsetattr(TERM_FD, TCSADRAIN, &g_42sh_attr);

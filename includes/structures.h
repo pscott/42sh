@@ -8,6 +8,7 @@ typedef struct			s_vars
 	char				**env_vars;
 	char				**shell_vars;
 	char				**env_save;
+	char				**env_exported;
 	struct s_hashmap	*hashmap;
 	int					cmd_value;
 	int					verbose;

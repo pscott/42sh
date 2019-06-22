@@ -27,7 +27,7 @@ static const char	*sig_str_2(int signal)
 	return ("Undefined Signal");
 }
 
-static const char	*get_signal_str(int signal)
+const char	*get_signal_str(int signal)
 {
 	if (signal == SIGHUP)
 		return ("Hangup: 1");

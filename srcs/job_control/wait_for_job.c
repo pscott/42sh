@@ -16,11 +16,10 @@ int		wait_for_job(t_job *j, int opt)
 		pid = waitpid(WAIT_ANY, &status, opt);
 	j->status = last_process_status(j->first_process);
 	status = j->status;
-	if (WIFSIGNALED(status)) // need function for proper error messages
+	if (WIFSIGNALED(status))
 	{
-		if (j->fg && WTERMSIG(status) != SIGINT && WTERMSIG(status) != SIGPIPE)
-			ft_dprintf(2, "process terminated, received signal : %d\n",
-					WTERMSIG(status));
+		if ((j->forked || j->fg) && WTERMSIG(status) != SIGINT && WTERMSIG(status) != SIGPIPE)
+			ft_dprintf(2, "%s\n", get_signal_str(status));
 	}
 	return (status);
 }

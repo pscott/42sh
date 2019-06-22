@@ -147,19 +147,10 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 		}
 		else if (pid == 0)
 		{
-			reset_signals();
 			pid = getpid();
 			j->pgid = pid;
 			if (fg)
-			{
-				int ret;
-				ret = exec_ast(root->left, vars, 0);
-				if (WIFSTOPPED(ret))
-					kill(pid, WSTOPSIG(ret));
-				else if (WIFSIGNALED(ret))
-					kill(pid, WTERMSIG(ret));
-				exit(WEXITSTATUS(ret));
-			}
+				exit(exec_ast(root->left, vars, 0));
 			else
 				exit(exec_ast(root->right, vars, 0));
 		}

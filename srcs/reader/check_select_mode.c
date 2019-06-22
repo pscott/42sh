@@ -1,6 +1,15 @@
 #include "ftsh.h"
 #include "line_editing.h"
 
+static size_t	set_highest(size_t highest, size_t start, size_t end)
+{
+	if (end < start)
+		highest = highest > start ? start : highest;
+	else
+		highest = end;
+	return (highest);
+}
+
 static void		delete_selection(t_st_cmd *st_cmd, t_vars *vars)
 {
 	t_st_txt	*txt;
@@ -11,21 +20,23 @@ static void		delete_selection(t_st_cmd *st_cmd, t_vars *vars)
 	txt = st_cmd->st_txt;
 	lowest = vars->select_start < vars->select_end
 		? vars->select_start : vars->select_end;
-	highest = vars->select_start < vars->select_end
-		? vars->select_end : vars->select_start;
+	highest = set_highest(lowest + ft_strlen(&txt->txt[lowest]),
+			vars->select_start, vars->select_end);
 	select_size = highest - lowest + 1;
+	txt->txt = ft_realloc(txt->txt, txt->data_size,
+			&txt->malloc_size, select_size);
 	shift_chars_left(&txt->txt[lowest], select_size);
 	if (vars->select_end > vars->select_start)
 	{
 		if (txt->tracker > highest - lowest)
-			txt->tracker -= highest - lowest;
+			txt->tracker -= (highest - lowest);
 		else
 			txt->tracker = 0;
 	}
-	if (txt->data_size > select_size)
-		txt->data_size -= select_size;
-	else
-		txt->data_size = 0;
+	txt->data_size = txt->data_size > select_size
+		? txt->data_size - select_size : 0;
+	txt->data_size = txt->data_size > txt->tracker
+		? txt->data_size : txt->tracker;
 }
 
 static void		copy_selection(t_st_cmd *st_cmd, t_vars *vars)

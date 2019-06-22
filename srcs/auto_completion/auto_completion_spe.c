@@ -16,7 +16,7 @@ static int			get_all(const char *directory,
 		tmp = NULL;
 		if (ft_strncmp("..", ent->d_name, 3) && ft_strncmp(".", ent->d_name, 2))
 		{
-			if (ent->d_type && ent->d_type == DT_DIR)
+			if (check_if_slash(ent, directory, NULL))
 				tmp = ft_strjoin(ent->d_name, "/");
 			else
 				tmp = ft_strjoin(ent->d_name, " ");

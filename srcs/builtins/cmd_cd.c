@@ -1,44 +1,28 @@
 #include "builtins.h"
 #include "env.h"
 #include "errors.h"
-#include <sys/stat.h>
 #include <limits.h>
 
-/*
-**	Updates the pwd and oldpwd env variables, then calles chdir.
-**	Returns 0 on success, else returns 1.
-*/
-
-static int	change_environ(char *new_wd, char ***env)
+static int		check_cd_usage(char **argv)
 {
-	char			*old_pwd;
-	char			*pwd;
-	int				ret;
+	int		i;
+	int		k;
 
-	ft_initialize_str(&pwd, &old_pwd, NULL, NULL);
-	if ((old_pwd = get_directory("PWD", (const char**)*env)))
+	i = 1;
+	k = 0;
+	while (argv[i] && argv[i][0] == '-'
+			&& !(argv[i][0] == '-' && argv[i][1] == '\0'))
 	{
-		set_env_var("OLDPWD", old_pwd, env);
-		ft_strdel(&old_pwd);
-	}
-	if ((ret = chdir(new_wd)) == -1)
-		print_errors(ERR_CHDIR, ERR_CHDIR_STR, new_wd);
-	if (!(pwd = getcwd(NULL, 0)))
-		return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
-	set_env_var("PWD", pwd, env);
-	ft_strdel(&new_wd);
-	ft_strdel(&pwd);
-	return (ret);
-}
-
-static int	check_cd_usage(char **argv)
-{
-	int				i;
-
-	i = 0;
-	while (argv[i])
+		if (!ft_strcmp(argv[i], "--"))
+		{
+			i++;
+			break ;
+		}
 		i++;
-	if (i > 2)
+	}
+	while (argv[i++])
+		k++;
+	if (k > 1)
 	{
 		ft_dprintf(2, SHELL_NAME ": cd: too many arguments\n");
 		return (1);
@@ -46,25 +30,45 @@ static int	check_cd_usage(char **argv)
 	return (0);
 }
 
-static int	is_error(char *dest)
+static char		*get_dest_path(char *arg, char ***env, int *display, char opt)
 {
-	struct stat		infos;
+	char	*dest;
 
-	if (!dest)
-		return (1);
-	if (stat(dest, &infos) == -1)
-		return (print_errors(ERR_NOEXIST, ERR_NOEXIST_STR, dest));
-	else if (!S_ISDIR(infos.st_mode))
-		return (print_errors(ERR_NOTDIR, ERR_NOTDIR_STR, dest));
-	else if (access(dest, F_OK) == 0 && access(dest, X_OK) == -1)
-		return (print_errors(ERR_PERM, ERR_PERM_STR, dest));
+	if (!(arg))
+		dest = get_directory("HOME", (const char**)*env);
+	else if (ft_strncmp(arg, "-", 2) == 0)
+	{
+		if ((dest = get_directory("OLDPWD", (const char**)*env)))
+			*display = 2;
+	}
+	else if (arg[0] == '/')
+	{
+		if (!(dest = ft_strdup(arg)))
+			clean_exit(1, 1);
+	}
 	else
-		return (0);
+		dest = relative_directory(arg, (const char**)*env, display, opt);
+	return (dest);
 }
 
-static int	del_and_return_cd(char **dest, int ret)
+static int		check_path_too_long(char *str)
 {
-	ft_strdel(dest);
+	size_t	i;
+
+	i = 0;
+	if (str)
+		i = ft_strlen(str);
+	if (i > PATH_MAX)
+	{
+		ft_dprintf(2, "%s: cd: %s: File name too long\n", SHELL_NAME, str);
+		return (1);
+	}
+	return (0);
+}
+
+static int		del_and_return(char **todel, int ret)
+{
+	ft_strdel(todel);
 	return (ret);
 }
 
@@ -73,29 +77,26 @@ static int	del_and_return_cd(char **dest, int ret)
 **	the corresponding error value.
 */
 
-int			case_cd(char **argv, char ***env)
+int				case_cd(char **argv, char ***env)
 {
 	char			*dest;
-	int				ret;
+	char			opt;
+	int				pos;
+	int				display;
 
+	display = 0;
 	if (check_cd_usage(argv))
 		return (1);
-	if (!(argv[1]) || is_full_of_whitespaces(argv[1]))
-		dest = get_directory("HOME", (const char**)*env);
-	else if (ft_strncmp(argv[1], "-", 2) == 0)
-	{
-		if ((dest = get_directory("OLDPWD", (const char**)*env)))
-			ft_dprintf(1, "%s\n", dest);
-	}
-	else if (argv[1][0] == '/')
-	{
-		if (!(dest = ft_strdup(argv[1])))
-			clean_exit(1, 1);
-	}
+	if ((opt = get_cd_options(argv, &pos)) == -1)
+		return (1);
+	dest = get_dest_path(argv[pos], env, &display, opt);
+	if (!dest)
+		return (1);
+	if (opt != 'P')
+		format_path_string(&dest);
+	if (check_path_too_long(dest) || (opt != 'P'
+				&& check_full_access(&dest, argv[pos])))
+		return (del_and_return(&dest, 1));
 	else
-		dest = relative_directory(argv[1], (const char**)*env);
-	if ((ret = is_error(dest)) != 0)
-		return (del_and_return_cd(&dest, ret));
-	else
-		return (change_environ(dest, env));
+		return (change_environ(dest, env, opt, display));
 }

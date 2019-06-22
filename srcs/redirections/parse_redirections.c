@@ -1,7 +1,7 @@
 #include "lexer.h"
 #include "cmd_parsing.h"
 
-static	void	save_close_fds(int new_fd, int old_fd)
+void			save_close_fds(int new_fd, int old_fd)
 {
 	if (old_fd > 2)
 		save_close_openfds(old_fd, 1);

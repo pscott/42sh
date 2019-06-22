@@ -61,7 +61,6 @@ int			main(int argc, char **argv, char **env)
 		return (EXIT_FAILURE);
 	if (init_vars(&vars, argc, argv, env) == 1)
 		return (EXIT_FAILURE);
-	print_introduction();
 	st_cmd = init_st_cmd((const char **)vars.env_vars);
 	get_st_cmd(&st_cmd);
 	while (42)
@@ -72,7 +71,7 @@ int			main(int argc, char **argv, char **env)
 		else if (ret > 0 && !is_full_of_whitespaces(st_cmd->st_txt->txt))
 			vars.cmd_value = handle_input(st_cmd, &vars);
 		do_job_notification(0);
-		st_cmd = reset_st_cmd(st_cmd);
+		st_cmd = reset_st_cmd(st_cmd, &vars);
 	}
 	ret = free_variables(&vars, st_cmd);
 	return (ret);

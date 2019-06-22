@@ -19,7 +19,7 @@ t_st_cmd		*append_st_cmd(t_st_cmd *st_cmd, const char *txt,
 	return (new);
 }
 
-t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd)
+t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd, t_vars *vars)
 {
 	t_st_cmd	*st_cmd;
 	t_st_cmd	*left_cmd;
@@ -30,6 +30,7 @@ t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd)
 	st_cmd->st_prompt = init_st_prompt(NULL);
 	update_window_struct(old_st_cmd->window);
 	st_cmd->window = old_st_cmd->window;
+	vars->interrupted = 0;
 	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
 		st_cmd->st_prompt->size);
 	st_cmd->hist_lst = old_st_cmd->hist_lst;

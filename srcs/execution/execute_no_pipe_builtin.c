@@ -3,6 +3,11 @@
 #include "cmd_parsing.h"
 #include "hashmap.h"
 
+static void		clean_fds(void)
+{
+	save_close_openfds(0, 0);
+	save_reset_stdfd(0);
+}
 
 /*
 **	Utility function to actually exit
@@ -11,8 +16,7 @@
 static void		execute_exit(int exitno)
 {
 	print_exit();
-	save_close_openfds(0, 0);
-	save_reset_stdfd(0);
+	clean_fds();
 	clean_exit(exitno, 0);
 }
 
@@ -30,15 +34,14 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 		return (ret);
 	if ((ret = parse_redirections(token_head, 1) > 0))
 	{
-		save_close_openfds(0, 0);
-		save_reset_stdfd(0);
+		clean_fds();
 		return (ret);
 	}
 	argv = NULL;
-	reset_terminal_settings();
 	get_argv_from_token_lst(token_head, &argv);
-	setup_terminal_settings();
+	reset_terminal_settings();
 	ret = exec_builtins(argv, vars, cmd_id);
+	setup_terminal_settings();
 	if (cmd_id == cmd_exit)
 	{
 		if (ret == 1)
@@ -46,8 +49,7 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 		else
 			ret = vars->cmd_value;
 	}
-	save_close_openfds(0, 0);
-	save_reset_stdfd(0);
+	clean_fds();
 	return (ret);
 }
 

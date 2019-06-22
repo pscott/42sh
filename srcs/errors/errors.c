@@ -7,6 +7,8 @@ static int		is_newline_token(t_token *token)
 {
 	int			i;
 
+	if (!token || !token->content)
+		return (1);
 	i = -1;
 	while (token->content[++i])
 	{

@@ -48,5 +48,6 @@ int				parse_cmdline(t_ast *root, t_vars *vars, int fg)
 	}
 	j->first_process = p;
 	ret = launch_job(j, fg);
+	vars->cmd_value = ret;
 	return (ret);
 }

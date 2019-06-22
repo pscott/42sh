@@ -24,14 +24,27 @@ static void			substitute_param(char **str, size_t *i,
 	const char	*var_value;
 	size_t		index[2];
 	char		empty_char;
+	int			alloc;
 
-	empty_char = 0;
-	if (!(var_value = get_envline_value((char *)var_name, vars->env_vars)))
-		var_value = &empty_char;
+	alloc = 0;
+	if (!ft_strncmp(var_name, "?", 2) && (alloc = 1))
+	{
+		if (!(var_value = ft_itoa(vars->cmd_value)))
+			clean_exit(1, 1);
+	}
+	else
+	{
+		empty_char = 0;
+		if (!(var_value = get_envline_value((char *)var_name,
+					vars->env_vars)))
+			var_value = &empty_char;
+	}
 	index[0] = *i;
 	index[1] = *i + ft_strlen(var_name) + 2;
 	*i += ft_strlen(var_value) - 1;
 	substitute_slice(str, index, var_value);
+	if (alloc)
+		ft_strdel((char**)&var_value);
 	ft_strdel((char**)&var_name);
 }
 
@@ -51,6 +64,12 @@ static const char	*get_param_sub_name(const char *str, t_vars *vars)
 	const char	*var_name;
 
 	i = 1;
+	if (!ft_strncmp(str, "${?}", 4))
+	{
+		if (!(var_name = ft_strdup("?")))
+			clean_exit(1, 1);
+		return (var_name);
+	}
 	while (str[++i] && str[i] != '}')
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')

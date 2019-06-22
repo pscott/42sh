@@ -6,7 +6,7 @@
 /*   By: pscott <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/22 18:33:43 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/22 18:55:23 by pscott           ###   ########.fr       */
+/*   Updated: 2019/06/22 18:57:44 by pscott           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,11 +199,14 @@ int				exec_ast(t_ast *root, t_vars *vars, int fg)
 	int	ret;
 
 	if (!root)
+		return (0);
+	if (vars->interrupted)
 		return (1);
 	if (root->token->type == tk_semi)
 	{
 		if ((ret = exec_ast(root->left, vars, fg)) == 254 || ret == -2)
 			return (1);
+		vars->cmd_value = ret;
 		return (exec_ast(root->right, vars, fg));
 	}
 	else if (root->token->type == tk_amp)

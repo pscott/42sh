@@ -143,6 +143,7 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 		if ((pid = fork()) < 0)
 		{
 			write(2, "fork error\n", 11);
+			g_can_exit = 1;
 			clean_exit(1, 0);
 		}
 		else if (pid == 0)

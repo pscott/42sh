@@ -40,13 +40,14 @@ static int			exec_env_bin(char *cmd_path, char **argv, char **new_env)
 	if ((pid = fork()) == -1)
 	{
 		ft_dprintf(2, "fork error\n");
-		clean_exit(1, 0);
+		clean_exit(1, 1);
 	}
 	else if (pid == 0)
 	{
 		reset_terminal_settings();
 		execve(cmd_path, (char*const*)argv, (char*const*)new_env);
 		print_errors(ERR_EXECUTE, ERR_EXECUTE_STR, cmd_path);
+		g_can_exit = 1;
 		clean_exit(1, 0);
 	}
 	else

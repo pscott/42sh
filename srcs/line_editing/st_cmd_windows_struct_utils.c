@@ -30,7 +30,7 @@ void			update_window_struct(struct winsize *window)
 	if (ioctl(STDIN_FILENO, TIOCGWINSZ, window) == -1)
 	{
 		ft_dprintf(2, "error ioctl: exiting!\n");
-		clean_exit(1, 0);
+		clean_exit(1, 1);
 	}
 	window->ws_col = ft_max(window->ws_col, 0);
 	window->ws_row = ft_max(window->ws_col, 0);

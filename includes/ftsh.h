@@ -10,6 +10,7 @@
 
 extern int				g_isatty;
 extern struct termios	g_saved_attr;
+extern int				g_can_exit;
 /*
 **	t_vars utility functions
 */

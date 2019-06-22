@@ -6,6 +6,7 @@
 #include "jobs.h"
 
 int				g_isatty;
+int				g_can_exit;
 struct termios	g_saved_attr;
 struct termios	g_42sh_attr;
 
@@ -22,25 +23,6 @@ int			is_full_of_whitespaces(const char *input)
 			return (0);
 	}
 	return (1);
-}
-
-/*
-**	Utility function to free all alloacted variables and reset the old
-**	terminal attributes.
-**	Returns the last cmd value.
-*/
-
-static int	free_variables(t_vars *vars, t_st_cmd *st_cmd)
-{
-	int	ret;
-
-	print_exit();
-	write_to_history(st_cmd, (const char **)vars->env_vars);
-	free_all_st_cmds(&st_cmd);
-	ret = vars->cmd_value;
-	free_vars(vars);
-	reset_terminal_settings();
-	return (ret);
 }
 
 /*
@@ -67,12 +49,14 @@ int			main(int argc, char **argv, char **env)
 	{
 		if ((ret = input_loop(st_cmd, &vars, regular)) == 0
 				|| !*st_cmd->st_txt->txt)
-			break ;
+		{
+			print_exit();
+			clean_exit(vars.cmd_value, 0);
+		}
 		else if (ret > 0 && !is_full_of_whitespaces(st_cmd->st_txt->txt))
 			vars.cmd_value = handle_input(st_cmd, &vars);
 		do_job_notification(0);
 		st_cmd = reset_st_cmd(st_cmd, &vars);
 	}
-	ret = free_variables(&vars, st_cmd);
-	return (ret);
+	return (0);
 }

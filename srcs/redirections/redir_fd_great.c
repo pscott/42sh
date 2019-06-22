@@ -44,7 +44,8 @@ static void		great_redirect(int old_fd, int new_fd, int save, int left)
 		else
 		{
 			ft_dprintf(2, SHELL_NAME ": error: dup2 failed\n");
-			clean_exit(1, 0);
+			g_can_exit = 1;
+			clean_exit(1, 0); // mporzier why are we exiting here ?
 		}
 	}
 }

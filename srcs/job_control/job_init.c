@@ -6,6 +6,7 @@ void	init_shell(void)
 {
 	g_first_job = NULL;
 	g_isatty = isatty(STDIN_FILENO);
+	g_can_exit = 0;
 	if (g_isatty)
 	{
 		while (tcgetpgrp(STDIN_FILENO) != (g_shell_pgid = getpgrp()))

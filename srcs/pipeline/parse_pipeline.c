@@ -53,6 +53,7 @@ int				parse_cmdline(t_ast *root, t_vars *vars, int fg)
 		free_process_list(p);
 		return (ret);
 	}
+	g_can_exit = 0;
 	if (fg)
 		j = append_job(&g_first_job, create_job(root, fg, get_last_num(g_first_job) + 1));
 	else

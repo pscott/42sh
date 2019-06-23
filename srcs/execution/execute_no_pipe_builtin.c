@@ -52,7 +52,7 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	else
 		g_can_exit = 0;
 	clean_fds();
-	return (ret);
+	return (255 + ret);
 }
 
 /*

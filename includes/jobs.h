@@ -52,8 +52,7 @@ void			init_shell(void);
 t_process		*create_process(t_token *token_list);
 t_process		*append_process(t_process **first_process, t_process *to_add);
 
-void			put_last_job_in_background(void);
-void			put_job_in_background(t_job *j, int cont);
+int				put_job_in_background(t_job *j, int cont);
 int				put_job_in_foreground(t_job *j, int cont);
 
 

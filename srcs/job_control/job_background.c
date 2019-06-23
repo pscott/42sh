@@ -1,23 +1,12 @@
 #include "jobs.h"
 #include <signal.h>
 
-void	put_last_job_in_background(void)
-{
-	t_job *j;
-
-	j = g_first_job;
-	while (j)
-	{
-		if (j->current == '+')
-			put_job_in_background(j, 0);
-		j = j->next;
-	}
-}
-
-void	put_job_in_background(t_job *j, int cont)
+int		put_job_in_background(t_job *j, int cont)
 {
 	t_process *p;
 
+	if (!j)
+		return (1);
 	if (cont)
 	{
 		if (kill(-j->pgid, SIGCONT) < 0)
@@ -30,4 +19,5 @@ void	put_job_in_background(t_job *j, int cont)
 		p = p->next;
 	}
 	j->fg = 0;
+	return (0);
 }

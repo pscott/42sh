@@ -28,6 +28,7 @@ char	*tokens_to_str(t_token *token, t_token_type delimiter)
 void		format_job_info(t_job *j, const char *state, const char *bg, t_job_opt opt)
 {
 	t_st_cmd	*st_cmd;
+	char		*pstatus;
 	t_process	*p;
 
 	st_cmd = get_st_cmd(NULL);
@@ -46,16 +47,32 @@ void		format_job_info(t_job *j, const char *state, const char *bg, t_job_opt opt
 	else if (opt == LONG)
 	{
 		p = j->first_process;
-		if (p->next)
-			ft_dprintf(STDOUT_FILENO, "[%d]%c %d %-20s %s\n", j->num, j->current, j->pgid, state, p->process_str);
+		if (p->stopped)
+			pstatus = ft_strdup("Stopped");
+		else if (p->completed)
+			pstatus = ft_strdup("Done");
 		else
-			ft_dprintf(STDOUT_FILENO, "[%d]%c %d %-20s %s%s\n", j->num, j->current, j->pgid, state, p->process_str, bg);
+			pstatus = ft_strdup("Running");
+		if (!pstatus)
+			clean_exit(1, 1);
+		if (p->next)
+			ft_dprintf(STDOUT_FILENO, "[%d]%c %d %-20s %s\n", j->num, j->current, j->pgid, pstatus, p->process_str);
+		else
+			ft_dprintf(STDOUT_FILENO, "[%d]%c %d %-20s %s%s\n", j->num, j->current, j->pgid, pstatus, p->process_str, bg);
+		ft_strdel(&pstatus);
 		while ((p = p->next))
 		{
-			if (p->next)
-				ft_dprintf(STDOUT_FILENO, "%10d %23s%s\n",  p->pid, "| ", p->process_str);
+			if (p->stopped)
+				pstatus = ft_strdup("Stopped");
+			else if (p->completed)
+				pstatus = ft_strdup("Done");
 			else
-				ft_dprintf(STDOUT_FILENO, "%10d %23s%s%s\n",  p->pid, "| ", p->process_str, bg);
+				pstatus = ft_strdup("Running");
+			if (p->next)
+				ft_dprintf(STDOUT_FILENO, "%10d %-20s %s%s\n",  p->pid, pstatus, "| ", p->process_str);
+			else
+				ft_dprintf(STDOUT_FILENO, "%10d %-20s %s%s%s\n",  p->pid, pstatus, "| ", p->process_str, bg);
+			ft_strdel(&pstatus);
 		}
 	}
 }

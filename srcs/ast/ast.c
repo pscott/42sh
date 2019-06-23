@@ -185,11 +185,12 @@ int				exec_ast(t_ast *root, t_vars *vars, int fg)
 	if (!root)
 		return (0);
 	if (fg && vars->interrupted)
-		return (1);
+		return (130);
 	if (root->token->type == tk_semi)
 	{
-		if ((ret = exec_ast(root->left, vars, fg)) == 254 || ret == -2)
-			return (1);
+		ret = exec_ast(root->left, vars, fg);
+		if (exit_status(ret) == 254)
+			return (256);
 		vars->cmd_value = ret;
 		return (exec_ast(root->right, vars, fg));
 	}

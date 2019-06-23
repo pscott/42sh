@@ -21,7 +21,7 @@ void			sigint_handler(int signo)
 	st_cmd = get_last_st_cmd(st_cmd);
 	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 	if ((vars = get_vars(NULL)))
-		vars->cmd_value = 1;
+		vars->cmd_value = 130;
 	if (isatty(TERM_FD))
 		write(TERM_FD, "^C", 2);
 	if (st_cmd->st_txt->txt)

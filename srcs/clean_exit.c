@@ -25,7 +25,7 @@ void	clean_exit(int exitno, int malloc_error)
 	t_st_cmd	*st_cmd;
 	t_vars		*vars;
 
-	if (!malloc_error)
+	if (malloc_error != 1)
 	{
 		if (!g_can_exit && check_for_stopped_jobs())
 		{
@@ -42,6 +42,7 @@ void	clean_exit(int exitno, int malloc_error)
 	}
 	else
 		write(2, "\nexiting: malloc error\n", 23);
-	reset_terminal_settings();
+	if (malloc_error != -1)
+		reset_terminal_settings();
 	exit(exitno);
 }

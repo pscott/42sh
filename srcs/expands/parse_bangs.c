@@ -66,6 +66,8 @@ int				case_word(t_st_cmd *st_cmd, char **str, int *i, int mode)
 	size_t		len;
 	size_t		index[2];
 
+	if ((*str)[*i + 1] && !ft_isalnum((*str)[*i + 1]))  
+		return (1);
 	if (!(insert = get_entry_lst_word(st_cmd->hist_lst, &((*str)[*i]))))
 	{
 		if (mode)
@@ -88,10 +90,13 @@ int				replace_bang(char **str, int mode)
 	int			i;
 	int			ret;
 	t_st_cmd	*st_cmd;
+	char		*save;
 
 	i = -1;
 	st_cmd = get_st_cmd(NULL);
 	ret = 0;
+	if (!(save = ft_strdup(*str)))
+		clean_exit(1, 1);
 	while (str && *str && (*str)[++i])
 	{
 		if ((*str)[i] == '\'' && !is_quoted_sqt(*str, i))
@@ -106,7 +111,14 @@ int				replace_bang(char **str, int mode)
 				ret = case_word(st_cmd, str, &i, mode);
 		}
 		if (ret != 0)
+		{
+			
+		ft_dprintf(2, "oerowr\n");
+			ft_strdel(str);
+			*str = save;
 			return (ret);
+		}
 	}
+	free(save);
 	return (0);
 }

@@ -57,6 +57,8 @@ static void	init_lexer(t_operation **op_chart, t_token **token_head,
 
 static int	lexer_final_check(t_token *current_token, t_token *prev_token)
 {
+	if (!current_token || !prev_token)
+		return (lex_fail);
 	if (is_logic_or_pipe(current_token)
 		|| (is_logic_or_pipe(prev_token) && current_token
 				&& current_token->type == tk_eat))

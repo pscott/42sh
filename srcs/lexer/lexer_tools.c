@@ -14,6 +14,8 @@
 
 int		is_logic_or_pipe(t_token *token)
 {
+	if (!token || !token->type)
+		return (0);
 	if (token->type == tk_or
 		|| token->type == tk_and || token->type == tk_pipe)
 		return (1);

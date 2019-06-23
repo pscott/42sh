@@ -81,6 +81,7 @@ int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	if (lexer_ret == lex_fail)
 	{
 		free_token_list(token_head);
+		st_cmd->keep = 1;//a verifier : quand lexer fail, toujorus dans l'histo non?
 		adjust_history(st_cmd, 1);
 		return (lex_fail);
 	}

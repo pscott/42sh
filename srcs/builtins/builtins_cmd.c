@@ -1,6 +1,35 @@
 #include "builtins.h"
 #include "errors.h"
 
+static int	exec_remaining_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
+{
+	if (!argv)
+		return (1);
+	else if (cmd_id == cmd_exit)
+		return (case_exit(argv, &vars->cmd_value));
+	else if (cmd_id == cmd_cd)
+		return (case_cd(argv, &vars->env_vars));
+	else if (cmd_id == cmd_type)
+		return (case_type(argv, vars));
+	else if (cmd_id == cmd_hash)
+		return (case_hash(argv, vars));
+	else if (cmd_id == cmd_echo)
+		return (case_echo(argv));
+	else if (cmd_id == cmd_fc)
+		return (case_fc(argv));
+	else if (cmd_id == cmd_history)
+		return (case_history(argv));
+	else if (cmd_id == cmd_test)
+		return (case_test(argv));
+	else if (cmd_id == cmd_set)
+		return (case_set(argv, vars));
+	else if (cmd_id == cmd_unset)
+		return (case_unset(argv, vars));
+	else if (cmd_id == cmd_export)
+		return (case_export(argv, vars));
+	return (0);
+}
+
 /*
 **	Executes the builtin corresponding to the cmd_id parameter (see cmd enums).
 **	Returns 1 if it executed something.
@@ -13,33 +42,7 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 {
 	int				ret;
 
-	ret = 0;
-	if (!argv)
-		ret = 1;
-	else if (cmd_id == cmd_exit)
-		ret = case_exit(argv, &vars->cmd_value);
-	else if (cmd_id == cmd_cd)
-		ret = case_cd(argv, &vars->env_vars);
-	else if (cmd_id == cmd_type)
-		ret = case_type(argv, vars);
-	else if (cmd_id == cmd_hash)
-		ret = case_hash(argv, vars);
-	else if (cmd_id == cmd_echo)
-		ret = case_echo(argv);
-	else if (cmd_id == cmd_fc)
-		ret = case_fc(argv);
-	else if (cmd_id == cmd_history)
-		ret = case_history(argv);
-	else if (cmd_id == cmd_test)
-		ret = case_test(argv);
-	else if (cmd_id == cmd_set)
-		ret = case_set(argv, vars);
-	else if (cmd_id == cmd_unset)
-		ret = case_unset(argv, vars);
-	else if (cmd_id == cmd_export)
-		ret = case_export(argv, vars);
-	else
-		ret = 0;
+	ret = exec_remaining_builtins(argv, vars, cmd_id);
 	ft_free_ntab(argv);
 	return (ret);
 }

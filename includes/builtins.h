@@ -134,4 +134,12 @@ int					check_unary_values(char *path, int uflag);
 int					check_binary_values(char *right, char *left, int biflag,
 					int *result);
 
+/*
+**	Export utils
+*/
+
+int					export_usage(char c);
+int					check_string_export(char *str);
+int					parse_options_export(char **argv, int *i);
+
 #endif

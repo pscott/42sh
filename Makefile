@@ -111,7 +111,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c tmp_file.c
 						cmd_type.c cmd_echo.c									\
 						cmd_exit_utils.c										\
 						cmd_test.c cmd_history.c								\
-						cmd_set.c cmd_unset.c cmd_export.c
+						cmd_set.c cmd_unset.c cmd_export.c cmd_export_utils.c
 	CD_FILES		:=	cmd_cd_options.c cmd_cd_cdpath.c						\
 						cmd_cd_format.c cmd_cd_remove_char.c					\
 						cmd_cd_change_env.c cmd_cd_check.c cmd_cd_utils.c

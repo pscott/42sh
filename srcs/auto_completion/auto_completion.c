@@ -2,24 +2,37 @@
 #include "auto_completion.h"
 #include "input.h"
 
+static int			go_to_beginning_cmd(const char *str, unsigned int start_actual_word)
+{
+	int				i;
+
+	i = start_actual_word;
+	while (str[i] && !ft_is_unslashed_metachar((char *)str, i, white_space)
+			&& !ft_is_unslashed_metachar((char *)str, i, separator))
+		i--;
+	return (i);
+}
+
 static int			is_first_arg_and_exec(const char *str,
 					unsigned int cursor_pos, unsigned int start_actual_word)
 {
 	unsigned int	i;
 
-	i = 0;
-	if (cursor_pos == 0 || str[cursor_pos - 1] == '&')
+	if (cursor_pos == 0 || str[cursor_pos - 1] == '&' || str[cursor_pos - 1] == ';' || str[cursor_pos - 1] == '|')
 		return (2);
 	cursor_pos--;
-	while (str && ft_is_white_space(str[i]) && i <= cursor_pos)
+	i = 0;
+//	ft_dprintf(2, "\n|%d et %d|\n", cursor_pos, start_actual_word);
+	while (str && (ft_is_white_space(str[i]) || ft_is_quote(str[i])) && i <= cursor_pos)
 		i++;
+//	ft_dprintf(2, "\n|%d et %d|\n", i, start_actual_word);
 	if (i < start_actual_word)
 		return (0);
 	else
 	{
 		if (str[cursor_pos] == '\0' || ft_is_white_space(str[cursor_pos]))
 			return (2);
-		else if (str[i] == '~' && str[i + 1] && str[i + 1] == '/')
+		if (str[i] == '~' && str[i + 1] && str[i + 1] == '/')
 			return (6);
 		else if (str[i] == '~' && (!str[i + 1] || str[i + 1] != '/'))
 			return (7);
@@ -30,7 +43,8 @@ static int			is_first_arg_and_exec(const char *str,
 	}
 }
 
-static	char		*handle_first_arg_dot_tilde(int type, const char *to_find)
+static	char		*handle_first_arg_dot_tilde(int type, const char *to_find,
+					const char *str)
 {
 	char			*ret;
 
@@ -45,6 +59,8 @@ static	char		*handle_first_arg_dot_tilde(int type, const char *to_find)
 		ret = home_directory_first_arg(to_find);
 	else if (type == 7)
 		ret = users_passwd(to_find);
+	else if (type == 5)
+		ret = varz(to_find, str);
 	return (ret);
 }
 
@@ -77,25 +93,36 @@ char				*auto_completion(char *input, unsigned int len,
 	char			*tmp;
 	char			*str;
 	int				start_actual_word;
+	int				len_t;
+	int				type;
 
 	ret = NULL;
 	tmp = NULL;
-	ft_dprintf(2, "dsaodiso");
 	if (!input)
 		return (NULL);
 	start_actual_word = get_needed_values(input, len, &str, &to_find_full);
-	if (is_first_arg_and_exec(input, len, start_actual_word) == 3)
+	len_t = ft_strlen(to_find_full);
+/*
+	ft_dprintf(2, "\n-------------||%s||-----------\n", to_find_full);
+	ft_dprintf(2, "\n-------------||%d||-----------\n", start_actual_word);
+*/
+	if (is_first_arg_and_exec(to_find_full, len_t, start_actual_word) == 3)
 		ret = handle_first_bin(vars, to_find_full + start_actual_word,
 				str + start_actual_word);
-	else if (is_first_arg_and_exec(input, len, start_actual_word) == 2)
+	else if (is_first_arg_and_exec(to_find_full, len_t, start_actual_word) == 2)
 		auto_completion_space(vars);
-	else if (is_first_arg_and_exec(input, len, start_actual_word))
-		ret = handle_first_arg_dot_tilde(is_first_arg_and_exec(input, len,
-					start_actual_word), to_find_full + start_actual_word);
-	else if (!is_first_arg_and_exec(input, len, start_actual_word))
+	else if (is_first_arg_and_exec(to_find_full, len_t, start_actual_word))
+		ret = handle_first_arg_dot_tilde(is_first_arg_and_exec(input, len_t,
+					start_actual_word), to_find_full + start_actual_word, str + start_actual_word);
+	else if (!is_first_arg_and_exec(to_find_full, len_t, start_actual_word))
+	{
 		ret = auto_completion_x_arg(to_find_full + start_actual_word,
 				str + start_actual_word);
-	format_finding_and_get_correct_ret(&ret, start_actual_word, input, len);
+	}
+	
+//	ft_dprintf(2, "ret : |%s|, input |%s|, len %d, len_t %d, start_act %d\n", ret, input, len, len_t, start_actual_word);
+	
+	format_finding_and_get_correct_ret(&ret, start_actual_word + (len - len_t), input, len);
 	free_two_strings(&to_find_full, &str);
 	return (ret);
 }

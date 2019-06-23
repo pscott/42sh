@@ -96,5 +96,7 @@ int							format_finding_and_get_correct_ret(char **ret,
 void						get_good_ret_str(char **ret_str, char *tmp);
 int							check_if_slash(struct dirent *ent,
 								const char *directory, const char *filename);
+int							get_first_sep_index(const char *str, int len);
+char						*varz(const char *str, const char *next);
 
 #endif

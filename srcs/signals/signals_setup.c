@@ -12,8 +12,8 @@ void	sig_handler(int signo)
 	execute_str(CLEAR_BELOW);
 	restore_init_cursor();
 	reset_terminal_settings();
-	ft_dprintf(STDERR_FILENO, "Interrupted by signal: %d\n", signo);
-	exit(signo);
+	signal(signo, SIG_DFL);
+	kill(0, signo);
 }
 
 /*
@@ -56,7 +56,7 @@ void	reset_signals(void)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	while (i < 32)
 	{
 		signal(i, SIG_DFL);

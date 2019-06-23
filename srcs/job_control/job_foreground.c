@@ -1,21 +1,33 @@
 #include "jobs.h"
 #include <signals.h>
+#include <stdio.h>
+#include <errno.h>
+
+static void	put_error(char *str)
+{
+	ft_dprintf(2, SHELL_NAME " : %s\n", str);
+}
 
 int		put_job_in_foreground(t_job *j, int cont)
 {
 	int	ret;
 
-	tcsetpgrp(TERM_FD, j->pgid);
+	if (tcsetpgrp(STDIN_FILENO, j->pgid))
+		put_error("error giving terminal control to job");
 	if (cont)
 	{
-		tcsetattr(TERM_FD, TCSADRAIN, &j->tmodes);
+		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &j->tmodes))
+			put_error("error setting job's terminal attributes");
 		if (kill(-j->pgid, SIGCONT) < 0)
-			ft_dprintf(2, SHELL_NAME ": error with sending continue signal\n");
+			put_error("error with sending continue signal");
 	}
 	j->fg = 1;
 	ret = wait_for_job(j, WUNTRACED);
-	tcsetpgrp(TERM_FD, g_shell_pgid);
-	tcgetattr(TERM_FD, &j->tmodes);
-	tcsetattr(TERM_FD, TCSADRAIN, &g_42sh_attr);
+	if (tcsetpgrp(STDIN_FILENO, g_shell_pgid))
+		put_error("error giving terminal control to 42sh");
+	if (tcgetattr(STDIN_FILENO, &j->tmodes))
+		put_error("error retrieving terminal job's terminal attributes\n");
+	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &g_42sh_attr))
+		put_error("error setting 42sh's terminal attributes");
 	return (ret);
 }

@@ -14,7 +14,7 @@ void	set_group_id(pid_t pgid, int foreground)
 		if (setpgid(pid, pgid) == -1)
 			exit(1);
 		if (foreground)
-			tcsetpgrp(TERM_FD, pgid);
+			tcsetpgrp(STDIN_FILENO, pgid);
 	}
 }
 

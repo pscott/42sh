@@ -1,4 +1,5 @@
 #include "jobs.h"
+#include "signals.h"
 
 int		case_fg(char **argv)
 {

@@ -52,14 +52,23 @@ void	signals_setup(void)
 	signal(SIGPROF, sig_handler);
 }
 
+static void tmp(int signo)
+{
+	(void)signo;
+	ft_dprintf(2, "in tmp\n");
+	reset_signals();
+}
+
 void	reset_signals(void)
 {
 	int	i;
 
 	i = 0;
+	ft_dprintf(2, "resetting\n");
 	while (i < 32)
 	{
 		signal(i, SIG_DFL);
 		i++;
 	}
+	signal(SIGCONT, tmp);
 }

@@ -16,6 +16,9 @@ int		case_fg(char **argv)
 		return (1);
 	}
 	ft_dprintf(2, "%s\n", j->command);
-	put_job_in_foreground(j, 1);
+	if (job_is_stopped(j))
+		put_job_in_foreground(j, 1);
+	else
+		put_job_in_foreground(j, 0);
 	return (0);
 }

@@ -115,4 +115,5 @@ void			free_job_list(t_job *j);
 
 int				last_process_status(t_process *p);
 const char			*get_signal_str(int signo);
+const char			*get_stop_str(int signo);
 #endif

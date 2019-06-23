@@ -28,6 +28,8 @@ static int	get_options(char **argv, int *i)
 			j++;
 			if (argv[*i][j] == '-')
 				return (opt);
+			else if (!argv[*i][j])
+				return (opt);
 			while (argv[*i][j])
 			{
 				if (argv[*i][j] == 'p')

@@ -24,7 +24,7 @@ static const char	*sig_str_2(int signal)
 		return ("User defined signal 1: 30");
 	else if (signal == SIGUSR2)
 		return ("User defined signal 2: 31");
-	return ("Undefined Signal");
+	return ("Running");
 }
 
 const char	*get_signal_str(int signal)
@@ -53,7 +53,7 @@ const char	*get_signal_str(int signal)
 		return (sig_str_2(signal));
 }
 
-static const char	*get_stop_str(int sig)
+const char	*get_stop_str(int sig)
 {
 	if (sig == SIGTTOU)
 		return("Stopped (SIGTTOU)");
@@ -72,7 +72,10 @@ static char	*get_exit_str(int status)
 	char	*itoa;
 
 	if (WIFSIGNALED(status))
-		msg = ft_strdup(get_signal_str(WTERMSIG(status))); // protect
+	{
+		if (!(msg = ft_strdup(get_signal_str(WTERMSIG(status)))))
+			clean_exit(1, 1);
+	}
 	else
 	{
 		if (WEXITSTATUS(status) == 0)

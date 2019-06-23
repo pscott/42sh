@@ -21,10 +21,7 @@ int	mark_process_status(pid_t pid, int status)
 					if (WIFCONTINUED(status))
 						p->stopped = 0;
 					else if (WIFSTOPPED(status))
-					{
 						p->stopped = 1;
-						j->fg = 0;
-					}
 					else
 						p->completed = 1;
 					return (0);

@@ -6,7 +6,7 @@
 /*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:01:46 by aschoenh          #+#    #+#             */
-/*   Updated: 2019/06/11 15:46:08 by aschoenh         ###   ########.fr       */
+/*   Updated: 2019/06/23 21:41:27 by aschoenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ char				*auto_completion_space(t_vars *vars)
 	if (path)
 		ft_free_ntab(path);
 	if (match)
-		get_ret_or_display_matches(match, NULL, 0);
+		get_ret_or_display_matches(match, NULL, 0, 0);
 	return (NULL);
 }

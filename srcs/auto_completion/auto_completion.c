@@ -2,17 +2,6 @@
 #include "auto_completion.h"
 #include "input.h"
 
-static int			go_to_beginning_cmd(const char *str, unsigned int start_actual_word)
-{
-	int				i;
-
-	i = start_actual_word;
-	while (str[i] && !ft_is_unslashed_metachar((char *)str, i, white_space)
-			&& !ft_is_unslashed_metachar((char *)str, i, separator))
-		i--;
-	return (i);
-}
-
 static int			is_first_arg_and_exec(const char *str,
 					unsigned int cursor_pos, unsigned int start_actual_word)
 {
@@ -21,11 +10,11 @@ static int			is_first_arg_and_exec(const char *str,
 	if (cursor_pos == 0 || str[cursor_pos - 1] == '&' || str[cursor_pos - 1] == ';' || str[cursor_pos - 1] == '|')
 		return (2);
 	cursor_pos--;
+	if (str[start_actual_word] == '$' && (start_actual_word == 0 || str[start_actual_word - 1] != '\\'))
+		return (5);
 	i = 0;
-//	ft_dprintf(2, "\n|%d et %d|\n", cursor_pos, start_actual_word);
 	while (str && (ft_is_white_space(str[i]) || ft_is_quote(str[i])) && i <= cursor_pos)
 		i++;
-//	ft_dprintf(2, "\n|%d et %d|\n", i, start_actual_word);
 	if (i < start_actual_word)
 		return (0);
 	else
@@ -94,7 +83,6 @@ char				*auto_completion(char *input, unsigned int len,
 	char			*str;
 	int				start_actual_word;
 	int				len_t;
-	int				type;
 
 	ret = NULL;
 	tmp = NULL;
@@ -102,7 +90,8 @@ char				*auto_completion(char *input, unsigned int len,
 		return (NULL);
 	start_actual_word = get_needed_values(input, len, &str, &to_find_full);
 	len_t = ft_strlen(to_find_full);
-/*
+
+	/*
 	ft_dprintf(2, "\n-------------||%s||-----------\n", to_find_full);
 	ft_dprintf(2, "\n-------------||%d||-----------\n", start_actual_word);
 */
@@ -112,7 +101,7 @@ char				*auto_completion(char *input, unsigned int len,
 	else if (is_first_arg_and_exec(to_find_full, len_t, start_actual_word) == 2)
 		auto_completion_space(vars);
 	else if (is_first_arg_and_exec(to_find_full, len_t, start_actual_word))
-		ret = handle_first_arg_dot_tilde(is_first_arg_and_exec(input, len_t,
+		ret = handle_first_arg_dot_tilde(is_first_arg_and_exec(to_find_full, len_t,
 					start_actual_word), to_find_full + start_actual_word, str + start_actual_word);
 	else if (!is_first_arg_and_exec(to_find_full, len_t, start_actual_word))
 	{

@@ -6,7 +6,6 @@ int		format_finding_and_get_correct_ret(char **ret,
 {
 	char	*save;
 	char	*tmp;
-	char	*tmp2;
 	
 	char	c[2];
 	size_t		i[2];
@@ -15,12 +14,13 @@ int		format_finding_and_get_correct_ret(char **ret,
 
 //	ft_dprintf(2, "\nret : |%s|, input |%s|, len %d, start_act %d\n", *ret, input, len, start_actual_word);
 	
-	if (*ret && (c[0] = (*ret)[ft_strlen(*ret) - 1]) == ' ')
+	ft_dprintf(2, "\n{%s}\n", *ret);
+	if (*ret && ft_strlen(*ret) > 0 && (c[0] = (*ret)[ft_strlen(*ret) - 1]) == ' ')
 	{
 		c[1] = '\0';
 		i[0] = ft_strlen(*ret) - 1;
 		i[1] = ft_strlen(*ret) - 1;
-		if (ft_is_quote(input[start_actual_word - 1]))
+		if (start_actual_word >= (int)ft_strlen(input) && ft_is_quote(input[start_actual_word - 1]))
 		{
 			substitute_slice(ret, i, "\' ");
 		}

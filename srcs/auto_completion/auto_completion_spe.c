@@ -42,17 +42,19 @@ static char			*get_match_and_display_hdoc(const char *input,
 
 	initialize_str(&to_find, &path, &r_str, &tmp);
 	match = NULL;
+	if (input && input[0] == '$')
+		return (r_str = varz(input, to_find_and_next_char));
 	if (input && input[0] == '~' && (!input[1] || input[1] != '/'))
 		return (r_str = users_passwd(input));
 	else if (input && input[0] && ft_strchr(input, '/'))
 		tmp = ft_strndup(input, ft_strlen(input)
 				- ft_strlen(ft_strrchr(input, '/') + 1));
-	get_path_file_and_to_find(input, &path, &to_find);
+	get_path_file_and_to_find((char *)input, &path, &to_find);
 	if (!to_find[0])
 		get_all(path, &match);
 	get_all_match(path, &match, to_find, to_find_and_next_char);
 	if (match)
-		r_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
+		r_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find), 0);
 	else if (!(r_str = ft_strdup(to_find)))
 		clean_exit(1, 1);
 	get_good_ret_str(&r_str, tmp);

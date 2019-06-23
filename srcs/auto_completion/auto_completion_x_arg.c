@@ -41,7 +41,7 @@ void				get_good_ret_str(char **ret_str, char *tmp)
 	*ret_str = tmp2;
 }
 
-char				*auto_completion_x_arg(const char *input,
+char				*auto_completion_x_arg(char *input,
 					const char *to_find_and_next_char)
 {
 	char			*path;
@@ -63,7 +63,7 @@ char				*auto_completion_x_arg(const char *input,
 	else
 		get_all_match(path, &match, to_find, to_find_and_next_char);
 	if (match)
-		r_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
+		r_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find), 0);
 	else if (to_find && !(r_str = ft_strdup(to_find)))
 		clean_exit(1, 1);
 	get_good_ret_str(&r_str, tmp);

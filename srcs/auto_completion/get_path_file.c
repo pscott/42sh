@@ -1,6 +1,7 @@
 #include "auto_completion.h"
+#include "cmd_parsing.h"
 
-static int			get_path_user(int index, const char *arg, char **path,
+static int			get_path_user(int index, char *arg, char **path,
 					char **to_find)
 {
 	char			*home;
@@ -27,7 +28,7 @@ static int			get_path_user(int index, const char *arg, char **path,
 	return (0);
 }
 
-static int			get_path_root(int index, const char *arg, char **path,
+static int			get_path_root(int index, char *arg, char **path,
 					char **to_find)
 {
 	char			*tmp;
@@ -67,7 +68,7 @@ static int			get_root(const char *arg, char **path, char **to_find)
 	return (0);
 }
 
-static int			get_path_reg(int index, const char *arg, char **path,
+static int			get_path_reg(int index, char *arg, char **path,
 					char **to_find)
 {
 	char			*tmp_path;
@@ -96,7 +97,7 @@ static int			get_path_reg(int index, const char *arg, char **path,
 	return (0);
 }
 
-int					get_path_file_and_to_find(const char *arg, char **path,
+int					get_path_file_and_to_find(char *arg, char **path,
 					char **to_find)
 {
 	char			*pwd;

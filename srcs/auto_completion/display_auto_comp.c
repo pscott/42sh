@@ -109,8 +109,21 @@ static void	my_ft_list_sort(t_auto_comp **begin_list)
 	}
 }
 
+static char	*get_ret(char *s, int mode)
+{
+	char	*ret_str;
+
+	if (mode == 0)
+		ret_str = ft_strdup(s);
+	else 
+		ret_str = ft_strjoin(s, "}");
+	if (!(ret_str))
+		clean_exit(1, 1);
+	return (ret_str);
+}
+
 char		*get_ret_or_display_matches(t_auto_comp *match,
-			const char *to_find, size_t len)
+			const char *to_find, size_t len, int mode)
 {
 	int				diff_len;
 	char			*ret_str;
@@ -120,7 +133,7 @@ char		*get_ret_or_display_matches(t_auto_comp *match,
 	is_empty_last_c = 0;
 	my_ft_list_sort(&match);
 	if (len_lst(match) == 1)
-		ret_str = ft_strdup(match->name);
+		ret_str = get_ret(match->name, mode);
 	else if ((diff_len = lst_match_more_than_to_find(match, len)) > 0)
 	{
 		if (match->name[diff_len] && (match->name[diff_len] == ' '

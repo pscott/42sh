@@ -107,7 +107,7 @@ char					*search_dirs_and_exe(const char *str)
 		while (match->prev)
 			match = match->prev;
 		ret_tmp = get_ret_or_display_matches(match, to_find,
-				ft_strlen(to_find));
+				ft_strlen(to_find), 0);
 		if (!(ret_str = ft_strjoin(path, ret_tmp)))
 			clean_exit(1, 1);
 		ft_strdel(&ret_tmp);

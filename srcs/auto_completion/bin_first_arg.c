@@ -6,7 +6,7 @@
 /*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:01:45 by aschoenh          #+#    #+#             */
-/*   Updated: 2019/06/10 20:21:29 by aschoenh         ###   ########.fr       */
+/*   Updated: 2019/06/23 21:42:01 by aschoenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char				*auto_completion_bin(t_vars *vars,
 		ft_free_ntab(path);
 	if (match)
 		ret_str = get_ret_or_display_matches(match, to_find,
-				ft_strlen(to_find));
+				ft_strlen(to_find), 0);
 	if (to_find)
 		ft_strdel(&to_find);
 	return (ret_str);

@@ -2,12 +2,12 @@
 #include "input.h"
 #include "execution.h"
 
-char	*tokens_to_str(t_token *token)
+char	*tokens_to_str(t_token *token, t_token_type delimiter)
 {
 	char	*res;
 
 	res = NULL;
-	while (token)
+	while (token && token->type < delimiter)
 	{
 		if (token->type == tk_eat)
 		{
@@ -28,7 +28,6 @@ char	*tokens_to_str(t_token *token)
 void		format_job_info(t_job *j, const char *state, const char *bg, t_job_opt opt)
 {
 	t_st_cmd	*st_cmd;
-	char		*display;
 	t_process	*p;
 
 	st_cmd = get_st_cmd(NULL);
@@ -47,14 +46,16 @@ void		format_job_info(t_job *j, const char *state, const char *bg, t_job_opt opt
 	else if (opt == LONG)
 	{
 		p = j->first_process;
-		display = tokens_to_str(p->token_list);
-		ft_dprintf(STDOUT_FILENO, "[%d]%c %d %-20s %s\n", j->num, j->current, j->pgid, state, display);
-		ft_strdel(&display);
+		if (p->next)
+			ft_dprintf(STDOUT_FILENO, "[%d]%c %d %-20s %s\n", j->num, j->current, j->pgid, state, p->process_str);
+		else
+			ft_dprintf(STDOUT_FILENO, "[%d]%c %d %-20s %s%s\n", j->num, j->current, j->pgid, state, p->process_str, bg);
 		while ((p = p->next))
 		{
-			display = tokens_to_str(p->token_list);
-			ft_dprintf(STDOUT_FILENO, "%10d %20s%s\n",  p->pid, "| ", display);
-			ft_strdel(&display);
+			if (p->next)
+				ft_dprintf(STDOUT_FILENO, "%10d %23s%s\n",  p->pid, "| ", p->process_str);
+			else
+				ft_dprintf(STDOUT_FILENO, "%10d %23s%s%s\n",  p->pid, "| ", p->process_str, bg);
 		}
 	}
 }

@@ -3,6 +3,7 @@
 static void	free_process(t_process *p)
 {
 	free_token_list(p->token_list);
+	ft_strdel(&p->process_str);
 	ft_bzero(p, sizeof(*p));
 	free(p);
 }

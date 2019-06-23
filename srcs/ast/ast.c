@@ -148,10 +148,12 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 		}
 		if (g_isatty)
 		{
-			j->first_process = create_process(root->token);// will change
+			j->first_process = create_process(NULL);
 			j->first_process->pid = pid;
 			j->pgid = pid;
 			setpgid(pid, j->pgid);
+			if (!(j->first_process->process_str = ft_strdup(j->command)))
+				clean_exit(1, 1);
 		}
 		ft_dprintf(STDERR_FILENO, "[%d] %d\n", j->num, j->pgid);
 	}

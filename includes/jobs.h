@@ -18,6 +18,7 @@ typedef struct			s_process
 {
 	struct s_process	*next;       /* next process in pipeline */
 	t_token				*token_list;
+	char				*process_str;
 	pid_t				pid;                  /* process ID */
 	int					status;                 /* reported status value */
 	char				completed;             /* true if process has completed */
@@ -73,7 +74,7 @@ int				get_processes_len(t_process *p);
 int				get_last_num(t_job *j);
 void			set_current(void);
 
-char			*tokens_to_str(t_token *tokens);
+char			*tokens_to_str(t_token *tokens, t_token_type delimiter);
 /*
 **
 */

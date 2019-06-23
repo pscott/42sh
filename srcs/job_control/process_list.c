@@ -8,7 +8,11 @@ t_process *create_process(t_token *token_list)
 	if (!(p = malloc(sizeof(t_process))))
 		clean_exit(1, 1);
 	ft_bzero(p, sizeof(t_process));
-	p->token_list = copy_process_tokens(token_list);
+	if (token_list)
+	{
+		p->token_list = copy_process_tokens(token_list);
+		p->process_str = tokens_to_str(token_list, tk_pipe);
+	}
 	return (p);
 }
 

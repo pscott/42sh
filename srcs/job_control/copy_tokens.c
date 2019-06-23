@@ -25,7 +25,7 @@ char	*copy_ast_tokens(t_ast *root)
 	if (!root)
 		return (NULL);
 	if (!root->left)
-		return (tokens_to_str(root->token));
+		return (tokens_to_str(root->token, tk_amp));
 	res = ft_strjoin_free_left(copy_ast_tokens(root->left), root->token->content); // protect
 	right = copy_ast_tokens(root->right);
 	res = ft_strjoin_free_left(res, right);

@@ -66,6 +66,11 @@ int				parse_cmdline(t_ast *root, t_vars *vars, int fg)
 	ret = launch_job(j, fg);
 	if (!fg && !j->forked)
 		ft_dprintf(STDERR_FILENO, "[%d] %d\n", j->num, get_last_pid(j));
+	if (j->forked)
+	{
+		free_process_list(p);
+		j->first_process = NULL;
+	}
 	vars->cmd_value = ret;
 	return (ret);
 }

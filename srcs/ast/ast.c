@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ast.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pscott <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/22 18:33:43 by pscott            #+#    #+#             */
-/*   Updated: 2019/06/22 19:50:55 by pscott           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ftsh.h"
 #include "lexer.h"
 #include "cmd_parsing.h"
@@ -132,6 +120,7 @@ t_ast			*create_ast(t_token *token_head)
 static int	background_exec(t_ast *root, t_vars *vars, int fg)
 {
 	pid_t	pid;
+	int		ret;
 	t_job	*j;
 
 	if (!root)
@@ -151,9 +140,11 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 			pid = getpid();
 			j->pgid = pid;
 			if (fg)
-				exit(exec_ast(root->left, vars, 0));
+				ret = exec_ast(root->left, vars, 0);
 			else
-				exit(exec_ast(root->right, vars, 0));
+				ret = exec_ast(root->right, vars, 0);
+			free_job_list(g_first_job);
+			exit(ret);
 		}
 		if (g_isatty)
 		{

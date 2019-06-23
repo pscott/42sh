@@ -84,16 +84,22 @@ int				mark_process_status(pid_t pid, int status);
 char			*copy_job_tokens(t_ast *root);
 t_token			*copy_process_tokens(t_token *tokens);
 
+int				print_job_status(t_job *j, int verbose);
 void			do_job_notification(int verbose);
 
 t_job			*find_job_by_pgid(pid_t pgid);
 t_job			*find_job_by_current(char current);
+t_job			*find_job_by_number(int num);
+t_job			*find_job_by_command(const char *command);
+t_job			*find_job_by_subcommand(const char *subcommand);
+t_job			*get_job(const char *str, const char *builtin);
 
 /*
 **	Free functions
 */
 
-void			free_job(t_job *j);
+void			free_job(t_job **j);
+t_job			*free_job_from_list(t_job *j);
 void			free_process_list(t_process *p);
 void			free_job_list(t_job *j);
 

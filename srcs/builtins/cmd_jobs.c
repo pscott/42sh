@@ -9,10 +9,6 @@ static void reset_notif(void)
 	while (j)
 	{
 		p = j->first_process;
-/*		while (p)
-		{
-			p = p->next;
-		}*/
 		j->notified = 0;
 		j = j->next;
 	}
@@ -20,8 +16,25 @@ static void reset_notif(void)
 
 int		case_jobs(char **argv)
 {
-	(void)argv;
+	t_job	*to_print;
+	int		i;
+
 	reset_notif();
-	do_job_notification(1);
-	return (0);
+	if (!argv[1])
+	{
+		do_job_notification(1);
+		return (0);
+	}
+	else
+	{
+		i = 1;
+		while (argv[i])
+		{
+			to_print = get_job(argv[i], "jobs");
+			if (print_job_status(to_print, 1))
+				free_job_from_list(to_print);
+			i++;
+		}
+	}
+	return (to_print ? 0 : 1);
 }

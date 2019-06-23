@@ -26,7 +26,7 @@ int		put_job_in_foreground(t_job *j, int cont)
 	if (tcsetpgrp(STDIN_FILENO, g_shell_pgid))
 		put_error("error giving terminal control to 42sh");
 	if (tcgetattr(STDIN_FILENO, &j->tmodes))
-		put_error("error retrieving terminal job's terminal attributes\n");
+		put_error("error retrieving terminal job's terminal attributes");
 	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &g_42sh_attr))
 		put_error("error setting 42sh's terminal attributes");
 	return (ret);

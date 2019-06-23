@@ -66,7 +66,7 @@ char	*copy_job_tokens(t_ast *root)
 	else
 		new_root = root->left;
 	res = copy_ast_tokens(new_root);
-	if (!(split = ft_strsplit(res, IFS)))
+	if (!(split = ft_strsplit(res, " ")))
 		clean_exit(1, 1);
 	ft_strdel(&res);
 	res = ntab_to_str(split);

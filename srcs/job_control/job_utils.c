@@ -1,49 +1,21 @@
 #include "jobs.h"
 
-t_job	*find_job_by_current(char current)
-{
-	t_job *j;
-
-	j = g_first_job;
-	while (j)
-	{
-		if (j->current == current)
-			return (j);
-		j = j->next;
-	}
-	return (NULL);
-}
-
 /*
-**	Find the active job with the indicated pgid.
-*/
-
-t_job 	*find_job_by_pgid(pid_t pgid)
-{
-	t_job *j;
-
-	j = g_first_job;
-	while (j)
-	{
-		if (j->pgid == pgid)
-			return (j);
-		j = j->next;
-	}
-	return (NULL);
-}
-
-/*
-**	Return true if all processes in the job have stopped or completed.
+**	Return true if all processes in the job have stopped.
 */
 
 int 	job_is_stopped(t_job *j)
 {
 	t_process *p;
 
+	if (!j)
+		return (0);
 	p = j->first_process;
+	if (!p)
+		return (0);
 	while (p)
 	{
-		if (!p->completed && !p->stopped)
+		if (!p->stopped)
 			return (0);
 		p = p->next;
 	}
@@ -58,6 +30,8 @@ int		job_is_completed(t_job *j)
 {
 	t_process *p;
 
+	if (!j)
+		return (1);
 	p = j->first_process;
 	while (p)
 	{

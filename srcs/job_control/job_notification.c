@@ -88,46 +88,50 @@ static char	*get_exit_str(int status)
 	return (msg);
 }
 
+/*
+**	Prints the job status.
+**	Returns 1 if the job should be free'd. Else returns 0.
+*/
+
+int		print_job_status(t_job *j, int verbose)
+{
+	char	*msg;
+
+	if (!j)
+		return (0);
+	if (job_is_completed(j))
+	{
+		if (!j->fg)
+		{
+			msg = get_exit_str(j->status);
+			format_job_info(j, msg, "");
+			ft_strdel(&msg);
+		}
+		return (1);
+	}
+	else if ((job_is_stopped(j) && !j->notified))
+	{
+		format_job_info(j, get_stop_str(WSTOPSIG(j->status)), "");
+		j->notified = 1;
+	}
+	else if (verbose && !j->fg)
+		format_job_info(j, "Running", "&");
+	return (0);
+}
+
 void		do_job_notification(int verbose)
 {
 	t_job		*j;
-	t_job		*jlast;
-	t_job		*jnext;
-	char		*msg;
 
 	set_current();
 	update_status();
-	jlast = NULL;
-	j = g_first_job;
+	if (!(j = g_first_job))
+		return ;
 	while (j)
 	{
-		jnext = j->next;
-		if (job_is_completed(j))
-		{
-			if (!j->fg)
-			{
-				msg = get_exit_str(j->status);
-				format_job_info(j, msg, "");
-				ft_strdel(&msg);
-			}
-			if (jlast)
-				jlast->next = jnext;
-			else
-				g_first_job = jnext;
-			free_job(j);
-		}
-		else if ((job_is_stopped(j) && !j->notified))
-		{
-			format_job_info(j, get_stop_str(WSTOPSIG(j->status)), ""); // need to change for sigttou etc
-			j->notified = 1;
-			jlast = j;
-		}
-		else
-		{
-			if (verbose && !j->fg)
-				format_job_info(j, "Running", "&");
-			jlast = j;
-		}
-		j = jnext;
+		if (print_job_status(j, verbose))
+			j = free_job_from_list(j);
+		if (j)
+			j = j->next;
 	}
 }

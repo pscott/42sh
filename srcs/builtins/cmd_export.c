@@ -6,17 +6,20 @@ static void		print_exported_vars(char **exported)
 {
 	int		i;
 	char	*tmp;
+	char	*name;
 
 	i = 0;
 	while (exported && exported[i])
 	{
-		ft_printf("export %s=\"", get_name_from_varline(exported[i]));
+		name = get_name_from_varline(exported[i]);
+		ft_printf("export %s=\"", name);
 		tmp = ft_strchr(exported[i], '=');
 		if (tmp)
 			tmp = tmp + 1;
 		if (tmp)
 			ft_printf("%s", tmp);
 		ft_printf("\"\n");
+		ft_strdel(&name);
 		i++;
 	}
 }

@@ -19,14 +19,17 @@ t_token	*copy_tokens_from_to(t_token *from, t_token *to)
 
 char	*copy_ast_tokens(t_ast *root)
 {
-	char *res;
+	char	*res;
+	char	*right;
 
 	if (!root)
 		return (NULL);
 	if (!root->left)
 		return (tokens_to_str(root->token));
 	res = ft_strjoin_free_left(copy_ast_tokens(root->left), root->token->content); // protect
-	res = ft_strjoin_free_left(res, copy_ast_tokens(root->right)); // protect
+	right = copy_ast_tokens(root->right);
+	res = ft_strjoin_free_left(res, right);
+	ft_strdel(&right);
 	return (res);
 }
 

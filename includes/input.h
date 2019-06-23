@@ -93,8 +93,7 @@ int						check_for_search_histo(t_st_cmd *st_cmd,
 int						check_for_tab(t_st_cmd *st_cmd, const char *buf,
 		t_vars *vars, int mode);
 int						check_for_words(t_st_cmd *st_cmd, const char *buf);
-char					*auto_completion(char *input, unsigned int len,
-		t_vars *vars);
+char					*auto_completion(char *input, unsigned int len);
 char					*auto_completion_spe(char *input,
 		unsigned int len);
 

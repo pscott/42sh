@@ -32,27 +32,6 @@ static int			is_first_arg_and_exec(const char *str,
 	}
 }
 
-static	char		*handle_first_arg_dot_tilde(int type, const char *to_find,
-					const char *str)
-{
-	char			*ret;
-
-	ret = NULL;
-	if (type == 1)
-	{
-		if ((!ft_strcmp(to_find, ".") || !ft_strcmp(to_find, ".."))
-			&& !(ret = ft_strjoin(to_find, "/")))
-			clean_exit(1, 1);
-	}
-	else if (type == 6)
-		ret = home_directory_first_arg(to_find);
-	else if (type == 7)
-		ret = users_passwd(to_find);
-	else if (type == 5)
-		ret = varz(to_find, str);
-	return (ret);
-}
-
 static char			*handle_first_bin(t_vars *vars, const char *to_find,
 					const char *str)
 {
@@ -71,11 +50,38 @@ static char			*handle_first_bin(t_vars *vars, const char *to_find,
 		else
 			ret = search_dirs_and_exe(to_find);
 	}
+	ft_dprintf(2, "\n  \n");
 	return (ret);
 }
 
-char				*auto_completion(char *input, unsigned int len,
-					t_vars *vars)
+static	char		*handle_first_arg(const char *to_find,
+					const char *str, int type)
+{
+	char			*ret;
+	t_vars			*vars;
+
+	ret = NULL;
+	vars = get_vars(NULL);
+	if (type == 1)
+	{
+		if ((!ft_strcmp(to_find, ".") || !ft_strcmp(to_find, ".."))
+			&& !(ret = ft_strjoin(to_find, "/")))
+			clean_exit(1, 1);
+	}
+	else if (type == 2)
+		auto_completion_space(vars);
+	else if (type == 6)
+		ret = home_directory_first_arg(to_find);
+	else if (type == 7)
+		ret = users_passwd(to_find);
+	else if (type == 5)
+		ret = varz(to_find, str);
+	else if (type == 3)
+		ret = handle_first_bin(vars, to_find, str);
+	return (ret);
+}
+
+char				*auto_completion(char *input, unsigned int len)	
 {
 	char			*to_find_full;
 	char			*ret;
@@ -83,6 +89,7 @@ char				*auto_completion(char *input, unsigned int len,
 	char			*str;
 	int				start_actual_word;
 	int				len_t;
+	int				type;
 
 	ret = NULL;
 	tmp = NULL;
@@ -90,19 +97,13 @@ char				*auto_completion(char *input, unsigned int len,
 		return (NULL);
 	start_actual_word = get_needed_values(input, len, &str, &to_find_full);
 	len_t = ft_strlen(to_find_full);
-
-	/*
-	ft_dprintf(2, "\n-------------||%s||-----------\n", to_find_full);
-	ft_dprintf(2, "\n-------------||%d||-----------\n", start_actual_word);
-*/
-	if (is_first_arg_and_exec(to_find_full, len_t, start_actual_word) == 3)
-		ret = handle_first_bin(vars, to_find_full + start_actual_word,
-				str + start_actual_word);
-	else if (is_first_arg_and_exec(to_find_full, len_t, start_actual_word) == 2)
-		auto_completion_space(vars);
-	else if (is_first_arg_and_exec(to_find_full, len_t, start_actual_word))
-		ret = handle_first_arg_dot_tilde(is_first_arg_and_exec(to_find_full, len_t,
-					start_actual_word), to_find_full + start_actual_word, str + start_actual_word);
+	type = is_first_arg_and_exec(to_find_full, len_t, start_actual_word);
+//	if (is_first_arg_and_exec(to_find_full, len_t, start_actual_word) == 3)
+//	if (type == 3)
+//		ret = handle_first_bin(get_vars(NULL), to_find_full + start_actual_word,
+//				str + start_actual_word);
+	if (type > 0)
+		ret = handle_first_arg(to_find_full + start_actual_word, str + start_actual_word, type);
 	else if (!is_first_arg_and_exec(to_find_full, len_t, start_actual_word))
 	{
 		ret = auto_completion_x_arg(to_find_full + start_actual_word,

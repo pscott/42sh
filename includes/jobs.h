@@ -7,6 +7,13 @@
 # include "lexer.h"
 # include "ast.h"
 
+typedef enum			e_job_opt
+{
+	ERROR,
+	DEFAULT,
+	PID,
+	LONG
+}						t_job_opt;
 typedef struct			s_process
 {
 	struct s_process	*next;       /* next process in pipeline */
@@ -19,20 +26,20 @@ typedef struct			s_process
 
 typedef struct		s_job
 {
-  struct s_job		*next;           /* next active job */
-  char				*command;
-  struct s_process	*first_process;     /* list of processes in this job */
-  int				fg;
-  int				num;
-  int				status;
-  int				stdin;
-  int				stdout;
-  int				stderr;
-  pid_t				pgid;                 /* process group ID */
-  char				forked;
-  char				notified;              /* true if user told about stopped job */
-  char				current;
-  struct termios	tmodes;
+	struct s_job		*next;           /* next active job */
+	char				*command;
+	struct s_process	*first_process;     /* list of processes in this job */
+	int				fg;
+	int				num;
+	int				status;
+	int				stdin;
+	int				stdout;
+	int				stderr;
+	pid_t				pgid;                 /* process group ID */
+	char				forked;
+	char				notified;              /* true if user told about stopped job */
+	char				current;
+	struct termios	tmodes;
 }					t_job;
 
 t_job	*g_first_job;
@@ -76,7 +83,8 @@ int				wait_for_job(t_job *j, int opt);
 void			update_status(void);
 
 int				job_is_completed(t_job *j);
-void			format_job_info(t_job *j, const char *status, const char *bg);
+void			format_job_info(t_job *j, const char *status, const char *bg,
+		t_job_opt opt);
 int				job_is_stopped(t_job *j);
 
 int				mark_process_status(pid_t pid, int status);
@@ -84,8 +92,8 @@ int				mark_process_status(pid_t pid, int status);
 char			*copy_job_tokens(t_ast *root);
 t_token			*copy_process_tokens(t_token *tokens);
 
-int				print_job_status(t_job *j, int verbose);
-void			do_job_notification(int verbose);
+int				print_job_status(t_job *j, int verbose, t_job_opt opt);
+void			do_job_notification(int verbose, t_job_opt opt);
 
 t_job			*find_job_by_pgid(pid_t pgid);
 t_job			*find_job_by_current(char current);

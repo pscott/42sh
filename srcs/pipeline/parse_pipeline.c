@@ -19,21 +19,6 @@ static pid_t	get_last_pid(t_job *j)
 	}
 	return (res);
 }
-/*
-**	Returns the next simple_command (the one after the next pipe), if there
-**	is one.
-**	Should not return NULL because it is called n - 1 times
-*/
-
-t_token	*get_next_simple_command(t_token *begin)
-{
-	while (is_simple_cmd_token(begin))
-		begin = begin->next;
-	if (begin && begin->type == tk_pipe)
-		return (begin->next);
-	else
-		return (begin);
-}
 
 int				parse_cmdline(t_ast *root, t_vars *vars, int fg)
 {
@@ -59,7 +44,7 @@ int				parse_cmdline(t_ast *root, t_vars *vars, int fg)
 	else
 	{
 		j = g_first_job;
-		while (j && j->next) // job has been created by `&` previous fork
+		while (j && j->next)
 			j = j->next;
 	}
 	j->first_process = p;

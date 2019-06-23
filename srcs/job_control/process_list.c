@@ -34,6 +34,22 @@ t_process		*append_process(t_process **first_process, t_process *to_add)
 	return (to_add);
 }
 
+static t_token	*get_next_simple_command(t_token *begin)
+{
+	while (is_simple_cmd_token(begin))
+		begin = begin->next;
+	if (begin && begin->type == tk_pipe)
+		return (begin->next);
+	else
+		return (begin);
+}
+
+/*
+**	Returns the next simple_command (the one after the next pipe), if there
+**	is one.
+**	Should not return NULL because it is called n - 1 times
+*/
+
 t_process *create_process_list(t_token *tokens)
 {
 	t_process *p;

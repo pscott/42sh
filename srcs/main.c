@@ -55,7 +55,7 @@ int			main(int argc, char **argv, char **env)
 		}
 		else if (ret > 0 && !is_full_of_whitespaces(st_cmd->st_txt->txt))
 			vars.cmd_value = handle_input(st_cmd, &vars);
-		do_job_notification(0);
+		do_job_notification(0, DEFAULT);
 		st_cmd = reset_st_cmd(st_cmd, &vars);
 	}
 	return (0);

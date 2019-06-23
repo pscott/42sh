@@ -108,6 +108,7 @@ int				case_export(char **argv, t_vars *vars)
 		{
 			ft_dprintf(2, "%s: export: `%s': ", SHELL_NAME, argv[i]);
 			ft_dprintf(2, "not a valid identifier\n");
+			ret = 1;
 		}
 		else if (ft_strchr(argv[i], '=') && varline_case(argv[i], vars))
 			ret = 1;

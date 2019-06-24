@@ -95,7 +95,7 @@ t_job	*get_job(const char *str, const char *builtin)
 	if (str[++i] == '%' || str[i] == '+' || str[i] == 0)
 		return (current_case('+', builtin));
 	else if (str[i] == '-')
-		return (current_case('+', builtin));
+		return (current_case('-', builtin));
 	else if (str[i] == '?')
 		return (subcommand_case(&str[i + 1], builtin));
 	else if (!ft_isdigit(str[i]))

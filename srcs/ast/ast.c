@@ -198,14 +198,14 @@ int				exec_ast(t_ast *root, t_vars *vars, int fg)
 		ret = exec_ast(root->left, vars, fg);
 		if (WIFSIGNALED(ret))
 			vars->interrupted = WTERMSIG(ret) == SIGINT ? 1 : 0;
-		return (ret != 255 ? ret : exec_ast(root->right, vars, fg));
+		return (exit_status(ret) ? ret : exec_ast(root->right, vars, fg));
 	}
 	else if (root->token->type == tk_or)
 	{
 		ret = exec_ast(root->left, vars, fg);
 		if (WIFSIGNALED(ret))
 			vars->interrupted = WTERMSIG(ret) == SIGINT ? 1 : 0;
-		return (ret != 255 ? exec_ast(root->right, vars, fg) : ret);
+		return (exit_status(ret) ? exec_ast(root->right, vars, fg) : ret);
 	}
 	else
 		return (parse_cmdline(root, vars, fg));

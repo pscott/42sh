@@ -4,7 +4,7 @@ static void	go_to_background(t_job *j)
 {
 	if (job_is_completed(j))
 		ft_dprintf(2, SHELL_NAME ": bg: job has terminated\n");
-	else if (j && j->bg == 0)
+	else if (j && j->bg == 1)
 		ft_dprintf(2, SHELL_NAME ": bg: job %d already in background\n", j->num);
 	else
 	{

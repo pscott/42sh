@@ -39,9 +39,7 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	}
 	argv = NULL;
 	get_argv_from_token_lst(token_head, &argv);
-	reset_terminal_settings();
 	ret = exec_builtins(argv, vars, cmd_id);
-	setup_terminal_settings();
 	if (cmd_id == cmd_exit)
 	{
 		if (ret == 1)

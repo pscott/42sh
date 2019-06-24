@@ -16,6 +16,7 @@ static int		check_for_stopped_jobs(void)
 	}
 	return (0);
 }
+
 /*
 ** Utility function to reset the terminal settings and exit
 */

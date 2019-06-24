@@ -34,6 +34,7 @@ static void set_minus(t_job *j)
 	t_job	*probe;
 
 	last = NULL;
+	res = NULL;
 	probe = j;
 	while (probe)
 	{
@@ -56,6 +57,9 @@ static void set_minus(t_job *j)
 			}
 			probe = probe->next;
 		}
+		if (probe)
+			if (probe->current != '+')
+				last = probe;
 	}
 	if (last)
 		last->current = '-';

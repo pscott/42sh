@@ -1,49 +1,5 @@
 #include "jobs.h"
 
-void	set_current(void)
-{
-	t_job	*j;
-	int		len;
-
-	if (!(j = g_first_job))
-		return ;
-	len = 0;
-	while (j)
-	{
-		if (!j->fg || (!job_is_completed(j) && job_is_stopped(j)))
-			len++;
-		j = j->next;
-	}
-	j = g_first_job;
-	while (len > 2)
-	{
-		if (!j->fg || (!job_is_completed(j) && job_is_stopped(j)))
-		{
-			j->current = ' ';
-			len--;
-		}
-		j = j->next;
-	}
-	while (len == 2)
-	{
-		if (!j->fg || (!job_is_completed(j) && job_is_stopped(j)))
-		{
-			j->current = '-';
-			len--;
-		}
-		j = j->next;
-	}
-	while (len == 1)
-	{
-		if (!j->fg || (!job_is_completed(j) && job_is_stopped(j)))
-		{
-			j->current = '+';
-			len--;
-		}
-		j = j->next;
-	}
-}
-
 int		get_last_num(t_job *j)
 {
 	if (!j)

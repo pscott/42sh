@@ -33,7 +33,8 @@ int			case_bg(char **argv)
 		i = 1;
 		while (argv[i])
 		{
-			j = get_job(argv[i], "bg");
+			if (!(j = get_job(argv[i], "bg")))
+				return (1);
 			go_to_background(j);
 			i++;
 		}

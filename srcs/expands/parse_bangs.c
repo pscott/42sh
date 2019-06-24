@@ -102,7 +102,9 @@ int				replace_bang(char **str, int mode)
 				ret = case_bangbang(st_cmd, str, &i, mode);
 			else if (ft_isdigit((*str)[i]) || (*str)[i] == '-')
 				ret = case_nb(st_cmd, str, &i, mode);
-			else if ((*str)[i])
+			else if (ft_is_white_space((*str)[i]))
+				i++;
+			else
 				ret = case_word(st_cmd, str, &i, mode);
 		}
 		if (ret != 0)

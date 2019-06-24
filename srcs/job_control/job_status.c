@@ -46,7 +46,6 @@ int		last_process_status(t_process *p)
 void	update_status(void)
 {
 	int		status;
-	t_job	*j;
 	int		opt;
 	pid_t	pid;
 

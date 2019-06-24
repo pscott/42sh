@@ -182,13 +182,18 @@ int				exec_ast(t_ast *root, t_vars *vars, int fg)
 
 	if (!root)
 		return (0);
-	if (fg && vars->interrupted)
+	if (vars->interrupted)
 		return (130);
 	if (root->token->type == tk_semi)
 	{
 		ret = exec_ast(root->left, vars, fg);
 		if (exit_status(ret) == 254)
 			return (256);
+		else if (WIFSIGNALED(ret))
+		{
+			vars->interrupted = WTERMSIG(ret) == SIGINT ? 1 : 0;
+			return (130);
+		}
 		vars->cmd_value = ret;
 		return (exec_ast(root->right, vars, fg));
 	}
@@ -197,15 +202,25 @@ int				exec_ast(t_ast *root, t_vars *vars, int fg)
 	else if (root->token->type == tk_and)
 	{
 		ret = exec_ast(root->left, vars, fg);
-		if (WIFSIGNALED(ret))
+		if (exit_status(ret) == 254)
+			return (256);
+		else if (WIFSIGNALED(ret))
+		{
 			vars->interrupted = WTERMSIG(ret) == SIGINT ? 1 : 0;
+			return (130);
+		}
 		return (exit_status(ret) ? ret : exec_ast(root->right, vars, fg));
 	}
 	else if (root->token->type == tk_or)
 	{
 		ret = exec_ast(root->left, vars, fg);
-		if (WIFSIGNALED(ret))
+		if (exit_status(ret) == 254)
+			return (256);
+		else if (WIFSIGNALED(ret))
+		{
 			vars->interrupted = WTERMSIG(ret) == SIGINT ? 1 : 0;
+			return (130);
+		}
 		return (exit_status(ret) ? exec_ast(root->right, vars, fg) : ret);
 	}
 	else

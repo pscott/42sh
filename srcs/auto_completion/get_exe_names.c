@@ -45,10 +45,12 @@ static int			add_builtins(t_auto_comp **match, const char *to_find)
 {
 	if (!compare_entry(to_find, "exit"))
 		create_match_link(match, "exit");
-	else if (!compare_entry(to_find, "setenv"))
-		create_match_link(match, "setenv");
-	else if (!compare_entry(to_find, "unsetenv"))
-		create_match_link(match, "unsetenv");
+	else if (!compare_entry(to_find, "set"))
+		create_match_link(match, "set");
+	else if (!compare_entry(to_find, "unset"))
+		create_match_link(match, "unset");
+	else if (!compare_entry(to_find, "export"))
+		create_match_link(match, "export");
 	return (0);
 }
 

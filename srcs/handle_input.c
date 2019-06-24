@@ -70,6 +70,8 @@ int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	token_head = NULL;
 	if (!(input = concatenate_txt(st_cmd)))
 		return (1);
+	if (is_full_of_whitespaces(input))
+		return (0);
 	while ((lexer_ret = lexer(input, &token_head, vars)) == lex_cont_read)
 	{
 		st_cmd->cr = 1;

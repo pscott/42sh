@@ -22,7 +22,7 @@ t_job	*find_job_by_current(char current)
 **	Find the job with the indicated pgid.
 */
 
-t_job 	*find_job_by_pgid(pid_t pgid)
+t_job	*find_job_by_pgid(pid_t pgid)
 {
 	t_job *j;
 

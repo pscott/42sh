@@ -18,7 +18,7 @@ void	set_group_id(pid_t pgid, int foreground)
 	}
 }
 
-int	launch_process(t_process *p, pid_t pgid, int fds[2], int foreground)
+int		launch_process(t_process *p, pid_t pgid, int fds[2], int foreground)
 {
 	close(TERM_FD);
 	set_group_id(pgid, foreground);

@@ -1,7 +1,7 @@
 #include "jobs.h"
 #include "cmd_parsing.h"
 
-t_process *create_process(t_token *token_list)
+t_process		*create_process(t_token *token_list)
 {
 	t_process *p;
 
@@ -54,7 +54,7 @@ static t_token	*get_next_simple_command(t_token *begin)
 **	Should not return NULL because it is called n - 1 times
 */
 
-t_process *create_process_list(t_token *tokens)
+t_process		*create_process_list(t_token *tokens)
 {
 	t_process *p;
 
@@ -65,7 +65,7 @@ t_process *create_process_list(t_token *tokens)
 	return (p);
 }
 
-int		get_processes_len(t_process *p)
+int				get_processes_len(t_process *p)
 {
 	int	i;
 

@@ -9,7 +9,7 @@ int		get_last_num(t_job *j)
 	return (j->num);
 }
 
-t_job	 *create_job(t_ast *root, int fg, int num)
+t_job	*create_job(t_ast *root, int fg, int num)
 {
 	t_job *j;
 
@@ -18,7 +18,12 @@ t_job	 *create_job(t_ast *root, int fg, int num)
 	ft_bzero(j, sizeof(t_job));
 	j->command = copy_job_tokens(root);
 	j->fg = fg;
-	j->num = num; // care overflow on int ? 
+	if (num == 2147483647)
+	{
+		ft_dprintf(2, SHELL_NAME "too many jobs running, exiting.\n");
+		clean_exit(1, FORCE);
+	}
+	j->num = num;
 	j->stdin = STDIN_FILENO;
 	j->stdout = STDOUT_FILENO;
 	j->stderr = STDERR_FILENO;

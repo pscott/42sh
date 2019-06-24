@@ -19,7 +19,7 @@ int		launch_job(t_job *j, int foreground)
 	{
 		if (p->next)
 		{
-			if (pipe (mypipe) < 0)
+			if (pipe(mypipe) < 0)
 			{
 				ft_dprintf(2, "pipe failed\n");
 				exit(1);
@@ -72,7 +72,8 @@ int		launch_job(t_job *j, int foreground)
 		tcsetattr(j->stdin, TCSADRAIN, &g_42sh_attr);
 	if (WIFSIGNALED(ret))
 	{
-		if ((j->forked || j->fg) && WTERMSIG(ret) != SIGINT && WTERMSIG(ret) != SIGPIPE)
+		if ((j->forked || j->fg) && WTERMSIG(ret) != SIGINT
+				&& WTERMSIG(ret) != SIGPIPE)
 			ft_dprintf(2, "%s\n", get_signal_str(ret));
 	}
 	return (ret);

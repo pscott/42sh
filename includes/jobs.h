@@ -95,12 +95,13 @@ t_job			*get_job(const char *str, const char *builtin);
 **	Free functions
 */
 
-void			free_job(t_job **j);
+void			*free_job(t_job **j);
 t_job			*free_job_from_list(t_job *j);
 void			free_process_list(t_process *p);
 void			free_job_list(t_job *j);
 
 int				last_process_status(t_process *p);
+char			*get_exit_str(int status);
 const char		*get_signal_str(int signo);
 const char		*get_stop_str(int signo);
 void			set_current(void);

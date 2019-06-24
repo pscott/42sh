@@ -1,7 +1,19 @@
 #include "jobs.h"
 #include "execution.h"
 
-int	mark_process_status(pid_t pid, int status)
+static int	set_process_status(t_process *p, int status)
+{
+	p->status = status;
+	if (WIFCONTINUED(status))
+		p->stopped = 0;
+	else if (WIFSTOPPED(status))
+		p->stopped = 1;
+	else
+		p->completed = 1;
+	return (0);
+}
+
+int			mark_process_status(pid_t pid, int status)
 {
 	t_job		*j;
 	t_process	*p;
@@ -16,16 +28,7 @@ int	mark_process_status(pid_t pid, int status)
 			while (p)
 			{
 				if (p->pid == pid)
-				{
-					p->status = status;
-					if (WIFCONTINUED(status))
-						p->stopped = 0;
-					else if (WIFSTOPPED(status))
-						p->stopped = 1;
-					else
-						p->completed = 1;
-					return (0);
-				}
+					return (set_process_status(p, status));
 				p = p->next;
 			}
 			j = j->next;
@@ -34,7 +37,7 @@ int	mark_process_status(pid_t pid, int status)
 	return (-1);
 }
 
-int		last_process_status(t_process *p)
+int			last_process_status(t_process *p)
 {
 	if (!p)
 		return (0);
@@ -43,7 +46,7 @@ int		last_process_status(t_process *p)
 	return (p->status);
 }
 
-void	update_status(void)
+void		update_status(void)
 {
 	int		status;
 	int		opt;

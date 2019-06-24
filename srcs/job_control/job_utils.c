@@ -4,7 +4,7 @@
 **	Return true if all processes in the job have stopped.
 */
 
-int 	job_is_stopped(t_job *j)
+int		job_is_stopped(t_job *j)
 {
 	t_process *p;
 

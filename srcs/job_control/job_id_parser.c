@@ -25,7 +25,8 @@ t_job	*subcommand_case(const char *subcommand, const char *builtin)
 	res = find_job_by_subcommand(subcommand);
 	if (!(res))
 	{
-		ft_dprintf(2, SHELL_NAME ": %s: %s: no such job\n", builtin, subcommand);
+		ft_dprintf(2, SHELL_NAME ": %s: %s: no such job\n", builtin,
+				subcommand);
 		return (NULL);
 	}
 	probe = res->next;

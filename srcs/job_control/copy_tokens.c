@@ -2,7 +2,7 @@
 #include "jobs.h"
 #include "cmd_parsing.h"
 
-t_token	*copy_tokens_from_to(t_token *from, t_token *to)
+t_token		*copy_tokens_from_to(t_token *from, t_token *to)
 {
 	t_token	*res;
 	t_token	*probe;
@@ -11,13 +11,14 @@ t_token	*copy_tokens_from_to(t_token *from, t_token *to)
 	probe = from;
 	while (probe && probe != to)
 	{
-		append_token(&res, create_token(probe->content, probe->size, probe->type));
+		append_token(&res, create_token(probe->content, probe->size,
+					probe->type));
 		probe = probe->next;
 	}
 	return (res);
 }
 
-char	*copy_ast_tokens(t_ast *root)
+char		*copy_ast_tokens(t_ast *root)
 {
 	char	*res;
 	char	*left;
@@ -27,7 +28,8 @@ char	*copy_ast_tokens(t_ast *root)
 		return (NULL);
 	if (!root->left)
 		return (tokens_to_str(root->token, tk_amp));
-	left = ft_strjoin_free_left(copy_ast_tokens(root->left), root->token->content);
+	left = ft_strjoin_free_left(copy_ast_tokens(root->left),
+			root->token->content);
 	right = copy_ast_tokens(root->right);
 	res = ft_strjoin_free_left(left, right);
 	ft_strdel(&right);
@@ -50,7 +52,7 @@ static char	*ntab_to_str(char **split)
 	return (res);
 }
 
-char	*copy_job_tokens(t_ast *root)
+char		*copy_job_tokens(t_ast *root)
 {
 	char	*res;
 	char	**split;
@@ -66,7 +68,7 @@ char	*copy_job_tokens(t_ast *root)
 	return (res);
 }
 
-t_token	*copy_process_tokens(t_token *start)
+t_token		*copy_process_tokens(t_token *start)
 {
 	t_token *end;
 

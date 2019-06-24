@@ -1,6 +1,6 @@
 #include "jobs.h"
 
-static void set_plus(t_job *j)
+static void	set_plus(t_job *j)
 {
 	t_job	*res;
 	t_job	*probe;
@@ -75,7 +75,7 @@ static void	clean_current(t_job *j)
 }
 
 
-void	set_current(void)
+void		set_current(void)
 {
 	t_job	*j;
 

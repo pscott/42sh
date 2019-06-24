@@ -72,7 +72,7 @@ static int			execute_argv(char **argv, int have_assign, t_vars *vars)
 		if (!(cmd_path = ft_strdup(cmd_path)))
 			clean_exit(1, 1);
 	}
-	else if ((cmd_path = get_cmd_path(argv[0], vars->env_vars, 1)))
+	else if ((cmd_path = get_cmd_path(argv[0], vars->shell_vars, 1)))
 		;
 	else
 	{

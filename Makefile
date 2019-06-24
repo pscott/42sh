@@ -104,7 +104,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c
 						cmd_env_check.c cmd_jobs.c cmd_fg.c cmd_bg.c \
 						cmd_cd_options.c cmd_cd_cdpath.c \
 						cmd_cd_format.c cmd_cd_remove_char.c \
-						cmd_cd_change_env.c cmd_cd_check.c
+						cmd_cd_change_env.c cmd_cd_check.c cmd_jobs_utils.c
 	REDIR_FILES		:=	redir_dgreat.c redir_fd_great.c fd_utils.c \
 						redir_great.c redir_less.c parse_redirections.c \
 						redir_fd_less.c redirections_errors.c redir_fd_utils.c \

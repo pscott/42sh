@@ -1,6 +1,31 @@
 #include "builtins.h"
 #include "errors.h"
 
+static int	job_control_id(t_cmd_id cmd_id)
+{
+	if (cmd_id == cmd_jobs)
+		return (1);
+	else if (cmd_id == cmd_fg)
+		return (1);
+	else if (cmd_id == cmd_bg)
+		return (1);
+	return (0);
+}
+
+static int	case_job_control(t_cmd_id cmd_id, char **argv)
+{
+	int	ret;
+
+	ret = 0;
+	if (cmd_id == cmd_jobs)
+		ret = case_jobs(argv);
+	else if (cmd_id == cmd_fg)
+		ret = case_fg(argv);
+	else if (cmd_id == cmd_bg)
+		ret = case_bg(argv);
+	return (ret);
+}
+
 /*
 **	Executes the builtin corresponding to the cmd_id parameter (see cmd enums).
 **	Returns 1 if it executed something.
@@ -13,6 +38,7 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 {
 	int				ret;
 
+	ret = 0;
 	if (!argv)
 		ret = 1;
 	else if (cmd_id == cmd_exit)
@@ -25,20 +51,10 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 		ret = case_type(argv, vars);
 	else if (cmd_id == cmd_hash)
 		ret = case_hash(argv, vars);
-	else if (cmd_id == cmd_setenv)
-		ret = case_setenv(argv, vars);
-	else if (cmd_id == cmd_unsetenv)
-		ret = case_unsetenv(argv, vars);
 	else if (cmd_id == cmd_echo)
 		ret = case_echo(argv);
-	else if (cmd_id == cmd_jobs)
-		ret = case_jobs(argv);
-	else if (cmd_id == cmd_fg)
-		ret = case_fg(argv);
-	else if (cmd_id == cmd_bg)
-		ret = case_bg(argv);
-	else
-		ret = 0;
+	else if (job_control_id(cmd_id))
+		ret = case_job_control(cmd_id, argv);
 	ft_free_ntab(argv);
 	return (ret);
 }
@@ -52,25 +68,21 @@ int			check_builtins(char **argv)
 {
 	if (ft_strequ(argv[0], "exit"))
 		return (cmd_exit);
-	if (ft_strequ(argv[0], "env"))
+	else if (ft_strequ(argv[0], "env"))
 		return (cmd_env);
-	if (ft_strequ(argv[0], "cd"))
+	else if (ft_strequ(argv[0], "cd"))
 		return (cmd_cd);
-	if (ft_strequ(argv[0], "hash"))
+	else if (ft_strequ(argv[0], "hash"))
 		return (cmd_hash);
-	if (ft_strequ(argv[0], "type"))
+	else if (ft_strequ(argv[0], "type"))
 		return (cmd_type);
-	if (ft_strequ(argv[0], "setenv"))
-		return (cmd_setenv);
-	if (ft_strequ(argv[0], "unsetenv"))
-		return (cmd_unsetenv);
-	if (ft_strequ(argv[0], "echo"))
+	else if (ft_strequ(argv[0], "echo"))
 		return (cmd_echo);
-	if (ft_strequ(argv[0], "jobs"))
+	else if (ft_strequ(argv[0], "jobs"))
 		return (cmd_jobs);
-	if (ft_strequ(argv[0], "fg"))
+	else if (ft_strequ(argv[0], "fg"))
 		return (cmd_fg);
-	if (ft_strequ(argv[0], "bg"))
+	else if (ft_strequ(argv[0], "bg"))
 		return (cmd_bg);
 	return (0);
 }

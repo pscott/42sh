@@ -43,6 +43,12 @@ int		case_fg(char **argv);
 int		case_bg(char **argv);
 
 /*
+**	Jobs utils
+*/
+
+int		get_options(char **argv, int *i);
+
+/*
 **	Exit utils
 */
 

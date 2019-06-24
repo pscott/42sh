@@ -11,6 +11,7 @@ int		launch_job(t_job *j, int foreground)
 	int			fds[2];
 
 	fds[0] = j->stdin;
+	ft_bzero(mypipe, sizeof(int) * 2);
 	p = j->first_process;
 	if (foreground)
 		tcsetattr(j->stdin, TCSADRAIN, &g_saved_attr);

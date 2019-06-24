@@ -29,7 +29,11 @@ int		launch_job(t_job *j, int foreground)
 			fds[1] = j->stdout;
 		pid = fork();
 		if (pid == 0)
+		{
+			if (fds[0] != mypipe[0])
+				close(mypipe[0]);
 			launch_process(p, j->pgid, fds, foreground);
+		}
 		else if (pid < 0)
 		{
 			ft_dprintf(2, "fork failed\n");

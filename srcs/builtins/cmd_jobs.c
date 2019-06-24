@@ -56,6 +56,8 @@ int		case_jobs(char **argv)
 	t_job_opt	opt;
 	int			i;
 
+	if (!g_isatty)
+		return (0);
 	reset_notif();
 	i = 1;
 	opt = get_options(argv, &i);

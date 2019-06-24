@@ -5,6 +5,8 @@ int		case_fg(char **argv)
 {
 	t_job *j;
 
+	if (!g_isatty)
+		return (0);
 	update_status();
 	if (!argv[1])
 		j = get_job("%+", "fg");

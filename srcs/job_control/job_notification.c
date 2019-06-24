@@ -126,6 +126,8 @@ void		do_job_notification(int verbose, t_job_opt opt)
 {
 	t_job		*j;
 
+	if (!g_isatty)
+		return ;
 	set_current();
 	update_status();
 	if (!(j = g_first_job))

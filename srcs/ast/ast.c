@@ -152,7 +152,8 @@ static int	background_exec(t_ast *root, t_vars *vars)
 			if (!(j->first_process->process_str = ft_strdup(j->command)))
 				clean_exit(1, 1);
 		}
-		ft_dprintf(STDERR_FILENO, "[%d] %d\n", j->num, j->pgid);
+		if (g_isatty)
+			ft_dprintf(STDERR_FILENO, "[%d] %d\n", j->num, j->pgid);
 	}
 	else
 		return (parse_cmdline(root, vars, 0));

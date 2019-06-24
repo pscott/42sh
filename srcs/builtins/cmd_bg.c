@@ -19,6 +19,8 @@ int			case_bg(char **argv)
 	t_job	*j;
 	int		i;
 
+	if (!g_isatty)
+		return (0);
 	update_status();
 	if (!argv[1])
 	{

@@ -13,8 +13,7 @@ int		launch_job(t_job *j, int foreground)
 	fds[0] = j->stdin;
 	p = j->first_process;
 	if (foreground)
-		if (tcsetattr(j->stdin, TCSADRAIN, &g_saved_attr))
-			ft_dprintf(2, "FAILED TO RESET TERMINAL SETTINGS\n");
+		tcsetattr(j->stdin, TCSADRAIN, &g_saved_attr);
 	while (p)
 	{
 		if (p->next)
@@ -65,8 +64,7 @@ int		launch_job(t_job *j, int foreground)
 			ret = wait_for_job(j, 0);
 	}
 	if (foreground)
-		if (tcsetattr(j->stdin, TCSADRAIN, &g_42sh_attr))
-			ft_dprintf(2, "FAILED TO RESET TERMINAL SETTINGS\n");
+		tcsetattr(j->stdin, TCSADRAIN, &g_42sh_attr);
 	if (WIFSIGNALED(ret))
 	{
 		if ((j->forked || j->fg) && WTERMSIG(ret) != SIGINT && WTERMSIG(ret) != SIGPIPE)

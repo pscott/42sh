@@ -49,7 +49,7 @@ int				parse_cmdline(t_ast *root, t_vars *vars, int fg)
 	}
 	j->first_process = p;
 	ret = launch_job(j, fg);
-	if (!fg && !j->forked)
+	if (g_isatty && !fg && !j->forked)
 		ft_dprintf(STDERR_FILENO, "[%d] %d\n", j->num, get_last_pid(j));
 	if (j->forked)
 	{

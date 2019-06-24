@@ -18,6 +18,7 @@ void	set_default_shell_vars(t_vars *vars)
 		{
 			add_variables("PWD", str, &vars->shell_vars);
 			add_variables("PWD", str, &vars->env_vars);
+			ft_strdel(&str);
 		}
 	}
 	if (get_varline_from_vartab("TERM", vars->shell_vars) == NULL)

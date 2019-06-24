@@ -115,6 +115,7 @@ int		print_job_status(t_job *j, int verbose, t_job_opt opt)
 	else if ((job_is_stopped(j) && !j->notified))
 	{
 		format_job_info(j, get_stop_str(WSTOPSIG(j->status)), "", opt);
+		j->fg = 0;
 		j->notified = 1;
 	}
 	else if (verbose && !j->fg)

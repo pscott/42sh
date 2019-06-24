@@ -19,5 +19,6 @@ int		put_job_in_background(t_job *j, int cont)
 		p = p->next;
 	}
 	j->fg = 0;
+	j->bg = 1;
 	return (0);
 }

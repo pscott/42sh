@@ -30,6 +30,7 @@ int		put_job_in_foreground(t_job *j, int cont)
 	}
 	j->notified = 0;
 	j->fg = 1;
+	j->bg = 0;
 	ret = wait_for_job(j, WUNTRACED);
 	if (tcsetpgrp(STDIN_FILENO, g_shell_pgid))
 		put_error("error giving terminal control to 42sh");

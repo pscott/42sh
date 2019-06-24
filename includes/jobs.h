@@ -31,6 +31,7 @@ typedef struct		s_job
 	char				*command;
 	struct s_process	*first_process;     /* list of processes in this job */
 	int				fg;
+	int				bg;
 	int				num;
 	int				status;
 	int				stdin;

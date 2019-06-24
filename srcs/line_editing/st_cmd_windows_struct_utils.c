@@ -1,5 +1,7 @@
 #include "line_editing.h"
 #include <sys/ioctl.h>
+#include <stdio.h>
+#include <errno.h>
 
 /*
 **	Updates the window struct passed as a parameter by calling the ioctl
@@ -27,11 +29,7 @@ void			update_window_struct(struct winsize *window)
 {
 	if (isatty(TERM_FD) == 0)
 		return ;
-	if (ioctl(STDIN_FILENO, TIOCGWINSZ, window) == -1)
-	{
-		ft_dprintf(2, "error ioctl: exiting!\n");
-		clean_exit(1, 1);
-	}
+	ioctl(STDIN_FILENO, TIOCGWINSZ, window);
 	window->ws_col = ft_max(window->ws_col, 0);
 	window->ws_row = ft_max(window->ws_col, 0);
 }

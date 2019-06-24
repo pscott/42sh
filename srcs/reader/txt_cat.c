@@ -15,8 +15,7 @@ char	*concatenate_txt(t_st_cmd *st_cmd)
 		clean_exit(1, 1);
 	while (st_cmd)
 	{
-		if (!(input = ft_strjoin_free_left(input, st_cmd->st_txt->txt)))
-			clean_exit(1, 1);
+		input = ft_strjoin_free_left(input, st_cmd->st_txt->txt);
 		st_cmd = st_cmd->next;
 	}
 	return (input);
@@ -35,8 +34,7 @@ char	*concatenate_heredoc_txt(t_st_cmd *st_cmd, t_st_cmd *start)
 		clean_exit(1, 1);
 	while (st_cmd)
 	{
-		if (!(input = ft_strjoin_free_left(input, st_cmd->st_txt->txt)))
-			clean_exit(1, 1);
+		input = ft_strjoin_free_left(input, st_cmd->st_txt->txt);
 		st_cmd = st_cmd->next;
 	}
 	return (input);

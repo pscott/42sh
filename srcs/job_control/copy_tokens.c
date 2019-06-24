@@ -27,7 +27,7 @@ char	*copy_ast_tokens(t_ast *root)
 		return (NULL);
 	if (!root->left)
 		return (tokens_to_str(root->token, tk_amp));
-	left = ft_strjoin_free_left(copy_ast_tokens(root->left), root->token->content); // protect
+	left = ft_strjoin_free_left(copy_ast_tokens(root->left), root->token->content);
 	right = copy_ast_tokens(root->right);
 	res = ft_strjoin_free_left(left, right);
 	ft_strdel(&right);
@@ -43,10 +43,8 @@ static char	*ntab_to_str(char **split)
 	res = NULL;
 	while (split[i])
 	{
-		if (!(res = ft_strjoin_free_left(res, split[i])))
-			clean_exit(1, 1);
-		if (!(res = ft_strjoin_free_left(res, " ")))
-			clean_exit(1, 1);
+		res = ft_strjoin_free_left(res, split[i]);
+		res = ft_strjoin_free_left(res, " ");
 		i++;
 	}
 	return (res);

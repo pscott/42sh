@@ -34,10 +34,5 @@ void		print_introduction(void);
 int			is_full_of_whitespaces(const char *input);
 void		clean_exit(int exitno, int malloc_error);
 
-/*
-**	Debug
-*/
-
-void		magic_print(char *buf);
-
+char		*ft_strjoin_free_left(char *s1, const char *s2);
 #endif

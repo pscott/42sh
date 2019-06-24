@@ -72,7 +72,7 @@ VPATH	:=	$(SRC_DIR) $(addprefix $(SRC_DIR)/,$(SRC_SUBDIRS))
 # Srcs file names ##############################################################
 SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c
 	ENV_FILES		:=	environ_set.c environ_utils.c init_env.c shlvl.c\
-						environ_unset.c
+						environ_unset.c ft_strjoin_free_left.c
 	ERRORS_FILES	:=	errors.c print_errors.c error_exit.c
 	LEXER_FILES		:=	lexer.c lexer_tools.c lexer_op_chart.c get_token.c \
 						copy_token_list.c lexer_escape_tools.c \

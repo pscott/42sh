@@ -19,8 +19,11 @@ char	*concatenate_txt(t_st_cmd *st_cmd)
 		if (replace_bang(&(st_cmd->st_txt->txt), 1))
 		{
 			free(input);
-			return (NULL);
+			if (!(input = ft_strnew(0)))
+				clean_exit(1, 1);
+			return (input);
 		}
+		else
 		if (!(input = ft_strjoin_free_left(input, st_cmd->st_txt->txt)))
 			clean_exit(1, 1);
 		st_cmd = st_cmd->next;

@@ -4,6 +4,7 @@
 #include "cmd_parsing.h"
 #include "history.h"
 #include "errors.h"
+#include "builtins.h"
 
 int				case_bangbang(t_st_cmd *st_cmd, char **str, int *i, int mode)
 {
@@ -30,6 +31,28 @@ int				case_bangbang(t_st_cmd *st_cmd, char **str, int *i, int mode)
 	return (0);
 }
 
+static int		get_correct_nb_bang(char *to_find, int hist_len)
+{
+	int			nb;
+	int			i;
+	char		*corr;
+
+	i = -1;
+	while (to_find[++i] == 0)
+		;
+	if (!(corr = ft_strndup(to_find + i, 5)))
+		clean_exit(1, 1);
+	nb = ft_atoi(corr);
+	if (nb == 0 || nb > hist_len || nb * -1 > hist_len)
+		nb = -1;
+	else if (nb < 0 && hist_len + nb >= 0)
+		nb += hist_len + 1;
+	else if (hist_len + nb < 0)
+		nb = 1;
+	free(corr);
+	return (nb);
+}
+
 int				case_nb(t_st_cmd *st_cmd, char **str, int *i, int mode)
 {
 	t_hist_lst	*insert;
@@ -38,7 +61,7 @@ int				case_nb(t_st_cmd *st_cmd, char **str, int *i, int mode)
 	size_t		index[2];
 	int			nb;
 
-	if ((nb = ft_atoi(&((*str)[*i]))) == 0)
+	if ((nb = get_correct_nb_bang(&((*str)[*i]), *st_cmd->hist_len)) < 0)
 	{
 		if (mode)
 			return (print_errors(ERR_NOT_FOUND, ERR_NOT_FOUND_STR, NULL));
@@ -102,12 +125,11 @@ int				replace_bang(char **str, int mode)
 				ret = case_bangbang(st_cmd, str, &i, mode);
 			else if (ft_isdigit((*str)[i]) || (*str)[i] == '-')
 				ret = case_nb(st_cmd, str, &i, mode);
-			else if (ft_is_white_space((*str)[i]))
+			else if (ft_is_white_space((*str)[i]) || (*str)[i] == '=')
 				i++;
 			else
 				ret = case_word(st_cmd, str, &i, mode);
 		}
-		ft_dprintf(2, "\n str :{%s}", *str);
 		if (ret != 0)
 			return (ret);
 	}

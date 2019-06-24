@@ -4,7 +4,8 @@ int		exit_status(int status)
 {
 	int	ret;
 
-	ret = WIFSTOPPED(status) ? WSTOPSIG(status) : 0;
+	if ((ret = WIFSTOPPED(status) ? 128 + WSTOPSIG(status) : 0))
+		return (ret);
 	ret = WIFSIGNALED(status) ? 128 + WTERMSIG(status) : WEXITSTATUS(status);
 	return (ret);
 }

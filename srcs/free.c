@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/24 11:21:17 by penzo             #+#    #+#             */
+/*   Updated: 2019/06/24 11:21:21 by penzo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ftsh.h"
 #include "line_editing.h"
 #include "lexer.h"
@@ -35,8 +47,10 @@ void		free_ast(t_ast *ast_root)
 	free_ast_node(ast_root);
 }
 
-char		*free_get_doc(char *txt, char *eof)
+char		*free_get_doc(char *txt, char *eof, t_st_cmd *cmd,
+	t_st_cmd *start_heredoc)
 {
+	clean_heredoc(cmd, start_heredoc);
 	ft_strdel(&txt);
 	ft_strdel(&eof);
 	return (NULL);

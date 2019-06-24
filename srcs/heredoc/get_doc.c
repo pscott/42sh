@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_doc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/24 11:21:17 by penzo             #+#    #+#             */
+/*   Updated: 2019/06/24 11:21:21 by penzo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "input.h"
 #include "heredoc.h"
 #include "history.h"
@@ -77,10 +89,7 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 	while (42)
 	{
 		if ((len = input_loop(cmd, vars, heredoc)) < 1 || !*cmd->st_txt->txt)
-		{
-			clean_heredoc(cmd, start_heredoc);
-			return (free_get_doc(txt, eof));
-		}
+			return (free_get_doc(txt, eof, cmd, start_heredoc));
 		if (!is_eof_quoted)
 			apply_escape(cmd);
 		txt = concatenate_heredoc_txt(cmd, start_heredoc);

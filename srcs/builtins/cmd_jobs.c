@@ -35,7 +35,7 @@ static int	get_options(char **argv, int *i)
 				if (argv[*i][j] == 'p')
 					opt = PID;
 				else if (argv[*i][j] == 'l')
-					opt = opt == PID ? PID: LONG;
+					opt = LONG;
 				else if (argv[*i][j] == 0)
 					break;
 				else

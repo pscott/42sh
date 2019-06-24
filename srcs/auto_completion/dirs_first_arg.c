@@ -40,7 +40,7 @@ char				*get_dirs_first_arg(const char *directory, const char *str,
 		clean_exit(1, 1);
 	find_matching_dirs(directory, &match, to_find);
 	if (match)
-		ret_str = get_ret_or_display_matches(match, to_find, len);
+		ret_str = get_ret_or_display_matches(match, to_find, len, 0);
 	ft_strdel(&to_find);
 	return (ret_str);
 }

@@ -1,5 +1,34 @@
 #include "auto_completion.h"
 
+void				my_ft_list_sort(t_auto_comp **begin_list)
+{
+	t_auto_comp		*current;
+	t_auto_comp		*current2;
+	char			*next;
+
+	current = NULL;
+	if (!begin_list || !*begin_list)
+		return ;
+	while ((*begin_list)->prev)
+		(*begin_list) = (*begin_list)->prev;
+	current = *begin_list;
+	while (current)
+	{
+		current2 = *begin_list;
+		while (current2->next)
+		{
+			if (ft_strcmp(current2->name, current2->next->name) > 0)
+			{
+				next = current2->name;
+				current2->name = current2->next->name;
+				current2->next->name = next;
+			}
+			current2 = current2->next;
+		}
+		current = current->next;
+	}
+}
+
 unsigned int		len_lst(t_auto_comp *lst)
 {
 	unsigned int	i;

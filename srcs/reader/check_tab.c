@@ -6,9 +6,10 @@
 static int	check_auto_complete(t_vars *vars, t_st_cmd *st_cmd,
 		char **tmp, int mode)
 {
+	(void)vars;
 	if (mode == regular
 		&& (*tmp = auto_completion(st_cmd->st_txt->txt,
-				st_cmd->st_txt->tracker, vars)))
+				st_cmd->st_txt->tracker)))
 		return (1);
 	else if ((mode == heredoc || mode == continue_read)
 		&& (*tmp = auto_completion_spe(st_cmd->st_txt->txt,

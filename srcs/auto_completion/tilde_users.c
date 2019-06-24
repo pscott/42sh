@@ -79,7 +79,7 @@ char					*users_passwd(const char *to_find)
 	get_users_list(&match, str);
 	if (match)
 		ret_str = get_ret_or_display_matches(match, to_find,
-				ft_strlen(to_find));
+				ft_strlen(to_find), 0);
 	ft_strdel(&str);
 	return (ret_str);
 }

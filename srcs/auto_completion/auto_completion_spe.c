@@ -31,32 +31,47 @@ static int			get_all(const char *directory,
 	return (0);
 }
 
-static char			*get_match_and_display_hdoc(const char *input,
-					const char *to_find_and_next_char)
+static int			special_case(char **r_str, char *input, char *next)
+{
+	if (input && input[0] == '$')
+	{
+		*r_str = varz(input, next);
+		return (1);
+	}
+	if (input && input[0] == '~' && (!input[1] || input[1] != '/'))
+	{
+		*r_str = users_passwd(input);
+		return (1);
+	}
+	return (0);
+}
+
+static char			*get_match_and_display_hdoc(char *input,
+					char *next)
 {
 	char			*path;
-	char			*to_find;
+	char			*to_f;
 	char			*tmp;
 	char			*r_str;
 	t_auto_comp		*match;
 
-	initialize_str(&to_find, &path, &r_str, &tmp);
+	initialize_str(&to_f, &path, &r_str, &tmp);
 	match = NULL;
-	if (input && input[0] == '~' && (!input[1] || input[1] != '/'))
-		return (r_str = users_passwd(input));
-	else if (input && input[0] && ft_strchr(input, '/'))
+	if ((special_case(&r_str, input, next)))
+		return (r_str);
+	if (input && input[0] && ft_strchr(input, '/'))
 		tmp = ft_strndup(input, ft_strlen(input)
 				- ft_strlen(ft_strrchr(input, '/') + 1));
-	get_path_file_and_to_find(input, &path, &to_find);
-	if (!to_find[0])
+	get_path_file_and_to_find((char *)input, &path, &to_f);
+	if (!to_f[0])
 		get_all(path, &match);
-	get_all_match(path, &match, to_find, to_find_and_next_char);
+	get_all_match(path, &match, to_f, next);
 	if (match)
-		r_str = get_ret_or_display_matches(match, to_find, ft_strlen(to_find));
-	else if (!(r_str = ft_strdup(to_find)))
+		r_str = get_ret_or_display_matches(match, to_f, ft_strlen(to_f), 0);
+	else if (!(r_str = ft_strdup(to_f)))
 		clean_exit(1, 1);
 	get_good_ret_str(&r_str, tmp);
-	free_four_strings(&tmp, NULL, &path, &to_find);
+	free_four_strings(&tmp, NULL, &path, &to_f);
 	return (r_str);
 }
 

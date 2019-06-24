@@ -12,31 +12,6 @@ int				is_same_char(char a, char b)
 	return (0);
 }
 
-int				get_needed_values
-	(const char *input, unsigned int len, char **str, char **to_find_full)
-{
-	int			start_actual_word;
-
-	start_actual_word = len;
-	*str = NULL;
-	*to_find_full = NULL;
-	if (!(*str = ft_strndup(input, len + 1)))
-		clean_exit(1, 1);
-	if (!(*to_find_full = ft_strndup(input, len)))
-		clean_exit(1, 1);
-	if (len > 0
-		&& ft_is_unslashed_metachar(*to_find_full, len - 1, white_space))
-		start_actual_word--;
-	while (start_actual_word > 0
-		&& !ft_is_unslashed_metachar(*to_find_full,
-			start_actual_word, white_space))
-		start_actual_word--;
-	if (ft_is_unslashed_metachar(*to_find_full, start_actual_word, white_space))
-		start_actual_word++;
-	ft_dprintf(2, "{%d}", start_actual_word);
-	return (start_actual_word);
-}
-
 int				get_path(char ***path, t_vars *vars)
 {
 	char		*tmpath;

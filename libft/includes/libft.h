@@ -11,7 +11,7 @@ typedef	struct	s_list
 	struct s_list	*next;
 }				t_list;
 
-enum			{white_space = 1, parenth, quote};
+enum			{white_space = 1, parenth, quote, separator};
 
 void			ft_bzero(void *s, size_t n);
 int				ft_max(const int a, const int b);

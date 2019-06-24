@@ -26,7 +26,7 @@ char						*auto_completion_bin(t_vars *vars,
 								const char *str,
 								const char *to_find_and_next_char);
 char						*auto_completion_space(t_vars *vars);
-char						*auto_completion_x_arg(const char *input,
+char						*auto_completion_x_arg(char *input,
 								const char *to_find_and_next_char);
 char						*home_directory_first_arg(const char *to_find);
 char						*users_passwd(const char *to_find);
@@ -39,10 +39,11 @@ int							get_needed_values(const char *input,
 */
 
 char						*get_ret_or_display_matches(t_auto_comp *match,
-								const char *to_find, size_t len);
+								const char *to_find, size_t len, int mode);
 void						handler_is_display(int signo);
 void						print_spaces(const char *s, unsigned int cols);
 int							is_display(unsigned int count);
+void						my_ft_list_sort(t_auto_comp **begin_list);
 
 /*
 **	Creating list of matches functions
@@ -54,7 +55,7 @@ int							compare_entry(const char *s,
 								const char *n);
 int							compare_entry2(const char *s,
 								const char *n);
-int							get_path_file_and_to_find(const char *arg,
+int							get_path_file_and_to_find(char *arg,
 								char **path, char **to_find);
 int							get_matching_exe(char **path, t_auto_comp **match,
 								const char *to_find_real, const char *next);
@@ -96,5 +97,8 @@ int							format_finding_and_get_correct_ret(char **ret,
 void						get_good_ret_str(char **ret_str, char *tmp);
 int							check_if_slash(struct dirent *ent,
 								const char *directory, const char *filename);
+int							get_first_sep_index(const char *str, int len);
+char						*varz(const char *str, const char *next);
+int							when_to_start(char *str, char **to_f);
 
 #endif

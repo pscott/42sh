@@ -44,7 +44,7 @@ static char			*search_dirs_home_first_arg(const char *directory,
 		return (to_find);
 	if (match)
 		ret_str = get_ret_or_display_matches(match, to_find,
-				ft_strlen(to_find));
+				ft_strlen(to_find), 0);
 	ft_strdel(&to_find);
 	return (ret_str);
 }
@@ -64,7 +64,7 @@ char				*home_directory_first_arg(const char *to_find)
 		if (!(tmp2 = ft_strndup(to_find, ft_strlen(to_find)
 				- ft_strlen(ft_strrchr(to_find, '/') + 1))))
 			clean_exit(1, 1);
-	get_path_file_and_to_find(to_find, &path, &tmp);
+	get_path_file_and_to_find((char *)to_find, &path, &tmp);
 	ret_str = search_dirs_home_first_arg(path, tmp);
 	ft_strdel(&tmp);
 	if (!(tmp = ft_strjoin(tmp2, ret_str)))

@@ -118,6 +118,7 @@ int		print_job_status(t_job *j, int verbose, t_job_opt opt)
 		sig = last_process_status(j->first_process);
 		format_job_info(j, get_stop_str(WSTOPSIG(sig)), "", opt);
 		j->fg = 0;
+		j->bg = 0;
 		j->notified = 1;
 	}
 	else if (verbose && !j->fg)

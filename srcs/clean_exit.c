@@ -20,14 +20,14 @@ static int		check_for_stopped_jobs(void)
 ** Utility function to reset the terminal settings and exit
 */
 
-void	clean_exit(int exitno, int malloc_error)
+void	clean_exit(int exitno, t_exit reason)
 {
 	t_st_cmd	*st_cmd;
 	t_vars		*vars;
 
-	if (malloc_error != 1)
+	if (reason != MALLOC_ERR)
 	{
-		if (!g_can_exit && check_for_stopped_jobs())
+		if (reason != FORCE && !g_can_exit && check_for_stopped_jobs())
 		{
 			ft_dprintf(2, "There are stopped jobs\n");
 			g_can_exit = 1;
@@ -42,7 +42,7 @@ void	clean_exit(int exitno, int malloc_error)
 	}
 	else
 		write(2, "\nexiting: malloc error\n", 23);
-	if (malloc_error != -1)
+	if (reason != READ_ERR)
 		reset_terminal_settings();
 	exit(exitno);
 }

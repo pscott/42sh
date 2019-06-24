@@ -77,7 +77,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c
 	LEXER_FILES		:=	lexer.c lexer_tools.c lexer_op_chart.c get_token.c \
 						copy_token_list.c lexer_escape_tools.c \
 						check_special_token.c
-	PARSER_FILES	:=	ast.c ast_utils.c
+	PARSER_FILES	:=	ast.c ast_utils.c ast_exec.c background_case.c
 	PIPELINE_FILES	:=	parse_pipeline.c check_token_type.c
 	READER_FILES	:=	check_sig_del_arrow.c prompt.c \
 						input_loop.c input_utils.c \

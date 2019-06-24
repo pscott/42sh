@@ -108,6 +108,6 @@ int			input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)
 	if (ret >= 0)
 		return (1);
 	if (ret == -1)
-		clean_exit(-1, -1);
+		clean_exit(-1, READ_ERR);
 	return (0);
 }

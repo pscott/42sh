@@ -34,8 +34,7 @@ void			redirect(int old_fd, int new_fd, int save)
 		else
 		{
 			ft_dprintf(2, SHELL_NAME ": error: dup2 failed\n");
-			g_can_exit = 1;
-			clean_exit(1, 0);
+			clean_exit(1, FORCE);
 		}
 	}
 }

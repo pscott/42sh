@@ -43,6 +43,7 @@ char						*get_ret_or_display_matches(t_auto_comp *match,
 void						handler_is_display(int signo);
 void						print_spaces(const char *s, unsigned int cols);
 int							is_display(unsigned int count);
+void						my_ft_list_sort(t_auto_comp **begin_list);
 
 /*
 **	Creating list of matches functions
@@ -98,5 +99,6 @@ int							check_if_slash(struct dirent *ent,
 								const char *directory, const char *filename);
 int							get_first_sep_index(const char *str, int len);
 char						*varz(const char *str, const char *next);
+int							when_to_start(char *str, char **to_f);
 
 #endif

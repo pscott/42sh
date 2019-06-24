@@ -80,42 +80,13 @@ static int	lst_match_more_than_to_find(t_auto_comp *match, unsigned int len)
 	return (ret - len);
 }
 
-static void	my_ft_list_sort(t_auto_comp **begin_list)
-{
-	t_auto_comp		*current;
-	t_auto_comp		*current2;
-	char			*next;
-
-	current = NULL;
-	if (!begin_list || !*begin_list)
-		return ;
-	while ((*begin_list)->prev)
-		(*begin_list) = (*begin_list)->prev;
-	current = *begin_list;
-	while (current)
-	{
-		current2 = *begin_list;
-		while (current2->next)
-		{
-			if (ft_strcmp(current2->name, current2->next->name) > 0)
-			{
-				next = current2->name;
-				current2->name = current2->next->name;
-				current2->next->name = next;
-			}
-			current2 = current2->next;
-		}
-		current = current->next;
-	}
-}
-
 static char	*get_ret(char *s, int mode)
 {
 	char	*ret_str;
 
 	if (mode == 0)
 		ret_str = ft_strdup(s);
-	else 
+	else
 		ret_str = ft_strjoin(s, "}");
 	if (!(ret_str))
 		clean_exit(1, 1);

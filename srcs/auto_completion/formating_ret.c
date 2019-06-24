@@ -4,11 +4,8 @@
 int		format_finding_and_get_correct_ret(char **ret,
 		int start_actual_word, char *input, unsigned int len)
 {
-	char	*save;
-	char	*tmp;
-	
-	char		c[2];
-	size_t		i[2];
+	char		*save;
+	char		*tmp;
 
 	initialize_str(&save, &tmp, NULL, NULL);
 	if (!(save = ft_strndup(input, start_actual_word)))

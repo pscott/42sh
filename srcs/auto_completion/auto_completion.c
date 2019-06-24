@@ -3,23 +3,25 @@
 #include "input.h"
 
 static int			is_first_arg_and_exec(const char *str,
-					unsigned int cursor_pos, unsigned int start_actual_word)
+					unsigned int pos, unsigned int start)
 {
 	unsigned int	i;
 
-	if (cursor_pos == 0 || str[cursor_pos - 1] == '&' || str[cursor_pos - 1] == ';' || str[cursor_pos - 1] == '|')
+	if (pos == 0 || str[pos - 1] == '&'
+			|| str[pos - 1] == ';' || str[pos - 1] == '|')
 		return (2);
-	cursor_pos--;
-	if (str[start_actual_word] == '$' && (start_actual_word == 0 || str[start_actual_word - 1] != '\\'))
+	pos--;
+	if (str[start] == '$' && (start == 0 || str[start - 1] != '\\'))
 		return (5);
 	i = 0;
-	while (str && (ft_is_white_space(str[i]) || ft_is_quote(str[i])) && i <= cursor_pos)
+	while (str
+			&& (ft_is_white_space(str[i]) || ft_is_quote(str[i])) && i <= pos)
 		i++;
-	if (i < start_actual_word)
+	if (i < start)
 		return (0);
 	else
 	{
-		if (str[cursor_pos] == '\0' || ft_is_white_space(str[cursor_pos]))
+		if (str[pos] == '\0' || ft_is_white_space(str[pos]))
 			return (2);
 		if (str[i] == '~' && str[i + 1] && str[i + 1] == '/')
 			return (6);
@@ -80,34 +82,29 @@ static	char		*handle_first_arg(const char *to_find,
 	return (ret);
 }
 
-char				*auto_completion(char *input, unsigned int len)	
+char				*auto_completion(char *input, unsigned int len)
 {
 	char			*to_find_full;
 	char			*ret;
-	char			*tmp;
 	char			*str;
-	int				start_actual_word;
-	int				len_t;
+	int				start;
 	int				type;
 
 	ret = NULL;
-	tmp = NULL;
 	if (!input)
 		return (NULL);
-	start_actual_word = get_needed_values(input, len, &str, &to_find_full);
-	len_t = ft_strlen(to_find_full);
-	type = is_first_arg_and_exec(to_find_full, len_t, start_actual_word);
+	start = get_needed_values(input, len, &str, &to_find_full);
+	type = is_first_arg_and_exec(to_find_full, ft_strlen(to_find_full), start);
 	if (type > 0)
-		ret = handle_first_arg(to_find_full + start_actual_word, str + start_actual_word, type);
-	else if (!is_first_arg_and_exec(to_find_full, len_t, start_actual_word))
+		ret = handle_first_arg(to_find_full + start, str + start, type);
+	else if (type == 0)
 	{
-		ret = auto_completion_x_arg(to_find_full + start_actual_word,
-				str + start_actual_word);
+		ret = auto_completion_x_arg(to_find_full + start,
+				str + start);
 	}
-	
-//	ft_dprintf(2, "ret : |%s|, input |%s|, len %d, len_t %d, start_act %d\n", ret, input, len, len_t, start_actual_word);
-	
-	format_finding_and_get_correct_ret(&ret, start_actual_word + (len - len_t), input, len);
+//	ft_dprintf(2, "ret : |%s|, input |%s|, len %d, len_t %d, start_act %d\n", ret, input, len, len_t, start);
+	format_finding_and_get_correct_ret(&ret,
+		start + (len - ft_strlen(to_find_full)), input, len);
 	free_two_strings(&to_find_full, &str);
 	return (ret);
 }

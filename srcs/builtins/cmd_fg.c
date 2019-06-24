@@ -12,6 +12,8 @@ int		case_fg(char **argv)
 		j = get_job("%+", "fg");
 	else
 		j = get_job(argv[1], "fg");
+	if (!j)
+		return (1);
 	if (job_is_completed(j))
 	{
 		ft_dprintf(2, SHELL_NAME ": fg: job has terminated\n");

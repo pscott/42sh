@@ -24,7 +24,8 @@ int			case_bg(char **argv)
 	update_status();
 	if (!argv[1])
 	{
-		j = get_job("%+", "bg");
+		if (!(j = get_job("%+", "bg")))
+			return (1);
 		go_to_background(j);
 	}
 	else

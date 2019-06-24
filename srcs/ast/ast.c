@@ -117,7 +117,7 @@ t_ast			*create_ast(t_token *token_head)
 	return (ast_root);
 }
 
-static int	background_exec(t_ast *root, t_vars *vars, int fg)
+static int	background_exec(t_ast *root, t_vars *vars)
 {
 	pid_t	pid;
 	int		ret;
@@ -139,10 +139,7 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 		{
 			pid = getpid();
 			j->pgid = pid;
-			if (fg)
-				ret = exec_ast(root->left, vars, 0);
-			else
-				ret = exec_ast(root->right, vars, 0);
+			ret = exec_ast(root->right, vars, 0);
 			free_job_list(g_first_job);
 			exit(ret);
 		}
@@ -158,7 +155,7 @@ static int	background_exec(t_ast *root, t_vars *vars, int fg)
 		ft_dprintf(STDERR_FILENO, "[%d] %d\n", j->num, j->pgid);
 	}
 	else
-		return (exec_ast(root->left, vars, 0));
+		return (exec_ast(root, vars, 0));
 	return (0);
 }
 
@@ -167,16 +164,10 @@ static int background_case(t_ast *root, t_vars *vars, int fg)
 	if (!root || !root->left)
 		return (1);
 	if (root->left->token->type == tk_amp)
-	{
 		background_case(root->left, vars, 0);
-		background_exec(root->left, vars, 0);
-	}
 	else
-	{
-		background_exec(root, vars, 1);
-		if (fg)
-			exec_ast(root->right, vars, 1);
-	}
+		background_exec(root->left, vars);
+	exec_ast(root->right, vars, fg);
 	return (0);
 }
 

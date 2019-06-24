@@ -42,7 +42,7 @@ void				format_job_info(t_job *j, const char *state, const char *bg, t_job_opt o
 	st_cmd = get_st_cmd(NULL);
 	zsh_newline(st_cmd);
 	if (opt == DEFAULT)
-		ft_dprintf(STDOUT_FILENO, "[%d] %c %-20s %s%s\n", j->num, j->current, state, j->command, bg);
+		ft_dprintf(STDOUT_FILENO, "[%d] %c %-28s %s%s\n", j->num, j->current, state, j->command, bg);
 	else if (opt == PID)
 	{
 		p = j->first_process;
@@ -56,15 +56,15 @@ void				format_job_info(t_job *j, const char *state, const char *bg, t_job_opt o
 	{
 		p = j->first_process;
 		if (p->next)
-			ft_dprintf(STDOUT_FILENO, "[%d]%c %d %-20s %s\n", j->num, j->current, j->pgid, get_process_state(p->status), p->process_str);
+			ft_dprintf(STDOUT_FILENO, "[%d]%c %d %-28s %s\n", j->num, j->current, j->pgid, get_process_state(p->status), p->process_str);
 		else
-			ft_dprintf(STDOUT_FILENO, "[%d]%c %d %-20s %s%s\n", j->num, j->current, j->pgid, get_process_state(p->status), p->process_str, bg);
+			ft_dprintf(STDOUT_FILENO, "[%d]%c %d %-28s %s%s\n", j->num, j->current, j->pgid, get_process_state(p->status), p->process_str, bg);
 		while ((p = p->next))
 		{
 			if (p->next)
-				ft_dprintf(STDOUT_FILENO, "%9d %-20s %s%s\n",  p->pid, get_process_state(p->status), "| ", p->process_str);
+				ft_dprintf(STDOUT_FILENO, "%9d %-28s %s%s\n",  p->pid, get_process_state(p->status), "| ", p->process_str);
 			else
-				ft_dprintf(STDOUT_FILENO, "%9d %-20s %s%s%s\n",  p->pid, get_process_state(p->status), "| ", p->process_str, bg);
+				ft_dprintf(STDOUT_FILENO, "%9d %-28s %s%s%s\n",  p->pid, get_process_state(p->status), "| ", p->process_str, bg);
 		}
 	}
 }

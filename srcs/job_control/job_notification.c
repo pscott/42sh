@@ -99,6 +99,7 @@ static char	*get_exit_str(int status)
 int		print_job_status(t_job *j, int verbose, t_job_opt opt)
 {
 	char	*msg;
+	int		sig;
 
 	if (!j)
 		return (0);
@@ -106,7 +107,7 @@ int		print_job_status(t_job *j, int verbose, t_job_opt opt)
 	{
 		if (!j->fg)
 		{
-			msg = get_exit_str(j->status);
+			msg = get_exit_str(last_process_status(j->first_process));
 			format_job_info(j, msg, "", opt);
 			ft_strdel(&msg);
 		}
@@ -114,7 +115,8 @@ int		print_job_status(t_job *j, int verbose, t_job_opt opt)
 	}
 	else if ((job_is_stopped(j) && !j->notified))
 	{
-		format_job_info(j, get_stop_str(WSTOPSIG(j->status)), "", opt);
+		sig = last_process_status(j->first_process);
+		format_job_info(j, get_stop_str(WSTOPSIG(sig)), "", opt);
 		j->fg = 0;
 		j->notified = 1;
 	}

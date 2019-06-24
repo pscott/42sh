@@ -14,7 +14,5 @@ int		wait_for_job(t_job *j, int opt)
 			&& !job_is_stopped(j)
 			&& !job_is_completed(j))
 		pid = waitpid(WAIT_ANY, &status, opt);
-	j->status = last_process_status(j->first_process);
-	status = j->status;
 	return (status);
 }

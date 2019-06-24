@@ -54,8 +54,4 @@ void	update_status(void)
 	pid = waitpid(WAIT_ANY, &status, opt);
 	while (!mark_process_status(pid, status))
 		pid = waitpid(WAIT_ANY, &status, opt);
-	if (!(j = g_first_job))
-		return ;
-	status = last_process_status(j->first_process);
-	j->status = last_process_status(j->first_process);
 }

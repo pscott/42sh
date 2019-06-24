@@ -33,7 +33,6 @@ typedef struct		s_job
 	int				fg;
 	int				bg;
 	int				num;
-	int				status;
 	int				stdin;
 	int				stdout;
 	int				stderr;

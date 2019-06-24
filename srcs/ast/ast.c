@@ -137,6 +137,7 @@ static int	background_exec(t_ast *root, t_vars *vars)
 		}
 		else if (pid == 0)
 		{
+			close(TERM_FD);
 			pid = getpid();
 			j->pgid = pid;
 			ret = exec_ast(root, vars, 0);

@@ -62,9 +62,9 @@ void				format_job_info(t_job *j, const char *state, const char *bg, t_job_opt o
 		while ((p = p->next))
 		{
 			if (p->next)
-				ft_dprintf(STDOUT_FILENO, "%10d %-20s %s%s\n",  p->pid, get_process_state(p->status), "| ", p->process_str);
+				ft_dprintf(STDOUT_FILENO, "%9d %-20s %s%s\n",  p->pid, get_process_state(p->status), "| ", p->process_str);
 			else
-				ft_dprintf(STDOUT_FILENO, "%10d %-20s %s%s%s\n",  p->pid, get_process_state(p->status), "| ", p->process_str, bg);
+				ft_dprintf(STDOUT_FILENO, "%9d %-20s %s%s%s\n",  p->pid, get_process_state(p->status), "| ", p->process_str, bg);
 		}
 	}
 }

@@ -107,7 +107,6 @@ int				replace_bang(char **str, int mode)
 			else
 				ret = case_word(st_cmd, str, &i, mode);
 		}
-		ft_dprintf(2, "\n str :{%s}", *str);
 		if (ret != 0)
 			return (ret);
 	}

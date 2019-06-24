@@ -42,7 +42,7 @@ t_job		*free_job_from_list(t_job *delete)
 		else
 			g_first_job = NULL;
 		free_job(&delete);
-		return (NULL);
+		return (g_first_job);
 	}
 	jlast = j;
 	while ((j = j->next))

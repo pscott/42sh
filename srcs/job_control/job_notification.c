@@ -134,7 +134,7 @@ void		do_job_notification(int verbose, t_job_opt opt)
 	{
 		if (print_job_status(j, verbose, opt))
 			j = free_job_from_list(j);
-		if (j)
+		else
 			j = j->next;
 	}
 }

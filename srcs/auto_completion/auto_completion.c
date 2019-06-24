@@ -50,7 +50,6 @@ static char			*handle_first_bin(t_vars *vars, const char *to_find,
 		else
 			ret = search_dirs_and_exe(to_find);
 	}
-	ft_dprintf(2, "\n  \n");
 	return (ret);
 }
 
@@ -98,10 +97,6 @@ char				*auto_completion(char *input, unsigned int len)
 	start_actual_word = get_needed_values(input, len, &str, &to_find_full);
 	len_t = ft_strlen(to_find_full);
 	type = is_first_arg_and_exec(to_find_full, len_t, start_actual_word);
-//	if (is_first_arg_and_exec(to_find_full, len_t, start_actual_word) == 3)
-//	if (type == 3)
-//		ret = handle_first_bin(get_vars(NULL), to_find_full + start_actual_word,
-//				str + start_actual_word);
 	if (type > 0)
 		ret = handle_first_arg(to_find_full + start_actual_word, str + start_actual_word, type);
 	else if (!is_first_arg_and_exec(to_find_full, len_t, start_actual_word))

@@ -45,13 +45,23 @@ int				get_needed_values
 //	ft_dprintf(2, "\n str |%s| to_find %s\n",* str, *to_find_full);
 
 	start_actual_word = len - start_cmd;
+//	ft_dprintf(2, "\n start_act |%d|\n", start_actual_word);
 	while (start_actual_word > 0
-		&& !ft_is_unslashed_metachar(*to_find_full, start_actual_word, white_space))
+		&& !ft_is_unslashed_metachar(*to_find_full, start_actual_word, white_space)
+		&& (((*to_find_full)[start_actual_word] != '\''
+				&&((*to_find_full)[start_actual_word] != '\"'))
+			&& (*to_find_full)[start_actual_word] != '\\'))
+	{
+//	ft_dprintf(2, "\n start_act |%d| et{%c} \n", start_actual_word, (*to_find_full)[start_actual_word]);
 		start_actual_word--;
-	if (ft_is_unslashed_metachar(*to_find_full, start_actual_word, white_space)
+	}
+//	ft_dprintf(2, "\n start_act |%d|\n", start_actual_word);
+	while (ft_is_unslashed_metachar(*to_find_full, start_actual_word, white_space)
 		|| (start_actual_word == 0
-			&& ((ft_is_white_space((*to_find_full)[0])) || ft_is_quote((*to_find_full)[0])))
-		|| (ft_is_unslashed_metachar(*to_find_full, start_actual_word, quote)))
+			&& ((ft_is_white_space((*to_find_full)[start_actual_word])) || ft_is_quote((*to_find_full)[start_actual_word])))
+		|| (((*to_find_full)[start_actual_word] == '\''
+				 || ((*to_find_full)[start_actual_word] == '\"'))
+			&& (*to_find_full)[start_actual_word] != '\\'))
 		start_actual_word++;
 
 //	ft_dprintf(2, "\n start_act |%d|\n", start_actual_word);

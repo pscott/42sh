@@ -126,7 +126,7 @@ static int	background_exec(t_ast *root, t_vars *vars)
 	if (!root)
 		return (0);
 	j = append_job(&g_first_job, create_job(root, 0, get_last_num(g_first_job) + 1));
-	if (root->left && root->left->token->type >= tk_and)
+	if (root->token->type >= tk_and)
 	{
 		j->forked = 1;
 		if ((pid = fork()) < 0)
@@ -139,7 +139,7 @@ static int	background_exec(t_ast *root, t_vars *vars)
 		{
 			pid = getpid();
 			j->pgid = pid;
-			ret = exec_ast(root->right, vars, 0);
+			ret = exec_ast(root, vars, 0);
 			free_job_list(g_first_job);
 			exit(ret);
 		}
@@ -155,7 +155,7 @@ static int	background_exec(t_ast *root, t_vars *vars)
 		ft_dprintf(STDERR_FILENO, "[%d] %d\n", j->num, j->pgid);
 	}
 	else
-		return (exec_ast(root, vars, 0));
+		return (parse_cmdline(root, vars, 0));
 	return (0);
 }
 
@@ -167,7 +167,10 @@ static int background_case(t_ast *root, t_vars *vars, int fg)
 		background_case(root->left, vars, 0);
 	else
 		background_exec(root->left, vars);
-	exec_ast(root->right, vars, fg);
+	if (fg)
+		exec_ast(root->right, vars, 1);
+	else
+		background_exec(root->right, vars);
 	return (0);
 }
 

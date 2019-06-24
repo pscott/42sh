@@ -20,15 +20,16 @@ t_token	*copy_tokens_from_to(t_token *from, t_token *to)
 char	*copy_ast_tokens(t_ast *root)
 {
 	char	*res;
+	char	*left;
 	char	*right;
 
 	if (!root)
 		return (NULL);
 	if (!root->left)
 		return (tokens_to_str(root->token, tk_amp));
-	res = ft_strjoin_free_left(copy_ast_tokens(root->left), root->token->content); // protect
+	left = ft_strjoin_free_left(copy_ast_tokens(root->left), root->token->content); // protect
 	right = copy_ast_tokens(root->right);
-	res = ft_strjoin_free_left(res, right);
+	res = ft_strjoin_free_left(left, right);
 	ft_strdel(&right);
 	return (res);
 }
@@ -55,17 +56,10 @@ char	*copy_job_tokens(t_ast *root)
 {
 	char	*res;
 	char	**split;
-	t_ast	*new_root;
 
 	if (!root)
 		return (NULL);
-	else if (!root->left)
-		new_root = root;
-	else if (root->left->token->type == tk_amp)
-		new_root = root->right;
-	else
-		new_root = root->left;
-	res = copy_ast_tokens(new_root);
+	res = copy_ast_tokens(root);
 	if (!(split = ft_strsplit(res, " ")))
 		clean_exit(1, 1);
 	ft_strdel(&res);

@@ -54,7 +54,8 @@ int				parse_arith_exp(char **str, t_vars *vars)
 
 	i = 0;
 	escaped = 0;
-	while (vars->verbose && (*str)[i])
+	//while (vars->verbose && (*str)[i])
+	while ((*str)[i])
 	{
 		if (!escaped && !ft_strncmp("$((", (*str) + i, 3)
 				&& is_matched((*str) + i, "$((", "))"))

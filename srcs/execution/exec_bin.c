@@ -70,7 +70,7 @@ int					exec_bin(char **argv)
 	if (!vars)
 		return (1);
 	i = 0;
-	if (!(cmd_path = get_cmd_path(argv[i], vars->shell_vars, 1)))
+	if (!(cmd_path = get_cmd_path(argv[i], vars, 1)))
 		return (1);
 	ret = exec_env_bin(cmd_path, argv, vars->env_vars);
 	ft_strdel(&cmd_path);

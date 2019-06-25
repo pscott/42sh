@@ -5,8 +5,6 @@
 #include "errors.h"
 #include "env.h"
 
-//static int			access_and_exec(char *cmd_path, char **argv, int have_assign,
-//	const char **env)
 static int			access_and_exec(char *cmd_path, char **argv,
 	int have_assign, t_vars *vars)
 {
@@ -72,7 +70,7 @@ static int			execute_argv(char **argv, int have_assign, t_vars *vars)
 		if (!(cmd_path = ft_strdup(cmd_path)))
 			clean_exit(1, 1);
 	}
-	else if ((cmd_path = get_cmd_path(argv[0], vars->shell_vars, 1)))
+	else if ((cmd_path = get_cmd_path(argv[0], vars, 1)))
 		;
 	else
 	{
@@ -112,7 +110,7 @@ int					parse_and_exec(t_token *token_head, int in,
 	if ((have_assign = parse_assignation(token_head, vars)))
 	{
 		vars->env_save = get_ntab_cpy(vars->env_vars);
-		apply_assignation_to_ntab(vars->assign_tab, &vars->env_vars);
+		apply_assignation_to_ntab(&vars->assign_tab, &vars->env_vars);
 	}
 	if ((ret = get_argv_from_token_lst(token_head, &argv) > 0))
 		return (0);

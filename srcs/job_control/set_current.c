@@ -1,6 +1,6 @@
 #include "jobs.h"
 
-static void	set_plus(t_job *j)
+static void		set_plus(t_job *j)
 {
 	t_job	*res;
 	t_job	*probe;
@@ -11,7 +11,7 @@ static void	set_plus(t_job *j)
 	{
 		if (job_is_stopped(probe))
 			res = probe;
-		 probe = probe->next;
+		probe = probe->next;
 	}
 	if (!res)
 	{
@@ -27,7 +27,29 @@ static void	set_plus(t_job *j)
 		res->current = '+';
 }
 
-static void set_minus(t_job *j)
+static t_job	*check_for_last_job(t_job *j)
+{
+	t_job	*probe;
+	t_job	*last;
+	t_job	*res;
+
+	probe = j;
+	last = NULL;
+	while (probe->next)
+	{
+		if (!probe->fg)
+		{
+			res = probe;
+			last = res;
+		}
+		probe = probe->next;
+	}
+	if (probe && probe->current != '+')
+		last = probe;
+	return (last);
+}
+
+static void		set_minus(t_job *j)
 {
 	t_job	*res;
 	t_job	*last;
@@ -35,6 +57,7 @@ static void set_minus(t_job *j)
 
 	last = NULL;
 	probe = j;
+	res = NULL;
 	while (probe)
 	{
 		if (job_is_stopped(probe))
@@ -42,28 +65,15 @@ static void set_minus(t_job *j)
 			last = res;
 			res = probe;
 		}
-		 probe = probe->next;
+		probe = probe->next;
 	}
 	if (!last)
-	{
-		probe = j;
-		while (probe->next)
-		{
-			if (!probe->fg)
-			{
-				res = probe;
-				last = res;
-			}
-			probe = probe->next;
-		}
-		if (probe && probe->current != '+')
-			last = probe;
-	}
+		last = check_for_last_job(j);
 	if (last)
 		last->current = '-';
 }
 
-static void	clean_current(t_job *j)
+static void		clean_current(t_job *j)
 {
 	while (j)
 	{
@@ -72,8 +82,7 @@ static void	clean_current(t_job *j)
 	}
 }
 
-
-void		set_current(void)
+void			set_current(void)
 {
 	t_job	*j;
 

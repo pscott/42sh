@@ -12,8 +12,8 @@ static void	go_to_background(t_job *j)
 		put_job_in_background(j, 1);
 		j->bg = 1;
 		j->notified = 0;
-		ft_dprintf(STDERR_FILENO, "[%d]%c %s&\n",
-				j->num, j->current, j->command);
+		ft_dprintf(STDERR_FILENO, "[%d] %s&\n",
+				j->num, j->command);
 	}
 }
 

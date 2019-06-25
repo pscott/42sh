@@ -128,10 +128,8 @@ int					get_argv_from_token_lst(t_token *token_head, char ***argv)
 	argv_len = 0;
 	while (probe)
 	{
-		if (probe->type == tk_word
-			&& !ft_strlen(probe->content)
-			&& probe->next
-			&& probe->next->type == tk_eat)
+		if (probe->type == tk_word && !ft_strlen(probe->content)
+				&& probe->next && probe->next->type == tk_eat)
 		{
 			probe->type = tk_eat;
 			probe = probe->next;

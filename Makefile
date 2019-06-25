@@ -126,7 +126,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c ft_strjoin_free_left.c\
 						redir_fd_less.c redirections_errors.c redir_fd_utils.c	\
 						close_open_fds.c
 	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c			\
-						execute_no_pipe_builtin.c exit_status.c exec_bin.c
+						execute_no_pipe_builtin.c exit_status.c exec_bin.c		\
+						check_no_pipe_builtin.c
 	AUTO_COMP_FILES	:=	auto_completion.c auto_completion_x_arg.c				\
 						bin_first_arg.c compare_entry.c							\
 						create_match_link.c del_match.c							\

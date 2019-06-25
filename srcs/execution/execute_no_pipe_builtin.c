@@ -4,6 +4,12 @@
 #include "hashmap.h"
 #include "env.h"
 
+static void		clean_fds(void)
+{
+	save_close_openfds(0, 0);
+	save_reset_stdfd(0);
+}
+
 /*
 **	Utility function to actually exit
 */
@@ -11,8 +17,7 @@
 static void		execute_exit(int exitno)
 {
 	print_exit();
-	save_close_openfds(0, 0);
-	save_reset_stdfd(0);
+	clean_fds();
 	clean_exit(exitno, 0);
 }
 
@@ -37,8 +42,7 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 		return (ret);
 	if ((ret = parse_redirections(token_head, 1) > 0))
 	{
-		save_close_openfds(0, 0);
-		save_reset_stdfd(0);
+		clean_fds();
 		return (ret);
 	}
 	have_assign = 0;
@@ -63,9 +67,10 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 		else
 			ret = vars->cmd_value;
 	}
-	save_close_openfds(0, 0);
-	save_reset_stdfd(0);
-	return (ret);
+	else
+		g_can_exit = 0;
+	clean_fds();
+	return (ret ? 255 + ret : 0);
 }
 
 /*
@@ -121,7 +126,7 @@ int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 	}
 	if (ft_strchr(argv[0], '/'))
 		ret = -1;
-	else if ((cmd_id = check_builtins(argv)))
+	else if ((cmd_id = check_builtins((const char*)argv[0])) != cmd_error)
 		ret = no_pipe_builtin(token_head, vars, cmd_id);
 	else if ((cmd_path = check_hashmap(argv[0], vars->hashmap, hash_exec)))
 		ret = -1;

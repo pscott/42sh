@@ -17,8 +17,7 @@ static void			apply_ifs(const char *string, char **argv, int *i)
 	j = 0;
 	while (words[j])
 	{
-		if (!(argv[*i] = ft_strjoin_free_left(argv[*i], words[j])))
-			clean_exit(1, 1);
+		argv[*i] = ft_strjoin_free_left(argv[*i], words[j]);
 		j++;
 		(*i)++;
 	}
@@ -98,8 +97,7 @@ static int			token_length(t_token **probe)
 	{
 		if ((*probe)->type == tk_word)
 		{
-			if (!(words = ft_strsplit((*probe)->content, IFS)))
-				clean_exit(1, 1);
+			words = ft_strsplit((*probe)->content, IFS);
 			words_len = ft_ntab_len((const char**)words);
 			words_len = words_len ? words_len : 1;
 			ft_free_ntab(words);

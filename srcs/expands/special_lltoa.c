@@ -34,9 +34,9 @@ char			*lltoa_and_free(long long nb, char **to_free)
 	char		*str;
 	int			len;
 
+	ft_strdel(to_free);
 	if ((str = check_min(nb)))
 		return (str);
-	ft_strdel(to_free);
 	len = get_ll_len(nb);
 	if (!(str = ft_strnew(len)))
 		clean_exit(1, 1);

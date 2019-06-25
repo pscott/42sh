@@ -44,7 +44,7 @@ void	get_previous_history(t_st_cmd *st_cmd)
 	if (isatty(TERM_FD) == 0)
 		return ;
 	if (!st_cmd->hist_lst || !st_cmd->hist_lst->prev)
-		ft_putstr(BELL);
+		write(STDIN_FILENO, BELL, 1);
 	else if (st_cmd->hist_lst->prev)
 	{
 		free(st_cmd->hist_lst->cpy);
@@ -65,7 +65,7 @@ void	get_next_history(t_st_cmd *st_cmd)
 	if (isatty(TERM_FD) == 0)
 		return ;
 	if (!st_cmd->hist_lst || !st_cmd->hist_lst->next)
-		ft_putstr(BELL);
+		write(STDIN_FILENO, BELL, 1);
 	else
 	{
 		free(st_cmd->hist_lst->cpy);

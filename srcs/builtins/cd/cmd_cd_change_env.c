@@ -12,7 +12,7 @@ static int		handle_no_p(char *new_wd, char ***env, char **pwd)
 
 	if (new_wd[0] == '/')
 	{
-		if (!((*pwd) = strdup(new_wd)))
+		if (!((*pwd) = ft_strdup(new_wd)))
 			clean_exit(1, 1);
 	}
 	else

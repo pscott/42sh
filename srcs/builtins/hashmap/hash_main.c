@@ -25,7 +25,7 @@ static char	**get_hash_paths(char **env)
 */
 
 static int	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc,
-			char **argv)
+		char **argv)
 {
 	int		i;
 	int		return_value;
@@ -37,7 +37,8 @@ static int	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc,
 	paths = get_hash_paths(vars->env_vars);
 	while (++i < argc)
 	{
-		if (check_builtins(&argv[i]) || ft_strchr(argv[i], '/'))
+		if (check_builtins((const char*)&argv[i]) != cmd_error
+				|| ft_strchr(argv[i], '/'))
 			continue ;
 		if (!(value = find_path(argv[i], paths)))
 		{
@@ -61,7 +62,7 @@ static int	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc,
 */
 
 static void	add_each_name_with_path(t_hashmap **hashmap,
-	t_hash_args *hash_args, int argc, char **argv)
+		t_hash_args *hash_args, int argc, char **argv)
 {
 	int	i;
 
@@ -82,7 +83,7 @@ static void	add_each_name_with_path(t_hashmap **hashmap,
 */
 
 static int	pop_each_name(t_hashmap **hashmap, t_hash_args *hash_args,
-	int argc, char **argv)
+		int argc, char **argv)
 {
 	int	i;
 	int	return_value;

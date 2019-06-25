@@ -3,7 +3,6 @@
 
 # include "ftsh.h"
 
-# define INIT_TXT_SIZE 32
 # define BUF_SIZE 8
 # define STD_PROMPT SHELL_NAME " $ "
 # define PROMPT_REVERSE_I_SEARCH_SUCC "(reverse-i-search)"
@@ -115,6 +114,7 @@ int						input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode);
 **	st_prompt functions
 */
 
+void					zsh_newline(t_st_cmd *st_cmd);
 t_st_prompt				*init_st_prompt(const char *prompt);
 void					print_prompt(t_st_cmd *st_cmd);
 void					print_prompt_search_histo(t_st_cmd *st_cmd,
@@ -131,7 +131,7 @@ t_st_cmd				*get_st_cmd(t_st_cmd **new_struct);
 t_st_cmd				*init_st_cmd(const char **env);
 t_st_cmd				*append_st_cmd(t_st_cmd *st_cmd, const char *txt,
 		const char *prompt);
-t_st_cmd				*reset_st_cmd(t_st_cmd *old_st_cmd);
+t_st_cmd				*reset_st_cmd(t_st_cmd *old_st_cmd, t_vars *vars);
 t_st_cmd				*get_st_cmd(t_st_cmd **new_struct);
 t_st_cmd				*init_st_cmd(const char **env);
 char					*concatenate_txt(t_st_cmd *st_cmd, int mode);

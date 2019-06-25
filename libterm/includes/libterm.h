@@ -78,14 +78,16 @@
 ** Previous terminal settings are saved in a global, and restored on exit.
 */
 
-static struct termios	g_saved_attr;
-static int				g_isatty = 0;
+extern struct termios	g_saved_attr;
+extern struct termios	g_42sh_attr;
+extern int				g_isatty;
 
 /*
 ** Settings-related functions
 */
 
 int						setup_terminal_settings(void);
+int						set_non_canonical_mode(struct termios *tattr);
 int						reset_terminal_settings(void);
 int						check_caps(void);
 void					restore_init_cursor(void);

@@ -4,7 +4,7 @@
 NAME	:=	42sh
 OPT		:=	
 CC		:=	gcc
-CFLAGS	:=	-Wall -Wextra -o2# -pedantic  #-Werror
+CFLAGS	:=	-Wall -Wextra -Werror
 MMD		:=	-MMD
 
 DEBUG_FLAG	:=	-g
@@ -27,10 +27,10 @@ LIBS			:= $(LIBFT_A) $(LIBTERM_A)
 INCL_DIR	:=	includes libft/includes libterm/includes
 INCL_CMD	:=	$(addprefix -I,$(INCL_DIR))
 
-INCL_FILES	:=	ftsh.h lexer.h ast.h auto_completion.h input.h history.h		\
-				structures.h													\
-				line_editing.h builtins.h errors.h cmd_parsing.h execution.h	\
-				signals.h hashmap.h heredoc.h exp_arith.h env.h
+INCL_FILES	:=	ftsh.h lexer.h ast.h auto_completion.h input.h history.h \
+				structures.h \
+				line_editing.h builtins.h errors.h cmd_parsing.h execution.h \
+				signals.h hashmap.h heredoc.h exp_arith.h env.h jobs.h
 
 INCLS		:=	$(addprefix includes/,$(INCL_FILES))
 
@@ -58,6 +58,7 @@ SRC_DIR	:=	srcs
 	TEST_DIR			:=	test
 	EXP_ARITH_DIR		:=	exp_arith
 	HEREDOC_DIR			:=	heredoc
+	JOB_CTRL_DIR		:=	job_control
 
 	#list of all srcs subdirectories
 	SRC_SUBDIRS	:=	$(ENV_DIR) $(ERRORS_DIR) $(LEXER_DIR) $(PARSER_DIR)			\
@@ -65,7 +66,7 @@ SRC_DIR	:=	srcs
 					$(EXPANDS_DIR) $(SIGNALS_DIR) $(LINE_EDIT_DIR)				\
 					$(BUILTINS_DIR) $(REDIR_DIR) $(EXEC_DIR) $(AUTO_COMP_DIR)	\
 					$(EXP_ARITH_DIR) $(HEREDOC_DIR) $(TMP_VAR_DIR)				\
-					$(CD DIR) $(TEST_DIR)										\
+					$(CD DIR) $(TEST_DIR) $(JOB_CTRL_DIR)						\
 					$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_DIR))				\
 					$(addprefix $(BUILTINS_DIR)/,$(FC_DIR))						\
 					$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_DIR))				\
@@ -76,7 +77,8 @@ SRC_DIR	:=	srcs
 VPATH	:=	$(SRC_DIR) $(addprefix $(SRC_DIR)/,$(SRC_SUBDIRS))
 
 # Srcs file names ##############################################################
-SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c tmp_file.c
+SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c ft_strjoin_free_left.c\
+				tmp_file.c
 	ENV_FILES		:=	environ_set.c environ_utils.c init_env.c shlvl.c		\
 						environ_unset.c set_default_shell_vars.c				\
 						variables_utils.c ntab_utils.c variables_utils2.c
@@ -84,7 +86,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c tmp_file.c
 	LEXER_FILES		:=	lexer.c lexer_tools.c lexer_op_chart.c get_token.c		\
 						copy_token_list.c lexer_escape_tools.c					\
 						check_special_token.c
-	PARSER_FILES	:=	ast.c ast_utils.c
+	PARSER_FILES	:=	ast.c ast_utils.c ast_exec.c background_case.c
 	PIPELINE_FILES	:=	parse_pipeline.c check_token_type.c
 	READER_FILES	:=	check_sig_del_arrow.c prompt.c							\
 						input_loop.c input_utils.c								\
@@ -108,9 +110,9 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c tmp_file.c
 						reposition_cursor.c										\
 						jump_words.c delete.c arrows.c go_up.c go_down.c
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c			\
-						cmd_type.c cmd_echo.c									\
-						cmd_exit_utils.c										\
-						cmd_test.c cmd_history.c								\
+						cmd_type.c cmd_echo.c cmd_jobs.c cmd_fg.c cmd_bg.c		\
+						cmd_exit_utils.c cmd_jobs_utils.c						\
+						cmd_test.c cmd_history.c check_builtins.c				\
 						cmd_set.c cmd_unset.c cmd_export.c cmd_export_utils.c
 	CD_FILES		:=	cmd_cd_options.c cmd_cd_cdpath.c						\
 						cmd_cd_format.c cmd_cd_remove_char.c					\
@@ -152,6 +154,13 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c tmp_file.c
 						op_tokenizer_utils.c put_op_link.c ft_isempty.c
 	HEREDOC_FILES	:=	heredoc.c heredoc_utils.c get_doc.c save_heredoc.c		\
 						clean_heredoc.c
+	JOB_CTRL_FILES	:=	job_utils.c job_init.c free_job.c job_background.c \
+						job_continue.c job_display.c job_foreground.c \
+						job_notification.c job_status.c launch_job.c \
+						launch_process.c process_list.c wait_for_job.c \
+						job_list.c copy_tokens.c find_job.c job_id_parser.c \
+						set_current.c free_process.c exit_str.c \
+						launch_job_utils.c
 
 #list of all .c files
 C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES)			\
@@ -160,7 +169,7 @@ C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES)			\
 			$(LINE_EDIT_FILES) $(BUILTINS_FILES) $(REDIR_FILES) $(EXEC_FILES)	\
 			$(HASHMAP_FILES) $(AUTO_COMP_FILES) $(EXP_ARITH_FILES)				\
 			$(HEREDOC_FILES) $(CD_FILES) $(TEST_FILES) $(TMP_VAR_FILES)			\
-			$(FC_FILES)
+			$(FC_FILES) $(JOB_CTRL_FILES)
 
 # Complete path of each .c files ###############################################
 SRC_PATH			:=	$(addprefix $(SRC_DIR)/,$(SRC_FILES))
@@ -184,16 +193,17 @@ CD_PATH				:=	$(addprefix $(CD_DIR)/,$(CD_FILES))
 TEST_PATH			:=	$(addprefix $(TEST_DIR)/,$(TEST_FILES))
 FC_PATH				:=	$(addprefix $(FC_DIR)/,$(FC_FILES))
 
-#	builtin/ + hashmap/*.c
+#	builtin/ + hashmap/.c
 HASHMAP_PATH		:=	$(addprefix $(BUILTINS_DIR)/,$(HASHMAP_PATH))
 CD_PATH				:=	$(addprefix $(BUILTINS_DIR)/,$(CD_PATH))
 FC_PATH				:=	$(addprefix $(BUILTINS_DIR)/,$(FC_PATH))
 TEST_PATH			:=	$(addprefix $(BUILTINS_DIR)/,$(TEST_PATH))
 HEREDOC_PATH		:=	$(addprefix $(HEREDOC_DIR)/,$(HEREDOC_FILES))
 TMP_VAR_PATH		:=	$(addprefix $(TMP_VAR_DIR)/,$(TMP_VAR_FILES))
+JOB_CTRL_PATH		:=	$(addprefix $(JOB_CTRL_DIR)/,$(JOB_CTRL_FILES))
 
 
-#list of all "path/*.c"
+#list of all "path/.c"
 SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(ERRORS_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(LEXER_PATH)) \
@@ -215,6 +225,7 @@ SRCS	:=	$(addprefix $(SRC_DIR)/,$(ENV_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(CD_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(TEST_PATH)) \
 			$(addprefix $(SRC_DIR)/,$(TMP_VAR_PATH)) \
+			$(addprefix $(SRC_DIR)/,$(JOB_CTRL_PATH)) \
 			$(SRC_PATH)
 
 #Object ########################################################################
@@ -230,7 +241,7 @@ DEPENDENCIES	:= $(addprefix $(OBJ_DIR)/,$(DEPS))
 # Rules ########################################################################
 .PHONY: all fsa val rmh adh tag clean fclean re d norm test ask_libft
 
-all: $(LIBFT_A) $(LIBTERM_A) $(OBJ_DIR) $(NAME)
+all: $(LIBFT_A) $(LIBTERM_A) $(NAME)
 
 $(LIBFT_A): FORCE
 	@make -C $(LIBFT_DIR)
@@ -257,10 +268,10 @@ adh: rmh
 	make -C $(LIBTERM_DIR) adh
 
 $(NAME): $(OBJS) libft/libft.a libterm/libterm.a
-	$(CC) $(CFLAGS) $(INCL_CMD) $^ -o $@ $(LIB_INCL)
+	@$(CC) $(CFLAGS) $(INCL_CMD) $^ -o $@ $(LIB_INCL)
 
 -include $(DEPENDENCIES)
-$(OBJ_DIR)/%.o: %.c Makefile
+$(OBJ_DIR)/%.o: %.c Makefile | $(OBJ_DIR)
 	@echo Compiling $@
 	@$(CC) $(CFLAGS) $(MMD) $(INCL_CMD) -o $@ -c $<
 
@@ -269,8 +280,6 @@ $(OBJ_DIR):
 
 tags:
 	ctags -R .
-
-#print-%  : ; @echo $* = $($*)
 
 clean: 
 	$(MAKE) clean -C libft

@@ -27,7 +27,7 @@ static void		init_values(int *keep, int *cr)
 	*cr = 0;
 }
 
-t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd)
+t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd, t_vars *vars)
 {
 	t_st_cmd	*st_cmd;
 	t_st_cmd	*left_cmd;
@@ -36,9 +36,11 @@ t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd)
 		clean_exit(1, 1);
 	st_cmd->st_txt = init_st_txt(NULL);
 	st_cmd->st_prompt = init_st_prompt(NULL);
+	update_window_struct(old_st_cmd->window);
 	st_cmd->window = old_st_cmd->window;
 	st_cmd->is_cr_sqt = 0;
 	init_values(&st_cmd->keep, &st_cmd->cr);
+	vars->interrupted = 0;
 	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
 		st_cmd->st_prompt->size);
 	st_cmd->hist_lst = old_st_cmd->hist_lst;

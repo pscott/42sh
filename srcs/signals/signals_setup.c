@@ -1,6 +1,7 @@
 #include "input.h"
 #include "line_editing.h"
 #include "signals.h"
+#include "jobs.h"
 
 /*
 ** Handler function for terminating (aka dangerous) signals
@@ -11,8 +12,8 @@ void	sig_handler(int signo)
 	execute_str(CLEAR_BELOW);
 	restore_init_cursor();
 	reset_terminal_settings();
-	ft_dprintf(STDERR_FILENO, "Interrupted by signal: %d\n", signo);
-	exit(signo);
+	signal(signo, SIG_DFL);
+	kill(0, signo);
 }
 
 /*
@@ -27,10 +28,10 @@ void	signals_setup(void)
 {
 	signal(SIGWINCH, sigwinch_handler);
 	signal(SIGCONT, sigcont_handler);
-	signal(SIGTSTP, sigtstp_handler);
+	signal(SIGTSTP, SIG_IGN);
 	signal(SIGINT, sigint_handler);
 	signal(SIGHUP, sig_handler);
-	signal(SIGQUIT, sigquit_handler);
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGILL, sig_handler);
 	signal(SIGTRAP, sig_handler);
 	signal(SIGABRT, sig_handler);
@@ -41,12 +42,24 @@ void	signals_setup(void)
 	signal(SIGSYS, sig_handler);
 	signal(SIGALRM, sig_handler);
 	signal(SIGTERM, sig_handler);
-	signal(SIGTTOU, sig_handler);
-	signal(SIGTTIN, sig_handler);
+	signal(SIGTTOU, SIG_IGN);
+	signal(SIGTTIN, SIG_IGN);
 	signal(SIGXCPU, sig_handler);
 	signal(SIGXFSZ, sig_handler);
 	signal(SIGVTALRM, sig_handler);
 	signal(SIGUSR1, sig_handler);
 	signal(SIGUSR2, sig_handler);
 	signal(SIGPROF, sig_handler);
+}
+
+void	reset_signals(void)
+{
+	int	i;
+
+	i = 1;
+	while (i < 32)
+	{
+		signal(i, SIG_DFL);
+		i++;
+	}
 }

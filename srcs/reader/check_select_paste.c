@@ -3,7 +3,7 @@
 static void		paste_selection(t_st_cmd *st_cmd, t_vars *vars)
 {
 	if (!vars->copy || vars->select_mode)
-		ft_putstr(BELL);
+		write(STDIN_FILENO, BELL, 1);
 	else
 		insert_txt(st_cmd, vars->copy);
 }

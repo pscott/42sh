@@ -30,7 +30,7 @@ int			reset_terminal_settings(void)
 	return (1);
 }
 
-static int	set_non_canonical_mode(struct termios *tattr)
+int	set_non_canonical_mode(struct termios *tattr)
 {
 	struct termios	term;
 
@@ -41,6 +41,7 @@ static int	set_non_canonical_mode(struct termios *tattr)
 	term.c_cc[VTIME] = 0;
 	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &term) == -1)
 		return (err_setattr());
+	tcgetattr(STDIN_FILENO, &g_42sh_attr);
 	return (0);
 }
 

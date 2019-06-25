@@ -16,3 +16,4 @@ sandbox
 tmp_main.c
 objs
 cscope*
+*.test

@@ -10,7 +10,8 @@ typedef enum		e_cd_error {
 }					t_cd_error;
 
 typedef enum		e_cmd_id {
-	cmd_cd = 1,
+	cmd_error,
+	cmd_cd,
 	cmd_echo,
 	cmd_exit,
 	cmd_hash,
@@ -20,8 +21,11 @@ typedef enum		e_cmd_id {
 	cmd_unset,
 	cmd_export,
 	cmd_history,
-	cmd_fc
-}					t_cmd_id;
+	cmd_fc,
+	cmd_jobs,
+	cmd_fg,
+	cmd_bg
+}				t_cmd_id;
 
 typedef enum		e_cmd_test {
 	op_b = 1,
@@ -48,7 +52,7 @@ typedef enum		e_cmd_test {
 	op_sym_noteq,
 }					t_cmd_test;
 
-int					check_builtins(char **argv);
+int					check_builtins(const char *cmd);
 int					exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id);
 
 int					case_cd(char **argv, char ***env);
@@ -64,6 +68,15 @@ int					case_unset(char **argv, t_vars *vars);
 int					case_export(char **argv, t_vars *vars);
 int					case_fc(char **argv);
 int					case_history(char **argv);
+int					case_jobs(char **argv);
+int					case_fg(char **argv);
+int					case_bg(char **argv);
+
+/*
+**	Jobs utils
+*/
+
+int		get_options(char **argv, int *i);
 
 /*
 **	Exit utils
@@ -78,9 +91,8 @@ int					is_zero(char *str);
 */
 
 char				*get_directory(const char *env_key, const char **env);
-char				*get_cwd_value(const char **env);
 char				*relative_directory(const char *path, const char **env,
-						int *cdpath);
+						int *cdpath, char opt);
 int					get_cd_options(char **argv, int *pos);
 char				*cut_path_string(char *str, int slash);
 int					get_path(char ***path, t_vars *vars);

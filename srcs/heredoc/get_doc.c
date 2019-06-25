@@ -77,7 +77,10 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 	while (42)
 	{
 		if ((len = input_loop(cmd, vars, heredoc)) < 1 || !*cmd->st_txt->txt)
+		{
+			clean_heredoc(cmd, start_heredoc);
 			return (free_get_doc(txt, eof));
+		}
 		if (!is_eof_quoted)
 			apply_escape(cmd);
 		txt = concatenate_heredoc_txt(cmd, start_heredoc);

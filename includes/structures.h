@@ -18,6 +18,7 @@ typedef struct			s_vars
 	size_t				select_end;
 	char				**assign_tab;
 	int					is_cr_sqt;
+	int					interrupted;
 }						t_vars;
 
 #endif

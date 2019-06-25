@@ -1,4 +1,4 @@
-#include "libterm.h"
+#include "libft.h"
 
 int		err_tgoto(char *cap)
 {

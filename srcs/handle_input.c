@@ -27,11 +27,12 @@ static int		continue_reading(t_token *token_head, t_st_cmd **st_cmd,
 	return (1);
 }
 
-static int		handle_continue_reading(t_token *token_head, t_st_cmd **st_cmd,
+static int		handle_cont_read(t_token *token_head, t_st_cmd **st_cmd,
 				char **input, t_vars *vars)
 {
 	int	ret;
 
+	(*st_cmd)->cr = 1;
 	ret = continue_reading(token_head, st_cmd, input, vars);
 	if (!isatty(TERM_FD))
 		ft_dprintf(2, "%s: unexpected end of file\n", SHELL_NAME);
@@ -71,20 +72,16 @@ int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 	token_head = NULL;
 	if (!(input = concatenate_txt(st_cmd, 1)))
 		return (1);
-	if (is_full_of_whitespaces(input))//free input
+	if (is_full_of_whitespaces(input))
 	{
 		ft_strdel(&input);
 		return (0);
 	}
 	while ((lexer_ret = lexer(input, &token_head, vars)) == lex_cont_read)
-	{
-		st_cmd->cr = 1;
-		ret = handle_continue_reading(token_head, &st_cmd, &input, vars);
-		if (ret < 1)
+		if ((ret = handle_cont_read(token_head, &st_cmd, &input, vars)) < 1)
 			return (ret);
-	}
 	ft_strdel(&input);
-		if (lexer_ret == lex_fail)
+	if (lexer_ret == lex_fail)
 	{
 		free_token_list(token_head);
 		adjust_history(st_cmd, 1);

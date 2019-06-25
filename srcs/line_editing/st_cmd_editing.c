@@ -21,10 +21,14 @@ t_st_cmd		*append_st_cmd(t_st_cmd *st_cmd, const char *txt,
 	return (new);
 }
 
-static void		init_values(int *keep, int *cr)
+static void		init_values(t_st_cmd *st_cmd, t_vars *vars)
 {
-	*keep = 1;
-	*cr = 0;
+	st_cmd->keep = 1;
+	st_cmd->cr = 0;
+	st_cmd->is_cr_sqt = 0;
+	vars->interrupted = 0;
+	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
+		st_cmd->st_prompt->size);
 }
 
 t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd, t_vars *vars)
@@ -38,11 +42,7 @@ t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd, t_vars *vars)
 	st_cmd->st_prompt = init_st_prompt(NULL);
 	update_window_struct(old_st_cmd->window);
 	st_cmd->window = old_st_cmd->window;
-	st_cmd->is_cr_sqt = 0;
-	init_values(&st_cmd->keep, &st_cmd->cr);
-	vars->interrupted = 0;
-	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
-		st_cmd->st_prompt->size);
+	init_values(st_cmd, vars);
 	st_cmd->hist_lst = old_st_cmd->hist_lst;
 	st_cmd->hist_len = old_st_cmd->hist_len;
 	*st_cmd->hist_len = get_hist_len(st_cmd->hist_lst);

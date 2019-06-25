@@ -52,7 +52,7 @@ int				case_jobs(char **argv)
 	if (opt == ERROR)
 	{
 		ft_dprintf(2, "jobs: usage: jobs [-l | -p] [job_id...]\n");
-		return (1);
+		return (2);
 	}
 	return (apply_argv(&argv[i], opt));
 }

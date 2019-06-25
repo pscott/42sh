@@ -47,5 +47,5 @@ int		export_usage(char c)
 {
 	ft_dprintf(2, "%s: export: -%c: invalid option\n", SHELL_NAME, c);
 	ft_dprintf(2, "export: usage: export [name[=value] ...] or export -p\n", c);
-	return (1);
+	return (2);
 }

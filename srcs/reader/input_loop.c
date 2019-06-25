@@ -86,7 +86,7 @@ int			input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)
 	ssize_t				ret;
 
 	ft_bzero(buf, sizeof(buf));
-	print_prompt(st_cmd);
+	print_prompt(st_cmd, 1);
 	while ((ret = read(STDIN_FILENO, &c, 1)) > 0)
 	{
 		buf[ft_strlen(buf)] = c;

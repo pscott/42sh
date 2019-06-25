@@ -1,24 +1,79 @@
+#include "env.h"
 #include "line_editing.h"
+
+static char	*add_brackets(char *str)
+{
+	char	*res;
+	char	*tmp;
+
+	if (!str)
+		return (NULL);
+	tmp = str;
+	if (!(res = ft_strjoin("[", str)))
+		clean_exit(1, 1);
+	if (!(res = ft_strjoin_free_left(res, "]")))
+		clean_exit(1, 1);
+	return (res);
+}
+
+static char	*exit_to_str(int exit)
+{
+	char 	*res;
+	char	*tmp;
+
+	res = NULL;
+	if (exit)
+	{
+		if (!(res = ft_itoa(exit)))
+			clean_exit(1, 1);
+		tmp = res;
+		res = add_brackets(res);
+		ft_strdel(&tmp);
+	}
+	else
+		if (!(res = ft_strdup("")))
+			clean_exit(1, 1);
+	return (res);
+}
+
+static char	*dir_to_str(const char *tmp)
+{
+	char 	*res;
+	char	*dir;
+	t_vars	*vars;
+
+	if (!tmp)
+		return (NULL);
+	if (!(vars = get_vars(NULL)))
+		return (NULL);
+	if (!(dir = get_envline_value("PWD", vars->env_vars)))
+		return (NULL); // ?
+	res = add_brackets(dir);
+	return (res);
+}
 
 /*
 **	Returns a freshly allocated st_prompt with an allocated copy of the prompt
 **	parameter. If paramter is empty, duplicates the STD_PROMPT macro.
 */
 
-t_st_prompt	*init_st_prompt(const char *prompt)
+t_st_prompt	*init_st_prompt(const char *name, const char *dir,
+		int exit)
 {
 	t_st_prompt	*st_prompt;
 
 	if (!(st_prompt = (t_st_prompt*)malloc(sizeof(*st_prompt))))
 		clean_exit(1, 1);
-	if (!prompt)
-	{
-		if (!(st_prompt->prompt = ft_strdup(STD_PROMPT)))
-			clean_exit(1, 1);
-	}
-	else
-		st_prompt->prompt = ft_strdup(prompt);
-	st_prompt->size = ft_strlen(st_prompt->prompt);
+	if (!(st_prompt->name = ft_strdup(name)))
+		clean_exit(1, 1);
+	st_prompt->dir = dir_to_str(dir);
+	st_prompt->exit = exit_to_str(exit);
+	if (!(st_prompt->end = ft_strdup(" $ ")))
+		clean_exit(1, 1);
+	st_prompt->size = ft_strlen(st_prompt->name)
+		+ ft_strlen(st_prompt->dir)
+		+ ft_strlen(st_prompt->exit)
+		+ ft_strlen(st_prompt->end);
 	return (st_prompt);
 }
 
@@ -30,6 +85,9 @@ void		free_st_prompt(t_st_prompt **st_prompt)
 {
 	if (!st_prompt || !(*st_prompt))
 		return ;
-	ft_strdel(&(*st_prompt)->prompt);
+	ft_strdel(&(*st_prompt)->name);
+	ft_strdel(&(*st_prompt)->dir);
+	ft_strdel(&(*st_prompt)->exit);
+	ft_strdel(&(*st_prompt)->end);
 	ft_memdel((void*)st_prompt);
 }

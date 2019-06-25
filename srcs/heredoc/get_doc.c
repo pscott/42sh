@@ -55,7 +55,7 @@ static void		init_get_doc(t_st_cmd **cmd, char **txt, t_st_cmd **heredoc)
 {
 	*cmd = get_last_st_cmd(get_st_cmd(NULL));
 	*txt = NULL;
-	*cmd = append_st_cmd(*cmd, "", HEREDOC_PROMPT);
+	*cmd = append_st_cmd(*cmd, "", init_st_prompt(HEREDOC_PROMPT, NULL, 0));
 	*heredoc = *cmd;
 }
 
@@ -89,7 +89,7 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 			&& txt[len - 1] == '\n' && txt[ft_strlen(txt) - 1] == '\n')
 			break ;
 		ft_strdel(&txt);
-		cmd = append_st_cmd(cmd, "", HEREDOC_PROMPT);
+		cmd = append_st_cmd(cmd, "", init_st_prompt(HEREDOC_PROMPT, NULL, 0));
 	}
 	txt = get_heredoc_txt(txt, eof);
 	clean_heredoc(cmd, start_heredoc);

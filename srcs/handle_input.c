@@ -10,7 +10,7 @@ static int		continue_reading(t_token *token_head, t_st_cmd **st_cmd,
 {
 	free_token_list(token_head);
 	adjust_history(*st_cmd, 0);
-	*st_cmd = append_st_cmd(*st_cmd, "", CONTINUE_PROMPT);
+	*st_cmd = append_st_cmd(*st_cmd, "", init_st_prompt(CONTINUE_PROMPT, NULL, 0));
 	if (input_loop(*st_cmd, vars, continue_read) < 1
 		|| !*(*st_cmd)->st_txt->txt)
 	{

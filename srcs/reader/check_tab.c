@@ -24,7 +24,7 @@ static void	refresh_prompt_after_completion(t_st_cmd *st_cmd, char **tmp,
 	ft_strdel(tmp);
 	execute_str(BEGIN_LINE);
 	execute_str(CLEAR_BELOW);
-	print_prompt(st_cmd);
+	print_prompt(st_cmd, 1);
 	st_cmd->st_txt->tracker = 0;
 	write_st_cmd(st_cmd);
 	st_cmd->st_txt->tracker = len_tmp;

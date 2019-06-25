@@ -19,24 +19,6 @@ void		zsh_newline(t_st_cmd *st_cmd)
 	ft_memdel((void*)&zsh);
 }
 
-void			print_prompt(t_st_cmd *st_cmd)
-{
-	t_vars		*vars;
-
-	vars = get_vars(NULL);
-	if (isatty(STDIN_FILENO))
-	{
-		zsh_newline(st_cmd);
-		init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
-			st_cmd->st_prompt->size);
-		if (vars->cmd_value)
-			ft_dprintf(TERM_FD, "%s", RED);
-		else
-			ft_dprintf(TERM_FD, "%s", GREEN);
-		ft_dprintf(TERM_FD, "%s%s", st_cmd->st_prompt->prompt, FG_DFL);
-	}
-}
-
 static void		replace_prompt(t_st_cmd *st_cmd, const char *buf,
 		int prompt_type)
 {
@@ -56,8 +38,11 @@ static void		replace_prompt(t_st_cmd *st_cmd, const char *buf,
 	if (!(new_prompt = ft_strjoin(tmp, "': ")))
 		clean_exit(1, 1);
 	ft_strdel(&tmp);
-	st_cmd->st_prompt = init_st_prompt(new_prompt);
-	st_cmd->st_prompt->size = ft_strlen(st_cmd->st_prompt->prompt);
+	st_cmd->st_prompt = init_st_prompt(new_prompt, NULL, 0);
+	st_cmd->st_prompt->size = ft_strlen(st_cmd->st_prompt->name)
+		+ ft_strlen(st_cmd->st_prompt->dir) 
+		+ ft_strlen(st_cmd->st_prompt->exit) 
+		+ ft_strlen(st_cmd->st_prompt->end);
 	ft_strdel(&new_prompt);
 }
 
@@ -74,8 +59,8 @@ void			print_prompt_search_histo(t_st_cmd *st_cmd, const char *buf,
 		tmp = st_cmd->st_txt->tracker;
 		st_cmd->st_txt->tracker = 0;
 		init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
-			st_cmd->st_prompt->size);
-		ft_dprintf(TERM_FD, "%s", st_cmd->st_prompt->prompt);
+				st_cmd->st_prompt->size);
+		print_prompt(st_cmd, 0);
 		write_st_cmd(st_cmd);
 		st_cmd->st_txt->tracker = tmp;
 		reposition_cursor(st_cmd, st_cmd->st_txt->tracker);

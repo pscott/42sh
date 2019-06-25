@@ -66,11 +66,11 @@ int			switch_and_return(t_st_cmd *st_cmd,
 		return (interrupt_search(st_cmd));
 	free_st_prompt(&st_cmd->st_prompt);
 	if (mode == regular)
-		st_cmd->st_prompt = init_st_prompt(NULL);
+		st_cmd->st_prompt = init_st_prompt(STD_PROMPT, newcmd, 0);
 	else if (mode == heredoc)
-		st_cmd->st_prompt = init_st_prompt(HEREDOC_PROMPT);
+		st_cmd->st_prompt = init_st_prompt(HEREDOC_PROMPT, NULL, 0);
 	else if (mode == continue_read)
-		st_cmd->st_prompt = init_st_prompt(CONTINUE_PROMPT);
+		st_cmd->st_prompt = init_st_prompt(CONTINUE_PROMPT, NULL, 0);
 	if (buf == '\r' || buf == '\n')
 		newcmd = ft_strjoin(st_cmd->st_txt->txt, "\n");
 	else

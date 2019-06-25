@@ -63,7 +63,7 @@ void	write_from_start(t_st_cmd *st_cmd)
 	while (st_cmd)
 	{
 		st_cmd->st_txt->tracker = 0;
-		print_prompt(st_cmd);
+		print_prompt(st_cmd, 1);
 		write_st_cmd(st_cmd);
 		prev = st_cmd;
 		st_cmd = st_cmd->next;

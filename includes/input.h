@@ -4,11 +4,11 @@
 # include "ftsh.h"
 
 # define BUF_SIZE 8
-# define STD_PROMPT SHELL_NAME " $ "
+# define STD_PROMPT "["SHELL_NAME"]"
 # define PROMPT_REVERSE_I_SEARCH_SUCC "(reverse-i-search)"
 # define PROMPT_REVERSE_I_SEARCH_FAIL "(failed reverse-i-search)"
-# define CONTINUE_PROMPT "cont> "
-# define HEREDOC_PROMPT "heredoc> "
+# define CONTINUE_PROMPT "cont"
+# define HEREDOC_PROMPT "heredoc"
 # define HEREDOC_FILENAME "/tmp/.tmp_heredoc"
 # define FC_EDIT_FILENAME "/tmp/.tmp_fc_edit"
 # define MAX_INT_LEN 10
@@ -43,7 +43,10 @@ typedef struct			s_st_txt {
 }						t_st_txt;
 
 typedef struct			s_st_prompt {
-	char				*prompt;
+	char				*name;
+	char				*dir;
+	char				*exit;
+	char				*end;
 	size_t				size;
 }						t_st_prompt;
 
@@ -115,8 +118,8 @@ int						input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode);
 */
 
 void					zsh_newline(t_st_cmd *st_cmd);
-t_st_prompt				*init_st_prompt(const char *prompt);
-void					print_prompt(t_st_cmd *st_cmd);
+t_st_prompt				*init_st_prompt(const char *name, const char *dir, int exitno);
+void					print_prompt(t_st_cmd *st_cmd, int zsh);
 void					print_prompt_search_histo(t_st_cmd *st_cmd,
 		const char *buf, int prompt_type);
 void					free_st_prompt(t_st_prompt **st_prompt);
@@ -130,7 +133,7 @@ t_st_cmd				*get_last_st_cmd(t_st_cmd *st_cmd);
 t_st_cmd				*get_st_cmd(t_st_cmd **new_struct);
 t_st_cmd				*init_st_cmd(const char **env);
 t_st_cmd				*append_st_cmd(t_st_cmd *st_cmd, const char *txt,
-		const char *prompt);
+		t_st_prompt *prompt);
 t_st_cmd				*reset_st_cmd(t_st_cmd *old_st_cmd, t_vars *vars);
 t_st_cmd				*get_st_cmd(t_st_cmd **new_struct);
 t_st_cmd				*init_st_cmd(const char **env);

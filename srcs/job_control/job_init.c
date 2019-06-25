@@ -9,8 +9,8 @@ void	init_shell(void)
 	g_can_exit = 0;
 	if (g_isatty)
 	{
-/*		while (tcgetpgrp(STDIN_FILENO) != (g_shell_pgid = getpgrp()))
-			kill(-g_shell_pgid, SIGTTIN);*/
+		while (tcgetpgrp(STDIN_FILENO) != (g_shell_pgid = getpgrp()))
+			kill(-g_shell_pgid, SIGTTIN);
 		signals_setup();
 		g_shell_pgid = getpid();
 		if (setpgid(g_shell_pgid, g_shell_pgid) < 0)

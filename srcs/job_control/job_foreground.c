@@ -34,11 +34,15 @@ static int	wait_and_reset(t_job *j)
 
 int			put_job_in_foreground(t_job *j, int cont)
 {
+	struct termios empty;
+
+	ft_bzero(&empty, sizeof(struct termios));
 	if (tcsetpgrp(STDIN_FILENO, j->pgid))
 		put_error("error giving terminal control to job");
 	if (cont)
 	{
-		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &j->tmodes))
+		if (ft_memcmp(&empty, &j->tmodes, sizeof(struct termios))
+			&& tcsetattr(STDIN_FILENO, TCSADRAIN, &j->tmodes))
 			put_error("error setting job's terminal attributes");
 		if (kill(-j->pgid, SIGCONT) < 0)
 			put_error("error with sending continue signal");

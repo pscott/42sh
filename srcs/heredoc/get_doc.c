@@ -33,7 +33,7 @@ static char		*get_heredoc_txt(char *txt, char *eof)
 
 	len = ft_strlen(txt) - ft_strlen(eof) - 2;
 	if (!(trimed_txt = ft_strndup(&txt[1], len)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strdel(&txt);
 	ft_strdel(&eof);
 	return (trimed_txt);

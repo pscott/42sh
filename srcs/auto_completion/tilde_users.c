@@ -11,20 +11,20 @@ static void				get_user_name(char **users, const char *line)
 	initialize_str(&tmp, &tmp2, NULL, NULL);
 	infos = NULL;
 	if (!(tmp = ft_strndup(line, ft_strlen_char(line, ':'))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	if (!(tmp2 = ft_strjoin("~", tmp)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	infos = getpwnam(tmp);
 	if ((stat(infos->pw_dir, &file_infos) != -1))
 	{
 		if (S_ISDIR(file_infos.st_mode))
 		{
 			if (!((*users) = ft_strjoin(tmp2, "/")))
-				clean_exit(1, 1);
+				clean_exit(1, MALLOC_ERR);
 		}
 	}
 	else if (!(*users = ft_strdup(tmp2)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	free_two_strings(&tmp, &tmp2);
 }
 
@@ -69,12 +69,12 @@ char					*users_passwd(const char *to_find)
 	if (ft_strlen(to_find) > 1)
 	{
 		if (!(str = ft_strdup(to_find + 1)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else
 	{
 		if (!(str = ft_strnew(1)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	get_users_list(&match, str);
 	if (match)

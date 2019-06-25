@@ -12,10 +12,10 @@ static char	*get_tmp_filename(unsigned int file_key, char *type)
 	char			*file_key_str;
 
 	if (!(path = ft_strnew(ft_strlen(type) + MAX_INT_LEN)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strcpy(path, type);
 	if (!(file_key_str = ft_itoa((int)file_key)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strcpy(&path[ft_strlen(type)], file_key_str);
 	ft_memdel((void*)&file_key_str);
 	return (path);

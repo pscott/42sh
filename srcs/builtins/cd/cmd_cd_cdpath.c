@@ -19,12 +19,12 @@ static char		*join_path_slash(char *path)
 	if (path[i] != '/')
 	{
 		if (!(newpath = ft_strjoin(path, "/")))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else
 	{
 		if (!(newpath = ft_strdup(path)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	return (newpath);
 }
@@ -43,7 +43,7 @@ static char		*find_cdpath(const char *file, char **paths)
 	{
 		path_w_slash = join_path_slash(paths[i]);
 		if (!(possible_path = ft_strjoin(path_w_slash, file)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		if (check_access(possible_path) == 0)
 		{
 			ft_strdel(&possible_path);
@@ -68,7 +68,7 @@ static int		get_cdpath(char ***path, char **env)
 		return (1);
 	}
 	if (!(*path = ft_strsplit(tmpath, ":")))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	return (0);
 }
 

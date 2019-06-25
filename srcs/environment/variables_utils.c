@@ -17,7 +17,7 @@ void	add_varline(char *varline, char ***ntab)
 	if ((var_name = get_varline_name(varline)))
 	{
 		if (!(var_value = ft_strdup(varline + ft_strlen(var_name) + 1)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		add_variables(var_name, var_value, ntab);
 		ft_strdel(&var_name);
 		ft_strdel(&var_value);
@@ -105,7 +105,7 @@ char	*get_varline_name(char *varline)
 	if (varline[i] == '=')
 	{
 		if (!(var_name = ft_strndup(varline, i)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		return (var_name);
 	}
 	return (NULL);

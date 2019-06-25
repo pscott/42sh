@@ -43,7 +43,7 @@ static char			*handle_first_bin(t_vars *vars, const char *to_find,
 		if (!ft_strncmp(to_find, ".", 2) || !ft_strncmp(to_find, "..", 3))
 		{
 			if (!(ret = ft_strjoin(to_find, "/")))
-				clean_exit(1, 1);
+				clean_exit(1, MALLOC_ERR);
 		}
 		else if (!ft_strchr(to_find, '/'))
 			ret = get_dirs_first_arg(".", to_find, ft_strlen(to_find));
@@ -65,7 +65,7 @@ static	char		*handle_first_arg(const char *to_find,
 	{
 		if ((!ft_strcmp(to_find, ".") || !ft_strcmp(to_find, ".."))
 			&& !(ret = ft_strjoin(to_find, "/")))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else if (type == 2)
 		auto_completion_space(vars);

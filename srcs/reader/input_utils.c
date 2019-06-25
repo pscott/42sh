@@ -66,9 +66,9 @@ void		insert_str(t_st_cmd *st_cmd, const char *buf,
 
 	st_txt = st_cmd->st_txt;
 	if (!(print_buf = ft_strndup_print(buf, print_len)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	if (!(end_line = ft_strdup(&st_txt->txt[st_txt->tracker])))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strcpy(&st_txt->txt[st_txt->tracker + print_len], end_line);
 	ft_strdel(&end_line);
 	ft_strncpy(&st_txt->txt[st_txt->tracker], print_buf, print_len);

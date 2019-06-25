@@ -11,7 +11,7 @@ static char	**get_hash_paths(char **env)
 	if (!(path_line = get_envline_value("PATH", env)))
 		return (NULL);
 	if (!(paths = ft_strsplit(path_line, ":")))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	return (paths);
 }
 

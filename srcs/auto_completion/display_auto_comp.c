@@ -89,7 +89,7 @@ static char	*get_ret(char *s, int mode)
 	else
 		ret_str = ft_strjoin(s, "}");
 	if (!(ret_str))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	return (ret_str);
 }
 
@@ -112,7 +112,7 @@ char		*get_ret_or_display_matches(t_auto_comp *match,
 			is_empty_last_c = 1;
 		if (!(ret_str = ft_strndup(match->name, len + diff_len
 						- is_empty_last_c)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else
 	{

@@ -24,7 +24,7 @@ int				get_path(char ***path, t_vars *vars)
 		return (1);
 	}
 	if (!(*path = ft_strsplit(tmpath, ":")))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	return (0);
 }
 

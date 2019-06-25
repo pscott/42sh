@@ -19,7 +19,7 @@ static void	replace_env_var(char *var_name, char *var_value, char **env_line)
 	var_name_len = ft_strlen(var_name);
 	new_len = var_name_len + ft_strlen(var_value) + 1;
 	if (!(*env_line = ft_strnew(new_len)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strcpy(*env_line, var_name);
 	if (*env_line)
 		(*env_line)[var_name_len] = '=';
@@ -45,12 +45,12 @@ static void	add_env_var(char *var_name, char *var_value, char ***env)
 
 	env_len = ft_ntab_len((const char **)*env);
 	if (!(new_env = (char**)malloc(sizeof(char*) * (env_len + 2))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	i = 0;
 	while (*env && (*env)[i])
 	{
 		if (!(new_env[i] = ft_strdup((*env)[i])))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		i++;
 	}
 	new_env[i] = NULL;

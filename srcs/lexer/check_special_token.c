@@ -69,7 +69,7 @@ t_token			*check_param_sub_token(char **cmdline)
 		return (NULL);
 	i++;
 	if (!(token = create_token(*cmdline, i, tk_word)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	*cmdline = *cmdline + i;
 	return (token);
 }

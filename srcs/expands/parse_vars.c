@@ -30,7 +30,7 @@ static void			substitute_param(char **str, size_t *i,
 	if (!ft_strncmp(varname, "?", 2))
 	{
 		if (!(var_value = ft_itoa(vars->cmd_value)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		is_allocated = 1;
 	}
 	else
@@ -67,7 +67,7 @@ static const char	*get_param_sub_name(const char *str, t_vars *vars)
 	if (!ft_strncmp(str, "${?}", 4))
 	{
 		if (!(var_name = ft_strdup("?")))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		return (var_name);
 	}
 	while (str[++i] && str[i] != '}')
@@ -80,7 +80,7 @@ static const char	*get_param_sub_name(const char *str, t_vars *vars)
 	if (str[i] == '}')
 	{
 		if (!(var_name = ft_strndup(&str[2], i - 2)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		return (var_name);
 	}
 	return (NULL);

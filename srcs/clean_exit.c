@@ -43,7 +43,7 @@ void		clean_exit(int exitno, t_exit reason)
 	}
 	else
 		write(2, "\nexiting: malloc error\n", 23);
-	if (reason != READ_ERR)
+	if (reason != NORESET)
 		reset_terminal_settings();
 	exit(exitno);
 }

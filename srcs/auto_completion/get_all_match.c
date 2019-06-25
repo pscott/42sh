@@ -21,7 +21,7 @@ int		get_all_match(char *directory, t_auto_comp **match,
 			else
 				tmp = ft_strdup(ent->d_name);
 			if (!tmp)
-				clean_exit(1, 1);
+				clean_exit(1, MALLOC_ERR);
 			create_match_link(match, tmp);
 			ft_strdel(&tmp);
 		}

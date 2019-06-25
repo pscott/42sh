@@ -22,7 +22,7 @@ static int		ast_semi(t_ast *root, t_vars *vars, int fg)
 	ret = exec_ast(root->left, vars, fg);
 	if ((tmp = should_stop(ret, vars)))
 		return (tmp);
-	vars->cmd_value = ret;
+	vars->cmd_value = exit_status(ret);
 	return (exec_ast(root->right, vars, fg));
 }
 

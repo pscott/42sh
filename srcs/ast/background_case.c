@@ -33,7 +33,7 @@ static void	execute_and_or_background(t_job *j, t_ast *root, t_vars *vars)
 		j->pgid = pid;
 		setpgid(pid, j->pgid);
 		if (!(j->first_process->process_str = ft_strdup(j->command)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		ft_dprintf(STDERR_FILENO, "[%d] %d\n", j->num, j->pgid);
 	}
 }

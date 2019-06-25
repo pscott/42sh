@@ -79,18 +79,18 @@ char				*get_exit_str(int status)
 	if (WIFSIGNALED(status))
 	{
 		if (!(msg = ft_strdup(get_signal_str(WTERMSIG(status)))))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else
 	{
 		if (WEXITSTATUS(status) == 0)
 			return (ft_strdup("Done"));
 		if (!(itoa = ft_itoa(WEXITSTATUS(status))))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		if (!(msg = ft_strjoin("Done(", itoa)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		if (!(msg = ft_strjoin_free_left(msg, ")")))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		ft_strdel(&itoa);
 	}
 	return (msg);

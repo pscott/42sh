@@ -8,7 +8,7 @@ void			zsh_newline(t_st_cmd *st_cmd)
 
 	len = st_cmd->window->ws_col - 1 > 0 ? st_cmd->window->ws_col - 1 : 2;
 	if (!(zsh = malloc((size_t)sizeof(*zsh) * len)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_memset(zsh, ' ', len);
 	execute_str(HIGHLIGHT);
 	write(TERM_FD, "%", 1);
@@ -49,12 +49,12 @@ static void		replace_prompt(t_st_cmd *st_cmd, const char *buf,
 	else
 		new_prompt = ft_strjoin(PROMPT_REVERSE_I_SEARCH_FAIL, "`");
 	if (!new_prompt)
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	if (!(tmp = ft_strjoin(new_prompt, buf)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strdel(&new_prompt);
 	if (!(new_prompt = ft_strjoin(tmp, "': ")))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strdel(&tmp);
 	st_cmd->st_prompt = init_st_prompt(new_prompt);
 	st_cmd->st_prompt->size = ft_strlen(st_cmd->st_prompt->prompt);

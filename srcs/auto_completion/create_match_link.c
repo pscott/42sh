@@ -14,7 +14,7 @@ char				*protect_special_characters(const char *str)
 		if (ft_is_metachar(str[i]))
 			++count;
 	if (!(ret = ft_strnew(i + count)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	i = 0;
 	k = 0;
 	while (str[i + 1])
@@ -32,7 +32,7 @@ static t_auto_comp	*create_auto_comp_link(void)
 	t_auto_comp		*link;
 
 	if ((!(link = (t_auto_comp*)malloc(sizeof(t_auto_comp) + 1))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	link->prev = NULL;
 	link->next = NULL;
 	link->name = NULL;
@@ -48,9 +48,9 @@ int					create_match_link(t_auto_comp **match, char *str)
 	if (!(*match))
 	{
 		if (!((*match) = create_auto_comp_link()))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		if (!((*match)->name = ft_strdup(str_protected)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else
 	{
@@ -59,7 +59,7 @@ int					create_match_link(t_auto_comp **match, char *str)
 		new->prev = (*match);
 		new->next = NULL;
 		if (!(new->name = ft_strdup(str_protected)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		(*match) = new;
 	}
 	ft_strdel(&str_protected);

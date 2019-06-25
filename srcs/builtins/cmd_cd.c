@@ -44,7 +44,7 @@ static char		*get_dest_path(char *arg, t_vars *vars, int *display, char opt)
 	else if (arg[0] == '/')
 	{
 		if (!(dest = ft_strdup(arg)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else
 		dest = relative_directory(arg, vars, display, opt);

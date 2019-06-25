@@ -13,16 +13,16 @@ static int		handle_no_p(char *new_wd, char ***env, char **pwd)
 	if (new_wd[0] == '/')
 	{
 		if (!((*pwd) = ft_strdup(new_wd)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else
 	{
 		if (((*pwd) = get_envline_value("PWD", *env)))
 		{
 			if (!(tmp = ft_strjoin((*pwd), "/")))
-				clean_exit(1, 1);
+				clean_exit(1, MALLOC_ERR);
 			if (!((*pwd) = ft_strjoin(tmp, new_wd)))
-				clean_exit(1, 1);
+				clean_exit(1, MALLOC_ERR);
 			ft_strdel(&tmp);
 		}
 		else if (!((*pwd) = getcwd(NULL, 0)))

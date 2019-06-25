@@ -20,7 +20,7 @@ char		*fc_s_no_old_yes_new(t_st_fc *st_fc,
 	len_pattern = ft_strlen(st_fc->new_pattern);
 	new_cmd_len = old_cmd_len * len_pattern;
 	if (!(new_cmd = ft_strnew(new_cmd_len + 1)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	i = 0;
 	while (i < new_cmd_len)
 	{
@@ -77,7 +77,7 @@ char		*fc_s_yes_old_no_new(t_st_fc *st_fc, char *hist_curr,
 	if (new_cmd_len == 1)
 		new_cmd_len = old_cmd_len;
 	if (!(new_cmd = ft_strnew(new_cmd_len + 1)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	fill_new_cmd_yes_old_no_new(&new_cmd, hist_curr,
 		st_fc->old_pattern, new_cmd_len);
 	if (new_cmd && !new_cmd[0])
@@ -136,7 +136,7 @@ char		*fc_s_yes_old_yes_new(t_st_fc *st_fc, char *hist_curr,
 	new_cmd_len = old_cmd_len + (pattern_occurence *
 		(ft_strlen(st_fc->new_pattern) - old_pattern_len));
 	if (!(new_cmd = ft_strnew(new_cmd_len + 1)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	fill_new_cmd_yes_old_yes_new(st_fc, &new_cmd, hist_curr, new_cmd_len);
 	return (new_cmd);
 }

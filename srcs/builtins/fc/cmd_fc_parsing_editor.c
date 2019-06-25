@@ -35,7 +35,7 @@ static int		find_editor_in_path(char **path, char *arg)
 	j = 0;
 	ret = 0;
 	if (!(to_find = ft_strtrim(arg)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	while (path[j])
 	{
 		if (!(true_path = rm_spaces_path(path[j])))

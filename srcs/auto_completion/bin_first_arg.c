@@ -25,7 +25,7 @@ char				*auto_completion_bin(t_vars *vars,
 	path = NULL;
 	get_path(&path, vars);
 	if (!(to_find = ft_strdup(str)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	get_matching_exe(path, &match, to_find, to_find_and_next_char);
 	if (path)
 		ft_free_ntab(path);

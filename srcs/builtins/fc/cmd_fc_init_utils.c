@@ -12,7 +12,7 @@ int				get_correct_nb(char *to_find, int hist_len)
 	while (to_find[++i] == 0)
 		;
 	if (!(corr = ft_strndup(to_find + i, 5)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	nb = ft_atoi(corr);
 	if (nb < 0 && hist_len + nb >= 0)
 		nb += hist_len + 1;

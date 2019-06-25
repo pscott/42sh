@@ -9,7 +9,7 @@ static char		*ft_strjoinfree(char **s1, char *s2)
 	if (!*s1)
 		return (ft_strdup(s2));
 	if (!(s3 = ft_strnew(ft_strlen(*s1) + ft_strlen(s2))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	if (s3)
 	{
 		ft_strcpy(s3, *s1);
@@ -34,7 +34,7 @@ static int		check_content_value(char **content)
 static void		dup_line(char **line, char **content)
 {
 	if (!(*line = ft_strdup(*content)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	**content = 0;
 }
 
@@ -51,9 +51,9 @@ static int		return_val(char **line, char **content)
 	{
 		*next_nl = 0;
 		if (!(*line = ft_strdup(*content)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		if (!(tmp = ft_strdup(next_nl + 1)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		ft_strdel(content);
 		*content = tmp;
 		return (1);
@@ -78,7 +78,7 @@ int				get_next_line(const int fd, char **line)
 	if (!content)
 	{
 		if (!(content = ft_strdup("")))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	while ((check = read(fd, buf, 1023)) > 0)
 	{

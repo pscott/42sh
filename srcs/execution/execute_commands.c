@@ -40,8 +40,9 @@ static int			in_fork_builtin(char **argv, t_vars *vars,
 	int ret;
 
 	ret = exec_builtins(argv, vars, cmd_id);
+	ft_free_ntab(argv);
 	if (cmd_id == cmd_exit && ret == 1)
-		clean_exit(vars->cmd_value, 0);
+		clean_exit(vars->cmd_value, EXIT);
 	return (ret);
 }
 
@@ -67,7 +68,7 @@ static int			execute_argv(char **argv, int have_assign, t_vars *vars)
 	else if ((cmd_path = check_hashmap(argv[0], vars->hashmap, hash_check)))
 	{
 		if (!(cmd_path = ft_strdup(cmd_path)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else if ((cmd_path = get_cmd_path(argv[0], vars, 1)))
 		;

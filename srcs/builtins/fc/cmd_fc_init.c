@@ -55,7 +55,7 @@ static int		fc_parse_operands(t_st_fc *st_fc, char **argv, int i)
 		else
 			st_fc->editor = ft_strtrim(argv[i_editor]);
 		if (!(st_fc->editor))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		get_first_and_last(st_fc, argv, i_editor + 1);
 	}
 	else if (st_fc->flag[0] == 's')

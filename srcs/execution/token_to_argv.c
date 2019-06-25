@@ -13,7 +13,7 @@ static void			apply_ifs(const char *string, char **argv, int *i)
 	int				j;
 
 	if (!(words = ft_strsplit(string, IFS)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	j = 0;
 	while (words[j])
 	{
@@ -43,7 +43,7 @@ static t_token		*fill_argv(t_token *token, char **argv, int *i)
 		else
 		{
 			if (!(argv[*i] = ft_strjoin_free_left(argv[*i], token->content)))
-				clean_exit(1, 1);
+				clean_exit(1, MALLOC_ERR);
 		}
 		if (ft_strlen(argv[*i]) == 0)
 		{
@@ -68,7 +68,7 @@ static char			**create_argv(t_token *token_head, int argv_len)
 	int				i;
 
 	if (!(argv = (char**)malloc(sizeof(*argv) * (argv_len + 1))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_bzero(argv, sizeof(*argv) * (argv_len + 1));
 	i = 0;
 	while (i < argv_len)

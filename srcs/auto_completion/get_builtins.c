@@ -9,10 +9,10 @@ static char			*get_name(const char *to_find,
 			|| ft_is_white_space(next[ft_strlen(to_find)]))
 	{
 		if (!(filename = ft_strjoin(type, " ")))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else if (!(filename = ft_strdup(type)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	return (filename);
 }
 

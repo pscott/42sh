@@ -14,7 +14,7 @@ t_job	*create_job(t_ast *root, int fg, int num)
 	t_job *j;
 
 	if (!(j = malloc(sizeof(t_job))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_bzero(j, sizeof(t_job));
 	j->command = copy_job_tokens(root);
 	j->fg = fg;

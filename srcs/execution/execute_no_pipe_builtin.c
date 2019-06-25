@@ -17,7 +17,7 @@ static int		clean_fds(int ret)
 static void		execute_exit(int exitno)
 {
 	print_exit();
-	clean_fds();
+	clean_fds(0);
 	clean_exit(exitno, EXIT);
 }
 
@@ -78,7 +78,7 @@ int		exec_no_pipe_builtin(t_token *token_head, t_vars *vars,
 	}
 	else
 		g_can_exit = 0;
-	clean_fds();
+	clean_fds(0);
 	ft_memdel_ntab(&vars->env_save);
 	return (ret ? 256 * ret : 0);
 }

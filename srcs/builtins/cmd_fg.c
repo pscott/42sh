@@ -3,7 +3,8 @@
 
 int		case_fg(char **argv)
 {
-	t_job *j;
+	t_job	*j;
+	int		ret;
 
 	if (!g_isatty)
 		return (0);
@@ -20,8 +21,11 @@ int		case_fg(char **argv)
 		return (1);
 	}
 	ft_dprintf(2, "%s\n", j->command);
+	reset_terminal_settings();
 	if (job_is_stopped(j))
-		return (put_job_in_foreground(j, 1));
+		ret = put_job_in_foreground(j, 1);
 	else
-		return (put_job_in_foreground(j, 0));
+		ret = put_job_in_foreground(j, 0);
+	setup_terminal_settings();
+	return (ret);
 }

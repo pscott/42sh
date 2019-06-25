@@ -41,7 +41,6 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 		save_reset_stdfd(0);
 		return (ret);
 	}
-	have_assign = 0;
 	if ((have_assign = parse_assignation(token_head, vars)))
 	{
 		vars->env_save = get_ntab_cpy(vars->env_vars);
@@ -52,7 +51,7 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	ret = exec_builtins(argv, vars, cmd_id);
 	if (have_assign)
 	{
-		ft_free_ntab(vars->env_vars);
+		ft_memdel_ntab(&vars->env_vars);
 		vars->env_vars = get_ntab_cpy(vars->env_save);
 		ft_memdel_ntab(&vars->env_save);
 	}
@@ -73,16 +72,6 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 **	been applied.
 */
 
-//TEJME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-void		print_token_list(t_token *token)
-{
-	while (token)
-	{
-		ft_dprintf(2, "T:%d, |%s|\n", token->type, token->content);
-		token = token->next;
-	}
-}
-
 static char		**fake_argv(t_token *token_head, t_vars *vars)
 {
 	t_token					*cpy;
@@ -92,7 +81,6 @@ static char		**fake_argv(t_token *token_head, t_vars *vars)
 	vars->verbose = 0;
 	cpy = copy_tokens(token_head);
 	parse_expands(cpy, vars);
-	print_token_list(cpy);//debug
 	parse_redirections(cpy, -1);
 	parse_assignation(cpy, vars);
 	get_argv_from_token_lst(cpy, &argv);
@@ -127,16 +115,11 @@ int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 
 	if (!(argv = fake_argv(token_head, vars)) || !argv[0])
 	{
+		parse_expands(token_head, vars);
+		parse_assignation(token_head, vars);
 		apply_assignation(&vars->assign_tab, vars);
 		return (-1);
 	}
-	//test: for 'PATH= ls'
-	else
-	{
-		vars->env_save = get_ntab_cpy(vars->env_vars);
-		apply_assignation_to_ntab(&vars->assign_tab, &vars->env_vars);
-	}
-	//
 	if (ft_strchr(argv[0], '/'))
 		ret = -1;
 	else if ((cmd_id = check_builtins(argv)))
@@ -154,8 +137,9 @@ int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 		ret = -1;
 	}
 	ft_free_ntab(argv);
-	if (ret)//restore env
+	if (vars->env_save)//restore env
 	{
+		ft_dprintf(2, "003 check_no_pipe_builtin for RESTORE\n");
 		ft_memdel_ntab(&vars->env_vars);
 		vars->env_vars = get_ntab_cpy(vars->env_save);
 		ft_memdel_ntab(&vars->env_save);

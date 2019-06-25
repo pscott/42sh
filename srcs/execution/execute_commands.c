@@ -27,7 +27,8 @@ static int			access_and_exec(char *cmd_path, char **argv,
 	//
 	if (have_assign)
 	{
-		ft_free_ntab(vars->env_vars);
+		ft_dprintf(2, "004 in access+and_exec\n");
+		ft_memdel_ntab(&vars->env_vars);
 		vars->env_vars = get_ntab_cpy(vars->env_save);
 		ft_memdel_ntab(&vars->env_save);//test
 	}

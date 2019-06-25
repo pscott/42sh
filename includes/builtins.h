@@ -51,7 +51,7 @@ typedef enum		e_cmd_test {
 int					check_builtins(char **argv);
 int					exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id);
 
-int					case_cd(char **argv, char ***env);
+int					case_cd(char **argv, t_vars *vars);
 int					case_hash(char **argv, t_vars *vars);
 int					get_exit_value(char **argv);
 void				print_exit(void);

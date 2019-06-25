@@ -8,7 +8,7 @@ static int	exec_remaining_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 	else if (cmd_id == cmd_exit)
 		return (case_exit(argv, &vars->cmd_value));
 	else if (cmd_id == cmd_cd)
-		return (case_cd(argv, &vars->shell_vars));
+		return (case_cd(argv, vars));
 	else if (cmd_id == cmd_type)
 		return (case_type(argv, vars));
 	else if (cmd_id == cmd_hash)

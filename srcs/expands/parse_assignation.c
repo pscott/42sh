@@ -82,6 +82,8 @@ int			parse_assignation(t_token *token, t_vars *vars)
 		if (token)
 			token = token->next;
 	}
+	if (!vars->verbose)
+		ft_memdel_ntab(&vars->assign_tab);
 	return (ret);
 }
 

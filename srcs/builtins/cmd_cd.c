@@ -30,15 +30,18 @@ static int		check_cd_usage(char **argv)
 	return (0);
 }
 
-static char		*get_dest_path(char *arg, char ***env, int *display)
+static char		*get_dest_path(char *arg, t_vars *vars, int *display)
 {
 	char	*dest;
 
 	if (!(arg))
-		dest = get_directory("HOME", (const char**)*env);
+	{
+		if (!(dest = get_directory("HOME", (const char**)vars->env_vars)))
+			dest = get_directory("HOME", (const char**)vars->shell_vars);
+	}
 	else if (ft_strncmp(arg, "-", 2) == 0)
 	{
-		if ((dest = get_directory("OLDPWD", (const char**)*env)))
+		if ((dest = get_directory("OLDPWD", (const char**)vars->env_vars)))
 			*display = 2;
 	}
 	else if (arg[0] == '/')
@@ -47,7 +50,7 @@ static char		*get_dest_path(char *arg, char ***env, int *display)
 			clean_exit(1, 1);
 	}
 	else
-		dest = relative_directory(arg, (const char**)*env, display);
+		dest = relative_directory(arg, (const char**)vars->env_vars, display);
 	return (dest);
 }
 
@@ -77,7 +80,7 @@ static int		del_and_return(char **todel, int ret)
 **	the corresponding error value.
 */
 
-int				case_cd(char **argv, char ***env)
+int				case_cd(char **argv, t_vars *vars)
 {
 	char			*dest;
 	char			opt;
@@ -89,7 +92,7 @@ int				case_cd(char **argv, char ***env)
 		return (1);
 	if ((opt = get_cd_options(argv, &pos)) == -1)
 		return (1);
-	dest = get_dest_path(argv[pos], env, &display);
+	dest = get_dest_path(argv[pos], vars, &display);
 	if (!dest)
 		return (1);
 	if (opt != 'P')
@@ -98,5 +101,5 @@ int				case_cd(char **argv, char ***env)
 				&& check_full_access(&dest, argv[pos])))
 		return (del_and_return(&dest, 1));
 	else
-		return (change_environ(dest, env, opt, display));
+		return (change_environ(dest, &vars->env_vars, opt, display));
 }

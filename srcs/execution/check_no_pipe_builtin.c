@@ -76,10 +76,12 @@ int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 
 	if (!(argv = fake_argv(token_head, vars)) || !argv[0])
 	{
-		parse_expands(token_head, vars);
+		if (parse_expands(token_head, vars))
+			return (-2);
+		parse_redirections(token_head, 0);
 		parse_assignation(token_head, vars);
 		apply_assignation(&vars->assign_tab, vars);
-		return (-1);
+		return (0);
 	}
 	ret = exec_or_hash(argv[0], token_head, vars);
 	ft_free_ntab(argv);

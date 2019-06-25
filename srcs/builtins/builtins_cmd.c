@@ -20,6 +20,7 @@ static int	exec_remaining_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 		return (case_unset(argv, vars));
 	else if (cmd_id == cmd_export)
 		return (case_export(argv, vars));
+	ft_free_ntab(argv);
 	return (0);
 }
 

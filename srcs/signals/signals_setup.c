@@ -29,7 +29,7 @@ void	signals_setup(void)
 	signal(SIGWINCH, sigwinch_handler);
 	signal(SIGCONT, sigcont_handler);
 	signal(SIGTSTP, SIG_IGN);
-	signal(SIGINT, sigint_handler);
+	signal(SIGINT, SIG_IGN);
 	signal(SIGHUP, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGILL, sig_handler);

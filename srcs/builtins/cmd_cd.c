@@ -47,8 +47,7 @@ static char		*get_dest_path(char *arg, t_vars *vars, int *display, char opt)
 			clean_exit(1, 1);
 	}
 	else
-		dest = relative_directory(arg, (const char**)vars->shell_vars, display,
-			opt);
+		dest = relative_directory(arg, vars, display, opt);
 	return (dest);
 }
 

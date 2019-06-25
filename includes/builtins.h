@@ -91,7 +91,7 @@ int					is_zero(char *str);
 */
 
 char				*get_directory(const char *env_key, t_vars *vars);
-char				*relative_directory(const char *path, const char **env,
+char				*relative_directory(const char *path, t_vars *vars,
 						int *cdpath, char opt);
 int					get_cd_options(char **argv, int *pos);
 char				*cut_path_string(char *str, int slash);

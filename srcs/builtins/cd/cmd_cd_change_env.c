@@ -44,6 +44,7 @@ static void		update_oldpwd(t_vars *vars, int display)
 	{
 		unset_env_var("OLDPWD", &vars->env_vars);
 		unset_env_var("OLDPWD", &vars->shell_vars);
+		unset_env_var("OLDPWD", &vars->env_save);
 	}
 	else
 	{
@@ -51,6 +52,7 @@ static void		update_oldpwd(t_vars *vars, int display)
 			ft_printf("%s\n", get_envline_value("OLDPWD", vars->env_vars));
 		set_env_var("OLDPWD", old_pwd, &vars->env_vars);
 		set_env_var("OLDPWD", old_pwd, &vars->shell_vars);
+		set_env_var("OLDPWD", old_pwd, &vars->env_save);
 		ft_strdel(&old_pwd);
 	}
 }
@@ -81,9 +83,9 @@ int				change_environ(char *new_wd, t_vars *vars, int opt, int display)
 			return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
 	}
 	update_oldpwd(vars, display);
-	set_env_var("PWD", pwd, &vars->env_vars);
-	set_env_var("PWD", pwd, &vars->shell_vars);
-	set_env_var("PWD", pwd, &vars->env_save);
+	add_variables("PWD", pwd, &vars->env_vars);
+	add_variables("PWD", pwd, &vars->shell_vars);
+	add_variables("PWD", pwd, &vars->env_save);
 	if (display == 1)
 		ft_printf("%s\n", pwd);
 	ft_strdel(&new_wd);

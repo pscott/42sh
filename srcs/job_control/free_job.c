@@ -25,7 +25,7 @@ t_job		*free_job_from_list(t_job *delete)
 		{
 			jlast->next = j->next;
 			free_job(&j);
-			return (jlast);
+			return (jlast->next);
 		}
 		jlast = j;
 	}

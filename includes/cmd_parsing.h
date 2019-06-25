@@ -4,6 +4,7 @@
 # include "lexer.h"
 # include <pwd.h>
 # define IFS " \t\n"
+# define BANG_MAX 80
 
 int					parse_cmdline(t_token *token, t_vars *vars);
 void				redirect(int old_fd, int new_fd, int save);
@@ -27,9 +28,8 @@ void				apply_assignation_to_ntab(char **assign_tab, char ***ntab);
 ** Parse bangs utils
 */
 
-void				refresh_i(int nb, int *i);
-int					is_quoted_sqt(char *s, int i);
-int					is_quoted_bang(char *s, int i);
+void				refresh_i(int nb, int *i, int ret);
+int					is_quoted_char(char *s, int i, char c);
 int					go_to_matching_sqt(char **str, int *i);
 
 /*

@@ -32,14 +32,19 @@ static t_token	*get_dquot_token(char **cmdline)
 
 static t_token	*get_squot_token(char **cmdline)
 {
-	t_token	*token;
-	size_t	i;
+	t_token		*token;
+	size_t		i;
+	t_st_cmd	*st_cmd;
 
 	i = 1;
 	while ((*cmdline)[i] && (*cmdline)[i] != '\'')
 		i++;
 	if ((*cmdline)[i] == 0)
+	{
+		st_cmd = get_st_cmd(NULL);
+		st_cmd->is_cr_sqt = 1;
 		return (NULL);
+	}
 	if (!(token = create_token(*cmdline, ++i, tk_sq_str)))
 		clean_exit(1, 1);
 	*cmdline = *cmdline + i;

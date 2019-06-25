@@ -107,29 +107,30 @@ int				find_index_fc(t_st_cmd *st_cmd, char *flag, char *to_find)
 **	Returns 1 if find_index failed.
 */
 
-static int		fc_parse_index(t_st_cmd *st_cmd, t_st_fc *st_fc)
+static int		fc_parse_index(t_st_cmd *st_cmd, t_st_fc *s)
 {
 	int			ret;
 
 	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
-	if (st_fc->flag[0] == 's')
+	if (s->flag[0] == 's')
 	{
-		if (!st_fc->first)
-			st_fc->i_first = (*st_cmd->hist_len);
-		else if ((st_fc->i_first = find_index_fc(st_cmd, st_fc->flag,
-					st_fc->first)) < 0)
-			return (st_fc->i_first);
+		if (!s->first)
+			s->i_first = (*st_cmd->hist_len);
+		else if ((s->i_first = find_index_fc(st_cmd, s->flag,
+					s->first)) < 0)
+			return (s->i_first);
 	}
 	else
 	{
-		if (st_fc->first
-			&& ((st_fc->i_first = find_index_fc(st_cmd, st_fc->flag,
-						st_fc->first)) < 0))
-			return (st_fc->i_first);
+		if (s->first)
+		{
+			if ((s->i_first = find_index_fc(st_cmd, s->flag, s->first)) < 0)
+				return (s->i_first);
+		}
 		else
-			get_first_no_indication(st_cmd, st_fc);
-		if ((ret = get_last(st_cmd, st_fc)) < 0)
-			return (st_fc->i_last);
+			get_first_no_indication(st_cmd, s);
+		if ((ret = get_last(st_cmd, s)) < 0)
+			return (s->i_last);
 	}
 	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
 	return (0);

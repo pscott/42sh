@@ -78,7 +78,9 @@ int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 	{
 		if (parse_expands(token_head, vars))
 			return (-2);
-		parse_redirections(token_head, -1);
+		save_reset_stdfd(1);
+		parse_redirections(token_head, 0);
+		save_reset_stdfd(0);
 		parse_assignation(token_head, vars);
 		apply_assignation(&vars->assign_tab, vars);
 		return (0);

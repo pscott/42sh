@@ -46,8 +46,9 @@ static void		export_parsing_loop(char **argv, t_vars *vars, int *ret, int i)
 		value = NULL;
 		if (check_string_export(argv[i]))
 		{
-			ft_dprintf(2, "%s: export: `%s': ", SHELL_NAME, argv[i]);
-			ft_dprintf(2, "not a valid identifier\n");
+			ft_dprintf(STDERR_FILENO, "%s: export: `%s': ",
+					SHELL_NAME, argv[i]);
+			ft_dprintf(STDERR_FILENO, "not a valid identifier\n");
 			*ret = 1;
 		}
 		else if (ft_strchr(argv[i], '=') && varline_case(argv[i], vars))

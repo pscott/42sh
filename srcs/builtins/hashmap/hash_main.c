@@ -41,10 +41,8 @@ static int	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc,
 				|| ft_strchr(argv[i], '/'))
 			continue ;
 		if (!(value = find_path(argv[i], paths)))
-		{
-			ft_dprintf(2, "%s: hash: %s: not found\n", SHELL_NAME, argv[i]);
-			return_value = 1;
-		}
+			return_value = ft_dprintf(2, "%s: hash: %s: not found\n",
+					SHELL_NAME, argv[i]) ? 1 : 1;
 		else
 		{
 			add_to_hashmap(argv[i], value, &vars->hashmap);

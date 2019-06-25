@@ -32,7 +32,7 @@ static int		handle_cont_read(t_token *token_head, t_st_cmd **st_cmd,
 {
 	int	ret;
 
-	st_cmd->cr = 1;
+	(*st_cmd)->cr = 1;
 	ret = continue_reading(token_head, st_cmd, input, vars);
 	if (!isatty(TERM_FD))
 		ft_dprintf(2, "%s: unexpected end of file\n", SHELL_NAME);

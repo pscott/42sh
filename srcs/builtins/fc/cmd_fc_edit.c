@@ -59,7 +59,7 @@ static char			*get_editor(t_st_fc *st_fc)
 		vars = get_vars(NULL);
 		if ((tmp = get_envline_value("FCEDIT", vars->env_vars)) != NULL)
 			ret = ft_strdup(tmp);
-		else	
+		else
 			ret = ft_strdup("ed");
 	}
 	if (ret == NULL)

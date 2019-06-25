@@ -83,7 +83,7 @@ static int	check_for_err_value(t_st_cmd *st_cmd, int ret)
 	if (ret >= 0)
 		return (1);
 	if (ret == -1)
-		clean_exit(-1, READ_ERR);
+		clean_exit(-1, NORESET);
 	return (0);
 }
 

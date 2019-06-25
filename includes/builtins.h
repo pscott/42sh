@@ -25,7 +25,7 @@ typedef enum		e_cmd_id {
 	cmd_type,
 	cmd_set,
 	cmd_unset
-}				t_cmd_id;
+}					t_cmd_id;
 
 typedef enum		e_cmd_test {
 	op_b = 1,
@@ -76,7 +76,7 @@ int					case_bg(char **argv);
 **	Jobs utils
 */
 
-int		get_options(char **argv, int *i);
+int					get_options(char **argv, int *i);
 
 /*
 **	Exit utils
@@ -100,7 +100,8 @@ int					check_cdpath_var(const char *path, const char **env,
 						char **tmp, int *cdpath);
 void				format_path_string(char **dest);
 char				*remove_n_char(char *str, size_t pos);
-int					change_environ(char *new_wd, char ***env, int opt, int display);
+int					change_environ(char *new_wd, char ***env, int opt,
+						int display);
 int					check_full_access(char **dest, char *msg);
 
 /*

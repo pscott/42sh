@@ -39,7 +39,6 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 	int				ret;
 
 	ret = 0;
-	reset_terminal_settings();
 	if (!argv)
 		ret = 1;
 	else if (cmd_id == cmd_exit)
@@ -57,7 +56,6 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 	else if (job_control_id(cmd_id))
 		ret = case_job_control(cmd_id, argv);
 	ft_free_ntab(argv);
-	setup_terminal_settings();
 	return (ret);
 }
 

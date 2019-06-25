@@ -36,12 +36,7 @@ int		check_for_arrows(t_st_cmd *st_cmd, const char *buf, t_vars *vars)
 
 int		check_for_signal(const char *buf)
 {
-	if (ft_strncmp(buf, CTRL_Z, CTRL_Z_LEN + 1) == 0)
-	{
-		sigtstp_handler(SIGTSTP);
-		return (input_continue);
-	}
-	else if (ft_strncmp(buf, CTRL_C, CTRL_C_LEN + 1) == 0)
+	if (ft_strequ(buf, CTRL_C))
 	{
 		sigint_handler(SIGINT);
 		return (input_stop);
@@ -58,7 +53,7 @@ int		check_for_delete(t_st_cmd *st_cmd, char *buf)
 	if (ft_strncmp(buf, BACKSPACE, BACKSPACE_LEN + 1) == 0)
 	{
 		if (st_cmd->st_txt->tracker == 0)
-			ft_putstr(BELL);
+			write(STDIN_FILENO, BELL, 1);
 		else
 			delete_left(st_cmd);
 		return (1);
@@ -66,7 +61,7 @@ int		check_for_delete(t_st_cmd *st_cmd, char *buf)
 	else if (ft_strncmp(buf, DEL, DEL_LEN + 1) == 0)
 	{
 		if (st_cmd->st_txt->tracker >= st_cmd->st_txt->data_size)
-			ft_putstr(BELL);
+			write(STDIN_FILENO, BELL, 1);
 		else
 			delete_right(st_cmd);
 		return (1);

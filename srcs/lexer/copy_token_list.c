@@ -1,5 +1,21 @@
 #include "lexer.h"
 
+t_token	*append_token(t_token **token_head, t_token *append)
+{
+	t_token *probe;
+
+	if (!(*token_head))
+		*token_head = append;
+	else
+	{
+		probe = *token_head;
+		while (probe->next)
+			probe = probe->next;
+		probe->next = append;
+	}
+	return (append);
+}
+
 t_token	*copy_tokens(t_token *token_head)
 {
 	t_token *probe;

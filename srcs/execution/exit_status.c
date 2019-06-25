@@ -4,12 +4,8 @@ int		exit_status(int status)
 {
 	int	ret;
 
-	ret = WIFSIGNALED(status) ? WTERMSIG(status) : WEXITSTATUS(status);
-	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) != SIGINT && WTERMSIG(status) != SIGPIPE)
-			ft_dprintf(2, "process terminated, received signal : %d\n",
-			WTERMSIG(status));
-	}
+	if ((ret = WIFSTOPPED(status) ? 128 + WSTOPSIG(status) : 0))
+		return (ret);
+	ret = WIFSIGNALED(status) ? 128 + WTERMSIG(status) : WEXITSTATUS(status);
 	return (ret);
 }

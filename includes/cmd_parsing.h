@@ -3,10 +3,12 @@
 
 # include "lexer.h"
 # include <pwd.h>
+# include "ast.h"
+
 # define IFS " \t\n"
 # define BANG_MAX 80
 
-int					parse_cmdline(t_token *token, t_vars *vars);
+int					parse_cmdline(t_ast *root, t_vars *vars, int foreground);
 void				redirect(int old_fd, int new_fd, int save);
 
 /*

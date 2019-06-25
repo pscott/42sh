@@ -45,9 +45,8 @@ static void		insert_expansion(char *user, char **str)
 			if (!(expansion = ft_strdup(infos->pw_dir)))
 				clean_exit(1, 1);
 			ft_strdel(str);
-			if (!(*str = ft_strjoin_free_left(expansion,
-						*str + ft_strlen_char(*str, '/'))))
-				clean_exit(1, 1);
+			*str = ft_strjoin_free_left(expansion,
+					*str + ft_strlen_char(*str, '/'));
 		}
 		else
 		{

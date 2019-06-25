@@ -3,6 +3,7 @@
 #include "ast.h"
 #include "history.h"
 #include "cmd_parsing.h"
+#include "execution.h"
 
 static int		continue_reading(t_token *token_head, t_st_cmd **st_cmd,
 				char **input, t_vars *vars)
@@ -44,11 +45,11 @@ static int		handle_execution(t_st_cmd *st_cmd, t_token *token_head,
 	t_ast		*ast_root;
 
 	ast_root = create_ast(token_head);
-	ret = exec_ast(ast_root, vars);
+	ret = exec_ast(ast_root, vars, 1);
 	if (st_cmd->keep)
 		adjust_history(st_cmd, 1);
 	free_ast(ast_root);
-	return (ret);
+	return (exit_status(ret));
 }
 
 /*
@@ -90,5 +91,5 @@ int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		return (lex_fail);
 	}
 	ret = handle_execution(st_cmd, token_head, vars);
-	return (ret == -2 ? 1 : ret);
+	return (ret == 254 ? 1 : ret);
 }

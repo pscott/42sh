@@ -39,9 +39,11 @@ int			is_var(char *str)
 	int i;
 
 	i = 0;
+	if (ft_isdigit(str[i]))
+		return (0);
 	if (str[i] == '$')
 		i++;
-	while (ft_isalpha(str[i]))
+	while (ft_isalnum(str[i]))
 		i++;
 	return (i);
 }

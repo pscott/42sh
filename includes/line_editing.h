@@ -47,7 +47,7 @@ void					go_to_end(t_st_cmd *st_cmd);
 
 void					delete_right(t_st_cmd *st_cmd);
 void					delete_left(t_st_cmd *st_cmd);
-void					shift_chars_left(char *str, unsigned int shift_no);
+void					shift_chars_left(char *str, size_t shift_no);
 
 /*
 **	Copy/paste

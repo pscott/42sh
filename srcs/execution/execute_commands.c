@@ -4,9 +4,8 @@
 #include "hashmap.h"
 #include "errors.h"
 #include "env.h"
+#include "signals.h"
 
-//static int			access_and_exec(char *cmd_path, char **argv, int have_assign,
-//	const char **env)
 static int			access_and_exec(char *cmd_path, char **argv,
 	int have_assign, t_vars *vars)
 {
@@ -65,7 +64,7 @@ static int			execute_argv(char **argv, int have_assign, t_vars *vars)
 		return (1);
 	else if (ft_strchr(argv[0], '/'))
 		cmd_path = ft_strdup(argv[0]);
-	else if ((cmd_id = check_builtins(argv)))
+	else if ((cmd_id = check_builtins((const char*)argv[0])) != cmd_error)
 		return (in_fork_builtin(argv, vars, cmd_id));
 	else if ((cmd_path = check_hashmap(argv[0], vars->hashmap, hash_check)))
 	{
@@ -96,14 +95,16 @@ static int			execute_argv(char **argv, int have_assign, t_vars *vars)
 */
 
 int					parse_and_exec(t_token *token_head, int in,
-	int out, t_vars *vars)
+	int out)
 {
 	char			**argv;
 	int				ret;
 	int				have_assign;
+	t_vars			*vars;
 
 	redirect(in, STDIN_FILENO, 0);
 	redirect(out, STDOUT_FILENO, 0);
+	vars = get_vars(NULL);
 	argv = NULL;
 	if ((ret = parse_expands(token_head, vars)) != 0)
 		return (ret);

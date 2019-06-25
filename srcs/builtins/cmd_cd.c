@@ -30,7 +30,7 @@ static int		check_cd_usage(char **argv)
 	return (0);
 }
 
-static char		*get_dest_path(char *arg, char ***env, int *display)
+static char		*get_dest_path(char *arg, char ***env, int *display, char opt)
 {
 	char	*dest;
 
@@ -47,7 +47,7 @@ static char		*get_dest_path(char *arg, char ***env, int *display)
 			clean_exit(1, 1);
 	}
 	else
-		dest = relative_directory(arg, (const char**)*env, display);
+		dest = relative_directory(arg, (const char**)*env, display, opt);
 	return (dest);
 }
 
@@ -89,7 +89,7 @@ int				case_cd(char **argv, char ***env)
 		return (1);
 	if ((opt = get_cd_options(argv, &pos)) == -1)
 		return (1);
-	dest = get_dest_path(argv[pos], env, &display);
+	dest = get_dest_path(argv[pos], env, &display, opt);
 	if (!dest)
 		return (1);
 	if (opt != 'P')

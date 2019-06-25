@@ -28,9 +28,6 @@ static int	case_job_control(t_cmd_id cmd_id, char **argv)
 
 /*
 **	Executes the builtin corresponding to the cmd_id parameter (see cmd enums).
-**	Returns 1 if it executed something.
-**	Returns 0 if there was an error.
-**	Updates vars->cmd_value with the corresponding builtin execution value.
 **	Use check_builtins before calling exec_builtins
 */
 

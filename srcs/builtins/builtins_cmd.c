@@ -4,8 +4,6 @@ static int	exec_remaining_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 {
 	if (cmd_id == cmd_hash)
 		return (case_hash(argv, vars));
-	else if (cmd_id == cmd_history)
-		return (case_history(argv));
 	else if (cmd_id == cmd_jobs)
 		return (case_jobs(argv));
 	else if (cmd_id == cmd_test)

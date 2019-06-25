@@ -19,7 +19,6 @@ typedef enum		e_cmd_id {
 	cmd_fc,
 	cmd_fg,
 	cmd_hash,
-	cmd_history,
 	cmd_jobs,
 	cmd_test,
 	cmd_type,

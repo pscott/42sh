@@ -4,8 +4,6 @@ static int	check_remaining_builtins(const char *cmd)
 {
 	if (ft_strequ(cmd, "fc"))
 		return (cmd_fc);
-	else if (ft_strequ(cmd, "history"))
-		return (cmd_history);
 	else if (ft_strequ(cmd, "test"))
 		return (cmd_test);
 	else if (ft_strequ(cmd, "set"))

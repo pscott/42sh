@@ -112,7 +112,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c ft_strjoin_free_left.c\
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c			\
 						cmd_type.c cmd_echo.c cmd_jobs.c cmd_fg.c cmd_bg.c		\
 						cmd_exit_utils.c cmd_jobs_utils.c						\
-						cmd_test.c cmd_history.c check_builtins.c				\
+						cmd_test.c check_builtins.c				\
 						cmd_set.c cmd_unset.c cmd_export.c cmd_export_utils.c
 	CD_FILES		:=	cmd_cd_options.c cmd_cd_cdpath.c						\
 						cmd_cd_format.c cmd_cd_remove_char.c					\

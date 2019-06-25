@@ -64,7 +64,8 @@ char						*get_dirs_first_arg(const char *directory,
 int							get_all_match(char *directory, t_auto_comp **match,
 								const char *to_find, const char *next);
 char						*protect_special_characters(const char *str);
-int							add_builtins(t_auto_comp **match, const char *to_find,
+int							add_builtins(t_auto_comp **match,
+								const char *to_find,
 								const char *next, int mode);
 
 /*

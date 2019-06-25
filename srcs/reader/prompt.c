@@ -1,7 +1,7 @@
 #include "input.h"
 #include "line_editing.h"
 
-void		zsh_newline(t_st_cmd *st_cmd)
+void			zsh_newline(t_st_cmd *st_cmd)
 {
 	size_t	len;
 	char	*zsh;

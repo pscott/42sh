@@ -41,7 +41,6 @@ int					error_bang(char **str, int *i, int mode);
 int					is_quoted(char *str, int i);
 int					get_correct_nb_bang(char *to_find, int hist_len, int *nb);
 
-
 /*
 ** substitute_utils
 */

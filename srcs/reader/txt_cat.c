@@ -14,7 +14,7 @@ static void	clean_and_check(t_st_cmd *st_cmd, char *tmp, char *input)
 **	Returns a string containing all string contents in the st_cmd list.
 */
 
-char	*concatenate_txt(t_st_cmd *st_cmd, int mode)
+char		*concatenate_txt(t_st_cmd *st_cmd, int mode)
 {
 	char	*input;
 	char	*tmp;
@@ -42,7 +42,7 @@ char	*concatenate_txt(t_st_cmd *st_cmd, int mode)
 	return (input);
 }
 
-char	*concatenate_heredoc_txt(t_st_cmd *st_cmd, t_st_cmd *start)
+char		*concatenate_heredoc_txt(t_st_cmd *st_cmd, t_st_cmd *start)
 {
 	char	*input;
 

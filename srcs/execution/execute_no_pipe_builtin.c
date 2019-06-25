@@ -53,8 +53,8 @@ static void		set_assign(t_token *token_head, t_vars *vars)
 **	- restore old env
 */
 
-int		exec_no_pipe_builtin(t_token *token_head, t_vars *vars,
-		t_cmd_id cmd_id)
+int				exec_no_pipe_builtin(t_token *token_head, t_vars *vars,
+				t_cmd_id cmd_id)
 {
 	char	**argv;
 	int		ret;

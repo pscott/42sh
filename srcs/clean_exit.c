@@ -3,7 +3,7 @@
 #include "input.h"
 #include "jobs.h"
 
-static int		check_for_stopped_jobs(void)
+static int	check_for_stopped_jobs(void)
 {
 	t_job *j;
 
@@ -21,7 +21,7 @@ static int		check_for_stopped_jobs(void)
 ** Utility function to reset the terminal settings and exit
 */
 
-void	clean_exit(int exitno, t_exit reason)
+void		clean_exit(int exitno, t_exit reason)
 {
 	t_st_cmd	*st_cmd;
 	t_vars		*vars;

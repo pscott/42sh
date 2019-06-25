@@ -23,6 +23,7 @@ int			launch_job(t_job *j, int foreground)
 	int			mypipe[2];
 	int			fds[2];
 
+	g_can_exit = 0;
 	fds[0] = STDIN_FILENO;
 	ft_bzero(mypipe, sizeof(int) * 2);
 	p = j->first_process;

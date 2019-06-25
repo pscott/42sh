@@ -90,7 +90,8 @@ char				*auto_completion_spe(char *input, unsigned int len)
 	start_actual_word = get_needed_values(input, len, &str, &to_find_full);
 	ret = get_match_and_display_hdoc(to_find_full + start_actual_word,
 			str + start_actual_word);
-	format_finding_and_get_correct_ret(&ret, start_actual_word, input, len);
+	format_finding_and_get_correct_ret(&ret,
+			start_actual_word + (len - ft_strlen(to_find_full)), input, len);
 	free_two_strings(&to_find_full, &str);
 	return (ret);
 }

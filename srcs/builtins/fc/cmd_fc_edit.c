@@ -2,6 +2,7 @@
 #include "ftsh.h"
 #include "builtins.h"
 #include "execution.h"
+#include "env.h"
 
 static int			get_needed_values(char **tmp_file, int *tmp_file_fd)
 {
@@ -45,6 +46,27 @@ int					fc_edit_open_file(t_st_cmd *st_cmd, t_st_fc *st_fc,
 	return (tmp_file_fd);
 }
 
+static char			*get_editor(t_st_fc *st_fc)
+{
+	char			*ret;
+	char			*tmp;
+	t_vars			*vars;
+
+	if (st_fc->editor)
+		ret = ft_strdup(st_fc->editor);
+	else
+	{
+		vars = get_vars(NULL);
+		if ((tmp = get_envline_value("FCEDIT", vars->env_vars)) != NULL)
+			ret = ft_strdup(tmp);
+		else	
+			ret = ft_strdup("ed");
+	}
+	if (ret == NULL)
+		clean_exit(1, 1);
+	return (ret);
+}
+
 int					fc_edit_open_editor(t_st_cmd *st_cmd, t_st_fc *st_fc,
 	char **tmp_file, int tmp_file_fd)
 {
@@ -55,9 +77,7 @@ int					fc_edit_open_editor(t_st_cmd *st_cmd, t_st_fc *st_fc,
 	(void)tmp_file_fd;
 	if (!(argv = (char**)malloc(sizeof(char*) * 3)))
 		return (1);
-	if ((!st_fc->editor && !(argv[0] = ft_strdup("vim")))
-		|| (st_fc->editor && (!(argv[0] = ft_strdup(st_fc->editor)))))
-		clean_exit(1, 1);
+	argv[0] = get_editor(st_fc);
 	if (!(argv[1] = ft_strdup(*tmp_file)))
 		clean_exit(1, 1);
 	argv[2] = NULL;

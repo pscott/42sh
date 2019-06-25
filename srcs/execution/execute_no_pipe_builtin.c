@@ -137,12 +137,5 @@ int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 		ret = -1;
 	}
 	ft_free_ntab(argv);
-	if (vars->env_save)//restore env
-	{
-		ft_dprintf(2, "003 check_no_pipe_builtin for RESTORE\n");
-		ft_memdel_ntab(&vars->env_vars);
-		vars->env_vars = get_ntab_cpy(vars->env_save);
-		ft_memdel_ntab(&vars->env_save);
-	}
 	return (ret);
 }

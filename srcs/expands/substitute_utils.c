@@ -1,4 +1,3 @@
-#include "ftsh.h"
 #include "cmd_parsing.h"
 
 int		is_terminated(const char *open_pattern,

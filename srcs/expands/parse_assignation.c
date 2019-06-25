@@ -1,4 +1,3 @@
-#include "lexer.h"
 #include "cmd_parsing.h"
 #include "env.h"
 

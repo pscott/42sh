@@ -2,6 +2,7 @@
 # define CMD_PARSING_H
 
 # include "lexer.h"
+# include "input.h"
 # include <pwd.h>
 # include "ast.h"
 
@@ -34,6 +35,12 @@ void				refresh_i(int nb, int *i, int ret);
 int					is_quoted_char(char *s, int i, char c);
 int					go_to_matching_sqt(char **str, int *i);
 int					go_to_matching_dqt(char **str, int *i);
+int					bang_max(int *count);
+int					int_vars_bang(t_st_cmd *st_cmd, int *i, int *ret);
+int					error_bang(char **str, int *i, int mode);
+int					is_quoted(char *str, int i);
+int					get_correct_nb_bang(char *to_find, int hist_len, int *nb);
+
 
 /*
 ** substitute_utils

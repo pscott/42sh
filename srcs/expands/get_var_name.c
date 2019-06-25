@@ -1,4 +1,3 @@
-#include "ftsh.h"
 #include "cmd_parsing.h"
 
 char	*get_var_name(char *str)

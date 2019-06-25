@@ -1,6 +1,5 @@
 #include "lexer.h"
 #include "env.h"
-#include "ast.h"
 #include "line_editing.h"
 #include "cmd_parsing.h"
 

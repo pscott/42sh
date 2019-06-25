@@ -1,5 +1,4 @@
 #include "cmd_parsing.h"
-#include "exp_arith.h"
 
 static size_t	get_ll_len(long long nb)
 {

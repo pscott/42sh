@@ -1,5 +1,4 @@
 #include "lexer.h"
-#include "ast.h"
 
 /*
 **	Does not change token_head->type to TK_WORD because we need to know the

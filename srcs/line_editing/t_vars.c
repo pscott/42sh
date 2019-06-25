@@ -55,6 +55,7 @@ int			init_vars(t_vars *vars, int argc, char **argv, char **env)
 	vars->copy = NULL;
 	reset_copy_vars(vars);
 	vars->assign_tab = NULL;
+	vars->is_cr_sqt = 0;
 	get_vars(vars);
 	if (init_env_shellvars(vars, env) == 1)
 		return (1);

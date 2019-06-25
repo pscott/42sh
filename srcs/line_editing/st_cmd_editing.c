@@ -37,6 +37,7 @@ t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd)
 	st_cmd->st_txt = init_st_txt(NULL);
 	st_cmd->st_prompt = init_st_prompt(NULL);
 	st_cmd->window = old_st_cmd->window;
+	st_cmd->is_cr_sqt = 0;
 	init_values(&st_cmd->keep, &st_cmd->cr);
 	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
 		st_cmd->st_prompt->size);
@@ -69,6 +70,7 @@ t_st_cmd		*init_st_cmd(const char **env)
 		clean_exit(1, 1);
 	st_cmd->st_txt = init_st_txt(NULL);
 	st_cmd->st_prompt = init_st_prompt(NULL);
+	st_cmd->is_cr_sqt = 0;
 	st_cmd->window = init_window_struct();
 	st_cmd->keep = 1;
 	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,

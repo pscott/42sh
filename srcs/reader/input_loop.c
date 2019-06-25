@@ -73,6 +73,20 @@ int			is_valid_escape(char *buf)
 	return (-1);
 }
 
+static int	check_for_err_value(t_st_cmd *st_cmd, int ret)
+{
+	if (st_cmd->st_txt->data_size >= INT_MAX)
+	{
+		print_errors(-1, ERR_MAX_INPUT_STR, NULL);
+		return (0);
+	}
+	if (ret >= 0)
+		return (1);
+	if (ret == -1)
+		clean_exit(-1, READ_ERR);
+	return (0);
+}
+
 /*
 **	Assumes we are at the beginning of a line, with a freshly initalized st_cmd.
 **	Reads stdin, breaks when \n is entered, returning the filled st_cmd.
@@ -100,14 +114,5 @@ int			input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)
 		reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 		ft_bzero(buf, sizeof(buf));
 	}
-	if (st_cmd->st_txt->data_size >= INT_MAX)
-	{
-		print_errors(-1, ERR_MAX_INPUT_STR, NULL);
-		return (0);
-	}
-	if (ret >= 0)
-		return (1);
-	if (ret == -1)
-		clean_exit(-1, READ_ERR);
-	return (0);
+	return (check_for_err_value(st_cmd, ret));
 }

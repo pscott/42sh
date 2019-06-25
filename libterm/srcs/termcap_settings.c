@@ -30,7 +30,7 @@ int			reset_terminal_settings(void)
 	return (1);
 }
 
-int	set_non_canonical_mode(struct termios *tattr)
+int			set_non_canonical_mode(struct termios *tattr)
 {
 	struct termios	term;
 

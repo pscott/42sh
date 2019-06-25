@@ -11,13 +11,13 @@
 # define ERR_GNL 3
 # define ERR_GNL_STR SN ": get_next_line() failed"
 
-# define ERR_NOEXIST 1
+# define ERR_NOEXIST 127
 # define ERR_NOEXIST_STR SN ": no such file or directory"
 
 # define ERR_FORK 5
 # define ERR_FORK_STR SN ": fork() failed"
 
-# define ERR_PERM 6
+# define ERR_PERM 126
 # define ERR_PERM_STR SN ": permission denied"
 
 # define ERR_OPEN 7

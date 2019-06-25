@@ -48,7 +48,7 @@ static void		update_oldpwd(t_vars *vars, int display)
 	else
 	{
 		if (display == 2)
-			ft_printf("%s\n", get_envline_value("OLDPWD", &vars->env_vars));
+			ft_printf("%s\n", get_envline_value("OLDPWD", vars->env_vars));
 		set_env_var("OLDPWD", old_pwd, &vars->env_vars);
 		set_env_var("OLDPWD", old_pwd, &vars->shell_vars);
 		ft_strdel(&old_pwd);

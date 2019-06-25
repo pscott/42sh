@@ -43,3 +43,16 @@ int				free_four_strings(char **s1, char **s2, char **s3, char **s4)
 	free_two_strings(s3, s4);
 	return (0);
 }
+
+int				is_a_builtin(char *s)
+{
+	if ((ft_strequ("exit", s)) || ft_strequ("cd", s)
+			|| ft_strequ("echo", s) || ft_strequ("hash", s)
+			|| ft_strequ("test", s) || ft_strequ("type", s)
+			|| ft_strequ("export", s) || ft_strequ("unset", s)
+			|| ft_strequ("set", s) || ft_strequ("jobs", s)
+			|| ft_strequ("fg", s) || ft_strequ("bg", s)
+			|| ft_strequ("fc", s))
+		return (1);
+	return (0);
+}

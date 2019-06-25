@@ -136,7 +136,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c ft_strjoin_free_left.c\
 						home_dirs_first_arg.c space_first_arg.c tilde_users.c	\
 						utils.c	utils2.c utils_display.c						\
 						auto_completion_spe.c varz.c get_needed_values.c		\
-						get_all_match.c formating_ret.c
+						get_all_match.c formating_ret.c get_builtins.c
 	HASHMAP_FILES	:=	find_next_prime.c hash_main.c hashfun.c hashmap.c		\
 						hashmap_alloc.c hashmap_delete.c hashmap_print.c		\
 						get_hash_args.c hashmap_errors.c

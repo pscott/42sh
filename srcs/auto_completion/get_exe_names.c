@@ -29,7 +29,8 @@ static int			check_command_folder(char *path, t_auto_comp **match,
 	{
 		if (!compare_entry2("..", ent->d_name)
 			&& !compare_entry2(".", ent->d_name)
-			&& !compare_entry(to_find, ent->d_name))
+			&& !compare_entry(to_find, ent->d_name)
+			&& !is_a_builtin(ent->d_name))
 		{
 			get_filename(next, to_find, ent, &filename);
 			create_match_link(match, filename);
@@ -41,17 +42,20 @@ static int			check_command_folder(char *path, t_auto_comp **match,
 	return (0);
 }
 
-static int			add_builtins(t_auto_comp **match, const char *to_find)
+char				*get_filename_builtin(const char *to_find,
+					const char *next, char *type)
 {
-	if (!compare_entry(to_find, "exit"))
-		create_match_link(match, "exit");
-	else if (!compare_entry(to_find, "set"))
-		create_match_link(match, "set");
-	else if (!compare_entry(to_find, "unset"))
-		create_match_link(match, "unset");
-	else if (!compare_entry(to_find, "export"))
-		create_match_link(match, "export");
-	return (0);
+	char		*filename;
+
+	if (ft_strlen(next) == ft_strlen(to_find)
+			|| ft_is_white_space(next[ft_strlen(to_find)]))
+	{
+		if (!(filename = ft_strjoin(type, " ")))
+			clean_exit(1, 1);
+	}
+	else if (!(filename = ft_strdup(type)))
+		clean_exit(1, 1);
+	return (filename);
 }
 
 char				*rm_spaces_path(const char *str)
@@ -85,13 +89,13 @@ int					get_matching_exe(char **path, t_auto_comp **match,
 
 	i = 0;
 	true_path = NULL;
-	while (path[i])
+	while (path && path[i])
 	{
 		true_path = rm_spaces_path(path[i++]);
 		check_command_folder(true_path, match, to_find_real, next);
 		ft_strdel(&true_path);
 	}
-	if (add_builtins(match, to_find_real))
+	if (add_builtins(match, to_find_real, next, 1))
 		return (1);
 	if (!(*match))
 		return (0);

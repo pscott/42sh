@@ -6,7 +6,7 @@
 /*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:01:46 by aschoenh          #+#    #+#             */
-/*   Updated: 2019/06/23 21:41:27 by aschoenh         ###   ########.fr       */
+/*   Updated: 2019/06/25 12:30:53 by aschoenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int					find_exe_space(char **path, t_auto_comp **match)
 
 	true_path = NULL;
 	i = 0;
-	while (path[i])
+	while (path && path[i])
 	{
 		true_path = rm_spaces_path(path[i++]);
 		get_everything_from_path(true_path, match);
@@ -63,10 +63,9 @@ char				*auto_completion_space(t_vars *vars)
 
 	path = NULL;
 	match = NULL;
-	if (get_path(&path, vars))
-		return (NULL);
-	if (find_all_var_and_exe(path, &match))
-		clean_exit(1, 1);
+	get_path(&path, vars);
+	find_all_var_and_exe(path, &match);
+	add_builtins(&match, "", "", 0);
 	if (path)
 		ft_free_ntab(path);
 	if (match)

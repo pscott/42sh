@@ -30,7 +30,7 @@ static int			add_other_builtins_2(t_auto_comp **match,
 	if (mode == 0 || !compare_entry(to_find, "fg"))
 	{
 		ft_strdel(&tmp);
-		create_match_link(match, ((tmp = get_name(to_find, next, "fb"))));
+		create_match_link(match, ((tmp = get_name(to_find, next, "fg"))));
 	}
 	if (mode == 0 || !compare_entry(to_find, "cd"))
 	{

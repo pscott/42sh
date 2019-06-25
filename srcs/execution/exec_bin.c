@@ -29,7 +29,7 @@ int			exec_bin(char **argv)
 	vars = get_vars(NULL);
 	if (!vars)
 		return (1);
-	tmp_cmd = init_st_cmd((const char**)vars->env_vars); // care for history ?
+	tmp_cmd = init_st_cmd((const char**)vars->env_vars);
 	ft_strdel(&tmp_cmd->st_txt->txt);
 	if (!(tmp_cmd->st_txt->txt = join_with_space(argv[0], argv[1])))
 		clean_exit(1, 1);

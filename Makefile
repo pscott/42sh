@@ -286,7 +286,6 @@ $(OBJ_DIR):
 tags:
 	ctags -R .
 
-<<<<<<< HEAD
 #print-%  : ; @echo $* = $($*)
 
 .PHONY: clean

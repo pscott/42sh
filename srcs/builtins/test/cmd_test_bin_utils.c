@@ -42,7 +42,7 @@ static int			check_chars_number(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (!ft_isdigit(str[i]))
+		if (i > 0 && !ft_isdigit(str[i]))
 			return (1);
 		i++;
 	}

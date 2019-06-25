@@ -88,7 +88,7 @@ int				case_cd(char **argv, char ***env)
 	if (check_cd_usage(argv))
 		return (1);
 	if ((opt = get_cd_options(argv, &pos)) == -1)
-		return (1);
+		return (2);
 	dest = get_dest_path(argv[pos], env, &display, opt);
 	if (!dest)
 		return (1);

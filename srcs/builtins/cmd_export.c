@@ -31,10 +31,7 @@ static void		print_exported_vars(char **exported)
 
 static int		varline_case(char *argv, t_vars *vars)
 {
-	if (vars->env_save)
-		add_varline(argv, &vars->env_save);
-	else
-		add_varline(argv, &vars->env_vars);
+	add_varline(argv, &vars->env_vars);
 	add_varline(argv, &vars->shell_vars);
 	add_varline(argv, &vars->env_exported);
 	return (0);
@@ -49,15 +46,14 @@ static void		export_parsing_loop(char **argv, t_vars *vars, int *ret, int i)
 		value = NULL;
 		if (check_string_export(argv[i]))
 		{
-			ft_dprintf(2, "%s: export: `%s': ", SHELL_NAME, argv[i]);
-			ft_dprintf(2, "not a valid identifier\n");
+			ft_dprintf(STDERR_FILENO, "%s: export: `%s': ", SHELL_NAME, argv[i]);
+			ft_dprintf(STDERR_FILENO, "not a valid identifier\n");
 			*ret = 1;
 		}
 		else if (ft_strchr(argv[i], '=') && varline_case(argv[i], vars))
 			*ret = 1;
 		else if ((value = get_varline_value(argv[i], vars->shell_vars)))
 		{
-			add_variables(argv[i], value, &vars->env_save);
 			add_variables(argv[i], value, &vars->env_vars);
 			add_variables(argv[i], value, &vars->env_exported);
 		}

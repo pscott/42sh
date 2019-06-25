@@ -55,7 +55,7 @@ typedef enum		e_cmd_test {
 int					check_builtins(const char *cmd);
 int					exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id);
 
-int					case_cd(char **argv, char ***env);
+int					case_cd(char **argv, t_vars *vars);
 int					case_hash(char **argv, t_vars *vars);
 int					get_exit_value(char **argv);
 void				print_exit(void);
@@ -100,8 +100,8 @@ int					check_cdpath_var(const char *path, const char **env,
 						char **tmp, int *cdpath);
 void				format_path_string(char **dest);
 char				*remove_n_char(char *str, size_t pos);
-int					change_environ(char *new_wd, char ***env, int opt,
-						int display);
+int					change_environ(char *new_wd, t_vars *vars,
+		int opt, int display);
 int					check_full_access(char **dest, char *msg);
 
 /*

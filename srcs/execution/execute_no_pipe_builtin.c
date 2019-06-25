@@ -45,11 +45,10 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 		clean_fds();
 		return (ret);
 	}
-	have_assign = 0;
 	if ((have_assign = parse_assignation(token_head, vars)))
 	{
 		vars->env_save = get_ntab_cpy(vars->env_vars);
-		apply_assignation_to_ntab(vars->assign_tab, &vars->env_vars);
+		apply_assignation_to_ntab(&vars->assign_tab, &vars->env_vars);
 	}
 	argv = NULL;
 	get_argv_from_token_lst(token_head, &argv);
@@ -57,7 +56,7 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	ft_free_ntab(argv);
 	if (have_assign)
 	{
-		ft_free_ntab(vars->env_vars);
+		ft_memdel_ntab(&vars->env_vars);
 		vars->env_vars = get_ntab_cpy(vars->env_save);
 		ft_memdel_ntab(&vars->env_save);
 	}
@@ -122,7 +121,9 @@ int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 
 	if (!(argv = fake_argv(token_head, vars)) || !argv[0])
 	{
-		apply_assignation(vars->assign_tab, vars);
+		parse_expands(token_head, vars);
+		parse_assignation(token_head, vars);
+		apply_assignation(&vars->assign_tab, vars);
 		return (-1);
 	}
 	if (ft_strchr(argv[0], '/'))
@@ -133,7 +134,7 @@ int				check_no_pipe_builtin(t_token *token_head, t_vars *vars)
 		ret = -1;
 	else
 	{
-		if ((cmd_path = get_cmd_path(argv[0], vars->shell_vars, 0)))
+		if ((cmd_path = get_cmd_path(argv[0], vars, 0)))
 		{
 			add_to_hashmap(argv[0], cmd_path, &vars->hashmap);
 			check_hashmap(argv[0], vars->hashmap, hash_exec);

@@ -82,6 +82,8 @@ int			parse_assignation(t_token *token, t_vars *vars)
 		if (token)
 			token = token->next;
 	}
+	if (!vars->verbose)
+		ft_memdel_ntab(&vars->assign_tab);
 	return (ret);
 }
 
@@ -90,15 +92,16 @@ int			parse_assignation(t_token *token, t_vars *vars)
 **	apply all assign_tab to the given ntab
 */
 
-void		apply_assignation_to_ntab(char **assign_tab, char ***ntab)
+void		apply_assignation_to_ntab(char ***assign_tab, char ***ntab)
 {
 	int		i;
 
-	if (!assign_tab || !assign_tab[0])
+	if (!(*assign_tab) || !(*assign_tab)[0])
 		return ;
 	i = -1;
-	while (assign_tab[++i])
-		add_varline(assign_tab[i], ntab);
+	while ((*assign_tab)[++i])
+		add_varline((*assign_tab)[i], ntab);
+	ft_memdel_ntab(assign_tab);
 }
 
 /*
@@ -107,21 +110,22 @@ void		apply_assignation_to_ntab(char **assign_tab, char ***ntab)
 ** If one of the variables is found in env: apply to env too
 */
 
-void		apply_assignation(char **assign_tab, t_vars *vars)
+void		apply_assignation(char ***assign_tab, t_vars *vars)
 {
 	int		i;
 	char	*var_name;
 
-	if (!assign_tab || !assign_tab[0])
+	if (!*assign_tab || !(*assign_tab)[0])
 		return ;
 	i = -1;
-	while (assign_tab[++i])
+	while ((*assign_tab)[++i])
 	{
-		add_varline(assign_tab[i], &vars->shell_vars);
-		if (!(var_name = get_name_from_varline(assign_tab[i])))
+		add_varline((*assign_tab)[i], &vars->shell_vars);
+		if (!(var_name = get_name_from_varline((*assign_tab)[i])))
 			continue ;
 		if (get_envline(var_name, vars->env_vars))
-			add_varline(assign_tab[i], &vars->env_vars);
+			add_varline((*assign_tab)[i], &vars->env_vars);
 		ft_strdel(&var_name);
 	}
+	ft_memdel_ntab(assign_tab);
 }

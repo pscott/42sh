@@ -104,12 +104,15 @@ static char			*get_full_path(const char *str, char **env)
 **	Verbose parameter prints error messages.
 */
 
-char				*get_cmd_path(const char *str, char **env, int verbose)
+char				*get_cmd_path(const char *str, t_vars *vars, int verbose)
 {
 	char			*path;
 	int				access;
 
-	path = get_full_path(str, env);
+	if (get_envline("PATH", vars->env_vars))
+		path = get_full_path(str, vars->env_vars);
+	else
+		path = get_full_path(str, vars->shell_vars);
 	access = check_access(path);
 	if (access == 0)
 		return (path);

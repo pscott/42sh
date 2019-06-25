@@ -33,6 +33,7 @@ void				apply_assignation_to_ntab(char ***assign_tab, char ***ntab);
 void				refresh_i(int nb, int *i, int ret);
 int					is_quoted_char(char *s, int i, char c);
 int					go_to_matching_sqt(char **str, int *i);
+int					go_to_matching_dqt(char **str, int *i);
 
 /*
 ** substitute_utils

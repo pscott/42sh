@@ -38,3 +38,16 @@ int				go_to_matching_sqt(char **str, int *i)
 	}
 	return (0);
 }
+
+int				go_to_matching_dqt(char **str, int *i)
+{
+	(*i)++;
+	while ((*str)[*i])
+	{
+		if ((*str)[*i] == '\"' && !is_quoted_char(*str, *i, '\"'))
+			break ;
+		else
+			++(*i);
+	}
+	return (0);
+}

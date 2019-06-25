@@ -185,6 +185,8 @@ int				replace_bang(char **str, int mode)
 	{
 		if ((*str)[i] == '\'' && !is_quoted_char(*str, i, '\''))
 			go_to_matching_sqt(str, &i);
+		else if ((*str)[i] == '\"' && !is_quoted_char(*str, i, '\"'))
+			go_to_matching_dqt(str, &i);
 		if ((*str)[i] == '!' && !is_quoted_char(*str, i, '!') && (*str)[i + 1])
 		{
 			if (count > BANG_MAX)

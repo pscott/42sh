@@ -10,21 +10,21 @@ typedef enum		e_cd_error {
 }					t_cd_error;
 
 typedef enum		e_cmd_id {
-	cmd_error,
+	cmd_bg,
 	cmd_cd,
+	cmd_error,
 	cmd_echo,
 	cmd_exit,
-	cmd_hash,
-	cmd_type,
-	cmd_test,
-	cmd_set,
-	cmd_unset,
 	cmd_export,
-	cmd_history,
 	cmd_fc,
-	cmd_jobs,
 	cmd_fg,
-	cmd_bg
+	cmd_hash,
+	cmd_history,
+	cmd_jobs,
+	cmd_test,
+	cmd_type,
+	cmd_set,
+	cmd_unset
 }				t_cmd_id;
 
 typedef enum		e_cmd_test {

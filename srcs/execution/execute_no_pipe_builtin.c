@@ -18,7 +18,7 @@ static void		execute_exit(int exitno)
 {
 	print_exit();
 	clean_fds();
-	clean_exit(exitno, 0);
+	clean_exit(exitno, EXIT);
 }
 
 /*
@@ -54,6 +54,7 @@ static int		no_pipe_builtin(t_token *token_head, t_vars *vars, int cmd_id)
 	argv = NULL;
 	get_argv_from_token_lst(token_head, &argv);
 	ret = exec_builtins(argv, vars, cmd_id);
+	ft_free_ntab(argv);
 	if (have_assign)
 	{
 		ft_free_ntab(vars->env_vars);

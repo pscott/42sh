@@ -35,18 +35,22 @@ static int		handle_no_p(char *new_wd, char ***env, char **pwd)
 **	Updates the OLDPWD value
 */
 
-static void		update_oldpwd(char ***env, int display)
+static void		update_oldpwd(t_vars *vars, int display)
 {
 	char		*old_pwd;
 
-	old_pwd = get_directory("PWD", (const char**)*env);
+	old_pwd = get_directory("PWD", (const char**)vars->env_vars);
 	if (!old_pwd)
-		unset_env_var("OLDPWD", env);
+	{
+		unset_env_var("OLDPWD", &vars->env_vars);
+		unset_env_var("OLDPWD", &vars->shell_vars);
+	}
 	else
 	{
 		if (display == 2)
-			ft_printf("%s\n", get_envline_value("OLDPWD", *env));
-		set_env_var("OLDPWD", old_pwd, env);
+			ft_printf("%s\n", get_envline_value("OLDPWD", &vars->env_vars));
+		set_env_var("OLDPWD", old_pwd, &vars->env_vars);
+		set_env_var("OLDPWD", old_pwd, &vars->shell_vars);
 		ft_strdel(&old_pwd);
 	}
 }
@@ -58,7 +62,7 @@ static void		update_oldpwd(char ***env, int display)
 **	1 means CDPATH, 2 means '-'
 */
 
-int				change_environ(char *new_wd, char ***env, int opt, int display)
+int				change_environ(char *new_wd, t_vars *vars, int opt, int display)
 {
 	char			*pwd;
 	int				ret;
@@ -68,7 +72,7 @@ int				change_environ(char *new_wd, char ***env, int opt, int display)
 		print_errors(ERR_CHDIR, ERR_CHDIR_STR, new_wd);
 	if (opt == 'L' || opt == 0)
 	{
-		if ((ret = handle_no_p(new_wd, env, &pwd)))
+		if ((ret = handle_no_p(new_wd, &vars->env_vars, &pwd)))
 			return (ret);
 	}
 	else
@@ -76,8 +80,10 @@ int				change_environ(char *new_wd, char ***env, int opt, int display)
 		if (!(pwd = getcwd(NULL, 0)))
 			return (print_errors(ERR_GETCWD, ERR_GETCWD_STR, NULL));
 	}
-	update_oldpwd(env, display);
-	set_env_var("PWD", pwd, env);
+	update_oldpwd(vars, display);
+	set_env_var("PWD", pwd, &vars->env_vars);
+	set_env_var("PWD", pwd, &vars->shell_vars);
+	set_env_var("PWD", pwd, &vars->env_save);
 	if (display == 1)
 		ft_printf("%s\n", pwd);
 	ft_strdel(&new_wd);

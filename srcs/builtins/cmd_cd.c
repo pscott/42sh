@@ -101,5 +101,5 @@ int				case_cd(char **argv, t_vars *vars)
 				&& check_full_access(&dest, argv[pos])))
 		return (del_and_return(&dest, 1));
 	else
-		return (change_environ(dest, &vars->env_vars, opt, display));
+		return (change_environ(dest, vars, opt, display));
 }

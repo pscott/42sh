@@ -228,8 +228,8 @@ DEPENDENCIES	:= $(addprefix $(OBJ_DIR)/,$(DEPS))
 
 
 # Rules ########################################################################
-.PHONY: all fsa val rmh adh tag clean fclean re d norm test ask_libft
 
+.PHONY: all
 all: $(LIBFT_A) $(LIBTERM_A) $(OBJ_DIR) $(NAME)
 
 $(LIBFT_A): FORCE
@@ -238,19 +238,23 @@ $(LIBFT_A): FORCE
 $(LIBTERM_A): FORCE
 	@make -C $(LIBTERM_DIR)
 
+.PHONY: fsa
 fsa: $(SRCS) $(LIBS) $(INCLS)
 	$(CC) $(CFLAGS) $(FSA_FLAGS) $(INCL_CMD) $(LIB_INCL) $(SRCS) -o $(NAME)
 	$(OPT) ./$(NAME)
 
+.PHONY: val
 val: $(SRCS) $(LIBS) $(INCLS)
 	$(CC) $(DEBUG_FLAG) $(INCL_CMD) $(LIB_INCL) $(SRCS) -o $(NAME)
 	valgrind $(VAL_FLAGS) $(OPT) ./$(NAME)
 
+.PHONY: rmh
 rmh:
 	./script/42header_c_rm.sh $(SRCS) $(INCLS)
 	make -C $(LIBFT_DIR) rmh
 	make -C $(LIBTERM_DIR) rmh
 
+.PHONY: adh
 adh: rmh
 	vim -ns script/42header_add.keys $(SRCS) $(INCLS)
 	make -C $(LIBFT_DIR) adh
@@ -267,16 +271,19 @@ $(OBJ_DIR)/%.o: %.c Makefile
 $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)
 
+.PHONY: tags
 tags:
 	ctags -R .
 
 #print-%  : ; @echo $* = $($*)
 
+.PHONY: clean
 clean: 
 	$(MAKE) clean -C libft
 	$(MAKE) clean -C libterm
 	$(RM) -rf $(OBJ_DIR)
 
+.PHONY: fclean
 fclean: clean
 	$(MAKE) fclean -C libft
 	$(MAKE) fclean -C libterm
@@ -285,11 +292,14 @@ fclean: clean
 
 FORCE:
 
+.PHONY: re
 re: fclean all
 
+.PHONY: d
 d: all
 	@$(OPT) ./$(NAME)
 
+.PHONY: norm
 norm:
 	norminette $(SRCS) | grep -v -e "C++ comment" -e "42 header"\
 		| grep -B 1 "Error"

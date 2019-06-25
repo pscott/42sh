@@ -75,15 +75,6 @@ all: $(LIBFT_A) $(OBJ_DIR) $(NAME) Makefile libterm.a
 $(LIBFT_A): FORCE
 	@$(MAKE) -C $(LIBFT_DIR) -j >/dev/null
 
-
-fsa: $(SRCS) $(LIBS)
-	$(CC) $(CFLAGS) $(FSA_FLAGS) $(INCL_CMD) $(LIB_INCL) $(SRCS) -o $(NAME)
-	$(OPT) ./$(NAME)
-
-val: $(SRCS) $(LIBS)
-	$(CC) $(DEBUG_FLAG) $(INCL_CMD) $(LIB_INCL) $^ -o $(NAME)
-	valgrind $(VAL_FLAGS) $(OPT) ./$(NAME)
-
 rmh:
 	$(SCRIPT_PATH)/42header_c_rm.sh $(SRCS) $(INCLS)
 

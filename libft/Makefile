@@ -120,12 +120,6 @@ DEPENDENCIES	:= $(addprefix $(OBJ_DIR)/,$(DEPS))
 
 all: $(OBJ_DIR) $(NAME) Makefile libft.a
 
-fsa: $(SRCS)
-	$(CC) $(CFLAGS) $(FSA_FLAGS) $(INCL_CMD) $(LIB_INCL) $(SRCS) -o $(NAME)
-
-val: $(SRCS)
-	$(CC) $(DEBUG_FLAG) $(INCL_CMD) $(LIB_INCL) $^ -o $(NAME)
-
 rmh:
 	$(SCRIPT_PATH)/42header_c_rm.sh $(SRCS) $(INCLS)
 

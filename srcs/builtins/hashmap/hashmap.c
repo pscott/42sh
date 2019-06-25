@@ -34,7 +34,7 @@ int				add_to_hashmap(char *key, char *value, t_hashmap **hashmap)
 	if (!prev_probe)
 		(*hashmap)->items[index] = create_new_item(key, value);
 	else if (!(prev_probe->next = create_new_item(key, value)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	if (list_len >= MAX_HASHMAP_COLLISION)
 		*hashmap = resize_up_hashmap(*hashmap);
 	return (1);

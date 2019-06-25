@@ -21,7 +21,7 @@ char			*ft_strjoin_free_left(char *s1, const char *s2)
 	}
 	s1_len = ft_strlen(s1);
 	if (!(res = ft_strnew(s1_len + ft_strlen(s2))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strcpy(res, s1);
 	ft_strcat(&res[s1_len], s2);
 	ft_strdel(&s1);

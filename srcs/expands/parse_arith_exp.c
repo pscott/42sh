@@ -6,7 +6,7 @@ static char		*dup_for_arith_exp(char *str, size_t i, size_t index)
 	char	*new_str;
 
 	if (!(new_str = ft_strndup(str + index + 3, i - (index + 3))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	return (new_str);
 }
 

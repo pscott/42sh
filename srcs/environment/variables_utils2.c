@@ -20,7 +20,7 @@ char	*get_varline_value(char *search, char **ntab)
 		if (varline[i] == '=')
 		{
 			if (!(var_value = ft_strdup(varline + i + 1)))
-				clean_exit(1, 1);
+				clean_exit(1, MALLOC_ERR);
 			return (var_value);
 		}
 	}
@@ -43,7 +43,7 @@ char	*concat_for_vartab(char *var_name, char *var_value)
 	name_len = ft_strlen(var_name);
 	value_len = ft_strlen(var_value);
 	if (!(new_varline = ft_strnew(name_len + value_len + 1)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strcpy(new_varline, var_name);
 	new_varline[name_len] = '=';
 	ft_strcpy(&new_varline[name_len + 1], var_value);

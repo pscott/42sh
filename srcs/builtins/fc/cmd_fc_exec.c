@@ -15,7 +15,7 @@ static int			print_exec_and_free(t_st_cmd *st_cmd, t_vars *new_vars)
 		return (0);
 	}
 	if (!(tmp = ft_strjoin(st_cmd->st_txt->txt, "\n")))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_dprintf(STDERR_FILENO, "%s\n", st_cmd->st_txt->txt);
 	new_vars->cmd_value = handle_input(st_cmd, new_vars);
 	st_cmd->hist_lst = insert_left(st_cmd->hist_lst, tmp, 1);
@@ -57,7 +57,7 @@ static int			fc_execute_edit(t_st_cmd *st_cmd,
 		return (1);
 	cr = get_nbr_cr(fd, &i, &ret);
 	if (!(tmp = (char**)malloc(sizeof(char*) * (cr + 1))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	tmp[cr] = NULL;
 	while (get_next_line(fd, &(tmp[i])) > 0)
 		i++;
@@ -67,7 +67,7 @@ static int			fc_execute_edit(t_st_cmd *st_cmd,
 	while (tmp[i])
 	{
 		if (!(st_cmd->st_txt->txt = ft_strdup(tmp[i++])))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		ret = print_exec_and_free(st_cmd, new_vars);
 	}
 	ft_free_ntab(tmp);
@@ -99,7 +99,7 @@ int					fc_execute_cmd(t_st_cmd *st_cmd, char *file, int type)
 	else if (type == substitute)
 	{
 		if (!(st_cmd->st_txt->txt = ft_strdup(file)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		ret = print_exec_and_free(st_cmd, new_vars);
 	}
 	get_vars(new_vars);

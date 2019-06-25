@@ -32,9 +32,9 @@ char			**check_inv(char **argv, int *inv)
 	init_ints(&i, &k, inv);
 	size = check_av_size(argv);
 	if (!(newargv = (char**)malloc(sizeof(char*) * (size + 1))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	if (!(newargv[0] = ft_strdup(argv[0])))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	while (argv[i])
 	{
 		if (!ft_strcmp(argv[i], "!"))
@@ -45,7 +45,7 @@ char			**check_inv(char **argv, int *inv)
 	}
 	while (argv[i])
 		if (!(newargv[k++] = ft_strdup(argv[i++])))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	newargv[size] = NULL;
 	return (newargv);
 }

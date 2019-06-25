@@ -61,7 +61,7 @@ t_op					*build_op_list(t_tok *tks)
 	while (tks[i].token != 0)
 	{
 		if (!(new = create_op_link(tks[i].token, tks[i].value, tks[i])))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		if (!(lst))
 			lst = new;
 		else if ((lst->token == tk_nb && new->token == tk_nb)

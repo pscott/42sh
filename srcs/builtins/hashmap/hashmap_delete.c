@@ -51,7 +51,7 @@ int			replace_item(t_hash_item *item, const char *value)
 	{
 		ft_memdel((void*)&item->value);
 		if (!(item->value = ft_strdup(value)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		item->count = 0;
 	}
 	return (1);
@@ -93,7 +93,7 @@ int			reset_hashmap(t_hashmap **hashmap)
 
 	delete_hashmap(*hashmap);
 	if (!(new_map = init_hashmap(INIT_HASH_SIZE)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	*hashmap = new_map;
 	return (1);
 }

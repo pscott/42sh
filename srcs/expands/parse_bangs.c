@@ -16,7 +16,7 @@ static int		case_bangbang(t_st_cmd *st_cmd, char **str, int *i, int mode)
 		insert = insert->prev;
 	len = ft_strlen_char(insert->txt, '\n');
 	if (!(pattern = ft_strndup(insert->txt, len)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	index[0] = *i - 1;
 	index[1] = *i;
 	substitute_slice(str, index, pattern);
@@ -40,7 +40,7 @@ static int		case_nb(t_st_cmd *st_cmd, char **str, int *i, int mode)
 	else
 		insert = get_entry_lst(st_cmd->hist_lst, nb);
 	if (!(pattern = ft_strndup(insert->txt, ft_strlen_char(insert->txt, '\n'))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	index[0] = *i - 1;
 	refresh_i(nb, i, ret);
 	index[1] = *i;
@@ -65,7 +65,7 @@ static int		case_word(t_st_cmd *st_cmd, char **str, int *i, int mode)
 		return (error_bang(str, i, mode));
 	len = ft_strlen_chars(&((*str)[*i]), " \n\t\r;<>&|");
 	if (!(pattern = ft_strndup(insert->txt, ft_strlen_char(insert->txt, '\n'))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	index[0] = *i - 1;
 	*i = *i + len - 1;
 	index[1] = *i;

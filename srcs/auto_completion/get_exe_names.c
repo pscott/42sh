@@ -8,10 +8,10 @@ static int			get_filename(const char *next, const char *to_find,
 			|| ft_is_white_space(next[ft_strlen(to_find)]))
 	{
 		if (!(*filename = ft_strjoin(ent->d_name, " ")))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else if (!(*filename = ft_strdup(ent->d_name)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	return (0);
 }
 
@@ -51,10 +51,10 @@ char				*get_filename_builtin(const char *to_find,
 			|| ft_is_white_space(next[ft_strlen(to_find)]))
 	{
 		if (!(filename = ft_strjoin(type, " ")))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else if (!(filename = ft_strdup(type)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	return (filename);
 }
 
@@ -69,7 +69,7 @@ char				*rm_spaces_path(const char *str)
 	if (!str)
 		return (NULL);
 	if (!(ret = ft_strnew(ft_strlen(str))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	while (str[i])
 	{
 		if (str[i] == '\\' && str[i + 1] != '\\')

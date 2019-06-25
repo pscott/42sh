@@ -13,10 +13,10 @@ static void	update_temporary_hist(t_hist_lst *hist_lst, const char *line)
 	{
 		ft_strdel(&left->txt);
 		if (!(left->txt = ft_strdup(line)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		ft_strdel(&left->cpy);
 		if (!(left->cpy = ft_strdup(line)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 }
 
@@ -45,10 +45,10 @@ void		adjust_history(t_st_cmd *st_cmd, int keep)
 	{
 		ft_strdel(&left->txt);
 		if (!(left->txt = ft_strdup(line)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		ft_strdel(&left->cpy);
 		if (!(left->cpy = ft_strdup(line)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		left->keep = 1;
 	}
 	else

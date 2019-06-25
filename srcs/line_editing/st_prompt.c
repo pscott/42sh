@@ -10,11 +10,11 @@ t_st_prompt	*init_st_prompt(const char *prompt)
 	t_st_prompt	*st_prompt;
 
 	if (!(st_prompt = (t_st_prompt*)malloc(sizeof(*st_prompt))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	if (!prompt)
 	{
 		if (!(st_prompt->prompt = ft_strdup(STD_PROMPT)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else
 		st_prompt->prompt = ft_strdup(prompt);

@@ -7,7 +7,7 @@ char	**ft_ntab_new(int size)
 
 	if (!(new_tab = (char **)malloc(sizeof(char **)
 				* (size + 1))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	i = 0;
 	while (i <= size)
 	{
@@ -32,7 +32,7 @@ void	cpy_ntab(char **new_tab, const char **old_tab)
 	while (i < old_tab_len)
 	{
 		if (!(new_tab[i] = ft_strdup(old_tab[i])))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		i++;
 	}
 }
@@ -67,7 +67,7 @@ char	**append_line_to_ntab(char *new_line, const char **old_tab)
 	new_tab = ft_ntab_new(old_tab_len + 1);
 	cpy_ntab(new_tab, old_tab);
 	if (!(new_tab[old_tab_len] = ft_strdup(new_line)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	new_tab[old_tab_len + 1] = NULL;
 	ft_free_ntab((char**)old_tab);
 	return (new_tab);
@@ -86,19 +86,19 @@ char	**delete_line_ntab(int index_to_del, const char **old_tab)
 
 	new_tab_len = ft_ntab_len(old_tab);
 	if (!(new_tab = ft_ntab_new(new_tab_len)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	i = 0;
 	while (old_tab[i])
 	{
 		if (i < index_to_del)
 		{
 			if (!(new_tab[i] = ft_strdup(old_tab[i])))
-				clean_exit(1, 1);
+				clean_exit(1, MALLOC_ERR);
 		}
 		if (i > index_to_del)
 		{
 			if (!(new_tab[i - 1] = ft_strdup(old_tab[i])))
-				clean_exit(1, 1);
+				clean_exit(1, MALLOC_ERR);
 		}
 		i++;
 	}

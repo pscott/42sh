@@ -6,7 +6,7 @@ static	void	create_fd_save(int fd, t_c_lst **lst)
 	t_c_lst		*ptr;
 
 	if (!(new = (t_c_lst*)malloc(sizeof(t_c_lst))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	new->fd = fd;
 	new->next = NULL;
 	if (!(*lst))

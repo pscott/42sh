@@ -42,9 +42,9 @@ char				*find_path(const char *file, char **paths)
 	while (paths[++i])
 	{
 		if (!(path_w_slash = ft_strjoin(paths[i], "/")))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		if (!(possible_path = ft_strjoin(path_w_slash, file)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		ft_strdel(&path_w_slash);
 		if (check_access(possible_path) == 0)
 			return (possible_path);
@@ -82,15 +82,15 @@ static char			*get_full_path(const char *str, char **env)
 	if (ft_strchr(str, '/'))
 	{
 		if (!(path = ft_strdup(str)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else if (!(path_line = get_envline_value("PATH", env)))
 	{
 		if (!(path = ft_strdup(str)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else if (!(paths = ft_strsplit(path_line, ":")))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	if (!path && !(path = find_path(str, paths)))
 		;
 	ft_free_ntab(paths);

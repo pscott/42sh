@@ -10,19 +10,19 @@ t_hash_item	*create_new_item(const char *key, const char *value)
 	t_hash_item	*new_item;
 
 	if (!(new_item = (t_hash_item*)malloc(sizeof(*new_item))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	else if (new_item)
 	{
 		if (!(new_item->key = ft_strdup(key)))
 		{
 			ft_memdel((void*)&new_item);
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		}
 		if (!(new_item->value = ft_strdup(value)))
 		{
 			ft_memdel((void*)&new_item->key);
 			ft_memdel((void*)&new_item);
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		}
 		new_item->count = 0;
 		new_item->next = NULL;
@@ -42,12 +42,12 @@ t_hashmap	*init_hashmap(int size)
 	int			i;
 
 	if (!(new_table = (t_hashmap*)malloc(sizeof(*new_table))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	if (!(new_table->items =
 			(t_hash_item**)malloc(sizeof(t_hash_item*) * size)))
 	{
 		ft_memdel((void*)&new_table);
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	}
 	new_table->size = size;
 	i = -1;
@@ -74,7 +74,7 @@ t_hashmap	*resize_up_hashmap(t_hashmap *old_map)
 		return (old_map);
 	}
 	if (!(new_map = init_hashmap(new_size)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	cpy_hashmap(old_map, &new_map);
 	delete_hashmap(old_map);
 	return (new_map);

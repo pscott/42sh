@@ -11,7 +11,7 @@ char		*remove_n_char(char *str, size_t pos)
 	if (pos >= ft_strlen(str))
 		return (str);
 	if (!(new = (char*)malloc(sizeof(char) * ft_strlen(str))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_bzero(new, ft_strlen(str));
 	while (str[k])
 	{

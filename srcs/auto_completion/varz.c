@@ -12,7 +12,7 @@ static int			check_vars(char **path, t_auto_comp **match,
 	while (path[i])
 	{
 		if (!(key = ft_strndup(path[i], ft_strlen_char(path[i], '='))))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		if (ft_strnequ(key, to_f, ft_strlen(to_f)))
 		{
 			create_match_link(match, key);
@@ -54,7 +54,7 @@ static void			get_space_ret(char **ret, const char *str,
 	if (space == 1)
 	{
 		if (!(tmp_1 = ft_strjoin(*ret, " ")))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	ft_strdel(ret);
 	*ret = tmp_1;
@@ -73,10 +73,10 @@ static void			get_ret(char **ret, int mode)
 	if (mode == 2)
 		prefix[1] = '{';
 	if (!(tmp = ft_strjoin(prefix, *ret)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strdel(ret);
 	if (!(*ret = ft_strdup(tmp)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strdel(&tmp);
 }
 
@@ -101,7 +101,7 @@ char				*varz(const char *str, const char *next)
 	if (!ret)
 	{
 		if (!(ret = ft_strdup(str)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		return (ret);
 	}
 	get_ret(&ret, i);

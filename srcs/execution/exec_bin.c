@@ -10,10 +10,10 @@ char		*join_with_space(const char *s1, const char *s2)
 	char	*tmp;
 
 	if (!(res = ft_strjoin(s1, " ")))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	tmp = res;
 	if (!(res = ft_strjoin(res, s2)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strdel(&tmp);
 	return (res);
 }
@@ -32,7 +32,7 @@ int			exec_bin(char **argv)
 	tmp_cmd = init_st_cmd((const char**)vars->env_vars);
 	ft_strdel(&tmp_cmd->st_txt->txt);
 	if (!(tmp_cmd->st_txt->txt = join_with_space(argv[0], argv[1])))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	status = handle_input(tmp_cmd, vars);
 	free_all_st_cmds(&tmp_cmd);
 	return (status);

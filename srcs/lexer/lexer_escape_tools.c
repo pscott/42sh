@@ -31,7 +31,7 @@ t_token	*get_eat_token(char **cmdline)
 	while (ft_is_white_space((*cmdline)[i]))
 		i++;
 	if (!(token = create_token(*cmdline, i, tk_eat)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	*cmdline = *cmdline + i;
 	return (token);
 }

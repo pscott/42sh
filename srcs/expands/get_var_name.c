@@ -12,7 +12,7 @@ char	*get_var_name(char *str)
 	if (i == 0)
 		return (NULL);
 	if (!(var_name = ft_strndup(str, i)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	return (var_name);
 }
 

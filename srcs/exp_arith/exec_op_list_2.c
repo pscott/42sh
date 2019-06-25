@@ -53,7 +53,7 @@ static	int			change_vars_value(t_vars *vars, t_op *lst, long long var)
 	char	*ptr;
 
 	if (!(ptr = ft_lltoa(var)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	set_env_var(lst->varname, ptr, &vars->shell_vars);
 	if (get_envline_index(lst->varname, vars->env_vars) != -1)
 		set_env_var(lst->varname, ptr, &vars->env_vars);

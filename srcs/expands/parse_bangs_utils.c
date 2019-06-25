@@ -57,7 +57,7 @@ int				get_correct_nb_bang(char *to_find, int hist_len, int *nb)
 	while (to_find[++i] == 0)
 		;
 	if (!(corr = ft_strndup(to_find + i, 5)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	*nb = ft_atoi(corr);
 	ret = 0;
 	if (*nb == 0 || *nb > hist_len || *nb * -1 > hist_len)

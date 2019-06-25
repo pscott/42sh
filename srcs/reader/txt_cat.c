@@ -1,11 +1,11 @@
 #include "input.h"
 #include "cmd_parsing.h"
 
-static void	clean_and_check(t_st_cmd *st_cmd, char *tmp, char *input)
+static void	clean_and_check(t_st_cmd *st_cmd, char *tmp, char **input)
 {
 	if (!ft_strequ(st_cmd->st_txt->txt, tmp))
 		ft_dprintf(1, "%s", st_cmd->st_txt->txt);
-	if (!(input = ft_strjoin_free_left(input, st_cmd->st_txt->txt)))
+	if (!(*input = ft_strjoin_free_left(*input, st_cmd->st_txt->txt)))
 		clean_exit(1, 1);
 	ft_strdel(&tmp);
 }
@@ -36,7 +36,7 @@ char		*concatenate_txt(t_st_cmd *st_cmd, int mode)
 			ft_strdel(&tmp);
 			return (input);
 		}
-		clean_and_check(st_cmd, tmp, input);
+		clean_and_check(st_cmd, tmp, &input);
 		st_cmd = st_cmd->next;
 	}
 	return (input);

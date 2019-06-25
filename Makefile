@@ -138,7 +138,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c ft_strjoin_free_left.c
 						job_notification.c job_status.c launch_job.c \
 						launch_process.c process_list.c wait_for_job.c \
 						job_list.c copy_tokens.c find_job.c job_id_parser.c \
-						set_current.c free_process.c exit_str.c
+						set_current.c free_process.c exit_str.c \
+						launch_job_utils.c
 
 #list of all .c files
 C_FILES	:=	$(SRC_FILES) $(ENV_FILES) $(ERRORS_FILES) $(LEXER_FILES) \

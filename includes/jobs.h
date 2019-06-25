@@ -59,6 +59,7 @@ t_process		*append_process(t_process **first_process, t_process *to_add);
 int				put_job_in_background(t_job *j, int cont);
 int				put_job_in_foreground(t_job *j, int cont);
 int				launch_job(t_job *j, int foreground);
+void			fork_and_launch_process(t_job *j, int fds[2], int mypipe[2], int fg);
 int				launch_process(t_process *p, pid_t pgid, int fds[2],
 		int foreground);
 void			set_group_id(pid_t pgid, int fg);

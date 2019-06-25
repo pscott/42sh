@@ -10,11 +10,11 @@ int		launch_job(t_job *j, int foreground)
 	int			mypipe[2];
 	int			fds[2];
 
-	fds[0] = j->stdin;
+	fds[0] = STDIN_FILENO;
 	ft_bzero(mypipe, sizeof(int) * 2);
 	p = j->first_process;
 	if (foreground)
-		tcsetattr(j->stdin, TCSADRAIN, &g_saved_attr);
+		tcsetattr(STDIN_FILENO, TCSADRAIN, &g_saved_attr);
 	while (p)
 	{
 		if (p->next)
@@ -27,7 +27,7 @@ int		launch_job(t_job *j, int foreground)
 			fds[1] = mypipe[1];
 		}
 		else
-			fds[1] = j->stdout;
+			fds[1] = STDIN_FILENO;
 		pid = fork();
 		if (pid == 0)
 		{
@@ -50,9 +50,9 @@ int		launch_job(t_job *j, int foreground)
 				setpgid(pid, j->pgid);
 			}
 		}
-		if (fds[0] != j->stdin)
+		if (fds[0] != STDIN_FILENO)
 			close(fds[0]);
-		if (fds[1] != j->stdout)
+		if (fds[1] != STDIN_FILENO)
 			close(fds[1]);
 		fds[0] = mypipe[0];
 		p = p->next;
@@ -69,7 +69,7 @@ int		launch_job(t_job *j, int foreground)
 			ret = wait_for_job(j, 0);
 	}
 	if (foreground)
-		tcsetattr(j->stdin, TCSADRAIN, &g_42sh_attr);
+		tcsetattr(STDIN_FILENO, TCSADRAIN, &g_42sh_attr);
 	if (WIFSIGNALED(ret))
 	{
 		if ((j->forked || j->fg) && WTERMSIG(ret) != SIGINT

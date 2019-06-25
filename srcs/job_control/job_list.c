@@ -24,9 +24,6 @@ t_job	*create_job(t_ast *root, int fg, int num)
 		clean_exit(1, FORCE);
 	}
 	j->num = num;
-	j->stdin = STDIN_FILENO;
-	j->stdout = STDOUT_FILENO;
-	j->stderr = STDERR_FILENO;
 	return (j);
 }
 

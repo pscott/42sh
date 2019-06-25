@@ -33,9 +33,6 @@ typedef struct	s_job
 	int					fg;
 	int					bg;
 	int					num;
-	int					stdin;
-	int					stdout;
-	int					stderr;
 	pid_t				pgid;
 	char				forked;
 	char				notified;

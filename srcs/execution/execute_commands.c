@@ -40,6 +40,7 @@ static int			in_fork_builtin(char **argv, t_vars *vars,
 	int ret;
 
 	ret = exec_builtins(argv, vars, cmd_id);
+	ft_free_ntab(argv);
 	if (cmd_id == cmd_exit && ret == 1)
 		clean_exit(vars->cmd_value, 0);
 	return (ret);

@@ -39,6 +39,6 @@ int				int_vars_bang(t_st_cmd *st_cmd, int *i, int *ret)
 int				bang_max(int *count)
 {
 	write(2, "Too many history expansions.\n", 29);
-	count = 0;
+	*count = 0;
 	return (1);
 }

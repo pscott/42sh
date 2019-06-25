@@ -39,7 +39,7 @@ static void		update_oldpwd(t_vars *vars, int display)
 {
 	char		*old_pwd;
 
-	old_pwd = get_directory("PWD", (const char**)vars->env_vars);
+	old_pwd = get_directory("PWD", vars);
 	if (!old_pwd)
 	{
 		unset_env_var("OLDPWD", &vars->env_vars);

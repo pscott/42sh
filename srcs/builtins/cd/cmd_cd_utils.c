@@ -7,16 +7,19 @@
 **	with the env_key paramter. If env_key is not found in env, returns NULL.
 */
 
-char			*get_directory(const char *env_key, const char **env)
+char			*get_directory(const char *env_key, t_vars *vars)
 {
 	char			*dest;
 
 	dest = NULL;
-	if (!(dest = get_envline_value((char*)env_key, (char**)env)))
+	if (!(dest = get_envline_value((char*)env_key, vars->env_vars)))
 	{
-		if (ft_strncmp(env_key, "PWD", 4))
-			print_errors(ERR_NOT_SET, ERR_NOT_SET_STR, (char*)env_key);
-		return (NULL);
+		if (!(dest = get_envline_value((char *)env_key, vars->shell_vars)))
+		{
+			if (ft_strncmp(env_key, "PWD", 4))
+				print_errors(ERR_NOT_SET, ERR_NOT_SET_STR, (char*)env_key);
+			return (NULL);
+		}
 	}
 	if (!(dest = ft_strdup(dest)))
 		clean_exit(1, 1);

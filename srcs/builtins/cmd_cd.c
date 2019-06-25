@@ -35,13 +35,10 @@ static char		*get_dest_path(char *arg, t_vars *vars, int *display, char opt)
 	char	*dest;
 
 	if (!(arg))
-	{
-		if (!(dest = get_directory("HOME", (const char**)vars->env_vars)))
-			dest = get_directory("HOME", (const char**)vars->shell_vars);
-	}
+		dest = get_directory("HOME", vars);
 	else if (ft_strncmp(arg, "-", 2) == 0)
 	{
-		if ((dest = get_directory("OLDPWD", (const char**)vars->env_vars)))
+		if ((dest = get_directory("OLDPWD", vars)))
 			*display = 2;
 	}
 	else if (arg[0] == '/')
@@ -50,7 +47,7 @@ static char		*get_dest_path(char *arg, t_vars *vars, int *display, char opt)
 			clean_exit(1, 1);
 	}
 	else
-		dest = relative_directory(arg, (const char**)vars->env_vars, display,
+		dest = relative_directory(arg, (const char**)vars->shell_vars, display,
 			opt);
 	return (dest);
 }

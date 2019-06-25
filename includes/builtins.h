@@ -90,7 +90,7 @@ int					is_zero(char *str);
 **	CD utils
 */
 
-char				*get_directory(const char *env_key, const char **env);
+char				*get_directory(const char *env_key, t_vars *vars);
 char				*relative_directory(const char *path, const char **env,
 						int *cdpath, char opt);
 int					get_cd_options(char **argv, int *pos);

@@ -52,6 +52,7 @@ void		update_status(void)
 	int		opt;
 	pid_t	pid;
 
+	status = 0;
 	opt = WUNTRACED | WNOHANG | WCONTINUED;
 	pid = waitpid(WAIT_ANY, &status, opt);
 	while (!mark_process_status(pid, status))

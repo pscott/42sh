@@ -10,6 +10,7 @@ static void		print_color(char *str, const char *color)
 	else
 		ft_dprintf(TERM_FD, "%s%s%s", color, str, FG_DFL);
 }
+
 void			print_prompt(t_st_cmd *st_cmd, int zsh)
 {
 	t_vars		*vars;
@@ -30,4 +31,3 @@ void			print_prompt(t_st_cmd *st_cmd, int zsh)
 		print_color(st_cmd->st_prompt->end, NULL);
 	}
 }
-

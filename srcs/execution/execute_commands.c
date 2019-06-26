@@ -15,6 +15,7 @@ static int			access_and_exec(char *cmd_path, char **argv,
 	{
 		execve(cmd_path, (char*const*)argv, (char*const*)vars->env_vars);
 		print_errors(ERR_EXECUTE, ERR_EXECUTE_STR, cmd_path);
+		access = 127;
 	}
 	else
 	{

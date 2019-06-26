@@ -118,6 +118,8 @@ int						input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode);
 
 void					zsh_newline(t_st_cmd *st_cmd);
 t_st_prompt				*init_st_prompt(const char *name, const char *dir, int exitno);
+char					*exit_to_str(int exit);
+char					*dir_to_str(const char *tmp);
 void					print_prompt(t_st_cmd *st_cmd, int zsh);
 void					print_prompt_search_histo(t_st_cmd *st_cmd,
 		const char *buf, int prompt_type);

@@ -86,11 +86,11 @@ int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		if ((ret = handle_cont_read(token_head, &st_cmd, &input, vars)) == 2 || ret == 130)
 			return (ret);
 	ft_strdel(&input);
-	if (lexer_ret == lex_fail)
+	if (lexer_ret >= lex_fail)
 	{
 		free_token_list(token_head);
 		adjust_history(st_cmd, 1);
-		return (lex_fail);
+		return (lexer_ret);
 	}
 	ret = handle_execution(st_cmd, token_head, vars);
 	return (ret == 254 ? 1 : ret);

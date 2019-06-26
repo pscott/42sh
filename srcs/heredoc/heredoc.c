@@ -80,9 +80,9 @@ int						parse_heredoc(t_token *token_head, t_vars *vars)
 		{
 			eof = NULL;
 			if ((is_eof_quoted = get_eof(&eof, token_probe)) == ERR_PARSE_EOF)
-				return (1);
+				return (lex_fail);
 			if (!(path = get_doc(eof, is_eof_quoted, vars)))
-				return (130);
+				return (lex_interrupted);
 			token_probe = replace_heredoc_tokens(token_probe, path);
 			ft_strdel(&path);
 			continue ;

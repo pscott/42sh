@@ -53,7 +53,8 @@ typedef enum			e_lexer_state
 {
 	lex_success,
 	lex_cont_read,
-	lex_fail
+	lex_fail = 2,
+	lex_interrupted = 130
 }						t_lexer_state;
 
 /*

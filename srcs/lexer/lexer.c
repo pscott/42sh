@@ -82,9 +82,10 @@ static int	lexer_final_check(t_token *current_token, t_token *prev_token)
 
 int			lexer(char *cmdline, t_token **token_head, t_vars *vars)
 {
-	t_token		*current_token;
-	t_operation	*op_chart;
-	t_token		*prev_token;
+	t_token			*current_token;
+	t_operation		*op_chart;
+	t_token			*prev_token;
+	t_lexer_state	ret;
 
 	current_token = NULL;
 	prev_token = NULL;
@@ -103,7 +104,7 @@ int			lexer(char *cmdline, t_token **token_head, t_vars *vars)
 		if (current_token->type != tk_eat)
 			prev_token = current_token;
 	}
-	if (parse_heredoc(*token_head, vars) != 0)
-		return (lex_fail);
+	if ((ret = parse_heredoc(*token_head, vars)) >= lex_fail)
+		return (ret);
 	return (lexer_final_check(current_token, prev_token));
 }

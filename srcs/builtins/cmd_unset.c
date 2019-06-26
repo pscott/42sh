@@ -1,5 +1,6 @@
 #include "env.h"
 #include "builtins.h"
+#include "hashmap.h"
 
 /*
 ** unset
@@ -15,6 +16,8 @@ int		case_unset(char **argv, t_vars *vars)
 	i = 0;
 	while (argv[++i])
 	{
+		if (!ft_strcmp("PATH", argv[i]))
+			reset_hashmap(&vars->hashmap);
 		if ((index = get_envline_index(argv[i], vars->shell_vars)) >= 0)
 		{
 			vars->shell_vars = delete_line_ntab(index,

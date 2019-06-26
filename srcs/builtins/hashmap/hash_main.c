@@ -37,7 +37,7 @@ static int	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc,
 	paths = get_hash_paths(vars->env_vars);
 	while (++i < argc)
 	{
-		if (check_builtins((const char*)&argv[i]) != cmd_error
+		if (check_builtins((const char*)argv[i]) != cmd_error
 				|| ft_strchr(argv[i], '/'))
 			continue ;
 		if (!(value = find_path(argv[i], paths)))

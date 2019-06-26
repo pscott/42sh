@@ -28,7 +28,7 @@ char		*concatenate_txt(t_st_cmd *st_cmd, int mode)
 	{
 		if (!(tmp = ft_strdup(st_cmd->st_txt->txt)))
 			clean_exit(1, MALLOC_ERR);
-		if (mode == 1 && replace_bang(&(st_cmd->st_txt->txt), 1))
+		if (g_isatty && mode == 1 && replace_bang(&(st_cmd->st_txt->txt), 1))
 		{
 			free(input);
 			if (!(input = ft_strnew(0)))

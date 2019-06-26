@@ -5,7 +5,7 @@ static int	exec_remaining_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 	if (cmd_id == cmd_hash)
 		return (case_hash(argv, vars));
 	else if (cmd_id == cmd_jobs)
-		return (case_jobs(argv));
+		return (g_isatty && case_jobs(argv));
 	else if (cmd_id == cmd_test)
 		return (case_test(argv));
 	else if (cmd_id == cmd_type)
@@ -24,7 +24,7 @@ static int	exec_remaining_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 
 int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 {
-	if (cmd_id == cmd_bg)
+	if (g_isatty && cmd_id == cmd_bg)
 		return (case_bg(argv));
 	else if (cmd_id == cmd_cd)
 		return (case_cd(argv, vars));
@@ -34,9 +34,9 @@ int			exec_builtins(char **argv, t_vars *vars, t_cmd_id cmd_id)
 		return (case_echo(argv));
 	else if (cmd_id == cmd_export)
 		return (case_export(argv, vars));
-	else if (cmd_id == cmd_fc)
+	else if (g_isatty && cmd_id == cmd_fc)
 		return (case_fc(argv));
-	else if (cmd_id == cmd_fg)
+	else if (g_isatty && cmd_id == cmd_fg)
 		return (case_fg(argv));
 	else
 		return (exec_remaining_builtins(argv, vars, cmd_id));

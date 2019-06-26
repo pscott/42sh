@@ -61,7 +61,7 @@ char		*copy_job_tokens(t_ast *root)
 		return (NULL);
 	res = copy_ast_tokens(root);
 	if (!(split = ft_strsplit(res, " ")))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strdel(&res);
 	res = ntab_to_str(split);
 	ft_free_ntab(split);

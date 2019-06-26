@@ -54,7 +54,7 @@ static void		copy_selection(t_st_cmd *st_cmd, t_vars *vars)
 		? vars->select_end : vars->select_start;
 	size = highest - lowest + 1;
 	if (!(vars->copy = ft_strndup(&txt[lowest], size)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 }
 
 static int		check_for_copy(t_st_cmd *st_cmd, char *buf, t_vars *vars)

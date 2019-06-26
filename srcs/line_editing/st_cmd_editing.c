@@ -7,7 +7,7 @@ t_st_cmd		*append_st_cmd(t_st_cmd *st_cmd, const char *txt,
 	t_st_cmd	*new;
 
 	if (!(new = (t_st_cmd*)malloc(sizeof(*new))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	new->st_txt = init_st_txt((const char*)txt);
 	new->st_prompt = prompt;
 	new->window = st_cmd->window;
@@ -21,10 +21,14 @@ t_st_cmd		*append_st_cmd(t_st_cmd *st_cmd, const char *txt,
 	return (new);
 }
 
-static void		init_values(int *keep, int *cr)
+static void		init_values(t_st_cmd *st_cmd, t_vars *vars)
 {
-	*keep = 1;
-	*cr = 0;
+	st_cmd->keep = 1;
+	st_cmd->cr = 0;
+	st_cmd->is_cr_sqt = 0;
+	vars->interrupted = 0;
+	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
+		st_cmd->st_prompt->size);
 }
 
 t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd, t_vars *vars)
@@ -33,16 +37,12 @@ t_st_cmd		*reset_st_cmd(t_st_cmd *old_st_cmd, t_vars *vars)
 	t_st_cmd	*left_cmd;
 
 	if (!(st_cmd = (t_st_cmd*)malloc(sizeof(*st_cmd))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	st_cmd->st_txt = init_st_txt(NULL);
 	st_cmd->st_prompt = init_st_prompt(STD_PROMPT, STD_PROMPT, vars->cmd_value);
 	update_window_struct(old_st_cmd->window);
 	st_cmd->window = old_st_cmd->window;
-	st_cmd->is_cr_sqt = 0;
-	init_values(&st_cmd->keep, &st_cmd->cr);
-	vars->interrupted = 0;
-	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
-		st_cmd->st_prompt->size);
+	init_values(st_cmd, vars);
 	st_cmd->hist_lst = old_st_cmd->hist_lst;
 	st_cmd->hist_len = old_st_cmd->hist_len;
 	*st_cmd->hist_len = get_hist_len(st_cmd->hist_lst);
@@ -69,7 +69,7 @@ t_st_cmd		*init_st_cmd(const char **env)
 	int			*hist_len_var;
 
 	if (!(st_cmd = (t_st_cmd*)malloc(sizeof(*st_cmd))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	st_cmd->st_txt = init_st_txt(NULL);
 	st_cmd->st_prompt = init_st_prompt(STD_PROMPT, STD_PROMPT, 0);
 	st_cmd->is_cr_sqt = 0;
@@ -78,7 +78,7 @@ t_st_cmd		*init_st_cmd(const char **env)
 	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
 		st_cmd->st_prompt->size);
 	if (!(hist_len_var = (int*)malloc(sizeof(int))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	st_cmd->cr = 0;
 	st_cmd->hist_len = hist_len_var;
 	st_cmd->hist_lst = get_history(env);

@@ -3,23 +3,26 @@
 #include "history.h"
 #include "cmd_parsing.h"
 
-static void		apply_escape(t_st_cmd *st_cmd)
+static void		apply_escape(t_st_cmd *st_cmd, int is_eof_quoted)
 {
 	int				i;
 	unsigned char	is_real_escape;
 
-	i = ft_strlen(st_cmd->st_txt->txt) - 1;
-	is_real_escape = 0;
-	while (--i >= 0 && st_cmd->st_txt->txt[i] == '\\')
+	if (!is_eof_quoted)
 	{
-		if (st_cmd->st_txt->txt[i] == '\\')
-			is_real_escape = (is_real_escape) ? 0 : 1;
-	}
-	if (is_real_escape)
-	{
-		st_cmd->st_txt->txt[st_cmd->st_txt->data_size - 1] = 0;
-		st_cmd->st_txt->txt[st_cmd->st_txt->data_size - 2] = 0;
-		st_cmd->st_txt->data_size -= 2;
+		i = ft_strlen(st_cmd->st_txt->txt) - 1;
+		is_real_escape = 0;
+		while (--i >= 0 && st_cmd->st_txt->txt[i] == '\\')
+		{
+			if (st_cmd->st_txt->txt[i] == '\\')
+				is_real_escape = (is_real_escape) ? 0 : 1;
+		}
+		if (is_real_escape)
+		{
+			st_cmd->st_txt->txt[st_cmd->st_txt->data_size - 1] = 0;
+			st_cmd->st_txt->txt[st_cmd->st_txt->data_size - 2] = 0;
+			st_cmd->st_txt->data_size -= 2;
+		}
 	}
 }
 
@@ -30,14 +33,14 @@ static char		*get_heredoc_txt(char *txt, char *eof)
 
 	len = ft_strlen(txt) - ft_strlen(eof) - 2;
 	if (!(trimed_txt = ft_strndup(&txt[1], len)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strdel(&txt);
 	ft_strdel(&eof);
 	return (trimed_txt);
 }
 
 static char		*return_get_doc(char *txt, unsigned char is_eof_quoted,
-			t_vars *vars)
+		t_vars *vars)
 {
 	char	*path;
 
@@ -81,12 +84,11 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 			clean_heredoc(cmd, start_heredoc);
 			return (free_get_doc(txt, eof));
 		}
-		if (!is_eof_quoted)
-			apply_escape(cmd);
+		apply_escape(cmd, is_eof_quoted);
 		txt = concatenate_heredoc_txt(cmd, start_heredoc);
 		len = ft_strlen(txt) - ft_strlen(eof) - 1;
 		if (len > 0 && !ft_strncmp(&txt[len], eof, ft_strlen(eof))
-			&& txt[len - 1] == '\n' && txt[ft_strlen(txt) - 1] == '\n')
+				&& txt[len - 1] == '\n' && txt[ft_strlen(txt) - 1] == '\n')
 			break ;
 		ft_strdel(&txt);
 		cmd = append_st_cmd(cmd, "", init_st_prompt(HEREDOC_PROMPT, NULL, 0));

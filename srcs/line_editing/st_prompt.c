@@ -63,7 +63,7 @@ t_st_prompt	*init_st_prompt(const char *name, const char *dir,
 	t_st_prompt	*st_prompt;
 
 	if (!(st_prompt = (t_st_prompt*)malloc(sizeof(*st_prompt))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	if (!(st_prompt->name = ft_strdup(name)))
 		clean_exit(1, 1);
 	st_prompt->dir = dir_to_str(dir);

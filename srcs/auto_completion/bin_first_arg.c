@@ -6,7 +6,7 @@
 /*   By: aschoenh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:01:45 by aschoenh          #+#    #+#             */
-/*   Updated: 2019/06/23 23:49:45 by aschoenh         ###   ########.fr       */
+/*   Updated: 2019/06/25 11:49:17 by aschoenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ char				*auto_completion_bin(t_vars *vars,
 	match = NULL;
 	ret_str = NULL;
 	path = NULL;
-	if (get_path(&path, vars))
-		return (NULL);
+	get_path(&path, vars);
 	if (!(to_find = ft_strdup(str)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	get_matching_exe(path, &match, to_find, to_find_and_next_char);
 	if (path)
 		ft_free_ntab(path);

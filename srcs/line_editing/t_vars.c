@@ -10,6 +10,7 @@ void		free_vars(t_vars *vars)
 	ft_strdel(&vars->copy);
 	ft_free_ntab(vars->shell_vars);
 	ft_free_ntab(vars->env_exported);
+	ft_memdel_ntab(&vars->env_save);
 	delete_hashmap(vars->hashmap);
 }
 

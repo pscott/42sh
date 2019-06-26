@@ -13,7 +13,7 @@ typedef enum		e_exit
 	EXIT,
 	MALLOC_ERR,
 	FORCE,
-	READ_ERR
+	NORESET
 }					t_exit;
 
 extern int				g_isatty;

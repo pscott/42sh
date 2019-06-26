@@ -35,8 +35,9 @@ int			launch_job(t_job *j, int foreground)
 		tcsetattr(STDIN_FILENO, TCSADRAIN, &g_42sh_attr);
 	if (WIFSIGNALED(ret))
 	{
-		if ((j->forked || j->fg) && WTERMSIG(ret) != SIGINT
-				&& WTERMSIG(ret) != SIGPIPE)
+		if (WTERMSIG(ret) == SIGPIPE && j)
+			ret = last_process_status(j->first_process);
+		else if ((j->forked || j->fg) && WTERMSIG(ret) != SIGINT)
 			ft_dprintf(2, "%s\n", get_signal_str(ret));
 	}
 	return (ret);

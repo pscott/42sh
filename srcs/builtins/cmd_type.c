@@ -35,11 +35,11 @@ int					case_type(char **argv, t_vars *vars)
 	i = 0;
 	while (argv[++i])
 	{
-		if (check_builtins((const char*)&argv[i]) != cmd_error)
+		if (check_builtins((const char*)argv[i]) != cmd_error)
 			ft_dprintf(STDOUT_FILENO, "%s is a shell builtin\n", argv[i]);
 		else if ((path = check_hashmap(argv[i], vars->hashmap, hash_check)))
 			print_hash_case(argv[i], path);
-		else if ((path = get_cmd_path(argv[i], vars->shell_vars, 0)))
+		else if ((path = get_cmd_path(argv[i], vars, 0)))
 			print_path_case(argv[i], &path);
 		else
 		{

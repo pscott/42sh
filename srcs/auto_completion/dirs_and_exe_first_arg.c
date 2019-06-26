@@ -15,12 +15,12 @@ int						check_if_slash(struct dirent *ent,
 		if (filename)
 		{
 			if (!(tmp = ft_strdup(filename)))
-				clean_exit(1, 1);
+				clean_exit(1, MALLOC_ERR);
 		}
 		else
 		{
 			if (!(tmp = ft_strjoin(directory, ent->d_name)))
-				clean_exit(1, 1);
+				clean_exit(1, MALLOC_ERR);
 		}
 		if (readlink(tmp, buf, 2))
 			++ret;
@@ -35,7 +35,7 @@ static int				get_needed_values_to_create_match_link
 	char			*filename;
 
 	if (!(filename = ft_strjoin(directory, ent->d_name)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	if (access(filename, X_OK) == 0)
 	{
 		if (check_if_slash(ent, directory, filename))
@@ -43,7 +43,7 @@ static int				get_needed_values_to_create_match_link
 		else
 			*tmp = ft_strdup(ent->d_name);
 		if (!(*tmp))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		ft_strdel(&filename);
 		return (0);
 	}
@@ -83,10 +83,10 @@ static int				get_path_and_to_find_local
 	if ((*to_find = ft_strrchr(str, '/') + 1))
 	{
 		if (!(*path = ft_strndup(str, ft_strlen(str) - ft_strlen(*to_find))))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else if (!(*path = ft_strdup(str)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	return (0);
 }
 
@@ -109,7 +109,7 @@ char					*search_dirs_and_exe(const char *str)
 		ret_tmp = get_ret_or_display_matches(match, to_find,
 				ft_strlen(to_find), 0);
 		if (!(ret_str = ft_strjoin(path, ret_tmp)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		ft_strdel(&ret_tmp);
 	}
 	ft_strdel(&path);

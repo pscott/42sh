@@ -28,7 +28,7 @@ static char	**create_minienv(void)
 
 	init_lines = 2;
 	if (!(env = (char**)malloc(sizeof(char*) * (init_lines + 1))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	bzero_env(env, init_lines);
 	set_env_var("SHLVL", "1", &env);
 	if (!(cwd = getcwd(NULL, 0)))
@@ -54,7 +54,7 @@ char		**init_env(const char **env)
 	if (env && *env)
 	{
 		if (!(new_env = ft_dup_ntab(env)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		set_shlvl(&new_env);
 		return (new_env);
 	}

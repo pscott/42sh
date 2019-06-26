@@ -29,7 +29,7 @@ void			syntax_error_near(t_token *token)
 	else
 		str = ft_strdup(token->content);
 	if (!str)
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_dprintf(fd, SHELL_NAME ": syntax error near unexpected token `%s'\n",
 		str);
 	ft_strdel(&str);

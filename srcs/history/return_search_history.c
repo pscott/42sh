@@ -76,7 +76,7 @@ int			switch_and_return(t_st_cmd *st_cmd,
 	else
 		newcmd = ft_strdup(st_cmd->st_txt->txt);
 	if (!newcmd)
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	switch_st_cmd(st_cmd, newcmd);
 	st_cmd->st_txt->tracker = tmp;
 	free(newcmd);

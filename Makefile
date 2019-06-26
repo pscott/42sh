@@ -97,7 +97,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c ft_strjoin_free_left.c\
 						parse_quotes.c parse_arith_exp.c special_lltoa.c		\
 						substitute_utils.c parse_tildes_utils.c get_var_name.c	\
 						parse_bangs.c parse_bangs_utils.c						\
-						parse_assignation.c
+						parse_assignation.c parse_bangs_errors_and_init.c
 	HISTORY_FILES	:=	hist_file.c get_next_line.c  hist_lst_utils.c			\
 						getters.c switch_history.c insertion.c					\
 						handle_input_hist.c reverse_search_history.c			\
@@ -112,7 +112,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c ft_strjoin_free_left.c\
 	BUILTINS_FILES	:=	cmd_cd.c builtins_cmd.c cmd_hash.c cmd_exit.c			\
 						cmd_type.c cmd_echo.c cmd_jobs.c cmd_fg.c cmd_bg.c		\
 						cmd_exit_utils.c cmd_jobs_utils.c						\
-						cmd_test.c cmd_history.c check_builtins.c				\
+						cmd_test.c check_builtins.c				\
 						cmd_set.c cmd_unset.c cmd_export.c cmd_export_utils.c
 	CD_FILES		:=	cmd_cd_options.c cmd_cd_cdpath.c						\
 						cmd_cd_format.c cmd_cd_remove_char.c					\
@@ -126,7 +126,8 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c ft_strjoin_free_left.c\
 						redir_fd_less.c redirections_errors.c redir_fd_utils.c	\
 						close_open_fds.c
 	EXEC_FILES		:=	cmd_path.c execute_commands.c token_to_argv.c			\
-						execute_no_pipe_builtin.c exit_status.c exec_bin.c
+						execute_no_pipe_builtin.c exit_status.c exec_bin.c		\
+						check_no_pipe_builtin.c
 	AUTO_COMP_FILES	:=	auto_completion.c auto_completion_x_arg.c				\
 						bin_first_arg.c compare_entry.c							\
 						create_match_link.c del_match.c							\
@@ -136,7 +137,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c ft_strjoin_free_left.c\
 						home_dirs_first_arg.c space_first_arg.c tilde_users.c	\
 						utils.c	utils2.c utils_display.c						\
 						auto_completion_spe.c varz.c get_needed_values.c		\
-						get_all_match.c formating_ret.c
+						get_all_match.c formating_ret.c get_builtins.c
 	HASHMAP_FILES	:=	find_next_prime.c hash_main.c hashfun.c hashmap.c		\
 						hashmap_alloc.c hashmap_delete.c hashmap_print.c		\
 						get_hash_args.c hashmap_errors.c

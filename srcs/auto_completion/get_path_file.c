@@ -11,18 +11,18 @@ static int			get_path_user(int index, char *arg, char **path,
 	if (!getenv("HOME"))
 	{
 		if (!(home = ft_strdup("/Users")))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else
 	{
 		if (!(home = ft_strdup(getenv("HOME"))))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	tmp = ft_strsub(arg, index + 1, ft_strlen(arg) - index);
 	tmp2 = ft_strsub(arg, 1, index);
 	*to_find = tmp;
 	if (!(*path = ft_strjoin(home, tmp2)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strdel(&tmp2);
 	ft_strdel(&home);
 	return (0);
@@ -37,16 +37,16 @@ static int			get_path_root(int index, char *arg, char **path,
 	if (arg[index + 1])
 	{
 		if (!(*to_find = ft_strsub(arg, index + 1, ft_strlen(arg) - index)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		if (!(*path = ft_strsub((arg), 0, index + 1)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else
 	{
 		if (!(*path = ft_strdup(arg)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		if (!(*to_find = ft_strnew(0)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	return (0);
 }
@@ -59,12 +59,12 @@ static int			get_root(const char *arg, char **path, char **to_find)
 	{
 		len = ft_strlen(arg) - 1;
 		if (!(*to_find = ft_strsub(arg, 1, len)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else if (!(*to_find = ft_strnew(0)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	if (!(*path = ft_strdup("/")))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	return (0);
 }
 
@@ -80,17 +80,17 @@ static int			get_path_reg(int index, char *arg, char **path,
 	if (!ft_strchr(arg, '/'))
 	{
 		if (!((*path) = ft_strdup(pwd_slash)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		if (!(*to_find = ft_strdup(arg)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else
 	{
 		if (!(*to_find = ft_strsub(arg, index + 1, ft_strlen(arg) - index)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		tmp_path = ft_strsub(arg, 0, index + 1);
 		if (!(*path = ft_strjoin(pwd_slash, tmp_path)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		ft_strdel(&tmp_path);
 	}
 	free_two_strings(&pwd_slash, &pwd);
@@ -118,9 +118,9 @@ int					get_path_file_and_to_find(char *arg, char **path,
 		if (!(pwd = getcwd(pwd, PATH_MAX)))
 			return (1);
 		else if (!(*path = ft_strdup(pwd)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		if (!(*to_find = ft_strnew(0)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		ft_strdel(&pwd);
 	}
 	return (0);

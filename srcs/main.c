@@ -51,7 +51,7 @@ int			main(int argc, char **argv, char **env)
 				|| !*st_cmd->st_txt->txt)
 		{
 			print_exit();
-			clean_exit(vars.cmd_value, 0);
+			clean_exit(vars.cmd_value, EXIT);
 		}
 		else if (ret > 0 && !is_full_of_whitespaces(st_cmd->st_txt->txt))
 			vars.cmd_value = handle_input(st_cmd, &vars);

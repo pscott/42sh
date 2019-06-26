@@ -11,7 +11,7 @@ int		c_number(t_tok *d, t_tok **c, t_integ *v)
 	{
 		(*c)[(*v).k].value = (*v).moins;
 		if (!((*c)[(*v).k].varname = ft_strdup(d[(*v).i].varname)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	(*v).moins = 1;
 	(*v).prev = 'n';

@@ -1,5 +1,6 @@
 #include "ftsh.h"
 #include "env.h"
+#include "hashmap.h"
 
 /*
 ** add_varline
@@ -10,11 +11,13 @@ void	add_varline(char *varline, char ***ntab)
 {
 	char	*var_name;
 	char	*var_value;
+	t_vars	*vars;
 
+	vars = get_vars(NULL);
 	if ((var_name = get_varline_name(varline)))
 	{
 		if (!(var_value = ft_strdup(varline + ft_strlen(var_name) + 1)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		add_variables(var_name, var_value, ntab);
 		ft_strdel(&var_name);
 		ft_strdel(&var_value);
@@ -32,8 +35,12 @@ void	add_variables(char *var_name, char *var_value, char ***ntab)
 {
 	char	*new_str;
 	int		i;
+	t_vars	*vars;
 
+	vars = get_vars(NULL);
 	i = get_envline_index(var_name, *ntab);
+	if (!(ft_strcmp("PATH", var_name)))
+		reset_hashmap(&vars->hashmap);
 	new_str = concat_for_vartab(var_name, var_value);
 	if (i >= 0)
 	{
@@ -98,7 +105,7 @@ char	*get_varline_name(char *varline)
 	if (varline[i] == '=')
 	{
 		if (!(var_name = ft_strndup(varline, i)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		return (var_name);
 	}
 	return (NULL);

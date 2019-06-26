@@ -60,7 +60,7 @@ static int		loop_access(char *dest, char *msg)
 			i++;
 		i++;
 		if (!(tmp = ft_strndup(dest, i)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		if (is_error(tmp, msg))
 		{
 			ft_strdel(&tmp);

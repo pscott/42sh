@@ -11,7 +11,7 @@ static char	**get_hash_paths(char **env)
 	if (!(path_line = get_envline_value("PATH", env)))
 		return (NULL);
 	if (!(paths = ft_strsplit(path_line, ":")))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	return (paths);
 }
 
@@ -37,14 +37,12 @@ static int	add_each_name(t_vars *vars, t_hash_args *hash_args, int argc,
 	paths = get_hash_paths(vars->env_vars);
 	while (++i < argc)
 	{
-		if (check_builtins((const char*)&argv[i]) != cmd_error
+		if (check_builtins((const char*)argv[i]) != cmd_error
 				|| ft_strchr(argv[i], '/'))
 			continue ;
 		if (!(value = find_path(argv[i], paths)))
-		{
-			ft_dprintf(2, "%s: hash: %s: not found\n", SHELL_NAME, argv[i]);
-			return_value = 1;
-		}
+			return_value = ft_dprintf(2, "%s: hash: %s: not found\n",
+					SHELL_NAME, argv[i]) ? 1 : 1;
 		else
 		{
 			add_to_hashmap(argv[i], value, &vars->hashmap);

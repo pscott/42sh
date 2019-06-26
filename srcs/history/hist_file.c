@@ -10,7 +10,7 @@ int					open_history(const char **env, int options)
 	char			*hist_file;
 
 	if (!(hist_file = ft_strdup(HIST_FILE)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	if (get_envline("HOME", (char **)env) == NULL)
 	{
 		ft_strdel(&hist_file);
@@ -40,7 +40,7 @@ static t_hist_lst	*construct_history(int fd)
 	while ((get_next_line(fd, &tmp) > 0) && (tmp && ft_printable_len(tmp) > 6))
 	{
 		if (!(line = ft_strdup_print(tmp)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		ft_strdel(&tmp);
 		append_with_newline = ft_strjoin(&line[6], "\n");
 		ft_strdel(&line);

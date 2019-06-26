@@ -88,7 +88,7 @@ char			*cut_path_string(char *str, int slash)
 	if (i < 1)
 		i = 1;
 	if (!(new = ft_strndup(str, i)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strdel(&str);
 	return (new);
 }

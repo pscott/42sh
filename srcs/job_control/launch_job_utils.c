@@ -17,7 +17,7 @@ static void	set_stdout(t_process *p, int fds[2], int mypipe[2])
 		if (pipe(mypipe) < 0)
 		{
 			ft_dprintf(2, "pipe failed\n");
-			exit(1);
+			clean_exit(1, NORESET);
 		}
 		fds[1] = mypipe[1];
 	}
@@ -55,7 +55,7 @@ void		fork_and_launch_process(t_job *j, int fds[2], int mypipe[2], int fg)
 		else if (pid < 0)
 		{
 			ft_dprintf(2, "fork failed\n");
-			exit(1);
+			clean_exit(1, NORESET);
 		}
 		else
 			parent_process(j, p, pid);

@@ -1,5 +1,4 @@
 #include "cmd_parsing.h"
-#include "exp_arith.h"
 
 static size_t	get_ll_len(long long nb)
 {
@@ -23,7 +22,7 @@ static char		*check_min(long long nb)
 	if ((unsigned long long)nb == -9223372036854775808U)
 	{
 		if (!(str = ft_strdup("-9223372036854775808")))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		return (str);
 	}
 	return (NULL);
@@ -39,7 +38,7 @@ char			*lltoa_and_free(long long nb, char **to_free)
 		return (str);
 	len = get_ll_len(nb);
 	if (!(str = ft_strnew(len)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	if (nb == 0)
 	{
 		str[0] = '0';

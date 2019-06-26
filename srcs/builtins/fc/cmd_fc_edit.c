@@ -59,11 +59,11 @@ static char			*get_editor(t_st_fc *st_fc)
 		vars = get_vars(NULL);
 		if ((tmp = get_envline_value("FCEDIT", vars->env_vars)) != NULL)
 			ret = ft_strdup(tmp);
-		else	
+		else
 			ret = ft_strdup("ed");
 	}
 	if (ret == NULL)
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	return (ret);
 }
 
@@ -79,7 +79,7 @@ int					fc_edit_open_editor(t_st_cmd *st_cmd, t_st_fc *st_fc,
 		return (1);
 	argv[0] = get_editor(st_fc);
 	if (!(argv[1] = ft_strdup(*tmp_file)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	argv[2] = NULL;
 	ret = exec_bin(argv);
 	ft_free_ntab(argv);

@@ -6,7 +6,7 @@ t_process		*create_process(t_token *token_list)
 	t_process *p;
 
 	if (!(p = malloc(sizeof(t_process))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_bzero(p, sizeof(t_process));
 	if (token_list)
 	{

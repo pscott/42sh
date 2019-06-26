@@ -10,7 +10,7 @@ t_job	*current_case(char current, const char *builtin)
 	{
 		if (!(curr_str = current == '+'
 					? ft_strdup("current") : ft_strdup("last")))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		ft_dprintf(2, SHELL_NAME ": %s: %s: no such job\n", builtin, curr_str);
 		ft_strdel(&curr_str);
 	}

@@ -13,10 +13,10 @@ static void	update_temporary_hist(t_hist_lst *hist_lst, const char *line)
 	{
 		ft_strdel(&left->txt);
 		if (!(left->txt = ft_strdup(line)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		ft_strdel(&left->cpy);
 		if (!(left->cpy = ft_strdup(line)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 }
 
@@ -32,7 +32,7 @@ void		adjust_history(t_st_cmd *st_cmd, int keep)
 	t_hist_lst	*left;
 	char		*line;
 
-	if (!st_cmd->keep || isatty(TERM_FD) == 0 || !st_cmd->st_txt)
+	if (!g_isatty || !st_cmd->keep || !st_cmd->st_txt || !st_cmd->st_txt->txt)
 		return ;
 	line = concatenate_txt(st_cmd, 0);
 	st_cmd->hist_lst = get_end_lst(st_cmd->hist_lst);
@@ -45,10 +45,10 @@ void		adjust_history(t_st_cmd *st_cmd, int keep)
 	{
 		ft_strdel(&left->txt);
 		if (!(left->txt = ft_strdup(line)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		ft_strdel(&left->cpy);
 		if (!(left->cpy = ft_strdup(line)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		left->keep = 1;
 	}
 	else

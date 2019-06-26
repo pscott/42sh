@@ -38,7 +38,7 @@ char			*get_name_from_varline(char *varline)
 	if (varline[i] == '=')
 	{
 		if (!(varname = ft_strndup(varline, i)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		return (varname);
 	}
 	else

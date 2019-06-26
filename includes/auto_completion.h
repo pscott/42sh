@@ -64,6 +64,9 @@ char						*get_dirs_first_arg(const char *directory,
 int							get_all_match(char *directory, t_auto_comp **match,
 								const char *to_find, const char *next);
 char						*protect_special_characters(const char *str);
+int							add_builtins(t_auto_comp **match,
+								const char *to_find,
+								const char *next, int mode);
 
 /*
 **	Utils functions
@@ -100,5 +103,6 @@ int							check_if_slash(struct dirent *ent,
 int							get_first_sep_index(const char *str, int len);
 char						*varz(const char *str, const char *next);
 int							when_to_start(char *str, char **to_f);
+int							is_a_builtin(char *s);
 
 #endif

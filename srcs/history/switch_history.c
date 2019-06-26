@@ -19,7 +19,7 @@ void	switch_st_cmd(t_st_cmd *st_cmd, char *newcmd)
 			len--;
 	}
 	if (!(trunc_newcmd = ft_strndup(newcmd, len)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	go_to_prompt_start(st_cmd);
 	execute_str(CLEAR_BELOW);
 	free_st_txt(&st_cmd->st_txt);
@@ -49,7 +49,7 @@ void	get_previous_history(t_st_cmd *st_cmd)
 	{
 		free(st_cmd->hist_lst->cpy);
 		if (!(st_cmd->hist_lst->cpy = ft_strdup(st_cmd->st_txt->txt)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		st_cmd->hist_lst = st_cmd->hist_lst->prev;
 		switch_st_cmd(st_cmd, st_cmd->hist_lst->cpy);
 	}
@@ -70,7 +70,7 @@ void	get_next_history(t_st_cmd *st_cmd)
 	{
 		free(st_cmd->hist_lst->cpy);
 		if (!(st_cmd->hist_lst->cpy = ft_strdup(st_cmd->st_txt->txt)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		st_cmd->hist_lst = st_cmd->hist_lst->next;
 		switch_st_cmd(st_cmd, st_cmd->hist_lst->cpy);
 	}

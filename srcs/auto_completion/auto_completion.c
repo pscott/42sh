@@ -3,25 +3,23 @@
 #include "input.h"
 
 static int			is_first_arg_and_exec(const char *str,
-					unsigned int pos, unsigned int start)
+					unsigned int p, unsigned int start)
 {
 	unsigned int	i;
 
-	if (pos == 0 || str[pos - 1] == '&'
-			|| str[pos - 1] == ';' || str[pos - 1] == '|')
+	if (p == 0 || str[p - 1] == '&' || str[p - 1] == ';' || str[p - 1] == '|')
 		return (2);
-	pos--;
+	p--;
 	if (str[start] == '$' && (start == 0 || str[start - 1] != '\\'))
 		return (5);
 	i = 0;
-	while (str
-			&& (ft_is_white_space(str[i]) || ft_is_quote(str[i])) && i <= pos)
+	while (str && (ft_is_white_space(str[i]) || ft_is_quote(str[i])) && i <= p)
 		i++;
 	if (i < start)
 		return (0);
 	else
 	{
-		if (str[pos] == '\0' || ft_is_white_space(str[pos]))
+		if (str[p] == '\0' || ft_is_white_space(str[p]))
 			return (2);
 		if (str[i] == '~' && str[i + 1] && str[i + 1] == '/')
 			return (6);
@@ -45,7 +43,7 @@ static char			*handle_first_bin(t_vars *vars, const char *to_find,
 		if (!ft_strncmp(to_find, ".", 2) || !ft_strncmp(to_find, "..", 3))
 		{
 			if (!(ret = ft_strjoin(to_find, "/")))
-				clean_exit(1, 1);
+				clean_exit(1, MALLOC_ERR);
 		}
 		else if (!ft_strchr(to_find, '/'))
 			ret = get_dirs_first_arg(".", to_find, ft_strlen(to_find));
@@ -67,7 +65,7 @@ static	char		*handle_first_arg(const char *to_find,
 	{
 		if ((!ft_strcmp(to_find, ".") || !ft_strcmp(to_find, ".."))
 			&& !(ret = ft_strjoin(to_find, "/")))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else if (type == 2)
 		auto_completion_space(vars);
@@ -102,7 +100,6 @@ char				*auto_completion(char *input, unsigned int len)
 		ret = auto_completion_x_arg(to_find_full + start,
 				str + start);
 	}
-//	ft_dprintf(2, "ret : |%s|, input |%s|, len %d, len_t %d, start_act %d\n", ret, input, len, len_t, start);
 	format_finding_and_get_correct_ret(&ret,
 		start + (len - ft_strlen(to_find_full)), input, len);
 	free_two_strings(&to_find_full, &str);

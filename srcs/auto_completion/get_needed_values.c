@@ -23,9 +23,9 @@ int				get_needed_values
 	*to_f = NULL;
 	start_cmd = get_start_cmd_index(input, len - 1);
 	if (!(*str = ft_strndup(input + start_cmd, len + 1 - start_cmd)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	if (!(*to_f = ft_strndup(input + start_cmd, len - start_cmd)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	start = len - start_cmd;
 	while (start > 0
 		&& !ft_is_unslashed_metachar(*to_f, start, white_space)
@@ -52,6 +52,6 @@ int				when_to_start(char *str, char **to_f)
 	if (str && str[i] == '{')
 		i++;
 	if (!(*to_f = ft_strdup(str + i)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	return (i);
 }

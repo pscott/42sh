@@ -33,7 +33,7 @@ char				*substitute_pattern(t_st_fc *st_fc, char *histo_real_entry,
 		&& (!st_fc->new_pattern || !st_fc->new_pattern[0]))
 	{
 		if (!(new_cmd = ft_strdup(histo_real_entry)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		return (new_cmd);
 	}
 	else if (!st_fc->old_pattern[0] && st_fc->new_pattern[0])

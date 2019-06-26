@@ -1,6 +1,4 @@
-#include "lexer.h"
 #include "cmd_parsing.h"
-#include "ast.h"
 
 /*
 **	Returns 0 on success

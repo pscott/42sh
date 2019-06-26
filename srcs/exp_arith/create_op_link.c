@@ -31,11 +31,11 @@ t_op			*create_op_link(int token, long long value, t_tok link)
 	t_op	*new;
 
 	if (!(new = (t_op*)malloc(sizeof(t_op))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	if (link.varname)
 	{
 		if (!(new->varname = ft_strdup(link.varname)))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 	}
 	else
 		new->varname = NULL;

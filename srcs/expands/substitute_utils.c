@@ -1,4 +1,3 @@
-#include "ftsh.h"
 #include "cmd_parsing.h"
 
 int		is_terminated(const char *open_pattern,
@@ -73,7 +72,7 @@ int		substitute_slice(char **old_str, size_t index[2], const char *to_sub)
 	to_sub_len = ft_strlen(to_sub);
 	new_len = ft_strlen(*old_str) + to_sub_len - (index[1] - index[0]);
 	if (!(new_str = ft_strnew(new_len + 1)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	ft_strncpy(new_str, *old_str, index[0]);
 	ft_strncpy(&new_str[index[0]], to_sub, to_sub_len);
 	ft_strncpy(&new_str[ft_strlen(new_str)], (*old_str) + index[1] + 1
@@ -89,7 +88,7 @@ void	substitute_cmd_value(char **str, size_t *i, t_vars *vars)
 	size_t	index[2];
 
 	if (!(nb_str = ft_itoa(vars->cmd_value)))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	index[0] = *i;
 	index[1] = *i + 1;
 	substitute_slice(str, index, nb_str);

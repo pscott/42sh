@@ -10,7 +10,7 @@ int		init_toks_dirty(t_tok **tokens, char *str)
 	i = 0;
 	len = ft_strlen(str);
 	if (!(*tokens = (t_tok*)malloc(sizeof(t_tok) * (len + 1))))
-		clean_exit(1, 1);
+		clean_exit(1, MALLOC_ERR);
 	while (i <= len)
 	{
 		(*tokens)[i].token = 0;
@@ -40,14 +40,14 @@ int		d_variable(t_tok **tks, t_integ *it, char **str, char ***vars)
 	{
 		(*tks)[it->k].value = 0;
 		if (!(tmp = ft_strndup(*str + it->i + 1, is_var(*str + it->i + 1))))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		if ((ptr = get_envline_value(tmp, *vars)))
 			(*tks)[it->k].value = ft_atoll(ptr);
 	}
 	else
 	{
 		if (!(tmp = ft_strndup(*str + it->i, is_var(*str + it->i))))
-			clean_exit(1, 1);
+			clean_exit(1, MALLOC_ERR);
 		(*tks)[it->k].varid = get_envline_index(tmp, *vars);
 		(*tks)[it->k].varname = tmp;
 	}

@@ -25,16 +25,6 @@ char				*tokens_to_str(t_token *token, t_token_type delimiter)
 	return (res);
 }
 
-static const char	*get_process_state(int status)
-{
-	if (WIFSTOPPED(status))
-		return (get_stop_str(WSTOPSIG(status)));
-	else if (WIFSIGNALED(status))
-		return (get_stop_str(WTERMSIG(status)));
-	else
-		return ("Running");
-}
-
 static void			display_long(t_job *j, const char *bg)
 {
 	t_process	*p;
@@ -42,18 +32,18 @@ static void			display_long(t_job *j, const char *bg)
 	p = j->first_process;
 	if (p->next)
 		ft_dprintf(STDOUT_FILENO, "[%d]%c %d %-28s %s\n", j->num, j->current,
-				j->pgid, get_process_state(p->status), p->process_str);
+				j->pgid, get_exit_str(p->status), p->process_str);
 	else
 		ft_dprintf(STDOUT_FILENO, "[%d]%c %d %-28s %s%s\n", j->num, j->current,
-				j->pgid, get_process_state(p->status), p->process_str, bg);
+				j->pgid, get_exit_str(p->status), p->process_str, bg);
 	while ((p = p->next))
 	{
 		if (p->next)
 			ft_dprintf(STDOUT_FILENO, "%9d %-28s %s%s\n", p->pid,
-					get_process_state(p->status), "| ", p->process_str);
+					get_exit_str(p->status), "| ", p->process_str);
 		else
 			ft_dprintf(STDOUT_FILENO, "%9d %-28s %s%s%s\n", p->pid,
-					get_process_state(p->status), "| ", p->process_str, bg);
+					get_exit_str(p->status), "| ", p->process_str, bg);
 	}
 }
 

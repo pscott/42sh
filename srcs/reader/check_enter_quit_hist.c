@@ -12,12 +12,7 @@ int		check_for_quit(t_st_cmd *st_cmd, const char *buf)
 	if (ft_strncmp(buf, CTRL_D, 2) == 0)
 	{
 		if (st_cmd->st_txt->data_size == 0)
-		{
-			if (st_cmd->prev)
-				ft_dprintf(STDERR_FILENO, SHELL_NAME ": unexpected EOF\n");
-			*st_cmd->st_txt->txt = 0;
 			return (1);
-		}
 		else if (st_cmd->st_txt->tracker >= st_cmd->st_txt->data_size)
 			return (-1);
 		else

@@ -11,11 +11,16 @@ static int		continue_reading(t_token *token_head, t_st_cmd **st_cmd,
 	free_token_list(token_head);
 	adjust_history(*st_cmd, 0);
 	*st_cmd = append_st_cmd(*st_cmd, "", init_st_prompt(CONTINUE_PROMPT, NULL, 0));
-	if (input_loop(*st_cmd, vars, continue_read) < 1
-		|| !*(*st_cmd)->st_txt->txt)
+	if (input_loop(*st_cmd, vars, continue_read) < 1) 
 	{
 		ft_strdel(input);
-		return (-1);
+		if (*(*st_cmd)->st_txt->txt !='\x03')
+		{
+			ft_dprintf(2, SHELL_NAME ": unexpected EOF\n");
+			return (2);
+		}
+		else
+			return (130);
 	}
 	ft_strdel(input);
 	*input = concatenate_txt(*st_cmd, 1);
@@ -78,7 +83,7 @@ int				handle_input(t_st_cmd *st_cmd, t_vars *vars)
 		return (0);
 	}
 	while ((lexer_ret = lexer(input, &token_head, vars)) == lex_cont_read)
-		if ((ret = handle_cont_read(token_head, &st_cmd, &input, vars)) < 1)
+		if ((ret = handle_cont_read(token_head, &st_cmd, &input, vars)) == 2 || ret == 130)
 			return (ret);
 	ft_strdel(&input);
 	if (lexer_ret == lex_fail)

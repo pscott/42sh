@@ -103,7 +103,7 @@ int			lexer(char *cmdline, t_token **token_head, t_vars *vars)
 		if (current_token->type != tk_eat)
 			prev_token = current_token;
 	}
-	if (parse_heredoc(*token_head, vars) == 0)
+	if (parse_heredoc(*token_head, vars) != 0)
 		return (lex_fail);
 	return (lexer_final_check(current_token, prev_token));
 }

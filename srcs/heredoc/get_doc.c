@@ -26,12 +26,15 @@ static void		apply_escape(t_st_cmd *st_cmd, int is_eof_quoted)
 	}
 }
 
-static char		*get_heredoc_txt(char *txt, char *eof)
+static char		*get_heredoc_txt(char *txt, char *eof, int ctrl_d)
 {
 	char	*trimed_txt;
 	size_t	len;
 
-	len = ft_strlen(txt) - ft_strlen(eof) - 2;
+	if (!ctrl_d)
+		len = ft_strlen(txt) - ft_strlen(eof) - 2;
+	else
+		len = ft_strlen(txt);
 	if (!(trimed_txt = ft_strndup(&txt[1], len)))
 		clean_exit(1, MALLOC_ERR);
 	ft_strdel(&txt);
@@ -73,14 +76,23 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 {
 	char		*txt;
 	t_st_cmd	*cmd;
+	int			ctrl_d;
 	t_st_cmd	*start_heredoc;
 	int			len;
 
+	ctrl_d = 0;
 	init_get_doc(&cmd, &txt, &start_heredoc);
 	while (42)
 	{
-		if ((len = input_loop(cmd, vars, heredoc)) < 1 || !*cmd->st_txt->txt)
+		if ((len = input_loop(cmd, vars, heredoc)) < 1)
 		{
+			if (*cmd->st_txt->txt != '\x03')
+			{
+				ctrl_d = 1;
+				ft_dprintf(STDERR_FILENO, SHELL_NAME ": warning: here-document delimited by end-of-file (wanted `EOF')\n");
+				txt = concatenate_heredoc_txt(cmd, start_heredoc);
+				break ;
+			}
 			clean_heredoc(cmd, start_heredoc);
 			return (free_get_doc(txt, eof));
 		}
@@ -93,7 +105,7 @@ char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
 		ft_strdel(&txt);
 		cmd = append_st_cmd(cmd, "", init_st_prompt(HEREDOC_PROMPT, NULL, 0));
 	}
-	txt = get_heredoc_txt(txt, eof);
+	txt = get_heredoc_txt(txt, eof, ctrl_d);
 	clean_heredoc(cmd, start_heredoc);
 	return (return_get_doc(txt, is_eof_quoted, vars));
 }

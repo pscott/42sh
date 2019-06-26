@@ -76,7 +76,7 @@ int			checkers(t_st_cmd *st_cmd, t_vars *vars, char *buf, int mode)
 			return (input_break);
 	}
 	else if ((ret = check_for_quit(st_cmd, buf)) == 1)
-		return (input_break);
+		return (input_stop);
 	else if (ret == -1)
 		;
 	else if (check_for_enter(buf))

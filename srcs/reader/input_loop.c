@@ -90,7 +90,7 @@ static int	check_for_err_value(t_st_cmd *st_cmd, int ret)
 /*
 **	Assumes we are at the beginning of a line, with a freshly initalized st_cmd.
 **	Reads stdin, breaks when \n is entered, returning the filled st_cmd.
-**	Returns 0 on quit, return -1 on ctrl + c
+**	Returns 0 on quit, return -1 on ctrl + c and ctrl + d
 */
 
 int			input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)

@@ -47,8 +47,8 @@ int			main(int argc, char **argv, char **env)
 	get_st_cmd(&st_cmd);
 	while (42)
 	{
-		if ((ret = input_loop(st_cmd, &vars, regular)) == 0
-				|| !*st_cmd->st_txt->txt)
+		if ((ret = input_loop(st_cmd, &vars, regular)) < 1
+				&& *st_cmd->st_txt->txt != '\x03')
 		{
 			print_exit();
 			clean_exit(vars.cmd_value, EXIT);

@@ -19,7 +19,7 @@ static char	*add_brackets(char *str)
 
 static char	*exit_to_str(int exit)
 {
-	char 	*res;
+	char	*res;
 	char	*tmp;
 
 	res = NULL;
@@ -31,15 +31,14 @@ static char	*exit_to_str(int exit)
 		res = add_brackets(res);
 		ft_strdel(&tmp);
 	}
-	else
-		if (!(res = ft_strdup("")))
-			clean_exit(1, MALLOC_ERR);
+	else if (!(res = ft_strdup("")))
+		clean_exit(1, MALLOC_ERR);
 	return (res);
 }
 
 static char	*dir_to_str(const char *tmp)
 {
-	char 	*res;
+	char	*res;
 	char	*dir;
 	char	buf[PATH_MAX];
 	t_vars	*vars;

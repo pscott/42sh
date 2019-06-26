@@ -3,6 +3,8 @@
 
 static void		print_color(char *str, const char *color)
 {
+	if (!str)
+		return ;
 	if (!color)
 		ft_dprintf(TERM_FD, "%s", str);
 	else
@@ -20,13 +22,11 @@ void			print_prompt(t_st_cmd *st_cmd, int zsh)
 		init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
 			st_cmd->st_prompt->size);
 		if (ft_strequ(st_cmd->st_prompt->name, STD_PROMPT))
-			print_color(st_cmd->st_prompt->name, GREEN);
+			print_color(st_cmd->st_prompt->name, SHELL_COLOR);
 		else
 			print_color(st_cmd->st_prompt->name, NULL);
-		if (st_cmd->st_prompt->dir)
-			print_color(st_cmd->st_prompt->dir, BLUE);
-		if (st_cmd->st_prompt->exit)
-			print_color(st_cmd->st_prompt->exit, RED);
+		print_color(st_cmd->st_prompt->dir, DIR_COLOR);
+		print_color(st_cmd->st_prompt->exit, STATUS_COLOR);
 		print_color(st_cmd->st_prompt->end, NULL);
 	}
 }

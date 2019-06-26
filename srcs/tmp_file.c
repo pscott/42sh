@@ -1,4 +1,5 @@
 #include "input.h"
+#include <limits.h>
 
 /*
 ** get_heredoc_finename or tmp_filename

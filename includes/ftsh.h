@@ -7,6 +7,10 @@
 # include <sys/types.h>
 
 # define SHELL_NAME "42sh"
+# define SHELL_COLOR "\x1b[38;5;226m"
+# define DIR_COLOR "\x1b[38;5;84m"
+# define STATUS_COLOR "\x1b[38;5;196m"
+
 
 typedef enum		e_exit
 {

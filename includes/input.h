@@ -12,7 +12,6 @@
 # define HEREDOC_FILENAME "/tmp/.tmp_heredoc"
 # define FC_EDIT_FILENAME "/tmp/.tmp_fc_edit"
 # define MAX_INT_LEN 10
-# define UINT_MAX 4294967295
 
 typedef enum	e_input
 {

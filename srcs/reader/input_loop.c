@@ -73,14 +73,15 @@ int			is_valid_escape(char *buf)
 	return (-1);
 }
 
-static int	check_for_err_value(t_st_cmd *st_cmd, int ret)
+static int	check_for_err_value(t_st_cmd *st_cmd, int ret, t_input_mode mode)
 {
+	(void)mode;
 	if (st_cmd->st_txt->data_size >= INT_MAX)
 	{
 		print_errors(-1, ERR_MAX_INPUT_STR, NULL);
 		return (0);
 	}
-	if (ret >= 0)
+	if (ret > 0)
 		return (1);
 	if (ret == -1)
 		clean_exit(-1, NORESET);
@@ -93,7 +94,7 @@ static int	check_for_err_value(t_st_cmd *st_cmd, int ret)
 **	Returns 0 on quit, return -1 on ctrl + c and ctrl + d
 */
 
-int			input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)
+int			input_loop(t_st_cmd *st_cmd, t_vars *vars, t_input_mode mode)
 {
 	char				buf[BUF_SIZE + 1];
 	char				c;
@@ -114,5 +115,5 @@ int			input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode)
 		reposition_cursor(st_cmd, st_cmd->st_txt->tracker);
 		ft_bzero(buf, sizeof(buf));
 	}
-	return (check_for_err_value(st_cmd, ret));
+	return (check_for_err_value(st_cmd, ret, mode));
 }

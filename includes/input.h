@@ -15,7 +15,7 @@
 
 typedef enum	e_input
 {
-	input_break,
+	input_break = 1,
 	input_continue,
 	input_stop
 }				t_input;
@@ -81,15 +81,15 @@ void					insert_txt(t_st_cmd *st_cmd, const char *buf);
 int						checkers(t_st_cmd *st_cmd, t_vars *vars, char *buf,
 		int mode);
 int						check_for_arrows(t_st_cmd *st_cmd, const char *buf,
-	t_vars *vars);
+		t_vars *vars);
 int						check_for_quit(t_st_cmd *st_cmd, const char *buf);
 int						check_for_enter(const char *buf);
 int						check_for_signal(const char *buf);
 int						check_for_delete(t_st_cmd *st_cmd, char *buf);
 int						check_for_select_mode(t_st_cmd *st_cmd, char *buf,
-	t_vars *vars);
+		t_vars *vars);
 int						check_select_paste(t_st_cmd *st_cmd, char *buf,
-	t_vars *vars);
+		t_vars *vars);
 int						check_for_search_histo(t_st_cmd *st_cmd,
 		const char *buf_received, int mode);
 int						check_for_tab(t_st_cmd *st_cmd, const char *buf,
@@ -110,7 +110,8 @@ void					free_st_txt(t_st_txt **st_txt);
 ** Read input
 */
 
-int						input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode);
+int						input_loop(t_st_cmd *st_cmd, t_vars *vars,
+		t_input_mode mode);
 
 /*
 **	st_prompt functions

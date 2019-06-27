@@ -57,12 +57,13 @@ static char		*return_get_doc(char *txt, unsigned char is_eof_quoted,
 	return (path);
 }
 
-static void		init_get_doc(t_st_cmd **cmd, char **txt, t_st_cmd **heredoc)
+static void		init_get_doc(t_st_cmd *cmds[2], char **txt, int *ctrl_d)
 {
-	*cmd = get_last_st_cmd(get_st_cmd(NULL));
+	cmds[0] = get_last_st_cmd(get_st_cmd(NULL));
 	*txt = NULL;
-	*cmd = append_st_cmd(*cmd, "", init_st_prompt(HEREDOC_PROMPT, NULL, 0));
-	*heredoc = *cmd;
+	cmds[0] = append_st_cmd(cmds[0], "", init_st_prompt(HRDC_PS, NULL, 0));
+	cmds[1] = cmds[0];
+	*ctrl_d = 0;
 }
 
 /*
@@ -70,42 +71,34 @@ static void		init_get_doc(t_st_cmd **cmd, char **txt, t_st_cmd **heredoc)
 ** read the input from user until a line contain only 'eof' string
 ** write the input into a temporary file
 ** and return the path to it
+** cmds[cmd, start_heredoc] 'because norm'
 */
 
-char			*get_doc(char *eof, unsigned char is_eof_quoted, t_vars *vars)
+char			*get_doc(char *eof, int is_eof_quoted, t_vars *vars)
 {
 	char		*txt;
-	t_st_cmd	*cmd;
 	int			ctrl_d;
-	t_st_cmd	*start_heredoc;
 	int			len;
+	t_st_cmd	*cmds[2];
 
-	ctrl_d = 0;
-	init_get_doc(&cmd, &txt, &start_heredoc);
+	init_get_doc(cmds, &txt, &ctrl_d);
 	while (42)
 	{
-		if ((len = input_loop(cmd, vars, heredoc)) < 1)
+		if ((len = input_loop(cmds[0], vars, heredoc)) < 1)
 		{
-			if (*cmd->st_txt->txt != '\x03')
-			{
-				ctrl_d = 1;
-				ft_dprintf(STDERR_FILENO, SHELL_NAME ": warning: here-document delimited by end-of-file (wanted `EOF')\n");
-				txt = concatenate_heredoc_txt(cmd, start_heredoc);
+			if (*cmds[0]->st_txt->txt != '\x03'
+				&& get_doc_ctrl_d(&ctrl_d, eof, &txt, cmds))
 				break ;
-			}
-			clean_heredoc(cmd, start_heredoc);
-			return (free_get_doc(txt, eof));
+			return (free_get_doc(cmds, txt, eof));
 		}
-		apply_escape(cmd, is_eof_quoted);
-		txt = concatenate_heredoc_txt(cmd, start_heredoc);
-		len = ft_strlen(txt) - ft_strlen(eof) - 1;
-		if (len > 0 && !ft_strncmp(&txt[len], eof, ft_strlen(eof))
-				&& txt[len - 1] == '\n' && txt[ft_strlen(txt) - 1] == '\n')
+		apply_escape(cmds[0], is_eof_quoted);
+		txt = concatenate_heredoc_txt(cmds[0], cmds[1]);
+		if ((len = ft_strlen(txt) - ft_strlen(eof) - 1) && is_e(len, txt, eof))
 			break ;
 		ft_strdel(&txt);
-		cmd = append_st_cmd(cmd, "", init_st_prompt(HEREDOC_PROMPT, NULL, 0));
+		cmds[0] = append_st_cmd(cmds[0], "", init_st_prompt(HRDC_PS, NULL, 0));
 	}
 	txt = get_heredoc_txt(txt, eof, ctrl_d);
-	clean_heredoc(cmd, start_heredoc);
+	clean_heredoc(cmds[0], cmds[1]);
 	return (return_get_doc(txt, is_eof_quoted, vars));
 }

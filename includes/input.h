@@ -8,7 +8,7 @@
 # define PROMPT_REVERSE_I_SEARCH_SUCC "(reverse-i-search)"
 # define PROMPT_REVERSE_I_SEARCH_FAIL "(failed reverse-i-search)"
 # define CONTINUE_PROMPT "cont"
-# define HEREDOC_PROMPT "heredoc"
+# define HRDC_PS "heredoc"
 # define HEREDOC_FILENAME "/tmp/.tmp_heredoc"
 # define FC_EDIT_FILENAME "/tmp/.tmp_fc_edit"
 # define MAX_INT_LEN 10
@@ -93,7 +93,7 @@ int						check_select_paste(t_st_cmd *st_cmd, char *buf,
 int						check_for_search_histo(t_st_cmd *st_cmd,
 		const char *buf_received, int mode);
 int						check_for_tab(t_st_cmd *st_cmd, const char *buf,
-		t_vars *vars, int mode);
+	t_vars *vars, int mode);
 int						check_for_words(t_st_cmd *st_cmd, const char *buf);
 char					*auto_completion(char *input, unsigned int len);
 char					*auto_completion_spe(char *input,
@@ -117,12 +117,13 @@ int						input_loop(t_st_cmd *st_cmd, t_vars *vars, int mode);
 */
 
 void					zsh_newline(t_st_cmd *st_cmd);
-t_st_prompt				*init_st_prompt(const char *name, const char *dir, int exitno);
+t_st_prompt				*init_st_prompt(const char *name, const char *dir,
+	int exitno);
 char					*exit_to_str(int exit);
 char					*dir_to_str(const char *tmp);
 void					print_prompt(t_st_cmd *st_cmd, int zsh);
 void					print_prompt_search_histo(t_st_cmd *st_cmd,
-		const char *buf, int prompt_type);
+	const char *buf, int prompt_type);
 void					free_st_prompt(t_st_prompt **st_prompt);
 
 /*

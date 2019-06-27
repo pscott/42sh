@@ -11,7 +11,6 @@
 # define DIR_COLOR "\x1b[38;5;84m"
 # define STATUS_COLOR "\x1b[38;5;196m"
 
-
 typedef enum		e_exit
 {
 	EXIT,

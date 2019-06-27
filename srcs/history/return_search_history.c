@@ -68,7 +68,7 @@ int			switch_and_return(t_st_cmd *st_cmd,
 	if (mode == regular)
 		st_cmd->st_prompt = init_st_prompt(STD_PROMPT, newcmd, 0);
 	else if (mode == heredoc)
-		st_cmd->st_prompt = init_st_prompt(HEREDOC_PROMPT, NULL, 0);
+		st_cmd->st_prompt = init_st_prompt(HRDC_PS, NULL, 0);
 	else if (mode == continue_read)
 		st_cmd->st_prompt = init_st_prompt(CONTINUE_PROMPT, NULL, 0);
 	if (buf == '\r' || buf == '\n')

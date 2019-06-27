@@ -40,8 +40,8 @@ static void		replace_prompt(t_st_cmd *st_cmd, const char *buf,
 	ft_strdel(&tmp);
 	st_cmd->st_prompt = init_st_prompt(new_prompt, NULL, 0);
 	st_cmd->st_prompt->size = ft_strlen(st_cmd->st_prompt->name)
-		+ ft_strlen(st_cmd->st_prompt->dir) 
-		+ ft_strlen(st_cmd->st_prompt->exit) 
+		+ ft_strlen(st_cmd->st_prompt->dir)
+		+ ft_strlen(st_cmd->st_prompt->exit)
 		+ ft_strlen(st_cmd->st_prompt->end);
 	ft_strdel(&new_prompt);
 }

@@ -26,7 +26,7 @@ void	switch_st_cmd(t_st_cmd *st_cmd, char *newcmd)
 	st_cmd->st_txt = init_st_txt(trunc_newcmd);
 	init_relative_pos(&st_cmd->cursor_pos, st_cmd->window,
 		st_cmd->st_prompt->size);
-	print_prompt(st_cmd, 0); // ?
+	print_prompt(st_cmd, 0);
 	write_st_cmd(st_cmd);
 	st_cmd->st_txt->tracker = st_cmd->st_txt->data_size;
 	reposition_cursor(st_cmd, st_cmd->st_txt->tracker);

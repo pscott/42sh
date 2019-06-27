@@ -154,7 +154,7 @@ SRC_FILES	:=	handle_input.c free.c main.c clean_exit.c ft_strjoin_free_left.c\
 						op_tokenizer_clean_2.c op_tokenizer_dirty.c				\
 						op_tokenizer_utils.c put_op_link.c ft_isempty.c
 	HEREDOC_FILES	:=	heredoc.c heredoc_utils.c get_doc.c save_heredoc.c		\
-						clean_heredoc.c
+						clean_heredoc.c get_doc_utils.c
 	JOB_CTRL_FILES	:=	job_utils.c job_init.c free_job.c job_background.c \
 						job_continue.c job_display.c job_foreground.c \
 						job_notification.c job_status.c launch_job.c \

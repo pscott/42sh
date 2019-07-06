@@ -10,8 +10,6 @@ FSA_FLAGS	:=	$(DEBUG_FLAG) -fsanitize=address
 VAL_FLAGS	:=	--leak-check=full --track-origins=yes --show-leak-kinds=all \
 				--show-reachable=no
 
-SCRIPT_PATH	:= ../script
-
 # Libraries #####################################################################
 LIBFT_DIR	:= ../libft
 
@@ -68,18 +66,12 @@ OBJS		:=	$(addprefix $(OBJ_DIR)/,$(OBJ_FILES))
 DEPENDENCIES	:= $(addprefix $(OBJ_DIR)/,$(DEPS))
 
 # Rules ########################################################################
-.PHONY: all fsa val rmh adh tag clean fclean re d norm test ask_libft ask_libs
+.PHONY: all fsa val tag clean fclean re d norm test ask_libft ask_libs
 
 all: $(LIBFT_A) $(OBJ_DIR) $(NAME) Makefile libterm.a
 
 $(LIBFT_A): FORCE
 	@$(MAKE) -C $(LIBFT_DIR) -j >/dev/null
-
-rmh:
-	$(SCRIPT_PATH)/42header_c_rm.sh $(SRCS) $(INCLS)
-
-adh: rmh
-	vim -ns $(SCRIPT_PATH)/42header_add.keys $(SRCS) $(INCLS)
 
 $(NAME): $(OBJS) $(INCLS) $(LIBS)
 	ar rcs $(NAME) $(OBJS)
@@ -112,6 +104,6 @@ d: all
 
 FORCE:
 
-norm: adh
+norm:
 	norminette $(SRCS)
 	norminette $(INCLS)

@@ -10,8 +10,6 @@ FSA_FLAGS	:=	$(DEBUG_FLAG) -fsanitize=address
 VAL_FLAGS	:=	--leak-check=full --track-origins=yes --show-leak-kinds=all		\
 				--show-reachable=no
 
-SCRIPT_PATH	:= ../script
-
 # Includes #####################################################################
 INCL_DIRS	:=	includes
 INCL_CMD	:=	$(addprefix -I,$(INCL_DIRS))
@@ -116,15 +114,9 @@ OBJS		:=	$(addprefix $(OBJ_DIR)/,$(OBJ_FILES))
 DEPENDENCIES	:= $(addprefix $(OBJ_DIR)/,$(DEPS))
 
 # Rules ########################################################################
-.PHONY: all fsa val rmh adh tag clean fclean re d norm test
+.PHONY: all fsa val tag clean fclean re d norm test
 
 all: $(OBJ_DIR) $(NAME) Makefile libft.a
-
-rmh:
-	$(SCRIPT_PATH)/42header_c_rm.sh $(SRCS) $(INCLS)
-
-adh: rmh
-	vim -ns $(SCRIPT_PATH)/42header_add.keys $(SRCS) $(INCLS)
 
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
@@ -153,6 +145,6 @@ re: fclean all
 d: all
 	$(OPT) ./$(NAME)
 
-norm: adh
+norm:
 	norminette $(SRCS)
 	norminette $(INCLS)

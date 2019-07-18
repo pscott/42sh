@@ -5,7 +5,7 @@
 The shell must be **error-free**: no bug is to be found whatsoever, no infinite loop, no segmentation fault, **regardless of the user's potentially unexpected behavior**. If you do find a bug, please report it via an issue!
 
 <p align="center">
-  <img width="460" height="300" src="/42sh.gif">
+  <img width="530" height="380" src="/42sh.gif">
 </p>
 
 # Features

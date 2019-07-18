@@ -2,13 +2,9 @@
 
 *42sh* is the **last project** on the Unix path at [42](https://www.42.fr/). The goal is to write a **fully-fledged shell**, allowing the user to interact with our shell and execute commands.
 
-The shell must be **error-free**: no bug is to be found whatsoever, no infinite loop, no segmentation fault, **regardless of the potentially unexpected behaviour the user could have**. If you do find a bug, please report it via an issue!
+The shell must be **error-free**: no bug is to be found whatsoever, no infinite loop, no segmentation fault, **regardless of the user's potentially unexpected behavior**. If you do find a bug, please report it via an issue!
 
-The code is written to be [norme compliant](https://cdn.intra.42.fr/pdf/pdf/960/norme.en.pdf). Let us outline the key rules of the norme:
-- 25 lines per function maximum.
-- 5 functions per .c file maximum.
-- Comments only allowed outside of functions.
-- Declaring static function whenever possible.
+![](42sh.gif)
 
 # Features
 - Executing commands (`ls`, `pwd`, etc...)
@@ -37,3 +33,6 @@ The code is written to be [norme compliant](https://cdn.intra.42.fr/pdf/pdf/960/
 	- Search in history with `ctrl + R`
 - `test` builtin along with different options:
 	- `-b`, `-c`, `-d`, `-e`, `-f`, `-g`, `-L`, `-p`, `-r`, `-S`, `-s`, `-u`, `-w`, `-x`, `-z`, `=`, `!=`, `-eq`, `-ne`, `-ge`, `-lt`, `!`
+
+#Authors
+Developed by : [@aschoenh](https://github.com/aschoenh), [@benjyskan](https://github.com/benjyskan), [@neurochirurgie](https://github.com/neurochirurgie), and [@pscott](https://github.com/pscott).

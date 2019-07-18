@@ -4,7 +4,9 @@
 
 The shell must be **error-free**: no bug is to be found whatsoever, no infinite loop, no segmentation fault, **regardless of the user's potentially unexpected behavior**. If you do find a bug, please report it via an issue!
 
-![](42sh.gif)
+<p align="center">
+  <img width="460" height="300" src="/42sh.gif">
+</p>
 
 # Features
 - Executing commands (`ls`, `pwd`, etc...)
@@ -34,5 +36,5 @@ The shell must be **error-free**: no bug is to be found whatsoever, no infinite 
 - `test` builtin along with different options:
 	- `-b`, `-c`, `-d`, `-e`, `-f`, `-g`, `-L`, `-p`, `-r`, `-S`, `-s`, `-u`, `-w`, `-x`, `-z`, `=`, `!=`, `-eq`, `-ne`, `-ge`, `-lt`, `!`
 
-#Authors
+# Authors
 Developed by : [@aschoenh](https://github.com/aschoenh), [@benjyskan](https://github.com/benjyskan), [@neurochirurgie](https://github.com/neurochirurgie), and [@pscott](https://github.com/pscott).

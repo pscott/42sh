@@ -38,9 +38,10 @@ static char	*get_valid_dir(t_vars *vars)
 {
 	char	*dir;
 	char	*res;
+	char	*home_dir;
 
 	if (!(dir = get_varline_value("PWD", vars->env_vars))
-				|| !(ft_strchr(dir, '/')))
+			|| !(ft_strchr(dir, '/')))
 	{
 		ft_strdel(&dir);
 		if (!(dir = getcwd(NULL, 0)))
@@ -50,7 +51,11 @@ static char	*get_valid_dir(t_vars *vars)
 			return (res);
 		}
 	}
-	res = ft_strdup(ft_strrchr(dir, '/'));
+	home_dir = get_envline_value("HOME", vars->env_vars);
+	if (home_dir && ft_strequ(dir, home_dir))
+		res = ft_strdup("~");
+	else
+		res = ft_strdup(ft_strrchr(dir, '/'));
 	ft_strdel(&dir);
 	return (res);
 }

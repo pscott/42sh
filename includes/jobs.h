@@ -27,17 +27,17 @@ typedef struct	s_process
 
 typedef struct	s_job
 {
+	struct termios		tmodes;
 	struct s_job		*next;
 	char				*command;
 	struct s_process	*first_process;
+	pid_t				pgid;
 	int					fg;
 	int					bg;
 	int					num;
-	pid_t				pgid;
 	char				forked;
 	char				notified;
 	char				current;
-	struct termios		tmodes;
 }				t_job;
 
 t_job			*g_first_job;

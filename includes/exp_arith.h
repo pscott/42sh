@@ -33,16 +33,17 @@ typedef enum		e_arith_token
 
 typedef struct		s_op
 {
-	int				token;
-	long long		value;
-	int				varid;
-	char			*varname;
-	int				beg;
-	int				end;
-	char			parent;
 	struct s_op		*left;
 	struct s_op		*right;
 	struct s_op		*prev;
+	long long		value;
+	char			*varname;
+	int				token;
+	int				varid;
+	int				beg;
+	int				end;
+	char			parent;
+	char			pad[7];
 }					t_op;
 
 /*
@@ -51,10 +52,10 @@ typedef struct		s_op
 
 typedef struct		s_tok
 {
-	int				token;
-	long long		value;
-	int				varid;
 	char			*varname;
+	long long		value;
+	int				token;
+	int				varid;
 	int				beg;
 	int				end;
 }					t_tok;

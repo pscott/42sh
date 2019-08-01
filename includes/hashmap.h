@@ -16,23 +16,25 @@ typedef struct			s_hash_item
 {
 	char				*key;
 	char				*value;
-	int					count;
 	struct s_hash_item	*next;
+	int					count;
+	char				pad[4];
 }						t_hash_item;
 
 typedef struct			s_hashmap
 {
-	int					size;
 	t_hash_item			**items;
-
+	int					size;
+	char				pad[4];
 }						t_hashmap;
 
 typedef struct			s_hash_args
 {
-	unsigned char		opt;
 	char				*path;
 	int					name_index;
 	unsigned char		state;
+	unsigned char		opt;
+	char				pad[2];
 }						t_hash_args;
 
 typedef enum			e_hash_opt

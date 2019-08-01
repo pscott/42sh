@@ -10,15 +10,16 @@ typedef struct			s_vars
 	char				**env_save;
 	char				**env_exported;
 	struct s_hashmap	*hashmap;
-	int					cmd_value;
-	int					verbose;
+	char				**assign_tab;
 	char				*copy;
-	int					select_mode;
 	size_t				select_start;
 	size_t				select_end;
-	char				**assign_tab;
+	int					select_mode;
 	int					is_cr_sqt;
 	int					interrupted;
+	int					cmd_value;
+	int					verbose;
+	char				pad[4];
 }						t_vars;
 
 #endif

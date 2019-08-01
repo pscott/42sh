@@ -51,16 +51,17 @@ typedef struct			s_st_prompt {
 
 typedef struct			s_st_cmd {
 	struct s_st_txt		*st_txt;
-	t_pos				cursor_pos;
 	struct winsize		*window;
 	struct s_st_prompt	*st_prompt;
 	struct s_hist_lst	*hist_lst;
-	int					*hist_len;
 	struct s_st_cmd		*next;
 	struct s_st_cmd		*prev;
+	int					*hist_len;
+	t_pos				cursor_pos;
 	int					keep;
 	int					cr;
 	int					is_cr_sqt;
+	char				pad[4];
 }						t_st_cmd;
 
 int						handle_reverse_search_history(t_st_cmd *st_cmd,

@@ -15,22 +15,24 @@ typedef enum			e_fc_cmd
 typedef struct			s_hist_lst
 {
 	struct s_hist_lst	*prev;
-	char				*txt;
 	struct s_hist_lst	*next;
+	char				*txt;
 	char				*cpy;
 	char				keep;
+	char				pad[7];
 }						t_hist_lst;
 
 typedef struct			s_st_fc
 {
-	char				flag[4];
 	char				*first;
-	int					i_first;
 	char				*last;
-	int					i_last;
 	char				*old_pattern;
 	char				*new_pattern;
 	char				*editor;
+	int					i_first;
+	int					i_last;
+	char				flag[4];
+	char				pad[4];
 }						t_st_fc;
 
 typedef enum			e_fc_error

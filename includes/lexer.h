@@ -36,9 +36,10 @@ typedef enum			e_token_type
 
 typedef struct			s_operation
 {
-	char				str[4];
 	unsigned char		size;
 	t_token_type		type;
+	char				str[4];
+	char				pad[4];
 }						t_operation;
 
 typedef struct			s_token

@@ -20,7 +20,7 @@ char		*write_heredoc_in_file(char **txt)
 	}
 	if ((fd = open(path, O_CREAT | O_RDWR | O_APPEND, 0666)) == -1)
 	{
-		ft_dprintf(2, "%s: an open() error occurs\n", SHELL_NAME);
+		ft_dprintf(2, "%s: an open() error occurred\n", SHELL_NAME);
 		ft_strdel(txt);
 		return (NULL);
 	}

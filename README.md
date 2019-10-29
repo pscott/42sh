@@ -73,4 +73,4 @@ Our shell is not entirely POSIX compliant but we did try to follow the POSIX gui
 We learned a lot throughout these 4 months of hard work, and still have a lot of room for improvement. Code readibility, code structure, code maintainability…
 
 # Authors
-Developed by : [@aschoenh](https://github.com/aschoenh), [@benjyskan](https://github.com/benjyskan), [@neurochirurgie](https://github.com/neurochirurgie), and [@pscott](https://github.com/pscott).
+Developed by : [@aschoenh](https://github.com/aschoenh), [@benjyskan](https://github.com/benjyskan), [@mporzier](https://github.com/mporzier), and [@pscott](https://github.com/pscott).
